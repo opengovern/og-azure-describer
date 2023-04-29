@@ -4,10 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/source"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/vault"
 	"github.com/kaytu-io/kaytu-azure-describer/proto/src/golang"
+	"google.golang.org/grpc/credentials/insecure"
+
 	"strings"
 
 	"github.com/go-errors/errors"
@@ -188,7 +191,7 @@ func Do(ctx context.Context,
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	if conn, err := grpc.Dial(*describeDeliverEndpoint); err == nil {
+	if conn, err := grpc.Dial(*describeDeliverEndpoint, grpc.WithTransportCredentials(insecure.NewCredentials())); err == nil {
 		defer conn.Close()
 		client := golang.NewDescribeServiceClient(conn)
 
