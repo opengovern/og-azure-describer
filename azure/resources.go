@@ -10,10 +10,10 @@ import (
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resourcegraph/mgmt/resourcegraph"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
-	hamiltonAuth "github.com/manicminer/hamilton/auth"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
-	"gitlab.com/keibiengine/keibi-engine/pkg/describe/enums"
-	"gitlab.com/keibiengine/keibi-engine/pkg/source"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe/enums"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/source"
+	hamiltonAuth "github.com/manicminer/hamilton/auth"
 )
 
 type ResourceDescriber interface {

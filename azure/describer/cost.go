@@ -10,7 +10,7 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/date"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
-	"gitlab.com/keibiengine/keibi-engine/pkg/describe/enums"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe/enums"
 )
 
 const resourceTypeDimension = "resourceType"

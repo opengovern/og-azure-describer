@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe/enums"
 	hamiltonAuth "github.com/manicminer/hamilton/auth"
-	"gitlab.com/keibiengine/keibi-engine/pkg/describe/enums"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resourcegraph/mgmt/resourcegraph"
 	"github.com/Azure/go-autorest/autorest"

@@ -4,22 +4,16 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/source"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/vault"
+	"github.com/kaytu-io/kaytu-azure-describer/proto/src/golang"
 	"strings"
 
 	"github.com/go-errors/errors"
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
 	"github.com/kaytu-io/kaytu-azure-describer/azure"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
-	"gitlab.com/keibiengine/keibi-engine/pkg/cloudservice"
-	"gitlab.com/keibiengine/keibi-engine/pkg/describe"
-	"gitlab.com/keibiengine/keibi-engine/pkg/describe/api"
-	"gitlab.com/keibiengine/keibi-engine/pkg/describe/es"
-	"gitlab.com/keibiengine/keibi-engine/pkg/describe/proto/src/golang"
-	"gitlab.com/keibiengine/keibi-engine/pkg/kafka"
-	"gitlab.com/keibiengine/keibi-engine/pkg/source"
-	"gitlab.com/keibiengine/keibi-engine/pkg/steampipe"
-	"gitlab.com/keibiengine/keibi-engine/pkg/vault"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 )
@@ -29,12 +23,12 @@ func fixAzureLocation(l string) string {
 }
 
 func doDescribeAzure(ctx context.Context, job describe.DescribeJob, config map[string]interface{},
-	logger *zap.Logger, client *golang.DescribeServiceClient) ([]kafka.Doc, []string, error) {
+	logger *zap.Logger, client *golang.DescribeServiceClient) ([]string, error) {
 	var clientStream *describer.StreamSender
 	if client != nil {
 		stream, err := (*client).DeliverAzureResources(context.Background())
 		if err != nil {
-			return nil, nil, err
+			return nil, err
 		}
 
 		f := func(resource describer.Resource) error {
@@ -74,7 +68,7 @@ func doDescribeAzure(ctx context.Context, job describe.DescribeJob, config map[s
 	logger.Warn("starting to describe azure subscription", zap.String("resourceType", job.ResourceType), zap.Uint("jobID", job.JobID))
 	creds, err := azure.SubscriptionConfigFromMap(config)
 	if err != nil {
-		return nil, nil, fmt.Errorf("azure subscription credentials: %w", err)
+		return nil, fmt.Errorf("azure subscription credentials: %w", err)
 	}
 
 	subscriptionId := job.AccountID
@@ -102,11 +96,10 @@ func doDescribeAzure(ctx context.Context, job describe.DescribeJob, config map[s
 		clientStream,
 	)
 	if err != nil {
-		return nil, nil, fmt.Errorf("azure: %w", err)
+		return nil, fmt.Errorf("azure: %w", err)
 	}
 	logger.Warn("got the resources, finding summaries", zap.String("resourceType", job.ResourceType), zap.Uint("jobID", job.JobID))
 
-	var msgs []kafka.Doc
 	var errs []string
 
 	for idx, resource := range output.Resources {
@@ -137,74 +130,7 @@ func doDescribeAzure(ctx context.Context, job describe.DescribeJob, config map[s
 			continue
 		}
 
-		kafkaResource := es.Resource{
-			ID:            resource.UniqueID(),
-			Name:          resource.Name,
-			ResourceGroup: resource.ResourceGroup,
-			Location:      resource.Location,
-			SourceType:    source.CloudAzure,
-			ResourceType:  strings.ToLower(output.Metadata.ResourceType),
-			ResourceJobID: job.JobID,
-			SourceJobID:   job.ParentJobID,
-			SourceID:      job.SourceID,
-			ScheduleJobID: job.ScheduleJobID,
-			CreatedAt:     job.DescribedAt,
-			Description:   resource.Description,
-			Metadata:      metadata,
-		}
-		lookupResource := es.LookupResource{
-			ResourceID:    resource.UniqueID(),
-			Name:          resource.Name,
-			SourceType:    source.CloudAzure,
-			ResourceType:  strings.ToLower(job.ResourceType),
-			ResourceGroup: resource.ResourceGroup,
-			ServiceName:   cloudservice.ServiceNameByResourceType(job.ResourceType),
-			Category:      cloudservice.CategoryByResourceType(job.ResourceType),
-			Location:      resource.Location,
-			SourceID:      job.SourceID,
-			ScheduleJobID: job.ScheduleJobID,
-			ResourceJobID: job.JobID,
-			SourceJobID:   job.ParentJobID,
-			CreatedAt:     job.DescribedAt,
-			IsCommon:      cloudservice.IsCommonByResourceType(job.ResourceType),
-		}
 		resourceIDs = append(resourceIDs, resource.UniqueID())
-		pluginTableName := steampipe.ExtractTableName(job.ResourceType)
-		desc, err := steampipe.ConvertToDescription(job.ResourceType, kafkaResource)
-		if err != nil {
-			errs = append(errs, fmt.Sprintf("convertToDescription: %v", err.Error()))
-			continue
-		}
-		pluginProvider := steampipe.ExtractPlugin(job.ResourceType)
-		var cells map[string]*proto.Column
-		if pluginProvider == steampipe.SteampipePluginAzure {
-			cells, err = steampipe.AzureDescriptionToRecord(desc, pluginTableName)
-			if err != nil {
-				errs = append(errs, fmt.Sprintf("azureDescriptionToRecord: %v", err.Error()))
-				continue
-			}
-		} else {
-			cells, err = steampipe.AzureADDescriptionToRecord(desc, pluginTableName)
-			if err != nil {
-				errs = append(errs, fmt.Sprintf("azureADDescriptionToRecord: %v", err.Error()))
-				continue
-			}
-		}
-		for name, v := range cells {
-			if name == "title" || name == "name" {
-				kafkaResource.Metadata["name"] = v.GetStringValue()
-			}
-		}
-
-		tags, err := steampipe.ExtractTags(job.ResourceType, kafkaResource)
-		if err != nil {
-			tags = map[string]string{}
-			errs = append(errs, fmt.Sprintf("failed to build tags for service: %v", err.Error()))
-		}
-		lookupResource.Tags = tags
-
-		msgs = append(msgs, kafkaResource)
-		msgs = append(msgs, lookupResource)
 	}
 	logger.Warn("finished describing azure", zap.String("resourceType", job.ResourceType), zap.Uint("jobID", job.JobID))
 
@@ -213,7 +139,7 @@ func doDescribeAzure(ctx context.Context, job describe.DescribeJob, config map[s
 	} else {
 		err = nil
 	}
-	return msgs, resourceIDs, err
+	return resourceIDs, err
 }
 
 func Do(ctx context.Context,
@@ -247,13 +173,13 @@ func Do(ctx context.Context,
 
 	// Assume it succeeded unless it fails somewhere
 	var (
-		status               = api.DescribeResourceJobSucceeded
+		status               = "SUCCEEDED" //api.DescribeResourceJobSucceeded
 		firstErr    error    = nil
 		resourceIDs []string = nil
 	)
 
 	fail := func(err error) {
-		status = api.DescribeResourceJobFailed
+		status = "FAILED" // api.DescribeResourceJobFailed
 		if firstErr == nil {
 			firstErr = err
 		}
@@ -267,7 +193,7 @@ func Do(ctx context.Context,
 		client := golang.NewDescribeServiceClient(conn)
 
 		if config, err := vlt.Decrypt(job.CipherText, keyARN); err == nil {
-			_, resourceIDs, err = doDescribeAzure(ctx, job, config, logger, &client)
+			resourceIDs, err = doDescribeAzure(ctx, job, config, logger, &client)
 			if err != nil {
 				fail(fmt.Errorf("describe resources: %w", err))
 			}

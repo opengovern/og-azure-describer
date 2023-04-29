@@ -4,12 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	kaytu_azure_describer "github.com/kaytu-io/kaytu-azure-describer"
-	"gitlab.com/keibiengine/keibi-engine/pkg/describe"
-	"gitlab.com/keibiengine/keibi-engine/pkg/vault"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/vault"
 	"go.uber.org/zap"
 )
 

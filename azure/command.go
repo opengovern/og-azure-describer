@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	"github.com/Azure/go-autorest/autorest/azure/auth"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe/enums"
 	"github.com/spf13/cobra"
-	"gitlab.com/keibiengine/keibi-engine/pkg/describe/enums"
 )
 
 const AzureAuthLocation = "AZURE_AUTH_LOCATION"
