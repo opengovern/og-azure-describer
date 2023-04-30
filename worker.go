@@ -29,7 +29,9 @@ func doDescribeAzure(ctx context.Context, job describe.DescribeJob, config map[s
 	logger *zap.Logger, client *golang.DescribeServiceClient) ([]string, error) {
 	var clientStream *describer.StreamSender
 	if client != nil {
-		stream, err := (*client).DeliverAzureResources(context.Background())
+		grpcCtx := context.Background()
+		grpcCtx = context.WithValue(grpcCtx, "resourceJobID", job.JobID)
+		stream, err := (*client).DeliverAzureResources(grpcCtx)
 		if err != nil {
 			return nil, err
 		}
@@ -64,6 +66,7 @@ func doDescribeAzure(ctx context.Context, job describe.DescribeJob, config map[s
 			})
 		}
 		clientStream = (*describer.StreamSender)(&f)
+		defer stream.CloseAndRecv()
 	}
 
 	var resourceIDs []string
