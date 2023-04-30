@@ -4,14 +4,15 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-
 	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/source"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/vault"
 	"github.com/kaytu-io/kaytu-azure-describer/proto/src/golang"
+	"golang.org/x/oauth2"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials/oauth"
 
 	"github.com/go-errors/errors"
 	"github.com/kaytu-io/kaytu-azure-describer/azure"
@@ -153,7 +154,8 @@ func Do(ctx context.Context,
 	job describe.DescribeJob,
 	keyARN string,
 	logger *zap.Logger,
-	describeDeliverEndpoint *string) error {
+	describeDeliverEndpoint *string,
+	describeDeliverAuthToken *string) error {
 	logger.Info("Starting DescribeJob",
 		zap.Uint("jobID", job.JobID),
 		zap.Uint("parentJobID", job.ParentJobID),
@@ -194,7 +196,15 @@ func Do(ctx context.Context,
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	if conn, err := grpc.Dial(*describeDeliverEndpoint, grpc.WithTransportCredentials(credentials.NewTLS(nil))); err == nil {
+	if conn, err := grpc.Dial(
+		*describeDeliverEndpoint,
+		grpc.WithTransportCredentials(credentials.NewTLS(nil)),
+		grpc.WithPerRPCCredentials(oauth.TokenSource{
+			TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
+				AccessToken: *describeDeliverAuthToken,
+			}),
+		}),
+	); err == nil {
 		defer conn.Close()
 		client := golang.NewDescribeServiceClient(conn)
 
