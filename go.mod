@@ -15,15 +15,18 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/kms v1.20.12
 	github.com/go-errors/errors v1.4.2
 	github.com/gofrs/uuid v4.2.0+incompatible
+	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/manicminer/hamilton v0.41.1
 	github.com/spf13/cobra v1.6.1
 	github.com/tombuildsstuff/giovanni v0.18.0
 	go.uber.org/zap v1.21.0
+	golang.org/x/oauth2 v0.0.0-20220223155221-ee480838109b
 	google.golang.org/grpc v1.48.0
 	google.golang.org/protobuf v1.28.0
 )
 
 require (
+	cloud.google.com/go v0.65.0 // indirect
 	github.com/Azure/azure-pipeline-go v0.2.3 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.3.0 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/internal v1.1.2 // indirect
@@ -66,7 +69,6 @@ require (
 	go.uber.org/multierr v1.7.0 // indirect
 	golang.org/x/crypto v0.6.0 // indirect
 	golang.org/x/net v0.7.0 // indirect
-	golang.org/x/oauth2 v0.0.0-20220223155221-ee480838109b // indirect
 	golang.org/x/sys v0.6.0 // indirect
 	golang.org/x/text v0.7.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
