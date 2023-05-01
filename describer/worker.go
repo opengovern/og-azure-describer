@@ -1,4 +1,4 @@
-package kaytu_azure_describer
+package describer
 
 import (
 	"context"

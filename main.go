@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
+	kaytu_azure_describer "github.com/kaytu-io/kaytu-azure-describer/describer"
 	"os"
 	"time"
 
@@ -16,7 +17,6 @@ import (
 	"google.golang.org/grpc/metadata"
 
 	"github.com/aws/aws-lambda-go/lambda"
-	kaytu_azure_describer "github.com/kaytu-io/kaytu-azure-describer"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/vault"
 	"go.uber.org/zap"
