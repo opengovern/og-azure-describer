@@ -22,10 +22,10 @@ type ResourceSender struct {
 	resourceChannel  chan *golang.AzureResource
 	resourceIDs      []string
 	doneChannel      chan interface{}
-	stream           golang.DescribeService_DeliverAzureResourcesClient
 	conn             *grpc.ClientConn
 	describeEndpoint string
 	jobID            uint
+	client           golang.DescribeServiceClient
 }
 
 func NewResourceSender(workspaceName string, describeEndpoint string, describeToken string, jobID uint, logger *zap.Logger) (*ResourceSender, error) {
@@ -36,7 +36,6 @@ func NewResourceSender(workspaceName string, describeEndpoint string, describeTo
 		resourceChannel:  make(chan *golang.AzureResource, 1000),
 		resourceIDs:      nil,
 		doneChannel:      make(chan interface{}),
-		stream:           nil,
 		conn:             nil,
 		describeEndpoint: describeEndpoint,
 		jobID:            jobID,
@@ -65,16 +64,7 @@ func (s *ResourceSender) Connect() error {
 	s.conn = conn
 
 	client := golang.NewDescribeServiceClient(conn)
-
-	grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
-		"workspace-name":  s.workspaceName,
-		"resource-job-id": fmt.Sprintf("%d", s.jobID),
-	}))
-	stream, err := client.DeliverAzureResources(grpcCtx)
-	if err != nil {
-		return err
-	}
-	s.stream = stream
+	s.client = client
 	return nil
 }
 
@@ -86,7 +76,12 @@ func (s *ResourceSender) ResourceHandler() {
 		}
 
 		s.resourceIDs = append(s.resourceIDs, resource.UniqueId)
-		err := s.stream.Send(resource)
+
+		grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
+			"workspace-name":  s.workspaceName,
+			"resource-job-id": fmt.Sprintf("%d", s.jobID),
+		}))
+		_, err := s.client.DeliverAzureResources(grpcCtx, resource)
 		if err != nil {
 			s.logger.Error("failed to send resource", zap.Error(err))
 			if errors.Is(err, io.EOF) {
@@ -105,7 +100,6 @@ func (s *ResourceSender) ResourceHandler() {
 func (s *ResourceSender) Finish() {
 	s.resourceChannel <- nil
 	_ = <-s.doneChannel
-	s.stream.CloseAndRecv()
 	s.conn.Close()
 }
 
