@@ -81,6 +81,7 @@ func doDescribeAzure(
 		resource.Location = fixAzureLocation(resource.Location)
 
 		rs.Send(&golang.AzureResource{
+			UniqueId:        resource.UniqueID(),
 			Id:              resource.ID,
 			Name:            resource.Name,
 			Type:            resource.Type,
