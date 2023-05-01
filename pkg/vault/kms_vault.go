@@ -2,24 +2,52 @@ package vault
 
 import (
 	"context"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/credentials/stscreds"
 	"github.com/aws/aws-sdk-go-v2/service/kms"
 	"github.com/aws/aws-sdk-go-v2/service/kms/types"
+	"github.com/aws/aws-sdk-go-v2/service/sts"
 )
+
+func getAWSConfig(ctx context.Context, awsAccessKey, awsSecretKey, awsSessionToken, assumeRoleArn string) (aws.Config, error) {
+	opts := make([]func(*config.LoadOptions) error, 0)
+
+	if awsAccessKey != "" {
+		opts = append(opts, config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(awsAccessKey, awsSecretKey, awsSessionToken)))
+	}
+
+	cfg, err := config.LoadDefaultConfig(ctx, opts...)
+	if err != nil {
+		return aws.Config{}, fmt.Errorf("failed to load AWS config: %w", err)
+	}
+
+	if assumeRoleArn != "" {
+		cfg, err = config.LoadDefaultConfig(context.Background(), config.WithCredentialsProvider(stscreds.NewAssumeRoleProvider(sts.NewFromConfig(cfg), assumeRoleArn)))
+		if err != nil {
+			return aws.Config{}, fmt.Errorf("failed to assume role: %w", err)
+		}
+	}
+
+	return cfg, nil
+}
 
 type KMSVaultSourceConfig struct {
 	kmsClient *kms.Client
 }
 
-func NewKMSVaultSourceConfig(ctx context.Context) (*KMSVaultSourceConfig, error) {
-	cfg, err := config.LoadDefaultConfig(ctx)
+func NewKMSVaultSourceConfig(ctx context.Context, accessKey, secretKey, region string) (*KMSVaultSourceConfig, error) {
+	cfg, err := getAWSConfig(ctx, accessKey, secretKey, "", "")
 	if err != nil {
 		return nil, fmt.Errorf("failed to load SDK configuration: %v", err)
 	}
 
+	cfg.Region = region
 	// Create KMS client with loaded configuration
 	svc := kms.NewFromConfig(cfg)
 
@@ -44,12 +72,18 @@ func (v *KMSVaultSourceConfig) Encrypt(cred map[string]any, keyARN string) ([]by
 	if err != nil {
 		return nil, fmt.Errorf("failed to encrypt ciphertext: %v", err)
 	}
-	return result.CiphertextBlob, nil
+	encoded := base64.StdEncoding.EncodeToString(result.CiphertextBlob)
+	return []byte(encoded), nil
 }
 
 func (v *KMSVaultSourceConfig) Decrypt(cypherText string, keyARN string) (map[string]any, error) {
+	bytes, err := base64.StdEncoding.DecodeString(cypherText)
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode ciphertext: %v", err)
+	}
+
 	result, err := v.kmsClient.Decrypt(context.TODO(), &kms.DecryptInput{
-		CiphertextBlob:      []byte(cypherText),
+		CiphertextBlob:      bytes,
 		EncryptionAlgorithm: types.EncryptionAlgorithmSpecSymmetricDefault,
 		KeyId:               &keyARN,
 		EncryptionContext:   nil, //TODO-Saleh use workspaceID

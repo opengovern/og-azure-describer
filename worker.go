@@ -6,85 +6,107 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/go-errors/errors"
+	"github.com/kaytu-io/kaytu-azure-describer/azure"
+	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/source"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/vault"
 	"github.com/kaytu-io/kaytu-azure-describer/proto/src/golang"
-	"golang.org/x/oauth2"
-	"google.golang.org/grpc/credentials"
-	"google.golang.org/grpc/credentials/oauth"
-
-	"github.com/go-errors/errors"
-	"github.com/kaytu-io/kaytu-azure-describer/azure"
-	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
-	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 	"go.uber.org/zap"
-	"google.golang.org/grpc"
 )
 
 func fixAzureLocation(l string) string {
 	return strings.ToLower(strings.ReplaceAll(l, " ", ""))
 }
 
-func doDescribeAzure(ctx context.Context, job describe.DescribeJob, config map[string]interface{},
-	logger *zap.Logger, client *golang.DescribeServiceClient) ([]string, error) {
-	var clientStream *describer.StreamSender
-	if client != nil {
-		grpcCtx := context.Background()
-		grpcCtx = context.WithValue(grpcCtx, "resourceJobID", job.JobID)
-		stream, err := (*client).DeliverAzureResources(grpcCtx)
-		if err != nil {
-			return nil, err
-		}
-
-		f := func(resource describer.Resource) error {
-			descriptionJSON, err := json.Marshal(resource.Description)
-			if err != nil {
-				return err
+func trimEmptyMaps(input map[string]any) {
+	for key, value := range input {
+		switch value.(type) {
+		case map[string]any:
+			if len(value.(map[string]any)) != 0 {
+				trimEmptyMaps(value.(map[string]any))
 			}
-
-			return stream.Send(&golang.AzureResource{
-				Id:              resource.ID,
-				Name:            resource.Name,
-				Type:            resource.Type,
-				ResourceGroup:   resource.ResourceGroup,
-				Location:        resource.Location,
-				SubscriptionId:  resource.SubscriptionID,
-				DescriptionJson: string(descriptionJSON),
-				Job: &golang.DescribeJob{
-					JobId:         uint32(job.JobID),
-					ScheduleJobId: uint32(job.ScheduleJobID),
-					ParentJobId:   uint32(job.ParentJobID),
-					ResourceType:  job.ResourceType,
-					SourceId:      job.SourceID,
-					AccountId:     job.AccountID,
-					DescribedAt:   job.DescribedAt,
-					SourceType:    string(job.SourceType),
-					ConfigReg:     job.CipherText,
-					TriggerType:   string(job.TriggerType),
-					RetryCounter:  uint32(job.RetryCounter),
-				},
-			})
+			if len(value.(map[string]any)) == 0 {
+				delete(input, key)
+			}
 		}
-		clientStream = (*describer.StreamSender)(&f)
-		defer stream.CloseAndRecv()
+	}
+}
+
+func trimJsonFromEmptyObjects(input []byte) ([]byte, error) {
+	unknownData := map[string]any{}
+	err := json.Unmarshal(input, &unknownData)
+	if err != nil {
+		return nil, err
+	}
+	trimEmptyMaps(unknownData)
+	return json.Marshal(unknownData)
+}
+
+func doDescribeAzure(
+	ctx context.Context,
+	logger *zap.Logger,
+	job describe.DescribeJob,
+	config map[string]any,
+	workspaceName string,
+	describeEndpoint string,
+	describeToken string) ([]string, error) {
+	rs, err := NewResourceSender(workspaceName, describeEndpoint, describeToken, job.JobID, logger)
+	if err != nil {
+		return nil, fmt.Errorf("failed to connect to resource sender: %w", err)
 	}
 
-	var resourceIDs []string
-
-	logger.Warn("starting to describe azure subscription", zap.String("resourceType", job.ResourceType), zap.Uint("jobID", job.JobID))
 	creds, err := azure.SubscriptionConfigFromMap(config)
 	if err != nil {
 		return nil, fmt.Errorf("azure subscription credentials: %w", err)
 	}
-
 	subscriptionId := job.AccountID
 	if len(subscriptionId) == 0 {
 		subscriptionId = creds.SubscriptionID
 	}
 
-	logger.Warn("getting resources", zap.String("resourceType", job.ResourceType), zap.Uint("jobID", job.JobID))
-	output, err := azure.GetResources(
+	f := func(resource describer.Resource) error {
+		if resource.Description == nil {
+			return nil
+		}
+		descriptionJSON, err := json.Marshal(resource.Description)
+		if err != nil {
+			return fmt.Errorf("failed to marshal description: %w", err)
+		}
+		descriptionJSON, err = trimJsonFromEmptyObjects(descriptionJSON)
+		if err != nil {
+			return fmt.Errorf("failed to trim json: %w", err)
+		}
+		resource.Location = fixAzureLocation(resource.Location)
+
+		rs.Send(&golang.AzureResource{
+			Id:              resource.ID,
+			Name:            resource.Name,
+			Type:            resource.Type,
+			ResourceGroup:   resource.ResourceGroup,
+			Location:        resource.Location,
+			SubscriptionId:  resource.SubscriptionID,
+			DescriptionJson: string(descriptionJSON),
+			Job: &golang.DescribeJob{
+				JobId:         uint32(job.JobID),
+				ScheduleJobId: uint32(job.ScheduleJobID),
+				ParentJobId:   uint32(job.ParentJobID),
+				ResourceType:  job.ResourceType,
+				SourceId:      job.SourceID,
+				AccountId:     job.AccountID,
+				DescribedAt:   job.DescribedAt,
+				SourceType:    string(job.SourceType),
+				ConfigReg:     job.CipherText,
+				TriggerType:   string(job.TriggerType),
+				RetryCounter:  uint32(job.RetryCounter),
+			},
+		})
+		return nil
+	}
+	clientStream := (*describer.StreamSender)(&f)
+
+	_, err = azure.GetResources(
 		ctx,
 		job.ResourceType,
 		job.TriggerType,
@@ -105,150 +127,38 @@ func doDescribeAzure(ctx context.Context, job describe.DescribeJob, config map[s
 	if err != nil {
 		return nil, fmt.Errorf("azure: %w", err)
 	}
-	logger.Warn("got the resources, finding summaries", zap.String("resourceType", job.ResourceType), zap.Uint("jobID", job.JobID))
 
-	var errs []string
+	rs.Finish()
 
-	for idx, resource := range output.Resources {
-		if resource.Description == nil {
-			continue
-		}
-
-		output.Resources[idx].Location = fixAzureLocation(resource.Location)
-
-		azureMetadata := model.Metadata{
-			ID:               resource.ID,
-			Name:             resource.Name,
-			SubscriptionID:   strings.Join(output.Metadata.SubscriptionIds, ","),
-			Location:         resource.Location,
-			CloudEnvironment: output.Metadata.CloudEnvironment,
-			ResourceType:     strings.ToLower(resource.Type),
-			SourceID:         job.SourceID,
-		}
-		azureMetadataBytes, err := json.Marshal(azureMetadata)
-		if err != nil {
-			errs = append(errs, fmt.Sprintf("marshal metadata: %v", err.Error()))
-			continue
-		}
-		metadata := make(map[string]string)
-		err = json.Unmarshal(azureMetadataBytes, &metadata)
-		if err != nil {
-			errs = append(errs, fmt.Sprintf("unmarshal metadata: %v", err.Error()))
-			continue
-		}
-
-		resourceIDs = append(resourceIDs, resource.UniqueID())
-	}
-	logger.Warn("finished describing azure", zap.String("resourceType", job.ResourceType), zap.Uint("jobID", job.JobID))
-
-	if len(errs) > 0 {
-		err = fmt.Errorf("azure: [%s]", strings.Join(errs, ","))
-	} else {
-		err = nil
-	}
-	return resourceIDs, err
+	return rs.GetResourceIDs(), nil
 }
 
 func Do(ctx context.Context,
 	vlt *vault.KMSVaultSourceConfig,
+	logger *zap.Logger,
 	job describe.DescribeJob,
 	keyARN string,
-	logger *zap.Logger,
-	describeDeliverEndpoint *string,
-	describeDeliverAuthToken *string) error {
-	logger.Info("Starting DescribeJob",
-		zap.Uint("jobID", job.JobID),
-		zap.Uint("parentJobID", job.ParentJobID),
-		zap.String("resourceType", job.ResourceType),
-		zap.String("sourceID", job.SourceID),
-		zap.String("accountID", job.AccountID),
-		zap.Int64("describedAt", job.DescribedAt),
-		zap.String("sourceType", string(job.SourceType)),
-		zap.String("cipherText", job.CipherText),
-		zap.String("triggerType", string(job.TriggerType)),
-		zap.Uint("retryCounter", job.RetryCounter))
-
-	if job.SourceType != source.CloudAzure {
-		return fmt.Errorf("unsupported source type %s", job.SourceType)
-	}
-
+	describeDeliverEndpoint string,
+	describeDeliverToken string,
+	workspaceName string) (resourceIDs []string, err error) {
 	defer func() {
-		if err := recover(); err != nil {
-			fmt.Println("paniced with error:", err)
-			fmt.Println(errors.Wrap(err, 2).ErrorStack())
+		if r := recover(); r != nil {
+			err = fmt.Errorf("paniced with error: %v", r)
+			logger.Error("paniced with error", zap.Error(err), zap.String("stackTrace", errors.Wrap(r, 2).ErrorStack()))
 		}
 	}()
 
-	// Assume it succeeded unless it fails somewhere
-	var (
-		status               = "SUCCEEDED" //api.DescribeResourceJobSucceeded
-		firstErr    error    = nil
-		resourceIDs []string = nil
-	)
-
-	fail := func(err error) {
-		status = "FAILED" // api.DescribeResourceJobFailed
-		if firstErr == nil {
-			firstErr = err
-		}
+	if job.SourceType != source.CloudAzure {
+		return nil, fmt.Errorf("unsupported source type %s", job.SourceType)
 	}
 
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	if conn, err := grpc.Dial(
-		*describeDeliverEndpoint,
-		grpc.WithTransportCredentials(credentials.NewTLS(nil)),
-		grpc.WithPerRPCCredentials(oauth.TokenSource{
-			TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
-				AccessToken: *describeDeliverAuthToken,
-			}),
-		}),
-	); err == nil {
-		defer conn.Close()
-		client := golang.NewDescribeServiceClient(conn)
-
-		if config, err := vlt.Decrypt(job.CipherText, keyARN); err == nil {
-			resourceIDs, err = doDescribeAzure(ctx, job, config, logger, &client)
-			if err != nil {
-				fail(fmt.Errorf("describe resources: %w", err))
-			}
-		} else if config == nil {
-			fail(fmt.Errorf("config is null! path is: %s", job.CipherText))
-		} else {
-			fail(fmt.Errorf("resource source config: %w", err))
-		}
-
-		errMsg := ""
-		if firstErr != nil {
-			errMsg = firstErr.Error()
-		}
-
-		_, err := client.DeliverResult(ctx, &golang.DeliverResultRequest{
-			JobId:       uint32(job.JobID),
-			ParentJobId: uint32(job.ParentJobID),
-			Status:      string(status),
-			Error:       errMsg,
-			DescribeJob: &golang.DescribeJob{
-				JobId:         uint32(job.JobID),
-				ScheduleJobId: uint32(job.ScheduleJobID),
-				ParentJobId:   uint32(job.ParentJobID),
-				ResourceType:  job.ResourceType,
-				SourceId:      job.SourceID,
-				AccountId:     job.AccountID,
-				DescribedAt:   job.DescribedAt,
-				SourceType:    string(job.SourceType),
-				ConfigReg:     job.CipherText,
-				TriggerType:   string(job.TriggerType),
-				RetryCounter:  uint32(job.RetryCounter),
-			},
-			DescribedResourceIds: resourceIDs,
-		})
-		if err != nil {
-			return fmt.Errorf("DeliverResult: %v", err)
-		}
-		return nil
-	} else {
-		return fmt.Errorf("grpc: %v", err)
+	config, err := vlt.Decrypt(job.CipherText, keyARN)
+	if err != nil {
+		return nil, fmt.Errorf("decrypt error: %w", err)
 	}
+
+	return doDescribeAzure(ctx, logger, job, config, workspaceName, describeDeliverEndpoint, describeDeliverToken)
 }

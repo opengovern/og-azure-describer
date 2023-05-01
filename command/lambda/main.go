@@ -5,13 +5,26 @@ import (
 	"encoding/base64"
 	"fmt"
 	"os"
+	"time"
+
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/kaytu-io/kaytu-azure-describer/proto/src/golang"
+	"golang.org/x/oauth2"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials/oauth"
+	"google.golang.org/grpc/metadata"
 
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/golang-jwt/jwt/v5"
 	kaytu_azure_describer "github.com/kaytu-io/kaytu-azure-describer"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/vault"
 	"go.uber.org/zap"
+)
+
+const (
+	DescribeResourceJobFailed    string = "FAILED"
+	DescribeResourceJobSucceeded string = "SUCCEEDED"
 )
 
 func getJWTAuthToken(workspaceId string) (string, error) {
@@ -47,10 +60,13 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 	if err != nil {
 		return err
 	}
-
 	logger.Info(fmt.Sprintf("%v", input))
 
-	kmsVault, err := vault.NewKMSVaultSourceConfig(ctx)
+	if input.WorkspaceName == "" {
+		return fmt.Errorf("workspace name is required")
+	}
+
+	kmsVault, err := vault.NewKMSVaultSourceConfig(ctx, "", "", input.KeyRegion)
 	if err != nil {
 		return fmt.Errorf("failed to initialize KMS vault: %w", err)
 	}
@@ -60,15 +76,73 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		return fmt.Errorf("failed to get JWT token: %w", err)
 	}
 
-	return kaytu_azure_describer.Do(
+	resourceIds, err := kaytu_azure_describer.Do(
 		ctx,
 		kmsVault,
+		logger,
 		input.DescribeJob,
 		input.KeyARN,
-		logger,
-		&input.DescribeEndpoint,
-		&token,
+		input.DescribeEndpoint,
+		token,
+		input.WorkspaceName,
 	)
+
+	errMsg := ""
+	status := DescribeResourceJobSucceeded
+	if err != nil {
+		errMsg = err.Error()
+		status = DescribeResourceJobFailed
+	}
+
+	for retry := 0; retry < 5; retry++ {
+		conn, err := grpc.Dial(
+			input.DescribeEndpoint,
+			grpc.WithTransportCredentials(credentials.NewTLS(nil)),
+			grpc.WithPerRPCCredentials(oauth.TokenSource{
+				TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
+					AccessToken: token,
+				}),
+			}),
+		)
+		if err != nil {
+			logger.Error("[result delivery] connection failure:", zap.Error(err))
+			time.Sleep(1 * time.Second)
+			continue
+		}
+		client := golang.NewDescribeServiceClient(conn)
+
+		grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
+			"workspace-name": input.WorkspaceName,
+		}))
+		_, err = client.DeliverResult(grpcCtx, &golang.DeliverResultRequest{
+			JobId:       uint32(input.DescribeJob.JobID),
+			ParentJobId: uint32(input.DescribeJob.ParentJobID),
+			Status:      status,
+			Error:       errMsg,
+			DescribeJob: &golang.DescribeJob{
+				JobId:         uint32(input.DescribeJob.JobID),
+				ScheduleJobId: uint32(input.DescribeJob.ScheduleJobID),
+				ParentJobId:   uint32(input.DescribeJob.ParentJobID),
+				ResourceType:  input.DescribeJob.ResourceType,
+				SourceId:      input.DescribeJob.SourceID,
+				AccountId:     input.DescribeJob.AccountID,
+				DescribedAt:   input.DescribeJob.DescribedAt,
+				SourceType:    string(input.DescribeJob.SourceType),
+				ConfigReg:     input.DescribeJob.CipherText,
+				TriggerType:   string(input.DescribeJob.TriggerType),
+				RetryCounter:  uint32(input.DescribeJob.RetryCounter),
+			},
+			DescribedResourceIds: resourceIds,
+		})
+		if err != nil {
+			logger.Error("[result delivery] rpc failed:", zap.Error(err))
+			time.Sleep(1 * time.Second)
+			continue
+		}
+		break
+	}
+
+	return err
 }
 
 func main() {
