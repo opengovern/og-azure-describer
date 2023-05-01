@@ -1,4 +1,4 @@
-//go:generate go run ../../keibi-es-sdk/gen/main.go --file $GOFILE --output ../../keibi-es-sdk/azure_resources_clients.go --type azure
+//go:generate go run ../../../keibi-engine/pkg/keibi-es-sdk/gen/main.go --file $GOFILE --output ../../../keibi-engine/pkg/keibi-es-sdk/azure_resources_clients.go --type azure
 
 package model
 
