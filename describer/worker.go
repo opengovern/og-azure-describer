@@ -4,16 +4,17 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"strings"
-
 	"github.com/go-errors/errors"
 	"github.com/kaytu-io/kaytu-azure-describer/azure"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
+	azuremodel "github.com/kaytu-io/kaytu-azure-describer/azure/model"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/source"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/steampipe"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/vault"
 	"github.com/kaytu-io/kaytu-azure-describer/proto/src/golang"
 	"go.uber.org/zap"
+	"strings"
 )
 
 func fixAzureLocation(l string) string {
@@ -57,6 +58,8 @@ func doDescribeAzure(
 		return nil, fmt.Errorf("failed to connect to resource sender: %w", err)
 	}
 
+	plg := steampipe.Plugin()
+	plgAD := steampipe.ADPlugin()
 	creds, err := azure.SubscriptionConfigFromMap(config)
 	if err != nil {
 		return nil, fmt.Errorf("azure subscription credentials: %w", err)
@@ -80,6 +83,50 @@ func doDescribeAzure(
 		}
 		resource.Location = fixAzureLocation(resource.Location)
 
+		azureMetadata := azuremodel.Metadata{
+			ID:               resource.ID,
+			Name:             resource.Name,
+			SubscriptionID:   job.AccountID,
+			Location:         resource.Location,
+			CloudEnvironment: "AzurePublicCloud",
+			ResourceType:     strings.ToLower(resource.Type),
+			SourceID:         job.SourceID,
+		}
+		azureMetadataBytes, err := json.Marshal(azureMetadata)
+		if err != nil {
+			return fmt.Errorf("marshal metadata: %v", err.Error())
+		}
+
+		metadata := make(map[string]string)
+		err = json.Unmarshal(azureMetadataBytes, &metadata)
+		if err != nil {
+			return fmt.Errorf("unmarshal metadata: %v", err.Error())
+		}
+
+		kafkaResource := Resource{
+			ID:            resource.UniqueID(),
+			Name:          resource.Name,
+			ResourceGroup: resource.ResourceGroup,
+			Location:      resource.Location,
+			SourceType:    source.CloudAzure,
+			ResourceType:  strings.ToLower(job.ResourceType),
+			ResourceJobID: job.JobID,
+			SourceJobID:   job.ParentJobID,
+			SourceID:      job.SourceID,
+			ScheduleJobID: job.ScheduleJobID,
+			CreatedAt:     job.DescribedAt,
+			Description:   resource.Description,
+			Metadata:      metadata,
+		}
+
+		tags, name, err := steampipe.ExtractTagsAndNames(plg, plgAD, job.ResourceType, kafkaResource)
+		if err != nil {
+			return fmt.Errorf("failed to build tags for service: %v", err.Error())
+		}
+		if len(name) > 0 {
+			kafkaResource.Metadata["name"] = name
+		}
+
 		rs.Send(&golang.AzureResource{
 			UniqueId:        resource.UniqueID(),
 			Id:              resource.ID,
@@ -89,6 +136,8 @@ func doDescribeAzure(
 			Location:        resource.Location,
 			SubscriptionId:  resource.SubscriptionID,
 			DescriptionJson: string(descriptionJSON),
+			Metadata:        metadata,
+			Tags:            tags,
 			Job: &golang.DescribeJob{
 				JobId:         uint32(job.JobID),
 				ScheduleJobId: uint32(job.ScheduleJobID),
