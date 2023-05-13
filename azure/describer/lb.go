@@ -87,14 +87,18 @@ func LoadBalancerBackendAddressPool(ctx context.Context, authorizer autorest.Aut
 				for _, pool := range backendAddressPools.Values() {
 					resourceGroup := strings.Split(*pool.ID, "/")[4]
 					resource := Resource{
-						ID:       *pool.ID,
-						Name:     *pool.Name,
-						Location: *pool.Location,
+						ID: *pool.ID,
 						Description: model.LoadBalancerBackendAddressPoolDescription{
 							ResourceGroup: resourceGroup,
 							LoadBalancer:  loadBalancer,
 							Pool:          pool,
 						},
+					}
+					if pool.Name != nil {
+						resource.Name = *pool.Name
+					}
+					if pool.Location != nil {
+						resource.Location = *pool.Location
 					}
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
