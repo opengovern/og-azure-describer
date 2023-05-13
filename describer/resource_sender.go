@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	golang2 "github.com/kaytu-io/kaytu-util/proto/src/golang"
 	"io"
 	"time"
 
-	"github.com/kaytu-io/kaytu-azure-describer/proto/src/golang"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"google.golang.org/grpc"
@@ -27,15 +27,15 @@ type ResourceSender struct {
 	authToken        string
 	workspaceName    string
 	logger           *zap.Logger
-	resourceChannel  chan *golang.AzureResource
+	resourceChannel  chan *golang2.AzureResource
 	resourceIDs      []string
 	doneChannel      chan interface{}
 	conn             *grpc.ClientConn
 	describeEndpoint string
 	jobID            uint
-	client           golang.DescribeServiceClient
+	client           golang2.DescribeServiceClient
 
-	sendBuffer []*golang.AzureResource
+	sendBuffer []*golang2.AzureResource
 }
 
 func NewResourceSender(workspaceName string, describeEndpoint string, describeToken string, jobID uint, logger *zap.Logger) (*ResourceSender, error) {
@@ -43,7 +43,7 @@ func NewResourceSender(workspaceName string, describeEndpoint string, describeTo
 		authToken:        describeToken,
 		workspaceName:    workspaceName,
 		logger:           logger,
-		resourceChannel:  make(chan *golang.AzureResource, ChannelSize),
+		resourceChannel:  make(chan *golang2.AzureResource, ChannelSize),
 		resourceIDs:      nil,
 		doneChannel:      make(chan interface{}),
 		conn:             nil,
@@ -73,7 +73,7 @@ func (s *ResourceSender) Connect() error {
 	}
 	s.conn = conn
 
-	client := golang.NewDescribeServiceClient(conn)
+	client := golang2.NewDescribeServiceClient(conn)
 	s.client = client
 	return nil
 }
@@ -117,7 +117,7 @@ func (s *ResourceSender) flushBuffer(force bool) {
 		"resource-job-id": fmt.Sprintf("%d", s.jobID),
 	}))
 
-	_, err := s.client.DeliverAzureResources(grpcCtx, &golang.AzureResources{Resources: s.sendBuffer})
+	_, err := s.client.DeliverAzureResources(grpcCtx, &golang2.AzureResources{Resources: s.sendBuffer})
 	if err != nil {
 		s.logger.Error("failed to send resource", zap.Error(err))
 		if errors.Is(err, io.EOF) {
@@ -141,6 +141,6 @@ func (s *ResourceSender) GetResourceIDs() []string {
 	return s.resourceIDs
 }
 
-func (s *ResourceSender) Send(resource *golang.AzureResource) {
+func (s *ResourceSender) Send(resource *golang2.AzureResource) {
 	s.resourceChannel <- resource
 }

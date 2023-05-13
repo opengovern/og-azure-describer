@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 
 	"github.com/Azure/go-autorest/autorest/azure/auth"
-	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe/enums"
 	"github.com/spf13/cobra"
 )
 

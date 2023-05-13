@@ -7,7 +7,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob"
 	azblobOld "github.com/Azure/azure-storage-blob-go/azblob"
-	"github.com/kaytu-io/kaytu-azure-describer/pkg/concurrency"
+	"github.com/kaytu-io/kaytu-util/pkg/concurrency"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2021-04-01-preview/insights"
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-06-01/storage"

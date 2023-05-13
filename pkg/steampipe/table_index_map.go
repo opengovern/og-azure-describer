@@ -2,7 +2,6 @@ package steampipe
 
 import (
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/keibi-es-sdk"
-	"strings"
 )
 
 var azureMap = map[string]string{
@@ -276,54 +275,4 @@ var AzureDescriptionMap = map[string]interface{}{
 	"Microsoft.Storage/fileShares":                             &keibi.StorageFileShare{},
 	"Microsoft.Storage/tables":                                 &keibi.StorageTable{},
 	"Microsoft.Storage/tableServices":                          &keibi.StorageTableService{},
-}
-
-var AzureADKeys = map[string]struct{}{
-	strings.ToLower("Microsoft.Resources/users"):             {},
-	strings.ToLower("Microsoft.Resources/groups"):            {},
-	strings.ToLower("Microsoft.Resources/serviceprincipals"): {},
-}
-
-type SteampipePlugin string
-
-const (
-	SteampipePluginAWS     = "aws"
-	SteampipePluginAzure   = "azure"
-	SteampipePluginAzureAD = "azuread"
-	SteampipePluginUnknown = ""
-)
-
-func ExtractPlugin(resourceType string) SteampipePlugin {
-	resourceType = strings.ToLower(resourceType)
-	if strings.HasPrefix(resourceType, "aws::") {
-		return SteampipePluginAWS
-	} else if strings.HasPrefix(resourceType, "microsoft") {
-		if _, ok := AzureADKeys[strings.ToLower(resourceType)]; ok {
-			return SteampipePluginAzureAD
-		}
-		return SteampipePluginAzure
-	}
-	return SteampipePluginUnknown
-}
-
-func ExtractTableName(resourceType string) string {
-	resourceType = strings.ToLower(resourceType)
-	if strings.HasPrefix(resourceType, "microsoft.") {
-		for k, v := range azureMap {
-			if resourceType == strings.ToLower(k) {
-				return v
-			}
-		}
-	}
-	return ""
-}
-
-func GetResourceTypeByTableName(tableName string) string {
-	tableName = strings.ToLower(tableName)
-	for k, v := range azureMap {
-		if tableName == strings.ToLower(v) {
-			return k
-		}
-	}
-	return ""
 }

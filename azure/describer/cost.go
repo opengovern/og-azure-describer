@@ -4,13 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 	"time"
 
 	"github.com/Azure/azure-sdk-for-go/services/costmanagement/mgmt/2019-11-01/costmanagement"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/date"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
-	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe/enums"
 )
 
 const resourceTypeDimension = "resourceType"

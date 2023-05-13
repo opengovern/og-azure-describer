@@ -5,11 +5,13 @@ import (
 	"encoding/base64"
 	"fmt"
 	kaytu_azure_describer "github.com/kaytu-io/kaytu-azure-describer/describer"
+	"github.com/kaytu-io/kaytu-util/pkg/describe"
+	"github.com/kaytu-io/kaytu-util/pkg/vault"
+	golang2 "github.com/kaytu-io/kaytu-util/proto/src/golang"
 	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/kaytu-io/kaytu-azure-describer/proto/src/golang"
 	"golang.org/x/oauth2"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -17,8 +19,6 @@ import (
 	"google.golang.org/grpc/metadata"
 
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe"
-	"github.com/kaytu-io/kaytu-azure-describer/pkg/vault"
 	"go.uber.org/zap"
 )
 
@@ -115,17 +115,17 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 			time.Sleep(1 * time.Second)
 			continue
 		}
-		client := golang.NewDescribeServiceClient(conn)
+		client := golang2.NewDescribeServiceClient(conn)
 
 		grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
 			"workspace-name": input.WorkspaceName,
 		}))
-		_, err = client.DeliverResult(grpcCtx, &golang.DeliverResultRequest{
+		_, err = client.DeliverResult(grpcCtx, &golang2.DeliverResultRequest{
 			JobId:       uint32(input.DescribeJob.JobID),
 			ParentJobId: uint32(input.DescribeJob.ParentJobID),
 			Status:      status,
 			Error:       errMsg,
-			DescribeJob: &golang.DescribeJob{
+			DescribeJob: &golang2.DescribeJob{
 				JobId:         uint32(input.DescribeJob.JobID),
 				ScheduleJobId: uint32(input.DescribeJob.ScheduleJobID),
 				ParentJobId:   uint32(input.DescribeJob.ParentJobID),

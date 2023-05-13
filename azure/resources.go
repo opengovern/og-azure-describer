@@ -3,6 +3,8 @@ package azure
 import (
 	"context"
 	"fmt"
+	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
+	"github.com/kaytu-io/kaytu-util/pkg/source"
 	"os"
 	"sort"
 	"strings"
@@ -11,8 +13,6 @@ import (
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
-	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe/enums"
-	"github.com/kaytu-io/kaytu-azure-describer/pkg/source"
 	hamiltonAuth "github.com/manicminer/hamilton/auth"
 )
 

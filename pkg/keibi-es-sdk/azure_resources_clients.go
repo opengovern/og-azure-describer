@@ -4,8 +4,13 @@ package keibi
 import (
 	"context"
 	azure "github.com/kaytu-io/kaytu-azure-describer/azure/model"
+	essdk "github.com/kaytu-io/kaytu-util/pkg/keibi-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
 )
+
+type Client struct {
+	essdk.Client
+}
 
 // ==========================  START: APIManagement =============================
 
@@ -32,7 +37,7 @@ type APIManagementHit struct {
 }
 
 type APIManagementHits struct {
-	Total SearchTotal        `json:"total"`
+	Total essdk.SearchTotal  `json:"total"`
 	Hits  []APIManagementHit `json:"hits"`
 }
 
@@ -42,11 +47,11 @@ type APIManagementSearchResponse struct {
 }
 
 type APIManagementPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewAPIManagementPaginator(filters []BoolFilter, limit *int64) (APIManagementPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_apimanagement_service", filters, limit)
+func (k Client) NewAPIManagementPaginator(filters []essdk.BoolFilter, limit *int64) (APIManagementPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_apimanagement_service", filters, limit)
 	if err != nil {
 		return APIManagementPaginator{}, err
 	}
@@ -59,12 +64,12 @@ func (k Client) NewAPIManagementPaginator(filters []BoolFilter, limit *int64) (A
 }
 
 func (p APIManagementPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p APIManagementPaginator) NextPage(ctx context.Context) ([]APIManagement, error) {
 	var response APIManagementSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -76,9 +81,9 @@ func (p APIManagementPaginator) NextPage(ctx context.Context) ([]APIManagement, 
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -92,13 +97,14 @@ func ListAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("ListAPIManagement")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewAPIManagementPaginator(buildFilter(d.KeyColumnQuals, listAPIManagementFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAPIManagementPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAPIManagementFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -127,14 +133,15 @@ func GetAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	plugin.Logger(ctx).Trace("GetAPIManagement")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAPIManagementPaginator(buildFilter(d.KeyColumnQuals, getAPIManagementFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAPIManagementPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAPIManagementFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -180,7 +187,7 @@ type AppConfigurationHit struct {
 }
 
 type AppConfigurationHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []AppConfigurationHit `json:"hits"`
 }
 
@@ -190,11 +197,11 @@ type AppConfigurationSearchResponse struct {
 }
 
 type AppConfigurationPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewAppConfigurationPaginator(filters []BoolFilter, limit *int64) (AppConfigurationPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_appconfiguration_configurationstores", filters, limit)
+func (k Client) NewAppConfigurationPaginator(filters []essdk.BoolFilter, limit *int64) (AppConfigurationPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_appconfiguration_configurationstores", filters, limit)
 	if err != nil {
 		return AppConfigurationPaginator{}, err
 	}
@@ -207,12 +214,12 @@ func (k Client) NewAppConfigurationPaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p AppConfigurationPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p AppConfigurationPaginator) NextPage(ctx context.Context) ([]AppConfiguration, error) {
 	var response AppConfigurationSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -224,9 +231,9 @@ func (p AppConfigurationPaginator) NextPage(ctx context.Context) ([]AppConfigura
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -240,13 +247,14 @@ func ListAppConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListAppConfiguration")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewAppConfigurationPaginator(buildFilter(d.KeyColumnQuals, listAppConfigurationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppConfigurationPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAppConfigurationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -275,14 +283,15 @@ func GetAppConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetAppConfiguration")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppConfigurationPaginator(buildFilter(d.KeyColumnQuals, getAppConfigurationFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppConfigurationPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAppConfigurationFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -328,7 +337,7 @@ type AppServiceEnvironmentHit struct {
 }
 
 type AppServiceEnvironmentHits struct {
-	Total SearchTotal                `json:"total"`
+	Total essdk.SearchTotal          `json:"total"`
 	Hits  []AppServiceEnvironmentHit `json:"hits"`
 }
 
@@ -338,11 +347,11 @@ type AppServiceEnvironmentSearchResponse struct {
 }
 
 type AppServiceEnvironmentPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewAppServiceEnvironmentPaginator(filters []BoolFilter, limit *int64) (AppServiceEnvironmentPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_web_hostingenvironments", filters, limit)
+func (k Client) NewAppServiceEnvironmentPaginator(filters []essdk.BoolFilter, limit *int64) (AppServiceEnvironmentPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_web_hostingenvironments", filters, limit)
 	if err != nil {
 		return AppServiceEnvironmentPaginator{}, err
 	}
@@ -355,12 +364,12 @@ func (k Client) NewAppServiceEnvironmentPaginator(filters []BoolFilter, limit *i
 }
 
 func (p AppServiceEnvironmentPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p AppServiceEnvironmentPaginator) NextPage(ctx context.Context) ([]AppServiceEnvironment, error) {
 	var response AppServiceEnvironmentSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -372,9 +381,9 @@ func (p AppServiceEnvironmentPaginator) NextPage(ctx context.Context) ([]AppServ
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -388,13 +397,14 @@ func ListAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plug
 	plugin.Logger(ctx).Trace("ListAppServiceEnvironment")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewAppServiceEnvironmentPaginator(buildFilter(d.KeyColumnQuals, listAppServiceEnvironmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppServiceEnvironmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAppServiceEnvironmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -423,14 +433,15 @@ func GetAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("GetAppServiceEnvironment")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppServiceEnvironmentPaginator(buildFilter(d.KeyColumnQuals, getAppServiceEnvironmentFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppServiceEnvironmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAppServiceEnvironmentFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -476,7 +487,7 @@ type AppServiceFunctionAppHit struct {
 }
 
 type AppServiceFunctionAppHits struct {
-	Total SearchTotal                `json:"total"`
+	Total essdk.SearchTotal          `json:"total"`
 	Hits  []AppServiceFunctionAppHit `json:"hits"`
 }
 
@@ -486,11 +497,11 @@ type AppServiceFunctionAppSearchResponse struct {
 }
 
 type AppServiceFunctionAppPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewAppServiceFunctionAppPaginator(filters []BoolFilter, limit *int64) (AppServiceFunctionAppPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_web_sites", filters, limit)
+func (k Client) NewAppServiceFunctionAppPaginator(filters []essdk.BoolFilter, limit *int64) (AppServiceFunctionAppPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_web_sites", filters, limit)
 	if err != nil {
 		return AppServiceFunctionAppPaginator{}, err
 	}
@@ -503,12 +514,12 @@ func (k Client) NewAppServiceFunctionAppPaginator(filters []BoolFilter, limit *i
 }
 
 func (p AppServiceFunctionAppPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p AppServiceFunctionAppPaginator) NextPage(ctx context.Context) ([]AppServiceFunctionApp, error) {
 	var response AppServiceFunctionAppSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -520,9 +531,9 @@ func (p AppServiceFunctionAppPaginator) NextPage(ctx context.Context) ([]AppServ
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -536,13 +547,14 @@ func ListAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plug
 	plugin.Logger(ctx).Trace("ListAppServiceFunctionApp")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewAppServiceFunctionAppPaginator(buildFilter(d.KeyColumnQuals, listAppServiceFunctionAppFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppServiceFunctionAppPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAppServiceFunctionAppFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -571,14 +583,15 @@ func GetAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("GetAppServiceFunctionApp")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppServiceFunctionAppPaginator(buildFilter(d.KeyColumnQuals, getAppServiceFunctionAppFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppServiceFunctionAppPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAppServiceFunctionAppFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -624,7 +637,7 @@ type AppServiceWebAppHit struct {
 }
 
 type AppServiceWebAppHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []AppServiceWebAppHit `json:"hits"`
 }
 
@@ -634,11 +647,11 @@ type AppServiceWebAppSearchResponse struct {
 }
 
 type AppServiceWebAppPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewAppServiceWebAppPaginator(filters []BoolFilter, limit *int64) (AppServiceWebAppPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_web_staticsites", filters, limit)
+func (k Client) NewAppServiceWebAppPaginator(filters []essdk.BoolFilter, limit *int64) (AppServiceWebAppPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_web_staticsites", filters, limit)
 	if err != nil {
 		return AppServiceWebAppPaginator{}, err
 	}
@@ -651,12 +664,12 @@ func (k Client) NewAppServiceWebAppPaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p AppServiceWebAppPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p AppServiceWebAppPaginator) NextPage(ctx context.Context) ([]AppServiceWebApp, error) {
 	var response AppServiceWebAppSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -668,9 +681,9 @@ func (p AppServiceWebAppPaginator) NextPage(ctx context.Context) ([]AppServiceWe
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -684,13 +697,14 @@ func ListAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListAppServiceWebApp")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewAppServiceWebAppPaginator(buildFilter(d.KeyColumnQuals, listAppServiceWebAppFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppServiceWebAppPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAppServiceWebAppFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -719,14 +733,15 @@ func GetAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetAppServiceWebApp")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppServiceWebAppPaginator(buildFilter(d.KeyColumnQuals, getAppServiceWebAppFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppServiceWebAppPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAppServiceWebAppFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -772,7 +787,7 @@ type AppServicePlanHit struct {
 }
 
 type AppServicePlanHits struct {
-	Total SearchTotal         `json:"total"`
+	Total essdk.SearchTotal   `json:"total"`
 	Hits  []AppServicePlanHit `json:"hits"`
 }
 
@@ -782,11 +797,11 @@ type AppServicePlanSearchResponse struct {
 }
 
 type AppServicePlanPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewAppServicePlanPaginator(filters []BoolFilter, limit *int64) (AppServicePlanPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_web_plan", filters, limit)
+func (k Client) NewAppServicePlanPaginator(filters []essdk.BoolFilter, limit *int64) (AppServicePlanPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_web_plan", filters, limit)
 	if err != nil {
 		return AppServicePlanPaginator{}, err
 	}
@@ -799,12 +814,12 @@ func (k Client) NewAppServicePlanPaginator(filters []BoolFilter, limit *int64) (
 }
 
 func (p AppServicePlanPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p AppServicePlanPaginator) NextPage(ctx context.Context) ([]AppServicePlan, error) {
 	var response AppServicePlanSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -816,9 +831,9 @@ func (p AppServicePlanPaginator) NextPage(ctx context.Context) ([]AppServicePlan
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -832,13 +847,14 @@ func ListAppServicePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("ListAppServicePlan")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewAppServicePlanPaginator(buildFilter(d.KeyColumnQuals, listAppServicePlanFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppServicePlanPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAppServicePlanFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -867,14 +883,15 @@ func GetAppServicePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("GetAppServicePlan")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppServicePlanPaginator(buildFilter(d.KeyColumnQuals, getAppServicePlanFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppServicePlanPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAppServicePlanFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -920,8 +937,8 @@ type ComputeDiskHit struct {
 }
 
 type ComputeDiskHits struct {
-	Total SearchTotal      `json:"total"`
-	Hits  []ComputeDiskHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []ComputeDiskHit  `json:"hits"`
 }
 
 type ComputeDiskSearchResponse struct {
@@ -930,11 +947,11 @@ type ComputeDiskSearchResponse struct {
 }
 
 type ComputeDiskPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeDiskPaginator(filters []BoolFilter, limit *int64) (ComputeDiskPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_disks", filters, limit)
+func (k Client) NewComputeDiskPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeDiskPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_disks", filters, limit)
 	if err != nil {
 		return ComputeDiskPaginator{}, err
 	}
@@ -947,12 +964,12 @@ func (k Client) NewComputeDiskPaginator(filters []BoolFilter, limit *int64) (Com
 }
 
 func (p ComputeDiskPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeDiskPaginator) NextPage(ctx context.Context) ([]ComputeDisk, error) {
 	var response ComputeDiskSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -964,9 +981,9 @@ func (p ComputeDiskPaginator) NextPage(ctx context.Context) ([]ComputeDisk, erro
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -980,13 +997,14 @@ func ListComputeDisk(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("ListComputeDisk")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskPaginator(buildFilter(d.KeyColumnQuals, listComputeDiskFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1015,14 +1033,15 @@ func GetComputeDisk(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	plugin.Logger(ctx).Trace("GetComputeDisk")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskPaginator(buildFilter(d.KeyColumnQuals, getComputeDiskFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1068,7 +1087,7 @@ type ComputeDiskReadOpsHit struct {
 }
 
 type ComputeDiskReadOpsHits struct {
-	Total SearchTotal             `json:"total"`
+	Total essdk.SearchTotal       `json:"total"`
 	Hits  []ComputeDiskReadOpsHit `json:"hits"`
 }
 
@@ -1078,11 +1097,11 @@ type ComputeDiskReadOpsSearchResponse struct {
 }
 
 type ComputeDiskReadOpsPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeDiskReadOpsPaginator(filters []BoolFilter, limit *int64) (ComputeDiskReadOpsPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_disksreadops", filters, limit)
+func (k Client) NewComputeDiskReadOpsPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeDiskReadOpsPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_disksreadops", filters, limit)
 	if err != nil {
 		return ComputeDiskReadOpsPaginator{}, err
 	}
@@ -1095,12 +1114,12 @@ func (k Client) NewComputeDiskReadOpsPaginator(filters []BoolFilter, limit *int6
 }
 
 func (p ComputeDiskReadOpsPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeDiskReadOpsPaginator) NextPage(ctx context.Context) ([]ComputeDiskReadOps, error) {
 	var response ComputeDiskReadOpsSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -1112,9 +1131,9 @@ func (p ComputeDiskReadOpsPaginator) NextPage(ctx context.Context) ([]ComputeDis
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -1128,13 +1147,14 @@ func ListComputeDiskReadOps(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("ListComputeDiskReadOps")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskReadOpsPaginator(buildFilter(d.KeyColumnQuals, listComputeDiskReadOpsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskReadOpsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskReadOpsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1161,14 +1181,15 @@ func GetComputeDiskReadOps(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("GetComputeDiskReadOps")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskReadOpsPaginator(buildFilter(d.KeyColumnQuals, getComputeDiskReadOpsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskReadOpsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskReadOpsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1214,7 +1235,7 @@ type ComputeDiskReadOpsDailyHit struct {
 }
 
 type ComputeDiskReadOpsDailyHits struct {
-	Total SearchTotal                  `json:"total"`
+	Total essdk.SearchTotal            `json:"total"`
 	Hits  []ComputeDiskReadOpsDailyHit `json:"hits"`
 }
 
@@ -1224,11 +1245,11 @@ type ComputeDiskReadOpsDailySearchResponse struct {
 }
 
 type ComputeDiskReadOpsDailyPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeDiskReadOpsDailyPaginator(filters []BoolFilter, limit *int64) (ComputeDiskReadOpsDailyPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_disksreadopsdaily", filters, limit)
+func (k Client) NewComputeDiskReadOpsDailyPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeDiskReadOpsDailyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_disksreadopsdaily", filters, limit)
 	if err != nil {
 		return ComputeDiskReadOpsDailyPaginator{}, err
 	}
@@ -1241,12 +1262,12 @@ func (k Client) NewComputeDiskReadOpsDailyPaginator(filters []BoolFilter, limit 
 }
 
 func (p ComputeDiskReadOpsDailyPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeDiskReadOpsDailyPaginator) NextPage(ctx context.Context) ([]ComputeDiskReadOpsDaily, error) {
 	var response ComputeDiskReadOpsDailySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -1258,9 +1279,9 @@ func (p ComputeDiskReadOpsDailyPaginator) NextPage(ctx context.Context) ([]Compu
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -1274,13 +1295,14 @@ func ListComputeDiskReadOpsDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 	plugin.Logger(ctx).Trace("ListComputeDiskReadOpsDaily")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskReadOpsDailyPaginator(buildFilter(d.KeyColumnQuals, listComputeDiskReadOpsDailyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskReadOpsDailyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskReadOpsDailyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1307,14 +1329,15 @@ func GetComputeDiskReadOpsDaily(ctx context.Context, d *plugin.QueryData, _ *plu
 	plugin.Logger(ctx).Trace("GetComputeDiskReadOpsDaily")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskReadOpsDailyPaginator(buildFilter(d.KeyColumnQuals, getComputeDiskReadOpsDailyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskReadOpsDailyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskReadOpsDailyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1360,7 +1383,7 @@ type ComputeDiskReadOpsHourlyHit struct {
 }
 
 type ComputeDiskReadOpsHourlyHits struct {
-	Total SearchTotal                   `json:"total"`
+	Total essdk.SearchTotal             `json:"total"`
 	Hits  []ComputeDiskReadOpsHourlyHit `json:"hits"`
 }
 
@@ -1370,11 +1393,11 @@ type ComputeDiskReadOpsHourlySearchResponse struct {
 }
 
 type ComputeDiskReadOpsHourlyPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeDiskReadOpsHourlyPaginator(filters []BoolFilter, limit *int64) (ComputeDiskReadOpsHourlyPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_disksreadopshourly", filters, limit)
+func (k Client) NewComputeDiskReadOpsHourlyPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeDiskReadOpsHourlyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_disksreadopshourly", filters, limit)
 	if err != nil {
 		return ComputeDiskReadOpsHourlyPaginator{}, err
 	}
@@ -1387,12 +1410,12 @@ func (k Client) NewComputeDiskReadOpsHourlyPaginator(filters []BoolFilter, limit
 }
 
 func (p ComputeDiskReadOpsHourlyPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeDiskReadOpsHourlyPaginator) NextPage(ctx context.Context) ([]ComputeDiskReadOpsHourly, error) {
 	var response ComputeDiskReadOpsHourlySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -1404,9 +1427,9 @@ func (p ComputeDiskReadOpsHourlyPaginator) NextPage(ctx context.Context) ([]Comp
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -1420,13 +1443,14 @@ func ListComputeDiskReadOpsHourly(ctx context.Context, d *plugin.QueryData, _ *p
 	plugin.Logger(ctx).Trace("ListComputeDiskReadOpsHourly")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskReadOpsHourlyPaginator(buildFilter(d.KeyColumnQuals, listComputeDiskReadOpsHourlyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskReadOpsHourlyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskReadOpsHourlyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1453,14 +1477,15 @@ func GetComputeDiskReadOpsHourly(ctx context.Context, d *plugin.QueryData, _ *pl
 	plugin.Logger(ctx).Trace("GetComputeDiskReadOpsHourly")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskReadOpsHourlyPaginator(buildFilter(d.KeyColumnQuals, getComputeDiskReadOpsHourlyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskReadOpsHourlyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskReadOpsHourlyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1506,7 +1531,7 @@ type ComputeDiskWriteOpsHit struct {
 }
 
 type ComputeDiskWriteOpsHits struct {
-	Total SearchTotal              `json:"total"`
+	Total essdk.SearchTotal        `json:"total"`
 	Hits  []ComputeDiskWriteOpsHit `json:"hits"`
 }
 
@@ -1516,11 +1541,11 @@ type ComputeDiskWriteOpsSearchResponse struct {
 }
 
 type ComputeDiskWriteOpsPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeDiskWriteOpsPaginator(filters []BoolFilter, limit *int64) (ComputeDiskWriteOpsPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_diskswriteops", filters, limit)
+func (k Client) NewComputeDiskWriteOpsPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeDiskWriteOpsPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_diskswriteops", filters, limit)
 	if err != nil {
 		return ComputeDiskWriteOpsPaginator{}, err
 	}
@@ -1533,12 +1558,12 @@ func (k Client) NewComputeDiskWriteOpsPaginator(filters []BoolFilter, limit *int
 }
 
 func (p ComputeDiskWriteOpsPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeDiskWriteOpsPaginator) NextPage(ctx context.Context) ([]ComputeDiskWriteOps, error) {
 	var response ComputeDiskWriteOpsSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -1550,9 +1575,9 @@ func (p ComputeDiskWriteOpsPaginator) NextPage(ctx context.Context) ([]ComputeDi
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -1566,13 +1591,14 @@ func ListComputeDiskWriteOps(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("ListComputeDiskWriteOps")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskWriteOpsPaginator(buildFilter(d.KeyColumnQuals, listComputeDiskWriteOpsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskWriteOpsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskWriteOpsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1599,14 +1625,15 @@ func GetComputeDiskWriteOps(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("GetComputeDiskWriteOps")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskWriteOpsPaginator(buildFilter(d.KeyColumnQuals, getComputeDiskWriteOpsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskWriteOpsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskWriteOpsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1652,7 +1679,7 @@ type ComputeDiskWriteOpsDailyHit struct {
 }
 
 type ComputeDiskWriteOpsDailyHits struct {
-	Total SearchTotal                   `json:"total"`
+	Total essdk.SearchTotal             `json:"total"`
 	Hits  []ComputeDiskWriteOpsDailyHit `json:"hits"`
 }
 
@@ -1662,11 +1689,11 @@ type ComputeDiskWriteOpsDailySearchResponse struct {
 }
 
 type ComputeDiskWriteOpsDailyPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeDiskWriteOpsDailyPaginator(filters []BoolFilter, limit *int64) (ComputeDiskWriteOpsDailyPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_diskswriteopsdaily", filters, limit)
+func (k Client) NewComputeDiskWriteOpsDailyPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeDiskWriteOpsDailyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_diskswriteopsdaily", filters, limit)
 	if err != nil {
 		return ComputeDiskWriteOpsDailyPaginator{}, err
 	}
@@ -1679,12 +1706,12 @@ func (k Client) NewComputeDiskWriteOpsDailyPaginator(filters []BoolFilter, limit
 }
 
 func (p ComputeDiskWriteOpsDailyPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeDiskWriteOpsDailyPaginator) NextPage(ctx context.Context) ([]ComputeDiskWriteOpsDaily, error) {
 	var response ComputeDiskWriteOpsDailySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -1696,9 +1723,9 @@ func (p ComputeDiskWriteOpsDailyPaginator) NextPage(ctx context.Context) ([]Comp
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -1712,13 +1739,14 @@ func ListComputeDiskWriteOpsDaily(ctx context.Context, d *plugin.QueryData, _ *p
 	plugin.Logger(ctx).Trace("ListComputeDiskWriteOpsDaily")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskWriteOpsDailyPaginator(buildFilter(d.KeyColumnQuals, listComputeDiskWriteOpsDailyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskWriteOpsDailyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskWriteOpsDailyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1745,14 +1773,15 @@ func GetComputeDiskWriteOpsDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 	plugin.Logger(ctx).Trace("GetComputeDiskWriteOpsDaily")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskWriteOpsDailyPaginator(buildFilter(d.KeyColumnQuals, getComputeDiskWriteOpsDailyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskWriteOpsDailyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskWriteOpsDailyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1798,7 +1827,7 @@ type ComputeDiskWriteOpsHourlyHit struct {
 }
 
 type ComputeDiskWriteOpsHourlyHits struct {
-	Total SearchTotal                    `json:"total"`
+	Total essdk.SearchTotal              `json:"total"`
 	Hits  []ComputeDiskWriteOpsHourlyHit `json:"hits"`
 }
 
@@ -1808,11 +1837,11 @@ type ComputeDiskWriteOpsHourlySearchResponse struct {
 }
 
 type ComputeDiskWriteOpsHourlyPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeDiskWriteOpsHourlyPaginator(filters []BoolFilter, limit *int64) (ComputeDiskWriteOpsHourlyPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_diskswriteopshourly", filters, limit)
+func (k Client) NewComputeDiskWriteOpsHourlyPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeDiskWriteOpsHourlyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_diskswriteopshourly", filters, limit)
 	if err != nil {
 		return ComputeDiskWriteOpsHourlyPaginator{}, err
 	}
@@ -1825,12 +1854,12 @@ func (k Client) NewComputeDiskWriteOpsHourlyPaginator(filters []BoolFilter, limi
 }
 
 func (p ComputeDiskWriteOpsHourlyPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeDiskWriteOpsHourlyPaginator) NextPage(ctx context.Context) ([]ComputeDiskWriteOpsHourly, error) {
 	var response ComputeDiskWriteOpsHourlySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -1842,9 +1871,9 @@ func (p ComputeDiskWriteOpsHourlyPaginator) NextPage(ctx context.Context) ([]Com
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -1858,13 +1887,14 @@ func ListComputeDiskWriteOpsHourly(ctx context.Context, d *plugin.QueryData, _ *
 	plugin.Logger(ctx).Trace("ListComputeDiskWriteOpsHourly")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskWriteOpsHourlyPaginator(buildFilter(d.KeyColumnQuals, listComputeDiskWriteOpsHourlyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskWriteOpsHourlyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskWriteOpsHourlyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1891,14 +1921,15 @@ func GetComputeDiskWriteOpsHourly(ctx context.Context, d *plugin.QueryData, _ *p
 	plugin.Logger(ctx).Trace("GetComputeDiskWriteOpsHourly")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskWriteOpsHourlyPaginator(buildFilter(d.KeyColumnQuals, getComputeDiskWriteOpsHourlyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskWriteOpsHourlyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskWriteOpsHourlyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1944,7 +1975,7 @@ type ComputeDiskAccessHit struct {
 }
 
 type ComputeDiskAccessHits struct {
-	Total SearchTotal            `json:"total"`
+	Total essdk.SearchTotal      `json:"total"`
 	Hits  []ComputeDiskAccessHit `json:"hits"`
 }
 
@@ -1954,11 +1985,11 @@ type ComputeDiskAccessSearchResponse struct {
 }
 
 type ComputeDiskAccessPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeDiskAccessPaginator(filters []BoolFilter, limit *int64) (ComputeDiskAccessPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_diskaccesses", filters, limit)
+func (k Client) NewComputeDiskAccessPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeDiskAccessPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_diskaccesses", filters, limit)
 	if err != nil {
 		return ComputeDiskAccessPaginator{}, err
 	}
@@ -1971,12 +2002,12 @@ func (k Client) NewComputeDiskAccessPaginator(filters []BoolFilter, limit *int64
 }
 
 func (p ComputeDiskAccessPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeDiskAccessPaginator) NextPage(ctx context.Context) ([]ComputeDiskAccess, error) {
 	var response ComputeDiskAccessSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -1988,9 +2019,9 @@ func (p ComputeDiskAccessPaginator) NextPage(ctx context.Context) ([]ComputeDisk
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -2004,13 +2035,14 @@ func ListComputeDiskAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("ListComputeDiskAccess")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskAccessPaginator(buildFilter(d.KeyColumnQuals, listComputeDiskAccessFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskAccessPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskAccessFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2039,14 +2071,15 @@ func GetComputeDiskAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("GetComputeDiskAccess")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskAccessPaginator(buildFilter(d.KeyColumnQuals, getComputeDiskAccessFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskAccessPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskAccessFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2092,7 +2125,7 @@ type ComputeVirtualMachineScaleSetHit struct {
 }
 
 type ComputeVirtualMachineScaleSetHits struct {
-	Total SearchTotal                        `json:"total"`
+	Total essdk.SearchTotal                  `json:"total"`
 	Hits  []ComputeVirtualMachineScaleSetHit `json:"hits"`
 }
 
@@ -2102,11 +2135,11 @@ type ComputeVirtualMachineScaleSetSearchResponse struct {
 }
 
 type ComputeVirtualMachineScaleSetPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeVirtualMachineScaleSetPaginator(filters []BoolFilter, limit *int64) (ComputeVirtualMachineScaleSetPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_virtualmachinescalesets", filters, limit)
+func (k Client) NewComputeVirtualMachineScaleSetPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeVirtualMachineScaleSetPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_virtualmachinescalesets", filters, limit)
 	if err != nil {
 		return ComputeVirtualMachineScaleSetPaginator{}, err
 	}
@@ -2119,12 +2152,12 @@ func (k Client) NewComputeVirtualMachineScaleSetPaginator(filters []BoolFilter, 
 }
 
 func (p ComputeVirtualMachineScaleSetPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeVirtualMachineScaleSetPaginator) NextPage(ctx context.Context) ([]ComputeVirtualMachineScaleSet, error) {
 	var response ComputeVirtualMachineScaleSetSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -2136,9 +2169,9 @@ func (p ComputeVirtualMachineScaleSetPaginator) NextPage(ctx context.Context) ([
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -2152,13 +2185,14 @@ func ListComputeVirtualMachineScaleSet(ctx context.Context, d *plugin.QueryData,
 	plugin.Logger(ctx).Trace("ListComputeVirtualMachineScaleSet")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineScaleSetPaginator(buildFilter(d.KeyColumnQuals, listComputeVirtualMachineScaleSetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeVirtualMachineScaleSetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2187,14 +2221,15 @@ func GetComputeVirtualMachineScaleSet(ctx context.Context, d *plugin.QueryData, 
 	plugin.Logger(ctx).Trace("GetComputeVirtualMachineScaleSet")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineScaleSetPaginator(buildFilter(d.KeyColumnQuals, getComputeVirtualMachineScaleSetFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeVirtualMachineScaleSetFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2240,7 +2275,7 @@ type ComputeVirtualMachineScaleSetNetworkInterfaceHit struct {
 }
 
 type ComputeVirtualMachineScaleSetNetworkInterfaceHits struct {
-	Total SearchTotal                                        `json:"total"`
+	Total essdk.SearchTotal                                  `json:"total"`
 	Hits  []ComputeVirtualMachineScaleSetNetworkInterfaceHit `json:"hits"`
 }
 
@@ -2250,11 +2285,11 @@ type ComputeVirtualMachineScaleSetNetworkInterfaceSearchResponse struct {
 }
 
 type ComputeVirtualMachineScaleSetNetworkInterfacePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(filters []BoolFilter, limit *int64) (ComputeVirtualMachineScaleSetNetworkInterfacePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_virtualmachinescalesetnetworkinterface", filters, limit)
+func (k Client) NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(filters []essdk.BoolFilter, limit *int64) (ComputeVirtualMachineScaleSetNetworkInterfacePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_virtualmachinescalesetnetworkinterface", filters, limit)
 	if err != nil {
 		return ComputeVirtualMachineScaleSetNetworkInterfacePaginator{}, err
 	}
@@ -2267,12 +2302,12 @@ func (k Client) NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(filter
 }
 
 func (p ComputeVirtualMachineScaleSetNetworkInterfacePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeVirtualMachineScaleSetNetworkInterfacePaginator) NextPage(ctx context.Context) ([]ComputeVirtualMachineScaleSetNetworkInterface, error) {
 	var response ComputeVirtualMachineScaleSetNetworkInterfaceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -2284,9 +2319,9 @@ func (p ComputeVirtualMachineScaleSetNetworkInterfacePaginator) NextPage(ctx con
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -2300,13 +2335,14 @@ func ListComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, d *p
 	plugin.Logger(ctx).Trace("ListComputeVirtualMachineScaleSetNetworkInterface")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(buildFilter(d.KeyColumnQuals, listComputeVirtualMachineScaleSetNetworkInterfaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeVirtualMachineScaleSetNetworkInterfaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2333,14 +2369,15 @@ func GetComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, d *pl
 	plugin.Logger(ctx).Trace("GetComputeVirtualMachineScaleSetNetworkInterface")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(buildFilter(d.KeyColumnQuals, getComputeVirtualMachineScaleSetNetworkInterfaceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeVirtualMachineScaleSetNetworkInterfaceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2386,7 +2423,7 @@ type ComputeVirtualMachineScaleSetVmHit struct {
 }
 
 type ComputeVirtualMachineScaleSetVmHits struct {
-	Total SearchTotal                          `json:"total"`
+	Total essdk.SearchTotal                    `json:"total"`
 	Hits  []ComputeVirtualMachineScaleSetVmHit `json:"hits"`
 }
 
@@ -2396,11 +2433,11 @@ type ComputeVirtualMachineScaleSetVmSearchResponse struct {
 }
 
 type ComputeVirtualMachineScaleSetVmPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeVirtualMachineScaleSetVmPaginator(filters []BoolFilter, limit *int64) (ComputeVirtualMachineScaleSetVmPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_virtualmachinescalesetvm", filters, limit)
+func (k Client) NewComputeVirtualMachineScaleSetVmPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeVirtualMachineScaleSetVmPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_virtualmachinescalesetvm", filters, limit)
 	if err != nil {
 		return ComputeVirtualMachineScaleSetVmPaginator{}, err
 	}
@@ -2413,12 +2450,12 @@ func (k Client) NewComputeVirtualMachineScaleSetVmPaginator(filters []BoolFilter
 }
 
 func (p ComputeVirtualMachineScaleSetVmPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeVirtualMachineScaleSetVmPaginator) NextPage(ctx context.Context) ([]ComputeVirtualMachineScaleSetVm, error) {
 	var response ComputeVirtualMachineScaleSetVmSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -2430,9 +2467,9 @@ func (p ComputeVirtualMachineScaleSetVmPaginator) NextPage(ctx context.Context) 
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -2446,13 +2483,14 @@ func ListComputeVirtualMachineScaleSetVm(ctx context.Context, d *plugin.QueryDat
 	plugin.Logger(ctx).Trace("ListComputeVirtualMachineScaleSetVm")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineScaleSetVmPaginator(buildFilter(d.KeyColumnQuals, listComputeVirtualMachineScaleSetVmFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetVmPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeVirtualMachineScaleSetVmFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2482,14 +2520,15 @@ func GetComputeVirtualMachineScaleSetVm(ctx context.Context, d *plugin.QueryData
 	plugin.Logger(ctx).Trace("GetComputeVirtualMachineScaleSetVm")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineScaleSetVmPaginator(buildFilter(d.KeyColumnQuals, getComputeVirtualMachineScaleSetVmFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetVmPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeVirtualMachineScaleSetVmFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2535,7 +2574,7 @@ type ComputeSnapshotsHit struct {
 }
 
 type ComputeSnapshotsHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []ComputeSnapshotsHit `json:"hits"`
 }
 
@@ -2545,11 +2584,11 @@ type ComputeSnapshotsSearchResponse struct {
 }
 
 type ComputeSnapshotsPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeSnapshotsPaginator(filters []BoolFilter, limit *int64) (ComputeSnapshotsPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_snapshots", filters, limit)
+func (k Client) NewComputeSnapshotsPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeSnapshotsPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_snapshots", filters, limit)
 	if err != nil {
 		return ComputeSnapshotsPaginator{}, err
 	}
@@ -2562,12 +2601,12 @@ func (k Client) NewComputeSnapshotsPaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p ComputeSnapshotsPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeSnapshotsPaginator) NextPage(ctx context.Context) ([]ComputeSnapshots, error) {
 	var response ComputeSnapshotsSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -2579,9 +2618,9 @@ func (p ComputeSnapshotsPaginator) NextPage(ctx context.Context) ([]ComputeSnaps
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -2595,13 +2634,14 @@ func ListComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListComputeSnapshots")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeSnapshotsPaginator(buildFilter(d.KeyColumnQuals, listComputeSnapshotsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeSnapshotsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeSnapshotsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2630,14 +2670,15 @@ func GetComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetComputeSnapshots")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeSnapshotsPaginator(buildFilter(d.KeyColumnQuals, getComputeSnapshotsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeSnapshotsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeSnapshotsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2683,7 +2724,7 @@ type ComputeAvailabilitySetHit struct {
 }
 
 type ComputeAvailabilitySetHits struct {
-	Total SearchTotal                 `json:"total"`
+	Total essdk.SearchTotal           `json:"total"`
 	Hits  []ComputeAvailabilitySetHit `json:"hits"`
 }
 
@@ -2693,11 +2734,11 @@ type ComputeAvailabilitySetSearchResponse struct {
 }
 
 type ComputeAvailabilitySetPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeAvailabilitySetPaginator(filters []BoolFilter, limit *int64) (ComputeAvailabilitySetPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_availabilityset", filters, limit)
+func (k Client) NewComputeAvailabilitySetPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeAvailabilitySetPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_availabilityset", filters, limit)
 	if err != nil {
 		return ComputeAvailabilitySetPaginator{}, err
 	}
@@ -2710,12 +2751,12 @@ func (k Client) NewComputeAvailabilitySetPaginator(filters []BoolFilter, limit *
 }
 
 func (p ComputeAvailabilitySetPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeAvailabilitySetPaginator) NextPage(ctx context.Context) ([]ComputeAvailabilitySet, error) {
 	var response ComputeAvailabilitySetSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -2727,9 +2768,9 @@ func (p ComputeAvailabilitySetPaginator) NextPage(ctx context.Context) ([]Comput
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -2743,13 +2784,14 @@ func ListComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plu
 	plugin.Logger(ctx).Trace("ListComputeAvailabilitySet")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeAvailabilitySetPaginator(buildFilter(d.KeyColumnQuals, listComputeAvailabilitySetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeAvailabilitySetPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeAvailabilitySetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2778,14 +2820,15 @@ func GetComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plug
 	plugin.Logger(ctx).Trace("GetComputeAvailabilitySet")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeAvailabilitySetPaginator(buildFilter(d.KeyColumnQuals, getComputeAvailabilitySetFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeAvailabilitySetPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeAvailabilitySetFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2831,7 +2874,7 @@ type ComputeDiskEncryptionSetHit struct {
 }
 
 type ComputeDiskEncryptionSetHits struct {
-	Total SearchTotal                   `json:"total"`
+	Total essdk.SearchTotal             `json:"total"`
 	Hits  []ComputeDiskEncryptionSetHit `json:"hits"`
 }
 
@@ -2841,11 +2884,11 @@ type ComputeDiskEncryptionSetSearchResponse struct {
 }
 
 type ComputeDiskEncryptionSetPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeDiskEncryptionSetPaginator(filters []BoolFilter, limit *int64) (ComputeDiskEncryptionSetPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_diskencryptionset", filters, limit)
+func (k Client) NewComputeDiskEncryptionSetPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeDiskEncryptionSetPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_diskencryptionset", filters, limit)
 	if err != nil {
 		return ComputeDiskEncryptionSetPaginator{}, err
 	}
@@ -2858,12 +2901,12 @@ func (k Client) NewComputeDiskEncryptionSetPaginator(filters []BoolFilter, limit
 }
 
 func (p ComputeDiskEncryptionSetPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeDiskEncryptionSetPaginator) NextPage(ctx context.Context) ([]ComputeDiskEncryptionSet, error) {
 	var response ComputeDiskEncryptionSetSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -2875,9 +2918,9 @@ func (p ComputeDiskEncryptionSetPaginator) NextPage(ctx context.Context) ([]Comp
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -2891,13 +2934,14 @@ func ListComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *p
 	plugin.Logger(ctx).Trace("ListComputeDiskEncryptionSet")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskEncryptionSetPaginator(buildFilter(d.KeyColumnQuals, listComputeDiskEncryptionSetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskEncryptionSetPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskEncryptionSetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2926,14 +2970,15 @@ func GetComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *pl
 	plugin.Logger(ctx).Trace("GetComputeDiskEncryptionSet")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskEncryptionSetPaginator(buildFilter(d.KeyColumnQuals, getComputeDiskEncryptionSetFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskEncryptionSetPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskEncryptionSetFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2979,7 +3024,7 @@ type ComputeGalleryHit struct {
 }
 
 type ComputeGalleryHits struct {
-	Total SearchTotal         `json:"total"`
+	Total essdk.SearchTotal   `json:"total"`
 	Hits  []ComputeGalleryHit `json:"hits"`
 }
 
@@ -2989,11 +3034,11 @@ type ComputeGallerySearchResponse struct {
 }
 
 type ComputeGalleryPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeGalleryPaginator(filters []BoolFilter, limit *int64) (ComputeGalleryPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_gallery", filters, limit)
+func (k Client) NewComputeGalleryPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeGalleryPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_gallery", filters, limit)
 	if err != nil {
 		return ComputeGalleryPaginator{}, err
 	}
@@ -3006,12 +3051,12 @@ func (k Client) NewComputeGalleryPaginator(filters []BoolFilter, limit *int64) (
 }
 
 func (p ComputeGalleryPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeGalleryPaginator) NextPage(ctx context.Context) ([]ComputeGallery, error) {
 	var response ComputeGallerySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -3023,9 +3068,9 @@ func (p ComputeGalleryPaginator) NextPage(ctx context.Context) ([]ComputeGallery
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -3039,13 +3084,14 @@ func ListComputeGallery(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("ListComputeGallery")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeGalleryPaginator(buildFilter(d.KeyColumnQuals, listComputeGalleryFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeGalleryPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeGalleryFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3074,14 +3120,15 @@ func GetComputeGallery(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("GetComputeGallery")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeGalleryPaginator(buildFilter(d.KeyColumnQuals, getComputeGalleryFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeGalleryPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeGalleryFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3127,7 +3174,7 @@ type ComputeImageHit struct {
 }
 
 type ComputeImageHits struct {
-	Total SearchTotal       `json:"total"`
+	Total essdk.SearchTotal `json:"total"`
 	Hits  []ComputeImageHit `json:"hits"`
 }
 
@@ -3137,11 +3184,11 @@ type ComputeImageSearchResponse struct {
 }
 
 type ComputeImagePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeImagePaginator(filters []BoolFilter, limit *int64) (ComputeImagePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_image", filters, limit)
+func (k Client) NewComputeImagePaginator(filters []essdk.BoolFilter, limit *int64) (ComputeImagePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_image", filters, limit)
 	if err != nil {
 		return ComputeImagePaginator{}, err
 	}
@@ -3154,12 +3201,12 @@ func (k Client) NewComputeImagePaginator(filters []BoolFilter, limit *int64) (Co
 }
 
 func (p ComputeImagePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeImagePaginator) NextPage(ctx context.Context) ([]ComputeImage, error) {
 	var response ComputeImageSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -3171,9 +3218,9 @@ func (p ComputeImagePaginator) NextPage(ctx context.Context) ([]ComputeImage, er
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -3187,13 +3234,14 @@ func ListComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	plugin.Logger(ctx).Trace("ListComputeImage")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeImagePaginator(buildFilter(d.KeyColumnQuals, listComputeImageFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeImagePaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeImageFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3222,14 +3270,15 @@ func GetComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("GetComputeImage")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeImagePaginator(buildFilter(d.KeyColumnQuals, getComputeImageFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeImagePaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeImageFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3275,7 +3324,7 @@ type DataboxEdgeDeviceHit struct {
 }
 
 type DataboxEdgeDeviceHits struct {
-	Total SearchTotal            `json:"total"`
+	Total essdk.SearchTotal      `json:"total"`
 	Hits  []DataboxEdgeDeviceHit `json:"hits"`
 }
 
@@ -3285,11 +3334,11 @@ type DataboxEdgeDeviceSearchResponse struct {
 }
 
 type DataboxEdgeDevicePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewDataboxEdgeDevicePaginator(filters []BoolFilter, limit *int64) (DataboxEdgeDevicePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_databoxedge_databoxedgedevices", filters, limit)
+func (k Client) NewDataboxEdgeDevicePaginator(filters []essdk.BoolFilter, limit *int64) (DataboxEdgeDevicePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_databoxedge_databoxedgedevices", filters, limit)
 	if err != nil {
 		return DataboxEdgeDevicePaginator{}, err
 	}
@@ -3302,12 +3351,12 @@ func (k Client) NewDataboxEdgeDevicePaginator(filters []BoolFilter, limit *int64
 }
 
 func (p DataboxEdgeDevicePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p DataboxEdgeDevicePaginator) NextPage(ctx context.Context) ([]DataboxEdgeDevice, error) {
 	var response DataboxEdgeDeviceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -3319,9 +3368,9 @@ func (p DataboxEdgeDevicePaginator) NextPage(ctx context.Context) ([]DataboxEdge
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -3335,13 +3384,14 @@ func ListDataboxEdgeDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("ListDataboxEdgeDevice")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewDataboxEdgeDevicePaginator(buildFilter(d.KeyColumnQuals, listDataboxEdgeDeviceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataboxEdgeDevicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataboxEdgeDeviceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3370,14 +3420,15 @@ func GetDataboxEdgeDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("GetDataboxEdgeDevice")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataboxEdgeDevicePaginator(buildFilter(d.KeyColumnQuals, getDataboxEdgeDeviceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataboxEdgeDevicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataboxEdgeDeviceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3423,7 +3474,7 @@ type HealthcareServiceHit struct {
 }
 
 type HealthcareServiceHits struct {
-	Total SearchTotal            `json:"total"`
+	Total essdk.SearchTotal      `json:"total"`
 	Hits  []HealthcareServiceHit `json:"hits"`
 }
 
@@ -3433,11 +3484,11 @@ type HealthcareServiceSearchResponse struct {
 }
 
 type HealthcareServicePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewHealthcareServicePaginator(filters []BoolFilter, limit *int64) (HealthcareServicePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_healthcareapis_services", filters, limit)
+func (k Client) NewHealthcareServicePaginator(filters []essdk.BoolFilter, limit *int64) (HealthcareServicePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_healthcareapis_services", filters, limit)
 	if err != nil {
 		return HealthcareServicePaginator{}, err
 	}
@@ -3450,12 +3501,12 @@ func (k Client) NewHealthcareServicePaginator(filters []BoolFilter, limit *int64
 }
 
 func (p HealthcareServicePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p HealthcareServicePaginator) NextPage(ctx context.Context) ([]HealthcareService, error) {
 	var response HealthcareServiceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -3467,9 +3518,9 @@ func (p HealthcareServicePaginator) NextPage(ctx context.Context) ([]HealthcareS
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -3483,13 +3534,14 @@ func ListHealthcareService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("ListHealthcareService")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewHealthcareServicePaginator(buildFilter(d.KeyColumnQuals, listHealthcareServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewHealthcareServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listHealthcareServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3518,14 +3570,15 @@ func GetHealthcareService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("GetHealthcareService")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewHealthcareServicePaginator(buildFilter(d.KeyColumnQuals, getHealthcareServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewHealthcareServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getHealthcareServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3571,8 +3624,8 @@ type HpcCacheHit struct {
 }
 
 type HpcCacheHits struct {
-	Total SearchTotal   `json:"total"`
-	Hits  []HpcCacheHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []HpcCacheHit     `json:"hits"`
 }
 
 type HpcCacheSearchResponse struct {
@@ -3581,11 +3634,11 @@ type HpcCacheSearchResponse struct {
 }
 
 type HpcCachePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewHpcCachePaginator(filters []BoolFilter, limit *int64) (HpcCachePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_storagecache_caches", filters, limit)
+func (k Client) NewHpcCachePaginator(filters []essdk.BoolFilter, limit *int64) (HpcCachePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storagecache_caches", filters, limit)
 	if err != nil {
 		return HpcCachePaginator{}, err
 	}
@@ -3598,12 +3651,12 @@ func (k Client) NewHpcCachePaginator(filters []BoolFilter, limit *int64) (HpcCac
 }
 
 func (p HpcCachePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p HpcCachePaginator) NextPage(ctx context.Context) ([]HpcCache, error) {
 	var response HpcCacheSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -3615,9 +3668,9 @@ func (p HpcCachePaginator) NextPage(ctx context.Context) ([]HpcCache, error) {
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -3631,13 +3684,14 @@ func ListHpcCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	plugin.Logger(ctx).Trace("ListHpcCache")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewHpcCachePaginator(buildFilter(d.KeyColumnQuals, listHpcCacheFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewHpcCachePaginator(essdk.BuildFilter(d.KeyColumnQuals, listHpcCacheFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3666,14 +3720,15 @@ func GetHpcCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	plugin.Logger(ctx).Trace("GetHpcCache")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewHpcCachePaginator(buildFilter(d.KeyColumnQuals, getHpcCacheFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewHpcCachePaginator(essdk.BuildFilter(d.KeyColumnQuals, getHpcCacheFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3719,8 +3774,8 @@ type KeyVaultKeyHit struct {
 }
 
 type KeyVaultKeyHits struct {
-	Total SearchTotal      `json:"total"`
-	Hits  []KeyVaultKeyHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []KeyVaultKeyHit  `json:"hits"`
 }
 
 type KeyVaultKeySearchResponse struct {
@@ -3729,11 +3784,11 @@ type KeyVaultKeySearchResponse struct {
 }
 
 type KeyVaultKeyPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewKeyVaultKeyPaginator(filters []BoolFilter, limit *int64) (KeyVaultKeyPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_keyvault_vaults_keys", filters, limit)
+func (k Client) NewKeyVaultKeyPaginator(filters []essdk.BoolFilter, limit *int64) (KeyVaultKeyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_keyvault_vaults_keys", filters, limit)
 	if err != nil {
 		return KeyVaultKeyPaginator{}, err
 	}
@@ -3746,12 +3801,12 @@ func (k Client) NewKeyVaultKeyPaginator(filters []BoolFilter, limit *int64) (Key
 }
 
 func (p KeyVaultKeyPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p KeyVaultKeyPaginator) NextPage(ctx context.Context) ([]KeyVaultKey, error) {
 	var response KeyVaultKeySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -3763,9 +3818,9 @@ func (p KeyVaultKeyPaginator) NextPage(ctx context.Context) ([]KeyVaultKey, erro
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -3779,13 +3834,14 @@ func ListKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("ListKeyVaultKey")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultKeyPaginator(buildFilter(d.KeyColumnQuals, listKeyVaultKeyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKeyVaultKeyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listKeyVaultKeyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3815,14 +3871,15 @@ func GetKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	plugin.Logger(ctx).Trace("GetKeyVaultKey")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultKeyPaginator(buildFilter(d.KeyColumnQuals, getKeyVaultKeyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewKeyVaultKeyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getKeyVaultKeyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3868,7 +3925,7 @@ type KubernetesClusterHit struct {
 }
 
 type KubernetesClusterHits struct {
-	Total SearchTotal            `json:"total"`
+	Total essdk.SearchTotal      `json:"total"`
 	Hits  []KubernetesClusterHit `json:"hits"`
 }
 
@@ -3878,11 +3935,11 @@ type KubernetesClusterSearchResponse struct {
 }
 
 type KubernetesClusterPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewKubernetesClusterPaginator(filters []BoolFilter, limit *int64) (KubernetesClusterPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_containerservice_managedclusters", filters, limit)
+func (k Client) NewKubernetesClusterPaginator(filters []essdk.BoolFilter, limit *int64) (KubernetesClusterPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_containerservice_managedclusters", filters, limit)
 	if err != nil {
 		return KubernetesClusterPaginator{}, err
 	}
@@ -3895,12 +3952,12 @@ func (k Client) NewKubernetesClusterPaginator(filters []BoolFilter, limit *int64
 }
 
 func (p KubernetesClusterPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p KubernetesClusterPaginator) NextPage(ctx context.Context) ([]KubernetesCluster, error) {
 	var response KubernetesClusterSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -3912,9 +3969,9 @@ func (p KubernetesClusterPaginator) NextPage(ctx context.Context) ([]KubernetesC
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -3928,13 +3985,14 @@ func ListKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("ListKubernetesCluster")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewKubernetesClusterPaginator(buildFilter(d.KeyColumnQuals, listKubernetesClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKubernetesClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listKubernetesClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3963,14 +4021,15 @@ func GetKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("GetKubernetesCluster")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKubernetesClusterPaginator(buildFilter(d.KeyColumnQuals, getKubernetesClusterFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewKubernetesClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getKubernetesClusterFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4016,7 +4075,7 @@ type NetworkInterfaceHit struct {
 }
 
 type NetworkInterfaceHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []NetworkInterfaceHit `json:"hits"`
 }
 
@@ -4026,11 +4085,11 @@ type NetworkInterfaceSearchResponse struct {
 }
 
 type NetworkInterfacePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewNetworkInterfacePaginator(filters []BoolFilter, limit *int64) (NetworkInterfacePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_networkinterfaces", filters, limit)
+func (k Client) NewNetworkInterfacePaginator(filters []essdk.BoolFilter, limit *int64) (NetworkInterfacePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_networkinterfaces", filters, limit)
 	if err != nil {
 		return NetworkInterfacePaginator{}, err
 	}
@@ -4043,12 +4102,12 @@ func (k Client) NewNetworkInterfacePaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p NetworkInterfacePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p NetworkInterfacePaginator) NextPage(ctx context.Context) ([]NetworkInterface, error) {
 	var response NetworkInterfaceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -4060,9 +4119,9 @@ func (p NetworkInterfacePaginator) NextPage(ctx context.Context) ([]NetworkInter
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -4076,13 +4135,14 @@ func ListNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListNetworkInterface")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkInterfacePaginator(buildFilter(d.KeyColumnQuals, listNetworkInterfaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkInterfacePaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkInterfaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4111,14 +4171,15 @@ func GetNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetNetworkInterface")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkInterfacePaginator(buildFilter(d.KeyColumnQuals, getNetworkInterfaceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkInterfacePaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkInterfaceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4164,7 +4225,7 @@ type NetworkWatcherFlowLogHit struct {
 }
 
 type NetworkWatcherFlowLogHits struct {
-	Total SearchTotal                `json:"total"`
+	Total essdk.SearchTotal          `json:"total"`
 	Hits  []NetworkWatcherFlowLogHit `json:"hits"`
 }
 
@@ -4174,11 +4235,11 @@ type NetworkWatcherFlowLogSearchResponse struct {
 }
 
 type NetworkWatcherFlowLogPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewNetworkWatcherFlowLogPaginator(filters []BoolFilter, limit *int64) (NetworkWatcherFlowLogPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_networkwatchers", filters, limit)
+func (k Client) NewNetworkWatcherFlowLogPaginator(filters []essdk.BoolFilter, limit *int64) (NetworkWatcherFlowLogPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_networkwatchers", filters, limit)
 	if err != nil {
 		return NetworkWatcherFlowLogPaginator{}, err
 	}
@@ -4191,12 +4252,12 @@ func (k Client) NewNetworkWatcherFlowLogPaginator(filters []BoolFilter, limit *i
 }
 
 func (p NetworkWatcherFlowLogPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p NetworkWatcherFlowLogPaginator) NextPage(ctx context.Context) ([]NetworkWatcherFlowLog, error) {
 	var response NetworkWatcherFlowLogSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -4208,9 +4269,9 @@ func (p NetworkWatcherFlowLogPaginator) NextPage(ctx context.Context) ([]Network
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -4224,13 +4285,14 @@ func ListNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plug
 	plugin.Logger(ctx).Trace("ListNetworkWatcherFlowLog")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkWatcherFlowLogPaginator(buildFilter(d.KeyColumnQuals, listNetworkWatcherFlowLogFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkWatcherFlowLogPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkWatcherFlowLogFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4260,14 +4322,15 @@ func GetNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("GetNetworkWatcherFlowLog")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkWatcherFlowLogPaginator(buildFilter(d.KeyColumnQuals, getNetworkWatcherFlowLogFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkWatcherFlowLogPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkWatcherFlowLogFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4313,8 +4376,8 @@ type RouteTablesHit struct {
 }
 
 type RouteTablesHits struct {
-	Total SearchTotal      `json:"total"`
-	Hits  []RouteTablesHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []RouteTablesHit  `json:"hits"`
 }
 
 type RouteTablesSearchResponse struct {
@@ -4323,11 +4386,11 @@ type RouteTablesSearchResponse struct {
 }
 
 type RouteTablesPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewRouteTablesPaginator(filters []BoolFilter, limit *int64) (RouteTablesPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_routetables", filters, limit)
+func (k Client) NewRouteTablesPaginator(filters []essdk.BoolFilter, limit *int64) (RouteTablesPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_routetables", filters, limit)
 	if err != nil {
 		return RouteTablesPaginator{}, err
 	}
@@ -4340,12 +4403,12 @@ func (k Client) NewRouteTablesPaginator(filters []BoolFilter, limit *int64) (Rou
 }
 
 func (p RouteTablesPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p RouteTablesPaginator) NextPage(ctx context.Context) ([]RouteTables, error) {
 	var response RouteTablesSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -4357,9 +4420,9 @@ func (p RouteTablesPaginator) NextPage(ctx context.Context) ([]RouteTables, erro
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -4373,13 +4436,14 @@ func ListRouteTables(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("ListRouteTables")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewRouteTablesPaginator(buildFilter(d.KeyColumnQuals, listRouteTablesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRouteTablesPaginator(essdk.BuildFilter(d.KeyColumnQuals, listRouteTablesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4408,14 +4472,15 @@ func GetRouteTables(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	plugin.Logger(ctx).Trace("GetRouteTables")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRouteTablesPaginator(buildFilter(d.KeyColumnQuals, getRouteTablesFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewRouteTablesPaginator(essdk.BuildFilter(d.KeyColumnQuals, getRouteTablesFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4461,7 +4526,7 @@ type NetworkApplicationSecurityGroupsHit struct {
 }
 
 type NetworkApplicationSecurityGroupsHits struct {
-	Total SearchTotal                           `json:"total"`
+	Total essdk.SearchTotal                     `json:"total"`
 	Hits  []NetworkApplicationSecurityGroupsHit `json:"hits"`
 }
 
@@ -4471,11 +4536,11 @@ type NetworkApplicationSecurityGroupsSearchResponse struct {
 }
 
 type NetworkApplicationSecurityGroupsPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewNetworkApplicationSecurityGroupsPaginator(filters []BoolFilter, limit *int64) (NetworkApplicationSecurityGroupsPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_applicationsecuritygroups", filters, limit)
+func (k Client) NewNetworkApplicationSecurityGroupsPaginator(filters []essdk.BoolFilter, limit *int64) (NetworkApplicationSecurityGroupsPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_applicationsecuritygroups", filters, limit)
 	if err != nil {
 		return NetworkApplicationSecurityGroupsPaginator{}, err
 	}
@@ -4488,12 +4553,12 @@ func (k Client) NewNetworkApplicationSecurityGroupsPaginator(filters []BoolFilte
 }
 
 func (p NetworkApplicationSecurityGroupsPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p NetworkApplicationSecurityGroupsPaginator) NextPage(ctx context.Context) ([]NetworkApplicationSecurityGroups, error) {
 	var response NetworkApplicationSecurityGroupsSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -4505,9 +4570,9 @@ func (p NetworkApplicationSecurityGroupsPaginator) NextPage(ctx context.Context)
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -4521,13 +4586,14 @@ func ListNetworkApplicationSecurityGroups(ctx context.Context, d *plugin.QueryDa
 	plugin.Logger(ctx).Trace("ListNetworkApplicationSecurityGroups")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkApplicationSecurityGroupsPaginator(buildFilter(d.KeyColumnQuals, listNetworkApplicationSecurityGroupsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkApplicationSecurityGroupsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkApplicationSecurityGroupsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4556,14 +4622,15 @@ func GetNetworkApplicationSecurityGroups(ctx context.Context, d *plugin.QueryDat
 	plugin.Logger(ctx).Trace("GetNetworkApplicationSecurityGroups")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkApplicationSecurityGroupsPaginator(buildFilter(d.KeyColumnQuals, getNetworkApplicationSecurityGroupsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkApplicationSecurityGroupsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkApplicationSecurityGroupsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4609,7 +4676,7 @@ type NetworkAzureFirewallHit struct {
 }
 
 type NetworkAzureFirewallHits struct {
-	Total SearchTotal               `json:"total"`
+	Total essdk.SearchTotal         `json:"total"`
 	Hits  []NetworkAzureFirewallHit `json:"hits"`
 }
 
@@ -4619,11 +4686,11 @@ type NetworkAzureFirewallSearchResponse struct {
 }
 
 type NetworkAzureFirewallPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewNetworkAzureFirewallPaginator(filters []BoolFilter, limit *int64) (NetworkAzureFirewallPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_azurefirewall", filters, limit)
+func (k Client) NewNetworkAzureFirewallPaginator(filters []essdk.BoolFilter, limit *int64) (NetworkAzureFirewallPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_azurefirewall", filters, limit)
 	if err != nil {
 		return NetworkAzureFirewallPaginator{}, err
 	}
@@ -4636,12 +4703,12 @@ func (k Client) NewNetworkAzureFirewallPaginator(filters []BoolFilter, limit *in
 }
 
 func (p NetworkAzureFirewallPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p NetworkAzureFirewallPaginator) NextPage(ctx context.Context) ([]NetworkAzureFirewall, error) {
 	var response NetworkAzureFirewallSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -4653,9 +4720,9 @@ func (p NetworkAzureFirewallPaginator) NextPage(ctx context.Context) ([]NetworkA
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -4669,13 +4736,14 @@ func ListNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("ListNetworkAzureFirewall")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkAzureFirewallPaginator(buildFilter(d.KeyColumnQuals, listNetworkAzureFirewallFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkAzureFirewallPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkAzureFirewallFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4704,14 +4772,15 @@ func GetNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("GetNetworkAzureFirewall")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkAzureFirewallPaginator(buildFilter(d.KeyColumnQuals, getNetworkAzureFirewallFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkAzureFirewallPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkAzureFirewallFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4757,7 +4826,7 @@ type ExpressRouteCircuitHit struct {
 }
 
 type ExpressRouteCircuitHits struct {
-	Total SearchTotal              `json:"total"`
+	Total essdk.SearchTotal        `json:"total"`
 	Hits  []ExpressRouteCircuitHit `json:"hits"`
 }
 
@@ -4767,11 +4836,11 @@ type ExpressRouteCircuitSearchResponse struct {
 }
 
 type ExpressRouteCircuitPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewExpressRouteCircuitPaginator(filters []BoolFilter, limit *int64) (ExpressRouteCircuitPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_expressroutecircuit", filters, limit)
+func (k Client) NewExpressRouteCircuitPaginator(filters []essdk.BoolFilter, limit *int64) (ExpressRouteCircuitPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_expressroutecircuit", filters, limit)
 	if err != nil {
 		return ExpressRouteCircuitPaginator{}, err
 	}
@@ -4784,12 +4853,12 @@ func (k Client) NewExpressRouteCircuitPaginator(filters []BoolFilter, limit *int
 }
 
 func (p ExpressRouteCircuitPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ExpressRouteCircuitPaginator) NextPage(ctx context.Context) ([]ExpressRouteCircuit, error) {
 	var response ExpressRouteCircuitSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -4801,9 +4870,9 @@ func (p ExpressRouteCircuitPaginator) NextPage(ctx context.Context) ([]ExpressRo
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -4817,13 +4886,14 @@ func ListExpressRouteCircuit(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("ListExpressRouteCircuit")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewExpressRouteCircuitPaginator(buildFilter(d.KeyColumnQuals, listExpressRouteCircuitFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewExpressRouteCircuitPaginator(essdk.BuildFilter(d.KeyColumnQuals, listExpressRouteCircuitFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4852,14 +4922,15 @@ func GetExpressRouteCircuit(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("GetExpressRouteCircuit")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewExpressRouteCircuitPaginator(buildFilter(d.KeyColumnQuals, getExpressRouteCircuitFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewExpressRouteCircuitPaginator(essdk.BuildFilter(d.KeyColumnQuals, getExpressRouteCircuitFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4905,7 +4976,7 @@ type VirtualNetworkGatewayHit struct {
 }
 
 type VirtualNetworkGatewayHits struct {
-	Total SearchTotal                `json:"total"`
+	Total essdk.SearchTotal          `json:"total"`
 	Hits  []VirtualNetworkGatewayHit `json:"hits"`
 }
 
@@ -4915,11 +4986,11 @@ type VirtualNetworkGatewaySearchResponse struct {
 }
 
 type VirtualNetworkGatewayPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewVirtualNetworkGatewayPaginator(filters []BoolFilter, limit *int64) (VirtualNetworkGatewayPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_virtualnetworkgateway", filters, limit)
+func (k Client) NewVirtualNetworkGatewayPaginator(filters []essdk.BoolFilter, limit *int64) (VirtualNetworkGatewayPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_virtualnetworkgateway", filters, limit)
 	if err != nil {
 		return VirtualNetworkGatewayPaginator{}, err
 	}
@@ -4932,12 +5003,12 @@ func (k Client) NewVirtualNetworkGatewayPaginator(filters []BoolFilter, limit *i
 }
 
 func (p VirtualNetworkGatewayPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p VirtualNetworkGatewayPaginator) NextPage(ctx context.Context) ([]VirtualNetworkGateway, error) {
 	var response VirtualNetworkGatewaySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -4949,9 +5020,9 @@ func (p VirtualNetworkGatewayPaginator) NextPage(ctx context.Context) ([]Virtual
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -4965,13 +5036,14 @@ func ListVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plug
 	plugin.Logger(ctx).Trace("ListVirtualNetworkGateway")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewVirtualNetworkGatewayPaginator(buildFilter(d.KeyColumnQuals, listVirtualNetworkGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewVirtualNetworkGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, listVirtualNetworkGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5000,14 +5072,15 @@ func GetVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("GetVirtualNetworkGateway")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewVirtualNetworkGatewayPaginator(buildFilter(d.KeyColumnQuals, getVirtualNetworkGatewayFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewVirtualNetworkGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, getVirtualNetworkGatewayFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5053,8 +5126,8 @@ type DNSZoneHit struct {
 }
 
 type DNSZoneHits struct {
-	Total SearchTotal  `json:"total"`
-	Hits  []DNSZoneHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []DNSZoneHit      `json:"hits"`
 }
 
 type DNSZoneSearchResponse struct {
@@ -5063,11 +5136,11 @@ type DNSZoneSearchResponse struct {
 }
 
 type DNSZonePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewDNSZonePaginator(filters []BoolFilter, limit *int64) (DNSZonePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_dnszone", filters, limit)
+func (k Client) NewDNSZonePaginator(filters []essdk.BoolFilter, limit *int64) (DNSZonePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_dnszone", filters, limit)
 	if err != nil {
 		return DNSZonePaginator{}, err
 	}
@@ -5080,12 +5153,12 @@ func (k Client) NewDNSZonePaginator(filters []BoolFilter, limit *int64) (DNSZone
 }
 
 func (p DNSZonePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p DNSZonePaginator) NextPage(ctx context.Context) ([]DNSZone, error) {
 	var response DNSZoneSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -5097,9 +5170,9 @@ func (p DNSZonePaginator) NextPage(ctx context.Context) ([]DNSZone, error) {
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -5113,13 +5186,14 @@ func ListDNSZone(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	plugin.Logger(ctx).Trace("ListDNSZone")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewDNSZonePaginator(buildFilter(d.KeyColumnQuals, listDNSZoneFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDNSZonePaginator(essdk.BuildFilter(d.KeyColumnQuals, listDNSZoneFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5148,14 +5222,15 @@ func GetDNSZone(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	plugin.Logger(ctx).Trace("GetDNSZone")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDNSZonePaginator(buildFilter(d.KeyColumnQuals, getDNSZoneFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDNSZonePaginator(essdk.BuildFilter(d.KeyColumnQuals, getDNSZoneFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5201,7 +5276,7 @@ type FirewallPolicyHit struct {
 }
 
 type FirewallPolicyHits struct {
-	Total SearchTotal         `json:"total"`
+	Total essdk.SearchTotal   `json:"total"`
 	Hits  []FirewallPolicyHit `json:"hits"`
 }
 
@@ -5211,11 +5286,11 @@ type FirewallPolicySearchResponse struct {
 }
 
 type FirewallPolicyPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewFirewallPolicyPaginator(filters []BoolFilter, limit *int64) (FirewallPolicyPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_firewallpolicy", filters, limit)
+func (k Client) NewFirewallPolicyPaginator(filters []essdk.BoolFilter, limit *int64) (FirewallPolicyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_firewallpolicy", filters, limit)
 	if err != nil {
 		return FirewallPolicyPaginator{}, err
 	}
@@ -5228,12 +5303,12 @@ func (k Client) NewFirewallPolicyPaginator(filters []BoolFilter, limit *int64) (
 }
 
 func (p FirewallPolicyPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p FirewallPolicyPaginator) NextPage(ctx context.Context) ([]FirewallPolicy, error) {
 	var response FirewallPolicySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -5245,9 +5320,9 @@ func (p FirewallPolicyPaginator) NextPage(ctx context.Context) ([]FirewallPolicy
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -5261,13 +5336,14 @@ func ListFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("ListFirewallPolicy")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewFirewallPolicyPaginator(buildFilter(d.KeyColumnQuals, listFirewallPolicyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewFirewallPolicyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listFirewallPolicyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5296,14 +5372,15 @@ func GetFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("GetFirewallPolicy")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewFirewallPolicyPaginator(buildFilter(d.KeyColumnQuals, getFirewallPolicyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewFirewallPolicyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getFirewallPolicyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5349,7 +5426,7 @@ type FrontdoorWebApplicationFirewallPolicyHit struct {
 }
 
 type FrontdoorWebApplicationFirewallPolicyHits struct {
-	Total SearchTotal                                `json:"total"`
+	Total essdk.SearchTotal                          `json:"total"`
 	Hits  []FrontdoorWebApplicationFirewallPolicyHit `json:"hits"`
 }
 
@@ -5359,11 +5436,11 @@ type FrontdoorWebApplicationFirewallPolicySearchResponse struct {
 }
 
 type FrontdoorWebApplicationFirewallPolicyPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewFrontdoorWebApplicationFirewallPolicyPaginator(filters []BoolFilter, limit *int64) (FrontdoorWebApplicationFirewallPolicyPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_frontdoorwebapplicationfirewallpolicy", filters, limit)
+func (k Client) NewFrontdoorWebApplicationFirewallPolicyPaginator(filters []essdk.BoolFilter, limit *int64) (FrontdoorWebApplicationFirewallPolicyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_frontdoorwebapplicationfirewallpolicy", filters, limit)
 	if err != nil {
 		return FrontdoorWebApplicationFirewallPolicyPaginator{}, err
 	}
@@ -5376,12 +5453,12 @@ func (k Client) NewFrontdoorWebApplicationFirewallPolicyPaginator(filters []Bool
 }
 
 func (p FrontdoorWebApplicationFirewallPolicyPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p FrontdoorWebApplicationFirewallPolicyPaginator) NextPage(ctx context.Context) ([]FrontdoorWebApplicationFirewallPolicy, error) {
 	var response FrontdoorWebApplicationFirewallPolicySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -5393,9 +5470,9 @@ func (p FrontdoorWebApplicationFirewallPolicyPaginator) NextPage(ctx context.Con
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -5409,13 +5486,14 @@ func ListFrontdoorWebApplicationFirewallPolicy(ctx context.Context, d *plugin.Qu
 	plugin.Logger(ctx).Trace("ListFrontdoorWebApplicationFirewallPolicy")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewFrontdoorWebApplicationFirewallPolicyPaginator(buildFilter(d.KeyColumnQuals, listFrontdoorWebApplicationFirewallPolicyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewFrontdoorWebApplicationFirewallPolicyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listFrontdoorWebApplicationFirewallPolicyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5444,14 +5522,15 @@ func GetFrontdoorWebApplicationFirewallPolicy(ctx context.Context, d *plugin.Que
 	plugin.Logger(ctx).Trace("GetFrontdoorWebApplicationFirewallPolicy")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewFrontdoorWebApplicationFirewallPolicyPaginator(buildFilter(d.KeyColumnQuals, getFrontdoorWebApplicationFirewallPolicyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewFrontdoorWebApplicationFirewallPolicyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getFrontdoorWebApplicationFirewallPolicyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5497,7 +5576,7 @@ type LocalNetworkGatewayHit struct {
 }
 
 type LocalNetworkGatewayHits struct {
-	Total SearchTotal              `json:"total"`
+	Total essdk.SearchTotal        `json:"total"`
 	Hits  []LocalNetworkGatewayHit `json:"hits"`
 }
 
@@ -5507,11 +5586,11 @@ type LocalNetworkGatewaySearchResponse struct {
 }
 
 type LocalNetworkGatewayPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewLocalNetworkGatewayPaginator(filters []BoolFilter, limit *int64) (LocalNetworkGatewayPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_localnetworkgateway", filters, limit)
+func (k Client) NewLocalNetworkGatewayPaginator(filters []essdk.BoolFilter, limit *int64) (LocalNetworkGatewayPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_localnetworkgateway", filters, limit)
 	if err != nil {
 		return LocalNetworkGatewayPaginator{}, err
 	}
@@ -5524,12 +5603,12 @@ func (k Client) NewLocalNetworkGatewayPaginator(filters []BoolFilter, limit *int
 }
 
 func (p LocalNetworkGatewayPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p LocalNetworkGatewayPaginator) NextPage(ctx context.Context) ([]LocalNetworkGateway, error) {
 	var response LocalNetworkGatewaySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -5541,9 +5620,9 @@ func (p LocalNetworkGatewayPaginator) NextPage(ctx context.Context) ([]LocalNetw
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -5557,13 +5636,14 @@ func ListLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("ListLocalNetworkGateway")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewLocalNetworkGatewayPaginator(buildFilter(d.KeyColumnQuals, listLocalNetworkGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLocalNetworkGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, listLocalNetworkGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5592,14 +5672,15 @@ func GetLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("GetLocalNetworkGateway")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLocalNetworkGatewayPaginator(buildFilter(d.KeyColumnQuals, getLocalNetworkGatewayFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLocalNetworkGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, getLocalNetworkGatewayFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5645,8 +5726,8 @@ type NatGatewayHit struct {
 }
 
 type NatGatewayHits struct {
-	Total SearchTotal     `json:"total"`
-	Hits  []NatGatewayHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []NatGatewayHit   `json:"hits"`
 }
 
 type NatGatewaySearchResponse struct {
@@ -5655,11 +5736,11 @@ type NatGatewaySearchResponse struct {
 }
 
 type NatGatewayPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewNatGatewayPaginator(filters []BoolFilter, limit *int64) (NatGatewayPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_natgateways", filters, limit)
+func (k Client) NewNatGatewayPaginator(filters []essdk.BoolFilter, limit *int64) (NatGatewayPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_natgateways", filters, limit)
 	if err != nil {
 		return NatGatewayPaginator{}, err
 	}
@@ -5672,12 +5753,12 @@ func (k Client) NewNatGatewayPaginator(filters []BoolFilter, limit *int64) (NatG
 }
 
 func (p NatGatewayPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p NatGatewayPaginator) NextPage(ctx context.Context) ([]NatGateway, error) {
 	var response NatGatewaySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -5689,9 +5770,9 @@ func (p NatGatewayPaginator) NextPage(ctx context.Context) ([]NatGateway, error)
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -5705,13 +5786,14 @@ func ListNatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	plugin.Logger(ctx).Trace("ListNatGateway")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewNatGatewayPaginator(buildFilter(d.KeyColumnQuals, listNatGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNatGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNatGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5740,14 +5822,15 @@ func GetNatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	plugin.Logger(ctx).Trace("GetNatGateway")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNatGatewayPaginator(buildFilter(d.KeyColumnQuals, getNatGatewayFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNatGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNatGatewayFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5793,7 +5876,7 @@ type PrivateLinkServiceHit struct {
 }
 
 type PrivateLinkServiceHits struct {
-	Total SearchTotal             `json:"total"`
+	Total essdk.SearchTotal       `json:"total"`
 	Hits  []PrivateLinkServiceHit `json:"hits"`
 }
 
@@ -5803,11 +5886,11 @@ type PrivateLinkServiceSearchResponse struct {
 }
 
 type PrivateLinkServicePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewPrivateLinkServicePaginator(filters []BoolFilter, limit *int64) (PrivateLinkServicePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_privatelinkservice", filters, limit)
+func (k Client) NewPrivateLinkServicePaginator(filters []essdk.BoolFilter, limit *int64) (PrivateLinkServicePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_privatelinkservice", filters, limit)
 	if err != nil {
 		return PrivateLinkServicePaginator{}, err
 	}
@@ -5820,12 +5903,12 @@ func (k Client) NewPrivateLinkServicePaginator(filters []BoolFilter, limit *int6
 }
 
 func (p PrivateLinkServicePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p PrivateLinkServicePaginator) NextPage(ctx context.Context) ([]PrivateLinkService, error) {
 	var response PrivateLinkServiceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -5837,9 +5920,9 @@ func (p PrivateLinkServicePaginator) NextPage(ctx context.Context) ([]PrivateLin
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -5853,13 +5936,14 @@ func ListPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("ListPrivateLinkService")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewPrivateLinkServicePaginator(buildFilter(d.KeyColumnQuals, listPrivateLinkServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPrivateLinkServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listPrivateLinkServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5888,14 +5972,15 @@ func GetPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("GetPrivateLinkService")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPrivateLinkServicePaginator(buildFilter(d.KeyColumnQuals, getPrivateLinkServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPrivateLinkServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getPrivateLinkServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5941,8 +6026,8 @@ type RouteFilterHit struct {
 }
 
 type RouteFilterHits struct {
-	Total SearchTotal      `json:"total"`
-	Hits  []RouteFilterHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []RouteFilterHit  `json:"hits"`
 }
 
 type RouteFilterSearchResponse struct {
@@ -5951,11 +6036,11 @@ type RouteFilterSearchResponse struct {
 }
 
 type RouteFilterPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewRouteFilterPaginator(filters []BoolFilter, limit *int64) (RouteFilterPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_routefilter", filters, limit)
+func (k Client) NewRouteFilterPaginator(filters []essdk.BoolFilter, limit *int64) (RouteFilterPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_routefilter", filters, limit)
 	if err != nil {
 		return RouteFilterPaginator{}, err
 	}
@@ -5968,12 +6053,12 @@ func (k Client) NewRouteFilterPaginator(filters []BoolFilter, limit *int64) (Rou
 }
 
 func (p RouteFilterPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p RouteFilterPaginator) NextPage(ctx context.Context) ([]RouteFilter, error) {
 	var response RouteFilterSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -5985,9 +6070,9 @@ func (p RouteFilterPaginator) NextPage(ctx context.Context) ([]RouteFilter, erro
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -6001,13 +6086,14 @@ func ListRouteFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("ListRouteFilter")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewRouteFilterPaginator(buildFilter(d.KeyColumnQuals, listRouteFilterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRouteFilterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listRouteFilterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6036,14 +6122,15 @@ func GetRouteFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	plugin.Logger(ctx).Trace("GetRouteFilter")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRouteFilterPaginator(buildFilter(d.KeyColumnQuals, getRouteFilterFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewRouteFilterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getRouteFilterFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6089,8 +6176,8 @@ type VpnGatewayHit struct {
 }
 
 type VpnGatewayHits struct {
-	Total SearchTotal     `json:"total"`
-	Hits  []VpnGatewayHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []VpnGatewayHit   `json:"hits"`
 }
 
 type VpnGatewaySearchResponse struct {
@@ -6099,11 +6186,11 @@ type VpnGatewaySearchResponse struct {
 }
 
 type VpnGatewayPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewVpnGatewayPaginator(filters []BoolFilter, limit *int64) (VpnGatewayPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_vpngateway", filters, limit)
+func (k Client) NewVpnGatewayPaginator(filters []essdk.BoolFilter, limit *int64) (VpnGatewayPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_vpngateway", filters, limit)
 	if err != nil {
 		return VpnGatewayPaginator{}, err
 	}
@@ -6116,12 +6203,12 @@ func (k Client) NewVpnGatewayPaginator(filters []BoolFilter, limit *int64) (VpnG
 }
 
 func (p VpnGatewayPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p VpnGatewayPaginator) NextPage(ctx context.Context) ([]VpnGateway, error) {
 	var response VpnGatewaySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -6133,9 +6220,9 @@ func (p VpnGatewayPaginator) NextPage(ctx context.Context) ([]VpnGateway, error)
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -6149,13 +6236,14 @@ func ListVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	plugin.Logger(ctx).Trace("ListVpnGateway")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewVpnGatewayPaginator(buildFilter(d.KeyColumnQuals, listVpnGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewVpnGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, listVpnGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6184,14 +6272,15 @@ func GetVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	plugin.Logger(ctx).Trace("GetVpnGateway")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewVpnGatewayPaginator(buildFilter(d.KeyColumnQuals, getVpnGatewayFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewVpnGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, getVpnGatewayFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6237,7 +6326,7 @@ type PublicIPAddressHit struct {
 }
 
 type PublicIPAddressHits struct {
-	Total SearchTotal          `json:"total"`
+	Total essdk.SearchTotal    `json:"total"`
 	Hits  []PublicIPAddressHit `json:"hits"`
 }
 
@@ -6247,11 +6336,11 @@ type PublicIPAddressSearchResponse struct {
 }
 
 type PublicIPAddressPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewPublicIPAddressPaginator(filters []BoolFilter, limit *int64) (PublicIPAddressPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_publicipaddresses", filters, limit)
+func (k Client) NewPublicIPAddressPaginator(filters []essdk.BoolFilter, limit *int64) (PublicIPAddressPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_publicipaddresses", filters, limit)
 	if err != nil {
 		return PublicIPAddressPaginator{}, err
 	}
@@ -6264,12 +6353,12 @@ func (k Client) NewPublicIPAddressPaginator(filters []BoolFilter, limit *int64) 
 }
 
 func (p PublicIPAddressPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p PublicIPAddressPaginator) NextPage(ctx context.Context) ([]PublicIPAddress, error) {
 	var response PublicIPAddressSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -6281,9 +6370,9 @@ func (p PublicIPAddressPaginator) NextPage(ctx context.Context) ([]PublicIPAddre
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -6297,13 +6386,14 @@ func ListPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("ListPublicIPAddress")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewPublicIPAddressPaginator(buildFilter(d.KeyColumnQuals, listPublicIPAddressFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPublicIPAddressPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPublicIPAddressFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6332,14 +6422,15 @@ func GetPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("GetPublicIPAddress")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPublicIPAddressPaginator(buildFilter(d.KeyColumnQuals, getPublicIPAddressFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPublicIPAddressPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPublicIPAddressFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6385,7 +6476,7 @@ type PolicyAssignmentHit struct {
 }
 
 type PolicyAssignmentHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []PolicyAssignmentHit `json:"hits"`
 }
 
@@ -6395,11 +6486,11 @@ type PolicyAssignmentSearchResponse struct {
 }
 
 type PolicyAssignmentPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewPolicyAssignmentPaginator(filters []BoolFilter, limit *int64) (PolicyAssignmentPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_authorization_policyassignments", filters, limit)
+func (k Client) NewPolicyAssignmentPaginator(filters []essdk.BoolFilter, limit *int64) (PolicyAssignmentPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_authorization_policyassignments", filters, limit)
 	if err != nil {
 		return PolicyAssignmentPaginator{}, err
 	}
@@ -6412,12 +6503,12 @@ func (k Client) NewPolicyAssignmentPaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p PolicyAssignmentPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p PolicyAssignmentPaginator) NextPage(ctx context.Context) ([]PolicyAssignment, error) {
 	var response PolicyAssignmentSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -6429,9 +6520,9 @@ func (p PolicyAssignmentPaginator) NextPage(ctx context.Context) ([]PolicyAssign
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -6445,13 +6536,14 @@ func ListPolicyAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListPolicyAssignment")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewPolicyAssignmentPaginator(buildFilter(d.KeyColumnQuals, listPolicyAssignmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPolicyAssignmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPolicyAssignmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6479,14 +6571,15 @@ func GetPolicyAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetPolicyAssignment")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPolicyAssignmentPaginator(buildFilter(d.KeyColumnQuals, getPolicyAssignmentFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPolicyAssignmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPolicyAssignmentFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6532,8 +6625,8 @@ type RedisCacheHit struct {
 }
 
 type RedisCacheHits struct {
-	Total SearchTotal     `json:"total"`
-	Hits  []RedisCacheHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []RedisCacheHit   `json:"hits"`
 }
 
 type RedisCacheSearchResponse struct {
@@ -6542,11 +6635,11 @@ type RedisCacheSearchResponse struct {
 }
 
 type RedisCachePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewRedisCachePaginator(filters []BoolFilter, limit *int64) (RedisCachePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_cache_redis", filters, limit)
+func (k Client) NewRedisCachePaginator(filters []essdk.BoolFilter, limit *int64) (RedisCachePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_cache_redis", filters, limit)
 	if err != nil {
 		return RedisCachePaginator{}, err
 	}
@@ -6559,12 +6652,12 @@ func (k Client) NewRedisCachePaginator(filters []BoolFilter, limit *int64) (Redi
 }
 
 func (p RedisCachePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p RedisCachePaginator) NextPage(ctx context.Context) ([]RedisCache, error) {
 	var response RedisCacheSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -6576,9 +6669,9 @@ func (p RedisCachePaginator) NextPage(ctx context.Context) ([]RedisCache, error)
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -6592,13 +6685,14 @@ func ListRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	plugin.Logger(ctx).Trace("ListRedisCache")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewRedisCachePaginator(buildFilter(d.KeyColumnQuals, listRedisCacheFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRedisCachePaginator(essdk.BuildFilter(d.KeyColumnQuals, listRedisCacheFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6627,14 +6721,15 @@ func GetRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	plugin.Logger(ctx).Trace("GetRedisCache")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRedisCachePaginator(buildFilter(d.KeyColumnQuals, getRedisCacheFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewRedisCachePaginator(essdk.BuildFilter(d.KeyColumnQuals, getRedisCacheFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6680,7 +6775,7 @@ type ResourceLinkHit struct {
 }
 
 type ResourceLinkHits struct {
-	Total SearchTotal       `json:"total"`
+	Total essdk.SearchTotal `json:"total"`
 	Hits  []ResourceLinkHit `json:"hits"`
 }
 
@@ -6690,11 +6785,11 @@ type ResourceLinkSearchResponse struct {
 }
 
 type ResourceLinkPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewResourceLinkPaginator(filters []BoolFilter, limit *int64) (ResourceLinkPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_resources_links", filters, limit)
+func (k Client) NewResourceLinkPaginator(filters []essdk.BoolFilter, limit *int64) (ResourceLinkPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_links", filters, limit)
 	if err != nil {
 		return ResourceLinkPaginator{}, err
 	}
@@ -6707,12 +6802,12 @@ func (k Client) NewResourceLinkPaginator(filters []BoolFilter, limit *int64) (Re
 }
 
 func (p ResourceLinkPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ResourceLinkPaginator) NextPage(ctx context.Context) ([]ResourceLink, error) {
 	var response ResourceLinkSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -6724,9 +6819,9 @@ func (p ResourceLinkPaginator) NextPage(ctx context.Context) ([]ResourceLink, er
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -6740,13 +6835,14 @@ func ListResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	plugin.Logger(ctx).Trace("ListResourceLink")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewResourceLinkPaginator(buildFilter(d.KeyColumnQuals, listResourceLinkFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewResourceLinkPaginator(essdk.BuildFilter(d.KeyColumnQuals, listResourceLinkFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6774,14 +6870,15 @@ func GetResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("GetResourceLink")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewResourceLinkPaginator(buildFilter(d.KeyColumnQuals, getResourceLinkFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewResourceLinkPaginator(essdk.BuildFilter(d.KeyColumnQuals, getResourceLinkFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6827,7 +6924,7 @@ type RoleAssignmentHit struct {
 }
 
 type RoleAssignmentHits struct {
-	Total SearchTotal         `json:"total"`
+	Total essdk.SearchTotal   `json:"total"`
 	Hits  []RoleAssignmentHit `json:"hits"`
 }
 
@@ -6837,11 +6934,11 @@ type RoleAssignmentSearchResponse struct {
 }
 
 type RoleAssignmentPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewRoleAssignmentPaginator(filters []BoolFilter, limit *int64) (RoleAssignmentPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_authorization_elevateaccessroleassignment", filters, limit)
+func (k Client) NewRoleAssignmentPaginator(filters []essdk.BoolFilter, limit *int64) (RoleAssignmentPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_authorization_elevateaccessroleassignment", filters, limit)
 	if err != nil {
 		return RoleAssignmentPaginator{}, err
 	}
@@ -6854,12 +6951,12 @@ func (k Client) NewRoleAssignmentPaginator(filters []BoolFilter, limit *int64) (
 }
 
 func (p RoleAssignmentPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p RoleAssignmentPaginator) NextPage(ctx context.Context) ([]RoleAssignment, error) {
 	var response RoleAssignmentSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -6871,9 +6968,9 @@ func (p RoleAssignmentPaginator) NextPage(ctx context.Context) ([]RoleAssignment
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -6887,13 +6984,14 @@ func ListRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("ListRoleAssignment")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewRoleAssignmentPaginator(buildFilter(d.KeyColumnQuals, listRoleAssignmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRoleAssignmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, listRoleAssignmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6921,14 +7019,15 @@ func GetRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("GetRoleAssignment")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRoleAssignmentPaginator(buildFilter(d.KeyColumnQuals, getRoleAssignmentFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewRoleAssignmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, getRoleAssignmentFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6974,7 +7073,7 @@ type RoleDefinitionHit struct {
 }
 
 type RoleDefinitionHits struct {
-	Total SearchTotal         `json:"total"`
+	Total essdk.SearchTotal   `json:"total"`
 	Hits  []RoleDefinitionHit `json:"hits"`
 }
 
@@ -6984,11 +7083,11 @@ type RoleDefinitionSearchResponse struct {
 }
 
 type RoleDefinitionPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewRoleDefinitionPaginator(filters []BoolFilter, limit *int64) (RoleDefinitionPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_authorization_roledefinitions", filters, limit)
+func (k Client) NewRoleDefinitionPaginator(filters []essdk.BoolFilter, limit *int64) (RoleDefinitionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_authorization_roledefinitions", filters, limit)
 	if err != nil {
 		return RoleDefinitionPaginator{}, err
 	}
@@ -7001,12 +7100,12 @@ func (k Client) NewRoleDefinitionPaginator(filters []BoolFilter, limit *int64) (
 }
 
 func (p RoleDefinitionPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p RoleDefinitionPaginator) NextPage(ctx context.Context) ([]RoleDefinition, error) {
 	var response RoleDefinitionSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -7018,9 +7117,9 @@ func (p RoleDefinitionPaginator) NextPage(ctx context.Context) ([]RoleDefinition
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -7034,13 +7133,14 @@ func ListRoleDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("ListRoleDefinition")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewRoleDefinitionPaginator(buildFilter(d.KeyColumnQuals, listRoleDefinitionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRoleDefinitionPaginator(essdk.BuildFilter(d.KeyColumnQuals, listRoleDefinitionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7068,14 +7168,15 @@ func GetRoleDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("GetRoleDefinition")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRoleDefinitionPaginator(buildFilter(d.KeyColumnQuals, getRoleDefinitionFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewRoleDefinitionPaginator(essdk.BuildFilter(d.KeyColumnQuals, getRoleDefinitionFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7121,7 +7222,7 @@ type PolicyDefinitionHit struct {
 }
 
 type PolicyDefinitionHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []PolicyDefinitionHit `json:"hits"`
 }
 
@@ -7131,11 +7232,11 @@ type PolicyDefinitionSearchResponse struct {
 }
 
 type PolicyDefinitionPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewPolicyDefinitionPaginator(filters []BoolFilter, limit *int64) (PolicyDefinitionPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_authorization_policydefinition", filters, limit)
+func (k Client) NewPolicyDefinitionPaginator(filters []essdk.BoolFilter, limit *int64) (PolicyDefinitionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_authorization_policydefinition", filters, limit)
 	if err != nil {
 		return PolicyDefinitionPaginator{}, err
 	}
@@ -7148,12 +7249,12 @@ func (k Client) NewPolicyDefinitionPaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p PolicyDefinitionPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p PolicyDefinitionPaginator) NextPage(ctx context.Context) ([]PolicyDefinition, error) {
 	var response PolicyDefinitionSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -7165,9 +7266,9 @@ func (p PolicyDefinitionPaginator) NextPage(ctx context.Context) ([]PolicyDefini
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -7181,13 +7282,14 @@ func ListPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListPolicyDefinition")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewPolicyDefinitionPaginator(buildFilter(d.KeyColumnQuals, listPolicyDefinitionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPolicyDefinitionPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPolicyDefinitionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7215,14 +7317,15 @@ func GetPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetPolicyDefinition")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPolicyDefinitionPaginator(buildFilter(d.KeyColumnQuals, getPolicyDefinitionFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPolicyDefinitionPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPolicyDefinitionFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7268,7 +7371,7 @@ type SecurityCenterAutoProvisioningHit struct {
 }
 
 type SecurityCenterAutoProvisioningHits struct {
-	Total SearchTotal                         `json:"total"`
+	Total essdk.SearchTotal                   `json:"total"`
 	Hits  []SecurityCenterAutoProvisioningHit `json:"hits"`
 }
 
@@ -7278,11 +7381,11 @@ type SecurityCenterAutoProvisioningSearchResponse struct {
 }
 
 type SecurityCenterAutoProvisioningPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSecurityCenterAutoProvisioningPaginator(filters []BoolFilter, limit *int64) (SecurityCenterAutoProvisioningPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_security_autoprovisioningsettings", filters, limit)
+func (k Client) NewSecurityCenterAutoProvisioningPaginator(filters []essdk.BoolFilter, limit *int64) (SecurityCenterAutoProvisioningPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_security_autoprovisioningsettings", filters, limit)
 	if err != nil {
 		return SecurityCenterAutoProvisioningPaginator{}, err
 	}
@@ -7295,12 +7398,12 @@ func (k Client) NewSecurityCenterAutoProvisioningPaginator(filters []BoolFilter,
 }
 
 func (p SecurityCenterAutoProvisioningPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SecurityCenterAutoProvisioningPaginator) NextPage(ctx context.Context) ([]SecurityCenterAutoProvisioning, error) {
 	var response SecurityCenterAutoProvisioningSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -7312,9 +7415,9 @@ func (p SecurityCenterAutoProvisioningPaginator) NextPage(ctx context.Context) (
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -7328,13 +7431,14 @@ func ListSecurityCenterAutoProvisioning(ctx context.Context, d *plugin.QueryData
 	plugin.Logger(ctx).Trace("ListSecurityCenterAutoProvisioning")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterAutoProvisioningPaginator(buildFilter(d.KeyColumnQuals, listSecurityCenterAutoProvisioningFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityCenterAutoProvisioningPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSecurityCenterAutoProvisioningFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7362,14 +7466,15 @@ func GetSecurityCenterAutoProvisioning(ctx context.Context, d *plugin.QueryData,
 	plugin.Logger(ctx).Trace("GetSecurityCenterAutoProvisioning")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterAutoProvisioningPaginator(buildFilter(d.KeyColumnQuals, getSecurityCenterAutoProvisioningFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityCenterAutoProvisioningPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSecurityCenterAutoProvisioningFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7415,7 +7520,7 @@ type SecurityCenterContactHit struct {
 }
 
 type SecurityCenterContactHits struct {
-	Total SearchTotal                `json:"total"`
+	Total essdk.SearchTotal          `json:"total"`
 	Hits  []SecurityCenterContactHit `json:"hits"`
 }
 
@@ -7425,11 +7530,11 @@ type SecurityCenterContactSearchResponse struct {
 }
 
 type SecurityCenterContactPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSecurityCenterContactPaginator(filters []BoolFilter, limit *int64) (SecurityCenterContactPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_security_securitycontacts", filters, limit)
+func (k Client) NewSecurityCenterContactPaginator(filters []essdk.BoolFilter, limit *int64) (SecurityCenterContactPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_security_securitycontacts", filters, limit)
 	if err != nil {
 		return SecurityCenterContactPaginator{}, err
 	}
@@ -7442,12 +7547,12 @@ func (k Client) NewSecurityCenterContactPaginator(filters []BoolFilter, limit *i
 }
 
 func (p SecurityCenterContactPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SecurityCenterContactPaginator) NextPage(ctx context.Context) ([]SecurityCenterContact, error) {
 	var response SecurityCenterContactSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -7459,9 +7564,9 @@ func (p SecurityCenterContactPaginator) NextPage(ctx context.Context) ([]Securit
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -7475,13 +7580,14 @@ func ListSecurityCenterContact(ctx context.Context, d *plugin.QueryData, _ *plug
 	plugin.Logger(ctx).Trace("ListSecurityCenterContact")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterContactPaginator(buildFilter(d.KeyColumnQuals, listSecurityCenterContactFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityCenterContactPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSecurityCenterContactFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7509,14 +7615,15 @@ func GetSecurityCenterContact(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("GetSecurityCenterContact")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterContactPaginator(buildFilter(d.KeyColumnQuals, getSecurityCenterContactFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityCenterContactPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSecurityCenterContactFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7562,7 +7669,7 @@ type SecurityCenterJitNetworkAccessPolicyHit struct {
 }
 
 type SecurityCenterJitNetworkAccessPolicyHits struct {
-	Total SearchTotal                               `json:"total"`
+	Total essdk.SearchTotal                         `json:"total"`
 	Hits  []SecurityCenterJitNetworkAccessPolicyHit `json:"hits"`
 }
 
@@ -7572,11 +7679,11 @@ type SecurityCenterJitNetworkAccessPolicySearchResponse struct {
 }
 
 type SecurityCenterJitNetworkAccessPolicyPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSecurityCenterJitNetworkAccessPolicyPaginator(filters []BoolFilter, limit *int64) (SecurityCenterJitNetworkAccessPolicyPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_security_locations_jitnetworkaccesspolicies", filters, limit)
+func (k Client) NewSecurityCenterJitNetworkAccessPolicyPaginator(filters []essdk.BoolFilter, limit *int64) (SecurityCenterJitNetworkAccessPolicyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_security_locations_jitnetworkaccesspolicies", filters, limit)
 	if err != nil {
 		return SecurityCenterJitNetworkAccessPolicyPaginator{}, err
 	}
@@ -7589,12 +7696,12 @@ func (k Client) NewSecurityCenterJitNetworkAccessPolicyPaginator(filters []BoolF
 }
 
 func (p SecurityCenterJitNetworkAccessPolicyPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SecurityCenterJitNetworkAccessPolicyPaginator) NextPage(ctx context.Context) ([]SecurityCenterJitNetworkAccessPolicy, error) {
 	var response SecurityCenterJitNetworkAccessPolicySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -7606,9 +7713,9 @@ func (p SecurityCenterJitNetworkAccessPolicyPaginator) NextPage(ctx context.Cont
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -7622,13 +7729,14 @@ func ListSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.Que
 	plugin.Logger(ctx).Trace("ListSecurityCenterJitNetworkAccessPolicy")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterJitNetworkAccessPolicyPaginator(buildFilter(d.KeyColumnQuals, listSecurityCenterJitNetworkAccessPolicyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityCenterJitNetworkAccessPolicyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSecurityCenterJitNetworkAccessPolicyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7655,14 +7763,15 @@ func GetSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.Quer
 	plugin.Logger(ctx).Trace("GetSecurityCenterJitNetworkAccessPolicy")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterJitNetworkAccessPolicyPaginator(buildFilter(d.KeyColumnQuals, getSecurityCenterJitNetworkAccessPolicyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityCenterJitNetworkAccessPolicyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSecurityCenterJitNetworkAccessPolicyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7708,7 +7817,7 @@ type SecurityCenterSettingHit struct {
 }
 
 type SecurityCenterSettingHits struct {
-	Total SearchTotal                `json:"total"`
+	Total essdk.SearchTotal          `json:"total"`
 	Hits  []SecurityCenterSettingHit `json:"hits"`
 }
 
@@ -7718,11 +7827,11 @@ type SecurityCenterSettingSearchResponse struct {
 }
 
 type SecurityCenterSettingPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSecurityCenterSettingPaginator(filters []BoolFilter, limit *int64) (SecurityCenterSettingPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_security_settings", filters, limit)
+func (k Client) NewSecurityCenterSettingPaginator(filters []essdk.BoolFilter, limit *int64) (SecurityCenterSettingPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_security_settings", filters, limit)
 	if err != nil {
 		return SecurityCenterSettingPaginator{}, err
 	}
@@ -7735,12 +7844,12 @@ func (k Client) NewSecurityCenterSettingPaginator(filters []BoolFilter, limit *i
 }
 
 func (p SecurityCenterSettingPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SecurityCenterSettingPaginator) NextPage(ctx context.Context) ([]SecurityCenterSetting, error) {
 	var response SecurityCenterSettingSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -7752,9 +7861,9 @@ func (p SecurityCenterSettingPaginator) NextPage(ctx context.Context) ([]Securit
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -7768,13 +7877,14 @@ func ListSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plug
 	plugin.Logger(ctx).Trace("ListSecurityCenterSetting")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterSettingPaginator(buildFilter(d.KeyColumnQuals, listSecurityCenterSettingFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityCenterSettingPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSecurityCenterSettingFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7802,14 +7912,15 @@ func GetSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("GetSecurityCenterSetting")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterSettingPaginator(buildFilter(d.KeyColumnQuals, getSecurityCenterSettingFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityCenterSettingPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSecurityCenterSettingFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7855,7 +7966,7 @@ type SecurityCenterSubscriptionPricingHit struct {
 }
 
 type SecurityCenterSubscriptionPricingHits struct {
-	Total SearchTotal                            `json:"total"`
+	Total essdk.SearchTotal                      `json:"total"`
 	Hits  []SecurityCenterSubscriptionPricingHit `json:"hits"`
 }
 
@@ -7865,11 +7976,11 @@ type SecurityCenterSubscriptionPricingSearchResponse struct {
 }
 
 type SecurityCenterSubscriptionPricingPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSecurityCenterSubscriptionPricingPaginator(filters []BoolFilter, limit *int64) (SecurityCenterSubscriptionPricingPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_security_pricings", filters, limit)
+func (k Client) NewSecurityCenterSubscriptionPricingPaginator(filters []essdk.BoolFilter, limit *int64) (SecurityCenterSubscriptionPricingPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_security_pricings", filters, limit)
 	if err != nil {
 		return SecurityCenterSubscriptionPricingPaginator{}, err
 	}
@@ -7882,12 +7993,12 @@ func (k Client) NewSecurityCenterSubscriptionPricingPaginator(filters []BoolFilt
 }
 
 func (p SecurityCenterSubscriptionPricingPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SecurityCenterSubscriptionPricingPaginator) NextPage(ctx context.Context) ([]SecurityCenterSubscriptionPricing, error) {
 	var response SecurityCenterSubscriptionPricingSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -7899,9 +8010,9 @@ func (p SecurityCenterSubscriptionPricingPaginator) NextPage(ctx context.Context
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -7915,13 +8026,14 @@ func ListSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryD
 	plugin.Logger(ctx).Trace("ListSecurityCenterSubscriptionPricing")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterSubscriptionPricingPaginator(buildFilter(d.KeyColumnQuals, listSecurityCenterSubscriptionPricingFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityCenterSubscriptionPricingPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSecurityCenterSubscriptionPricingFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7949,14 +8061,15 @@ func GetSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryDa
 	plugin.Logger(ctx).Trace("GetSecurityCenterSubscriptionPricing")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterSubscriptionPricingPaginator(buildFilter(d.KeyColumnQuals, getSecurityCenterSubscriptionPricingFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityCenterSubscriptionPricingPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSecurityCenterSubscriptionPricingFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8002,7 +8115,7 @@ type SecurityCenterAutomationHit struct {
 }
 
 type SecurityCenterAutomationHits struct {
-	Total SearchTotal                   `json:"total"`
+	Total essdk.SearchTotal             `json:"total"`
 	Hits  []SecurityCenterAutomationHit `json:"hits"`
 }
 
@@ -8012,11 +8125,11 @@ type SecurityCenterAutomationSearchResponse struct {
 }
 
 type SecurityCenterAutomationPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSecurityCenterAutomationPaginator(filters []BoolFilter, limit *int64) (SecurityCenterAutomationPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_security_automations", filters, limit)
+func (k Client) NewSecurityCenterAutomationPaginator(filters []essdk.BoolFilter, limit *int64) (SecurityCenterAutomationPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_security_automations", filters, limit)
 	if err != nil {
 		return SecurityCenterAutomationPaginator{}, err
 	}
@@ -8029,12 +8142,12 @@ func (k Client) NewSecurityCenterAutomationPaginator(filters []BoolFilter, limit
 }
 
 func (p SecurityCenterAutomationPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SecurityCenterAutomationPaginator) NextPage(ctx context.Context) ([]SecurityCenterAutomation, error) {
 	var response SecurityCenterAutomationSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -8046,9 +8159,9 @@ func (p SecurityCenterAutomationPaginator) NextPage(ctx context.Context) ([]Secu
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -8062,13 +8175,14 @@ func ListSecurityCenterAutomation(ctx context.Context, d *plugin.QueryData, _ *p
 	plugin.Logger(ctx).Trace("ListSecurityCenterAutomation")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterAutomationPaginator(buildFilter(d.KeyColumnQuals, listSecurityCenterAutomationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityCenterAutomationPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSecurityCenterAutomationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8097,14 +8211,15 @@ func GetSecurityCenterAutomation(ctx context.Context, d *plugin.QueryData, _ *pl
 	plugin.Logger(ctx).Trace("GetSecurityCenterAutomation")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterAutomationPaginator(buildFilter(d.KeyColumnQuals, getSecurityCenterAutomationFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityCenterAutomationPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSecurityCenterAutomationFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8150,7 +8265,7 @@ type SecurityCenterSubAssessmentHit struct {
 }
 
 type SecurityCenterSubAssessmentHits struct {
-	Total SearchTotal                      `json:"total"`
+	Total essdk.SearchTotal                `json:"total"`
 	Hits  []SecurityCenterSubAssessmentHit `json:"hits"`
 }
 
@@ -8160,11 +8275,11 @@ type SecurityCenterSubAssessmentSearchResponse struct {
 }
 
 type SecurityCenterSubAssessmentPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSecurityCenterSubAssessmentPaginator(filters []BoolFilter, limit *int64) (SecurityCenterSubAssessmentPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_security_subassessments", filters, limit)
+func (k Client) NewSecurityCenterSubAssessmentPaginator(filters []essdk.BoolFilter, limit *int64) (SecurityCenterSubAssessmentPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_security_subassessments", filters, limit)
 	if err != nil {
 		return SecurityCenterSubAssessmentPaginator{}, err
 	}
@@ -8177,12 +8292,12 @@ func (k Client) NewSecurityCenterSubAssessmentPaginator(filters []BoolFilter, li
 }
 
 func (p SecurityCenterSubAssessmentPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SecurityCenterSubAssessmentPaginator) NextPage(ctx context.Context) ([]SecurityCenterSubAssessment, error) {
 	var response SecurityCenterSubAssessmentSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -8194,9 +8309,9 @@ func (p SecurityCenterSubAssessmentPaginator) NextPage(ctx context.Context) ([]S
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -8210,13 +8325,14 @@ func ListSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _
 	plugin.Logger(ctx).Trace("ListSecurityCenterSubAssessment")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterSubAssessmentPaginator(buildFilter(d.KeyColumnQuals, listSecurityCenterSubAssessmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityCenterSubAssessmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSecurityCenterSubAssessmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8243,14 +8359,15 @@ func GetSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _ 
 	plugin.Logger(ctx).Trace("GetSecurityCenterSubAssessment")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterSubAssessmentPaginator(buildFilter(d.KeyColumnQuals, getSecurityCenterSubAssessmentFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityCenterSubAssessmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSecurityCenterSubAssessmentFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8296,7 +8413,7 @@ type StorageContainerHit struct {
 }
 
 type StorageContainerHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []StorageContainerHit `json:"hits"`
 }
 
@@ -8306,11 +8423,11 @@ type StorageContainerSearchResponse struct {
 }
 
 type StorageContainerPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewStorageContainerPaginator(filters []BoolFilter, limit *int64) (StorageContainerPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_storage_storageaccounts_containers", filters, limit)
+func (k Client) NewStorageContainerPaginator(filters []essdk.BoolFilter, limit *int64) (StorageContainerPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_containers", filters, limit)
 	if err != nil {
 		return StorageContainerPaginator{}, err
 	}
@@ -8323,12 +8440,12 @@ func (k Client) NewStorageContainerPaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p StorageContainerPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p StorageContainerPaginator) NextPage(ctx context.Context) ([]StorageContainer, error) {
 	var response StorageContainerSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -8340,9 +8457,9 @@ func (p StorageContainerPaginator) NextPage(ctx context.Context) ([]StorageConta
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -8356,13 +8473,14 @@ func ListStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListStorageContainer")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageContainerPaginator(buildFilter(d.KeyColumnQuals, listStorageContainerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageContainerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8392,14 +8510,15 @@ func GetStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetStorageContainer")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageContainerPaginator(buildFilter(d.KeyColumnQuals, getStorageContainerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageContainerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8445,8 +8564,8 @@ type StorageBlobHit struct {
 }
 
 type StorageBlobHits struct {
-	Total SearchTotal      `json:"total"`
-	Hits  []StorageBlobHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []StorageBlobHit  `json:"hits"`
 }
 
 type StorageBlobSearchResponse struct {
@@ -8455,11 +8574,11 @@ type StorageBlobSearchResponse struct {
 }
 
 type StorageBlobPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewStorageBlobPaginator(filters []BoolFilter, limit *int64) (StorageBlobPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_storage_blobs", filters, limit)
+func (k Client) NewStorageBlobPaginator(filters []essdk.BoolFilter, limit *int64) (StorageBlobPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_blobs", filters, limit)
 	if err != nil {
 		return StorageBlobPaginator{}, err
 	}
@@ -8472,12 +8591,12 @@ func (k Client) NewStorageBlobPaginator(filters []BoolFilter, limit *int64) (Sto
 }
 
 func (p StorageBlobPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p StorageBlobPaginator) NextPage(ctx context.Context) ([]StorageBlob, error) {
 	var response StorageBlobSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -8489,9 +8608,9 @@ func (p StorageBlobPaginator) NextPage(ctx context.Context) ([]StorageBlob, erro
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -8507,13 +8626,14 @@ func ListStorageBlob(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("ListStorageBlob")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageBlobPaginator(buildFilter(d.KeyColumnQuals, listStorageBlobFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageBlobPaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageBlobFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8540,14 +8660,15 @@ func GetStorageBlob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	plugin.Logger(ctx).Trace("GetStorageBlob")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageBlobPaginator(buildFilter(d.KeyColumnQuals, getStorageBlobFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageBlobPaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageBlobFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8593,7 +8714,7 @@ type StorageBlobServiceHit struct {
 }
 
 type StorageBlobServiceHits struct {
-	Total SearchTotal             `json:"total"`
+	Total essdk.SearchTotal       `json:"total"`
 	Hits  []StorageBlobServiceHit `json:"hits"`
 }
 
@@ -8603,11 +8724,11 @@ type StorageBlobServiceSearchResponse struct {
 }
 
 type StorageBlobServicePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewStorageBlobServicePaginator(filters []BoolFilter, limit *int64) (StorageBlobServicePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_storage_blobservices", filters, limit)
+func (k Client) NewStorageBlobServicePaginator(filters []essdk.BoolFilter, limit *int64) (StorageBlobServicePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_blobservices", filters, limit)
 	if err != nil {
 		return StorageBlobServicePaginator{}, err
 	}
@@ -8620,12 +8741,12 @@ func (k Client) NewStorageBlobServicePaginator(filters []BoolFilter, limit *int6
 }
 
 func (p StorageBlobServicePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p StorageBlobServicePaginator) NextPage(ctx context.Context) ([]StorageBlobService, error) {
 	var response StorageBlobServiceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -8637,9 +8758,9 @@ func (p StorageBlobServicePaginator) NextPage(ctx context.Context) ([]StorageBlo
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -8655,13 +8776,14 @@ func ListStorageBlobService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("ListStorageBlobService")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageBlobServicePaginator(buildFilter(d.KeyColumnQuals, listStorageBlobServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageBlobServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageBlobServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8688,14 +8810,15 @@ func GetStorageBlobService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("GetStorageBlobService")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageBlobServicePaginator(buildFilter(d.KeyColumnQuals, getStorageBlobServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageBlobServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageBlobServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8741,7 +8864,7 @@ type StorageQueueHit struct {
 }
 
 type StorageQueueHits struct {
-	Total SearchTotal       `json:"total"`
+	Total essdk.SearchTotal `json:"total"`
 	Hits  []StorageQueueHit `json:"hits"`
 }
 
@@ -8751,11 +8874,11 @@ type StorageQueueSearchResponse struct {
 }
 
 type StorageQueuePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewStorageQueuePaginator(filters []BoolFilter, limit *int64) (StorageQueuePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_storage_queues", filters, limit)
+func (k Client) NewStorageQueuePaginator(filters []essdk.BoolFilter, limit *int64) (StorageQueuePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_queues", filters, limit)
 	if err != nil {
 		return StorageQueuePaginator{}, err
 	}
@@ -8768,12 +8891,12 @@ func (k Client) NewStorageQueuePaginator(filters []BoolFilter, limit *int64) (St
 }
 
 func (p StorageQueuePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p StorageQueuePaginator) NextPage(ctx context.Context) ([]StorageQueue, error) {
 	var response StorageQueueSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -8785,9 +8908,9 @@ func (p StorageQueuePaginator) NextPage(ctx context.Context) ([]StorageQueue, er
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -8804,13 +8927,14 @@ func ListStorageQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	plugin.Logger(ctx).Trace("ListStorageQueue")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageQueuePaginator(buildFilter(d.KeyColumnQuals, listStorageQueueFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageQueuePaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageQueueFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8837,14 +8961,15 @@ func GetStorageQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("GetStorageQueue")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageQueuePaginator(buildFilter(d.KeyColumnQuals, getStorageQueueFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageQueuePaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageQueueFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8890,7 +9015,7 @@ type StorageFileShareHit struct {
 }
 
 type StorageFileShareHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []StorageFileShareHit `json:"hits"`
 }
 
@@ -8900,11 +9025,11 @@ type StorageFileShareSearchResponse struct {
 }
 
 type StorageFileSharePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewStorageFileSharePaginator(filters []BoolFilter, limit *int64) (StorageFileSharePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_storage_fileshares", filters, limit)
+func (k Client) NewStorageFileSharePaginator(filters []essdk.BoolFilter, limit *int64) (StorageFileSharePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_fileshares", filters, limit)
 	if err != nil {
 		return StorageFileSharePaginator{}, err
 	}
@@ -8917,12 +9042,12 @@ func (k Client) NewStorageFileSharePaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p StorageFileSharePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p StorageFileSharePaginator) NextPage(ctx context.Context) ([]StorageFileShare, error) {
 	var response StorageFileShareSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -8934,9 +9059,9 @@ func (p StorageFileSharePaginator) NextPage(ctx context.Context) ([]StorageFileS
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -8953,13 +9078,14 @@ func ListStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListStorageFileShare")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageFileSharePaginator(buildFilter(d.KeyColumnQuals, listStorageFileShareFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageFileSharePaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageFileShareFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8986,14 +9112,15 @@ func GetStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetStorageFileShare")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageFileSharePaginator(buildFilter(d.KeyColumnQuals, getStorageFileShareFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageFileSharePaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageFileShareFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9039,7 +9166,7 @@ type StorageTableHit struct {
 }
 
 type StorageTableHits struct {
-	Total SearchTotal       `json:"total"`
+	Total essdk.SearchTotal `json:"total"`
 	Hits  []StorageTableHit `json:"hits"`
 }
 
@@ -9049,11 +9176,11 @@ type StorageTableSearchResponse struct {
 }
 
 type StorageTablePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewStorageTablePaginator(filters []BoolFilter, limit *int64) (StorageTablePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_storage_tables", filters, limit)
+func (k Client) NewStorageTablePaginator(filters []essdk.BoolFilter, limit *int64) (StorageTablePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_tables", filters, limit)
 	if err != nil {
 		return StorageTablePaginator{}, err
 	}
@@ -9066,12 +9193,12 @@ func (k Client) NewStorageTablePaginator(filters []BoolFilter, limit *int64) (St
 }
 
 func (p StorageTablePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p StorageTablePaginator) NextPage(ctx context.Context) ([]StorageTable, error) {
 	var response StorageTableSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -9083,9 +9210,9 @@ func (p StorageTablePaginator) NextPage(ctx context.Context) ([]StorageTable, er
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -9102,13 +9229,14 @@ func ListStorageTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	plugin.Logger(ctx).Trace("ListStorageTable")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageTablePaginator(buildFilter(d.KeyColumnQuals, listStorageTableFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageTablePaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageTableFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9135,14 +9263,15 @@ func GetStorageTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("GetStorageTable")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageTablePaginator(buildFilter(d.KeyColumnQuals, getStorageTableFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageTablePaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageTableFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9188,7 +9317,7 @@ type StorageTableServiceHit struct {
 }
 
 type StorageTableServiceHits struct {
-	Total SearchTotal              `json:"total"`
+	Total essdk.SearchTotal        `json:"total"`
 	Hits  []StorageTableServiceHit `json:"hits"`
 }
 
@@ -9198,11 +9327,11 @@ type StorageTableServiceSearchResponse struct {
 }
 
 type StorageTableServicePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewStorageTableServicePaginator(filters []BoolFilter, limit *int64) (StorageTableServicePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_storage_tableservices", filters, limit)
+func (k Client) NewStorageTableServicePaginator(filters []essdk.BoolFilter, limit *int64) (StorageTableServicePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_tableservices", filters, limit)
 	if err != nil {
 		return StorageTableServicePaginator{}, err
 	}
@@ -9215,12 +9344,12 @@ func (k Client) NewStorageTableServicePaginator(filters []BoolFilter, limit *int
 }
 
 func (p StorageTableServicePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p StorageTableServicePaginator) NextPage(ctx context.Context) ([]StorageTableService, error) {
 	var response StorageTableServiceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -9232,9 +9361,9 @@ func (p StorageTableServicePaginator) NextPage(ctx context.Context) ([]StorageTa
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -9251,13 +9380,14 @@ func ListStorageTableService(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("ListStorageTableService")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageTableServicePaginator(buildFilter(d.KeyColumnQuals, listStorageTableServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageTableServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageTableServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9284,14 +9414,15 @@ func GetStorageTableService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("GetStorageTableService")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageTableServicePaginator(buildFilter(d.KeyColumnQuals, getStorageTableServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageTableServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageTableServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9337,8 +9468,8 @@ type SubnetHit struct {
 }
 
 type SubnetHits struct {
-	Total SearchTotal `json:"total"`
-	Hits  []SubnetHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []SubnetHit       `json:"hits"`
 }
 
 type SubnetSearchResponse struct {
@@ -9347,11 +9478,11 @@ type SubnetSearchResponse struct {
 }
 
 type SubnetPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSubnetPaginator(filters []BoolFilter, limit *int64) (SubnetPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_virtualnetworks_subnets", filters, limit)
+func (k Client) NewSubnetPaginator(filters []essdk.BoolFilter, limit *int64) (SubnetPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_virtualnetworks_subnets", filters, limit)
 	if err != nil {
 		return SubnetPaginator{}, err
 	}
@@ -9364,12 +9495,12 @@ func (k Client) NewSubnetPaginator(filters []BoolFilter, limit *int64) (SubnetPa
 }
 
 func (p SubnetPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SubnetPaginator) NextPage(ctx context.Context) ([]Subnet, error) {
 	var response SubnetSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -9381,9 +9512,9 @@ func (p SubnetPaginator) NextPage(ctx context.Context) ([]Subnet, error) {
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -9397,13 +9528,14 @@ func ListSubnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	plugin.Logger(ctx).Trace("ListSubnet")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSubnetPaginator(buildFilter(d.KeyColumnQuals, listSubnetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSubnetPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSubnetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9433,14 +9565,15 @@ func GetSubnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	plugin.Logger(ctx).Trace("GetSubnet")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSubnetPaginator(buildFilter(d.KeyColumnQuals, getSubnetFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSubnetPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSubnetFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9486,7 +9619,7 @@ type VirtualNetworkHit struct {
 }
 
 type VirtualNetworkHits struct {
-	Total SearchTotal         `json:"total"`
+	Total essdk.SearchTotal   `json:"total"`
 	Hits  []VirtualNetworkHit `json:"hits"`
 }
 
@@ -9496,11 +9629,11 @@ type VirtualNetworkSearchResponse struct {
 }
 
 type VirtualNetworkPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewVirtualNetworkPaginator(filters []BoolFilter, limit *int64) (VirtualNetworkPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_virtualnetworks", filters, limit)
+func (k Client) NewVirtualNetworkPaginator(filters []essdk.BoolFilter, limit *int64) (VirtualNetworkPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_virtualnetworks", filters, limit)
 	if err != nil {
 		return VirtualNetworkPaginator{}, err
 	}
@@ -9513,12 +9646,12 @@ func (k Client) NewVirtualNetworkPaginator(filters []BoolFilter, limit *int64) (
 }
 
 func (p VirtualNetworkPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p VirtualNetworkPaginator) NextPage(ctx context.Context) ([]VirtualNetwork, error) {
 	var response VirtualNetworkSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -9530,9 +9663,9 @@ func (p VirtualNetworkPaginator) NextPage(ctx context.Context) ([]VirtualNetwork
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -9546,13 +9679,14 @@ func ListVirtualNetwork(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("ListVirtualNetwork")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewVirtualNetworkPaginator(buildFilter(d.KeyColumnQuals, listVirtualNetworkFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewVirtualNetworkPaginator(essdk.BuildFilter(d.KeyColumnQuals, listVirtualNetworkFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9581,14 +9715,15 @@ func GetVirtualNetwork(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("GetVirtualNetwork")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewVirtualNetworkPaginator(buildFilter(d.KeyColumnQuals, getVirtualNetworkFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewVirtualNetworkPaginator(essdk.BuildFilter(d.KeyColumnQuals, getVirtualNetworkFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9634,8 +9769,8 @@ type TenantHit struct {
 }
 
 type TenantHits struct {
-	Total SearchTotal `json:"total"`
-	Hits  []TenantHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []TenantHit       `json:"hits"`
 }
 
 type TenantSearchResponse struct {
@@ -9644,11 +9779,11 @@ type TenantSearchResponse struct {
 }
 
 type TenantPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewTenantPaginator(filters []BoolFilter, limit *int64) (TenantPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_resources_tenants", filters, limit)
+func (k Client) NewTenantPaginator(filters []essdk.BoolFilter, limit *int64) (TenantPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_tenants", filters, limit)
 	if err != nil {
 		return TenantPaginator{}, err
 	}
@@ -9661,12 +9796,12 @@ func (k Client) NewTenantPaginator(filters []BoolFilter, limit *int64) (TenantPa
 }
 
 func (p TenantPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p TenantPaginator) NextPage(ctx context.Context) ([]Tenant, error) {
 	var response TenantSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -9678,9 +9813,9 @@ func (p TenantPaginator) NextPage(ctx context.Context) ([]Tenant, error) {
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -9694,13 +9829,14 @@ func ListTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	plugin.Logger(ctx).Trace("ListTenant")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewTenantPaginator(buildFilter(d.KeyColumnQuals, listTenantFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewTenantPaginator(essdk.BuildFilter(d.KeyColumnQuals, listTenantFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9727,14 +9863,15 @@ func GetTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	plugin.Logger(ctx).Trace("GetTenant")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewTenantPaginator(buildFilter(d.KeyColumnQuals, getTenantFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewTenantPaginator(essdk.BuildFilter(d.KeyColumnQuals, getTenantFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9780,7 +9917,7 @@ type SubscriptionHit struct {
 }
 
 type SubscriptionHits struct {
-	Total SearchTotal       `json:"total"`
+	Total essdk.SearchTotal `json:"total"`
 	Hits  []SubscriptionHit `json:"hits"`
 }
 
@@ -9790,11 +9927,11 @@ type SubscriptionSearchResponse struct {
 }
 
 type SubscriptionPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSubscriptionPaginator(filters []BoolFilter, limit *int64) (SubscriptionPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_resources_subscriptions", filters, limit)
+func (k Client) NewSubscriptionPaginator(filters []essdk.BoolFilter, limit *int64) (SubscriptionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_subscriptions", filters, limit)
 	if err != nil {
 		return SubscriptionPaginator{}, err
 	}
@@ -9807,12 +9944,12 @@ func (k Client) NewSubscriptionPaginator(filters []BoolFilter, limit *int64) (Su
 }
 
 func (p SubscriptionPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SubscriptionPaginator) NextPage(ctx context.Context) ([]Subscription, error) {
 	var response SubscriptionSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -9824,9 +9961,9 @@ func (p SubscriptionPaginator) NextPage(ctx context.Context) ([]Subscription, er
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -9840,13 +9977,14 @@ func ListSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	plugin.Logger(ctx).Trace("ListSubscription")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSubscriptionPaginator(buildFilter(d.KeyColumnQuals, listSubscriptionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSubscriptionPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSubscriptionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9873,14 +10011,15 @@ func GetSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("GetSubscription")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSubscriptionPaginator(buildFilter(d.KeyColumnQuals, getSubscriptionFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSubscriptionPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSubscriptionFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9926,7 +10065,7 @@ type ApplicationGatewayHit struct {
 }
 
 type ApplicationGatewayHits struct {
-	Total SearchTotal             `json:"total"`
+	Total essdk.SearchTotal       `json:"total"`
 	Hits  []ApplicationGatewayHit `json:"hits"`
 }
 
@@ -9936,11 +10075,11 @@ type ApplicationGatewaySearchResponse struct {
 }
 
 type ApplicationGatewayPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewApplicationGatewayPaginator(filters []BoolFilter, limit *int64) (ApplicationGatewayPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_applicationgateways", filters, limit)
+func (k Client) NewApplicationGatewayPaginator(filters []essdk.BoolFilter, limit *int64) (ApplicationGatewayPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_applicationgateways", filters, limit)
 	if err != nil {
 		return ApplicationGatewayPaginator{}, err
 	}
@@ -9953,12 +10092,12 @@ func (k Client) NewApplicationGatewayPaginator(filters []BoolFilter, limit *int6
 }
 
 func (p ApplicationGatewayPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ApplicationGatewayPaginator) NextPage(ctx context.Context) ([]ApplicationGateway, error) {
 	var response ApplicationGatewaySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -9970,9 +10109,9 @@ func (p ApplicationGatewayPaginator) NextPage(ctx context.Context) ([]Applicatio
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -9986,13 +10125,14 @@ func ListApplicationGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("ListApplicationGateway")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewApplicationGatewayPaginator(buildFilter(d.KeyColumnQuals, listApplicationGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApplicationGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, listApplicationGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10021,14 +10161,15 @@ func GetApplicationGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("GetApplicationGateway")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApplicationGatewayPaginator(buildFilter(d.KeyColumnQuals, getApplicationGatewayFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewApplicationGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, getApplicationGatewayFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10074,7 +10215,7 @@ type BatchAccountHit struct {
 }
 
 type BatchAccountHits struct {
-	Total SearchTotal       `json:"total"`
+	Total essdk.SearchTotal `json:"total"`
 	Hits  []BatchAccountHit `json:"hits"`
 }
 
@@ -10084,11 +10225,11 @@ type BatchAccountSearchResponse struct {
 }
 
 type BatchAccountPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewBatchAccountPaginator(filters []BoolFilter, limit *int64) (BatchAccountPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_batch_batchaccounts", filters, limit)
+func (k Client) NewBatchAccountPaginator(filters []essdk.BoolFilter, limit *int64) (BatchAccountPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_batch_batchaccounts", filters, limit)
 	if err != nil {
 		return BatchAccountPaginator{}, err
 	}
@@ -10101,12 +10242,12 @@ func (k Client) NewBatchAccountPaginator(filters []BoolFilter, limit *int64) (Ba
 }
 
 func (p BatchAccountPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p BatchAccountPaginator) NextPage(ctx context.Context) ([]BatchAccount, error) {
 	var response BatchAccountSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -10118,9 +10259,9 @@ func (p BatchAccountPaginator) NextPage(ctx context.Context) ([]BatchAccount, er
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -10134,13 +10275,14 @@ func ListBatchAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	plugin.Logger(ctx).Trace("ListBatchAccount")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewBatchAccountPaginator(buildFilter(d.KeyColumnQuals, listBatchAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBatchAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, listBatchAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10169,14 +10311,15 @@ func GetBatchAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("GetBatchAccount")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBatchAccountPaginator(buildFilter(d.KeyColumnQuals, getBatchAccountFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewBatchAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, getBatchAccountFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10222,7 +10365,7 @@ type CognitiveAccountHit struct {
 }
 
 type CognitiveAccountHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []CognitiveAccountHit `json:"hits"`
 }
 
@@ -10232,11 +10375,11 @@ type CognitiveAccountSearchResponse struct {
 }
 
 type CognitiveAccountPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewCognitiveAccountPaginator(filters []BoolFilter, limit *int64) (CognitiveAccountPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_cognitiveservices_accounts", filters, limit)
+func (k Client) NewCognitiveAccountPaginator(filters []essdk.BoolFilter, limit *int64) (CognitiveAccountPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_cognitiveservices_accounts", filters, limit)
 	if err != nil {
 		return CognitiveAccountPaginator{}, err
 	}
@@ -10249,12 +10392,12 @@ func (k Client) NewCognitiveAccountPaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p CognitiveAccountPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p CognitiveAccountPaginator) NextPage(ctx context.Context) ([]CognitiveAccount, error) {
 	var response CognitiveAccountSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -10266,9 +10409,9 @@ func (p CognitiveAccountPaginator) NextPage(ctx context.Context) ([]CognitiveAcc
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -10282,13 +10425,14 @@ func ListCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListCognitiveAccount")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewCognitiveAccountPaginator(buildFilter(d.KeyColumnQuals, listCognitiveAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCognitiveAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCognitiveAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10317,14 +10461,15 @@ func GetCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetCognitiveAccount")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCognitiveAccountPaginator(buildFilter(d.KeyColumnQuals, getCognitiveAccountFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCognitiveAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCognitiveAccountFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10370,7 +10515,7 @@ type ComputeVirtualMachineHit struct {
 }
 
 type ComputeVirtualMachineHits struct {
-	Total SearchTotal                `json:"total"`
+	Total essdk.SearchTotal          `json:"total"`
 	Hits  []ComputeVirtualMachineHit `json:"hits"`
 }
 
@@ -10380,11 +10525,11 @@ type ComputeVirtualMachineSearchResponse struct {
 }
 
 type ComputeVirtualMachinePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeVirtualMachinePaginator(filters []BoolFilter, limit *int64) (ComputeVirtualMachinePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_virtualmachines", filters, limit)
+func (k Client) NewComputeVirtualMachinePaginator(filters []essdk.BoolFilter, limit *int64) (ComputeVirtualMachinePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_virtualmachines", filters, limit)
 	if err != nil {
 		return ComputeVirtualMachinePaginator{}, err
 	}
@@ -10397,12 +10542,12 @@ func (k Client) NewComputeVirtualMachinePaginator(filters []BoolFilter, limit *i
 }
 
 func (p ComputeVirtualMachinePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeVirtualMachinePaginator) NextPage(ctx context.Context) ([]ComputeVirtualMachine, error) {
 	var response ComputeVirtualMachineSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -10414,9 +10559,9 @@ func (p ComputeVirtualMachinePaginator) NextPage(ctx context.Context) ([]Compute
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -10430,13 +10575,14 @@ func ListComputeVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plug
 	plugin.Logger(ctx).Trace("ListComputeVirtualMachine")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachinePaginator(buildFilter(d.KeyColumnQuals, listComputeVirtualMachineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeVirtualMachinePaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeVirtualMachineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10465,14 +10611,15 @@ func GetComputeVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("GetComputeVirtualMachine")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachinePaginator(buildFilter(d.KeyColumnQuals, getComputeVirtualMachineFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeVirtualMachinePaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeVirtualMachineFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10518,7 +10665,7 @@ type ComputeResourceSKUHit struct {
 }
 
 type ComputeResourceSKUHits struct {
-	Total SearchTotal             `json:"total"`
+	Total essdk.SearchTotal       `json:"total"`
 	Hits  []ComputeResourceSKUHit `json:"hits"`
 }
 
@@ -10528,11 +10675,11 @@ type ComputeResourceSKUSearchResponse struct {
 }
 
 type ComputeResourceSKUPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeResourceSKUPaginator(filters []BoolFilter, limit *int64) (ComputeResourceSKUPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_resourcesku", filters, limit)
+func (k Client) NewComputeResourceSKUPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeResourceSKUPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_resourcesku", filters, limit)
 	if err != nil {
 		return ComputeResourceSKUPaginator{}, err
 	}
@@ -10545,12 +10692,12 @@ func (k Client) NewComputeResourceSKUPaginator(filters []BoolFilter, limit *int6
 }
 
 func (p ComputeResourceSKUPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeResourceSKUPaginator) NextPage(ctx context.Context) ([]ComputeResourceSKU, error) {
 	var response ComputeResourceSKUSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -10562,9 +10709,9 @@ func (p ComputeResourceSKUPaginator) NextPage(ctx context.Context) ([]ComputeRes
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -10578,13 +10725,14 @@ func ListComputeResourceSKU(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("ListComputeResourceSKU")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeResourceSKUPaginator(buildFilter(d.KeyColumnQuals, listComputeResourceSKUFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeResourceSKUPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeResourceSKUFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10611,14 +10759,15 @@ func GetComputeResourceSKU(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("GetComputeResourceSKU")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeResourceSKUPaginator(buildFilter(d.KeyColumnQuals, getComputeResourceSKUFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeResourceSKUPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeResourceSKUFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10664,7 +10813,7 @@ type ComputeVirtualMachineCpuUtilizationHit struct {
 }
 
 type ComputeVirtualMachineCpuUtilizationHits struct {
-	Total SearchTotal                              `json:"total"`
+	Total essdk.SearchTotal                        `json:"total"`
 	Hits  []ComputeVirtualMachineCpuUtilizationHit `json:"hits"`
 }
 
@@ -10674,11 +10823,11 @@ type ComputeVirtualMachineCpuUtilizationSearchResponse struct {
 }
 
 type ComputeVirtualMachineCpuUtilizationPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeVirtualMachineCpuUtilizationPaginator(filters []BoolFilter, limit *int64) (ComputeVirtualMachineCpuUtilizationPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_virtualmachinecpuutilization", filters, limit)
+func (k Client) NewComputeVirtualMachineCpuUtilizationPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeVirtualMachineCpuUtilizationPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_virtualmachinecpuutilization", filters, limit)
 	if err != nil {
 		return ComputeVirtualMachineCpuUtilizationPaginator{}, err
 	}
@@ -10691,12 +10840,12 @@ func (k Client) NewComputeVirtualMachineCpuUtilizationPaginator(filters []BoolFi
 }
 
 func (p ComputeVirtualMachineCpuUtilizationPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeVirtualMachineCpuUtilizationPaginator) NextPage(ctx context.Context) ([]ComputeVirtualMachineCpuUtilization, error) {
 	var response ComputeVirtualMachineCpuUtilizationSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -10708,9 +10857,9 @@ func (p ComputeVirtualMachineCpuUtilizationPaginator) NextPage(ctx context.Conte
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -10724,13 +10873,14 @@ func ListComputeVirtualMachineCpuUtilization(ctx context.Context, d *plugin.Quer
 	plugin.Logger(ctx).Trace("ListComputeVirtualMachineCpuUtilization")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationPaginator(buildFilter(d.KeyColumnQuals, listComputeVirtualMachineCpuUtilizationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeVirtualMachineCpuUtilizationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10757,14 +10907,15 @@ func GetComputeVirtualMachineCpuUtilization(ctx context.Context, d *plugin.Query
 	plugin.Logger(ctx).Trace("GetComputeVirtualMachineCpuUtilization")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationPaginator(buildFilter(d.KeyColumnQuals, getComputeVirtualMachineCpuUtilizationFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeVirtualMachineCpuUtilizationFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10810,7 +10961,7 @@ type ComputeVirtualMachineCpuUtilizationDailyHit struct {
 }
 
 type ComputeVirtualMachineCpuUtilizationDailyHits struct {
-	Total SearchTotal                                   `json:"total"`
+	Total essdk.SearchTotal                             `json:"total"`
 	Hits  []ComputeVirtualMachineCpuUtilizationDailyHit `json:"hits"`
 }
 
@@ -10820,11 +10971,11 @@ type ComputeVirtualMachineCpuUtilizationDailySearchResponse struct {
 }
 
 type ComputeVirtualMachineCpuUtilizationDailyPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeVirtualMachineCpuUtilizationDailyPaginator(filters []BoolFilter, limit *int64) (ComputeVirtualMachineCpuUtilizationDailyPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_virtualmachinecpuutilizationdaily", filters, limit)
+func (k Client) NewComputeVirtualMachineCpuUtilizationDailyPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeVirtualMachineCpuUtilizationDailyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_virtualmachinecpuutilizationdaily", filters, limit)
 	if err != nil {
 		return ComputeVirtualMachineCpuUtilizationDailyPaginator{}, err
 	}
@@ -10837,12 +10988,12 @@ func (k Client) NewComputeVirtualMachineCpuUtilizationDailyPaginator(filters []B
 }
 
 func (p ComputeVirtualMachineCpuUtilizationDailyPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeVirtualMachineCpuUtilizationDailyPaginator) NextPage(ctx context.Context) ([]ComputeVirtualMachineCpuUtilizationDaily, error) {
 	var response ComputeVirtualMachineCpuUtilizationDailySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -10854,9 +11005,9 @@ func (p ComputeVirtualMachineCpuUtilizationDailyPaginator) NextPage(ctx context.
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -10870,13 +11021,14 @@ func ListComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, d *plugin
 	plugin.Logger(ctx).Trace("ListComputeVirtualMachineCpuUtilizationDaily")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationDailyPaginator(buildFilter(d.KeyColumnQuals, listComputeVirtualMachineCpuUtilizationDailyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationDailyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeVirtualMachineCpuUtilizationDailyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10903,14 +11055,15 @@ func GetComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, d *plugin.
 	plugin.Logger(ctx).Trace("GetComputeVirtualMachineCpuUtilizationDaily")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationDailyPaginator(buildFilter(d.KeyColumnQuals, getComputeVirtualMachineCpuUtilizationDailyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationDailyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeVirtualMachineCpuUtilizationDailyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10956,7 +11109,7 @@ type ComputeVirtualMachineCpuUtilizationHourlyHit struct {
 }
 
 type ComputeVirtualMachineCpuUtilizationHourlyHits struct {
-	Total SearchTotal                                    `json:"total"`
+	Total essdk.SearchTotal                              `json:"total"`
 	Hits  []ComputeVirtualMachineCpuUtilizationHourlyHit `json:"hits"`
 }
 
@@ -10966,11 +11119,11 @@ type ComputeVirtualMachineCpuUtilizationHourlySearchResponse struct {
 }
 
 type ComputeVirtualMachineCpuUtilizationHourlyPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewComputeVirtualMachineCpuUtilizationHourlyPaginator(filters []BoolFilter, limit *int64) (ComputeVirtualMachineCpuUtilizationHourlyPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_compute_virtualmachinecpuutilizationhourly", filters, limit)
+func (k Client) NewComputeVirtualMachineCpuUtilizationHourlyPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeVirtualMachineCpuUtilizationHourlyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_virtualmachinecpuutilizationhourly", filters, limit)
 	if err != nil {
 		return ComputeVirtualMachineCpuUtilizationHourlyPaginator{}, err
 	}
@@ -10983,12 +11136,12 @@ func (k Client) NewComputeVirtualMachineCpuUtilizationHourlyPaginator(filters []
 }
 
 func (p ComputeVirtualMachineCpuUtilizationHourlyPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ComputeVirtualMachineCpuUtilizationHourlyPaginator) NextPage(ctx context.Context) ([]ComputeVirtualMachineCpuUtilizationHourly, error) {
 	var response ComputeVirtualMachineCpuUtilizationHourlySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -11000,9 +11153,9 @@ func (p ComputeVirtualMachineCpuUtilizationHourlyPaginator) NextPage(ctx context
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -11016,13 +11169,14 @@ func ListComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, d *plugi
 	plugin.Logger(ctx).Trace("ListComputeVirtualMachineCpuUtilizationHourly")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationHourlyPaginator(buildFilter(d.KeyColumnQuals, listComputeVirtualMachineCpuUtilizationHourlyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationHourlyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeVirtualMachineCpuUtilizationHourlyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11049,14 +11203,15 @@ func GetComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, d *plugin
 	plugin.Logger(ctx).Trace("GetComputeVirtualMachineCpuUtilizationHourly")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationHourlyPaginator(buildFilter(d.KeyColumnQuals, getComputeVirtualMachineCpuUtilizationHourlyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationHourlyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeVirtualMachineCpuUtilizationHourlyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11102,7 +11257,7 @@ type ContainerRegistryHit struct {
 }
 
 type ContainerRegistryHits struct {
-	Total SearchTotal            `json:"total"`
+	Total essdk.SearchTotal      `json:"total"`
 	Hits  []ContainerRegistryHit `json:"hits"`
 }
 
@@ -11112,11 +11267,11 @@ type ContainerRegistrySearchResponse struct {
 }
 
 type ContainerRegistryPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewContainerRegistryPaginator(filters []BoolFilter, limit *int64) (ContainerRegistryPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_containerregistry_registries", filters, limit)
+func (k Client) NewContainerRegistryPaginator(filters []essdk.BoolFilter, limit *int64) (ContainerRegistryPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_containerregistry_registries", filters, limit)
 	if err != nil {
 		return ContainerRegistryPaginator{}, err
 	}
@@ -11129,12 +11284,12 @@ func (k Client) NewContainerRegistryPaginator(filters []BoolFilter, limit *int64
 }
 
 func (p ContainerRegistryPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ContainerRegistryPaginator) NextPage(ctx context.Context) ([]ContainerRegistry, error) {
 	var response ContainerRegistrySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -11146,9 +11301,9 @@ func (p ContainerRegistryPaginator) NextPage(ctx context.Context) ([]ContainerRe
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -11162,13 +11317,14 @@ func ListContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("ListContainerRegistry")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewContainerRegistryPaginator(buildFilter(d.KeyColumnQuals, listContainerRegistryFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewContainerRegistryPaginator(essdk.BuildFilter(d.KeyColumnQuals, listContainerRegistryFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11197,14 +11353,15 @@ func GetContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("GetContainerRegistry")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewContainerRegistryPaginator(buildFilter(d.KeyColumnQuals, getContainerRegistryFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewContainerRegistryPaginator(essdk.BuildFilter(d.KeyColumnQuals, getContainerRegistryFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11250,7 +11407,7 @@ type CosmosdbAccountHit struct {
 }
 
 type CosmosdbAccountHits struct {
-	Total SearchTotal          `json:"total"`
+	Total essdk.SearchTotal    `json:"total"`
 	Hits  []CosmosdbAccountHit `json:"hits"`
 }
 
@@ -11260,11 +11417,11 @@ type CosmosdbAccountSearchResponse struct {
 }
 
 type CosmosdbAccountPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewCosmosdbAccountPaginator(filters []BoolFilter, limit *int64) (CosmosdbAccountPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_documentdb_databaseaccounts", filters, limit)
+func (k Client) NewCosmosdbAccountPaginator(filters []essdk.BoolFilter, limit *int64) (CosmosdbAccountPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_databaseaccounts", filters, limit)
 	if err != nil {
 		return CosmosdbAccountPaginator{}, err
 	}
@@ -11277,12 +11434,12 @@ func (k Client) NewCosmosdbAccountPaginator(filters []BoolFilter, limit *int64) 
 }
 
 func (p CosmosdbAccountPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p CosmosdbAccountPaginator) NextPage(ctx context.Context) ([]CosmosdbAccount, error) {
 	var response CosmosdbAccountSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -11294,9 +11451,9 @@ func (p CosmosdbAccountPaginator) NextPage(ctx context.Context) ([]CosmosdbAccou
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -11310,13 +11467,14 @@ func ListCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("ListCosmosdbAccount")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewCosmosdbAccountPaginator(buildFilter(d.KeyColumnQuals, listCosmosdbAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCosmosdbAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCosmosdbAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11345,14 +11503,15 @@ func GetCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("GetCosmosdbAccount")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCosmosdbAccountPaginator(buildFilter(d.KeyColumnQuals, getCosmosdbAccountFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCosmosdbAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCosmosdbAccountFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11398,7 +11557,7 @@ type CosmosdbMongoDatabaseHit struct {
 }
 
 type CosmosdbMongoDatabaseHits struct {
-	Total SearchTotal                `json:"total"`
+	Total essdk.SearchTotal          `json:"total"`
 	Hits  []CosmosdbMongoDatabaseHit `json:"hits"`
 }
 
@@ -11408,11 +11567,11 @@ type CosmosdbMongoDatabaseSearchResponse struct {
 }
 
 type CosmosdbMongoDatabasePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewCosmosdbMongoDatabasePaginator(filters []BoolFilter, limit *int64) (CosmosdbMongoDatabasePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_documentdb_mongodatabases", filters, limit)
+func (k Client) NewCosmosdbMongoDatabasePaginator(filters []essdk.BoolFilter, limit *int64) (CosmosdbMongoDatabasePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_mongodatabases", filters, limit)
 	if err != nil {
 		return CosmosdbMongoDatabasePaginator{}, err
 	}
@@ -11425,12 +11584,12 @@ func (k Client) NewCosmosdbMongoDatabasePaginator(filters []BoolFilter, limit *i
 }
 
 func (p CosmosdbMongoDatabasePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p CosmosdbMongoDatabasePaginator) NextPage(ctx context.Context) ([]CosmosdbMongoDatabase, error) {
 	var response CosmosdbMongoDatabaseSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -11442,9 +11601,9 @@ func (p CosmosdbMongoDatabasePaginator) NextPage(ctx context.Context) ([]Cosmosd
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -11458,13 +11617,14 @@ func ListCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plug
 	plugin.Logger(ctx).Trace("ListCosmosdbMongoDatabase")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewCosmosdbMongoDatabasePaginator(buildFilter(d.KeyColumnQuals, listCosmosdbMongoDatabaseFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCosmosdbMongoDatabasePaginator(essdk.BuildFilter(d.KeyColumnQuals, listCosmosdbMongoDatabaseFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11494,14 +11654,15 @@ func GetCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("GetCosmosdbMongoDatabase")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCosmosdbMongoDatabasePaginator(buildFilter(d.KeyColumnQuals, getCosmosdbMongoDatabaseFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCosmosdbMongoDatabasePaginator(essdk.BuildFilter(d.KeyColumnQuals, getCosmosdbMongoDatabaseFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11547,7 +11708,7 @@ type CosmosdbSqlDatabaseHit struct {
 }
 
 type CosmosdbSqlDatabaseHits struct {
-	Total SearchTotal              `json:"total"`
+	Total essdk.SearchTotal        `json:"total"`
 	Hits  []CosmosdbSqlDatabaseHit `json:"hits"`
 }
 
@@ -11557,11 +11718,11 @@ type CosmosdbSqlDatabaseSearchResponse struct {
 }
 
 type CosmosdbSqlDatabasePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewCosmosdbSqlDatabasePaginator(filters []BoolFilter, limit *int64) (CosmosdbSqlDatabasePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_documentdb_sqldatabases", filters, limit)
+func (k Client) NewCosmosdbSqlDatabasePaginator(filters []essdk.BoolFilter, limit *int64) (CosmosdbSqlDatabasePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_sqldatabases", filters, limit)
 	if err != nil {
 		return CosmosdbSqlDatabasePaginator{}, err
 	}
@@ -11574,12 +11735,12 @@ func (k Client) NewCosmosdbSqlDatabasePaginator(filters []BoolFilter, limit *int
 }
 
 func (p CosmosdbSqlDatabasePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p CosmosdbSqlDatabasePaginator) NextPage(ctx context.Context) ([]CosmosdbSqlDatabase, error) {
 	var response CosmosdbSqlDatabaseSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -11591,9 +11752,9 @@ func (p CosmosdbSqlDatabasePaginator) NextPage(ctx context.Context) ([]CosmosdbS
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -11607,13 +11768,14 @@ func ListCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("ListCosmosdbSqlDatabase")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewCosmosdbSqlDatabasePaginator(buildFilter(d.KeyColumnQuals, listCosmosdbSqlDatabaseFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCosmosdbSqlDatabasePaginator(essdk.BuildFilter(d.KeyColumnQuals, listCosmosdbSqlDatabaseFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11643,14 +11805,15 @@ func GetCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("GetCosmosdbSqlDatabase")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCosmosdbSqlDatabasePaginator(buildFilter(d.KeyColumnQuals, getCosmosdbSqlDatabaseFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCosmosdbSqlDatabasePaginator(essdk.BuildFilter(d.KeyColumnQuals, getCosmosdbSqlDatabaseFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11696,8 +11859,8 @@ type DataFactoryHit struct {
 }
 
 type DataFactoryHits struct {
-	Total SearchTotal      `json:"total"`
-	Hits  []DataFactoryHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []DataFactoryHit  `json:"hits"`
 }
 
 type DataFactorySearchResponse struct {
@@ -11706,11 +11869,11 @@ type DataFactorySearchResponse struct {
 }
 
 type DataFactoryPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewDataFactoryPaginator(filters []BoolFilter, limit *int64) (DataFactoryPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_datafactory_datafactories", filters, limit)
+func (k Client) NewDataFactoryPaginator(filters []essdk.BoolFilter, limit *int64) (DataFactoryPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_datafactories", filters, limit)
 	if err != nil {
 		return DataFactoryPaginator{}, err
 	}
@@ -11723,12 +11886,12 @@ func (k Client) NewDataFactoryPaginator(filters []BoolFilter, limit *int64) (Dat
 }
 
 func (p DataFactoryPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p DataFactoryPaginator) NextPage(ctx context.Context) ([]DataFactory, error) {
 	var response DataFactorySearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -11740,9 +11903,9 @@ func (p DataFactoryPaginator) NextPage(ctx context.Context) ([]DataFactory, erro
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -11756,13 +11919,14 @@ func ListDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("ListDataFactory")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewDataFactoryPaginator(buildFilter(d.KeyColumnQuals, listDataFactoryFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataFactoryPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataFactoryFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11791,14 +11955,15 @@ func GetDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	plugin.Logger(ctx).Trace("GetDataFactory")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataFactoryPaginator(buildFilter(d.KeyColumnQuals, getDataFactoryFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataFactoryPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataFactoryFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11844,7 +12009,7 @@ type DataFactoryDatasetHit struct {
 }
 
 type DataFactoryDatasetHits struct {
-	Total SearchTotal             `json:"total"`
+	Total essdk.SearchTotal       `json:"total"`
 	Hits  []DataFactoryDatasetHit `json:"hits"`
 }
 
@@ -11854,11 +12019,11 @@ type DataFactoryDatasetSearchResponse struct {
 }
 
 type DataFactoryDatasetPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewDataFactoryDatasetPaginator(filters []BoolFilter, limit *int64) (DataFactoryDatasetPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_datafactory_datafactorydatasets", filters, limit)
+func (k Client) NewDataFactoryDatasetPaginator(filters []essdk.BoolFilter, limit *int64) (DataFactoryDatasetPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_datafactorydatasets", filters, limit)
 	if err != nil {
 		return DataFactoryDatasetPaginator{}, err
 	}
@@ -11871,12 +12036,12 @@ func (k Client) NewDataFactoryDatasetPaginator(filters []BoolFilter, limit *int6
 }
 
 func (p DataFactoryDatasetPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p DataFactoryDatasetPaginator) NextPage(ctx context.Context) ([]DataFactoryDataset, error) {
 	var response DataFactoryDatasetSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -11888,9 +12053,9 @@ func (p DataFactoryDatasetPaginator) NextPage(ctx context.Context) ([]DataFactor
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -11904,13 +12069,14 @@ func ListDataFactoryDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("ListDataFactoryDataset")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewDataFactoryDatasetPaginator(buildFilter(d.KeyColumnQuals, listDataFactoryDatasetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataFactoryDatasetPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataFactoryDatasetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11940,14 +12106,15 @@ func GetDataFactoryDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("GetDataFactoryDataset")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataFactoryDatasetPaginator(buildFilter(d.KeyColumnQuals, getDataFactoryDatasetFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataFactoryDatasetPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataFactoryDatasetFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11993,7 +12160,7 @@ type DataFactoryPipelineHit struct {
 }
 
 type DataFactoryPipelineHits struct {
-	Total SearchTotal              `json:"total"`
+	Total essdk.SearchTotal        `json:"total"`
 	Hits  []DataFactoryPipelineHit `json:"hits"`
 }
 
@@ -12003,11 +12170,11 @@ type DataFactoryPipelineSearchResponse struct {
 }
 
 type DataFactoryPipelinePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewDataFactoryPipelinePaginator(filters []BoolFilter, limit *int64) (DataFactoryPipelinePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_datafactory_datafactorypipelines", filters, limit)
+func (k Client) NewDataFactoryPipelinePaginator(filters []essdk.BoolFilter, limit *int64) (DataFactoryPipelinePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_datafactorypipelines", filters, limit)
 	if err != nil {
 		return DataFactoryPipelinePaginator{}, err
 	}
@@ -12020,12 +12187,12 @@ func (k Client) NewDataFactoryPipelinePaginator(filters []BoolFilter, limit *int
 }
 
 func (p DataFactoryPipelinePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p DataFactoryPipelinePaginator) NextPage(ctx context.Context) ([]DataFactoryPipeline, error) {
 	var response DataFactoryPipelineSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -12037,9 +12204,9 @@ func (p DataFactoryPipelinePaginator) NextPage(ctx context.Context) ([]DataFacto
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -12053,13 +12220,14 @@ func ListDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("ListDataFactoryPipeline")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewDataFactoryPipelinePaginator(buildFilter(d.KeyColumnQuals, listDataFactoryPipelineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataFactoryPipelinePaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataFactoryPipelineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12089,14 +12257,15 @@ func GetDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("GetDataFactoryPipeline")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataFactoryPipelinePaginator(buildFilter(d.KeyColumnQuals, getDataFactoryPipelineFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataFactoryPipelinePaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataFactoryPipelineFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12142,7 +12311,7 @@ type DataLakeAnalyticsAccountHit struct {
 }
 
 type DataLakeAnalyticsAccountHits struct {
-	Total SearchTotal                   `json:"total"`
+	Total essdk.SearchTotal             `json:"total"`
 	Hits  []DataLakeAnalyticsAccountHit `json:"hits"`
 }
 
@@ -12152,11 +12321,11 @@ type DataLakeAnalyticsAccountSearchResponse struct {
 }
 
 type DataLakeAnalyticsAccountPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewDataLakeAnalyticsAccountPaginator(filters []BoolFilter, limit *int64) (DataLakeAnalyticsAccountPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_datalakeanalytics_accounts", filters, limit)
+func (k Client) NewDataLakeAnalyticsAccountPaginator(filters []essdk.BoolFilter, limit *int64) (DataLakeAnalyticsAccountPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datalakeanalytics_accounts", filters, limit)
 	if err != nil {
 		return DataLakeAnalyticsAccountPaginator{}, err
 	}
@@ -12169,12 +12338,12 @@ func (k Client) NewDataLakeAnalyticsAccountPaginator(filters []BoolFilter, limit
 }
 
 func (p DataLakeAnalyticsAccountPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p DataLakeAnalyticsAccountPaginator) NextPage(ctx context.Context) ([]DataLakeAnalyticsAccount, error) {
 	var response DataLakeAnalyticsAccountSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -12186,9 +12355,9 @@ func (p DataLakeAnalyticsAccountPaginator) NextPage(ctx context.Context) ([]Data
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -12202,13 +12371,14 @@ func ListDataLakeAnalyticsAccount(ctx context.Context, d *plugin.QueryData, _ *p
 	plugin.Logger(ctx).Trace("ListDataLakeAnalyticsAccount")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewDataLakeAnalyticsAccountPaginator(buildFilter(d.KeyColumnQuals, listDataLakeAnalyticsAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataLakeAnalyticsAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataLakeAnalyticsAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12237,14 +12407,15 @@ func GetDataLakeAnalyticsAccount(ctx context.Context, d *plugin.QueryData, _ *pl
 	plugin.Logger(ctx).Trace("GetDataLakeAnalyticsAccount")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataLakeAnalyticsAccountPaginator(buildFilter(d.KeyColumnQuals, getDataLakeAnalyticsAccountFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataLakeAnalyticsAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataLakeAnalyticsAccountFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12290,7 +12461,7 @@ type DataLakeStoreHit struct {
 }
 
 type DataLakeStoreHits struct {
-	Total SearchTotal        `json:"total"`
+	Total essdk.SearchTotal  `json:"total"`
 	Hits  []DataLakeStoreHit `json:"hits"`
 }
 
@@ -12300,11 +12471,11 @@ type DataLakeStoreSearchResponse struct {
 }
 
 type DataLakeStorePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewDataLakeStorePaginator(filters []BoolFilter, limit *int64) (DataLakeStorePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_datalakestore_accounts", filters, limit)
+func (k Client) NewDataLakeStorePaginator(filters []essdk.BoolFilter, limit *int64) (DataLakeStorePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datalakestore_accounts", filters, limit)
 	if err != nil {
 		return DataLakeStorePaginator{}, err
 	}
@@ -12317,12 +12488,12 @@ func (k Client) NewDataLakeStorePaginator(filters []BoolFilter, limit *int64) (D
 }
 
 func (p DataLakeStorePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p DataLakeStorePaginator) NextPage(ctx context.Context) ([]DataLakeStore, error) {
 	var response DataLakeStoreSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -12334,9 +12505,9 @@ func (p DataLakeStorePaginator) NextPage(ctx context.Context) ([]DataLakeStore, 
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -12350,13 +12521,14 @@ func ListDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("ListDataLakeStore")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewDataLakeStorePaginator(buildFilter(d.KeyColumnQuals, listDataLakeStoreFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataLakeStorePaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataLakeStoreFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12385,14 +12557,15 @@ func GetDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	plugin.Logger(ctx).Trace("GetDataLakeStore")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataLakeStorePaginator(buildFilter(d.KeyColumnQuals, getDataLakeStoreFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataLakeStorePaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataLakeStoreFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12438,7 +12611,7 @@ type DiagnosticSettingHit struct {
 }
 
 type DiagnosticSettingHits struct {
-	Total SearchTotal            `json:"total"`
+	Total essdk.SearchTotal      `json:"total"`
 	Hits  []DiagnosticSettingHit `json:"hits"`
 }
 
@@ -12448,11 +12621,11 @@ type DiagnosticSettingSearchResponse struct {
 }
 
 type DiagnosticSettingPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewDiagnosticSettingPaginator(filters []BoolFilter, limit *int64) (DiagnosticSettingPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_insights_guestdiagnosticsettings", filters, limit)
+func (k Client) NewDiagnosticSettingPaginator(filters []essdk.BoolFilter, limit *int64) (DiagnosticSettingPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_insights_guestdiagnosticsettings", filters, limit)
 	if err != nil {
 		return DiagnosticSettingPaginator{}, err
 	}
@@ -12465,12 +12638,12 @@ func (k Client) NewDiagnosticSettingPaginator(filters []BoolFilter, limit *int64
 }
 
 func (p DiagnosticSettingPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p DiagnosticSettingPaginator) NextPage(ctx context.Context) ([]DiagnosticSetting, error) {
 	var response DiagnosticSettingSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -12482,9 +12655,9 @@ func (p DiagnosticSettingPaginator) NextPage(ctx context.Context) ([]DiagnosticS
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -12498,13 +12671,14 @@ func ListDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("ListDiagnosticSetting")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewDiagnosticSettingPaginator(buildFilter(d.KeyColumnQuals, listDiagnosticSettingFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDiagnosticSettingPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDiagnosticSettingFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12533,14 +12707,15 @@ func GetDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("GetDiagnosticSetting")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDiagnosticSettingPaginator(buildFilter(d.KeyColumnQuals, getDiagnosticSettingFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDiagnosticSettingPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDiagnosticSettingFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12586,7 +12761,7 @@ type EventGridDomainHit struct {
 }
 
 type EventGridDomainHits struct {
-	Total SearchTotal          `json:"total"`
+	Total essdk.SearchTotal    `json:"total"`
 	Hits  []EventGridDomainHit `json:"hits"`
 }
 
@@ -12596,11 +12771,11 @@ type EventGridDomainSearchResponse struct {
 }
 
 type EventGridDomainPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewEventGridDomainPaginator(filters []BoolFilter, limit *int64) (EventGridDomainPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_eventgrid_domains", filters, limit)
+func (k Client) NewEventGridDomainPaginator(filters []essdk.BoolFilter, limit *int64) (EventGridDomainPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_eventgrid_domains", filters, limit)
 	if err != nil {
 		return EventGridDomainPaginator{}, err
 	}
@@ -12613,12 +12788,12 @@ func (k Client) NewEventGridDomainPaginator(filters []BoolFilter, limit *int64) 
 }
 
 func (p EventGridDomainPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p EventGridDomainPaginator) NextPage(ctx context.Context) ([]EventGridDomain, error) {
 	var response EventGridDomainSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -12630,9 +12805,9 @@ func (p EventGridDomainPaginator) NextPage(ctx context.Context) ([]EventGridDoma
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -12646,13 +12821,14 @@ func ListEventGridDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("ListEventGridDomain")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewEventGridDomainPaginator(buildFilter(d.KeyColumnQuals, listEventGridDomainFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEventGridDomainPaginator(essdk.BuildFilter(d.KeyColumnQuals, listEventGridDomainFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12681,14 +12857,15 @@ func GetEventGridDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("GetEventGridDomain")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEventGridDomainPaginator(buildFilter(d.KeyColumnQuals, getEventGridDomainFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewEventGridDomainPaginator(essdk.BuildFilter(d.KeyColumnQuals, getEventGridDomainFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12734,7 +12911,7 @@ type EventGridTopicHit struct {
 }
 
 type EventGridTopicHits struct {
-	Total SearchTotal         `json:"total"`
+	Total essdk.SearchTotal   `json:"total"`
 	Hits  []EventGridTopicHit `json:"hits"`
 }
 
@@ -12744,11 +12921,11 @@ type EventGridTopicSearchResponse struct {
 }
 
 type EventGridTopicPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewEventGridTopicPaginator(filters []BoolFilter, limit *int64) (EventGridTopicPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_eventgrid_topics", filters, limit)
+func (k Client) NewEventGridTopicPaginator(filters []essdk.BoolFilter, limit *int64) (EventGridTopicPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_eventgrid_topics", filters, limit)
 	if err != nil {
 		return EventGridTopicPaginator{}, err
 	}
@@ -12761,12 +12938,12 @@ func (k Client) NewEventGridTopicPaginator(filters []BoolFilter, limit *int64) (
 }
 
 func (p EventGridTopicPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p EventGridTopicPaginator) NextPage(ctx context.Context) ([]EventGridTopic, error) {
 	var response EventGridTopicSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -12778,9 +12955,9 @@ func (p EventGridTopicPaginator) NextPage(ctx context.Context) ([]EventGridTopic
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -12794,13 +12971,14 @@ func ListEventGridTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("ListEventGridTopic")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewEventGridTopicPaginator(buildFilter(d.KeyColumnQuals, listEventGridTopicFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEventGridTopicPaginator(essdk.BuildFilter(d.KeyColumnQuals, listEventGridTopicFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12829,14 +13007,15 @@ func GetEventGridTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("GetEventGridTopic")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEventGridTopicPaginator(buildFilter(d.KeyColumnQuals, getEventGridTopicFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewEventGridTopicPaginator(essdk.BuildFilter(d.KeyColumnQuals, getEventGridTopicFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12882,7 +13061,7 @@ type EventhubNamespaceHit struct {
 }
 
 type EventhubNamespaceHits struct {
-	Total SearchTotal            `json:"total"`
+	Total essdk.SearchTotal      `json:"total"`
 	Hits  []EventhubNamespaceHit `json:"hits"`
 }
 
@@ -12892,11 +13071,11 @@ type EventhubNamespaceSearchResponse struct {
 }
 
 type EventhubNamespacePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewEventhubNamespacePaginator(filters []BoolFilter, limit *int64) (EventhubNamespacePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_eventhub_namespaces", filters, limit)
+func (k Client) NewEventhubNamespacePaginator(filters []essdk.BoolFilter, limit *int64) (EventhubNamespacePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_eventhub_namespaces", filters, limit)
 	if err != nil {
 		return EventhubNamespacePaginator{}, err
 	}
@@ -12909,12 +13088,12 @@ func (k Client) NewEventhubNamespacePaginator(filters []BoolFilter, limit *int64
 }
 
 func (p EventhubNamespacePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p EventhubNamespacePaginator) NextPage(ctx context.Context) ([]EventhubNamespace, error) {
 	var response EventhubNamespaceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -12926,9 +13105,9 @@ func (p EventhubNamespacePaginator) NextPage(ctx context.Context) ([]EventhubNam
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -12942,13 +13121,14 @@ func ListEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("ListEventhubNamespace")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewEventhubNamespacePaginator(buildFilter(d.KeyColumnQuals, listEventhubNamespaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEventhubNamespacePaginator(essdk.BuildFilter(d.KeyColumnQuals, listEventhubNamespaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12977,14 +13157,15 @@ func GetEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("GetEventhubNamespace")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEventhubNamespacePaginator(buildFilter(d.KeyColumnQuals, getEventhubNamespaceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewEventhubNamespacePaginator(essdk.BuildFilter(d.KeyColumnQuals, getEventhubNamespaceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13030,8 +13211,8 @@ type FrontdoorHit struct {
 }
 
 type FrontdoorHits struct {
-	Total SearchTotal    `json:"total"`
-	Hits  []FrontdoorHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []FrontdoorHit    `json:"hits"`
 }
 
 type FrontdoorSearchResponse struct {
@@ -13040,11 +13221,11 @@ type FrontdoorSearchResponse struct {
 }
 
 type FrontdoorPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewFrontdoorPaginator(filters []BoolFilter, limit *int64) (FrontdoorPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_frontdoors", filters, limit)
+func (k Client) NewFrontdoorPaginator(filters []essdk.BoolFilter, limit *int64) (FrontdoorPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_frontdoors", filters, limit)
 	if err != nil {
 		return FrontdoorPaginator{}, err
 	}
@@ -13057,12 +13238,12 @@ func (k Client) NewFrontdoorPaginator(filters []BoolFilter, limit *int64) (Front
 }
 
 func (p FrontdoorPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p FrontdoorPaginator) NextPage(ctx context.Context) ([]Frontdoor, error) {
 	var response FrontdoorSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -13074,9 +13255,9 @@ func (p FrontdoorPaginator) NextPage(ctx context.Context) ([]Frontdoor, error) {
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -13090,13 +13271,14 @@ func ListFrontdoor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	plugin.Logger(ctx).Trace("ListFrontdoor")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewFrontdoorPaginator(buildFilter(d.KeyColumnQuals, listFrontdoorFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewFrontdoorPaginator(essdk.BuildFilter(d.KeyColumnQuals, listFrontdoorFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13125,14 +13307,15 @@ func GetFrontdoor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	plugin.Logger(ctx).Trace("GetFrontdoor")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewFrontdoorPaginator(buildFilter(d.KeyColumnQuals, getFrontdoorFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewFrontdoorPaginator(essdk.BuildFilter(d.KeyColumnQuals, getFrontdoorFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13178,7 +13361,7 @@ type HdinsightClusterHit struct {
 }
 
 type HdinsightClusterHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []HdinsightClusterHit `json:"hits"`
 }
 
@@ -13188,11 +13371,11 @@ type HdinsightClusterSearchResponse struct {
 }
 
 type HdinsightClusterPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewHdinsightClusterPaginator(filters []BoolFilter, limit *int64) (HdinsightClusterPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_hdinsight_clusterpools", filters, limit)
+func (k Client) NewHdinsightClusterPaginator(filters []essdk.BoolFilter, limit *int64) (HdinsightClusterPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_hdinsight_clusterpools", filters, limit)
 	if err != nil {
 		return HdinsightClusterPaginator{}, err
 	}
@@ -13205,12 +13388,12 @@ func (k Client) NewHdinsightClusterPaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p HdinsightClusterPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p HdinsightClusterPaginator) NextPage(ctx context.Context) ([]HdinsightCluster, error) {
 	var response HdinsightClusterSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -13222,9 +13405,9 @@ func (p HdinsightClusterPaginator) NextPage(ctx context.Context) ([]HdinsightClu
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -13238,13 +13421,14 @@ func ListHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListHdinsightCluster")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewHdinsightClusterPaginator(buildFilter(d.KeyColumnQuals, listHdinsightClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewHdinsightClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listHdinsightClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13273,14 +13457,15 @@ func GetHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetHdinsightCluster")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewHdinsightClusterPaginator(buildFilter(d.KeyColumnQuals, getHdinsightClusterFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewHdinsightClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getHdinsightClusterFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13326,7 +13511,7 @@ type HybridComputeMachineHit struct {
 }
 
 type HybridComputeMachineHits struct {
-	Total SearchTotal               `json:"total"`
+	Total essdk.SearchTotal         `json:"total"`
 	Hits  []HybridComputeMachineHit `json:"hits"`
 }
 
@@ -13336,11 +13521,11 @@ type HybridComputeMachineSearchResponse struct {
 }
 
 type HybridComputeMachinePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewHybridComputeMachinePaginator(filters []BoolFilter, limit *int64) (HybridComputeMachinePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_hybridcompute_machines", filters, limit)
+func (k Client) NewHybridComputeMachinePaginator(filters []essdk.BoolFilter, limit *int64) (HybridComputeMachinePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_hybridcompute_machines", filters, limit)
 	if err != nil {
 		return HybridComputeMachinePaginator{}, err
 	}
@@ -13353,12 +13538,12 @@ func (k Client) NewHybridComputeMachinePaginator(filters []BoolFilter, limit *in
 }
 
 func (p HybridComputeMachinePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p HybridComputeMachinePaginator) NextPage(ctx context.Context) ([]HybridComputeMachine, error) {
 	var response HybridComputeMachineSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -13370,9 +13555,9 @@ func (p HybridComputeMachinePaginator) NextPage(ctx context.Context) ([]HybridCo
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -13386,13 +13571,14 @@ func ListHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("ListHybridComputeMachine")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewHybridComputeMachinePaginator(buildFilter(d.KeyColumnQuals, listHybridComputeMachineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewHybridComputeMachinePaginator(essdk.BuildFilter(d.KeyColumnQuals, listHybridComputeMachineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13421,14 +13607,15 @@ func GetHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("GetHybridComputeMachine")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewHybridComputeMachinePaginator(buildFilter(d.KeyColumnQuals, getHybridComputeMachineFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewHybridComputeMachinePaginator(essdk.BuildFilter(d.KeyColumnQuals, getHybridComputeMachineFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13474,8 +13661,8 @@ type IOTHubHit struct {
 }
 
 type IOTHubHits struct {
-	Total SearchTotal `json:"total"`
-	Hits  []IOTHubHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []IOTHubHit       `json:"hits"`
 }
 
 type IOTHubSearchResponse struct {
@@ -13484,11 +13671,11 @@ type IOTHubSearchResponse struct {
 }
 
 type IOTHubPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewIOTHubPaginator(filters []BoolFilter, limit *int64) (IOTHubPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_devices_iothubs", filters, limit)
+func (k Client) NewIOTHubPaginator(filters []essdk.BoolFilter, limit *int64) (IOTHubPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_devices_iothubs", filters, limit)
 	if err != nil {
 		return IOTHubPaginator{}, err
 	}
@@ -13501,12 +13688,12 @@ func (k Client) NewIOTHubPaginator(filters []BoolFilter, limit *int64) (IOTHubPa
 }
 
 func (p IOTHubPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p IOTHubPaginator) NextPage(ctx context.Context) ([]IOTHub, error) {
 	var response IOTHubSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -13518,9 +13705,9 @@ func (p IOTHubPaginator) NextPage(ctx context.Context) ([]IOTHub, error) {
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -13534,13 +13721,14 @@ func ListIOTHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	plugin.Logger(ctx).Trace("ListIOTHub")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewIOTHubPaginator(buildFilter(d.KeyColumnQuals, listIOTHubFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIOTHubPaginator(essdk.BuildFilter(d.KeyColumnQuals, listIOTHubFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13569,14 +13757,15 @@ func GetIOTHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	plugin.Logger(ctx).Trace("GetIOTHub")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIOTHubPaginator(buildFilter(d.KeyColumnQuals, getIOTHubFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewIOTHubPaginator(essdk.BuildFilter(d.KeyColumnQuals, getIOTHubFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13622,8 +13811,8 @@ type IOTHubDpsHit struct {
 }
 
 type IOTHubDpsHits struct {
-	Total SearchTotal    `json:"total"`
-	Hits  []IOTHubDpsHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []IOTHubDpsHit    `json:"hits"`
 }
 
 type IOTHubDpsSearchResponse struct {
@@ -13632,11 +13821,11 @@ type IOTHubDpsSearchResponse struct {
 }
 
 type IOTHubDpsPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewIOTHubDpsPaginator(filters []BoolFilter, limit *int64) (IOTHubDpsPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_devices_iothubdpses", filters, limit)
+func (k Client) NewIOTHubDpsPaginator(filters []essdk.BoolFilter, limit *int64) (IOTHubDpsPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_devices_iothubdpses", filters, limit)
 	if err != nil {
 		return IOTHubDpsPaginator{}, err
 	}
@@ -13649,12 +13838,12 @@ func (k Client) NewIOTHubDpsPaginator(filters []BoolFilter, limit *int64) (IOTHu
 }
 
 func (p IOTHubDpsPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p IOTHubDpsPaginator) NextPage(ctx context.Context) ([]IOTHubDps, error) {
 	var response IOTHubDpsSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -13666,9 +13855,9 @@ func (p IOTHubDpsPaginator) NextPage(ctx context.Context) ([]IOTHubDps, error) {
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -13682,13 +13871,14 @@ func ListIOTHubDps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	plugin.Logger(ctx).Trace("ListIOTHubDps")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewIOTHubDpsPaginator(buildFilter(d.KeyColumnQuals, listIOTHubDpsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIOTHubDpsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listIOTHubDpsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13717,14 +13907,15 @@ func GetIOTHubDps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	plugin.Logger(ctx).Trace("GetIOTHubDps")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIOTHubDpsPaginator(buildFilter(d.KeyColumnQuals, getIOTHubDpsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewIOTHubDpsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getIOTHubDpsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13770,8 +13961,8 @@ type KeyVaultHit struct {
 }
 
 type KeyVaultHits struct {
-	Total SearchTotal   `json:"total"`
-	Hits  []KeyVaultHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []KeyVaultHit     `json:"hits"`
 }
 
 type KeyVaultSearchResponse struct {
@@ -13780,11 +13971,11 @@ type KeyVaultSearchResponse struct {
 }
 
 type KeyVaultPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewKeyVaultPaginator(filters []BoolFilter, limit *int64) (KeyVaultPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_keyvault_vaults", filters, limit)
+func (k Client) NewKeyVaultPaginator(filters []essdk.BoolFilter, limit *int64) (KeyVaultPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_keyvault_vaults", filters, limit)
 	if err != nil {
 		return KeyVaultPaginator{}, err
 	}
@@ -13797,12 +13988,12 @@ func (k Client) NewKeyVaultPaginator(filters []BoolFilter, limit *int64) (KeyVau
 }
 
 func (p KeyVaultPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p KeyVaultPaginator) NextPage(ctx context.Context) ([]KeyVault, error) {
 	var response KeyVaultSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -13814,9 +14005,9 @@ func (p KeyVaultPaginator) NextPage(ctx context.Context) ([]KeyVault, error) {
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -13830,13 +14021,14 @@ func ListKeyVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	plugin.Logger(ctx).Trace("ListKeyVault")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultPaginator(buildFilter(d.KeyColumnQuals, listKeyVaultFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKeyVaultPaginator(essdk.BuildFilter(d.KeyColumnQuals, listKeyVaultFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13865,14 +14057,15 @@ func GetKeyVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	plugin.Logger(ctx).Trace("GetKeyVault")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultPaginator(buildFilter(d.KeyColumnQuals, getKeyVaultFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewKeyVaultPaginator(essdk.BuildFilter(d.KeyColumnQuals, getKeyVaultFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13918,7 +14111,7 @@ type KeyVaultDeletedVaultHit struct {
 }
 
 type KeyVaultDeletedVaultHits struct {
-	Total SearchTotal               `json:"total"`
+	Total essdk.SearchTotal         `json:"total"`
 	Hits  []KeyVaultDeletedVaultHit `json:"hits"`
 }
 
@@ -13928,11 +14121,11 @@ type KeyVaultDeletedVaultSearchResponse struct {
 }
 
 type KeyVaultDeletedVaultPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewKeyVaultDeletedVaultPaginator(filters []BoolFilter, limit *int64) (KeyVaultDeletedVaultPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_keyvault_deletedvaults", filters, limit)
+func (k Client) NewKeyVaultDeletedVaultPaginator(filters []essdk.BoolFilter, limit *int64) (KeyVaultDeletedVaultPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_keyvault_deletedvaults", filters, limit)
 	if err != nil {
 		return KeyVaultDeletedVaultPaginator{}, err
 	}
@@ -13945,12 +14138,12 @@ func (k Client) NewKeyVaultDeletedVaultPaginator(filters []BoolFilter, limit *in
 }
 
 func (p KeyVaultDeletedVaultPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p KeyVaultDeletedVaultPaginator) NextPage(ctx context.Context) ([]KeyVaultDeletedVault, error) {
 	var response KeyVaultDeletedVaultSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -13962,9 +14155,9 @@ func (p KeyVaultDeletedVaultPaginator) NextPage(ctx context.Context) ([]KeyVault
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -13978,13 +14171,14 @@ func ListKeyVaultDeletedVault(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("ListKeyVaultDeletedVault")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultDeletedVaultPaginator(buildFilter(d.KeyColumnQuals, listKeyVaultDeletedVaultFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKeyVaultDeletedVaultPaginator(essdk.BuildFilter(d.KeyColumnQuals, listKeyVaultDeletedVaultFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14013,14 +14207,15 @@ func GetKeyVaultDeletedVault(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("GetKeyVaultDeletedVault")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultDeletedVaultPaginator(buildFilter(d.KeyColumnQuals, getKeyVaultDeletedVaultFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewKeyVaultDeletedVaultPaginator(essdk.BuildFilter(d.KeyColumnQuals, getKeyVaultDeletedVaultFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14066,7 +14261,7 @@ type KeyVaultManagedHardwareSecurityModuleHit struct {
 }
 
 type KeyVaultManagedHardwareSecurityModuleHits struct {
-	Total SearchTotal                                `json:"total"`
+	Total essdk.SearchTotal                          `json:"total"`
 	Hits  []KeyVaultManagedHardwareSecurityModuleHit `json:"hits"`
 }
 
@@ -14076,11 +14271,11 @@ type KeyVaultManagedHardwareSecurityModuleSearchResponse struct {
 }
 
 type KeyVaultManagedHardwareSecurityModulePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewKeyVaultManagedHardwareSecurityModulePaginator(filters []BoolFilter, limit *int64) (KeyVaultManagedHardwareSecurityModulePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_keyvault_managedhsms", filters, limit)
+func (k Client) NewKeyVaultManagedHardwareSecurityModulePaginator(filters []essdk.BoolFilter, limit *int64) (KeyVaultManagedHardwareSecurityModulePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_keyvault_managedhsms", filters, limit)
 	if err != nil {
 		return KeyVaultManagedHardwareSecurityModulePaginator{}, err
 	}
@@ -14093,12 +14288,12 @@ func (k Client) NewKeyVaultManagedHardwareSecurityModulePaginator(filters []Bool
 }
 
 func (p KeyVaultManagedHardwareSecurityModulePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p KeyVaultManagedHardwareSecurityModulePaginator) NextPage(ctx context.Context) ([]KeyVaultManagedHardwareSecurityModule, error) {
 	var response KeyVaultManagedHardwareSecurityModuleSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -14110,9 +14305,9 @@ func (p KeyVaultManagedHardwareSecurityModulePaginator) NextPage(ctx context.Con
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -14126,13 +14321,14 @@ func ListKeyVaultManagedHardwareSecurityModule(ctx context.Context, d *plugin.Qu
 	plugin.Logger(ctx).Trace("ListKeyVaultManagedHardwareSecurityModule")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultManagedHardwareSecurityModulePaginator(buildFilter(d.KeyColumnQuals, listKeyVaultManagedHardwareSecurityModuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKeyVaultManagedHardwareSecurityModulePaginator(essdk.BuildFilter(d.KeyColumnQuals, listKeyVaultManagedHardwareSecurityModuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14161,14 +14357,15 @@ func GetKeyVaultManagedHardwareSecurityModule(ctx context.Context, d *plugin.Que
 	plugin.Logger(ctx).Trace("GetKeyVaultManagedHardwareSecurityModule")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultManagedHardwareSecurityModulePaginator(buildFilter(d.KeyColumnQuals, getKeyVaultManagedHardwareSecurityModuleFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewKeyVaultManagedHardwareSecurityModulePaginator(essdk.BuildFilter(d.KeyColumnQuals, getKeyVaultManagedHardwareSecurityModuleFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14214,7 +14411,7 @@ type KeyVaultSecretHit struct {
 }
 
 type KeyVaultSecretHits struct {
-	Total SearchTotal         `json:"total"`
+	Total essdk.SearchTotal   `json:"total"`
 	Hits  []KeyVaultSecretHit `json:"hits"`
 }
 
@@ -14224,11 +14421,11 @@ type KeyVaultSecretSearchResponse struct {
 }
 
 type KeyVaultSecretPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewKeyVaultSecretPaginator(filters []BoolFilter, limit *int64) (KeyVaultSecretPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_keyvault_vaults_secrets", filters, limit)
+func (k Client) NewKeyVaultSecretPaginator(filters []essdk.BoolFilter, limit *int64) (KeyVaultSecretPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_keyvault_vaults_secrets", filters, limit)
 	if err != nil {
 		return KeyVaultSecretPaginator{}, err
 	}
@@ -14241,12 +14438,12 @@ func (k Client) NewKeyVaultSecretPaginator(filters []BoolFilter, limit *int64) (
 }
 
 func (p KeyVaultSecretPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p KeyVaultSecretPaginator) NextPage(ctx context.Context) ([]KeyVaultSecret, error) {
 	var response KeyVaultSecretSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -14258,9 +14455,9 @@ func (p KeyVaultSecretPaginator) NextPage(ctx context.Context) ([]KeyVaultSecret
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -14274,13 +14471,14 @@ func ListKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("ListKeyVaultSecret")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultSecretPaginator(buildFilter(d.KeyColumnQuals, listKeyVaultSecretFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKeyVaultSecretPaginator(essdk.BuildFilter(d.KeyColumnQuals, listKeyVaultSecretFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14309,14 +14507,15 @@ func GetKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("GetKeyVaultSecret")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultSecretPaginator(buildFilter(d.KeyColumnQuals, getKeyVaultSecretFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewKeyVaultSecretPaginator(essdk.BuildFilter(d.KeyColumnQuals, getKeyVaultSecretFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14362,7 +14561,7 @@ type KustoClusterHit struct {
 }
 
 type KustoClusterHits struct {
-	Total SearchTotal       `json:"total"`
+	Total essdk.SearchTotal `json:"total"`
 	Hits  []KustoClusterHit `json:"hits"`
 }
 
@@ -14372,11 +14571,11 @@ type KustoClusterSearchResponse struct {
 }
 
 type KustoClusterPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewKustoClusterPaginator(filters []BoolFilter, limit *int64) (KustoClusterPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_kusto_clusters", filters, limit)
+func (k Client) NewKustoClusterPaginator(filters []essdk.BoolFilter, limit *int64) (KustoClusterPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_kusto_clusters", filters, limit)
 	if err != nil {
 		return KustoClusterPaginator{}, err
 	}
@@ -14389,12 +14588,12 @@ func (k Client) NewKustoClusterPaginator(filters []BoolFilter, limit *int64) (Ku
 }
 
 func (p KustoClusterPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p KustoClusterPaginator) NextPage(ctx context.Context) ([]KustoCluster, error) {
 	var response KustoClusterSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -14406,9 +14605,9 @@ func (p KustoClusterPaginator) NextPage(ctx context.Context) ([]KustoCluster, er
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -14422,13 +14621,14 @@ func ListKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	plugin.Logger(ctx).Trace("ListKustoCluster")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewKustoClusterPaginator(buildFilter(d.KeyColumnQuals, listKustoClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKustoClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listKustoClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14457,14 +14657,15 @@ func GetKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("GetKustoCluster")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKustoClusterPaginator(buildFilter(d.KeyColumnQuals, getKustoClusterFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewKustoClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getKustoClusterFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14510,8 +14711,8 @@ type LogAlertHit struct {
 }
 
 type LogAlertHits struct {
-	Total SearchTotal   `json:"total"`
-	Hits  []LogAlertHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []LogAlertHit     `json:"hits"`
 }
 
 type LogAlertSearchResponse struct {
@@ -14520,11 +14721,11 @@ type LogAlertSearchResponse struct {
 }
 
 type LogAlertPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewLogAlertPaginator(filters []BoolFilter, limit *int64) (LogAlertPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_insights_activitylogalerts", filters, limit)
+func (k Client) NewLogAlertPaginator(filters []essdk.BoolFilter, limit *int64) (LogAlertPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_insights_activitylogalerts", filters, limit)
 	if err != nil {
 		return LogAlertPaginator{}, err
 	}
@@ -14537,12 +14738,12 @@ func (k Client) NewLogAlertPaginator(filters []BoolFilter, limit *int64) (LogAle
 }
 
 func (p LogAlertPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p LogAlertPaginator) NextPage(ctx context.Context) ([]LogAlert, error) {
 	var response LogAlertSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -14554,9 +14755,9 @@ func (p LogAlertPaginator) NextPage(ctx context.Context) ([]LogAlert, error) {
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -14570,13 +14771,14 @@ func ListLogAlert(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	plugin.Logger(ctx).Trace("ListLogAlert")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewLogAlertPaginator(buildFilter(d.KeyColumnQuals, listLogAlertFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLogAlertPaginator(essdk.BuildFilter(d.KeyColumnQuals, listLogAlertFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14605,14 +14807,15 @@ func GetLogAlert(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	plugin.Logger(ctx).Trace("GetLogAlert")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLogAlertPaginator(buildFilter(d.KeyColumnQuals, getLogAlertFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLogAlertPaginator(essdk.BuildFilter(d.KeyColumnQuals, getLogAlertFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14658,8 +14861,8 @@ type LogProfileHit struct {
 }
 
 type LogProfileHits struct {
-	Total SearchTotal     `json:"total"`
-	Hits  []LogProfileHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []LogProfileHit   `json:"hits"`
 }
 
 type LogProfileSearchResponse struct {
@@ -14668,11 +14871,11 @@ type LogProfileSearchResponse struct {
 }
 
 type LogProfilePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewLogProfilePaginator(filters []BoolFilter, limit *int64) (LogProfilePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_insights_logprofiles", filters, limit)
+func (k Client) NewLogProfilePaginator(filters []essdk.BoolFilter, limit *int64) (LogProfilePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_insights_logprofiles", filters, limit)
 	if err != nil {
 		return LogProfilePaginator{}, err
 	}
@@ -14685,12 +14888,12 @@ func (k Client) NewLogProfilePaginator(filters []BoolFilter, limit *int64) (LogP
 }
 
 func (p LogProfilePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p LogProfilePaginator) NextPage(ctx context.Context) ([]LogProfile, error) {
 	var response LogProfileSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -14702,9 +14905,9 @@ func (p LogProfilePaginator) NextPage(ctx context.Context) ([]LogProfile, error)
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -14718,13 +14921,14 @@ func ListLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	plugin.Logger(ctx).Trace("ListLogProfile")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewLogProfilePaginator(buildFilter(d.KeyColumnQuals, listLogProfileFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLogProfilePaginator(essdk.BuildFilter(d.KeyColumnQuals, listLogProfileFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14753,14 +14957,15 @@ func GetLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	plugin.Logger(ctx).Trace("GetLogProfile")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLogProfilePaginator(buildFilter(d.KeyColumnQuals, getLogProfileFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLogProfilePaginator(essdk.BuildFilter(d.KeyColumnQuals, getLogProfileFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14806,7 +15011,7 @@ type LogicAppWorkflowHit struct {
 }
 
 type LogicAppWorkflowHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []LogicAppWorkflowHit `json:"hits"`
 }
 
@@ -14816,11 +15021,11 @@ type LogicAppWorkflowSearchResponse struct {
 }
 
 type LogicAppWorkflowPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewLogicAppWorkflowPaginator(filters []BoolFilter, limit *int64) (LogicAppWorkflowPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_logic_workflows", filters, limit)
+func (k Client) NewLogicAppWorkflowPaginator(filters []essdk.BoolFilter, limit *int64) (LogicAppWorkflowPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_logic_workflows", filters, limit)
 	if err != nil {
 		return LogicAppWorkflowPaginator{}, err
 	}
@@ -14833,12 +15038,12 @@ func (k Client) NewLogicAppWorkflowPaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p LogicAppWorkflowPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p LogicAppWorkflowPaginator) NextPage(ctx context.Context) ([]LogicAppWorkflow, error) {
 	var response LogicAppWorkflowSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -14850,9 +15055,9 @@ func (p LogicAppWorkflowPaginator) NextPage(ctx context.Context) ([]LogicAppWork
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -14866,13 +15071,14 @@ func ListLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListLogicAppWorkflow")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewLogicAppWorkflowPaginator(buildFilter(d.KeyColumnQuals, listLogicAppWorkflowFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLogicAppWorkflowPaginator(essdk.BuildFilter(d.KeyColumnQuals, listLogicAppWorkflowFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14901,14 +15107,15 @@ func GetLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetLogicAppWorkflow")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLogicAppWorkflowPaginator(buildFilter(d.KeyColumnQuals, getLogicAppWorkflowFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLogicAppWorkflowPaginator(essdk.BuildFilter(d.KeyColumnQuals, getLogicAppWorkflowFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14954,7 +15161,7 @@ type MachineLearningWorkspaceHit struct {
 }
 
 type MachineLearningWorkspaceHits struct {
-	Total SearchTotal                   `json:"total"`
+	Total essdk.SearchTotal             `json:"total"`
 	Hits  []MachineLearningWorkspaceHit `json:"hits"`
 }
 
@@ -14964,11 +15171,11 @@ type MachineLearningWorkspaceSearchResponse struct {
 }
 
 type MachineLearningWorkspacePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewMachineLearningWorkspacePaginator(filters []BoolFilter, limit *int64) (MachineLearningWorkspacePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_machinelearning_workspaces", filters, limit)
+func (k Client) NewMachineLearningWorkspacePaginator(filters []essdk.BoolFilter, limit *int64) (MachineLearningWorkspacePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_machinelearning_workspaces", filters, limit)
 	if err != nil {
 		return MachineLearningWorkspacePaginator{}, err
 	}
@@ -14981,12 +15188,12 @@ func (k Client) NewMachineLearningWorkspacePaginator(filters []BoolFilter, limit
 }
 
 func (p MachineLearningWorkspacePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p MachineLearningWorkspacePaginator) NextPage(ctx context.Context) ([]MachineLearningWorkspace, error) {
 	var response MachineLearningWorkspaceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -14998,9 +15205,9 @@ func (p MachineLearningWorkspacePaginator) NextPage(ctx context.Context) ([]Mach
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -15014,13 +15221,14 @@ func ListMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *p
 	plugin.Logger(ctx).Trace("ListMachineLearningWorkspace")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewMachineLearningWorkspacePaginator(buildFilter(d.KeyColumnQuals, listMachineLearningWorkspaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMachineLearningWorkspacePaginator(essdk.BuildFilter(d.KeyColumnQuals, listMachineLearningWorkspaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15049,14 +15257,15 @@ func GetMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *pl
 	plugin.Logger(ctx).Trace("GetMachineLearningWorkspace")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMachineLearningWorkspacePaginator(buildFilter(d.KeyColumnQuals, getMachineLearningWorkspaceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewMachineLearningWorkspacePaginator(essdk.BuildFilter(d.KeyColumnQuals, getMachineLearningWorkspaceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15102,7 +15311,7 @@ type MariadbServerHit struct {
 }
 
 type MariadbServerHits struct {
-	Total SearchTotal        `json:"total"`
+	Total essdk.SearchTotal  `json:"total"`
 	Hits  []MariadbServerHit `json:"hits"`
 }
 
@@ -15112,11 +15321,11 @@ type MariadbServerSearchResponse struct {
 }
 
 type MariadbServerPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewMariadbServerPaginator(filters []BoolFilter, limit *int64) (MariadbServerPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_dbformariadb_servers", filters, limit)
+func (k Client) NewMariadbServerPaginator(filters []essdk.BoolFilter, limit *int64) (MariadbServerPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_dbformariadb_servers", filters, limit)
 	if err != nil {
 		return MariadbServerPaginator{}, err
 	}
@@ -15129,12 +15338,12 @@ func (k Client) NewMariadbServerPaginator(filters []BoolFilter, limit *int64) (M
 }
 
 func (p MariadbServerPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p MariadbServerPaginator) NextPage(ctx context.Context) ([]MariadbServer, error) {
 	var response MariadbServerSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -15146,9 +15355,9 @@ func (p MariadbServerPaginator) NextPage(ctx context.Context) ([]MariadbServer, 
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -15162,13 +15371,14 @@ func ListMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("ListMariadbServer")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewMariadbServerPaginator(buildFilter(d.KeyColumnQuals, listMariadbServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMariadbServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listMariadbServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15197,14 +15407,15 @@ func GetMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	plugin.Logger(ctx).Trace("GetMariadbServer")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMariadbServerPaginator(buildFilter(d.KeyColumnQuals, getMariadbServerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewMariadbServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getMariadbServerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15250,8 +15461,8 @@ type MysqlServerHit struct {
 }
 
 type MysqlServerHits struct {
-	Total SearchTotal      `json:"total"`
-	Hits  []MysqlServerHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []MysqlServerHit  `json:"hits"`
 }
 
 type MysqlServerSearchResponse struct {
@@ -15260,11 +15471,11 @@ type MysqlServerSearchResponse struct {
 }
 
 type MysqlServerPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewMysqlServerPaginator(filters []BoolFilter, limit *int64) (MysqlServerPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_dbformysql_servers", filters, limit)
+func (k Client) NewMysqlServerPaginator(filters []essdk.BoolFilter, limit *int64) (MysqlServerPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_dbformysql_servers", filters, limit)
 	if err != nil {
 		return MysqlServerPaginator{}, err
 	}
@@ -15277,12 +15488,12 @@ func (k Client) NewMysqlServerPaginator(filters []BoolFilter, limit *int64) (Mys
 }
 
 func (p MysqlServerPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p MysqlServerPaginator) NextPage(ctx context.Context) ([]MysqlServer, error) {
 	var response MysqlServerSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -15294,9 +15505,9 @@ func (p MysqlServerPaginator) NextPage(ctx context.Context) ([]MysqlServer, erro
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -15310,13 +15521,14 @@ func ListMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("ListMysqlServer")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewMysqlServerPaginator(buildFilter(d.KeyColumnQuals, listMysqlServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMysqlServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listMysqlServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15345,14 +15557,15 @@ func GetMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	plugin.Logger(ctx).Trace("GetMysqlServer")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMysqlServerPaginator(buildFilter(d.KeyColumnQuals, getMysqlServerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewMysqlServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getMysqlServerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15398,7 +15611,7 @@ type NetworkSecurityGroupHit struct {
 }
 
 type NetworkSecurityGroupHits struct {
-	Total SearchTotal               `json:"total"`
+	Total essdk.SearchTotal         `json:"total"`
 	Hits  []NetworkSecurityGroupHit `json:"hits"`
 }
 
@@ -15408,11 +15621,11 @@ type NetworkSecurityGroupSearchResponse struct {
 }
 
 type NetworkSecurityGroupPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewNetworkSecurityGroupPaginator(filters []BoolFilter, limit *int64) (NetworkSecurityGroupPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_classicnetwork_networksecuritygroups", filters, limit)
+func (k Client) NewNetworkSecurityGroupPaginator(filters []essdk.BoolFilter, limit *int64) (NetworkSecurityGroupPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_classicnetwork_networksecuritygroups", filters, limit)
 	if err != nil {
 		return NetworkSecurityGroupPaginator{}, err
 	}
@@ -15425,12 +15638,12 @@ func (k Client) NewNetworkSecurityGroupPaginator(filters []BoolFilter, limit *in
 }
 
 func (p NetworkSecurityGroupPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p NetworkSecurityGroupPaginator) NextPage(ctx context.Context) ([]NetworkSecurityGroup, error) {
 	var response NetworkSecurityGroupSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -15442,9 +15655,9 @@ func (p NetworkSecurityGroupPaginator) NextPage(ctx context.Context) ([]NetworkS
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -15458,13 +15671,14 @@ func ListNetworkSecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("ListNetworkSecurityGroup")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkSecurityGroupPaginator(buildFilter(d.KeyColumnQuals, listNetworkSecurityGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkSecurityGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkSecurityGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15493,14 +15707,15 @@ func GetNetworkSecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("GetNetworkSecurityGroup")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkSecurityGroupPaginator(buildFilter(d.KeyColumnQuals, getNetworkSecurityGroupFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkSecurityGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkSecurityGroupFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15546,7 +15761,7 @@ type NetworkWatcherHit struct {
 }
 
 type NetworkWatcherHits struct {
-	Total SearchTotal         `json:"total"`
+	Total essdk.SearchTotal   `json:"total"`
 	Hits  []NetworkWatcherHit `json:"hits"`
 }
 
@@ -15556,11 +15771,11 @@ type NetworkWatcherSearchResponse struct {
 }
 
 type NetworkWatcherPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewNetworkWatcherPaginator(filters []BoolFilter, limit *int64) (NetworkWatcherPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_networkwatchers", filters, limit)
+func (k Client) NewNetworkWatcherPaginator(filters []essdk.BoolFilter, limit *int64) (NetworkWatcherPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_networkwatchers", filters, limit)
 	if err != nil {
 		return NetworkWatcherPaginator{}, err
 	}
@@ -15573,12 +15788,12 @@ func (k Client) NewNetworkWatcherPaginator(filters []BoolFilter, limit *int64) (
 }
 
 func (p NetworkWatcherPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p NetworkWatcherPaginator) NextPage(ctx context.Context) ([]NetworkWatcher, error) {
 	var response NetworkWatcherSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -15590,9 +15805,9 @@ func (p NetworkWatcherPaginator) NextPage(ctx context.Context) ([]NetworkWatcher
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -15606,13 +15821,14 @@ func ListNetworkWatcher(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("ListNetworkWatcher")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkWatcherPaginator(buildFilter(d.KeyColumnQuals, listNetworkWatcherFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkWatcherPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkWatcherFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15641,14 +15857,15 @@ func GetNetworkWatcher(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("GetNetworkWatcher")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkWatcherPaginator(buildFilter(d.KeyColumnQuals, getNetworkWatcherFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkWatcherPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkWatcherFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15694,7 +15911,7 @@ type SearchServiceHit struct {
 }
 
 type SearchServiceHits struct {
-	Total SearchTotal        `json:"total"`
+	Total essdk.SearchTotal  `json:"total"`
 	Hits  []SearchServiceHit `json:"hits"`
 }
 
@@ -15704,11 +15921,11 @@ type SearchServiceSearchResponse struct {
 }
 
 type SearchServicePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSearchServicePaginator(filters []BoolFilter, limit *int64) (SearchServicePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_search_searchservices", filters, limit)
+func (k Client) NewSearchServicePaginator(filters []essdk.BoolFilter, limit *int64) (SearchServicePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_search_searchservices", filters, limit)
 	if err != nil {
 		return SearchServicePaginator{}, err
 	}
@@ -15721,12 +15938,12 @@ func (k Client) NewSearchServicePaginator(filters []BoolFilter, limit *int64) (S
 }
 
 func (p SearchServicePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SearchServicePaginator) NextPage(ctx context.Context) ([]SearchService, error) {
 	var response SearchServiceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -15738,9 +15955,9 @@ func (p SearchServicePaginator) NextPage(ctx context.Context) ([]SearchService, 
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -15754,13 +15971,14 @@ func ListSearchService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("ListSearchService")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSearchServicePaginator(buildFilter(d.KeyColumnQuals, listSearchServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSearchServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listSearchServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15789,14 +16007,15 @@ func GetSearchService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	plugin.Logger(ctx).Trace("GetSearchService")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSearchServicePaginator(buildFilter(d.KeyColumnQuals, getSearchServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSearchServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getSearchServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15842,7 +16061,7 @@ type ServiceFabricClusterHit struct {
 }
 
 type ServiceFabricClusterHits struct {
-	Total SearchTotal               `json:"total"`
+	Total essdk.SearchTotal         `json:"total"`
 	Hits  []ServiceFabricClusterHit `json:"hits"`
 }
 
@@ -15852,11 +16071,11 @@ type ServiceFabricClusterSearchResponse struct {
 }
 
 type ServiceFabricClusterPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewServiceFabricClusterPaginator(filters []BoolFilter, limit *int64) (ServiceFabricClusterPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_servicefabric_clusters", filters, limit)
+func (k Client) NewServiceFabricClusterPaginator(filters []essdk.BoolFilter, limit *int64) (ServiceFabricClusterPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_servicefabric_clusters", filters, limit)
 	if err != nil {
 		return ServiceFabricClusterPaginator{}, err
 	}
@@ -15869,12 +16088,12 @@ func (k Client) NewServiceFabricClusterPaginator(filters []BoolFilter, limit *in
 }
 
 func (p ServiceFabricClusterPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ServiceFabricClusterPaginator) NextPage(ctx context.Context) ([]ServiceFabricCluster, error) {
 	var response ServiceFabricClusterSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -15886,9 +16105,9 @@ func (p ServiceFabricClusterPaginator) NextPage(ctx context.Context) ([]ServiceF
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -15902,13 +16121,14 @@ func ListServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("ListServiceFabricCluster")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewServiceFabricClusterPaginator(buildFilter(d.KeyColumnQuals, listServiceFabricClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewServiceFabricClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listServiceFabricClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15937,14 +16157,15 @@ func GetServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("GetServiceFabricCluster")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewServiceFabricClusterPaginator(buildFilter(d.KeyColumnQuals, getServiceFabricClusterFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewServiceFabricClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getServiceFabricClusterFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15990,7 +16211,7 @@ type ServicebusNamespaceHit struct {
 }
 
 type ServicebusNamespaceHits struct {
-	Total SearchTotal              `json:"total"`
+	Total essdk.SearchTotal        `json:"total"`
 	Hits  []ServicebusNamespaceHit `json:"hits"`
 }
 
@@ -16000,11 +16221,11 @@ type ServicebusNamespaceSearchResponse struct {
 }
 
 type ServicebusNamespacePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewServicebusNamespacePaginator(filters []BoolFilter, limit *int64) (ServicebusNamespacePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_servicebus_namespaces", filters, limit)
+func (k Client) NewServicebusNamespacePaginator(filters []essdk.BoolFilter, limit *int64) (ServicebusNamespacePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_servicebus_namespaces", filters, limit)
 	if err != nil {
 		return ServicebusNamespacePaginator{}, err
 	}
@@ -16017,12 +16238,12 @@ func (k Client) NewServicebusNamespacePaginator(filters []BoolFilter, limit *int
 }
 
 func (p ServicebusNamespacePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ServicebusNamespacePaginator) NextPage(ctx context.Context) ([]ServicebusNamespace, error) {
 	var response ServicebusNamespaceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -16034,9 +16255,9 @@ func (p ServicebusNamespacePaginator) NextPage(ctx context.Context) ([]Servicebu
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -16050,13 +16271,14 @@ func ListServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("ListServicebusNamespace")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewServicebusNamespacePaginator(buildFilter(d.KeyColumnQuals, listServicebusNamespaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewServicebusNamespacePaginator(essdk.BuildFilter(d.KeyColumnQuals, listServicebusNamespaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16085,14 +16307,15 @@ func GetServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("GetServicebusNamespace")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewServicebusNamespacePaginator(buildFilter(d.KeyColumnQuals, getServicebusNamespaceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewServicebusNamespacePaginator(essdk.BuildFilter(d.KeyColumnQuals, getServicebusNamespaceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16138,7 +16361,7 @@ type SignalrServiceHit struct {
 }
 
 type SignalrServiceHits struct {
-	Total SearchTotal         `json:"total"`
+	Total essdk.SearchTotal   `json:"total"`
 	Hits  []SignalrServiceHit `json:"hits"`
 }
 
@@ -16148,11 +16371,11 @@ type SignalrServiceSearchResponse struct {
 }
 
 type SignalrServicePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSignalrServicePaginator(filters []BoolFilter, limit *int64) (SignalrServicePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_signalrservice_signalr", filters, limit)
+func (k Client) NewSignalrServicePaginator(filters []essdk.BoolFilter, limit *int64) (SignalrServicePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_signalrservice_signalr", filters, limit)
 	if err != nil {
 		return SignalrServicePaginator{}, err
 	}
@@ -16165,12 +16388,12 @@ func (k Client) NewSignalrServicePaginator(filters []BoolFilter, limit *int64) (
 }
 
 func (p SignalrServicePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SignalrServicePaginator) NextPage(ctx context.Context) ([]SignalrService, error) {
 	var response SignalrServiceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -16182,9 +16405,9 @@ func (p SignalrServicePaginator) NextPage(ctx context.Context) ([]SignalrService
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -16198,13 +16421,14 @@ func ListSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("ListSignalrService")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSignalrServicePaginator(buildFilter(d.KeyColumnQuals, listSignalrServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSignalrServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listSignalrServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16233,14 +16457,15 @@ func GetSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("GetSignalrService")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSignalrServicePaginator(buildFilter(d.KeyColumnQuals, getSignalrServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSignalrServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getSignalrServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16286,7 +16511,7 @@ type SpringCloudServiceHit struct {
 }
 
 type SpringCloudServiceHits struct {
-	Total SearchTotal             `json:"total"`
+	Total essdk.SearchTotal       `json:"total"`
 	Hits  []SpringCloudServiceHit `json:"hits"`
 }
 
@@ -16296,11 +16521,11 @@ type SpringCloudServiceSearchResponse struct {
 }
 
 type SpringCloudServicePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSpringCloudServicePaginator(filters []BoolFilter, limit *int64) (SpringCloudServicePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_appplatform_spring", filters, limit)
+func (k Client) NewSpringCloudServicePaginator(filters []essdk.BoolFilter, limit *int64) (SpringCloudServicePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_appplatform_spring", filters, limit)
 	if err != nil {
 		return SpringCloudServicePaginator{}, err
 	}
@@ -16313,12 +16538,12 @@ func (k Client) NewSpringCloudServicePaginator(filters []BoolFilter, limit *int6
 }
 
 func (p SpringCloudServicePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SpringCloudServicePaginator) NextPage(ctx context.Context) ([]SpringCloudService, error) {
 	var response SpringCloudServiceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -16330,9 +16555,9 @@ func (p SpringCloudServicePaginator) NextPage(ctx context.Context) ([]SpringClou
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -16346,13 +16571,14 @@ func ListSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("ListSpringCloudService")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSpringCloudServicePaginator(buildFilter(d.KeyColumnQuals, listSpringCloudServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSpringCloudServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listSpringCloudServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16381,14 +16607,15 @@ func GetSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("GetSpringCloudService")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSpringCloudServicePaginator(buildFilter(d.KeyColumnQuals, getSpringCloudServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSpringCloudServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getSpringCloudServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16434,7 +16661,7 @@ type StreamAnalyticsJobHit struct {
 }
 
 type StreamAnalyticsJobHits struct {
-	Total SearchTotal             `json:"total"`
+	Total essdk.SearchTotal       `json:"total"`
 	Hits  []StreamAnalyticsJobHit `json:"hits"`
 }
 
@@ -16444,11 +16671,11 @@ type StreamAnalyticsJobSearchResponse struct {
 }
 
 type StreamAnalyticsJobPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewStreamAnalyticsJobPaginator(filters []BoolFilter, limit *int64) (StreamAnalyticsJobPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_streamanalytics_streamingjobs", filters, limit)
+func (k Client) NewStreamAnalyticsJobPaginator(filters []essdk.BoolFilter, limit *int64) (StreamAnalyticsJobPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_streamanalytics_streamingjobs", filters, limit)
 	if err != nil {
 		return StreamAnalyticsJobPaginator{}, err
 	}
@@ -16461,12 +16688,12 @@ func (k Client) NewStreamAnalyticsJobPaginator(filters []BoolFilter, limit *int6
 }
 
 func (p StreamAnalyticsJobPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p StreamAnalyticsJobPaginator) NextPage(ctx context.Context) ([]StreamAnalyticsJob, error) {
 	var response StreamAnalyticsJobSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -16478,9 +16705,9 @@ func (p StreamAnalyticsJobPaginator) NextPage(ctx context.Context) ([]StreamAnal
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -16494,13 +16721,14 @@ func ListStreamAnalyticsJob(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("ListStreamAnalyticsJob")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewStreamAnalyticsJobPaginator(buildFilter(d.KeyColumnQuals, listStreamAnalyticsJobFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStreamAnalyticsJobPaginator(essdk.BuildFilter(d.KeyColumnQuals, listStreamAnalyticsJobFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16529,14 +16757,15 @@ func GetStreamAnalyticsJob(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("GetStreamAnalyticsJob")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStreamAnalyticsJobPaginator(buildFilter(d.KeyColumnQuals, getStreamAnalyticsJobFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStreamAnalyticsJobPaginator(essdk.BuildFilter(d.KeyColumnQuals, getStreamAnalyticsJobFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16582,7 +16811,7 @@ type SynapseWorkspaceHit struct {
 }
 
 type SynapseWorkspaceHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []SynapseWorkspaceHit `json:"hits"`
 }
 
@@ -16592,11 +16821,11 @@ type SynapseWorkspaceSearchResponse struct {
 }
 
 type SynapseWorkspacePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSynapseWorkspacePaginator(filters []BoolFilter, limit *int64) (SynapseWorkspacePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_synapse_workspaces", filters, limit)
+func (k Client) NewSynapseWorkspacePaginator(filters []essdk.BoolFilter, limit *int64) (SynapseWorkspacePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_synapse_workspaces", filters, limit)
 	if err != nil {
 		return SynapseWorkspacePaginator{}, err
 	}
@@ -16609,12 +16838,12 @@ func (k Client) NewSynapseWorkspacePaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p SynapseWorkspacePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SynapseWorkspacePaginator) NextPage(ctx context.Context) ([]SynapseWorkspace, error) {
 	var response SynapseWorkspaceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -16626,9 +16855,9 @@ func (p SynapseWorkspacePaginator) NextPage(ctx context.Context) ([]SynapseWorks
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -16642,13 +16871,14 @@ func ListSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListSynapseWorkspace")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSynapseWorkspacePaginator(buildFilter(d.KeyColumnQuals, listSynapseWorkspaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSynapseWorkspacePaginator(essdk.BuildFilter(d.KeyColumnQuals, listSynapseWorkspaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16677,14 +16907,15 @@ func GetSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetSynapseWorkspace")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSynapseWorkspacePaginator(buildFilter(d.KeyColumnQuals, getSynapseWorkspaceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSynapseWorkspacePaginator(essdk.BuildFilter(d.KeyColumnQuals, getSynapseWorkspaceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16730,8 +16961,8 @@ type LocationHit struct {
 }
 
 type LocationHits struct {
-	Total SearchTotal   `json:"total"`
-	Hits  []LocationHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []LocationHit     `json:"hits"`
 }
 
 type LocationSearchResponse struct {
@@ -16740,11 +16971,11 @@ type LocationSearchResponse struct {
 }
 
 type LocationPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewLocationPaginator(filters []BoolFilter, limit *int64) (LocationPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_resources_subscriptions_locations", filters, limit)
+func (k Client) NewLocationPaginator(filters []essdk.BoolFilter, limit *int64) (LocationPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_subscriptions_locations", filters, limit)
 	if err != nil {
 		return LocationPaginator{}, err
 	}
@@ -16757,12 +16988,12 @@ func (k Client) NewLocationPaginator(filters []BoolFilter, limit *int64) (Locati
 }
 
 func (p LocationPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p LocationPaginator) NextPage(ctx context.Context) ([]Location, error) {
 	var response LocationSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -16774,9 +17005,9 @@ func (p LocationPaginator) NextPage(ctx context.Context) ([]Location, error) {
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -16790,13 +17021,14 @@ func ListLocation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	plugin.Logger(ctx).Trace("ListLocation")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewLocationPaginator(buildFilter(d.KeyColumnQuals, listLocationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLocationPaginator(essdk.BuildFilter(d.KeyColumnQuals, listLocationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16825,14 +17057,15 @@ func GetLocation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	plugin.Logger(ctx).Trace("GetLocation")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLocationPaginator(buildFilter(d.KeyColumnQuals, getLocationFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLocationPaginator(essdk.BuildFilter(d.KeyColumnQuals, getLocationFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16878,8 +17111,8 @@ type AdUsersHit struct {
 }
 
 type AdUsersHits struct {
-	Total SearchTotal  `json:"total"`
-	Hits  []AdUsersHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []AdUsersHit      `json:"hits"`
 }
 
 type AdUsersSearchResponse struct {
@@ -16888,11 +17121,11 @@ type AdUsersSearchResponse struct {
 }
 
 type AdUsersPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewAdUsersPaginator(filters []BoolFilter, limit *int64) (AdUsersPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_resources_users", filters, limit)
+func (k Client) NewAdUsersPaginator(filters []essdk.BoolFilter, limit *int64) (AdUsersPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_users", filters, limit)
 	if err != nil {
 		return AdUsersPaginator{}, err
 	}
@@ -16905,12 +17138,12 @@ func (k Client) NewAdUsersPaginator(filters []BoolFilter, limit *int64) (AdUsers
 }
 
 func (p AdUsersPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p AdUsersPaginator) NextPage(ctx context.Context) ([]AdUsers, error) {
 	var response AdUsersSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -16922,9 +17155,9 @@ func (p AdUsersPaginator) NextPage(ctx context.Context) ([]AdUsers, error) {
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -16945,13 +17178,14 @@ func ListAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	plugin.Logger(ctx).Trace("ListAdUsers")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewAdUsersPaginator(buildFilter(d.KeyColumnQuals, listAdUsersFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAdUsersPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAdUsersFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16979,14 +17213,15 @@ func GetAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	plugin.Logger(ctx).Trace("GetAdUsers")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAdUsersPaginator(buildFilter(d.KeyColumnQuals, getAdUsersFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAdUsersPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAdUsersFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17032,8 +17267,8 @@ type AdGroupHit struct {
 }
 
 type AdGroupHits struct {
-	Total SearchTotal  `json:"total"`
-	Hits  []AdGroupHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []AdGroupHit      `json:"hits"`
 }
 
 type AdGroupSearchResponse struct {
@@ -17042,11 +17277,11 @@ type AdGroupSearchResponse struct {
 }
 
 type AdGroupPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewAdGroupPaginator(filters []BoolFilter, limit *int64) (AdGroupPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_resources_groups", filters, limit)
+func (k Client) NewAdGroupPaginator(filters []essdk.BoolFilter, limit *int64) (AdGroupPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_groups", filters, limit)
 	if err != nil {
 		return AdGroupPaginator{}, err
 	}
@@ -17059,12 +17294,12 @@ func (k Client) NewAdGroupPaginator(filters []BoolFilter, limit *int64) (AdGroup
 }
 
 func (p AdGroupPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p AdGroupPaginator) NextPage(ctx context.Context) ([]AdGroup, error) {
 	var response AdGroupSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -17076,9 +17311,9 @@ func (p AdGroupPaginator) NextPage(ctx context.Context) ([]AdGroup, error) {
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -17097,13 +17332,14 @@ func ListAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	plugin.Logger(ctx).Trace("ListAdGroup")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewAdGroupPaginator(buildFilter(d.KeyColumnQuals, listAdGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAdGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAdGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17131,14 +17367,15 @@ func GetAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	plugin.Logger(ctx).Trace("GetAdGroup")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAdGroupPaginator(buildFilter(d.KeyColumnQuals, getAdGroupFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAdGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAdGroupFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17184,7 +17421,7 @@ type AdServicePrincipalHit struct {
 }
 
 type AdServicePrincipalHits struct {
-	Total SearchTotal             `json:"total"`
+	Total essdk.SearchTotal       `json:"total"`
 	Hits  []AdServicePrincipalHit `json:"hits"`
 }
 
@@ -17194,11 +17431,11 @@ type AdServicePrincipalSearchResponse struct {
 }
 
 type AdServicePrincipalPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewAdServicePrincipalPaginator(filters []BoolFilter, limit *int64) (AdServicePrincipalPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_resources_serviceprincipals", filters, limit)
+func (k Client) NewAdServicePrincipalPaginator(filters []essdk.BoolFilter, limit *int64) (AdServicePrincipalPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_serviceprincipals", filters, limit)
 	if err != nil {
 		return AdServicePrincipalPaginator{}, err
 	}
@@ -17211,12 +17448,12 @@ func (k Client) NewAdServicePrincipalPaginator(filters []BoolFilter, limit *int6
 }
 
 func (p AdServicePrincipalPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p AdServicePrincipalPaginator) NextPage(ctx context.Context) ([]AdServicePrincipal, error) {
 	var response AdServicePrincipalSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -17228,9 +17465,9 @@ func (p AdServicePrincipalPaginator) NextPage(ctx context.Context) ([]AdServiceP
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -17247,13 +17484,14 @@ func ListAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("ListAdServicePrincipal")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewAdServicePrincipalPaginator(buildFilter(d.KeyColumnQuals, listAdServicePrincipalFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAdServicePrincipalPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAdServicePrincipalFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17281,14 +17519,15 @@ func GetAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("GetAdServicePrincipal")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAdServicePrincipalPaginator(buildFilter(d.KeyColumnQuals, getAdServicePrincipalFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAdServicePrincipalPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAdServicePrincipalFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17334,7 +17573,7 @@ type PostgresqlServerHit struct {
 }
 
 type PostgresqlServerHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []PostgresqlServerHit `json:"hits"`
 }
 
@@ -17344,11 +17583,11 @@ type PostgresqlServerSearchResponse struct {
 }
 
 type PostgresqlServerPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewPostgresqlServerPaginator(filters []BoolFilter, limit *int64) (PostgresqlServerPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_dbforpostgresql_servers", filters, limit)
+func (k Client) NewPostgresqlServerPaginator(filters []essdk.BoolFilter, limit *int64) (PostgresqlServerPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_dbforpostgresql_servers", filters, limit)
 	if err != nil {
 		return PostgresqlServerPaginator{}, err
 	}
@@ -17361,12 +17600,12 @@ func (k Client) NewPostgresqlServerPaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p PostgresqlServerPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p PostgresqlServerPaginator) NextPage(ctx context.Context) ([]PostgresqlServer, error) {
 	var response PostgresqlServerSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -17378,9 +17617,9 @@ func (p PostgresqlServerPaginator) NextPage(ctx context.Context) ([]PostgresqlSe
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -17394,13 +17633,14 @@ func ListPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListPostgresqlServer")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewPostgresqlServerPaginator(buildFilter(d.KeyColumnQuals, listPostgresqlServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPostgresqlServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPostgresqlServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17429,14 +17669,15 @@ func GetPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetPostgresqlServer")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPostgresqlServerPaginator(buildFilter(d.KeyColumnQuals, getPostgresqlServerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPostgresqlServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPostgresqlServerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17482,8 +17723,8 @@ type StorageSyncHit struct {
 }
 
 type StorageSyncHits struct {
-	Total SearchTotal      `json:"total"`
-	Hits  []StorageSyncHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []StorageSyncHit  `json:"hits"`
 }
 
 type StorageSyncSearchResponse struct {
@@ -17492,11 +17733,11 @@ type StorageSyncSearchResponse struct {
 }
 
 type StorageSyncPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewStorageSyncPaginator(filters []BoolFilter, limit *int64) (StorageSyncPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_storagesync_storagesyncservices", filters, limit)
+func (k Client) NewStorageSyncPaginator(filters []essdk.BoolFilter, limit *int64) (StorageSyncPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storagesync_storagesyncservices", filters, limit)
 	if err != nil {
 		return StorageSyncPaginator{}, err
 	}
@@ -17509,12 +17750,12 @@ func (k Client) NewStorageSyncPaginator(filters []BoolFilter, limit *int64) (Sto
 }
 
 func (p StorageSyncPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p StorageSyncPaginator) NextPage(ctx context.Context) ([]StorageSync, error) {
 	var response StorageSyncSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -17526,9 +17767,9 @@ func (p StorageSyncPaginator) NextPage(ctx context.Context) ([]StorageSync, erro
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -17542,13 +17783,14 @@ func ListStorageSync(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("ListStorageSync")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageSyncPaginator(buildFilter(d.KeyColumnQuals, listStorageSyncFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageSyncPaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageSyncFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17577,14 +17819,15 @@ func GetStorageSync(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	plugin.Logger(ctx).Trace("GetStorageSync")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageSyncPaginator(buildFilter(d.KeyColumnQuals, getStorageSyncFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageSyncPaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageSyncFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17630,7 +17873,7 @@ type MssqlManagedInstanceHit struct {
 }
 
 type MssqlManagedInstanceHits struct {
-	Total SearchTotal               `json:"total"`
+	Total essdk.SearchTotal         `json:"total"`
 	Hits  []MssqlManagedInstanceHit `json:"hits"`
 }
 
@@ -17640,11 +17883,11 @@ type MssqlManagedInstanceSearchResponse struct {
 }
 
 type MssqlManagedInstancePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewMssqlManagedInstancePaginator(filters []BoolFilter, limit *int64) (MssqlManagedInstancePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_sql_managedinstances", filters, limit)
+func (k Client) NewMssqlManagedInstancePaginator(filters []essdk.BoolFilter, limit *int64) (MssqlManagedInstancePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_managedinstances", filters, limit)
 	if err != nil {
 		return MssqlManagedInstancePaginator{}, err
 	}
@@ -17657,12 +17900,12 @@ func (k Client) NewMssqlManagedInstancePaginator(filters []BoolFilter, limit *in
 }
 
 func (p MssqlManagedInstancePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p MssqlManagedInstancePaginator) NextPage(ctx context.Context) ([]MssqlManagedInstance, error) {
 	var response MssqlManagedInstanceSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -17674,9 +17917,9 @@ func (p MssqlManagedInstancePaginator) NextPage(ctx context.Context) ([]MssqlMan
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -17690,13 +17933,14 @@ func ListMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("ListMssqlManagedInstance")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewMssqlManagedInstancePaginator(buildFilter(d.KeyColumnQuals, listMssqlManagedInstanceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMssqlManagedInstancePaginator(essdk.BuildFilter(d.KeyColumnQuals, listMssqlManagedInstanceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17725,14 +17969,15 @@ func GetMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("GetMssqlManagedInstance")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMssqlManagedInstancePaginator(buildFilter(d.KeyColumnQuals, getMssqlManagedInstanceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewMssqlManagedInstancePaginator(essdk.BuildFilter(d.KeyColumnQuals, getMssqlManagedInstanceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17778,8 +18023,8 @@ type SqlDatabaseHit struct {
 }
 
 type SqlDatabaseHits struct {
-	Total SearchTotal      `json:"total"`
-	Hits  []SqlDatabaseHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []SqlDatabaseHit  `json:"hits"`
 }
 
 type SqlDatabaseSearchResponse struct {
@@ -17788,11 +18033,11 @@ type SqlDatabaseSearchResponse struct {
 }
 
 type SqlDatabasePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSqlDatabasePaginator(filters []BoolFilter, limit *int64) (SqlDatabasePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_sql_servers_databases", filters, limit)
+func (k Client) NewSqlDatabasePaginator(filters []essdk.BoolFilter, limit *int64) (SqlDatabasePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_servers_databases", filters, limit)
 	if err != nil {
 		return SqlDatabasePaginator{}, err
 	}
@@ -17805,12 +18050,12 @@ func (k Client) NewSqlDatabasePaginator(filters []BoolFilter, limit *int64) (Sql
 }
 
 func (p SqlDatabasePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SqlDatabasePaginator) NextPage(ctx context.Context) ([]SqlDatabase, error) {
 	var response SqlDatabaseSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -17822,9 +18067,9 @@ func (p SqlDatabasePaginator) NextPage(ctx context.Context) ([]SqlDatabase, erro
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -17838,13 +18083,14 @@ func ListSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("ListSqlDatabase")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlDatabasePaginator(buildFilter(d.KeyColumnQuals, listSqlDatabaseFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSqlDatabasePaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlDatabaseFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17873,14 +18119,15 @@ func GetSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	plugin.Logger(ctx).Trace("GetSqlDatabase")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSqlDatabasePaginator(buildFilter(d.KeyColumnQuals, getSqlDatabaseFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSqlDatabasePaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlDatabaseFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17926,8 +18173,8 @@ type SqlServerHit struct {
 }
 
 type SqlServerHits struct {
-	Total SearchTotal    `json:"total"`
-	Hits  []SqlServerHit `json:"hits"`
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []SqlServerHit    `json:"hits"`
 }
 
 type SqlServerSearchResponse struct {
@@ -17936,11 +18183,11 @@ type SqlServerSearchResponse struct {
 }
 
 type SqlServerPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSqlServerPaginator(filters []BoolFilter, limit *int64) (SqlServerPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_sql_servers", filters, limit)
+func (k Client) NewSqlServerPaginator(filters []essdk.BoolFilter, limit *int64) (SqlServerPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_servers", filters, limit)
 	if err != nil {
 		return SqlServerPaginator{}, err
 	}
@@ -17953,12 +18200,12 @@ func (k Client) NewSqlServerPaginator(filters []BoolFilter, limit *int64) (SqlSe
 }
 
 func (p SqlServerPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SqlServerPaginator) NextPage(ctx context.Context) ([]SqlServer, error) {
 	var response SqlServerSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -17970,9 +18217,9 @@ func (p SqlServerPaginator) NextPage(ctx context.Context) ([]SqlServer, error) {
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -17986,13 +18233,14 @@ func ListSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	plugin.Logger(ctx).Trace("ListSqlServer")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerPaginator(buildFilter(d.KeyColumnQuals, listSqlServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSqlServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18021,14 +18269,15 @@ func GetSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	plugin.Logger(ctx).Trace("GetSqlServer")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSqlServerPaginator(buildFilter(d.KeyColumnQuals, getSqlServerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSqlServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlServerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18074,7 +18323,7 @@ type SqlServerElasticPoolHit struct {
 }
 
 type SqlServerElasticPoolHits struct {
-	Total SearchTotal               `json:"total"`
+	Total essdk.SearchTotal         `json:"total"`
 	Hits  []SqlServerElasticPoolHit `json:"hits"`
 }
 
@@ -18084,11 +18333,11 @@ type SqlServerElasticPoolSearchResponse struct {
 }
 
 type SqlServerElasticPoolPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSqlServerElasticPoolPaginator(filters []BoolFilter, limit *int64) (SqlServerElasticPoolPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_sql_elasticpools", filters, limit)
+func (k Client) NewSqlServerElasticPoolPaginator(filters []essdk.BoolFilter, limit *int64) (SqlServerElasticPoolPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_elasticpools", filters, limit)
 	if err != nil {
 		return SqlServerElasticPoolPaginator{}, err
 	}
@@ -18101,12 +18350,12 @@ func (k Client) NewSqlServerElasticPoolPaginator(filters []BoolFilter, limit *in
 }
 
 func (p SqlServerElasticPoolPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SqlServerElasticPoolPaginator) NextPage(ctx context.Context) ([]SqlServerElasticPool, error) {
 	var response SqlServerElasticPoolSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -18118,9 +18367,9 @@ func (p SqlServerElasticPoolPaginator) NextPage(ctx context.Context) ([]SqlServe
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -18134,13 +18383,14 @@ func ListSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("ListSqlServerElasticPool")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerElasticPoolPaginator(buildFilter(d.KeyColumnQuals, listSqlServerElasticPoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSqlServerElasticPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlServerElasticPoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18170,14 +18420,15 @@ func GetSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("GetSqlServerElasticPool")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSqlServerElasticPoolPaginator(buildFilter(d.KeyColumnQuals, getSqlServerElasticPoolFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSqlServerElasticPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlServerElasticPoolFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18223,7 +18474,7 @@ type SqlServerVirtualMachineHit struct {
 }
 
 type SqlServerVirtualMachineHits struct {
-	Total SearchTotal                  `json:"total"`
+	Total essdk.SearchTotal            `json:"total"`
 	Hits  []SqlServerVirtualMachineHit `json:"hits"`
 }
 
@@ -18233,11 +18484,11 @@ type SqlServerVirtualMachineSearchResponse struct {
 }
 
 type SqlServerVirtualMachinePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSqlServerVirtualMachinePaginator(filters []BoolFilter, limit *int64) (SqlServerVirtualMachinePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_sql_virtualmachines", filters, limit)
+func (k Client) NewSqlServerVirtualMachinePaginator(filters []essdk.BoolFilter, limit *int64) (SqlServerVirtualMachinePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_virtualmachines", filters, limit)
 	if err != nil {
 		return SqlServerVirtualMachinePaginator{}, err
 	}
@@ -18250,12 +18501,12 @@ func (k Client) NewSqlServerVirtualMachinePaginator(filters []BoolFilter, limit 
 }
 
 func (p SqlServerVirtualMachinePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SqlServerVirtualMachinePaginator) NextPage(ctx context.Context) ([]SqlServerVirtualMachine, error) {
 	var response SqlServerVirtualMachineSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -18267,9 +18518,9 @@ func (p SqlServerVirtualMachinePaginator) NextPage(ctx context.Context) ([]SqlSe
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -18283,13 +18534,14 @@ func ListSqlServerVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *pl
 	plugin.Logger(ctx).Trace("ListSqlServerVirtualMachine")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerVirtualMachinePaginator(buildFilter(d.KeyColumnQuals, listSqlServerVirtualMachineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSqlServerVirtualMachinePaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlServerVirtualMachineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18318,14 +18570,15 @@ func GetSqlServerVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plu
 	plugin.Logger(ctx).Trace("GetSqlServerVirtualMachine")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSqlServerVirtualMachinePaginator(buildFilter(d.KeyColumnQuals, getSqlServerVirtualMachineFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSqlServerVirtualMachinePaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlServerVirtualMachineFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18371,7 +18624,7 @@ type SqlServerFlexibleServerHit struct {
 }
 
 type SqlServerFlexibleServerHits struct {
-	Total SearchTotal                  `json:"total"`
+	Total essdk.SearchTotal            `json:"total"`
 	Hits  []SqlServerFlexibleServerHit `json:"hits"`
 }
 
@@ -18381,11 +18634,11 @@ type SqlServerFlexibleServerSearchResponse struct {
 }
 
 type SqlServerFlexibleServerPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewSqlServerFlexibleServerPaginator(filters []BoolFilter, limit *int64) (SqlServerFlexibleServerPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_sql_flexibleservers", filters, limit)
+func (k Client) NewSqlServerFlexibleServerPaginator(filters []essdk.BoolFilter, limit *int64) (SqlServerFlexibleServerPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_flexibleservers", filters, limit)
 	if err != nil {
 		return SqlServerFlexibleServerPaginator{}, err
 	}
@@ -18398,12 +18651,12 @@ func (k Client) NewSqlServerFlexibleServerPaginator(filters []BoolFilter, limit 
 }
 
 func (p SqlServerFlexibleServerPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p SqlServerFlexibleServerPaginator) NextPage(ctx context.Context) ([]SqlServerFlexibleServer, error) {
 	var response SqlServerFlexibleServerSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -18415,9 +18668,9 @@ func (p SqlServerFlexibleServerPaginator) NextPage(ctx context.Context) ([]SqlSe
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -18431,13 +18684,14 @@ func ListSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *pl
 	plugin.Logger(ctx).Trace("ListSqlServerFlexibleServer")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerFlexibleServerPaginator(buildFilter(d.KeyColumnQuals, listSqlServerFlexibleServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSqlServerFlexibleServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlServerFlexibleServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18466,14 +18720,15 @@ func GetSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *plu
 	plugin.Logger(ctx).Trace("GetSqlServerFlexibleServer")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSqlServerFlexibleServerPaginator(buildFilter(d.KeyColumnQuals, getSqlServerFlexibleServerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSqlServerFlexibleServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlServerFlexibleServerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18519,7 +18774,7 @@ type StorageAccountHit struct {
 }
 
 type StorageAccountHits struct {
-	Total SearchTotal         `json:"total"`
+	Total essdk.SearchTotal   `json:"total"`
 	Hits  []StorageAccountHit `json:"hits"`
 }
 
@@ -18529,11 +18784,11 @@ type StorageAccountSearchResponse struct {
 }
 
 type StorageAccountPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewStorageAccountPaginator(filters []BoolFilter, limit *int64) (StorageAccountPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_classicstorage_storageaccounts", filters, limit)
+func (k Client) NewStorageAccountPaginator(filters []essdk.BoolFilter, limit *int64) (StorageAccountPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_classicstorage_storageaccounts", filters, limit)
 	if err != nil {
 		return StorageAccountPaginator{}, err
 	}
@@ -18546,12 +18801,12 @@ func (k Client) NewStorageAccountPaginator(filters []BoolFilter, limit *int64) (
 }
 
 func (p StorageAccountPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p StorageAccountPaginator) NextPage(ctx context.Context) ([]StorageAccount, error) {
 	var response StorageAccountSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -18563,9 +18818,9 @@ func (p StorageAccountPaginator) NextPage(ctx context.Context) ([]StorageAccount
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -18579,13 +18834,14 @@ func ListStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("ListStorageAccount")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageAccountPaginator(buildFilter(d.KeyColumnQuals, listStorageAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18614,14 +18870,15 @@ func GetStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("GetStorageAccount")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageAccountPaginator(buildFilter(d.KeyColumnQuals, getStorageAccountFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageAccountFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18667,7 +18924,7 @@ type RecoveryServicesVaultHit struct {
 }
 
 type RecoveryServicesVaultHits struct {
-	Total SearchTotal                `json:"total"`
+	Total essdk.SearchTotal          `json:"total"`
 	Hits  []RecoveryServicesVaultHit `json:"hits"`
 }
 
@@ -18677,11 +18934,11 @@ type RecoveryServicesVaultSearchResponse struct {
 }
 
 type RecoveryServicesVaultPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewRecoveryServicesVaultPaginator(filters []BoolFilter, limit *int64) (RecoveryServicesVaultPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_recoveryservices_vault", filters, limit)
+func (k Client) NewRecoveryServicesVaultPaginator(filters []essdk.BoolFilter, limit *int64) (RecoveryServicesVaultPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_recoveryservices_vault", filters, limit)
 	if err != nil {
 		return RecoveryServicesVaultPaginator{}, err
 	}
@@ -18694,12 +18951,12 @@ func (k Client) NewRecoveryServicesVaultPaginator(filters []BoolFilter, limit *i
 }
 
 func (p RecoveryServicesVaultPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p RecoveryServicesVaultPaginator) NextPage(ctx context.Context) ([]RecoveryServicesVault, error) {
 	var response RecoveryServicesVaultSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -18711,9 +18968,9 @@ func (p RecoveryServicesVaultPaginator) NextPage(ctx context.Context) ([]Recover
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -18727,13 +18984,14 @@ func ListRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plug
 	plugin.Logger(ctx).Trace("ListRecoveryServicesVault")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewRecoveryServicesVaultPaginator(buildFilter(d.KeyColumnQuals, listRecoveryServicesVaultFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRecoveryServicesVaultPaginator(essdk.BuildFilter(d.KeyColumnQuals, listRecoveryServicesVaultFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18762,14 +19020,15 @@ func GetRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plugi
 	plugin.Logger(ctx).Trace("GetRecoveryServicesVault")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRecoveryServicesVaultPaginator(buildFilter(d.KeyColumnQuals, getRecoveryServicesVaultFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewRecoveryServicesVaultPaginator(essdk.BuildFilter(d.KeyColumnQuals, getRecoveryServicesVaultFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18815,7 +19074,7 @@ type HybridKubernetesConnectedClusterHit struct {
 }
 
 type HybridKubernetesConnectedClusterHits struct {
-	Total SearchTotal                           `json:"total"`
+	Total essdk.SearchTotal                     `json:"total"`
 	Hits  []HybridKubernetesConnectedClusterHit `json:"hits"`
 }
 
@@ -18825,11 +19084,11 @@ type HybridKubernetesConnectedClusterSearchResponse struct {
 }
 
 type HybridKubernetesConnectedClusterPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewHybridKubernetesConnectedClusterPaginator(filters []BoolFilter, limit *int64) (HybridKubernetesConnectedClusterPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_hybridkubernetes_connectedcluster", filters, limit)
+func (k Client) NewHybridKubernetesConnectedClusterPaginator(filters []essdk.BoolFilter, limit *int64) (HybridKubernetesConnectedClusterPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_hybridkubernetes_connectedcluster", filters, limit)
 	if err != nil {
 		return HybridKubernetesConnectedClusterPaginator{}, err
 	}
@@ -18842,12 +19101,12 @@ func (k Client) NewHybridKubernetesConnectedClusterPaginator(filters []BoolFilte
 }
 
 func (p HybridKubernetesConnectedClusterPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p HybridKubernetesConnectedClusterPaginator) NextPage(ctx context.Context) ([]HybridKubernetesConnectedCluster, error) {
 	var response HybridKubernetesConnectedClusterSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -18859,9 +19118,9 @@ func (p HybridKubernetesConnectedClusterPaginator) NextPage(ctx context.Context)
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -18875,13 +19134,14 @@ func ListHybridKubernetesConnectedCluster(ctx context.Context, d *plugin.QueryDa
 	plugin.Logger(ctx).Trace("ListHybridKubernetesConnectedCluster")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewHybridKubernetesConnectedClusterPaginator(buildFilter(d.KeyColumnQuals, listHybridKubernetesConnectedClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewHybridKubernetesConnectedClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listHybridKubernetesConnectedClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18910,14 +19170,15 @@ func GetHybridKubernetesConnectedCluster(ctx context.Context, d *plugin.QueryDat
 	plugin.Logger(ctx).Trace("GetHybridKubernetesConnectedCluster")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewHybridKubernetesConnectedClusterPaginator(buildFilter(d.KeyColumnQuals, getHybridKubernetesConnectedClusterFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewHybridKubernetesConnectedClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getHybridKubernetesConnectedClusterFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18963,7 +19224,7 @@ type CostManagementCostByResourceTypeHit struct {
 }
 
 type CostManagementCostByResourceTypeHits struct {
-	Total SearchTotal                           `json:"total"`
+	Total essdk.SearchTotal                     `json:"total"`
 	Hits  []CostManagementCostByResourceTypeHit `json:"hits"`
 }
 
@@ -18973,11 +19234,11 @@ type CostManagementCostByResourceTypeSearchResponse struct {
 }
 
 type CostManagementCostByResourceTypePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewCostManagementCostByResourceTypePaginator(filters []BoolFilter, limit *int64) (CostManagementCostByResourceTypePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_costmanagement_costbyresourcetype", filters, limit)
+func (k Client) NewCostManagementCostByResourceTypePaginator(filters []essdk.BoolFilter, limit *int64) (CostManagementCostByResourceTypePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_costmanagement_costbyresourcetype", filters, limit)
 	if err != nil {
 		return CostManagementCostByResourceTypePaginator{}, err
 	}
@@ -18990,12 +19251,12 @@ func (k Client) NewCostManagementCostByResourceTypePaginator(filters []BoolFilte
 }
 
 func (p CostManagementCostByResourceTypePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p CostManagementCostByResourceTypePaginator) NextPage(ctx context.Context) ([]CostManagementCostByResourceType, error) {
 	var response CostManagementCostByResourceTypeSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -19007,9 +19268,9 @@ func (p CostManagementCostByResourceTypePaginator) NextPage(ctx context.Context)
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -19023,13 +19284,14 @@ func ListCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryDa
 	plugin.Logger(ctx).Trace("ListCostManagementCostByResourceType")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewCostManagementCostByResourceTypePaginator(buildFilter(d.KeyColumnQuals, listCostManagementCostByResourceTypeFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCostManagementCostByResourceTypePaginator(essdk.BuildFilter(d.KeyColumnQuals, listCostManagementCostByResourceTypeFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19056,14 +19318,15 @@ func GetCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryDat
 	plugin.Logger(ctx).Trace("GetCostManagementCostByResourceType")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCostManagementCostByResourceTypePaginator(buildFilter(d.KeyColumnQuals, getCostManagementCostByResourceTypeFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCostManagementCostByResourceTypePaginator(essdk.BuildFilter(d.KeyColumnQuals, getCostManagementCostByResourceTypeFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19109,7 +19372,7 @@ type CostManagementCostBySubscriptionHit struct {
 }
 
 type CostManagementCostBySubscriptionHits struct {
-	Total SearchTotal                           `json:"total"`
+	Total essdk.SearchTotal                     `json:"total"`
 	Hits  []CostManagementCostBySubscriptionHit `json:"hits"`
 }
 
@@ -19119,11 +19382,11 @@ type CostManagementCostBySubscriptionSearchResponse struct {
 }
 
 type CostManagementCostBySubscriptionPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewCostManagementCostBySubscriptionPaginator(filters []BoolFilter, limit *int64) (CostManagementCostBySubscriptionPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_costmanagement_costbysubscription", filters, limit)
+func (k Client) NewCostManagementCostBySubscriptionPaginator(filters []essdk.BoolFilter, limit *int64) (CostManagementCostBySubscriptionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_costmanagement_costbysubscription", filters, limit)
 	if err != nil {
 		return CostManagementCostBySubscriptionPaginator{}, err
 	}
@@ -19136,12 +19399,12 @@ func (k Client) NewCostManagementCostBySubscriptionPaginator(filters []BoolFilte
 }
 
 func (p CostManagementCostBySubscriptionPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p CostManagementCostBySubscriptionPaginator) NextPage(ctx context.Context) ([]CostManagementCostBySubscription, error) {
 	var response CostManagementCostBySubscriptionSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -19153,9 +19416,9 @@ func (p CostManagementCostBySubscriptionPaginator) NextPage(ctx context.Context)
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -19169,13 +19432,14 @@ func ListCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryDa
 	plugin.Logger(ctx).Trace("ListCostManagementCostBySubscription")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewCostManagementCostBySubscriptionPaginator(buildFilter(d.KeyColumnQuals, listCostManagementCostBySubscriptionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCostManagementCostBySubscriptionPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCostManagementCostBySubscriptionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19202,14 +19466,15 @@ func GetCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryDat
 	plugin.Logger(ctx).Trace("GetCostManagementCostBySubscription")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCostManagementCostBySubscriptionPaginator(buildFilter(d.KeyColumnQuals, getCostManagementCostBySubscriptionFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCostManagementCostBySubscriptionPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCostManagementCostBySubscriptionFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19255,7 +19520,7 @@ type LoadBalancerHit struct {
 }
 
 type LoadBalancerHits struct {
-	Total SearchTotal       `json:"total"`
+	Total essdk.SearchTotal `json:"total"`
 	Hits  []LoadBalancerHit `json:"hits"`
 }
 
@@ -19265,11 +19530,11 @@ type LoadBalancerSearchResponse struct {
 }
 
 type LoadBalancerPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewLoadBalancerPaginator(filters []BoolFilter, limit *int64) (LoadBalancerPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_network_loadbalancers", filters, limit)
+func (k Client) NewLoadBalancerPaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_loadbalancers", filters, limit)
 	if err != nil {
 		return LoadBalancerPaginator{}, err
 	}
@@ -19282,12 +19547,12 @@ func (k Client) NewLoadBalancerPaginator(filters []BoolFilter, limit *int64) (Lo
 }
 
 func (p LoadBalancerPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p LoadBalancerPaginator) NextPage(ctx context.Context) ([]LoadBalancer, error) {
 	var response LoadBalancerSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -19299,9 +19564,9 @@ func (p LoadBalancerPaginator) NextPage(ctx context.Context) ([]LoadBalancer, er
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -19315,13 +19580,14 @@ func ListLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	plugin.Logger(ctx).Trace("ListLoadBalancer")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerPaginator(buildFilter(d.KeyColumnQuals, listLoadBalancerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLoadBalancerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listLoadBalancerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19350,14 +19616,15 @@ func GetLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("GetLoadBalancer")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerPaginator(buildFilter(d.KeyColumnQuals, getLoadBalancerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLoadBalancerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getLoadBalancerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19403,7 +19670,7 @@ type LoadBalancerBackendAddressPoolHit struct {
 }
 
 type LoadBalancerBackendAddressPoolHits struct {
-	Total SearchTotal                         `json:"total"`
+	Total essdk.SearchTotal                   `json:"total"`
 	Hits  []LoadBalancerBackendAddressPoolHit `json:"hits"`
 }
 
@@ -19413,11 +19680,11 @@ type LoadBalancerBackendAddressPoolSearchResponse struct {
 }
 
 type LoadBalancerBackendAddressPoolPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewLoadBalancerBackendAddressPoolPaginator(filters []BoolFilter, limit *int64) (LoadBalancerBackendAddressPoolPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_lb_backendaddresspools", filters, limit)
+func (k Client) NewLoadBalancerBackendAddressPoolPaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerBackendAddressPoolPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_lb_backendaddresspools", filters, limit)
 	if err != nil {
 		return LoadBalancerBackendAddressPoolPaginator{}, err
 	}
@@ -19430,12 +19697,12 @@ func (k Client) NewLoadBalancerBackendAddressPoolPaginator(filters []BoolFilter,
 }
 
 func (p LoadBalancerBackendAddressPoolPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p LoadBalancerBackendAddressPoolPaginator) NextPage(ctx context.Context) ([]LoadBalancerBackendAddressPool, error) {
 	var response LoadBalancerBackendAddressPoolSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -19447,9 +19714,9 @@ func (p LoadBalancerBackendAddressPoolPaginator) NextPage(ctx context.Context) (
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -19463,13 +19730,14 @@ func ListLoadBalancerBackendAddressPool(ctx context.Context, d *plugin.QueryData
 	plugin.Logger(ctx).Trace("ListLoadBalancerBackendAddressPool")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerBackendAddressPoolPaginator(buildFilter(d.KeyColumnQuals, listLoadBalancerBackendAddressPoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLoadBalancerBackendAddressPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, listLoadBalancerBackendAddressPoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19499,14 +19767,15 @@ func GetLoadBalancerBackendAddressPool(ctx context.Context, d *plugin.QueryData,
 	plugin.Logger(ctx).Trace("GetLoadBalancerBackendAddressPool")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerBackendAddressPoolPaginator(buildFilter(d.KeyColumnQuals, getLoadBalancerBackendAddressPoolFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLoadBalancerBackendAddressPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, getLoadBalancerBackendAddressPoolFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19552,7 +19821,7 @@ type LoadBalancerNatRuleHit struct {
 }
 
 type LoadBalancerNatRuleHits struct {
-	Total SearchTotal              `json:"total"`
+	Total essdk.SearchTotal        `json:"total"`
 	Hits  []LoadBalancerNatRuleHit `json:"hits"`
 }
 
@@ -19562,11 +19831,11 @@ type LoadBalancerNatRuleSearchResponse struct {
 }
 
 type LoadBalancerNatRulePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewLoadBalancerNatRulePaginator(filters []BoolFilter, limit *int64) (LoadBalancerNatRulePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_lb_natrules", filters, limit)
+func (k Client) NewLoadBalancerNatRulePaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerNatRulePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_lb_natrules", filters, limit)
 	if err != nil {
 		return LoadBalancerNatRulePaginator{}, err
 	}
@@ -19579,12 +19848,12 @@ func (k Client) NewLoadBalancerNatRulePaginator(filters []BoolFilter, limit *int
 }
 
 func (p LoadBalancerNatRulePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p LoadBalancerNatRulePaginator) NextPage(ctx context.Context) ([]LoadBalancerNatRule, error) {
 	var response LoadBalancerNatRuleSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -19596,9 +19865,9 @@ func (p LoadBalancerNatRulePaginator) NextPage(ctx context.Context) ([]LoadBalan
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -19612,13 +19881,14 @@ func ListLoadBalancerNatRule(ctx context.Context, d *plugin.QueryData, _ *plugin
 	plugin.Logger(ctx).Trace("ListLoadBalancerNatRule")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerNatRulePaginator(buildFilter(d.KeyColumnQuals, listLoadBalancerNatRuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLoadBalancerNatRulePaginator(essdk.BuildFilter(d.KeyColumnQuals, listLoadBalancerNatRuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19648,14 +19918,15 @@ func GetLoadBalancerNatRule(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	plugin.Logger(ctx).Trace("GetLoadBalancerNatRule")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerNatRulePaginator(buildFilter(d.KeyColumnQuals, getLoadBalancerNatRuleFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLoadBalancerNatRulePaginator(essdk.BuildFilter(d.KeyColumnQuals, getLoadBalancerNatRuleFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19701,7 +19972,7 @@ type LoadBalancerOutboundRuleHit struct {
 }
 
 type LoadBalancerOutboundRuleHits struct {
-	Total SearchTotal                   `json:"total"`
+	Total essdk.SearchTotal             `json:"total"`
 	Hits  []LoadBalancerOutboundRuleHit `json:"hits"`
 }
 
@@ -19711,11 +19982,11 @@ type LoadBalancerOutboundRuleSearchResponse struct {
 }
 
 type LoadBalancerOutboundRulePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewLoadBalancerOutboundRulePaginator(filters []BoolFilter, limit *int64) (LoadBalancerOutboundRulePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_lb_outboundrules", filters, limit)
+func (k Client) NewLoadBalancerOutboundRulePaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerOutboundRulePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_lb_outboundrules", filters, limit)
 	if err != nil {
 		return LoadBalancerOutboundRulePaginator{}, err
 	}
@@ -19728,12 +19999,12 @@ func (k Client) NewLoadBalancerOutboundRulePaginator(filters []BoolFilter, limit
 }
 
 func (p LoadBalancerOutboundRulePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p LoadBalancerOutboundRulePaginator) NextPage(ctx context.Context) ([]LoadBalancerOutboundRule, error) {
 	var response LoadBalancerOutboundRuleSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -19745,9 +20016,9 @@ func (p LoadBalancerOutboundRulePaginator) NextPage(ctx context.Context) ([]Load
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -19761,13 +20032,14 @@ func ListLoadBalancerOutboundRule(ctx context.Context, d *plugin.QueryData, _ *p
 	plugin.Logger(ctx).Trace("ListLoadBalancerOutboundRule")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerOutboundRulePaginator(buildFilter(d.KeyColumnQuals, listLoadBalancerOutboundRuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLoadBalancerOutboundRulePaginator(essdk.BuildFilter(d.KeyColumnQuals, listLoadBalancerOutboundRuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19797,14 +20069,15 @@ func GetLoadBalancerOutboundRule(ctx context.Context, d *plugin.QueryData, _ *pl
 	plugin.Logger(ctx).Trace("GetLoadBalancerOutboundRule")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerOutboundRulePaginator(buildFilter(d.KeyColumnQuals, getLoadBalancerOutboundRuleFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLoadBalancerOutboundRulePaginator(essdk.BuildFilter(d.KeyColumnQuals, getLoadBalancerOutboundRuleFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19850,7 +20123,7 @@ type LoadBalancerProbeHit struct {
 }
 
 type LoadBalancerProbeHits struct {
-	Total SearchTotal            `json:"total"`
+	Total essdk.SearchTotal      `json:"total"`
 	Hits  []LoadBalancerProbeHit `json:"hits"`
 }
 
@@ -19860,11 +20133,11 @@ type LoadBalancerProbeSearchResponse struct {
 }
 
 type LoadBalancerProbePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewLoadBalancerProbePaginator(filters []BoolFilter, limit *int64) (LoadBalancerProbePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_lb_probes", filters, limit)
+func (k Client) NewLoadBalancerProbePaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerProbePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_lb_probes", filters, limit)
 	if err != nil {
 		return LoadBalancerProbePaginator{}, err
 	}
@@ -19877,12 +20150,12 @@ func (k Client) NewLoadBalancerProbePaginator(filters []BoolFilter, limit *int64
 }
 
 func (p LoadBalancerProbePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p LoadBalancerProbePaginator) NextPage(ctx context.Context) ([]LoadBalancerProbe, error) {
 	var response LoadBalancerProbeSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -19894,9 +20167,9 @@ func (p LoadBalancerProbePaginator) NextPage(ctx context.Context) ([]LoadBalance
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -19910,13 +20183,14 @@ func ListLoadBalancerProbe(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	plugin.Logger(ctx).Trace("ListLoadBalancerProbe")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerProbePaginator(buildFilter(d.KeyColumnQuals, listLoadBalancerProbeFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLoadBalancerProbePaginator(essdk.BuildFilter(d.KeyColumnQuals, listLoadBalancerProbeFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19946,14 +20220,15 @@ func GetLoadBalancerProbe(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("GetLoadBalancerProbe")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerProbePaginator(buildFilter(d.KeyColumnQuals, getLoadBalancerProbeFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLoadBalancerProbePaginator(essdk.BuildFilter(d.KeyColumnQuals, getLoadBalancerProbeFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19999,7 +20274,7 @@ type LoadBalancerRuleHit struct {
 }
 
 type LoadBalancerRuleHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []LoadBalancerRuleHit `json:"hits"`
 }
 
@@ -20009,11 +20284,11 @@ type LoadBalancerRuleSearchResponse struct {
 }
 
 type LoadBalancerRulePaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewLoadBalancerRulePaginator(filters []BoolFilter, limit *int64) (LoadBalancerRulePaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_lb_rules", filters, limit)
+func (k Client) NewLoadBalancerRulePaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerRulePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_lb_rules", filters, limit)
 	if err != nil {
 		return LoadBalancerRulePaginator{}, err
 	}
@@ -20026,12 +20301,12 @@ func (k Client) NewLoadBalancerRulePaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p LoadBalancerRulePaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p LoadBalancerRulePaginator) NextPage(ctx context.Context) ([]LoadBalancerRule, error) {
 	var response LoadBalancerRuleSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -20043,9 +20318,9 @@ func (p LoadBalancerRulePaginator) NextPage(ctx context.Context) ([]LoadBalancer
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -20059,13 +20334,14 @@ func ListLoadBalancerRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListLoadBalancerRule")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerRulePaginator(buildFilter(d.KeyColumnQuals, listLoadBalancerRuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLoadBalancerRulePaginator(essdk.BuildFilter(d.KeyColumnQuals, listLoadBalancerRuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20095,14 +20371,15 @@ func GetLoadBalancerRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetLoadBalancerRule")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerRulePaginator(buildFilter(d.KeyColumnQuals, getLoadBalancerRuleFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLoadBalancerRulePaginator(essdk.BuildFilter(d.KeyColumnQuals, getLoadBalancerRuleFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20148,7 +20425,7 @@ type ManagementGroupHit struct {
 }
 
 type ManagementGroupHits struct {
-	Total SearchTotal          `json:"total"`
+	Total essdk.SearchTotal    `json:"total"`
 	Hits  []ManagementGroupHit `json:"hits"`
 }
 
@@ -20158,11 +20435,11 @@ type ManagementGroupSearchResponse struct {
 }
 
 type ManagementGroupPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewManagementGroupPaginator(filters []BoolFilter, limit *int64) (ManagementGroupPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_management_groups", filters, limit)
+func (k Client) NewManagementGroupPaginator(filters []essdk.BoolFilter, limit *int64) (ManagementGroupPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_management_groups", filters, limit)
 	if err != nil {
 		return ManagementGroupPaginator{}, err
 	}
@@ -20175,12 +20452,12 @@ func (k Client) NewManagementGroupPaginator(filters []BoolFilter, limit *int64) 
 }
 
 func (p ManagementGroupPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ManagementGroupPaginator) NextPage(ctx context.Context) ([]ManagementGroup, error) {
 	var response ManagementGroupSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -20192,9 +20469,9 @@ func (p ManagementGroupPaginator) NextPage(ctx context.Context) ([]ManagementGro
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -20208,13 +20485,14 @@ func ListManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("ListManagementGroup")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewManagementGroupPaginator(buildFilter(d.KeyColumnQuals, listManagementGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewManagementGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, listManagementGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20242,14 +20520,15 @@ func GetManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("GetManagementGroup")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewManagementGroupPaginator(buildFilter(d.KeyColumnQuals, getManagementGroupFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewManagementGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, getManagementGroupFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20295,7 +20574,7 @@ type ManagementLockHit struct {
 }
 
 type ManagementLockHits struct {
-	Total SearchTotal         `json:"total"`
+	Total essdk.SearchTotal   `json:"total"`
 	Hits  []ManagementLockHit `json:"hits"`
 }
 
@@ -20305,11 +20584,11 @@ type ManagementLockSearchResponse struct {
 }
 
 type ManagementLockPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewManagementLockPaginator(filters []BoolFilter, limit *int64) (ManagementLockPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_management_locks", filters, limit)
+func (k Client) NewManagementLockPaginator(filters []essdk.BoolFilter, limit *int64) (ManagementLockPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_management_locks", filters, limit)
 	if err != nil {
 		return ManagementLockPaginator{}, err
 	}
@@ -20322,12 +20601,12 @@ func (k Client) NewManagementLockPaginator(filters []BoolFilter, limit *int64) (
 }
 
 func (p ManagementLockPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ManagementLockPaginator) NextPage(ctx context.Context) ([]ManagementLock, error) {
 	var response ManagementLockSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -20339,9 +20618,9 @@ func (p ManagementLockPaginator) NextPage(ctx context.Context) ([]ManagementLock
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -20355,13 +20634,14 @@ func ListManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	plugin.Logger(ctx).Trace("ListManagementLock")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewManagementLockPaginator(buildFilter(d.KeyColumnQuals, listManagementLockFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewManagementLockPaginator(essdk.BuildFilter(d.KeyColumnQuals, listManagementLockFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20390,14 +20670,15 @@ func GetManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("GetManagementLock")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewManagementLockPaginator(buildFilter(d.KeyColumnQuals, getManagementLockFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewManagementLockPaginator(essdk.BuildFilter(d.KeyColumnQuals, getManagementLockFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20443,7 +20724,7 @@ type ResourceProviderHit struct {
 }
 
 type ResourceProviderHits struct {
-	Total SearchTotal           `json:"total"`
+	Total essdk.SearchTotal     `json:"total"`
 	Hits  []ResourceProviderHit `json:"hits"`
 }
 
@@ -20453,11 +20734,11 @@ type ResourceProviderSearchResponse struct {
 }
 
 type ResourceProviderPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewResourceProviderPaginator(filters []BoolFilter, limit *int64) (ResourceProviderPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_resources_providers", filters, limit)
+func (k Client) NewResourceProviderPaginator(filters []essdk.BoolFilter, limit *int64) (ResourceProviderPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_providers", filters, limit)
 	if err != nil {
 		return ResourceProviderPaginator{}, err
 	}
@@ -20470,12 +20751,12 @@ func (k Client) NewResourceProviderPaginator(filters []BoolFilter, limit *int64)
 }
 
 func (p ResourceProviderPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ResourceProviderPaginator) NextPage(ctx context.Context) ([]ResourceProvider, error) {
 	var response ResourceProviderSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -20487,9 +20768,9 @@ func (p ResourceProviderPaginator) NextPage(ctx context.Context) ([]ResourceProv
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -20503,13 +20784,14 @@ func ListResourceProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	plugin.Logger(ctx).Trace("ListResourceProvider")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewResourceProviderPaginator(buildFilter(d.KeyColumnQuals, listResourceProviderFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewResourceProviderPaginator(essdk.BuildFilter(d.KeyColumnQuals, listResourceProviderFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20537,14 +20819,15 @@ func GetResourceProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	plugin.Logger(ctx).Trace("GetResourceProvider")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewResourceProviderPaginator(buildFilter(d.KeyColumnQuals, getResourceProviderFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewResourceProviderPaginator(essdk.BuildFilter(d.KeyColumnQuals, getResourceProviderFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20590,7 +20873,7 @@ type ResourceGroupHit struct {
 }
 
 type ResourceGroupHits struct {
-	Total SearchTotal        `json:"total"`
+	Total essdk.SearchTotal  `json:"total"`
 	Hits  []ResourceGroupHit `json:"hits"`
 }
 
@@ -20600,11 +20883,11 @@ type ResourceGroupSearchResponse struct {
 }
 
 type ResourceGroupPaginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewResourceGroupPaginator(filters []BoolFilter, limit *int64) (ResourceGroupPaginator, error) {
-	paginator, err := newPaginator(k.es, "microsoft_resources_resourcegroups", filters, limit)
+func (k Client) NewResourceGroupPaginator(filters []essdk.BoolFilter, limit *int64) (ResourceGroupPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_resourcegroups", filters, limit)
 	if err != nil {
 		return ResourceGroupPaginator{}, err
 	}
@@ -20617,12 +20900,12 @@ func (k Client) NewResourceGroupPaginator(filters []BoolFilter, limit *int64) (R
 }
 
 func (p ResourceGroupPaginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p ResourceGroupPaginator) NextPage(ctx context.Context) ([]ResourceGroup, error) {
 	var response ResourceGroupSearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -20634,9 +20917,9 @@ func (p ResourceGroupPaginator) NextPage(ctx context.Context) ([]ResourceGroup, 
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -20650,13 +20933,14 @@ func ListResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	plugin.Logger(ctx).Trace("ListResourceGroup")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.NewResourceGroupPaginator(buildFilter(d.KeyColumnQuals, listResourceGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewResourceGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, listResourceGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20684,14 +20968,15 @@ func GetResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	plugin.Logger(ctx).Trace("GetResourceGroup")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewResourceGroupPaginator(buildFilter(d.KeyColumnQuals, getResourceGroupFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewResourceGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, getResourceGroupFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}

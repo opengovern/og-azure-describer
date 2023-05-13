@@ -4,12 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/kaytu-io/kaytu-azure-describer/pkg/describe/enums"
 	hamiltonAuth "github.com/manicminer/hamilton/auth"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resourcegraph/mgmt/resourcegraph"
