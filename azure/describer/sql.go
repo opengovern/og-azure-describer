@@ -164,32 +164,32 @@ func SqlDatabase(ctx context.Context, authorizer autorest.Authorizer, subscripti
 					return nil, err
 				}
 
+				var c []sqlV5.DatabaseVulnerabilityAssessment
 				dbVulnerabilityOp, err := databaseVulnerabilityClient.ListByDatabase(ctx, resourceGroupName, serverName, databaseName)
-				if err != nil {
-					return nil, err
-				}
-				c := dbVulnerabilityOp.Values()
-				for dbVulnerabilityOp.NotDone() {
-					err := dbVulnerabilityOp.NextWithContext(ctx)
-					if err != nil {
-						return nil, err
-					}
+				if err == nil {
+					c = dbVulnerabilityOp.Values()
+					for dbVulnerabilityOp.NotDone() {
+						err := dbVulnerabilityOp.NextWithContext(ctx)
+						if err != nil {
+							break
+						}
 
-					c = append(c, dbVulnerabilityOp.Values()...)
+						c = append(c, dbVulnerabilityOp.Values()...)
+					}
 				}
 
 				dbVulnerabilityScanOp, err := databaseVulnerabilityScanClient.ListByDatabase(ctx, resourceGroupName, serverName, databaseName)
-				if err != nil {
-					return nil, err
-				}
-				v := dbVulnerabilityScanOp.Values()
-				for dbVulnerabilityScanOp.NotDone() {
-					err := dbVulnerabilityScanOp.NextWithContext(ctx)
-					if err != nil {
-						return nil, err
-					}
+				var v []sqlV5.VulnerabilityAssessmentScanRecord
+				if err == nil {
+					v = dbVulnerabilityScanOp.Values()
+					for dbVulnerabilityScanOp.NotDone() {
+						err := dbVulnerabilityScanOp.NextWithContext(ctx)
+						if err != nil {
+							break
+						}
 
-					v = append(v, dbVulnerabilityScanOp.Values()...)
+						v = append(v, dbVulnerabilityScanOp.Values()...)
+					}
 				}
 
 				getOp, err := client.Get(ctx, resourceGroupName, serverName, databaseName, "")
