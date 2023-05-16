@@ -488,6 +488,9 @@ func StorageBlobService(ctx context.Context, authorizer autorest.Authorizer, sub
 			for _, resourceGroup := range resourceGroups {
 				blobServices, err := storageClient.List(ctx, *resourceGroup.Name, *account.Name)
 				if err != nil {
+					if strings.Contains(err.Error(), "Code=\"ParentResourceNotFound\"") {
+						continue
+					}
 					return nil, err
 				}
 				for _, blobService := range *blobServices.Value {
@@ -617,6 +620,9 @@ func StorageFileShare(ctx context.Context, authorizer autorest.Authorizer, subsc
 			for _, resourceGroup := range resourceGroups {
 				fileShares, err := storageClient.List(ctx, *resourceGroup.Name, *account.Name, "", "", "")
 				if err != nil {
+					if strings.Contains(err.Error(), "Code=\"ParentResourceNotFound\"") {
+						continue
+					}
 					return nil, err
 				}
 				for {

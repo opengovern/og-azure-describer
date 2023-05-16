@@ -8,6 +8,7 @@ build:
 	cd build && zip ./kaytu-azure-describer.zip ./kaytu-azure-describer
 	aws s3 cp ./build/kaytu-azure-describer.zip s3://lambda-describe-binary/kaytu-azure-describer.zip
 	aws lambda update-function-code --function-name DescribeAzure --s3-bucket lambda-describe-binary --s3-key kaytu-azure-describer.zip --no-cli-pager --no-cli-auto-prompt
+	aws lambda update-function-code --function-name kaytu-azure-describer --s3-bucket lambda-describe-binary --s3-key kaytu-azure-describer.zip --no-cli-pager --no-cli-auto-prompt
 
 build-cli:
 	export CGO_ENABLED=0

@@ -937,12 +937,18 @@ func ComputeResourceSKU(ctx context.Context, authorizer autorest.Authorizer, sub
 	for {
 		for _, resourceSku := range result.Values() {
 			resource := Resource{
-				ID:       "azure:///subscriptions/" + subscription + "/locations/" + (*resourceSku.Locations)[0] + "/resourcetypes" + *resourceSku.ResourceType + "name/" + *resourceSku.Name,
-				Name:     *resourceSku.Name,
-				Location: (*resourceSku.Locations)[0],
 				Description: model.ComputeResourceSKUDescription{
 					ResourceSKU: resourceSku,
 				},
+			}
+			if resourceSku.Locations != nil && len(*resourceSku.Locations) > 0 {
+				resource.Location = (*resourceSku.Locations)[0]
+				if resourceSku.Name != nil {
+					resource.ID = "azure:///subscriptions/" + subscription + "/locations/" + (*resourceSku.Locations)[0] + "/resourcetypes" + *resourceSku.ResourceType + "name/" + *resourceSku.Name
+				}
+			}
+			if resourceSku.Name != nil {
+				resource.Name = *resourceSku.Name
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
