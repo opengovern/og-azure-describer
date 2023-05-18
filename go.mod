@@ -15,7 +15,7 @@ require (
 	github.com/gofrs/uuid v4.2.0+incompatible
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.2.2
-	github.com/kaytu-io/kaytu-util v0.0.0-20230513085647-7cc62974cfef
+	github.com/kaytu-io/kaytu-util v0.0.0-20230518081927-21fb9cba89c8
 	github.com/manicminer/hamilton v0.41.1
 	github.com/spf13/cobra v1.6.1
 	github.com/tombuildsstuff/giovanni v0.18.0
