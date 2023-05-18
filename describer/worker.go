@@ -175,7 +175,7 @@ func doDescribeAzure(
 		clientStream,
 	)
 	if err != nil {
-		return nil, fmt.Errorf("azure: %w", err)
+		return nil, err
 	}
 
 	rs.Finish()

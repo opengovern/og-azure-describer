@@ -3,7 +3,10 @@ package describer
 import (
 	"context"
 	"encoding/base64"
+	"errors"
 	"fmt"
+	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/validation"
 	"github.com/golang-jwt/jwt/v5"
 
 	"github.com/kaytu-io/kaytu-util/pkg/describe"
@@ -91,9 +94,19 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 	)
 
 	errMsg := ""
+	errCode := ""
 	status := DescribeResourceJobSucceeded
 	if err != nil {
 		errMsg = err.Error()
+		var detailedErr autorest.DetailedError
+		if errors.As(err, &detailedErr) {
+			errCode = fmt.Sprintf("%v", detailedErr.StatusCode)
+		}
+
+		var validationErr validation.Error
+		if errors.As(err, &validationErr) {
+			errCode = "ValidationError"
+		}
 		status = DescribeResourceJobFailed
 	}
 
@@ -122,6 +135,7 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 			ParentJobId: uint32(input.DescribeJob.ParentJobID),
 			Status:      status,
 			Error:       errMsg,
+			ErrorCode:   errCode,
 			DescribeJob: &golang2.DescribeJob{
 				JobId:         uint32(input.DescribeJob.JobID),
 				ScheduleJobId: uint32(input.DescribeJob.ScheduleJobID),
