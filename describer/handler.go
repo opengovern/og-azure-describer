@@ -5,21 +5,23 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/validation"
 	"github.com/golang-jwt/jwt/v5"
 
+	"os"
+	"time"
+
 	"github.com/kaytu-io/kaytu-util/pkg/describe"
 	"github.com/kaytu-io/kaytu-util/pkg/vault"
-	golang2 "github.com/kaytu-io/kaytu-util/proto/src/golang"
+	"github.com/kaytu-io/kaytu-util/proto/src/golang"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/oauth"
 	"google.golang.org/grpc/metadata"
-	"os"
-	"time"
 )
 
 const (
@@ -72,14 +74,55 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		return fmt.Errorf("workspace name is required")
 	}
 
-	kmsVault, err := vault.NewKMSVaultSourceConfig(ctx, "", "", input.KeyRegion)
-	if err != nil {
-		return fmt.Errorf("failed to initialize KMS vault: %w", err)
-	}
-
 	token, err := getJWTAuthToken(input.WorkspaceId)
 	if err != nil {
 		return fmt.Errorf("failed to get JWT token: %w", err)
+	}
+
+	var client golang.DescribeServiceClient
+	grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
+		"workspace-name": input.WorkspaceName,
+	}))
+	for retry := 0; retry < 5; retry++ {
+		conn, err := grpc.Dial(
+			input.DescribeEndpoint,
+			grpc.WithTransportCredentials(credentials.NewTLS(nil)),
+			grpc.WithPerRPCCredentials(oauth.TokenSource{
+				TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
+					AccessToken: token,
+				}),
+			}),
+		)
+		if err != nil {
+			logger.Error("[result delivery] connection failure:", zap.Error(err))
+			if retry == 4 {
+				return err
+			}
+			time.Sleep(1 * time.Second)
+			continue
+		}
+		client = golang.NewDescribeServiceClient(conn)
+		break
+	}
+
+	for retry := 0; retry < 5; retry++ {
+		_, err := client.SetInProgress(grpcCtx, &golang.SetInProgressRequest{
+			JobId: uint32(input.DescribeJob.JobID),
+		})
+		if err != nil {
+			logger.Error("[result delivery] set in progress failure:", zap.Error(err))
+			if retry == 4 {
+				return err
+			}
+			time.Sleep(1 * time.Second)
+			continue
+		}
+		break
+	}
+
+	kmsVault, err := vault.NewKMSVaultSourceConfig(ctx, "", "", input.KeyRegion)
+	if err != nil {
+		return fmt.Errorf("failed to initialize KMS vault: %w", err)
 	}
 
 	resourceIds, err := Do(
@@ -111,32 +154,13 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 	}
 
 	for retry := 0; retry < 5; retry++ {
-		conn, err := grpc.Dial(
-			input.DescribeEndpoint,
-			grpc.WithTransportCredentials(credentials.NewTLS(nil)),
-			grpc.WithPerRPCCredentials(oauth.TokenSource{
-				TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
-					AccessToken: token,
-				}),
-			}),
-		)
-		if err != nil {
-			logger.Error("[result delivery] connection failure:", zap.Error(err))
-			time.Sleep(1 * time.Second)
-			continue
-		}
-		client := golang2.NewDescribeServiceClient(conn)
-
-		grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
-			"workspace-name": input.WorkspaceName,
-		}))
-		_, err = client.DeliverResult(grpcCtx, &golang2.DeliverResultRequest{
+		_, err = client.DeliverResult(grpcCtx, &golang.DeliverResultRequest{
 			JobId:       uint32(input.DescribeJob.JobID),
 			ParentJobId: uint32(input.DescribeJob.ParentJobID),
 			Status:      status,
 			Error:       errMsg,
 			ErrorCode:   errCode,
-			DescribeJob: &golang2.DescribeJob{
+			DescribeJob: &golang.DescribeJob{
 				JobId:         uint32(input.DescribeJob.JobID),
 				ScheduleJobId: uint32(input.DescribeJob.ScheduleJobID),
 				ParentJobId:   uint32(input.DescribeJob.ParentJobID),
