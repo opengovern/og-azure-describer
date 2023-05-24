@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/validation"
@@ -149,6 +150,12 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		var validationErr validation.Error
 		if errors.As(err, &validationErr) {
 			errCode = "ValidationError"
+		}
+
+		if errCode == "" {
+			if strings.Contains(err.Error(), "InvalidAuthenticationToken") {
+				errCode = "InvalidAuthenticationToken"
+			}
 		}
 		status = DescribeResourceJobFailed
 	}

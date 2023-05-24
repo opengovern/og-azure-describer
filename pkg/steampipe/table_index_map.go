@@ -91,7 +91,7 @@ var azureMap = map[string]string{
 	"Microsoft.Network/azureFirewalls":                         "azure_azure_firewall",
 	"Microsoft.Network/expressRouteCircuits":                   "azure_network_expressroutecircuit",
 	"Microsoft.Network/loadBalancers":                          "azure_lb",
-	"Microsoft.Network/routeTables":                            "azure_network_route_table",
+	"Microsoft.Network/routeTables":                            "azure_route_table",
 	"Microsoft.Compute/snapshots":                              "azure_compute_snapshot",
 	"Microsoft.Network/virtualNetworkGateways":                 "azure_network_virtualnetworkgateway",
 	"Microsoft.Compute/availabilitySets":                       "azure_compute_availability_set",
