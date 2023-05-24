@@ -24,12 +24,13 @@ require (
 	gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230513145246-fa05b07884ee
 	gitlab.com/keibiengine/steampipe-plugin-azuread v0.1.1-0.20230513092024-06d62c29480c
 	go.uber.org/zap v1.24.0
-	golang.org/x/oauth2 v0.5.0
+	golang.org/x/oauth2 v0.6.0
 	google.golang.org/grpc v1.54.0
 )
 
 require (
-	cloud.google.com/go v0.110.0 // indirect
+	cloud.google.com/go/compute v1.19.0 // indirect
+	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	github.com/Azure/azure-pipeline-go v0.2.3 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.3.0 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.1.0 // indirect
