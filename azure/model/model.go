@@ -73,13 +73,13 @@ import (
 )
 
 type Metadata struct {
-	ID               string `json:"id"`
-	Name             string `json:"name"`
-	SubscriptionID   string `json:"subscription_id"`
-	Location         string `json:"location"`
-	CloudEnvironment string `json:"cloud_environment"`
-	ResourceType     string `json:"resource_type"`
-	SourceID         string `json:"source_id"`
+	ID               string
+	Name             string
+	SubscriptionID   string
+	Location         string
+	CloudEnvironment string
+	ResourceType     string
+	SourceID         string
 }
 
 //  ===================  APIManagement ==================

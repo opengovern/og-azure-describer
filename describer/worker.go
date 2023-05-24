@@ -89,7 +89,7 @@ func doDescribeAzure(
 			SubscriptionID:   job.AccountID,
 			Location:         resource.Location,
 			CloudEnvironment: "AzurePublicCloud",
-			ResourceType:     strings.ToLower(resource.Type),
+			ResourceType:     strings.ToLower(job.ResourceType),
 			SourceID:         job.SourceID,
 		}
 		azureMetadataBytes, err := json.Marshal(azureMetadata)
