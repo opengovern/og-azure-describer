@@ -1,11 +1,10 @@
 package describer
 
 import (
-	"testing"
-
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2020-06-01/compute"
 	"github.com/Azure/azure-sdk-for-go/services/synapse/mgmt/2021-03-01/synapse"
 	"github.com/gofrs/uuid"
+	"testing"
 )
 
 func TestJSONAllFieldsMarshaller(t *testing.T) {
