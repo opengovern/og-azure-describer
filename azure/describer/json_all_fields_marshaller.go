@@ -8,7 +8,8 @@ import (
 )
 
 var exclusionTypeSet = map[string]struct{}{
-	"github.com/gofrs/uuid": {},
+	"github.com/gofrs/uuid":                      {},
+	"github.com/azure/go-autorest/autorest/date": {},
 }
 
 // JSONAllFieldsMarshaller is a hack around the issue described here
