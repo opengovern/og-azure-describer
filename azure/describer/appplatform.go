@@ -51,10 +51,12 @@ func SpringCloudService(ctx context.Context, authorizer autorest.Authorizer, sub
 						ID:       *service.ID,
 						Name:     *service.Name,
 						Location: *service.Location,
-						Description: model.SpringCloudServiceDescription{
-							ServiceResource:            service,
-							DiagnosticSettingsResource: appplatformListOp.Value,
-							ResourceGroup:              resourceGroup,
+						Description: JSONAllFieldsMarshaller{
+							model.SpringCloudServiceDescription{
+								ServiceResource:            service,
+								DiagnosticSettingsResource: appplatformListOp.Value,
+								ResourceGroup:              resourceGroup,
+							},
 						},
 					}
 					if stream != nil {

@@ -82,12 +82,14 @@ func MssqlManagedInstance(ctx context.Context, authorizer autorest.Authorizer, s
 				ID:       *managedInstance.ID,
 				Name:     *managedInstance.Name,
 				Location: *managedInstance.Location,
-				Description: model.MssqlManagedInstanceDescription{
-					ManagedInstance:                         managedInstance,
-					ManagedInstanceVulnerabilityAssessments: viop,
-					ManagedDatabaseSecurityAlertPolicies:    vsop,
-					ManagedInstanceEncryptionProtectors:     veop,
-					ResourceGroup:                           resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.MssqlManagedInstanceDescription{
+						ManagedInstance:                         managedInstance,
+						ManagedInstanceVulnerabilityAssessments: viop,
+						ManagedDatabaseSecurityAlertPolicies:    vsop,
+						ManagedInstanceEncryptionProtectors:     veop,
+						ResourceGroup:                           resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -201,13 +203,15 @@ func SqlDatabase(ctx context.Context, authorizer autorest.Authorizer, subscripti
 					ID:       *server.ID,
 					Name:     *server.Name,
 					Location: *server.Location,
-					Description: model.SqlDatabaseDescription{
-						Database:                           getOp,
-						LongTermRetentionPolicy:            longTermRetentionPolicy,
-						TransparentDataEncryption:          transparentDataOp,
-						DatabaseVulnerabilityAssessments:   c,
-						VulnerabilityAssessmentScanRecords: v,
-						ResourceGroup:                      resourceGroupName,
+					Description: JSONAllFieldsMarshaller{
+						model.SqlDatabaseDescription{
+							Database:                           getOp,
+							LongTermRetentionPolicy:            longTermRetentionPolicy,
+							TransparentDataEncryption:          transparentDataOp,
+							DatabaseVulnerabilityAssessments:   c,
+							VulnerabilityAssessmentScanRecords: v,
+							ResourceGroup:                      resourceGroupName,
+						},
 					},
 				}
 				if stream != nil {

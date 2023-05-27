@@ -37,10 +37,12 @@ func LoadBalancer(ctx context.Context, authorizer autorest.Authorizer, subscript
 				ID:       *loadBalancer.ID,
 				Name:     *loadBalancer.Name,
 				Location: *loadBalancer.Location,
-				Description: model.LoadBalancerDescription{
-					ResourceGroup:     resourceGroup,
-					DiagnosticSetting: diagnosticSettings.Value,
-					LoadBalancer:      loadBalancer,
+				Description: JSONAllFieldsMarshaller{
+					model.LoadBalancerDescription{
+						ResourceGroup:     resourceGroup,
+						DiagnosticSetting: diagnosticSettings.Value,
+						LoadBalancer:      loadBalancer,
+					},
 				},
 			}
 			if stream != nil {
@@ -88,10 +90,12 @@ func LoadBalancerBackendAddressPool(ctx context.Context, authorizer autorest.Aut
 					resourceGroup := strings.Split(*pool.ID, "/")[4]
 					resource := Resource{
 						ID: *pool.ID,
-						Description: model.LoadBalancerBackendAddressPoolDescription{
-							ResourceGroup: resourceGroup,
-							LoadBalancer:  loadBalancer,
-							Pool:          pool,
+						Description: JSONAllFieldsMarshaller{
+							model.LoadBalancerBackendAddressPoolDescription{
+								ResourceGroup: resourceGroup,
+								LoadBalancer:  loadBalancer,
+								Pool:          pool,
+							},
 						},
 					}
 					if pool.Name != nil {
@@ -156,10 +160,12 @@ func LoadBalancerNatRule(ctx context.Context, authorizer autorest.Authorizer, su
 						ID:       *natRule.ID,
 						Name:     *natRule.Name,
 						Location: *loadBalancer.Location,
-						Description: model.LoadBalancerNatRuleDescription{
-							ResourceGroup:    resourceGroup,
-							LoadBalancerName: *loadBalancer.Name,
-							Rule:             natRule,
+						Description: JSONAllFieldsMarshaller{
+							model.LoadBalancerNatRuleDescription{
+								ResourceGroup:    resourceGroup,
+								LoadBalancerName: *loadBalancer.Name,
+								Rule:             natRule,
+							},
 						},
 					}
 					if stream != nil {
@@ -218,10 +224,12 @@ func LoadBalancerOutboundRule(ctx context.Context, authorizer autorest.Authorize
 						ID:       *outboundRule.ID,
 						Name:     *outboundRule.Name,
 						Location: *loadBalancer.Location,
-						Description: model.LoadBalancerOutboundRuleDescription{
-							ResourceGroup:    resourceGroup,
-							LoadBalancerName: *loadBalancer.Name,
-							Rule:             outboundRule,
+						Description: JSONAllFieldsMarshaller{
+							model.LoadBalancerOutboundRuleDescription{
+								ResourceGroup:    resourceGroup,
+								LoadBalancerName: *loadBalancer.Name,
+								Rule:             outboundRule,
+							},
 						},
 					}
 					if stream != nil {
@@ -280,10 +288,12 @@ func LoadBalancerProbe(ctx context.Context, authorizer autorest.Authorizer, subs
 						ID:       *probe.ID,
 						Name:     *probe.Name,
 						Location: *loadBalancer.Location,
-						Description: model.LoadBalancerProbeDescription{
-							ResourceGroup:    resourceGroup,
-							LoadBalancerName: *loadBalancer.Name,
-							Probe:            probe,
+						Description: JSONAllFieldsMarshaller{
+							model.LoadBalancerProbeDescription{
+								ResourceGroup:    resourceGroup,
+								LoadBalancerName: *loadBalancer.Name,
+								Probe:            probe,
+							},
 						},
 					}
 					if stream != nil {
@@ -342,10 +352,12 @@ func LoadBalancerRule(ctx context.Context, authorizer autorest.Authorizer, subsc
 						ID:       *rule.ID,
 						Name:     *rule.Name,
 						Location: *loadBalancer.Location,
-						Description: model.LoadBalancerRuleDescription{
-							ResourceGroup:    resourceGroup,
-							LoadBalancerName: *loadBalancer.Name,
-							Rule:             rule,
+						Description: JSONAllFieldsMarshaller{
+							model.LoadBalancerRuleDescription{
+								ResourceGroup:    resourceGroup,
+								LoadBalancerName: *loadBalancer.Name,
+								Rule:             rule,
+							},
 						},
 					}
 					if stream != nil {

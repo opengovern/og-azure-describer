@@ -25,9 +25,11 @@ func KustoCluster(ctx context.Context, authorizer autorest.Authorizer, subscript
 			ID:       *kusto.ID,
 			Name:     *kusto.Name,
 			Location: *kusto.Location,
-			Description: model.KustoClusterDescription{
-				Cluster:       kusto,
-				ResourceGroup: resourceGroup,
+			Description: JSONAllFieldsMarshaller{
+				model.KustoClusterDescription{
+					Cluster:       kusto,
+					ResourceGroup: resourceGroup,
+				},
 			},
 		}
 		if stream != nil {

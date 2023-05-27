@@ -35,10 +35,12 @@ func AppConfiguration(ctx context.Context, authorizer autorest.Authorizer, subsc
 				ID:       *config.ID,
 				Name:     *config.Name,
 				Location: *config.Location,
-				Description: model.AppConfigurationDescription{
-					ConfigurationStore:          config,
-					DiagnosticSettingsResources: *op.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.AppConfigurationDescription{
+						ConfigurationStore:          config,
+						DiagnosticSettingsResources: *op.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

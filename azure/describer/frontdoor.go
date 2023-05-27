@@ -36,10 +36,12 @@ func FrontDoor(ctx context.Context, authorizer autorest.Authorizer, subscription
 				ID:       *door.ID,
 				Name:     *door.Name,
 				Location: *door.Location,
-				Description: model.FrontdoorDescription{
-					FrontDoor:                   door,
-					DiagnosticSettingsResources: frontDoorListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.FrontdoorDescription{
+						FrontDoor:                   door,
+						DiagnosticSettingsResources: frontDoorListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

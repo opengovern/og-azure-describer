@@ -53,11 +53,13 @@ func MysqlServer(ctx context.Context, authorizer autorest.Authorizer, subscripti
 			ID:       *server.ID,
 			Name:     *server.Name,
 			Location: *server.Location,
-			Description: model.MysqlServerDescription{
-				Server:         server,
-				Configurations: mysqlListByServerOp.Value,
-				ServerKeys:     keys,
-				ResourceGroup:  resourceGroup,
+			Description: JSONAllFieldsMarshaller{
+				model.MysqlServerDescription{
+					Server:         server,
+					Configurations: mysqlListByServerOp.Value,
+					ServerKeys:     keys,
+					ResourceGroup:  resourceGroup,
+				},
 			},
 		}
 		if stream != nil {

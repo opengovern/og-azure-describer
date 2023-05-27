@@ -26,9 +26,11 @@ func StorageSync(ctx context.Context, authorizer autorest.Authorizer, subscripti
 			ID:       *storage.ID,
 			Name:     *storage.Name,
 			Location: *storage.Location,
-			Description: model.StorageSyncDescription{
-				Service:       storage,
-				ResourceGroup: resourceGroup,
+			Description: JSONAllFieldsMarshaller{
+				model.StorageSyncDescription{
+					Service:       storage,
+					ResourceGroup: resourceGroup,
+				},
 			}}
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {

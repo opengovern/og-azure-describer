@@ -27,9 +27,11 @@ func HpcCache(ctx context.Context, authorizer autorest.Authorizer, subscription 
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.HpcCacheDescription{
-					Cache:         v,
-					ResourceGroup: resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.HpcCacheDescription{
+						Cache:         v,
+						ResourceGroup: resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

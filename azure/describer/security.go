@@ -25,8 +25,10 @@ func SecurityCenterAutoProvisioning(ctx context.Context, authorizer autorest.Aut
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: "global",
-				Description: model.SecurityCenterAutoProvisioningDescription{
-					AutoProvisioningSetting: v,
+				Description: JSONAllFieldsMarshaller{
+					model.SecurityCenterAutoProvisioningDescription{
+						AutoProvisioningSetting: v,
+					},
 				},
 			}
 			if stream != nil {
@@ -67,8 +69,10 @@ func SecurityCenterContact(ctx context.Context, authorizer autorest.Authorizer, 
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: "global",
-				Description: model.SecurityCenterContactDescription{
-					Contact: v,
+				Description: JSONAllFieldsMarshaller{
+					model.SecurityCenterContactDescription{
+						Contact: v,
+					},
 				},
 			}
 			if stream != nil {
@@ -109,8 +113,10 @@ func SecurityCenterJitNetworkAccessPolicy(ctx context.Context, authorizer autore
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.SecurityCenterJitNetworkAccessPolicyDescription{
-					JitNetworkAccessPolicy: v,
+				Description: JSONAllFieldsMarshaller{
+					model.SecurityCenterJitNetworkAccessPolicyDescription{
+						JitNetworkAccessPolicy: v,
+					},
 				},
 			}
 			if stream != nil {
@@ -151,8 +157,10 @@ func SecurityCenterSetting(ctx context.Context, authorizer autorest.Authorizer, 
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: "global",
-				Description: model.SecurityCenterSettingDescription{
-					Setting: v,
+				Description: JSONAllFieldsMarshaller{
+					model.SecurityCenterSettingDescription{
+						Setting: v,
+					},
 				},
 			}
 			if stream != nil {
@@ -193,8 +201,10 @@ func SecurityCenterSubscriptionPricing(ctx context.Context, authorizer autorest.
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: "global",
-				Description: model.SecurityCenterSubscriptionPricingDescription{
-					Pricing: v,
+				Description: JSONAllFieldsMarshaller{
+					model.SecurityCenterSubscriptionPricingDescription{
+						Pricing: v,
+					},
 				},
 			}
 			if stream != nil {
@@ -236,9 +246,11 @@ func SecurityCenterAutomation(ctx context.Context, authorizer autorest.Authorize
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.SecurityCenterAutomationDescription{
-					Automation:    v,
-					ResourceGroup: resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.SecurityCenterAutomationDescription{
+						Automation:    v,
+						ResourceGroup: resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -279,9 +291,11 @@ func SecurityCenterSubAssessment(ctx context.Context, authorizer autorest.Author
 			resource := Resource{
 				ID:   *v.ID,
 				Name: *v.Name,
-				Description: model.SecurityCenterSubAssessmentDescription{
-					SubAssessment: v,
-					ResourceGroup: resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.SecurityCenterSubAssessmentDescription{
+						SubAssessment: v,
+						ResourceGroup: resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

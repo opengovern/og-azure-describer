@@ -42,10 +42,12 @@ func DataFactory(ctx context.Context, authorizer autorest.Authorizer, subscripti
 				ID:       *factory.ID,
 				Name:     *factory.Name,
 				Location: *factory.Location,
-				Description: model.DataFactoryDescription{
-					Factory:                    factory,
-					PrivateEndPointConnections: v,
-					ResourceGroup:              resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.DataFactoryDescription{
+						Factory:                    factory,
+						PrivateEndPointConnections: v,
+						ResourceGroup:              resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -99,10 +101,12 @@ func DataFactoryDataset(ctx context.Context, authorizer autorest.Authorizer, sub
 						ID:       *dataset.ID,
 						Name:     *dataset.Name,
 						Location: *factory.Location,
-						Description: model.DataFactoryDatasetDescription{
-							Factory:       factory,
-							Dataset:       dataset,
-							ResourceGroup: factoryResourceGroup,
+						Description: JSONAllFieldsMarshaller{
+							model.DataFactoryDatasetDescription{
+								Factory:       factory,
+								Dataset:       dataset,
+								ResourceGroup: factoryResourceGroup,
+							},
 						},
 					}
 					if stream != nil {
@@ -163,10 +167,12 @@ func DataFactoryPipeline(ctx context.Context, authorizer autorest.Authorizer, su
 						ID:       *pipelineResource.ID,
 						Name:     *pipelineResource.Name,
 						Location: *factory.Location,
-						Description: model.DataFactoryPipelineDescription{
-							Factory:       factory,
-							Pipeline:      pipelineResource,
-							ResourceGroup: factoryResourceGroup,
+						Description: JSONAllFieldsMarshaller{
+							model.DataFactoryPipelineDescription{
+								Factory:       factory,
+								Pipeline:      pipelineResource,
+								ResourceGroup: factoryResourceGroup,
+							},
 						},
 					}
 					if stream != nil {

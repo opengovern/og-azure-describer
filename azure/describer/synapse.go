@@ -62,11 +62,13 @@ func SynapseWorkspace(ctx context.Context, authorizer autorest.Authorizer, subsc
 				ID:       *config.ID,
 				Name:     *config.Name,
 				Location: *config.Location,
-				Description: model.SynapseWorkspaceDescription{
-					Workspace:                      config,
-					ServerVulnerabilityAssessments: serverVulnerabilityAssessments,
-					DiagnosticSettingsResources:    synapseListOp.Value,
-					ResourceGroup:                  resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.SynapseWorkspaceDescription{
+						Workspace:                      config,
+						ServerVulnerabilityAssessments: serverVulnerabilityAssessments,
+						DiagnosticSettingsResources:    synapseListOp.Value,
+						ResourceGroup:                  resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

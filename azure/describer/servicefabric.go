@@ -21,10 +21,12 @@ func ServiceFabricCluster(ctx context.Context, authorizer autorest.Authorizer, s
 		resourceGroup := strings.Split(*cluster.ID, "/")[4]
 
 		resource := Resource{
-			ID:          *cluster.ID,
-			Name:        *cluster.Name,
-			Location:    *cluster.Location,
-			Description: model.ServiceFabricClusterDescription{Cluster: cluster, ResourceGroup: resourceGroup}}
+			ID:       *cluster.ID,
+			Name:     *cluster.Name,
+			Location: *cluster.Location,
+			Description: JSONAllFieldsMarshaller{
+				model.ServiceFabricClusterDescription{Cluster: cluster, ResourceGroup: resourceGroup},
+			}}
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
 				return nil, err

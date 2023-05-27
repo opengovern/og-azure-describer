@@ -24,8 +24,10 @@ func ResourceLink(ctx context.Context, authorizer autorest.Authorizer, subscript
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: "global",
-				Description: model.ResourceLinkDescription{
-					ResourceLink: v,
+				Description: JSONAllFieldsMarshaller{
+					model.ResourceLinkDescription{
+						ResourceLink: v,
+					},
 				},
 			}
 			if stream != nil {

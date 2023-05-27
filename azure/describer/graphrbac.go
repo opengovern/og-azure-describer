@@ -4,10 +4,10 @@ import (
 	"context"
 	"strings"
 
+	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 	"github.com/manicminer/hamilton/auth"
 	"github.com/manicminer/hamilton/msgraph"
 	"github.com/manicminer/hamilton/odata"
-	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
 func AdUsers(ctx context.Context, authorizer auth.Authorizer, tenantId string, stream *StreamSender) ([]Resource, error) {
@@ -35,9 +35,11 @@ func AdUsers(ctx context.Context, authorizer auth.Authorizer, tenantId string, s
 			ID:       *user.ID,
 			Name:     *user.DisplayName,
 			Location: "global",
-			Description: model.AdUsersDescription{
-				TenantID: tenantId,
-				AdUsers:  user,
+			Description: JSONAllFieldsMarshaller{
+				model.AdUsersDescription{
+					TenantID: tenantId,
+					AdUsers:  user,
+				},
 			},
 		}
 		if stream != nil {
@@ -72,9 +74,11 @@ func AdGroup(ctx context.Context, authorizer auth.Authorizer, tenantId string, s
 			ID:       *group.ID,
 			Name:     *group.DisplayName,
 			Location: "global",
-			Description: model.AdGroupDescription{
-				TenantID: tenantId,
-				AdGroup:  group,
+			Description: JSONAllFieldsMarshaller{
+				model.AdGroupDescription{
+					TenantID: tenantId,
+					AdGroup:  group,
+				},
 			},
 		}
 		if stream != nil {
@@ -109,9 +113,11 @@ func AdServicePrinciple(ctx context.Context, authorizer auth.Authorizer, tenantI
 			ID:       *servicePrincipal.ID,
 			Name:     *servicePrincipal.DisplayName,
 			Location: "global",
-			Description: model.AdServicePrincipalDescription{
-				TenantID:           tenantId,
-				AdServicePrincipal: servicePrincipal,
+			Description: JSONAllFieldsMarshaller{
+				model.AdServicePrincipalDescription{
+					TenantID:           tenantId,
+					AdServicePrincipal: servicePrincipal,
+				},
 			},
 		}
 		if stream != nil {

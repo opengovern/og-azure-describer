@@ -32,9 +32,11 @@ func ComputeDisk(ctx context.Context, authorizer autorest.Authorizer, subscripti
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.ComputeDiskDescription{
-					Disk:          v,
-					ResourceGroup: resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeDiskDescription{
+						Disk:          v,
+						ResourceGroup: resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -77,9 +79,11 @@ func ComputeDiskAccess(ctx context.Context, authorizer autorest.Authorizer, subs
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.ComputeDiskAccessDescription{
-					DiskAccess:    v,
-					ResourceGroup: resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeDiskAccessDescription{
+						DiskAccess:    v,
+						ResourceGroup: resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -130,10 +134,12 @@ func ComputeVirtualMachineScaleSet(ctx context.Context, authorizer autorest.Auth
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.ComputeVirtualMachineScaleSetDescription{
-					VirtualMachineScaleSet:           v,
-					VirtualMachineScaleSetExtensions: op.Values(),
-					ResourceGroup:                    resourceGroupName,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeVirtualMachineScaleSetDescription{
+						VirtualMachineScaleSet:           v,
+						VirtualMachineScaleSetExtensions: op.Values(),
+						ResourceGroup:                    resourceGroupName,
+					},
 				},
 			}
 			if stream != nil {
@@ -186,10 +192,12 @@ func ComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, authoriz
 						ID:       *v.ID,
 						Name:     *v.Name,
 						Location: *v.Location,
-						Description: model.ComputeVirtualMachineScaleSetNetworkInterfaceDescription{
-							VirtualMachineScaleSet: vm,
-							NetworkInterface:       v,
-							ResourceGroup:          resourceGroupName,
+						Description: JSONAllFieldsMarshaller{
+							model.ComputeVirtualMachineScaleSetNetworkInterfaceDescription{
+								VirtualMachineScaleSet: vm,
+								NetworkInterface:       v,
+								ResourceGroup:          resourceGroupName,
+							},
 						},
 					}
 					if stream != nil {
@@ -251,10 +259,12 @@ func ComputeVirtualMachineScaleSetVm(ctx context.Context, authorizer autorest.Au
 						ID:       *v.ID,
 						Name:     *v.Name,
 						Location: *v.Location,
-						Description: model.ComputeVirtualMachineScaleSetVmDescription{
-							VirtualMachineScaleSet: vm,
-							ScaleSetVM:             v,
-							ResourceGroup:          resourceGroupName,
+						Description: JSONAllFieldsMarshaller{
+							model.ComputeVirtualMachineScaleSetVmDescription{
+								VirtualMachineScaleSet: vm,
+								ScaleSetVM:             v,
+								ResourceGroup:          resourceGroupName,
+							},
 						},
 					}
 					if stream != nil {
@@ -365,14 +375,16 @@ func ComputeVirtualMachine(ctx context.Context, authorizer autorest.Authorizer, 
 				ID:       *virtualMachine.ID,
 				Name:     *virtualMachine.Name,
 				Location: *virtualMachine.Location,
-				Description: model.ComputeVirtualMachineDescription{
-					VirtualMachine:             virtualMachine,
-					VirtualMachineInstanceView: computeInstanceViewOp,
-					InterfaceIPConfigurations:  ipConfigs,
-					PublicIPs:                  publicIPs,
-					VirtualMachineExtension:    computeListOp.Value,
-					Assignments:                configurationListOp.Value,
-					ResourceGroup:              resourceGroupName,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeVirtualMachineDescription{
+						VirtualMachine:             virtualMachine,
+						VirtualMachineInstanceView: computeInstanceViewOp,
+						InterfaceIPConfigurations:  ipConfigs,
+						PublicIPs:                  publicIPs,
+						VirtualMachineExtension:    computeListOp.Value,
+						Assignments:                configurationListOp.Value,
+						ResourceGroup:              resourceGroupName,
+					},
 				},
 			}
 			if stream != nil {
@@ -412,9 +424,11 @@ func ComputeSnapshots(ctx context.Context, authorizer autorest.Authorizer, subsc
 				ID:       *snapshot.ID,
 				Name:     *snapshot.Name,
 				Location: *snapshot.Location,
-				Description: model.ComputeSnapshotsDescription{
-					ResourceGroup: resourceGroupName,
-					Snapshot:      snapshot,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeSnapshotsDescription{
+						ResourceGroup: resourceGroupName,
+						Snapshot:      snapshot,
+					},
 				},
 			}
 			if stream != nil {
@@ -457,9 +471,11 @@ func ComputeAvailabilitySet(ctx context.Context, authorizer autorest.Authorizer,
 				ID:       *availabilitySet.ID,
 				Name:     *availabilitySet.Name,
 				Location: *availabilitySet.Location,
-				Description: model.ComputeAvailabilitySetDescription{
-					ResourceGroup:   resourceGroupName,
-					AvailabilitySet: availabilitySet,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeAvailabilitySetDescription{
+						ResourceGroup:   resourceGroupName,
+						AvailabilitySet: availabilitySet,
+					},
 				},
 			}
 			if stream != nil {
@@ -502,9 +518,11 @@ func ComputeDiskEncryptionSet(ctx context.Context, authorizer autorest.Authorize
 				ID:       *diskEncryptionSet.ID,
 				Name:     *diskEncryptionSet.Name,
 				Location: *diskEncryptionSet.Location,
-				Description: model.ComputeDiskEncryptionSetDescription{
-					ResourceGroup:     resourceGroupName,
-					DiskEncryptionSet: diskEncryptionSet,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeDiskEncryptionSetDescription{
+						ResourceGroup:     resourceGroupName,
+						DiskEncryptionSet: diskEncryptionSet,
+					},
 				},
 			}
 			if stream != nil {
@@ -547,9 +565,11 @@ func ComputeGallery(ctx context.Context, authorizer autorest.Authorizer, subscri
 				ID:       *gallery.ID,
 				Name:     *gallery.Name,
 				Location: *gallery.Location,
-				Description: model.ComputeGalleryDescription{
-					ResourceGroup: resourceGroupName,
-					Gallery:       gallery,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeGalleryDescription{
+						ResourceGroup: resourceGroupName,
+						Gallery:       gallery,
+					},
 				},
 			}
 			if stream != nil {
@@ -591,9 +611,11 @@ func ComputeImage(ctx context.Context, authorizer autorest.Authorizer, subscript
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.ComputeImageDescription{
-					Image:         v,
-					ResourceGroup: resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeImageDescription{
+						Image:         v,
+						ResourceGroup: resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -645,8 +667,10 @@ func ComputeDiskReadOps(ctx context.Context, authorizer autorest.Authorizer, sub
 					ID:       fmt.Sprintf("%s_readops", *disk.ID),
 					Name:     fmt.Sprintf("%s readops", *disk.Name),
 					Location: *disk.Location,
-					Description: model.ComputeDiskReadOpsDescription{
-						MonitoringMetric: metric,
+					Description: JSONAllFieldsMarshaller{
+						model.ComputeDiskReadOpsDescription{
+							MonitoringMetric: metric,
+						},
 					},
 				}
 				if stream != nil {
@@ -697,8 +721,10 @@ func ComputeDiskReadOpsDaily(ctx context.Context, authorizer autorest.Authorizer
 					ID:       fmt.Sprintf("%s_readops_daily", *disk.ID),
 					Name:     fmt.Sprintf("%s readops-daily", *disk.Name),
 					Location: *disk.Location,
-					Description: model.ComputeDiskReadOpsDailyDescription{
-						MonitoringMetric: metric,
+					Description: JSONAllFieldsMarshaller{
+						model.ComputeDiskReadOpsDailyDescription{
+							MonitoringMetric: metric,
+						},
 					},
 				}
 				if stream != nil {
@@ -746,8 +772,10 @@ func ComputeDiskReadOpsHourly(ctx context.Context, authorizer autorest.Authorize
 					ID:       fmt.Sprintf("%s_readops_hourly", *disk.ID),
 					Name:     fmt.Sprintf("%s readops-hourly", *disk.Name),
 					Location: *disk.Location,
-					Description: model.ComputeDiskReadOpsHourlyDescription{
-						MonitoringMetric: metric,
+					Description: JSONAllFieldsMarshaller{
+						model.ComputeDiskReadOpsHourlyDescription{
+							MonitoringMetric: metric,
+						},
 					},
 				}
 				if stream != nil {
@@ -798,8 +826,10 @@ func ComputeDiskWriteOps(ctx context.Context, authorizer autorest.Authorizer, su
 					ID:       fmt.Sprintf("%s_writeops", *disk.ID),
 					Name:     fmt.Sprintf("%s writeops", *disk.Name),
 					Location: *disk.Location,
-					Description: model.ComputeDiskWriteOpsDescription{
-						MonitoringMetric: metric,
+					Description: JSONAllFieldsMarshaller{
+						model.ComputeDiskWriteOpsDescription{
+							MonitoringMetric: metric,
+						},
 					},
 				}
 				if stream != nil {
@@ -850,8 +880,10 @@ func ComputeDiskWriteOpsDaily(ctx context.Context, authorizer autorest.Authorize
 					ID:       fmt.Sprintf("%s_writeops_daily", *disk.ID),
 					Name:     fmt.Sprintf("%s writeops-daily", *disk.Name),
 					Location: *disk.Location,
-					Description: model.ComputeDiskWriteOpsDailyDescription{
-						MonitoringMetric: metric,
+					Description: JSONAllFieldsMarshaller{
+						model.ComputeDiskWriteOpsDailyDescription{
+							MonitoringMetric: metric,
+						},
 					},
 				}
 				if stream != nil {
@@ -899,8 +931,10 @@ func ComputeDiskWriteOpsHourly(ctx context.Context, authorizer autorest.Authoriz
 					ID:       fmt.Sprintf("%s_writeops_hourly", *disk.ID),
 					Name:     fmt.Sprintf("%s writeops-hourly", *disk.Name),
 					Location: *disk.Location,
-					Description: model.ComputeDiskWriteOpsHourlyDescription{
-						MonitoringMetric: metric,
+					Description: JSONAllFieldsMarshaller{
+						model.ComputeDiskWriteOpsHourlyDescription{
+							MonitoringMetric: metric,
+						},
 					},
 				}
 				if stream != nil {
@@ -937,8 +971,10 @@ func ComputeResourceSKU(ctx context.Context, authorizer autorest.Authorizer, sub
 	for {
 		for _, resourceSku := range result.Values() {
 			resource := Resource{
-				Description: model.ComputeResourceSKUDescription{
-					ResourceSKU: resourceSku,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeResourceSKUDescription{
+						ResourceSKU: resourceSku,
+					},
 				},
 			}
 			if resourceSku.Locations != nil && len(*resourceSku.Locations) > 0 {
@@ -995,8 +1031,10 @@ func ComputeVirtualMachineCpuUtilization(ctx context.Context, authorizer autores
 					ID:       fmt.Sprintf("%s_cpu_utilization", *virtualMachine.ID),
 					Name:     fmt.Sprintf("%s cpu-utilization", *virtualMachine.Name),
 					Location: *virtualMachine.Location,
-					Description: model.ComputeVirtualMachineCpuUtilizationDescription{
-						MonitoringMetric: metric,
+					Description: JSONAllFieldsMarshaller{
+						model.ComputeVirtualMachineCpuUtilizationDescription{
+							MonitoringMetric: metric,
+						},
 					},
 				}
 				if stream != nil {
@@ -1045,8 +1083,10 @@ func ComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, authorizer au
 					ID:       fmt.Sprintf("%s_cpu_utilization_daily", *virtualMachine.ID),
 					Name:     fmt.Sprintf("%s cpu-utilization-daily", *virtualMachine.Name),
 					Location: *virtualMachine.Location,
-					Description: model.ComputeVirtualMachineCpuUtilizationDailyDescription{
-						MonitoringMetric: metric,
+					Description: JSONAllFieldsMarshaller{
+						model.ComputeVirtualMachineCpuUtilizationDailyDescription{
+							MonitoringMetric: metric,
+						},
 					},
 				}
 				if stream != nil {
@@ -1095,8 +1135,10 @@ func ComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, authorizer a
 					ID:       fmt.Sprintf("%s_cpu_utilization_hourly", *virtualMachine.ID),
 					Name:     fmt.Sprintf("%s cpu-utilization-hourly", *virtualMachine.Name),
 					Location: *virtualMachine.Location,
-					Description: model.ComputeVirtualMachineCpuUtilizationHourlyDescription{
-						MonitoringMetric: metric,
+					Description: JSONAllFieldsMarshaller{
+						model.ComputeVirtualMachineCpuUtilizationHourlyDescription{
+							MonitoringMetric: metric,
+						},
 					},
 				}
 				if stream != nil {

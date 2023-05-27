@@ -107,10 +107,12 @@ func EventGridDomain(ctx context.Context, authorizer autorest.Authorizer, subscr
 				ID:       *domain.ID,
 				Name:     *domain.Name,
 				Location: *domain.Location,
-				Description: model.EventGridDomainDescription{
-					Domain:                      domain,
-					DiagnosticSettingsResources: eventgridListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.EventGridDomainDescription{
+						Domain:                      domain,
+						DiagnosticSettingsResources: eventgridListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -158,10 +160,12 @@ func EventGridTopic(ctx context.Context, authorizer autorest.Authorizer, subscri
 				ID:       *topic.ID,
 				Name:     *topic.Name,
 				Location: *topic.Location,
-				Description: model.EventGridTopicDescription{
-					Topic:                       topic,
-					DiagnosticSettingsResources: eventgridListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.EventGridTopicDescription{
+						Topic:                       topic,
+						DiagnosticSettingsResources: eventgridListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

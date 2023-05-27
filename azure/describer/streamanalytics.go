@@ -36,10 +36,12 @@ func StreamAnalyticsJob(ctx context.Context, authorizer autorest.Authorizer, sub
 				ID:       *streamingJob.ID,
 				Name:     *streamingJob.Name,
 				Location: *streamingJob.Location,
-				Description: model.StreamAnalyticsJobDescription{
-					StreamingJob:                streamingJob,
-					DiagnosticSettingsResources: streamanalyticsListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.StreamAnalyticsJobDescription{
+						StreamingJob:                streamingJob,
+						DiagnosticSettingsResources: streamanalyticsListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

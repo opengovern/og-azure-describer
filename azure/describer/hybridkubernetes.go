@@ -27,9 +27,11 @@ func HybridKubernetesConnectedCluster(ctx context.Context, authorizer autorest.A
 				ID:       *connectedCluster.ID,
 				Name:     *connectedCluster.Name,
 				Location: *connectedCluster.Location,
-				Description: model.HybridKubernetesConnectedClusterDescription{
-					ConnectedCluster: connectedCluster,
-					ResourceGroup:    resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.HybridKubernetesConnectedClusterDescription{
+						ConnectedCluster: connectedCluster,
+						ResourceGroup:    resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

@@ -27,9 +27,11 @@ func KubernetesCluster(ctx context.Context, authorizer autorest.Authorizer, subs
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.KubernetesClusterDescription{
-					ManagedCluster: v,
-					ResourceGroup:  resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.KubernetesClusterDescription{
+						ManagedCluster: v,
+						ResourceGroup:  resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

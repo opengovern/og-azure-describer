@@ -29,9 +29,11 @@ func NetworkInterface(ctx context.Context, authorizer autorest.Authorizer, subsc
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.NetworkInterfaceDescription{
-					Interface:     v,
-					ResourceGroup: resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.NetworkInterfaceDescription{
+						Interface:     v,
+						ResourceGroup: resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -86,10 +88,12 @@ func NetworkWatcherFlowLog(ctx context.Context, authorizer autorest.Authorizer, 
 					ID:       *v.ID,
 					Name:     *v.Name,
 					Location: *v.Location,
-					Description: model.NetworkWatcherFlowLogDescription{
-						NetworkWatcherName: *networkWatcherDetails.Name,
-						FlowLog:            v,
-						ResourceGroup:      resourceGroupID,
+					Description: JSONAllFieldsMarshaller{
+						model.NetworkWatcherFlowLogDescription{
+							NetworkWatcherName: *networkWatcherDetails.Name,
+							FlowLog:            v,
+							ResourceGroup:      resourceGroupID,
+						},
 					},
 				}
 				if stream != nil {
@@ -142,10 +146,12 @@ func Subnet(ctx context.Context, authorizer autorest.Authorizer, subscription st
 						ID:       *v.ID,
 						Name:     *v.Name,
 						Location: "global",
-						Description: model.SubnetDescription{
-							VirtualNetworkName: *virtualNetwork.Name,
-							Subnet:             v,
-							ResourceGroup:      *resourceGroupName,
+						Description: JSONAllFieldsMarshaller{
+							model.SubnetDescription{
+								VirtualNetworkName: *virtualNetwork.Name,
+								Subnet:             v,
+								ResourceGroup:      *resourceGroupName,
+							},
 						},
 					}
 					if stream != nil {
@@ -199,9 +205,11 @@ func VirtualNetwork(ctx context.Context, authorizer autorest.Authorizer, subscri
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.VirtualNetworkDescription{
-					VirtualNetwork: v,
-					ResourceGroup:  resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.VirtualNetworkDescription{
+						VirtualNetwork: v,
+						ResourceGroup:  resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -251,10 +259,12 @@ func ApplicationGateway(ctx context.Context, authorizer autorest.Authorizer, sub
 				ID:       *gateway.ID,
 				Name:     *gateway.Name,
 				Location: *gateway.Location,
-				Description: model.ApplicationGatewayDescription{
-					ApplicationGateway:          gateway,
-					DiagnosticSettingsResources: networkListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.ApplicationGatewayDescription{
+						ApplicationGateway:          gateway,
+						DiagnosticSettingsResources: networkListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -307,10 +317,12 @@ func NetworkSecurityGroup(ctx context.Context, authorizer autorest.Authorizer, s
 				ID:       *networkSecurityGroup.ID,
 				Name:     *networkSecurityGroup.Name,
 				Location: *networkSecurityGroup.Location,
-				Description: model.NetworkSecurityGroupDescription{
-					SecurityGroup:               networkSecurityGroup,
-					DiagnosticSettingsResources: networkListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.NetworkSecurityGroupDescription{
+						SecurityGroup:               networkSecurityGroup,
+						DiagnosticSettingsResources: networkListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -348,9 +360,11 @@ func NetworkWatcher(ctx context.Context, authorizer autorest.Authorizer, subscri
 			ID:       *networkWatcher.ID,
 			Name:     *networkWatcher.Name,
 			Location: *networkWatcher.Location,
-			Description: model.NetworkWatcherDescription{
-				Watcher:       networkWatcher,
-				ResourceGroup: resourceGroup,
+			Description: JSONAllFieldsMarshaller{
+				model.NetworkWatcherDescription{
+					Watcher:       networkWatcher,
+					ResourceGroup: resourceGroup,
+				},
 			},
 		}
 		if stream != nil {
@@ -383,9 +397,11 @@ func RouteTables(ctx context.Context, authorizer autorest.Authorizer, subscripti
 				ID:       *routeTable.ID,
 				Name:     *routeTable.Name,
 				Location: *routeTable.Location,
-				Description: model.RouteTablesDescription{
-					ResourceGroup: resourceGroup,
-					RouteTable:    routeTable,
+				Description: JSONAllFieldsMarshaller{
+					model.RouteTablesDescription{
+						ResourceGroup: resourceGroup,
+						RouteTable:    routeTable,
+					},
 				},
 			}
 			if stream != nil {
@@ -425,9 +441,11 @@ func NetworkApplicationSecurityGroups(ctx context.Context, authorizer autorest.A
 				ID:       *applicationSecurityGroup.ID,
 				Name:     *applicationSecurityGroup.Name,
 				Location: *applicationSecurityGroup.Location,
-				Description: model.NetworkApplicationSecurityGroupsDescription{
-					ApplicationSecurityGroup: applicationSecurityGroup,
-					ResourceGroup:            resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.NetworkApplicationSecurityGroupsDescription{
+						ApplicationSecurityGroup: applicationSecurityGroup,
+						ResourceGroup:            resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -468,9 +486,11 @@ func NetworkAzureFirewall(ctx context.Context, authorizer autorest.Authorizer, s
 				ID:       *azureFirewall.ID,
 				Name:     *azureFirewall.Name,
 				Location: *azureFirewall.Location,
-				Description: model.NetworkAzureFirewallDescription{
-					AzureFirewall: azureFirewall,
-					ResourceGroup: resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.NetworkAzureFirewallDescription{
+						AzureFirewall: azureFirewall,
+						ResourceGroup: resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -512,9 +532,11 @@ func ExpressRouteCircuit(ctx context.Context, authorizer autorest.Authorizer, su
 				ID:       *expressRouteCircuit.ID,
 				Name:     *expressRouteCircuit.Name,
 				Location: *expressRouteCircuit.Location,
-				Description: model.ExpressRouteCircuitDescription{
-					ExpressRouteCircuit: expressRouteCircuit,
-					ResourceGroup:       resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.ExpressRouteCircuitDescription{
+						ExpressRouteCircuit: expressRouteCircuit,
+						ResourceGroup:       resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -568,10 +590,12 @@ func VirtualNetworkGateway(ctx context.Context, authorizer autorest.Authorizer, 
 					ID:       *virtualNetworkGateway.ID,
 					Name:     *virtualNetworkGateway.Name,
 					Location: *virtualNetworkGateway.Location,
-					Description: model.VirtualNetworkGatewayDescription{
-						ResourceGroup:                   resourceGroup,
-						VirtualNetworkGateway:           virtualNetworkGateway,
-						VirtualNetworkGatewayConnection: virtualNetworkGatewayConnection,
+					Description: JSONAllFieldsMarshaller{
+						model.VirtualNetworkGatewayDescription{
+							ResourceGroup:                   resourceGroup,
+							VirtualNetworkGateway:           virtualNetworkGateway,
+							VirtualNetworkGatewayConnection: virtualNetworkGatewayConnection,
+						},
 					},
 				}
 				if stream != nil {
@@ -613,9 +637,11 @@ func FirewallPolicy(ctx context.Context, authorizer autorest.Authorizer, subscri
 				ID:       *firewallPolicy.ID,
 				Name:     *firewallPolicy.Name,
 				Location: *firewallPolicy.Location,
-				Description: model.FirewallPolicyDescription{
-					ResourceGroup:  resourceGroup,
-					FirewallPolicy: firewallPolicy,
+				Description: JSONAllFieldsMarshaller{
+					model.FirewallPolicyDescription{
+						ResourceGroup:  resourceGroup,
+						FirewallPolicy: firewallPolicy,
+					},
 				},
 			}
 			if stream != nil {
@@ -661,9 +687,11 @@ func LocalNetworkGateway(ctx context.Context, authorizer autorest.Authorizer, su
 					ID:       *localNetworkGateway.ID,
 					Name:     *localNetworkGateway.Name,
 					Location: *localNetworkGateway.Location,
-					Description: model.LocalNetworkGatewayDescription{
-						ResourceGroup:       resourceGroup,
-						LocalNetworkGateway: localNetworkGateway,
+					Description: JSONAllFieldsMarshaller{
+						model.LocalNetworkGatewayDescription{
+							ResourceGroup:       resourceGroup,
+							LocalNetworkGateway: localNetworkGateway,
+						},
 					},
 				}
 				if stream != nil {
@@ -711,9 +739,11 @@ func NatGateway(ctx context.Context, authorizer autorest.Authorizer, subscriptio
 					ID:       *natGateway.ID,
 					Name:     *natGateway.Name,
 					Location: *natGateway.Location,
-					Description: model.NatGatewayDescription{
-						ResourceGroup: resourceGroup,
-						NatGateway:    natGateway,
+					Description: JSONAllFieldsMarshaller{
+						model.NatGatewayDescription{
+							ResourceGroup: resourceGroup,
+							NatGateway:    natGateway,
+						},
 					},
 				}
 				if stream != nil {
@@ -761,9 +791,11 @@ func PrivateLinkService(ctx context.Context, authorizer autorest.Authorizer, sub
 					ID:       *privateLinkService.ID,
 					Name:     *privateLinkService.Name,
 					Location: *privateLinkService.Location,
-					Description: model.PrivateLinkServiceDescription{
-						ResourceGroup:      resourceGroup,
-						PrivateLinkService: privateLinkService,
+					Description: JSONAllFieldsMarshaller{
+						model.PrivateLinkServiceDescription{
+							ResourceGroup:      resourceGroup,
+							PrivateLinkService: privateLinkService,
+						},
 					},
 				}
 				if stream != nil {
@@ -805,9 +837,11 @@ func RouteFilter(ctx context.Context, authorizer autorest.Authorizer, subscripti
 				ID:       *routeFilter.ID,
 				Name:     *routeFilter.Name,
 				Location: *routeFilter.Location,
-				Description: model.RouteFilterDescription{
-					ResourceGroup: resourceGroup,
-					RouteFilter:   routeFilter,
+				Description: JSONAllFieldsMarshaller{
+					model.RouteFilterDescription{
+						ResourceGroup: resourceGroup,
+						RouteFilter:   routeFilter,
+					},
 				},
 			}
 			if stream != nil {
@@ -848,9 +882,11 @@ func VpnGateway(ctx context.Context, authorizer autorest.Authorizer, subscriptio
 				ID:       *vpnGateway.ID,
 				Name:     *vpnGateway.Name,
 				Location: *vpnGateway.Location,
-				Description: model.VpnGatewayDescription{
-					ResourceGroup: resourceGroup,
-					VpnGateway:    vpnGateway,
+				Description: JSONAllFieldsMarshaller{
+					model.VpnGatewayDescription{
+						ResourceGroup: resourceGroup,
+						VpnGateway:    vpnGateway,
+					},
 				},
 			}
 			if stream != nil {
@@ -895,9 +931,11 @@ func PublicIPAddress(ctx context.Context, authorizer autorest.Authorizer, subscr
 					ID:       *publicIPAddress.ID,
 					Name:     *publicIPAddress.Name,
 					Location: *publicIPAddress.Location,
-					Description: model.PublicIPAddressDescription{
-						ResourceGroup:   *resourceGroup.Name,
-						PublicIPAddress: publicIPAddress,
+					Description: JSONAllFieldsMarshaller{
+						model.PublicIPAddressDescription{
+							ResourceGroup:   *resourceGroup.Name,
+							PublicIPAddress: publicIPAddress,
+						},
 					},
 				}
 				if stream != nil {

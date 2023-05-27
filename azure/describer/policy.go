@@ -29,8 +29,10 @@ func PolicyAssignment(ctx context.Context, authorizer autorest.Authorizer, subsc
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: location,
-				Description: model.PolicyAssignmentDescription{
-					Assignment: v,
+				Description: JSONAllFieldsMarshaller{
+					model.PolicyAssignmentDescription{
+						Assignment: v,
+					},
 				},
 			}
 			if stream != nil {

@@ -44,10 +44,12 @@ func HybridComputeMachine(ctx context.Context, authorizer autorest.Authorizer, s
 				ID:       *machine.ID,
 				Name:     *machine.Name,
 				Location: *machine.Location,
-				Description: model.HybridComputeMachineDescription{
-					Machine:           machine,
-					MachineExtensions: v,
-					ResourceGroup:     resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.HybridComputeMachineDescription{
+						Machine:           machine,
+						MachineExtensions: v,
+						ResourceGroup:     resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

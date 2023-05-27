@@ -35,10 +35,12 @@ func SearchService(ctx context.Context, authorizer autorest.Authorizer, subscrip
 				ID:       *service.ID,
 				Name:     *service.Name,
 				Location: *service.Location,
-				Description: model.SearchServiceDescription{
-					Service:                     service,
-					DiagnosticSettingsResources: searchListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.SearchServiceDescription{
+						Service:                     service,
+						DiagnosticSettingsResources: searchListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

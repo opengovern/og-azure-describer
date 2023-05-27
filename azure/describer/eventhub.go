@@ -58,12 +58,14 @@ func EventhubNamespace(ctx context.Context, authorizer autorest.Authorizer, subs
 				ID:       *namespace.ID,
 				Name:     *namespace.Name,
 				Location: *namespace.Location,
-				Description: model.EventhubNamespaceDescription{
-					EHNamespace:                 namespace,
-					DiagnosticSettingsResources: insightsListOp.Value,
-					NetworkRuleSet:              eventhubGetNetworkRuleSetOp,
-					PrivateEndpointConnection:   v,
-					ResourceGroup:               resourceGroupName,
+				Description: JSONAllFieldsMarshaller{
+					model.EventhubNamespaceDescription{
+						EHNamespace:                 namespace,
+						DiagnosticSettingsResources: insightsListOp.Value,
+						NetworkRuleSet:              eventhubGetNetworkRuleSetOp,
+						PrivateEndpointConnection:   v,
+						ResourceGroup:               resourceGroupName,
+					},
 				},
 			}
 			if stream != nil {

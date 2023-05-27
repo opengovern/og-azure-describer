@@ -60,10 +60,12 @@ func KeyVaultKey(ctx context.Context, authorizer autorest.Authorizer, subscripti
 								ID:       *vCopy.ID,
 								Name:     *vCopy.Name,
 								Location: *vCopy.Location,
-								Description: model.KeyVaultKeyDescription{
-									Vault:         vaultCopy,
-									Key:           vCopy,
-									ResourceGroup: resourceGroupCopy,
+								Description: JSONAllFieldsMarshaller{
+									model.KeyVaultKeyDescription{
+										Vault:         vaultCopy,
+										Key:           vCopy,
+										ResourceGroup: resourceGroupCopy,
+									},
 								},
 							}, nil
 						})
@@ -158,11 +160,13 @@ func KeyVault(ctx context.Context, authorizer autorest.Authorizer, subscription 
 				ID:       *vault.ID,
 				Name:     *vault.Name,
 				Location: *vault.Location,
-				Description: model.KeyVaultDescription{
-					Resource:                    vault,
-					Vault:                       keyVaultGetOp,
-					DiagnosticSettingsResources: insightsListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.KeyVaultDescription{
+						Resource:                    vault,
+						Vault:                       keyVaultGetOp,
+						DiagnosticSettingsResources: insightsListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -201,9 +205,11 @@ func DeletedVault(ctx context.Context, authorizer autorest.Authorizer, subscript
 				ID:       *vault.ID,
 				Name:     *vault.Name,
 				Location: *vault.Properties.Location,
-				Description: model.KeyVaultDeletedVaultDescription{
-					Vault:         vault,
-					ResourceGroup: resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.KeyVaultDeletedVaultDescription{
+						Vault:         vault,
+						ResourceGroup: resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -252,10 +258,12 @@ func KeyVaultManagedHardwareSecurityModule(ctx context.Context, authorizer autor
 				ID:       *vault.ID,
 				Name:     *vault.Name,
 				Location: *vault.Location,
-				Description: model.KeyVaultManagedHardwareSecurityModuleDescription{
-					ManagedHsm:                  vault,
-					DiagnosticSettingsResources: keyvaultListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.KeyVaultManagedHardwareSecurityModuleDescription{
+						ManagedHsm:                  vault,
+						DiagnosticSettingsResources: keyvaultListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

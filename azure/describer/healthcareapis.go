@@ -59,11 +59,13 @@ func HealthcareService(ctx context.Context, authorizer autorest.Authorizer, subs
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.HealthcareServiceDescription{
-					ServicesDescription:         v,
-					DiagnosticSettingsResources: opValue,
-					PrivateEndpointConnections:  opServiceValue,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.HealthcareServiceDescription{
+						ServicesDescription:         v,
+						DiagnosticSettingsResources: opValue,
+						PrivateEndpointConnections:  opServiceValue,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

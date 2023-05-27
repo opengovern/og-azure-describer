@@ -27,9 +27,11 @@ func AppServiceEnvironment(ctx context.Context, authorizer autorest.Authorizer, 
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.AppServiceEnvironmentDescription{
-					AppServiceEnvironmentResource: v,
-					ResourceGroup:                 resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.AppServiceEnvironmentDescription{
+						AppServiceEnvironmentResource: v,
+						ResourceGroup:                 resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -85,11 +87,13 @@ func AppServiceFunctionApp(ctx context.Context, authorizer autorest.Authorizer, 
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.AppServiceFunctionAppDescription{
-					Site:               v,
-					SiteAuthSettings:   authSettings,
-					SiteConfigResource: configuration,
-					ResourceGroup:      resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.AppServiceFunctionAppDescription{
+						Site:               v,
+						SiteAuthSettings:   authSettings,
+						SiteConfigResource: configuration,
+						ResourceGroup:      resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -160,12 +164,14 @@ func AppServiceWebApp(ctx context.Context, authorizer autorest.Authorizer, subsc
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: location,
-				Description: model.AppServiceWebAppDescription{
-					Site:               v,
-					SiteConfigResource: op,
-					SiteAuthSettings:   authSettings,
-					VnetInfo:           vnetInfo,
-					ResourceGroup:      resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.AppServiceWebAppDescription{
+						Site:               v,
+						SiteConfigResource: op,
+						SiteAuthSettings:   authSettings,
+						VnetInfo:           vnetInfo,
+						ResourceGroup:      resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -233,10 +239,12 @@ func AppServicePlan(ctx context.Context, authorizer autorest.Authorizer, subscri
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: location,
-				Description: model.AppServicePlanDescription{
-					Plan:          v,
-					Apps:          webApps,
-					ResourceGroup: resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.AppServicePlanDescription{
+						Plan:          v,
+						Apps:          webApps,
+						ResourceGroup: resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

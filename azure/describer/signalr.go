@@ -36,10 +36,12 @@ func SignalrService(ctx context.Context, authorizer autorest.Authorizer, subscri
 				ID:       *service.ID,
 				Name:     *service.Name,
 				Location: *service.Location,
-				Description: model.SignalrServiceDescription{
-					ResourceType:                service,
-					DiagnosticSettingsResources: signalrListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.SignalrServiceDescription{
+						ResourceType:                service,
+						DiagnosticSettingsResources: signalrListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

@@ -35,10 +35,12 @@ func APIManagement(ctx context.Context, authorizer autorest.Authorizer, subscrip
 				ID:       *apiManagement.ID,
 				Name:     *apiManagement.Name,
 				Location: *apiManagement.Location,
-				Description: model.APIManagementDescription{
-					APIManagement:               apiManagement,
-					DiagnosticSettingsResources: *op.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.APIManagementDescription{
+						APIManagement:               apiManagement,
+						DiagnosticSettingsResources: *op.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

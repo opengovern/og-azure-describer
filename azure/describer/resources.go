@@ -44,8 +44,10 @@ func ResourceProvider(ctx context.Context, authorizer autorest.Authorizer, subsc
 		for _, provider := range result.Values() {
 			resource := Resource{
 				ID: *provider.ID,
-				Description: model.ResourceProviderDescription{
-					Provider: provider,
+				Description: JSONAllFieldsMarshaller{
+					model.ResourceProviderDescription{
+						Provider: provider,
+					},
 				},
 			}
 			if stream != nil {
@@ -84,8 +86,10 @@ func ResourceGroup(ctx context.Context, authorizer autorest.Authorizer, subscrip
 				ID:       *group.ID,
 				Name:     *group.Name,
 				Location: *group.Location,
-				Description: model.ResourceGroupDescription{
-					Group: group,
+				Description: JSONAllFieldsMarshaller{
+					model.ResourceGroupDescription{
+						Group: group,
+					},
 				},
 			}
 			if stream != nil {

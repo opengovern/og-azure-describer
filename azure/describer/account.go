@@ -48,10 +48,12 @@ func DataLakeAnalyticsAccount(ctx context.Context, authorizer autorest.Authorize
 				ID:       *account.ID,
 				Name:     *account.Name,
 				Location: *account.Location,
-				Description: model.DataLakeAnalyticsAccountDescription{
-					DataLakeAnalyticsAccount:   accountGetOp,
-					DiagnosticSettingsResource: accountListOp.Value,
-					ResourceGroup:              resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.DataLakeAnalyticsAccountDescription{
+						DataLakeAnalyticsAccount:   accountGetOp,
+						DiagnosticSettingsResource: accountListOp.Value,
+						ResourceGroup:              resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -109,10 +111,12 @@ func DataLakeStore(ctx context.Context, authorizer autorest.Authorizer, subscrip
 				ID:       *account.ID,
 				Name:     *account.Name,
 				Location: *account.Location,
-				Description: model.DataLakeStoreDescription{
-					DataLakeStoreAccount:       accountGetOp,
-					DiagnosticSettingsResource: accountListOp.Value,
-					ResourceGroup:              resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.DataLakeStoreDescription{
+						DataLakeStoreAccount:       accountGetOp,
+						DiagnosticSettingsResource: accountListOp.Value,
+						ResourceGroup:              resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

@@ -36,10 +36,12 @@ func CognitiveAccount(ctx context.Context, authorizer autorest.Authorizer, subsc
 				ID:       *account.ID,
 				Name:     *account.Name,
 				Location: *account.Location,
-				Description: model.CognitiveAccountDescription{
-					Account:                     account,
-					DiagnosticSettingsResources: cognitiveservicesListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.CognitiveAccountDescription{
+						Account:                     account,
+						DiagnosticSettingsResources: cognitiveservicesListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

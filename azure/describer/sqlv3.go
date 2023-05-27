@@ -150,17 +150,19 @@ func SqlServer(ctx context.Context, authorizer autorest.Authorizer, subscription
 				ID:       *server.ID,
 				Name:     *server.Name,
 				Location: *server.Location,
-				Description: model.SqlServerDescription{
-					Server:                         server,
-					ServerBlobAuditingPolicies:     bop,
-					ServerSecurityAlertPolicies:    sop,
-					ServerAzureADAdministrators:    adminOp.Value,
-					ServerVulnerabilityAssessments: vop,
-					FirewallRules:                  firewallOp.Value,
-					EncryptionProtectors:           eop,
-					PrivateEndpointConnections:     pop,
-					VirtualNetworkRules:            nop,
-					ResourceGroup:                  resourceGroupName,
+				Description: JSONAllFieldsMarshaller{
+					model.SqlServerDescription{
+						Server:                         server,
+						ServerBlobAuditingPolicies:     bop,
+						ServerSecurityAlertPolicies:    sop,
+						ServerAzureADAdministrators:    adminOp.Value,
+						ServerVulnerabilityAssessments: vop,
+						FirewallRules:                  firewallOp.Value,
+						EncryptionProtectors:           eop,
+						PrivateEndpointConnections:     pop,
+						VirtualNetworkRules:            nop,
+						ResourceGroup:                  resourceGroupName,
+					},
 				},
 			}
 			if stream != nil {
@@ -211,10 +213,12 @@ func SqlServerElasticPool(ctx context.Context, authorizer autorest.Authorizer, s
 						ID:       *elasticPool.ID,
 						Name:     *elasticPool.Name,
 						Location: *elasticPool.Location,
-						Description: model.SqlServerElasticPoolDescription{
-							Pool:          elasticPool,
-							ServerName:    *server.Name,
-							ResourceGroup: resourceGroup,
+						Description: JSONAllFieldsMarshaller{
+							model.SqlServerElasticPoolDescription{
+								Pool:          elasticPool,
+								ServerName:    *server.Name,
+								ResourceGroup: resourceGroup,
+							},
 						},
 					}
 					if stream != nil {
@@ -255,9 +259,11 @@ func SqlServerVirtualMachine(ctx context.Context, authorizer autorest.Authorizer
 				ID:       *vm.ID,
 				Name:     *vm.Name,
 				Location: *vm.Location,
-				Description: model.SqlServerVirtualMachineDescription{
-					VirtualMachine: vm,
-					ResourceGroup:  resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.SqlServerVirtualMachineDescription{
+						VirtualMachine: vm,
+						ResourceGroup:  resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -297,9 +303,11 @@ func SqlServerFlexibleServer(ctx context.Context, authorizer autorest.Authorizer
 				ID:       *fs.ID,
 				Name:     *fs.Name,
 				Location: *fs.Location,
-				Description: model.SqlServerFlexibleServerDescription{
-					FlexibleServer: fs,
-					ResourceGroup:  resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.SqlServerFlexibleServerDescription{
+						FlexibleServer: fs,
+						ResourceGroup:  resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

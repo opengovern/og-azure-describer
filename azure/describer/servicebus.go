@@ -177,12 +177,14 @@ func ServicebusNamespace(ctx context.Context, authorizer autorest.Authorizer, su
 				ID:       *namespace.ID,
 				Name:     *namespace.Name,
 				Location: *namespace.Location,
-				Description: model.ServicebusNamespaceDescription{
-					SBNamespace:                 namespace,
-					DiagnosticSettingsResources: insightsListOp.Value,
-					NetworkRuleSet:              servicebusGetNetworkRuleSetOp,
-					PrivateEndpointConnections:  v,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.ServicebusNamespaceDescription{
+						SBNamespace:                 namespace,
+						DiagnosticSettingsResources: insightsListOp.Value,
+						NetworkRuleSet:              servicebusGetNetworkRuleSetOp,
+						PrivateEndpointConnections:  v,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

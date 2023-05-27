@@ -26,8 +26,10 @@ func RoleAssignment(ctx context.Context, authorizer autorest.Authorizer, subscri
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: "global",
-				Description: model.RoleAssignmentDescription{
-					RoleAssignment: v,
+				Description: JSONAllFieldsMarshaller{
+					model.RoleAssignmentDescription{
+						RoleAssignment: v,
+					},
 				},
 			}
 			if stream != nil {
@@ -68,8 +70,10 @@ func RoleDefinition(ctx context.Context, authorizer autorest.Authorizer, subscri
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: "global",
-				Description: model.RoleDefinitionDescription{
-					RoleDefinition: v,
+				Description: JSONAllFieldsMarshaller{
+					model.RoleDefinitionDescription{
+						RoleDefinition: v,
+					},
 				},
 			}
 			if stream != nil {
@@ -116,9 +120,11 @@ func PolicyDefinition(ctx context.Context, authorizer autorest.Authorizer, subsc
 				ID:       *definition.ID,
 				Name:     *definition.Name,
 				Location: "global",
-				Description: model.PolicyDefinitionDescription{
-					Definition: definition,
-					TurboData:  turbotData,
+				Description: JSONAllFieldsMarshaller{
+					model.PolicyDefinitionDescription{
+						Definition: definition,
+						TurboData:  turbotData,
+					},
 				},
 			}
 			if stream != nil {

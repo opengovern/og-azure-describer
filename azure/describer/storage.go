@@ -62,11 +62,13 @@ func StorageContainer(ctx context.Context, authorizer autorest.Authorizer, subsc
 								ID:       *v.ID,
 								Name:     *v.Name,
 								Location: "global",
-								Description: model.StorageContainerDescription{
-									AccountName:        *acc.Name,
-									ListContainerItem:  v,
-									ImmutabilityPolicy: op,
-									ResourceGroup:      resourceGroup,
+								Description: JSONAllFieldsMarshaller{
+									model.StorageContainerDescription{
+										AccountName:        *acc.Name,
+										ListContainerItem:  v,
+										ImmutabilityPolicy: op,
+										ResourceGroup:      resourceGroup,
+									},
 								},
 							}, nil
 						})
@@ -273,16 +275,18 @@ func StorageAccount(ctx context.Context, authorizer autorest.Authorizer, subscri
 				ID:       *account.ID,
 				Name:     *account.Name,
 				Location: *account.Location,
-				Description: model.StorageAccountDescription{
-					Account:                     account,
-					ManagementPolicy:            managementPolicy,
-					BlobServiceProperties:       blobServicesProperties,
-					Logging:                     logging,
-					StorageServiceProperties:    storageProperties,
-					FileServiceProperties:       storageGetServicePropertiesOp,
-					DiagnosticSettingsResources: diagSettingsOp.Value,
-					EncryptionScopes:            vsop,
-					ResourceGroup:               *resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.StorageAccountDescription{
+						Account:                     account,
+						ManagementPolicy:            managementPolicy,
+						BlobServiceProperties:       blobServicesProperties,
+						Logging:                     logging,
+						StorageServiceProperties:    storageProperties,
+						FileServiceProperties:       storageGetServicePropertiesOp,
+						DiagnosticSettingsResources: diagSettingsOp.Value,
+						EncryptionScopes:            vsop,
+						ResourceGroup:               *resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -376,59 +380,61 @@ func StorageBlob(ctx context.Context, authorizer autorest.Authorizer, subscripti
 									ID:       *blob.Name,
 									Name:     *blob.Name,
 									Location: *storageAccount.Location,
-									Description: model.StorageBlobDescription{
-										Blob: azblobOld.BlobItemInternal{
-											Name:             *blob.Name,
-											Deleted:          *blob.Deleted,
-											Snapshot:         *blob.Snapshot,
-											VersionID:        blob.VersionID,
-											IsCurrentVersion: blob.IsCurrentVersion,
-											Properties: azblobOld.BlobProperties{
-												CreationTime:              blob.Properties.CreationTime,
-												LastModified:              *blob.Properties.LastModified,
-												Etag:                      azblobOld.ETag(*blob.Properties.ETag),
-												ContentLength:             blob.Properties.ContentLength,
-												ContentType:               blob.Properties.ContentType,
-												ContentEncoding:           blob.Properties.ContentEncoding,
-												ContentLanguage:           blob.Properties.ContentLanguage,
-												ContentMD5:                blob.Properties.ContentMD5,
-												ContentDisposition:        blob.Properties.ContentDisposition,
-												CacheControl:              blob.Properties.CacheControl,
-												BlobSequenceNumber:        blob.Properties.BlobSequenceNumber,
-												BlobType:                  azblobOld.BlobType(*blob.Properties.BlobType),
-												LeaseStatus:               azblobOld.LeaseStatusType(*blob.Properties.LeaseStatus),
-												LeaseState:                azblobOld.LeaseStateType(*blob.Properties.LeaseState),
-												LeaseDuration:             azblobOld.LeaseDurationType(*blob.Properties.LeaseDuration),
-												CopyID:                    blob.Properties.CopyID,
-												CopyStatus:                azblobOld.CopyStatusType(*blob.Properties.CopyStatus),
-												CopySource:                blob.Properties.CopySource,
-												CopyProgress:              blob.Properties.CopyProgress,
-												CopyCompletionTime:        blob.Properties.CopyCompletionTime,
-												CopyStatusDescription:     blob.Properties.CopyStatusDescription,
-												ServerEncrypted:           blob.Properties.ServerEncrypted,
-												IncrementalCopy:           blob.Properties.IncrementalCopy,
-												DestinationSnapshot:       blob.Properties.DestinationSnapshot,
-												DeletedTime:               blob.Properties.DeletedTime,
-												RemainingRetentionDays:    blob.Properties.RemainingRetentionDays,
-												AccessTier:                azblobOld.AccessTierType(*blob.Properties.AccessTier),
-												AccessTierInferred:        blob.Properties.AccessTierInferred,
-												ArchiveStatus:             azblobOld.ArchiveStatusType(*blob.Properties.ArchiveStatus),
-												CustomerProvidedKeySha256: blob.Properties.CustomerProvidedKeySHA256,
-												EncryptionScope:           blob.Properties.EncryptionScope,
-												AccessTierChangeTime:      blob.Properties.AccessTierChangeTime,
-												TagCount:                  blob.Properties.TagCount,
-												ExpiresOn:                 blob.Properties.ExpiresOn,
-												IsSealed:                  blob.Properties.IsSealed,
-												RehydratePriority:         azblobOld.RehydratePriorityType(*blob.Properties.RehydratePriority),
-												LastAccessedOn:            blob.Properties.LastAccessedOn,
+									Description: JSONAllFieldsMarshaller{
+										model.StorageBlobDescription{
+											Blob: azblobOld.BlobItemInternal{
+												Name:             *blob.Name,
+												Deleted:          *blob.Deleted,
+												Snapshot:         *blob.Snapshot,
+												VersionID:        blob.VersionID,
+												IsCurrentVersion: blob.IsCurrentVersion,
+												Properties: azblobOld.BlobProperties{
+													CreationTime:              blob.Properties.CreationTime,
+													LastModified:              *blob.Properties.LastModified,
+													Etag:                      azblobOld.ETag(*blob.Properties.ETag),
+													ContentLength:             blob.Properties.ContentLength,
+													ContentType:               blob.Properties.ContentType,
+													ContentEncoding:           blob.Properties.ContentEncoding,
+													ContentLanguage:           blob.Properties.ContentLanguage,
+													ContentMD5:                blob.Properties.ContentMD5,
+													ContentDisposition:        blob.Properties.ContentDisposition,
+													CacheControl:              blob.Properties.CacheControl,
+													BlobSequenceNumber:        blob.Properties.BlobSequenceNumber,
+													BlobType:                  azblobOld.BlobType(*blob.Properties.BlobType),
+													LeaseStatus:               azblobOld.LeaseStatusType(*blob.Properties.LeaseStatus),
+													LeaseState:                azblobOld.LeaseStateType(*blob.Properties.LeaseState),
+													LeaseDuration:             azblobOld.LeaseDurationType(*blob.Properties.LeaseDuration),
+													CopyID:                    blob.Properties.CopyID,
+													CopyStatus:                azblobOld.CopyStatusType(*blob.Properties.CopyStatus),
+													CopySource:                blob.Properties.CopySource,
+													CopyProgress:              blob.Properties.CopyProgress,
+													CopyCompletionTime:        blob.Properties.CopyCompletionTime,
+													CopyStatusDescription:     blob.Properties.CopyStatusDescription,
+													ServerEncrypted:           blob.Properties.ServerEncrypted,
+													IncrementalCopy:           blob.Properties.IncrementalCopy,
+													DestinationSnapshot:       blob.Properties.DestinationSnapshot,
+													DeletedTime:               blob.Properties.DeletedTime,
+													RemainingRetentionDays:    blob.Properties.RemainingRetentionDays,
+													AccessTier:                azblobOld.AccessTierType(*blob.Properties.AccessTier),
+													AccessTierInferred:        blob.Properties.AccessTierInferred,
+													ArchiveStatus:             azblobOld.ArchiveStatusType(*blob.Properties.ArchiveStatus),
+													CustomerProvidedKeySha256: blob.Properties.CustomerProvidedKeySHA256,
+													EncryptionScope:           blob.Properties.EncryptionScope,
+													AccessTierChangeTime:      blob.Properties.AccessTierChangeTime,
+													TagCount:                  blob.Properties.TagCount,
+													ExpiresOn:                 blob.Properties.ExpiresOn,
+													IsSealed:                  blob.Properties.IsSealed,
+													RehydratePriority:         azblobOld.RehydratePriorityType(*blob.Properties.RehydratePriority),
+													LastAccessedOn:            blob.Properties.LastAccessedOn,
+												},
+												Metadata: metadata,
+												BlobTags: blobTags,
 											},
-											Metadata: metadata,
-											BlobTags: blobTags,
+											AccountName:   *storageAccount.Name,
+											ContainerName: *container.Name,
+											ResourceGroup: *resourceGroup.Name,
+											IsSnapshot:    len(*blob.Snapshot) > 0,
 										},
-										AccountName:   *storageAccount.Name,
-										ContainerName: *container.Name,
-										ResourceGroup: *resourceGroup.Name,
-										IsSnapshot:    len(*blob.Snapshot) > 0,
 									},
 								}
 								if stream != nil {
@@ -498,11 +504,13 @@ func StorageBlobService(ctx context.Context, authorizer autorest.Authorizer, sub
 						ID:       *blobService.ID,
 						Name:     *blobService.Name,
 						Location: *account.Location,
-						Description: model.StorageBlobServiceDescription{
-							BlobService:   blobService,
-							AccountName:   *account.Name,
-							Location:      *account.Location,
-							ResourceGroup: *resourceGroup.Name,
+						Description: JSONAllFieldsMarshaller{
+							model.StorageBlobServiceDescription{
+								BlobService:   blobService,
+								AccountName:   *account.Name,
+								Location:      *account.Location,
+								ResourceGroup: *resourceGroup.Name,
+							},
 						},
 					}
 					if stream != nil {
@@ -559,11 +567,13 @@ func StorageQueue(ctx context.Context, authorizer autorest.Authorizer, subscript
 							ID:       *queue.ID,
 							Name:     *queue.Name,
 							Location: *account.Location,
-							Description: model.StorageQueueDescription{
-								Queue:         queue,
-								AccountName:   *account.Name,
-								Location:      *account.Location,
-								ResourceGroup: *resourceGroup.Name,
+							Description: JSONAllFieldsMarshaller{
+								model.StorageQueueDescription{
+									Queue:         queue,
+									AccountName:   *account.Name,
+									Location:      *account.Location,
+									ResourceGroup: *resourceGroup.Name,
+								},
 							},
 						}
 						if stream != nil {
@@ -631,11 +641,13 @@ func StorageFileShare(ctx context.Context, authorizer autorest.Authorizer, subsc
 							ID:       *fileShareItem.ID,
 							Name:     *fileShareItem.Name,
 							Location: *account.Location,
-							Description: model.StorageFileShareDescription{
-								FileShare:     fileShareItem,
-								AccountName:   *account.Name,
-								Location:      *account.Location,
-								ResourceGroup: *resourceGroup.Name,
+							Description: JSONAllFieldsMarshaller{
+								model.StorageFileShareDescription{
+									FileShare:     fileShareItem,
+									AccountName:   *account.Name,
+									Location:      *account.Location,
+									ResourceGroup: *resourceGroup.Name,
+								},
 							},
 						}
 						if stream != nil {
@@ -700,11 +712,13 @@ func StorageTable(ctx context.Context, authorizer autorest.Authorizer, subscript
 							ID:       *table.ID,
 							Name:     *table.Name,
 							Location: *account.Location,
-							Description: model.StorageTableDescription{
-								Table:         table,
-								AccountName:   *account.Name,
-								Location:      *account.Location,
-								ResourceGroup: *resourceGroup.Name,
+							Description: JSONAllFieldsMarshaller{
+								model.StorageTableDescription{
+									Table:         table,
+									AccountName:   *account.Name,
+									Location:      *account.Location,
+									ResourceGroup: *resourceGroup.Name,
+								},
 							},
 						}
 						if stream != nil {
@@ -769,11 +783,13 @@ func StorageTableService(ctx context.Context, authorizer autorest.Authorizer, su
 						ID:       *tableService.ID,
 						Name:     *tableService.Name,
 						Location: *account.Location,
-						Description: model.StorageTableServiceDescription{
-							TableService:  tableService,
-							AccountName:   *account.Name,
-							Location:      *account.Location,
-							ResourceGroup: *resourceGroup.Name,
+						Description: JSONAllFieldsMarshaller{
+							model.StorageTableServiceDescription{
+								TableService:  tableService,
+								AccountName:   *account.Name,
+								Location:      *account.Location,
+								ResourceGroup: *resourceGroup.Name,
+							},
 						},
 					}
 					if stream != nil {

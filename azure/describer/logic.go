@@ -36,10 +36,12 @@ func LogicAppWorkflow(ctx context.Context, authorizer autorest.Authorizer, subsc
 				ID:       *workflow.ID,
 				Name:     *workflow.Name,
 				Location: *workflow.Location,
-				Description: model.LogicAppWorkflowDescription{
-					Workflow:                    workflow,
-					DiagnosticSettingsResources: logicListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.LogicAppWorkflowDescription{
+						Workflow:                    workflow,
+						DiagnosticSettingsResources: logicListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

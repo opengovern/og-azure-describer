@@ -29,8 +29,10 @@ func Tenant(ctx context.Context, authorizer autorest.Authorizer, subscription st
 			ID:       *v.ID,
 			Name:     name,
 			Location: "global",
-			Description: model.TenantDescription{
-				TenantIDDescription: v,
+			Description: JSONAllFieldsMarshaller{
+				model.TenantDescription{
+					TenantIDDescription: v,
+				},
 			},
 		}
 		if stream != nil {
@@ -59,8 +61,10 @@ func Subscription(ctx context.Context, authorizer autorest.Authorizer, subscript
 		ID:       *op.ID,
 		Name:     *op.DisplayName,
 		Location: "global",
-		Description: model.SubscriptionDescription{
-			Subscription: op,
+		Description: JSONAllFieldsMarshaller{
+			model.SubscriptionDescription{
+				Subscription: op,
+			},
 		},
 	}
 	if stream != nil {

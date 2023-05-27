@@ -27,9 +27,11 @@ func RecoveryServicesVault(ctx context.Context, authorizer autorest.Authorizer, 
 				ID:       *vault.ID,
 				Name:     *vault.Name,
 				Location: *vault.Location,
-				Description: model.RecoveryServicesVaultDescription{
-					Vault:         vault,
-					ResourceGroup: resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.RecoveryServicesVaultDescription{
+						Vault:         vault,
+						ResourceGroup: resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

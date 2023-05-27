@@ -80,11 +80,13 @@ func KeyVaultSecret(ctx context.Context, authorizer autorest.Authorizer, subscri
 						ID:       *sc.ID,
 						Name:     *sc.ID,
 						Location: "global",
-						Description: model.KeyVaultSecretDescription{
-							SecretItem:    sc,
-							SecretBundle:  op,
-							TurboData:     turbotData,
-							ResourceGroup: resourceGroup,
+						Description: JSONAllFieldsMarshaller{
+							model.KeyVaultSecretDescription{
+								SecretItem:    sc,
+								SecretBundle:  op,
+								TurboData:     turbotData,
+								ResourceGroup: resourceGroup,
+							},
 						},
 					}
 					if stream != nil {

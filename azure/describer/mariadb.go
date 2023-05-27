@@ -26,9 +26,11 @@ func MariadbServer(ctx context.Context, authorizer autorest.Authorizer, subscrip
 			ID:       *v.ID,
 			Name:     *v.Name,
 			Location: *v.Location,
-			Description: model.MariadbServerDescription{
-				Server:        v,
-				ResourceGroup: resourceGroup,
+			Description: JSONAllFieldsMarshaller{
+				model.MariadbServerDescription{
+					Server:        v,
+					ResourceGroup: resourceGroup,
+				},
 			},
 		}
 		if stream != nil {

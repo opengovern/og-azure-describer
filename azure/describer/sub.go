@@ -26,9 +26,11 @@ func Location(ctx context.Context, authorizer autorest.Authorizer, subscription 
 			ID:       *location.ID,
 			Name:     *location.Name,
 			Location: "global",
-			Description: model.LocationDescription{
-				Location:      location,
-				ResourceGroup: resourceGroup,
+			Description: JSONAllFieldsMarshaller{
+				model.LocationDescription{
+					Location:      location,
+					ResourceGroup: resourceGroup,
+				},
 			},
 		}
 		if stream != nil {

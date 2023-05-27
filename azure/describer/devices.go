@@ -108,10 +108,12 @@ func IOTHub(ctx context.Context, authorizer autorest.Authorizer, subscription st
 				ID:       *iotHubDescription.ID,
 				Name:     *iotHubDescription.Name,
 				Location: *iotHubDescription.Location,
-				Description: model.IOTHubDescription{
-					IotHubDescription:           iotHubDescription,
-					DiagnosticSettingsResources: devicesListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.IOTHubDescription{
+						IotHubDescription:           iotHubDescription,
+						DiagnosticSettingsResources: devicesListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
@@ -160,10 +162,12 @@ func IOTHubDps(ctx context.Context, authorizer autorest.Authorizer, subscription
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.IOTHubDpsDescription{
-					IotHubDps:                   v,
-					DiagnosticSettingsResources: devicesListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.IOTHubDpsDescription{
+						IotHubDps:                   v,
+						DiagnosticSettingsResources: devicesListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

@@ -27,9 +27,11 @@ func DataboxEdgeDevice(ctx context.Context, authorizer autorest.Authorizer, subs
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.DataboxEdgeDeviceDescription{
-					Device:        v,
-					ResourceGroup: resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.DataboxEdgeDeviceDescription{
+						Device:        v,
+						ResourceGroup: resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

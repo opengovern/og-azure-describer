@@ -27,9 +27,11 @@ func DiagnosticSetting(ctx context.Context, authorizer autorest.Authorizer, subs
 			ID:       *diagnosticSetting.ID,
 			Name:     *diagnosticSetting.Name,
 			Location: "global",
-			Description: model.DiagnosticSettingDescription{
-				DiagnosticSettingsResource: diagnosticSetting,
-				ResourceGroup:              resourceGroup,
+			Description: JSONAllFieldsMarshaller{
+				model.DiagnosticSettingDescription{
+					DiagnosticSettingsResource: diagnosticSetting,
+					ResourceGroup:              resourceGroup,
+				},
 			},
 		}
 		if stream != nil {
@@ -57,9 +59,11 @@ func LogAlert(ctx context.Context, authorizer autorest.Authorizer, subscription 
 			ID:       *logAlert.ID,
 			Name:     *logAlert.Name,
 			Location: *logAlert.Location,
-			Description: model.LogAlertDescription{
-				ActivityLogAlertResource: logAlert,
-				ResourceGroup:            resourceGroup,
+			Description: JSONAllFieldsMarshaller{
+				model.LogAlertDescription{
+					ActivityLogAlertResource: logAlert,
+					ResourceGroup:            resourceGroup,
+				},
 			},
 		}
 		if stream != nil {
@@ -91,9 +95,11 @@ func LogProfile(ctx context.Context, authorizer autorest.Authorizer, subscriptio
 			ID:       *logProfile.ID,
 			Name:     *logProfile.Name,
 			Location: location,
-			Description: model.LogProfileDescription{
-				LogProfileResource: logProfile,
-				ResourceGroup:      resourceGroup,
+			Description: JSONAllFieldsMarshaller{
+				model.LogProfileDescription{
+					LogProfileResource: logProfile,
+					ResourceGroup:      resourceGroup,
+				},
 			},
 		}
 		if stream != nil {

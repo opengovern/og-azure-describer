@@ -36,10 +36,12 @@ func HdInsightCluster(ctx context.Context, authorizer autorest.Authorizer, subsc
 				ID:       *cluster.ID,
 				Name:     *cluster.Name,
 				Location: *cluster.Location,
-				Description: model.HdinsightClusterDescription{
-					Cluster:                     cluster,
-					DiagnosticSettingsResources: hdinsightListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.HdinsightClusterDescription{
+						Cluster:                     cluster,
+						DiagnosticSettingsResources: hdinsightListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

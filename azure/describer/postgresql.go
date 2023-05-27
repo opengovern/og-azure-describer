@@ -60,13 +60,15 @@ func PostgresqlServer(ctx context.Context, authorizer autorest.Authorizer, subsc
 			ID:       *server.ID,
 			Name:     *server.Name,
 			Location: *server.Location,
-			Description: model.PostgresqlServerDescription{
-				Server:                       server,
-				ServerAdministratorResources: adminListOp.Value,
-				Configurations:               confListByServerOp.Value,
-				ServerKeys:                   kop,
-				FirewallRules:                firewallListByServerOp.Value,
-				ResourceGroup:                resourceGroupName,
+			Description: JSONAllFieldsMarshaller{
+				model.PostgresqlServerDescription{
+					Server:                       server,
+					ServerAdministratorResources: adminListOp.Value,
+					Configurations:               confListByServerOp.Value,
+					ServerKeys:                   kop,
+					FirewallRules:                firewallListByServerOp.Value,
+					ResourceGroup:                resourceGroupName,
+				},
 			},
 		}
 		if stream != nil {

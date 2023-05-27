@@ -26,9 +26,11 @@ func RedisCache(ctx context.Context, authorizer autorest.Authorizer, subscriptio
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
-				Description: model.RedisCacheDescription{
-					ResourceType:  v,
-					ResourceGroup: resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.RedisCacheDescription{
+						ResourceType:  v,
+						ResourceGroup: resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

@@ -35,10 +35,12 @@ func MachineLearningWorkspace(ctx context.Context, authorizer autorest.Authorize
 				ID:       *workspace.ID,
 				Name:     *workspace.Name,
 				Location: *workspace.Location,
-				Description: model.MachineLearningWorkspaceDescription{
-					Workspace:                   workspace,
-					DiagnosticSettingsResources: machineLearningServicesListOp.Value,
-					ResourceGroup:               resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.MachineLearningWorkspaceDescription{
+						Workspace:                   workspace,
+						DiagnosticSettingsResources: machineLearningServicesListOp.Value,
+						ResourceGroup:               resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

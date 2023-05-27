@@ -43,10 +43,12 @@ func DocumentDBSQLDatabase(ctx context.Context, authorizer autorest.Authorizer, 
 					ID:       *v.ID,
 					Name:     *v.Name,
 					Location: location,
-					Description: model.CosmosdbSqlDatabaseDescription{
-						Account:       account,
-						SqlDatabase:   v,
-						ResourceGroup: *rg.Name,
+					Description: JSONAllFieldsMarshaller{
+						model.CosmosdbSqlDatabaseDescription{
+							Account:       account,
+							SqlDatabase:   v,
+							ResourceGroup: *rg.Name,
+						},
 					},
 				}
 				if stream != nil {
@@ -97,10 +99,12 @@ func DocumentDBMongoDatabase(ctx context.Context, authorizer autorest.Authorizer
 					ID:       *v.ID,
 					Name:     *v.Name,
 					Location: location,
-					Description: model.CosmosdbMongoDatabaseDescription{
-						Account:       account,
-						MongoDatabase: v,
-						ResourceGroup: *rg.Name,
+					Description: JSONAllFieldsMarshaller{
+						model.CosmosdbMongoDatabaseDescription{
+							Account:       account,
+							MongoDatabase: v,
+							ResourceGroup: *rg.Name,
+						},
 					},
 				}
 				if stream != nil {
@@ -151,9 +155,11 @@ func CosmosdbAccount(ctx context.Context, authorizer autorest.Authorizer, subscr
 			ID:       *account.ID,
 			Name:     *account.Name,
 			Location: *account.Location,
-			Description: model.CosmosdbAccountDescription{
-				DatabaseAccountGetResults: account,
-				ResourceGroup:             resourceGroup,
+			Description: JSONAllFieldsMarshaller{
+				model.CosmosdbAccountDescription{
+					DatabaseAccountGetResults: account,
+					ResourceGroup:             resourceGroup,
+				},
 			},
 		}
 		if stream != nil {

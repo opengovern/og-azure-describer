@@ -30,8 +30,10 @@ func ManagementGroup(ctx context.Context, authorizer autorest.Authorizer, subscr
 			resource := Resource{
 				ID:   *info.ID,
 				Name: *info.Name,
-				Description: model.ManagementGroupDescription{
-					Group: group,
+				Description: JSONAllFieldsMarshaller{
+					model.ManagementGroupDescription{
+						Group: group,
+					},
 				},
 			}
 			if stream != nil {
@@ -69,9 +71,11 @@ func ManagementLock(ctx context.Context, authorizer autorest.Authorizer, subscri
 			resource := Resource{
 				ID:   *lockObject.ID,
 				Name: *lockObject.Name,
-				Description: model.ManagementLockDescription{
-					Lock:          lockObject,
-					ResourceGroup: resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.ManagementLockDescription{
+						Lock:          lockObject,
+						ResourceGroup: resourceGroup,
+					},
 				},
 			}
 			if stream != nil {

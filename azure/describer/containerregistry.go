@@ -42,11 +42,13 @@ func ContainerRegistry(ctx context.Context, authorizer autorest.Authorizer, subs
 				ID:       *registry.ID,
 				Name:     *registry.Name,
 				Location: *registry.Location,
-				Description: model.ContainerRegistryDescription{
-					Registry:                      registry,
-					RegistryListCredentialsResult: containerRegistryListCredentialsOp,
-					RegistryUsages:                containerRegistryListUsagesOp.Value,
-					ResourceGroup:                 resourceGroup,
+				Description: JSONAllFieldsMarshaller{
+					model.ContainerRegistryDescription{
+						Registry:                      registry,
+						RegistryListCredentialsResult: containerRegistryListCredentialsOp,
+						RegistryUsages:                containerRegistryListUsagesOp.Value,
+						ResourceGroup:                 resourceGroup,
+					},
 				},
 			}
 			if stream != nil {
