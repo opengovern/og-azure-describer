@@ -4,11 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 
 	hamiltonAuth "github.com/manicminer/hamilton/auth"
 
@@ -68,8 +69,15 @@ func (d GenericResourceGraph) DescribeResources(ctx context.Context, authorizer 
 
 			for _, v := range response.Data.([]interface{}) {
 				m := v.(map[string]interface{})
+				loc := "global"
+				if v, ok := m["location"]; ok {
+					if vStr, ok := v.(string); ok {
+						loc = vStr
+					}
+				}
 				resource := Resource{
 					ID:          m["id"].(string),
+					Location:    loc,
 					Description: v,
 				}
 				if stream != nil {

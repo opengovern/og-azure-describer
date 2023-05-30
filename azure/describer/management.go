@@ -69,8 +69,9 @@ func ManagementLock(ctx context.Context, authorizer autorest.Authorizer, subscri
 		for _, lockObject := range result.Values() {
 			resourceGroup := strings.Split(*lockObject.ID, "/")[4]
 			resource := Resource{
-				ID:   *lockObject.ID,
-				Name: *lockObject.Name,
+				ID:       *lockObject.ID,
+				Name:     *lockObject.Name,
+				Location: "global",
 				Description: JSONAllFieldsMarshaller{
 					model.ManagementLockDescription{
 						Lock:          lockObject,

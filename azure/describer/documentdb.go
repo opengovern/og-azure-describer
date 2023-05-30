@@ -34,7 +34,7 @@ func DocumentDBSQLDatabase(ctx context.Context, authorizer autorest.Authorizer, 
 			}
 
 			for _, v := range *it.Value {
-				location := ""
+				location := "global"
 				if v.Location != nil {
 					location = *v.Location
 				}

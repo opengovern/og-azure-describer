@@ -288,9 +288,11 @@ func SecurityCenterSubAssessment(ctx context.Context, authorizer autorest.Author
 	for {
 		for _, v := range result.Values() {
 			resourceGroup := strings.Split(*v.ID, "/")[4]
+
 			resource := Resource{
-				ID:   *v.ID,
-				Name: *v.Name,
+				ID:       *v.ID,
+				Location: "global",
+				Name:     *v.Name,
 				Description: JSONAllFieldsMarshaller{
 					model.SecurityCenterSubAssessmentDescription{
 						SubAssessment: v,
