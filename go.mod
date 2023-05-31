@@ -17,7 +17,8 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.2.2
 	github.com/kaytu-io/kaytu-util v0.0.0-20230523183329-2e817a251443
-	github.com/manicminer/hamilton v0.41.1
+	github.com/manicminer/hamilton v0.43.0
+	github.com/manicminer/hamilton-autorest v0.3.0
 	github.com/spf13/cobra v1.6.1
 	github.com/tombuildsstuff/giovanni v0.18.0
 	github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13
