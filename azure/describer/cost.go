@@ -4,8 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 	"time"
+
+	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 
 	"github.com/Azure/azure-sdk-for-go/services/costmanagement/mgmt/2019-11-01/costmanagement"
 	"github.com/Azure/go-autorest/autorest"
@@ -16,7 +17,7 @@ import (
 const resourceTypeDimension = "resourceType"
 const subscriptionDimension = "SubscriptionId"
 
-func cost(ctx context.Context, authorizer autorest.Authorizer, subscription string, from time.Time, to time.Time, dimension string) ([]model.CostManagementQueryRow, error) {
+func cost(ctx context.Context, authorizer autorest.Authorizer, subscription string, from time.Time, to time.Time, dimension string) ([]model.CostManagementQueryRow, *string, error) {
 	client := costmanagement.NewQueryClient(subscription)
 	client.Authorizer = authorizer
 
@@ -50,9 +51,8 @@ func cost(ctx context.Context, authorizer autorest.Authorizer, subscription stri
 		},
 	})
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-
 	mapResult := make([]map[string]any, 0)
 	for _, row := range *costs.Rows {
 		rowMap := make(map[string]any)
@@ -63,16 +63,16 @@ func cost(ctx context.Context, authorizer autorest.Authorizer, subscription stri
 	}
 	jsonMapResult, err := json.Marshal(mapResult)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	result := make([]model.CostManagementQueryRow, 0, len(mapResult))
 	err = json.Unmarshal(jsonMapResult, &result)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return result, nil
+	return result, costs.Location, nil
 }
 
 func DailyCostByResourceType(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
@@ -85,14 +85,19 @@ func DailyCostByResourceType(ctx context.Context, authorizer autorest.Authorizer
 		from = time.Now().AddDate(0, -1, -7)
 	}
 
-	costResult, err := cost(ctx, authorizer, subscription, from, time.Now(), resourceTypeDimension)
+	costResult, locationPtr, err := cost(ctx, authorizer, subscription, from, time.Now(), resourceTypeDimension)
 	if err != nil {
 		return nil, err
+	}
+	location := "global"
+	if locationPtr != nil {
+		location = *locationPtr
 	}
 	var values []Resource
 	for _, row := range costResult {
 		resource := Resource{
-			ID: fmt.Sprintf("resource-cost-%s/%s-%d", subscription, *row.ResourceType, row.UsageDate),
+			ID:       fmt.Sprintf("resource-cost-%s/%s-%d", subscription, *row.ResourceType, row.UsageDate),
+			Location: location,
 			Description: JSONAllFieldsMarshaller{
 				model.CostManagementCostByResourceTypeDescription{
 					CostManagementCostByResourceType: row,
@@ -121,14 +126,19 @@ func DailyCostBySubscription(ctx context.Context, authorizer autorest.Authorizer
 		from = time.Now().AddDate(0, -1, -7)
 	}
 
-	costResult, err := cost(ctx, authorizer, subscription, from, time.Now(), subscriptionDimension)
+	costResult, locationPtr, err := cost(ctx, authorizer, subscription, from, time.Now(), subscriptionDimension)
 	if err != nil {
 		return nil, err
+	}
+	location := "global"
+	if locationPtr != nil {
+		location = *locationPtr
 	}
 	var values []Resource
 	for _, row := range costResult {
 		resource := Resource{
-			ID: fmt.Sprintf("resource-cost-%s/%d", subscription, row.UsageDate),
+			ID:       fmt.Sprintf("resource-cost-%s/%d", subscription, row.UsageDate),
+			Location: location,
 			Description: JSONAllFieldsMarshaller{
 				model.CostManagementCostBySubscriptionDescription{
 					CostManagementCostBySubscription: row,

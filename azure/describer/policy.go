@@ -20,7 +20,7 @@ func PolicyAssignment(ctx context.Context, authorizer autorest.Authorizer, subsc
 	var values []Resource
 	for {
 		for _, v := range result.Values() {
-			location := ""
+			location := "global"
 			if v.Location != nil {
 				location = *v.Location
 			}

@@ -87,7 +87,7 @@ func LogProfile(ctx context.Context, authorizer autorest.Authorizer, subscriptio
 	var values []Resource
 	for _, logProfile := range *result.Value {
 		resourceGroup := strings.Split(*logProfile.ID, "/")[4]
-		location := ""
+		location := "global"
 		if logProfile.Location != nil {
 			location = *logProfile.Location
 		}

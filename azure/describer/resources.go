@@ -43,7 +43,8 @@ func ResourceProvider(ctx context.Context, authorizer autorest.Authorizer, subsc
 	for {
 		for _, provider := range result.Values() {
 			resource := Resource{
-				ID: *provider.ID,
+				ID:       *provider.ID,
+				Location: "global",
 				Description: JSONAllFieldsMarshaller{
 					model.ResourceProviderDescription{
 						Provider: provider,

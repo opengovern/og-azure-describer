@@ -3,16 +3,18 @@ package azure
 import (
 	"context"
 	"fmt"
-	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
-	"github.com/kaytu-io/kaytu-util/pkg/source"
 	"os"
 	"sort"
 	"strings"
+
+	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
+	"github.com/kaytu-io/kaytu-util/pkg/source"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resourcegraph/mgmt/resourcegraph"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
+	hamiltonAuthAutoRest "github.com/manicminer/hamilton-autorest/auth"
 	hamiltonAuth "github.com/manicminer/hamilton/auth"
 )
 
@@ -1483,7 +1485,7 @@ func GetResources(
 		return nil, err
 	}
 
-	hamiltonAuthorizer, err := hamiltonAuth.NewAutorestAuthorizerWrapper(authorizer)
+	hamiltonAuthorizer, err := hamiltonAuthAutoRest.NewAuthorizerWrapper(authorizer)
 	if err != nil {
 		return nil, err
 	}

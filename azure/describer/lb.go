@@ -87,9 +87,14 @@ func LoadBalancerBackendAddressPool(ctx context.Context, authorizer autorest.Aut
 			}
 			for {
 				for _, pool := range backendAddressPools.Values() {
+					location := "global"
+					if pool.Location != nil {
+						location = *pool.Location
+					}
 					resourceGroup := strings.Split(*pool.ID, "/")[4]
 					resource := Resource{
-						ID: *pool.ID,
+						ID:       *pool.ID,
+						Location: location,
 						Description: JSONAllFieldsMarshaller{
 							model.LoadBalancerBackendAddressPoolDescription{
 								ResourceGroup: resourceGroup,
