@@ -38,6 +38,8 @@ type ResourceType struct {
 
 	TerraformName        []string
 	TerraformServiceName string
+
+	FastDiscovery bool
 }
 
 var resourceTypes = map[string]ResourceType{
@@ -80,6 +82,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_resource_group"},
 		TerraformServiceName: "resource",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Web/staticSites": {
 		Connector:            source.CloudAzure,
@@ -120,6 +123,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_mssql_managed_instance"},
 		TerraformServiceName: "mssql",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Sql/servers/databases": {
 		Connector:            source.CloudAzure,
@@ -130,6 +134,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_sql_database"},
 		TerraformServiceName: "sql",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Storage/fileShares": {
 		Connector:            source.CloudAzure,
@@ -150,6 +155,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_postgresql_server"},
 		TerraformServiceName: "postgres",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Security/pricings": {
 		Connector:            source.CloudAzure,
@@ -200,6 +206,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_redis_cache"},
 		TerraformServiceName: "redis",
+		FastDiscovery:        true,
 	},
 	"Microsoft.ContainerRegistry/registries": {
 		Connector:            source.CloudAzure,
@@ -210,6 +217,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_container_registry"},
 		TerraformServiceName: "containers",
+		FastDiscovery:        true,
 	},
 	"Microsoft.DataFactory/factoriesPipelines": {
 		Connector:            source.CloudAzure,
@@ -310,6 +318,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_kubernetes_cluster"},
 		TerraformServiceName: "containers",
+		FastDiscovery:        true,
 	},
 	"Microsoft.DataFactory/factories": {
 		Connector:            source.CloudAzure,
@@ -330,6 +339,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_sql_server"},
 		TerraformServiceName: "sql",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Security/autoProvisioningSettings": {
 		Connector:            source.CloudAzure,
@@ -370,6 +380,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_lb"},
 		TerraformServiceName: "loadbalancer",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Network/azureFirewalls": {
 		Connector:            source.CloudAzure,
@@ -380,6 +391,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_firewall"},
 		TerraformServiceName: "firewall",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Management/locks": {
 		Connector:            source.CloudAzure,
@@ -410,6 +422,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_frontdoor"},
 		TerraformServiceName: "frontdoor",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Resources/subscriptions/resourceGroups": {
 		Connector:            source.CloudAzure,
@@ -470,6 +483,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_disk_encryption_set"},
 		TerraformServiceName: "compute",
+		FastDiscovery:        true,
 	},
 	"Microsoft.DocumentDB/SqlDatabases": {
 		Connector:            source.CloudAzure,
@@ -500,6 +514,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_eventhub_namespace"},
 		TerraformServiceName: "eventhub",
+		FastDiscovery:        true,
 	},
 	"Microsoft.MachineLearningServices/workspaces": {
 		Connector:            source.CloudAzure,
@@ -530,6 +545,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_network_interface"},
 		TerraformServiceName: "network",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Network/publicIPAddresses": {
 		Connector:            source.CloudAzure,
@@ -570,6 +586,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_function_app"},
 		TerraformServiceName: "web",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Compute/availabilitySets": {
 		Connector:            source.CloudAzure,
@@ -580,6 +597,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_availability_set"},
 		TerraformServiceName: "compute",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Network/virtualNetworks": {
 		Connector:            source.CloudAzure,
@@ -590,6 +608,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_virtual_network"},
 		TerraformServiceName: "network",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Security/securityContacts": {
 		Connector:            source.CloudAzure,
@@ -670,6 +689,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_snapshot"},
 		TerraformServiceName: "compute",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Kusto/clusters": {
 		Connector:            source.CloudAzure,
@@ -710,6 +730,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_subnet"},
 		TerraformServiceName: "network",
+		FastDiscovery:        true,
 	},
 	"Microsoft.LoadBalancer/backendAddressPools": {
 		Connector:            source.CloudAzure,
@@ -770,6 +791,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_batch_account"},
 		TerraformServiceName: "batch",
+		FastDiscovery:        true,
 	},
 	"Microsoft.ClassicNetwork/networkSecurityGroups": {
 		Connector:            source.CloudAzure,
@@ -800,6 +822,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_application_security_group"},
 		TerraformServiceName: "network",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Authorization/elevateAccessRoleAssignment": {
 		Connector:            source.CloudAzure,
@@ -860,6 +883,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_managed_disk"},
 		TerraformServiceName: "",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Devices/iotHubDpses": {
 		Connector:            source.CloudAzure,
@@ -880,6 +904,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_hdinsight_cluster"},
 		TerraformServiceName: "hdinsight",
+		FastDiscovery:        true,
 	},
 	"Microsoft.ServiceFabric/clusters": {
 		Connector:            source.CloudAzure,
@@ -890,6 +915,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_service_fabric_cluster"},
 		TerraformServiceName: "servicefabric",
+		FastDiscovery:        true,
 	},
 	"Microsoft.SignalRService/signalR": {
 		Connector:            source.CloudAzure,
@@ -960,6 +986,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_windows_virtual_machine_scale_set", "azurerm_linux_virtual_machine_scale_set", "azurerm_orchestrated_virtual_machine_scale_set"},
 		TerraformServiceName: "compute",
+		FastDiscovery:        true,
 	},
 	"Microsoft.DataFactory/factoriesDatasets": {
 		Connector:            source.CloudAzure,
@@ -1010,6 +1037,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_mysql_server"},
 		TerraformServiceName: "mysql",
+		FastDiscovery:        true,
 	},
 	"Microsoft.DataLakeAnalytics/accounts": {
 		Connector:            source.CloudAzure,
@@ -1090,6 +1118,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_route_table"},
 		TerraformServiceName: "network",
+		FastDiscovery:        true,
 	},
 	"Microsoft.DocumentDB/databaseAccounts": {
 		Connector:            source.CloudAzure,
@@ -1100,6 +1129,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_cosmosdb_account"},
 		TerraformServiceName: "cosmos",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Network/applicationGateways": {
 		Connector:            source.CloudAzure,
@@ -1110,6 +1140,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_application_gateway"},
 		TerraformServiceName: "network",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Security/automations": {
 		Connector:            source.CloudAzure,
@@ -1130,6 +1161,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        nil,
 		TerraformServiceName: "",
+		FastDiscovery:        true,
 	},
 	"Microsoft.KeyVault/vaults/keys": {
 		Connector:            source.CloudAzure,
@@ -1150,6 +1182,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_mariadb_server"},
 		TerraformServiceName: "mariadb",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Compute/disksreadopsdaily": {
 		Connector:            source.CloudAzure,
@@ -1280,6 +1313,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_linux_virtual_machine", "azurerm_windows_virtual_machine"},
 		TerraformServiceName: "compute",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Network/natGateways": {
 		Connector:            source.CloudAzure,
@@ -1290,6 +1324,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_nat_gateway"},
 		TerraformServiceName: "network",
+		FastDiscovery:        true,
 	},
 	"Microsoft.LoadBalancer/probes": {
 		Connector:            source.CloudAzure,
@@ -1360,6 +1395,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_storage_account"},
 		TerraformServiceName: "storage",
+		FastDiscovery:        true,
 	},
 	"Microsoft.AppPlatform/Spring": {
 		Connector:            source.CloudAzure,
@@ -1377,6 +1413,18 @@ func ListResourceTypes() []string {
 	var list []string
 	for k := range resourceTypes {
 		list = append(list, k)
+	}
+
+	sort.Strings(list)
+	return list
+}
+
+func ListFastDiscoveryResourceTypes() []string {
+	var list []string
+	for k, v := range resourceTypes {
+		if v.FastDiscovery {
+			list = append(list, k)
+		}
 	}
 
 	sort.Strings(list)
