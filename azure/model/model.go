@@ -27,6 +27,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/datafactory/mgmt/2018-06-01/datafactory"
 	analytics "github.com/Azure/azure-sdk-for-go/services/datalake/analytics/mgmt/2016-11-01/account"
 	store "github.com/Azure/azure-sdk-for-go/services/datalake/store/mgmt/2016-11-01/account"
+	"github.com/Azure/azure-sdk-for-go/services/dns/mgmt/2018-05-01/dns"
 	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-05-01/frontdoor"
 	"github.com/Azure/azure-sdk-for-go/services/guestconfiguration/mgmt/2020-06-25/guestconfiguration"
 	"github.com/Azure/azure-sdk-for-go/services/hdinsight/mgmt/2018-06-01/hdinsight"
@@ -39,22 +40,23 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2020-01-01/mysql"
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2021-05-01/mysqlflexibleservers"
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-05-01/network"
-	newnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-02-01/network"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2020-01-01/postgresql"
 	"github.com/Azure/azure-sdk-for-go/services/preview/authorization/mgmt/2018-09-01-preview/authorization"
-	"github.com/Azure/azure-sdk-for-go/services/preview/containerregistry/mgmt/2020-11-01-preview/containerregistry"
-	"github.com/Azure/azure-sdk-for-go/services/preview/cosmos-db/mgmt/2020-04-01-preview/documentdb"
+	"github.com/Azure/azure-sdk-for-go/services/preview/automation/mgmt/2020-01-13-preview/automation"
+	"github.com/Azure/azure-sdk-for-go/services/preview/containerregistry/mgmt/2022-02-01-preview/containerregistry"
+	"github.com/Azure/azure-sdk-for-go/services/preview/cosmos-db/mgmt/2021-11-15-preview/documentdb"
 	"github.com/Azure/azure-sdk-for-go/services/preview/eventgrid/mgmt/2021-06-01-preview/eventgrid"
 	"github.com/Azure/azure-sdk-for-go/services/preview/eventhub/mgmt/2018-01-01-preview/eventhub"
 	previewKeyvault "github.com/Azure/azure-sdk-for-go/services/preview/keyvault/mgmt/2020-04-01-preview/keyvault"
 	"github.com/Azure/azure-sdk-for-go/services/preview/machinelearningservices/mgmt/2020-02-18-preview/machinelearningservices"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2021-04-01-preview/insights"
+	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
 	"github.com/Azure/azure-sdk-for-go/services/preview/security/mgmt/v1.0/security"
 	"github.com/Azure/azure-sdk-for-go/services/preview/servicebus/mgmt/2021-06-01-preview/servicebus"
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2017-03-01-preview/sql"
-	sqlv3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	sqlv3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
 	sqlv5 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v5.0/sql"
-	"github.com/Azure/azure-sdk-for-go/services/preview/sqlvirtualmachine/mgmt/2017-03-01-preview/sqlvirtualmachine"
+	"github.com/Azure/azure-sdk-for-go/services/preview/sqlvirtualmachine/mgmt/2021-11-01-preview/sqlvirtualmachine"
+	"github.com/Azure/azure-sdk-for-go/services/privatedns/mgmt/2018-09-01/privatedns"
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2020-06-01/redis"
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2019-06-01/subscriptions"
 	"github.com/Azure/azure-sdk-for-go/services/search/mgmt/2020-08-01/search"
@@ -91,6 +93,14 @@ type APIManagementDescription struct {
 	APIManagement               apimanagement.ServiceResource
 	DiagnosticSettingsResources []insights.DiagnosticSettingsResource
 	ResourceGroup               string
+}
+
+//  ===================  Automation ==================
+
+//index:microsoft_automation_automationAccounts
+type AutomationAccountsDescription struct {
+	Automation    automation.Account
+	ResourceGroup string
 }
 
 //  ===================  App Configuration ==================
@@ -336,7 +346,7 @@ type NetworkWatcherFlowLogDescription struct {
 //getfilter:name=description.RouteTable.Name
 //getfilter:resource_group=description.ResourceGroup
 type RouteTablesDescription struct {
-	RouteTable    newnetwork.RouteTable
+	RouteTable    network.RouteTable
 	ResourceGroup string
 }
 
@@ -344,7 +354,7 @@ type RouteTablesDescription struct {
 //getfilter:name=description.ApplicationSecurityGroup.Name
 //getfilter:resource_group=description.ResourceGroup
 type NetworkApplicationSecurityGroupsDescription struct {
-	ApplicationSecurityGroup newnetwork.ApplicationSecurityGroup
+	ApplicationSecurityGroup network.ApplicationSecurityGroup
 	ResourceGroup            string
 }
 
@@ -352,7 +362,7 @@ type NetworkApplicationSecurityGroupsDescription struct {
 //getfilter:name=description.AzureFirewall.Name
 //getfilter:resource_group=description.ResourceGroup
 type NetworkAzureFirewallDescription struct {
-	AzureFirewall newnetwork.AzureFirewall
+	AzureFirewall network.AzureFirewall
 	ResourceGroup string
 }
 
@@ -360,7 +370,7 @@ type NetworkAzureFirewallDescription struct {
 //getfilter:name=description.ExpressRouteCircuit.name
 //getfilter:resource_group=description.ResourceGroup
 type ExpressRouteCircuitDescription struct {
-	ExpressRouteCircuit newnetwork.ExpressRouteCircuit
+	ExpressRouteCircuit network.ExpressRouteCircuit
 	ResourceGroup       string
 }
 
@@ -368,8 +378,8 @@ type ExpressRouteCircuitDescription struct {
 //getfilter:name=description.VirtualNetworkGateway.Name
 //getfilter:resource_group=description.ResourceGroup
 type VirtualNetworkGatewayDescription struct {
-	VirtualNetworkGateway           newnetwork.VirtualNetworkGateway
-	VirtualNetworkGatewayConnection newnetwork.VirtualNetworkGatewayConnection
+	VirtualNetworkGateway           network.VirtualNetworkGateway
+	VirtualNetworkGatewayConnection network.VirtualNetworkGatewayConnection
 	ResourceGroup                   string
 }
 
@@ -385,7 +395,7 @@ type DNSZoneDescription struct { // TODO: Implement describer func
 //getfilter:name=description.FirewallPolicy.Name
 //getfilter:resource_group=description.ResourceGroup
 type FirewallPolicyDescription struct {
-	FirewallPolicy newnetwork.FirewallPolicy
+	FirewallPolicy network.FirewallPolicy
 	ResourceGroup  string
 }
 
@@ -401,7 +411,7 @@ type FrontdoorWebApplicationFirewallPolicyDescription struct { // TODO: Implemen
 //getfilter:name=description.LocalNetworkGateway.Name
 //getfilter:resource_group=description.ResourceGroup
 type LocalNetworkGatewayDescription struct {
-	LocalNetworkGateway newnetwork.LocalNetworkGateway
+	LocalNetworkGateway network.LocalNetworkGateway
 	ResourceGroup       string
 }
 
@@ -409,7 +419,7 @@ type LocalNetworkGatewayDescription struct {
 //getfilter:name=description.NatGateway.Name
 //getfilter:resource_group=description.ResourceGroup
 type NatGatewayDescription struct {
-	NatGateway    newnetwork.NatGateway
+	NatGateway    network.NatGateway
 	ResourceGroup string
 }
 
@@ -417,7 +427,7 @@ type NatGatewayDescription struct {
 //getfilter:name=description.PrivateLinkService.Name
 //getfilter:resource_group=description.ResourceGroup
 type PrivateLinkServiceDescription struct {
-	PrivateLinkService newnetwork.PrivateLinkService
+	PrivateLinkService network.PrivateLinkService
 	ResourceGroup      string
 }
 
@@ -425,7 +435,7 @@ type PrivateLinkServiceDescription struct {
 //getfilter:name=description.RouteFilter.Name
 //getfilter:resource_group=description.ResourceGroup
 type RouteFilterDescription struct {
-	RouteFilter   newnetwork.RouteFilter
+	RouteFilter   network.RouteFilter
 	ResourceGroup string
 }
 
@@ -433,7 +443,7 @@ type RouteFilterDescription struct {
 //getfilter:name=description.VpnGateway.Name
 //getfilter:resource_group=description.ResourceGroup
 type VpnGatewayDescription struct {
-	VpnGateway    newnetwork.VpnGateway
+	VpnGateway    network.VpnGateway
 	ResourceGroup string
 }
 
@@ -441,8 +451,26 @@ type VpnGatewayDescription struct {
 //getfilter:name=description.PublicIPAddress.Name
 //getfilter:resource_group=description.ResourceGroup
 type PublicIPAddressDescription struct {
-	PublicIPAddress newnetwork.PublicIPAddress
+	PublicIPAddress network.PublicIPAddress
 	ResourceGroup   string
+}
+
+//index:microsoft_network_dnszones
+type DNSZonesDescription struct {
+	ResourceGroup string
+	DNSZone       dns.Zone
+}
+
+//index:microsoft_network_privatednszones
+type PrivateDNSZonesDescription struct {
+	ResourceGroup string
+	PrivateZone   privatedns.PrivateZone
+}
+
+//index:microsoft_network_privateendpoint
+type PrivateEndpointDescription struct {
+	ResourceGroup   string
+	PrivateEndpoint network.PrivateEndpoint
 }
 
 //  =================== policy ==================
@@ -653,7 +681,7 @@ type SubscriptionDescription struct {
 //getfilter:name=description.ApplicationGateway.name
 //getfilter:resource_group=description.ResourceGroup
 type ApplicationGatewayDescription struct {
-	ApplicationGateway          newnetwork.ApplicationGateway
+	ApplicationGateway          network.ApplicationGateway
 	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
 	ResourceGroup               string
 }
@@ -878,6 +906,13 @@ type EventhubNamespaceDescription struct {
 	ResourceGroup               string
 }
 
+//index:microsoft_eventhub_namespaceseventhub
+type EventhubNamespaceEventhubDescription struct {
+	EHNamespace   eventhub.EHNamespace
+	EventHub      eventhub.Model
+	ResourceGroup string
+}
+
 //  =================== frontdoor ==================
 
 //index:microsoft_network_frontdoors
@@ -1036,6 +1071,13 @@ type MariadbServerDescription struct {
 	ResourceGroup string
 }
 
+//index:microsoft_dbformariadb_databases
+type MariadbDatabaseDescription struct {
+	Server        mariadb.Server
+	Database      mariadb.Database
+	ResourceGroup string
+}
+
 //  =================== mysql ==================
 
 //index:microsoft_dbformysql_servers
@@ -1054,7 +1096,7 @@ type MysqlServerDescription struct {
 //getfilter:name=description.SecurityGroup.name
 //getfilter:resource_group=description.ResourceGroup
 type NetworkSecurityGroupDescription struct {
-	SecurityGroup               newnetwork.SecurityGroup
+	SecurityGroup               network.SecurityGroup
 	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
 	ResourceGroup               string
 }
@@ -1063,7 +1105,7 @@ type NetworkSecurityGroupDescription struct {
 //getfilter:name=description.Watcher.name
 //getfilter:resource_group=description.ResourceGroup
 type NetworkWatcherDescription struct {
-	Watcher       newnetwork.Watcher
+	Watcher       network.Watcher
 	ResourceGroup string
 }
 
@@ -1350,7 +1392,7 @@ type CostManagementCostBySubscriptionDescription struct {
 //getfilter:name=description.LoadBalancer.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerDescription struct {
-	LoadBalancer      newnetwork.LoadBalancer
+	LoadBalancer      network.LoadBalancer
 	DiagnosticSetting *[]insights.DiagnosticSettingsResource
 	ResourceGroup     string
 }
@@ -1360,8 +1402,8 @@ type LoadBalancerDescription struct {
 //getfilter:name=description.Pool.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerBackendAddressPoolDescription struct {
-	LoadBalancer  newnetwork.LoadBalancer
-	Pool          newnetwork.BackendAddressPool
+	LoadBalancer  network.LoadBalancer
+	Pool          network.BackendAddressPool
 	ResourceGroup string
 }
 
@@ -1370,7 +1412,7 @@ type LoadBalancerBackendAddressPoolDescription struct {
 //getfilter:name=description.Rule.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerNatRuleDescription struct {
-	Rule             newnetwork.InboundNatRule
+	Rule             network.InboundNatRule
 	LoadBalancerName string
 	ResourceGroup    string
 }
@@ -1380,7 +1422,7 @@ type LoadBalancerNatRuleDescription struct {
 //getfilter:name=description.Rule.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerOutboundRuleDescription struct {
-	Rule             newnetwork.OutboundRule
+	Rule             network.OutboundRule
 	LoadBalancerName string
 	ResourceGroup    string
 }
@@ -1390,7 +1432,7 @@ type LoadBalancerOutboundRuleDescription struct {
 //getfilter:name=description.Probe.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerProbeDescription struct {
-	Probe            newnetwork.Probe
+	Probe            network.Probe
 	LoadBalancerName string
 	ResourceGroup    string
 }
@@ -1400,7 +1442,7 @@ type LoadBalancerProbeDescription struct {
 //getfilter:name=description.Rule.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerRuleDescription struct {
-	Rule             newnetwork.LoadBalancingRule
+	Rule             network.LoadBalancingRule
 	LoadBalancerName string
 	ResourceGroup    string
 }

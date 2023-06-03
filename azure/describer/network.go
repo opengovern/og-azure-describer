@@ -2,11 +2,13 @@ package describer
 
 import (
 	"context"
+	"errors"
+	"github.com/Azure/azure-sdk-for-go/profiles/2020-09-01/monitor/mgmt/insights"
+	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-05-01/network"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-05-01/network"
-	newnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-02-01/network"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2021-04-01-preview/insights"
+	"github.com/Azure/azure-sdk-for-go/services/dns/mgmt/2018-05-01/dns"
+	"github.com/Azure/azure-sdk-for-go/services/privatedns/mgmt/2018-09-01/privatedns"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
@@ -237,7 +239,7 @@ func ApplicationGateway(ctx context.Context, authorizer autorest.Authorizer, sub
 	insightsClient := insights.NewDiagnosticSettingsClient(subscription)
 	insightsClient.Authorizer = authorizer
 
-	client := newnetwork.NewApplicationGatewaysClient(subscription)
+	client := network.NewApplicationGatewaysClient(subscription)
 	client.Authorizer = authorizer
 
 	result, err := client.ListAll(ctx)
@@ -290,7 +292,7 @@ func NetworkSecurityGroup(ctx context.Context, authorizer autorest.Authorizer, s
 	client := insights.NewDiagnosticSettingsClient(subscription)
 	client.Authorizer = authorizer
 
-	NetworkSecurityGroupClient := newnetwork.NewSecurityGroupsClient(subscription)
+	NetworkSecurityGroupClient := network.NewSecurityGroupsClient(subscription)
 	NetworkSecurityGroupClient.Authorizer = authorizer
 
 	result, err := NetworkSecurityGroupClient.ListAll(ctx)
@@ -345,7 +347,7 @@ func NetworkSecurityGroup(ctx context.Context, authorizer autorest.Authorizer, s
 }
 
 func NetworkWatcher(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	networkWatcherClient := newnetwork.NewWatchersClient(subscription)
+	networkWatcherClient := network.NewWatchersClient(subscription)
 	networkWatcherClient.Authorizer = authorizer
 	result, err := networkWatcherClient.ListAll(ctx)
 	if err != nil {
@@ -380,7 +382,7 @@ func NetworkWatcher(ctx context.Context, authorizer autorest.Authorizer, subscri
 }
 
 func RouteTables(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := newnetwork.NewRouteTablesClient(subscription)
+	client := network.NewRouteTablesClient(subscription)
 	client.Authorizer = authorizer
 
 	result, err := client.ListAll(ctx)
@@ -424,7 +426,7 @@ func RouteTables(ctx context.Context, authorizer autorest.Authorizer, subscripti
 }
 
 func NetworkApplicationSecurityGroups(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := newnetwork.NewApplicationSecurityGroupsClient(subscription)
+	client := network.NewApplicationSecurityGroupsClient(subscription)
 	client.Authorizer = authorizer
 
 	result, err := client.ListAll(ctx)
@@ -469,7 +471,7 @@ func NetworkApplicationSecurityGroups(ctx context.Context, authorizer autorest.A
 }
 
 func NetworkAzureFirewall(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := newnetwork.NewAzureFirewallsClient(subscription)
+	client := network.NewAzureFirewallsClient(subscription)
 	client.Authorizer = authorizer
 	result, err := client.ListAll(ctx)
 	if err != nil {
@@ -515,7 +517,7 @@ func NetworkAzureFirewall(ctx context.Context, authorizer autorest.Authorizer, s
 }
 
 func ExpressRouteCircuit(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := newnetwork.NewExpressRouteCircuitsClient(subscription)
+	client := network.NewExpressRouteCircuitsClient(subscription)
 	client.Authorizer = authorizer
 
 	result, err := client.ListAll(ctx)
@@ -559,10 +561,10 @@ func ExpressRouteCircuit(ctx context.Context, authorizer autorest.Authorizer, su
 }
 
 func VirtualNetworkGateway(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := newnetwork.NewVirtualNetworkGatewaysClient(subscription)
+	client := network.NewVirtualNetworkGatewaysClient(subscription)
 	client.Authorizer = authorizer
 
-	conClient := newnetwork.NewVirtualNetworkGatewayConnectionsClient(subscription)
+	conClient := network.NewVirtualNetworkGatewayConnectionsClient(subscription)
 	conClient.Authorizer = authorizer
 
 	rgs, err := listResourceGroups(ctx, authorizer, subscription)
@@ -620,7 +622,7 @@ func VirtualNetworkGateway(ctx context.Context, authorizer autorest.Authorizer, 
 }
 
 func FirewallPolicy(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := newnetwork.NewFirewallPoliciesClient(subscription)
+	client := network.NewFirewallPoliciesClient(subscription)
 	client.Authorizer = authorizer
 
 	result, err := client.ListAll(ctx)
@@ -664,7 +666,7 @@ func FirewallPolicy(ctx context.Context, authorizer autorest.Authorizer, subscri
 }
 
 func LocalNetworkGateway(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := newnetwork.NewLocalNetworkGatewaysClient(subscription)
+	client := network.NewLocalNetworkGatewaysClient(subscription)
 	client.Authorizer = authorizer
 
 	rgs, err := listResourceGroups(ctx, authorizer, subscription)
@@ -716,7 +718,7 @@ func LocalNetworkGateway(ctx context.Context, authorizer autorest.Authorizer, su
 }
 
 func NatGateway(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := newnetwork.NewNatGatewaysClient(subscription)
+	client := network.NewNatGatewaysClient(subscription)
 	client.Authorizer = authorizer
 
 	rgs, err := listResourceGroups(ctx, authorizer, subscription)
@@ -768,7 +770,7 @@ func NatGateway(ctx context.Context, authorizer autorest.Authorizer, subscriptio
 }
 
 func PrivateLinkService(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := newnetwork.NewPrivateLinkServicesClient(subscription)
+	client := network.NewPrivateLinkServicesClient(subscription)
 	client.Authorizer = authorizer
 
 	rgs, err := listResourceGroups(ctx, authorizer, subscription)
@@ -820,7 +822,7 @@ func PrivateLinkService(ctx context.Context, authorizer autorest.Authorizer, sub
 }
 
 func RouteFilter(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := newnetwork.NewRouteFiltersClient(subscription)
+	client := network.NewRouteFiltersClient(subscription)
 	client.Authorizer = authorizer
 
 	var values []Resource
@@ -865,7 +867,7 @@ func RouteFilter(ctx context.Context, authorizer autorest.Authorizer, subscripti
 }
 
 func VpnGateway(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := newnetwork.NewVpnGatewaysClient(subscription)
+	client := network.NewVpnGatewaysClient(subscription)
 	client.Authorizer = authorizer
 
 	var values []Resource
@@ -910,7 +912,7 @@ func VpnGateway(ctx context.Context, authorizer autorest.Authorizer, subscriptio
 }
 
 func PublicIPAddress(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := newnetwork.NewPublicIPAddressesClient(subscription)
+	client := network.NewPublicIPAddressesClient(subscription)
 	client.Authorizer = authorizer
 
 	resourceGroups, err := listResourceGroups(ctx, authorizer, subscription)
@@ -935,6 +937,146 @@ func PublicIPAddress(ctx context.Context, authorizer autorest.Authorizer, subscr
 						model.PublicIPAddressDescription{
 							ResourceGroup:   *resourceGroup.Name,
 							PublicIPAddress: publicIPAddress,
+						},
+					},
+				}
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+			if !result.NotDone() {
+				break
+			}
+			err = result.NextWithContext(ctx)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
+	return values, nil
+}
+
+func DNSZones(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := dns.NewZonesClient(subscription)
+	client.Authorizer = authorizer
+
+	var values []Resource
+	result, err := client.List(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	for {
+		for _, dnsZone := range result.Values() {
+			resourceGroup := strings.Split(*dnsZone.ID, "/")[4]
+			resource := Resource{
+				ID:       *dnsZone.ID,
+				Name:     *dnsZone.Name,
+				Location: *dnsZone.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.DNSZonesDescription{
+						DNSZone:       dnsZone,
+						ResourceGroup: resourceGroup,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
+func DNSResolvers(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	//clientFactory, err := armdnsresolver.NewDNSResolversClient(subscription, cred, nil)
+	return nil, errors.New("unimplemented")
+}
+
+func PrivateDnsZones(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	dnsClient := privatedns.NewPrivateZonesClient(subscription)
+	dnsClient.Authorizer = authorizer
+
+	var values []Resource
+	result, err := dnsClient.List(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	for {
+		for _, privateZone := range result.Values() {
+			resourceGroup := strings.Split(*privateZone.ID, "/")[4]
+			resource := Resource{
+				ID:       *privateZone.ID,
+				Name:     *privateZone.Name,
+				Location: *privateZone.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.PrivateDNSZonesDescription{
+						PrivateZone:   privateZone,
+						ResourceGroup: resourceGroup,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
+func PrivateEndpoints(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	dnsClient := network.NewPrivateEndpointsClient(subscription)
+	dnsClient.Authorizer = authorizer
+
+	resourceGroups, err := listResourceGroups(ctx, authorizer, subscription)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, resourceGroup := range resourceGroups {
+		result, err := dnsClient.List(ctx, *resourceGroup.Name)
+		if err != nil {
+			return nil, err
+		}
+
+		for {
+			for _, v := range result.Values() {
+				resource := Resource{
+					ID:       *v.ID,
+					Name:     *v.Name,
+					Location: *v.Location,
+					Description: JSONAllFieldsMarshaller{
+						model.PrivateEndpointDescription{
+							PrivateEndpoint: v,
+							ResourceGroup:   *resourceGroup.Name,
 						},
 					},
 				}

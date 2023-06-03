@@ -43,3 +43,53 @@ func MariadbServer(ctx context.Context, authorizer autorest.Authorizer, subscrip
 	}
 	return values, nil
 }
+
+func MariadbDatabases(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	serverClient := mariadb.NewServersClient(subscription)
+	serverClient.Authorizer = authorizer
+
+	client := mariadb.NewDatabasesClient(subscription)
+	client.Authorizer = authorizer
+
+	result, err := serverClient.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, server := range *result.Value {
+		resourceGroup := strings.Split(*server.ID, "/")[4]
+
+		res, err := client.ListByServer(ctx, resourceGroup, *server.Name)
+		if err != nil {
+			return nil, err
+		}
+
+		if res.Value == nil {
+			continue
+		}
+
+		for _, r := range *res.Value {
+			resource := Resource{
+				ID:       *r.ID,
+				Name:     *r.Name,
+				Location: *server.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.MariadbDatabaseDescription{
+						Database:      r,
+						Server:        server,
+						ResourceGroup: resourceGroup,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}

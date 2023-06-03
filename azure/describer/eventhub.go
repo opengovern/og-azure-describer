@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/eventhub/mgmt/2018-01-01-preview/eventhub"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2021-04-01-preview/insights"
+	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
@@ -75,6 +75,73 @@ func EventhubNamespace(ctx context.Context, authorizer autorest.Authorizer, subs
 			} else {
 				values = append(values, resource)
 			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
+func EventhubNamespaceEventhub(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	nsClient := eventhub.NewNamespacesClient(subscription)
+	nsClient.Authorizer = authorizer
+
+	client := eventhub.NewEventHubsClient(subscription)
+	client.Authorizer = authorizer
+
+	result, err := nsClient.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, namespace := range result.Values() {
+			resourceGroupName := strings.Split(string(*namespace.ID), "/")[4]
+
+			res, err := client.ListByNamespace(ctx, resourceGroupName, *namespace.Name, nil, nil)
+			if err != nil {
+				return nil, err
+			}
+
+			for {
+
+				for _, eh := range res.Values() {
+					resource := Resource{
+						ID:       *namespace.ID,
+						Name:     *namespace.Name,
+						Location: *namespace.Location,
+						Description: JSONAllFieldsMarshaller{
+							model.EventhubNamespaceEventhubDescription{
+								EHNamespace:   namespace,
+								EventHub:      eh,
+								ResourceGroup: resourceGroupName,
+							},
+						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+
+				if !res.NotDone() {
+					break
+				}
+				err = res.NextWithContext(ctx)
+				if err != nil {
+					return nil, err
+				}
+			}
+
 		}
 		if !result.NotDone() {
 			break
