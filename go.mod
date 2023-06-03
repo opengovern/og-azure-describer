@@ -22,7 +22,7 @@ require (
 	github.com/spf13/cobra v1.6.1
 	github.com/tombuildsstuff/giovanni v0.18.0
 	github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13
-	gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230531152954-ef5fe9e06fab
+	gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230603171737-a296e2726051
 	gitlab.com/keibiengine/steampipe-plugin-azuread v0.1.1-0.20230524160620-9c9e9d92e11e
 	go.uber.org/zap v1.24.0
 	golang.org/x/oauth2 v0.6.0
@@ -36,7 +36,6 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.4.0 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.2.2 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/internal v1.2.0 // indirect
-	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dnsresolver/armdnsresolver v1.1.0 // indirect
 	github.com/Azure/go-autorest v14.2.0+incompatible // indirect
 	github.com/Azure/go-autorest/autorest/adal v0.9.18 // indirect
 	github.com/Azure/go-autorest/autorest/azure/cli v0.4.2 // indirect
@@ -82,7 +81,6 @@ require (
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
-	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/glog v1.0.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
