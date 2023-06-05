@@ -461,6 +461,11 @@ type DNSZonesDescription struct {
 	DNSZone       dns.Zone
 }
 
+//index:microsoft_network_dnsresolvers
+type DNSResolversDescription struct {
+	ResourceGroup string
+}
+
 //index:microsoft_network_privatednszones
 type PrivateDNSZonesDescription struct {
 	ResourceGroup string
