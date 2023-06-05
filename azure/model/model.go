@@ -39,7 +39,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/mariadb/mgmt/2020-01-01/mariadb"
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2020-01-01/mysql"
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2021-05-01/mysqlflexibleservers"
-	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-05-01/network"
+	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-02-01/network"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2020-01-01/postgresql"
 	"github.com/Azure/azure-sdk-for-go/services/preview/authorization/mgmt/2018-09-01-preview/authorization"
 	"github.com/Azure/azure-sdk-for-go/services/preview/automation/mgmt/2020-01-13-preview/automation"
@@ -286,7 +286,7 @@ type DataboxEdgeDeviceDescription struct {
 type HealthcareServiceDescription struct {
 	ServicesDescription         healthcareapis.ServicesDescription
 	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
-	PrivateEndpointConnections  *[]healthcareapis.PrivateEndpointConnection
+	PrivateEndpointConnections  *[]healthcareapis.PrivateEndpointConnectionDescription
 	ResourceGroup               string
 }
 

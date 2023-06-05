@@ -52,7 +52,7 @@ func LogAlert(ctx context.Context, authorizer autorest.Authorizer, subscription 
 		return nil, err
 	}
 	var values []Resource
-	for _, logAlert := range *result.Value {
+	for _, logAlert := range result.Values() {
 		resourceGroup := strings.Split(*logAlert.ID, "/")[4]
 
 		resource := Resource{

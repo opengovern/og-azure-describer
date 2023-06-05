@@ -34,7 +34,7 @@ func ResourceProvider(ctx context.Context, authorizer autorest.Authorizer, subsc
 	client := resources.NewProvidersClient(subscription)
 	client.Authorizer = authorizer
 
-	result, err := client.List(ctx, nil, "")
+	result, err := client.List(ctx, "")
 	if err != nil {
 		return nil, err
 	}

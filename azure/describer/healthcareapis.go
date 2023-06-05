@@ -31,7 +31,7 @@ func HealthcareService(ctx context.Context, authorizer autorest.Authorizer, subs
 			resourceGroup := strings.Split(*v.ID, "/")[4]
 
 			var opValue *[]insights.DiagnosticSettingsResource
-			var opServiceValue *[]healthcareapis.PrivateEndpointConnection
+			var opServiceValue *[]healthcareapis.PrivateEndpointConnectionDescription
 			if v.ID != nil {
 				resourceId := v.ID
 
