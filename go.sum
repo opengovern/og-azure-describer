@@ -458,6 +458,8 @@ github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/X
 github.com/jtolds/gls v4.20.0+incompatible h1:xdiiI2gbIgH/gLH7ADydsJ1uDOEzR8yvV7C0MuV77Wo=
 github.com/kaytu-io/kaytu-util v0.0.0-20230523183329-2e817a251443 h1:wijm8lSC7glrc99p5nMV4uSZL5Zk8IKgOJNzGJnYN0Q=
 github.com/kaytu-io/kaytu-util v0.0.0-20230523183329-2e817a251443/go.mod h1:Nx5+E3p0QBP+4EV8i2YN3tKkCN4eN85cy6yDm3gTVWs=
+github.com/kaytu-io/kaytu-util v0.0.0-20230605084433-73e3af414279 h1:PhrfP5FM323ClUSdafeoFv6qaRlp7KkiZcpzQXOjS2I=
+github.com/kaytu-io/kaytu-util v0.0.0-20230605084433-73e3af414279/go.mod h1:QULmP8Hug87ctExrOBAzZgwKJ7BXEWUcs0vIJAV1Hrs=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
@@ -665,6 +667,8 @@ gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230603171737-a296e2726
 gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230603171737-a296e2726051/go.mod h1:sOeeFVaMgTCZ0jA1cqDCmRxjeU+bdvS4n4/Sk/YEBoM=
 gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230603172003-72419cf0f0de h1:3hZysGkB77IKob5BZP+9f8J4adb/BHDRzzZ3NMpJEE0=
 gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230603172003-72419cf0f0de/go.mod h1:41AizGa0eOj332Ai7x47v9xoyaR09zqUJ1ddUEam3gQ=
+gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230605143848-094405582c60 h1:xYEPDB6pRJujuw1MRGUSYEFYPS4xLuqct/i4IjG99XI=
+gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230605143848-094405582c60/go.mod h1:zMzFtR+qKP5Vote7jJJz4j/pG+DI3StS1gyEYc4wQIk=
 gitlab.com/keibiengine/steampipe-plugin-azuread v0.1.1-0.20230524160620-9c9e9d92e11e h1:/ej5l5i0pnEIEPEV7PWCQHggPaOnq2h7TU9vGFNBeZc=
 gitlab.com/keibiengine/steampipe-plugin-azuread v0.1.1-0.20230524160620-9c9e9d92e11e/go.mod h1:TwFzOfA/l3qSsHNQUbWD+vGYj95MplLhwvTCmkLYXSs=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=
