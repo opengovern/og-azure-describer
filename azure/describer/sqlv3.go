@@ -184,6 +184,116 @@ func SqlServer(ctx context.Context, authorizer autorest.Authorizer, subscription
 	return values, nil
 }
 
+func SqlServerJobAgents(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	serverClient := sqlv3.NewServersClient(subscription)
+	serverClient.Authorizer = authorizer
+
+	client := sqlv3.NewJobAgentsClient(subscription)
+	client.Authorizer = authorizer
+
+	result, err := serverClient.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, server := range result.Values() {
+			resourceGroupName := strings.Split(string(*server.ID), "/")[4]
+
+			resultJobs, err := client.ListByServer(ctx, resourceGroupName, *server.Name)
+			if err != nil {
+				return nil, err
+			}
+
+			for {
+				for _, job := range resultJobs.Values() {
+					jobResourceGroupName := strings.Split(string(*job.ID), "/")[4]
+
+					resource := Resource{
+						ID:       *job.ID,
+						Name:     *job.Name,
+						Location: *job.Location,
+						Description: JSONAllFieldsMarshaller{
+							model.SqlServerJobAgentDescription{
+								Server:        server,
+								JobAgent:      job,
+								ResourceGroup: jobResourceGroupName,
+							},
+						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+				if !resultJobs.NotDone() {
+					break
+				}
+				err = resultJobs.NextWithContext(ctx)
+				if err != nil {
+					return nil, err
+				}
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
+func SqlVirtualClusters(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := sql.NewVirtualClustersClient(subscription)
+	client.Authorizer = authorizer
+
+	result, err := client.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, v := range result.Values() {
+			resourceGroupName := strings.Split(string(*v.ID), "/")[4]
+
+			resource := Resource{
+				ID:       *v.ID,
+				Name:     *v.Name,
+				Location: *v.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.SqlVirtualClustersDescription{
+						VirtualClusters: v,
+						ResourceGroup:   resourceGroupName,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
 func SqlServerElasticPool(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
 	client := sqlv3.NewServersClient(subscription)
 	client.Authorizer = authorizer
@@ -263,6 +373,51 @@ func SqlServerVirtualMachine(ctx context.Context, authorizer autorest.Authorizer
 					model.SqlServerVirtualMachineDescription{
 						VirtualMachine: vm,
 						ResourceGroup:  resourceGroup,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
+func SqlServerVirtualMachineGroups(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	gClient := sqlvirtualmachine.NewGroupsClient(subscription)
+	gClient.Authorizer = authorizer
+
+	result, err := gClient.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, vm := range result.Values() {
+			resourceGroup := strings.Split(string(*vm.ID), "/")[4]
+
+			resource := Resource{
+				ID:       *vm.ID,
+				Name:     *vm.Name,
+				Location: *vm.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.SqlServerVirtualMachineGroupDescription{
+						Group:         vm,
+						ResourceGroup: resourceGroup,
 					},
 				},
 			}

@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2020-01-01/postgresql"
+	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2021-06-01/postgresqlflexibleservers"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
@@ -68,6 +69,39 @@ func PostgresqlServer(ctx context.Context, authorizer autorest.Authorizer, subsc
 					ServerKeys:                   kop,
 					FirewallRules:                firewallListByServerOp.Value,
 					ResourceGroup:                resourceGroupName,
+				},
+			},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
+	}
+	return values, nil
+}
+
+func PostgresqlFlexibleservers(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := postgresqlflexibleservers.NewServersClient(subscription)
+	client.Authorizer = authorizer
+	result, err := client.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, server := range result.Values() {
+		resourceGroupName := strings.Split(string(*server.ID), "/")[4]
+
+		resource := Resource{
+			ID:       *server.ID,
+			Name:     *server.Name,
+			Location: *server.Location,
+			Description: JSONAllFieldsMarshaller{
+				model.PostgresqlFlexibleServerDescription{
+					Server:        server,
+					ResourceGroup: resourceGroupName,
 				},
 			},
 		}

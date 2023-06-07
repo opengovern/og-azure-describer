@@ -111,6 +111,80 @@ func MssqlManagedInstance(ctx context.Context, authorizer autorest.Authorizer, s
 	return values, nil
 }
 
+func MssqlManagedInstanceDatabases(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	managedInstanceClient := sqlV5.NewManagedInstanceVulnerabilityAssessmentsClient(subscription)
+	managedInstanceClient.Authorizer = authorizer
+
+	managedServerClient := sqlV5.NewManagedServerSecurityAlertPoliciesClient(subscription)
+	managedServerClient.Authorizer = authorizer
+
+	managedInstanceEncClient := sqlV5.NewManagedInstanceEncryptionProtectorsClient(subscription)
+	managedInstanceEncClient.Authorizer = authorizer
+
+	client := sqlV5.NewManagedInstancesClient(subscription)
+	client.Authorizer = authorizer
+
+	dbClient := sqlV5.NewDatabasesClient(subscription)
+	dbClient.Authorizer = authorizer
+
+	result, err := client.List(ctx, "")
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, managedInstance := range result.Values() {
+			resourceGroup := strings.Split(string(*managedInstance.ID), "/")[4]
+			managedInstanceName := *managedInstance.Name
+
+			dbResult, err := dbClient.ListByServer(ctx, resourceGroup, managedInstanceName, "")
+			if err != nil {
+				return nil, err
+			}
+
+			for {
+				for _, db := range dbResult.Values() {
+					resource := Resource{
+						ID:       *db.ID,
+						Name:     *db.Name,
+						Location: *db.Location,
+						Description: JSONAllFieldsMarshaller{
+							model.MssqlManagedInstanceDatabasesDescription{
+								ManagedInstance: managedInstance,
+								Database:        db,
+								ResourceGroup:   resourceGroup,
+							},
+						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+				if !dbResult.NotDone() {
+					break
+				}
+				err = dbResult.NextWithContext(ctx)
+				if err != nil {
+					return nil, err
+				}
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
 func SqlDatabase(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
 	parentClient := sqlv3.NewServersClient(subscription)
 	parentClient.Authorizer = authorizer

@@ -149,6 +149,17 @@ var azureMap = map[string]string{
 	"Microsoft.Storage/tableServices":                          "azure_storage_table_service",
 	"Microsoft.DocumentDB/SqlDatabases":                        "azure_cosmosdb_sql_database",
 	"Microsoft.DocumentDB/MongoDatabases":                      "azure_cosmosdb_mongo_database",
+	"Microsoft.Databricks/workspaces":                          "azure_databricks_workspaces",
+	"Microsoft.Sql/virtualclusters":                            "azure_sql_virtualclusters",
+	"Microsoft.Sql/managedInstances/databases":                 "azure_sql_managedinstancesdatabases",
+	"Microsoft.Sql/virtualMachineGroups":                       "azure_sql_virtualmachinegroups",
+	"Microsoft.Sql/servers/jobagents":                          "azure_sql_serversjobagents",
+	"Microsoft.DBforPostgreSQL/flexibleservers":                "azure_dbforpostgresql_flexibleservers",
+	"Microsoft.DBforMySQL/flexibleservers":                     "azure_dbformysql_flexibleservers",
+	"Microsoft.Synapse/workspaces/bigdatapools":                "azure_synapse_workspacesbigdatapools",
+	"Microsoft.Synapse/workspaces/sqlpools":                    "azure_synapse_workspacessqlpools",
+	"Microsoft.AnalysisServices/servers":                       "azure_analysisservices_servers",
+	"Microsoft.Cache/redisenterprise":                          "azure_cache_redisenterprise",
 }
 
 var AzureDescriptionMap = map[string]interface{}{
@@ -295,4 +306,15 @@ var AzureDescriptionMap = map[string]interface{}{
 	"Microsoft.Storage/tableServices":                          &keibi.StorageTableService{},
 	"Microsoft.DocumentDB/SqlDatabases":                        &keibi.CosmosdbSqlDatabase{},
 	"Microsoft.DocumentDB/MongoDatabases":                      &keibi.CosmosdbMongoDatabase{},
+	"Microsoft.Databricks/workspaces":                          &keibi.DatabricksWorkspace{},
+	"Microsoft.Sql/virtualclusters":                            &keibi.SqlVirtualClusters{},
+	"Microsoft.Sql/managedInstances/databases":                 &keibi.MssqlManagedInstanceDatabases{},
+	"Microsoft.DBforPostgreSQL/flexibleservers":                &keibi.PostgresqlFlexibleServer{},
+	"Microsoft.AnalysisServices/servers":                       &keibi.AnalysisServiceServer{},
+	"Microsoft.Sql/virtualMachineGroups":                       &keibi.SqlServerVirtualMachineGroup{},
+	"Microsoft.Synapse/workspaces/bigdatapools":                &keibi.SynapseWorkspaceBigdatapools{},
+	"Microsoft.Synapse/workspaces/sqlpools":                    &keibi.SynapseWorkspaceSqlpools{},
+	"Microsoft.Sql/servers/jobagents":                          &keibi.SqlServerJobAgent{},
+	"Microsoft.DBforMySQL/flexibleservers":                     &keibi.MysqlFlexibleserver{},
+	"Microsoft.Cache/redisenterprise":                          &keibi.RedisEnterpriseCache{},
 }

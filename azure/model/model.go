@@ -15,6 +15,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/resources"
 	sub "github.com/Azure/azure-sdk-for-go/profiles/latest/subscription/mgmt/subscription"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+	"github.com/Azure/azure-sdk-for-go/services/analysisservices/mgmt/2017-08-01/analysisservices"
 	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2020-12-01/apimanagement"
 	"github.com/Azure/azure-sdk-for-go/services/appconfiguration/mgmt/2020-06-01/appconfiguration"
 	"github.com/Azure/azure-sdk-for-go/services/appplatform/mgmt/2020-07-01/appplatform"
@@ -24,6 +25,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2020-06-01/compute"
 	"github.com/Azure/azure-sdk-for-go/services/containerservice/mgmt/2021-02-01/containerservice"
 	"github.com/Azure/azure-sdk-for-go/services/databoxedge/mgmt/2019-07-01/databoxedge"
+	"github.com/Azure/azure-sdk-for-go/services/databricks/mgmt/2018-04-01/databricks"
 	"github.com/Azure/azure-sdk-for-go/services/datafactory/mgmt/2018-06-01/datafactory"
 	analytics "github.com/Azure/azure-sdk-for-go/services/datalake/analytics/mgmt/2016-11-01/account"
 	store "github.com/Azure/azure-sdk-for-go/services/datalake/store/mgmt/2016-11-01/account"
@@ -41,6 +43,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2021-05-01/mysqlflexibleservers"
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-02-01/network"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2020-01-01/postgresql"
+	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2021-06-01/postgresqlflexibleservers"
 	"github.com/Azure/azure-sdk-for-go/services/preview/authorization/mgmt/2018-09-01-preview/authorization"
 	"github.com/Azure/azure-sdk-for-go/services/preview/automation/mgmt/2020-01-13-preview/automation"
 	"github.com/Azure/azure-sdk-for-go/services/preview/containerregistry/mgmt/2022-02-01-preview/containerregistry"
@@ -58,6 +61,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/preview/sqlvirtualmachine/mgmt/2021-11-01-preview/sqlvirtualmachine"
 	"github.com/Azure/azure-sdk-for-go/services/privatedns/mgmt/2018-09-01/privatedns"
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2020-06-01/redis"
+	"github.com/Azure/azure-sdk-for-go/services/redisenterprise/mgmt/2022-01-01/redisenterprise"
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2019-06-01/subscriptions"
 	"github.com/Azure/azure-sdk-for-go/services/search/mgmt/2020-08-01/search"
 	"github.com/Azure/azure-sdk-for-go/services/servicefabric/mgmt/2019-03-01/servicefabric"
@@ -496,6 +500,12 @@ type RedisCacheDescription struct {
 	ResourceGroup string
 }
 
+//index:microsoft_cache_redisenterprise
+type RedisEnterpriseCacheDescription struct {
+	ResourceGroup   string
+	RedisEnterprise redisenterprise.Cluster
+}
+
 //  =================== links ==================
 
 //index:microsoft_resources_links
@@ -787,6 +797,14 @@ type CosmosdbMongoDatabaseDescription struct {
 type CosmosdbSqlDatabaseDescription struct {
 	Account       documentdb.DatabaseAccountGetResults
 	SqlDatabase   documentdb.SQLDatabaseGetResults
+	ResourceGroup string
+}
+
+//  =================== databricks ==================
+
+//index:microsoft_databricks_workspace
+type DatabricksWorkspaceDescription struct {
+	Workspace     databricks.Workspace
 	ResourceGroup string
 }
 
@@ -1095,6 +1113,12 @@ type MysqlServerDescription struct {
 	ResourceGroup  string
 }
 
+//index:microsoft_dbformysql_flexibleservers
+type MysqlFlexibleserverDescription struct {
+	Server        mysqlflexibleservers.Server
+	ResourceGroup string
+}
+
 //  =================== network ==================
 
 //index:microsoft_classicnetwork_networksecuritygroups
@@ -1193,6 +1217,20 @@ type SynapseWorkspaceDescription struct {
 	ResourceGroup                  string
 }
 
+//index:microsoft_synapse_workspacesbigdatapools
+type SynapseWorkspaceBigdatapoolsDescription struct {
+	Workspace     synapse.Workspace
+	BigDataPool   synapse.BigDataPoolResourceInfo
+	ResourceGroup string
+}
+
+//index:microsoft_synapse_workspacessqlpools
+type SynapseWorkspaceSqlpoolsDescription struct {
+	Workspace     synapse.Workspace
+	SqlPool       synapse.SQLPool
+	ResourceGroup string
+}
+
 //  =================== sub ==================
 
 //index:microsoft_resources_subscriptions_locations
@@ -1241,6 +1279,16 @@ type AdServicePrincipalDescription struct {
 	AdServicePrincipal msgraph.ServicePrincipal
 }
 
+//  =================== analysis ==================
+
+//index:microsoft_analysisservice_servers
+//getfilter:name=description.Server.name
+//getfilter:resource_group=description.ResourceGroup
+type AnalysisServiceServerDescription struct {
+	ResourceGroup string
+	Server        analysisservices.Server
+}
+
 //  =================== postgresql ==================
 
 //index:microsoft_dbforpostgresql_servers
@@ -1253,6 +1301,12 @@ type PostgresqlServerDescription struct {
 	ServerKeys                   []postgresql.ServerKey
 	FirewallRules                *[]postgresql.FirewallRule
 	ResourceGroup                string
+}
+
+//index:microsoft_dbforpostgresql_flexibleservers
+type PostgresqlFlexibleServerDescription struct {
+	ResourceGroup string
+	Server        postgresqlflexibleservers.Server
 }
 
 //  =================== storagesync ==================
@@ -1276,6 +1330,13 @@ type MssqlManagedInstanceDescription struct {
 	ManagedDatabaseSecurityAlertPolicies    []sqlv5.ManagedServerSecurityAlertPolicy
 	ManagedInstanceEncryptionProtectors     []sqlv5.ManagedInstanceEncryptionProtector
 	ResourceGroup                           string
+}
+
+//index:microsoft_sql_managedinstancesdatabases
+type MssqlManagedInstanceDatabasesDescription struct {
+	ManagedInstance sqlv5.ManagedInstance
+	Database        sqlv5.Database
+	ResourceGroup   string
 }
 
 //index:microsoft_sql_servers_databases
@@ -1308,6 +1369,19 @@ type SqlServerDescription struct {
 	ResourceGroup                  string
 }
 
+//index:microsoft_sql_serversjobagent
+type SqlServerJobAgentDescription struct {
+	ResourceGroup string
+	Server        sqlv3.Server
+	JobAgent      sqlv3.JobAgent
+}
+
+//index:microsoft_sql_virtualclusters
+type SqlVirtualClustersDescription struct {
+	ResourceGroup   string
+	VirtualClusters sql.VirtualCluster
+}
+
 //index:microsoft_sql_elasticpools
 //getfilter:name=description.Pool.Name
 //getfilter:server_name=description.ServerName
@@ -1324,6 +1398,12 @@ type SqlServerElasticPoolDescription struct {
 type SqlServerVirtualMachineDescription struct {
 	VirtualMachine sqlvirtualmachine.SQLVirtualMachine
 	ResourceGroup  string
+}
+
+//index:microsoft_sql_virtualmachinegroups
+type SqlServerVirtualMachineGroupDescription struct {
+	Group         sqlvirtualmachine.Group
+	ResourceGroup string
 }
 
 //index:microsoft_sql_flexibleservers

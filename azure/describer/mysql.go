@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2020-01-01/mysql"
+	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2021-05-01/mysqlflexibleservers"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
@@ -59,6 +60,41 @@ func MysqlServer(ctx context.Context, authorizer autorest.Authorizer, subscripti
 					Configurations: mysqlListByServerOp.Value,
 					ServerKeys:     keys,
 					ResourceGroup:  resourceGroup,
+				},
+			},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
+	}
+	return values, nil
+}
+
+func MysqlFlexibleservers(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := mysqlflexibleservers.NewServersClient(subscription)
+	client.Authorizer = authorizer
+
+	result, err := client.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, server := range result.Values() {
+		resourceGroup := strings.Split(string(*server.ID), "/")[4]
+
+		resource := Resource{
+			ID:       *server.ID,
+			Name:     *server.Name,
+			Location: *server.Location,
+			Description: JSONAllFieldsMarshaller{
+				model.MysqlFlexibleserverDescription{
+					Server:        server,
+					ResourceGroup: resourceGroup,
 				},
 			},
 		}

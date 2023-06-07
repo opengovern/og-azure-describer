@@ -89,3 +89,131 @@ func SynapseWorkspace(ctx context.Context, authorizer autorest.Authorizer, subsc
 	}
 	return values, nil
 }
+
+func SynapseWorkspaceBigdataPools(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := synapse.NewWorkspacesClient(subscription)
+	client.Authorizer = authorizer
+
+	bpClient := synapse.NewBigDataPoolsClient(subscription)
+	bpClient.Authorizer = authorizer
+
+	result, err := client.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, v := range result.Values() {
+			resourceGroup := strings.Split(*v.ID, "/")[4]
+
+			wResult, err := bpClient.ListByWorkspace(ctx, resourceGroup, *v.Name)
+			if err != nil {
+				return nil, err
+			}
+			for {
+				for _, bp := range wResult.Values() {
+
+					resource := Resource{
+						ID:       *v.ID,
+						Name:     *v.Name,
+						Location: *v.Location,
+						Description: JSONAllFieldsMarshaller{
+							model.SynapseWorkspaceBigdatapoolsDescription{
+								Workspace:     v,
+								BigDataPool:   bp,
+								ResourceGroup: resourceGroup,
+							},
+						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+				if !wResult.NotDone() {
+					break
+				}
+				err = wResult.NextWithContext(ctx)
+				if err != nil {
+					return nil, err
+				}
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
+func SynapseWorkspaceSqlpools(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := synapse.NewWorkspacesClient(subscription)
+	client.Authorizer = authorizer
+
+	bpClient := synapse.NewSQLPoolsClient(subscription)
+	bpClient.Authorizer = authorizer
+
+	result, err := client.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, v := range result.Values() {
+			resourceGroup := strings.Split(*v.ID, "/")[4]
+
+			wResult, err := bpClient.ListByWorkspace(ctx, resourceGroup, *v.Name)
+			if err != nil {
+				return nil, err
+			}
+			for {
+				for _, bp := range wResult.Values() {
+
+					resource := Resource{
+						ID:       *v.ID,
+						Name:     *v.Name,
+						Location: *v.Location,
+						Description: JSONAllFieldsMarshaller{
+							model.SynapseWorkspaceSqlpoolsDescription{
+								Workspace:     v,
+								SqlPool:       bp,
+								ResourceGroup: resourceGroup,
+							},
+						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+				if !wResult.NotDone() {
+					break
+				}
+				err = wResult.NextWithContext(ctx)
+				if err != nil {
+					return nil, err
+				}
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}

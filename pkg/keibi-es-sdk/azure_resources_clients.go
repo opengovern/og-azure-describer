@@ -7490,6 +7490,154 @@ func GetRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 // ==========================  END: RedisCache =============================
 
+// ==========================  START: RedisEnterpriseCache =============================
+
+type RedisEnterpriseCache struct {
+	Description   azure.RedisEnterpriseCacheDescription `json:"description"`
+	Metadata      azure.Metadata                        `json:"metadata"`
+	ResourceJobID int                                   `json:"resource_job_id"`
+	SourceJobID   int                                   `json:"source_job_id"`
+	ResourceType  string                                `json:"resource_type"`
+	SourceType    string                                `json:"source_type"`
+	ID            string                                `json:"id"`
+	ARN           string                                `json:"arn"`
+	SourceID      string                                `json:"source_id"`
+}
+
+type RedisEnterpriseCacheHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  RedisEnterpriseCache `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type RedisEnterpriseCacheHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []RedisEnterpriseCacheHit `json:"hits"`
+}
+
+type RedisEnterpriseCacheSearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  RedisEnterpriseCacheHits `json:"hits"`
+}
+
+type RedisEnterpriseCachePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewRedisEnterpriseCachePaginator(filters []essdk.BoolFilter, limit *int64) (RedisEnterpriseCachePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_cache_redisenterprise", filters, limit)
+	if err != nil {
+		return RedisEnterpriseCachePaginator{}, err
+	}
+
+	p := RedisEnterpriseCachePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p RedisEnterpriseCachePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p RedisEnterpriseCachePaginator) NextPage(ctx context.Context) ([]RedisEnterpriseCache, error) {
+	var response RedisEnterpriseCacheSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []RedisEnterpriseCache
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listRedisEnterpriseCacheFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func ListRedisEnterpriseCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListRedisEnterpriseCache")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewRedisEnterpriseCachePaginator(essdk.BuildFilter(d.KeyColumnQuals, listRedisEnterpriseCacheFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getRedisEnterpriseCacheFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func GetRedisEnterpriseCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetRedisEnterpriseCache")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewRedisEnterpriseCachePaginator(essdk.BuildFilter(d.KeyColumnQuals, getRedisEnterpriseCacheFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: RedisEnterpriseCache =============================
+
 // ==========================  START: ResourceLink =============================
 
 type ResourceLink struct {
@@ -12574,6 +12722,154 @@ func GetCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 // ==========================  END: CosmosdbSqlDatabase =============================
 
+// ==========================  START: DatabricksWorkspace =============================
+
+type DatabricksWorkspace struct {
+	Description   azure.DatabricksWorkspaceDescription `json:"description"`
+	Metadata      azure.Metadata                       `json:"metadata"`
+	ResourceJobID int                                  `json:"resource_job_id"`
+	SourceJobID   int                                  `json:"source_job_id"`
+	ResourceType  string                               `json:"resource_type"`
+	SourceType    string                               `json:"source_type"`
+	ID            string                               `json:"id"`
+	ARN           string                               `json:"arn"`
+	SourceID      string                               `json:"source_id"`
+}
+
+type DatabricksWorkspaceHit struct {
+	ID      string              `json:"_id"`
+	Score   float64             `json:"_score"`
+	Index   string              `json:"_index"`
+	Type    string              `json:"_type"`
+	Version int64               `json:"_version,omitempty"`
+	Source  DatabricksWorkspace `json:"_source"`
+	Sort    []interface{}       `json:"sort"`
+}
+
+type DatabricksWorkspaceHits struct {
+	Total essdk.SearchTotal        `json:"total"`
+	Hits  []DatabricksWorkspaceHit `json:"hits"`
+}
+
+type DatabricksWorkspaceSearchResponse struct {
+	PitID string                  `json:"pit_id"`
+	Hits  DatabricksWorkspaceHits `json:"hits"`
+}
+
+type DatabricksWorkspacePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewDatabricksWorkspacePaginator(filters []essdk.BoolFilter, limit *int64) (DatabricksWorkspacePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_databricks_workspace", filters, limit)
+	if err != nil {
+		return DatabricksWorkspacePaginator{}, err
+	}
+
+	p := DatabricksWorkspacePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p DatabricksWorkspacePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p DatabricksWorkspacePaginator) NextPage(ctx context.Context) ([]DatabricksWorkspace, error) {
+	var response DatabricksWorkspaceSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []DatabricksWorkspace
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listDatabricksWorkspaceFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func ListDatabricksWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListDatabricksWorkspace")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewDatabricksWorkspacePaginator(essdk.BuildFilter(d.KeyColumnQuals, listDatabricksWorkspaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getDatabricksWorkspaceFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func GetDatabricksWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetDatabricksWorkspace")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewDatabricksWorkspacePaginator(essdk.BuildFilter(d.KeyColumnQuals, getDatabricksWorkspaceFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: DatabricksWorkspace =============================
+
 // ==========================  START: DataFactory =============================
 
 type DataFactory struct {
@@ -16622,6 +16918,154 @@ func GetMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 // ==========================  END: MysqlServer =============================
 
+// ==========================  START: MysqlFlexibleserver =============================
+
+type MysqlFlexibleserver struct {
+	Description   azure.MysqlFlexibleserverDescription `json:"description"`
+	Metadata      azure.Metadata                       `json:"metadata"`
+	ResourceJobID int                                  `json:"resource_job_id"`
+	SourceJobID   int                                  `json:"source_job_id"`
+	ResourceType  string                               `json:"resource_type"`
+	SourceType    string                               `json:"source_type"`
+	ID            string                               `json:"id"`
+	ARN           string                               `json:"arn"`
+	SourceID      string                               `json:"source_id"`
+}
+
+type MysqlFlexibleserverHit struct {
+	ID      string              `json:"_id"`
+	Score   float64             `json:"_score"`
+	Index   string              `json:"_index"`
+	Type    string              `json:"_type"`
+	Version int64               `json:"_version,omitempty"`
+	Source  MysqlFlexibleserver `json:"_source"`
+	Sort    []interface{}       `json:"sort"`
+}
+
+type MysqlFlexibleserverHits struct {
+	Total essdk.SearchTotal        `json:"total"`
+	Hits  []MysqlFlexibleserverHit `json:"hits"`
+}
+
+type MysqlFlexibleserverSearchResponse struct {
+	PitID string                  `json:"pit_id"`
+	Hits  MysqlFlexibleserverHits `json:"hits"`
+}
+
+type MysqlFlexibleserverPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewMysqlFlexibleserverPaginator(filters []essdk.BoolFilter, limit *int64) (MysqlFlexibleserverPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_dbformysql_flexibleservers", filters, limit)
+	if err != nil {
+		return MysqlFlexibleserverPaginator{}, err
+	}
+
+	p := MysqlFlexibleserverPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p MysqlFlexibleserverPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p MysqlFlexibleserverPaginator) NextPage(ctx context.Context) ([]MysqlFlexibleserver, error) {
+	var response MysqlFlexibleserverSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []MysqlFlexibleserver
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listMysqlFlexibleserverFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func ListMysqlFlexibleserver(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListMysqlFlexibleserver")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewMysqlFlexibleserverPaginator(essdk.BuildFilter(d.KeyColumnQuals, listMysqlFlexibleserverFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getMysqlFlexibleserverFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func GetMysqlFlexibleserver(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetMysqlFlexibleserver")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewMysqlFlexibleserverPaginator(essdk.BuildFilter(d.KeyColumnQuals, getMysqlFlexibleserverFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: MysqlFlexibleserver =============================
+
 // ==========================  START: NetworkSecurityGroup =============================
 
 type NetworkSecurityGroup struct {
@@ -17972,6 +18416,302 @@ func GetSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 // ==========================  END: SynapseWorkspace =============================
 
+// ==========================  START: SynapseWorkspaceBigdatapools =============================
+
+type SynapseWorkspaceBigdatapools struct {
+	Description   azure.SynapseWorkspaceBigdatapoolsDescription `json:"description"`
+	Metadata      azure.Metadata                                `json:"metadata"`
+	ResourceJobID int                                           `json:"resource_job_id"`
+	SourceJobID   int                                           `json:"source_job_id"`
+	ResourceType  string                                        `json:"resource_type"`
+	SourceType    string                                        `json:"source_type"`
+	ID            string                                        `json:"id"`
+	ARN           string                                        `json:"arn"`
+	SourceID      string                                        `json:"source_id"`
+}
+
+type SynapseWorkspaceBigdatapoolsHit struct {
+	ID      string                       `json:"_id"`
+	Score   float64                      `json:"_score"`
+	Index   string                       `json:"_index"`
+	Type    string                       `json:"_type"`
+	Version int64                        `json:"_version,omitempty"`
+	Source  SynapseWorkspaceBigdatapools `json:"_source"`
+	Sort    []interface{}                `json:"sort"`
+}
+
+type SynapseWorkspaceBigdatapoolsHits struct {
+	Total essdk.SearchTotal                 `json:"total"`
+	Hits  []SynapseWorkspaceBigdatapoolsHit `json:"hits"`
+}
+
+type SynapseWorkspaceBigdatapoolsSearchResponse struct {
+	PitID string                           `json:"pit_id"`
+	Hits  SynapseWorkspaceBigdatapoolsHits `json:"hits"`
+}
+
+type SynapseWorkspaceBigdatapoolsPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSynapseWorkspaceBigdatapoolsPaginator(filters []essdk.BoolFilter, limit *int64) (SynapseWorkspaceBigdatapoolsPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_synapse_workspacesbigdatapools", filters, limit)
+	if err != nil {
+		return SynapseWorkspaceBigdatapoolsPaginator{}, err
+	}
+
+	p := SynapseWorkspaceBigdatapoolsPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SynapseWorkspaceBigdatapoolsPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SynapseWorkspaceBigdatapoolsPaginator) NextPage(ctx context.Context) ([]SynapseWorkspaceBigdatapools, error) {
+	var response SynapseWorkspaceBigdatapoolsSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SynapseWorkspaceBigdatapools
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSynapseWorkspaceBigdatapoolsFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func ListSynapseWorkspaceBigdatapools(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSynapseWorkspaceBigdatapools")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSynapseWorkspaceBigdatapoolsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSynapseWorkspaceBigdatapoolsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSynapseWorkspaceBigdatapoolsFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func GetSynapseWorkspaceBigdatapools(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSynapseWorkspaceBigdatapools")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSynapseWorkspaceBigdatapoolsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSynapseWorkspaceBigdatapoolsFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SynapseWorkspaceBigdatapools =============================
+
+// ==========================  START: SynapseWorkspaceSqlpools =============================
+
+type SynapseWorkspaceSqlpools struct {
+	Description   azure.SynapseWorkspaceSqlpoolsDescription `json:"description"`
+	Metadata      azure.Metadata                            `json:"metadata"`
+	ResourceJobID int                                       `json:"resource_job_id"`
+	SourceJobID   int                                       `json:"source_job_id"`
+	ResourceType  string                                    `json:"resource_type"`
+	SourceType    string                                    `json:"source_type"`
+	ID            string                                    `json:"id"`
+	ARN           string                                    `json:"arn"`
+	SourceID      string                                    `json:"source_id"`
+}
+
+type SynapseWorkspaceSqlpoolsHit struct {
+	ID      string                   `json:"_id"`
+	Score   float64                  `json:"_score"`
+	Index   string                   `json:"_index"`
+	Type    string                   `json:"_type"`
+	Version int64                    `json:"_version,omitempty"`
+	Source  SynapseWorkspaceSqlpools `json:"_source"`
+	Sort    []interface{}            `json:"sort"`
+}
+
+type SynapseWorkspaceSqlpoolsHits struct {
+	Total essdk.SearchTotal             `json:"total"`
+	Hits  []SynapseWorkspaceSqlpoolsHit `json:"hits"`
+}
+
+type SynapseWorkspaceSqlpoolsSearchResponse struct {
+	PitID string                       `json:"pit_id"`
+	Hits  SynapseWorkspaceSqlpoolsHits `json:"hits"`
+}
+
+type SynapseWorkspaceSqlpoolsPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSynapseWorkspaceSqlpoolsPaginator(filters []essdk.BoolFilter, limit *int64) (SynapseWorkspaceSqlpoolsPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_synapse_workspacessqlpools", filters, limit)
+	if err != nil {
+		return SynapseWorkspaceSqlpoolsPaginator{}, err
+	}
+
+	p := SynapseWorkspaceSqlpoolsPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SynapseWorkspaceSqlpoolsPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SynapseWorkspaceSqlpoolsPaginator) NextPage(ctx context.Context) ([]SynapseWorkspaceSqlpools, error) {
+	var response SynapseWorkspaceSqlpoolsSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SynapseWorkspaceSqlpools
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSynapseWorkspaceSqlpoolsFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func ListSynapseWorkspaceSqlpools(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSynapseWorkspaceSqlpools")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSynapseWorkspaceSqlpoolsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSynapseWorkspaceSqlpoolsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSynapseWorkspaceSqlpoolsFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func GetSynapseWorkspaceSqlpools(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSynapseWorkspaceSqlpools")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSynapseWorkspaceSqlpoolsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSynapseWorkspaceSqlpoolsFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SynapseWorkspaceSqlpools =============================
+
 // ==========================  START: Location =============================
 
 type Location struct {
@@ -18584,6 +19324,156 @@ func GetAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 // ==========================  END: AdServicePrincipal =============================
 
+// ==========================  START: AnalysisServiceServer =============================
+
+type AnalysisServiceServer struct {
+	Description   azure.AnalysisServiceServerDescription `json:"description"`
+	Metadata      azure.Metadata                         `json:"metadata"`
+	ResourceJobID int                                    `json:"resource_job_id"`
+	SourceJobID   int                                    `json:"source_job_id"`
+	ResourceType  string                                 `json:"resource_type"`
+	SourceType    string                                 `json:"source_type"`
+	ID            string                                 `json:"id"`
+	ARN           string                                 `json:"arn"`
+	SourceID      string                                 `json:"source_id"`
+}
+
+type AnalysisServiceServerHit struct {
+	ID      string                `json:"_id"`
+	Score   float64               `json:"_score"`
+	Index   string                `json:"_index"`
+	Type    string                `json:"_type"`
+	Version int64                 `json:"_version,omitempty"`
+	Source  AnalysisServiceServer `json:"_source"`
+	Sort    []interface{}         `json:"sort"`
+}
+
+type AnalysisServiceServerHits struct {
+	Total essdk.SearchTotal          `json:"total"`
+	Hits  []AnalysisServiceServerHit `json:"hits"`
+}
+
+type AnalysisServiceServerSearchResponse struct {
+	PitID string                    `json:"pit_id"`
+	Hits  AnalysisServiceServerHits `json:"hits"`
+}
+
+type AnalysisServiceServerPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAnalysisServiceServerPaginator(filters []essdk.BoolFilter, limit *int64) (AnalysisServiceServerPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_analysisservice_servers", filters, limit)
+	if err != nil {
+		return AnalysisServiceServerPaginator{}, err
+	}
+
+	p := AnalysisServiceServerPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AnalysisServiceServerPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AnalysisServiceServerPaginator) NextPage(ctx context.Context) ([]AnalysisServiceServer, error) {
+	var response AnalysisServiceServerSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AnalysisServiceServer
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAnalysisServiceServerFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func ListAnalysisServiceServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAnalysisServiceServer")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewAnalysisServiceServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAnalysisServiceServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getAnalysisServiceServerFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+	"name":             "description.Server.name",
+	"resource_group":   "description.ResourceGroup",
+}
+
+func GetAnalysisServiceServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAnalysisServiceServer")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewAnalysisServiceServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAnalysisServiceServerFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AnalysisServiceServer =============================
+
 // ==========================  START: PostgresqlServer =============================
 
 type PostgresqlServer struct {
@@ -18733,6 +19623,154 @@ func GetPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 // ==========================  END: PostgresqlServer =============================
+
+// ==========================  START: PostgresqlFlexibleServer =============================
+
+type PostgresqlFlexibleServer struct {
+	Description   azure.PostgresqlFlexibleServerDescription `json:"description"`
+	Metadata      azure.Metadata                            `json:"metadata"`
+	ResourceJobID int                                       `json:"resource_job_id"`
+	SourceJobID   int                                       `json:"source_job_id"`
+	ResourceType  string                                    `json:"resource_type"`
+	SourceType    string                                    `json:"source_type"`
+	ID            string                                    `json:"id"`
+	ARN           string                                    `json:"arn"`
+	SourceID      string                                    `json:"source_id"`
+}
+
+type PostgresqlFlexibleServerHit struct {
+	ID      string                   `json:"_id"`
+	Score   float64                  `json:"_score"`
+	Index   string                   `json:"_index"`
+	Type    string                   `json:"_type"`
+	Version int64                    `json:"_version,omitempty"`
+	Source  PostgresqlFlexibleServer `json:"_source"`
+	Sort    []interface{}            `json:"sort"`
+}
+
+type PostgresqlFlexibleServerHits struct {
+	Total essdk.SearchTotal             `json:"total"`
+	Hits  []PostgresqlFlexibleServerHit `json:"hits"`
+}
+
+type PostgresqlFlexibleServerSearchResponse struct {
+	PitID string                       `json:"pit_id"`
+	Hits  PostgresqlFlexibleServerHits `json:"hits"`
+}
+
+type PostgresqlFlexibleServerPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewPostgresqlFlexibleServerPaginator(filters []essdk.BoolFilter, limit *int64) (PostgresqlFlexibleServerPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_dbforpostgresql_flexibleservers", filters, limit)
+	if err != nil {
+		return PostgresqlFlexibleServerPaginator{}, err
+	}
+
+	p := PostgresqlFlexibleServerPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p PostgresqlFlexibleServerPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p PostgresqlFlexibleServerPaginator) NextPage(ctx context.Context) ([]PostgresqlFlexibleServer, error) {
+	var response PostgresqlFlexibleServerSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []PostgresqlFlexibleServer
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listPostgresqlFlexibleServerFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func ListPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListPostgresqlFlexibleServer")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewPostgresqlFlexibleServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPostgresqlFlexibleServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getPostgresqlFlexibleServerFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func GetPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetPostgresqlFlexibleServer")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewPostgresqlFlexibleServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPostgresqlFlexibleServerFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: PostgresqlFlexibleServer =============================
 
 // ==========================  START: StorageSync =============================
 
@@ -19034,6 +20072,154 @@ func GetMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 // ==========================  END: MssqlManagedInstance =============================
 
+// ==========================  START: MssqlManagedInstanceDatabases =============================
+
+type MssqlManagedInstanceDatabases struct {
+	Description   azure.MssqlManagedInstanceDatabasesDescription `json:"description"`
+	Metadata      azure.Metadata                                 `json:"metadata"`
+	ResourceJobID int                                            `json:"resource_job_id"`
+	SourceJobID   int                                            `json:"source_job_id"`
+	ResourceType  string                                         `json:"resource_type"`
+	SourceType    string                                         `json:"source_type"`
+	ID            string                                         `json:"id"`
+	ARN           string                                         `json:"arn"`
+	SourceID      string                                         `json:"source_id"`
+}
+
+type MssqlManagedInstanceDatabasesHit struct {
+	ID      string                        `json:"_id"`
+	Score   float64                       `json:"_score"`
+	Index   string                        `json:"_index"`
+	Type    string                        `json:"_type"`
+	Version int64                         `json:"_version,omitempty"`
+	Source  MssqlManagedInstanceDatabases `json:"_source"`
+	Sort    []interface{}                 `json:"sort"`
+}
+
+type MssqlManagedInstanceDatabasesHits struct {
+	Total essdk.SearchTotal                  `json:"total"`
+	Hits  []MssqlManagedInstanceDatabasesHit `json:"hits"`
+}
+
+type MssqlManagedInstanceDatabasesSearchResponse struct {
+	PitID string                            `json:"pit_id"`
+	Hits  MssqlManagedInstanceDatabasesHits `json:"hits"`
+}
+
+type MssqlManagedInstanceDatabasesPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewMssqlManagedInstanceDatabasesPaginator(filters []essdk.BoolFilter, limit *int64) (MssqlManagedInstanceDatabasesPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_managedinstancesdatabases", filters, limit)
+	if err != nil {
+		return MssqlManagedInstanceDatabasesPaginator{}, err
+	}
+
+	p := MssqlManagedInstanceDatabasesPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p MssqlManagedInstanceDatabasesPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p MssqlManagedInstanceDatabasesPaginator) NextPage(ctx context.Context) ([]MssqlManagedInstanceDatabases, error) {
+	var response MssqlManagedInstanceDatabasesSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []MssqlManagedInstanceDatabases
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listMssqlManagedInstanceDatabasesFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func ListMssqlManagedInstanceDatabases(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListMssqlManagedInstanceDatabases")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewMssqlManagedInstanceDatabasesPaginator(essdk.BuildFilter(d.KeyColumnQuals, listMssqlManagedInstanceDatabasesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getMssqlManagedInstanceDatabasesFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func GetMssqlManagedInstanceDatabases(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetMssqlManagedInstanceDatabases")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewMssqlManagedInstanceDatabasesPaginator(essdk.BuildFilter(d.KeyColumnQuals, getMssqlManagedInstanceDatabasesFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: MssqlManagedInstanceDatabases =============================
+
 // ==========================  START: SqlDatabase =============================
 
 type SqlDatabase struct {
@@ -19333,6 +20519,302 @@ func GetSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 }
 
 // ==========================  END: SqlServer =============================
+
+// ==========================  START: SqlServerJobAgent =============================
+
+type SqlServerJobAgent struct {
+	Description   azure.SqlServerJobAgentDescription `json:"description"`
+	Metadata      azure.Metadata                     `json:"metadata"`
+	ResourceJobID int                                `json:"resource_job_id"`
+	SourceJobID   int                                `json:"source_job_id"`
+	ResourceType  string                             `json:"resource_type"`
+	SourceType    string                             `json:"source_type"`
+	ID            string                             `json:"id"`
+	ARN           string                             `json:"arn"`
+	SourceID      string                             `json:"source_id"`
+}
+
+type SqlServerJobAgentHit struct {
+	ID      string            `json:"_id"`
+	Score   float64           `json:"_score"`
+	Index   string            `json:"_index"`
+	Type    string            `json:"_type"`
+	Version int64             `json:"_version,omitempty"`
+	Source  SqlServerJobAgent `json:"_source"`
+	Sort    []interface{}     `json:"sort"`
+}
+
+type SqlServerJobAgentHits struct {
+	Total essdk.SearchTotal      `json:"total"`
+	Hits  []SqlServerJobAgentHit `json:"hits"`
+}
+
+type SqlServerJobAgentSearchResponse struct {
+	PitID string                `json:"pit_id"`
+	Hits  SqlServerJobAgentHits `json:"hits"`
+}
+
+type SqlServerJobAgentPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSqlServerJobAgentPaginator(filters []essdk.BoolFilter, limit *int64) (SqlServerJobAgentPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_serversjobagent", filters, limit)
+	if err != nil {
+		return SqlServerJobAgentPaginator{}, err
+	}
+
+	p := SqlServerJobAgentPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SqlServerJobAgentPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SqlServerJobAgentPaginator) NextPage(ctx context.Context) ([]SqlServerJobAgent, error) {
+	var response SqlServerJobAgentSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SqlServerJobAgent
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSqlServerJobAgentFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func ListSqlServerJobAgent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSqlServerJobAgent")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSqlServerJobAgentPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlServerJobAgentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSqlServerJobAgentFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func GetSqlServerJobAgent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSqlServerJobAgent")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSqlServerJobAgentPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlServerJobAgentFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SqlServerJobAgent =============================
+
+// ==========================  START: SqlVirtualClusters =============================
+
+type SqlVirtualClusters struct {
+	Description   azure.SqlVirtualClustersDescription `json:"description"`
+	Metadata      azure.Metadata                      `json:"metadata"`
+	ResourceJobID int                                 `json:"resource_job_id"`
+	SourceJobID   int                                 `json:"source_job_id"`
+	ResourceType  string                              `json:"resource_type"`
+	SourceType    string                              `json:"source_type"`
+	ID            string                              `json:"id"`
+	ARN           string                              `json:"arn"`
+	SourceID      string                              `json:"source_id"`
+}
+
+type SqlVirtualClustersHit struct {
+	ID      string             `json:"_id"`
+	Score   float64            `json:"_score"`
+	Index   string             `json:"_index"`
+	Type    string             `json:"_type"`
+	Version int64              `json:"_version,omitempty"`
+	Source  SqlVirtualClusters `json:"_source"`
+	Sort    []interface{}      `json:"sort"`
+}
+
+type SqlVirtualClustersHits struct {
+	Total essdk.SearchTotal       `json:"total"`
+	Hits  []SqlVirtualClustersHit `json:"hits"`
+}
+
+type SqlVirtualClustersSearchResponse struct {
+	PitID string                 `json:"pit_id"`
+	Hits  SqlVirtualClustersHits `json:"hits"`
+}
+
+type SqlVirtualClustersPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSqlVirtualClustersPaginator(filters []essdk.BoolFilter, limit *int64) (SqlVirtualClustersPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_virtualclusters", filters, limit)
+	if err != nil {
+		return SqlVirtualClustersPaginator{}, err
+	}
+
+	p := SqlVirtualClustersPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SqlVirtualClustersPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SqlVirtualClustersPaginator) NextPage(ctx context.Context) ([]SqlVirtualClusters, error) {
+	var response SqlVirtualClustersSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SqlVirtualClusters
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSqlVirtualClustersFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func ListSqlVirtualClusters(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSqlVirtualClusters")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSqlVirtualClustersPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlVirtualClustersFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSqlVirtualClustersFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func GetSqlVirtualClusters(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSqlVirtualClusters")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSqlVirtualClustersPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlVirtualClustersFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SqlVirtualClusters =============================
 
 // ==========================  START: SqlServerElasticPool =============================
 
@@ -19634,6 +21116,154 @@ func GetSqlServerVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plu
 }
 
 // ==========================  END: SqlServerVirtualMachine =============================
+
+// ==========================  START: SqlServerVirtualMachineGroup =============================
+
+type SqlServerVirtualMachineGroup struct {
+	Description   azure.SqlServerVirtualMachineGroupDescription `json:"description"`
+	Metadata      azure.Metadata                                `json:"metadata"`
+	ResourceJobID int                                           `json:"resource_job_id"`
+	SourceJobID   int                                           `json:"source_job_id"`
+	ResourceType  string                                        `json:"resource_type"`
+	SourceType    string                                        `json:"source_type"`
+	ID            string                                        `json:"id"`
+	ARN           string                                        `json:"arn"`
+	SourceID      string                                        `json:"source_id"`
+}
+
+type SqlServerVirtualMachineGroupHit struct {
+	ID      string                       `json:"_id"`
+	Score   float64                      `json:"_score"`
+	Index   string                       `json:"_index"`
+	Type    string                       `json:"_type"`
+	Version int64                        `json:"_version,omitempty"`
+	Source  SqlServerVirtualMachineGroup `json:"_source"`
+	Sort    []interface{}                `json:"sort"`
+}
+
+type SqlServerVirtualMachineGroupHits struct {
+	Total essdk.SearchTotal                 `json:"total"`
+	Hits  []SqlServerVirtualMachineGroupHit `json:"hits"`
+}
+
+type SqlServerVirtualMachineGroupSearchResponse struct {
+	PitID string                           `json:"pit_id"`
+	Hits  SqlServerVirtualMachineGroupHits `json:"hits"`
+}
+
+type SqlServerVirtualMachineGroupPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSqlServerVirtualMachineGroupPaginator(filters []essdk.BoolFilter, limit *int64) (SqlServerVirtualMachineGroupPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_virtualmachinegroups", filters, limit)
+	if err != nil {
+		return SqlServerVirtualMachineGroupPaginator{}, err
+	}
+
+	p := SqlServerVirtualMachineGroupPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SqlServerVirtualMachineGroupPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SqlServerVirtualMachineGroupPaginator) NextPage(ctx context.Context) ([]SqlServerVirtualMachineGroup, error) {
+	var response SqlServerVirtualMachineGroupSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SqlServerVirtualMachineGroup
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSqlServerVirtualMachineGroupFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func ListSqlServerVirtualMachineGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSqlServerVirtualMachineGroup")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSqlServerVirtualMachineGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlServerVirtualMachineGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSqlServerVirtualMachineGroupFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func GetSqlServerVirtualMachineGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSqlServerVirtualMachineGroup")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSqlServerVirtualMachineGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlServerVirtualMachineGroupFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SqlServerVirtualMachineGroup =============================
 
 // ==========================  START: SqlServerFlexibleServer =============================
 
