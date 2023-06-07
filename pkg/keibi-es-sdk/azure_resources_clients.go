@@ -90,7 +90,7 @@ func (p APIManagementPaginator) NextPage(ctx context.Context) ([]APIManagement, 
 }
 
 var listAPIManagementFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -124,7 +124,7 @@ func ListAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 }
 
 var getAPIManagementFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.APIManagement.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -240,7 +240,7 @@ func (p AutomationAccountsPaginator) NextPage(ctx context.Context) ([]Automation
 }
 
 var listAutomationAccountsFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -274,7 +274,7 @@ func ListAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.
 }
 
 var getAutomationAccountsFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -388,7 +388,7 @@ func (p AppConfigurationPaginator) NextPage(ctx context.Context) ([]AppConfigura
 }
 
 var listAppConfigurationFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListAppConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -422,7 +422,7 @@ func ListAppConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getAppConfigurationFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ConfigurationStore.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -538,7 +538,7 @@ func (p AppServiceEnvironmentPaginator) NextPage(ctx context.Context) ([]AppServ
 }
 
 var listAppServiceEnvironmentFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -572,7 +572,7 @@ func ListAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getAppServiceEnvironmentFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.AppServiceEnvironmentResource.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -688,7 +688,7 @@ func (p AppServiceFunctionAppPaginator) NextPage(ctx context.Context) ([]AppServ
 }
 
 var listAppServiceFunctionAppFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -722,7 +722,7 @@ func ListAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getAppServiceFunctionAppFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Site.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -838,7 +838,7 @@ func (p AppServiceWebAppPaginator) NextPage(ctx context.Context) ([]AppServiceWe
 }
 
 var listAppServiceWebAppFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -872,7 +872,7 @@ func ListAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getAppServiceWebAppFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Site.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -988,7 +988,7 @@ func (p AppServicePlanPaginator) NextPage(ctx context.Context) ([]AppServicePlan
 }
 
 var listAppServicePlanFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListAppServicePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1022,7 +1022,7 @@ func ListAppServicePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getAppServicePlanFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Site.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -1138,7 +1138,7 @@ func (p ComputeDiskPaginator) NextPage(ctx context.Context) ([]ComputeDisk, erro
 }
 
 var listComputeDiskFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeDisk(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1172,7 +1172,7 @@ func ListComputeDisk(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getComputeDiskFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Disk.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -1288,7 +1288,7 @@ func (p ComputeDiskReadOpsPaginator) NextPage(ctx context.Context) ([]ComputeDis
 }
 
 var listComputeDiskReadOpsFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeDiskReadOps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1322,7 +1322,7 @@ func ListComputeDiskReadOps(ctx context.Context, d *plugin.QueryData, _ *plugin.
 }
 
 var getComputeDiskReadOpsFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetComputeDiskReadOps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1436,7 +1436,7 @@ func (p ComputeDiskReadOpsDailyPaginator) NextPage(ctx context.Context) ([]Compu
 }
 
 var listComputeDiskReadOpsDailyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeDiskReadOpsDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1470,7 +1470,7 @@ func ListComputeDiskReadOpsDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 }
 
 var getComputeDiskReadOpsDailyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetComputeDiskReadOpsDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1584,7 +1584,7 @@ func (p ComputeDiskReadOpsHourlyPaginator) NextPage(ctx context.Context) ([]Comp
 }
 
 var listComputeDiskReadOpsHourlyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeDiskReadOpsHourly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1618,7 +1618,7 @@ func ListComputeDiskReadOpsHourly(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getComputeDiskReadOpsHourlyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetComputeDiskReadOpsHourly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1732,7 +1732,7 @@ func (p ComputeDiskWriteOpsPaginator) NextPage(ctx context.Context) ([]ComputeDi
 }
 
 var listComputeDiskWriteOpsFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeDiskWriteOps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1766,7 +1766,7 @@ func ListComputeDiskWriteOps(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getComputeDiskWriteOpsFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetComputeDiskWriteOps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1880,7 +1880,7 @@ func (p ComputeDiskWriteOpsDailyPaginator) NextPage(ctx context.Context) ([]Comp
 }
 
 var listComputeDiskWriteOpsDailyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeDiskWriteOpsDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1914,7 +1914,7 @@ func ListComputeDiskWriteOpsDaily(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getComputeDiskWriteOpsDailyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetComputeDiskWriteOpsDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -2028,7 +2028,7 @@ func (p ComputeDiskWriteOpsHourlyPaginator) NextPage(ctx context.Context) ([]Com
 }
 
 var listComputeDiskWriteOpsHourlyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeDiskWriteOpsHourly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -2062,7 +2062,7 @@ func ListComputeDiskWriteOpsHourly(ctx context.Context, d *plugin.QueryData, _ *
 }
 
 var getComputeDiskWriteOpsHourlyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetComputeDiskWriteOpsHourly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -2176,7 +2176,7 @@ func (p ComputeDiskAccessPaginator) NextPage(ctx context.Context) ([]ComputeDisk
 }
 
 var listComputeDiskAccessFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeDiskAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -2210,7 +2210,7 @@ func ListComputeDiskAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getComputeDiskAccessFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.DiskAccess.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -2326,7 +2326,7 @@ func (p ComputeVirtualMachineScaleSetPaginator) NextPage(ctx context.Context) ([
 }
 
 var listComputeVirtualMachineScaleSetFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeVirtualMachineScaleSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -2360,7 +2360,7 @@ func ListComputeVirtualMachineScaleSet(ctx context.Context, d *plugin.QueryData,
 }
 
 var getComputeVirtualMachineScaleSetFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.VirtualMachineScaleSet.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -2476,7 +2476,7 @@ func (p ComputeVirtualMachineScaleSetNetworkInterfacePaginator) NextPage(ctx con
 }
 
 var listComputeVirtualMachineScaleSetNetworkInterfaceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -2510,7 +2510,7 @@ func ListComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, d *p
 }
 
 var getComputeVirtualMachineScaleSetNetworkInterfaceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -2624,7 +2624,7 @@ func (p ComputeVirtualMachineScaleSetVmPaginator) NextPage(ctx context.Context) 
 }
 
 var listComputeVirtualMachineScaleSetVmFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeVirtualMachineScaleSetVm(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -2659,7 +2659,7 @@ func ListComputeVirtualMachineScaleSetVm(ctx context.Context, d *plugin.QueryDat
 
 var getComputeVirtualMachineScaleSetVmFilters = map[string]string{
 	"instance_id":      "description.ScaleSetVM.InstanceID",
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"resource_group":   "description.ResourceGroup",
 	"scale_set_name":   "description.VirtualMachineScaleSet.name",
 }
@@ -2775,7 +2775,7 @@ func (p ComputeSnapshotsPaginator) NextPage(ctx context.Context) ([]ComputeSnaps
 }
 
 var listComputeSnapshotsFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -2809,7 +2809,7 @@ func ListComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getComputeSnapshotsFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Snapshot.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -2925,7 +2925,7 @@ func (p ComputeAvailabilitySetPaginator) NextPage(ctx context.Context) ([]Comput
 }
 
 var listComputeAvailabilitySetFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -2959,7 +2959,7 @@ func ListComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plu
 }
 
 var getComputeAvailabilitySetFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.AvailabilitySet.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -3075,7 +3075,7 @@ func (p ComputeDiskEncryptionSetPaginator) NextPage(ctx context.Context) ([]Comp
 }
 
 var listComputeDiskEncryptionSetFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -3109,7 +3109,7 @@ func ListComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getComputeDiskEncryptionSetFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.DiskEncryptionSet.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -3225,7 +3225,7 @@ func (p ComputeGalleryPaginator) NextPage(ctx context.Context) ([]ComputeGallery
 }
 
 var listComputeGalleryFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeGallery(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -3259,7 +3259,7 @@ func ListComputeGallery(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getComputeGalleryFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Gallery.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -3375,7 +3375,7 @@ func (p ComputeImagePaginator) NextPage(ctx context.Context) ([]ComputeImage, er
 }
 
 var listComputeImageFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -3409,7 +3409,7 @@ func ListComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 var getComputeImageFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "Description.Image.Name",
 	"resource_group":   "Description.Image.ResourceGroup",
 }
@@ -3525,7 +3525,7 @@ func (p DataboxEdgeDevicePaginator) NextPage(ctx context.Context) ([]DataboxEdge
 }
 
 var listDataboxEdgeDeviceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListDataboxEdgeDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -3559,7 +3559,7 @@ func ListDataboxEdgeDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getDataboxEdgeDeviceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Device.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -3675,7 +3675,7 @@ func (p HealthcareServicePaginator) NextPage(ctx context.Context) ([]HealthcareS
 }
 
 var listHealthcareServiceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListHealthcareService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -3709,7 +3709,7 @@ func ListHealthcareService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getHealthcareServiceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ServicesDescription.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -3825,7 +3825,7 @@ func (p HpcCachePaginator) NextPage(ctx context.Context) ([]HpcCache, error) {
 }
 
 var listHpcCacheFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListHpcCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -3859,7 +3859,7 @@ func ListHpcCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 }
 
 var getHpcCacheFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Cache.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -3975,7 +3975,7 @@ func (p KeyVaultKeyPaginator) NextPage(ctx context.Context) ([]KeyVaultKey, erro
 }
 
 var listKeyVaultKeyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -4009,7 +4009,7 @@ func ListKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getKeyVaultKeyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Key.name",
 	"resource_group":   "description.ResourceGroup",
 	"vault_name":       "description.Vault.name",
@@ -4126,7 +4126,7 @@ func (p KubernetesClusterPaginator) NextPage(ctx context.Context) ([]KubernetesC
 }
 
 var listKubernetesClusterFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -4160,7 +4160,7 @@ func ListKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getKubernetesClusterFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ManagedCluster.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -4276,7 +4276,7 @@ func (p NetworkInterfacePaginator) NextPage(ctx context.Context) ([]NetworkInter
 }
 
 var listNetworkInterfaceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -4310,7 +4310,7 @@ func ListNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getNetworkInterfaceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Interface.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -4426,7 +4426,7 @@ func (p NetworkWatcherFlowLogPaginator) NextPage(ctx context.Context) ([]Network
 }
 
 var listNetworkWatcherFlowLogFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -4460,7 +4460,7 @@ func ListNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getNetworkWatcherFlowLogFilters = map[string]string{
-	"keibi_account_id":     "metadata.SourceID",
+	"kaytu_account_id":     "metadata.SourceID",
 	"name":                 "description.ManagedCluster.name",
 	"network_watcher_name": "description.NetworkWatcherName",
 	"resource_group":       "description.ResourceGroup",
@@ -4577,7 +4577,7 @@ func (p RouteTablesPaginator) NextPage(ctx context.Context) ([]RouteTables, erro
 }
 
 var listRouteTablesFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListRouteTables(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -4611,7 +4611,7 @@ func ListRouteTables(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getRouteTablesFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.RouteTable.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -4727,7 +4727,7 @@ func (p NetworkApplicationSecurityGroupsPaginator) NextPage(ctx context.Context)
 }
 
 var listNetworkApplicationSecurityGroupsFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListNetworkApplicationSecurityGroups(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -4761,7 +4761,7 @@ func ListNetworkApplicationSecurityGroups(ctx context.Context, d *plugin.QueryDa
 }
 
 var getNetworkApplicationSecurityGroupsFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ApplicationSecurityGroup.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -4877,7 +4877,7 @@ func (p NetworkAzureFirewallPaginator) NextPage(ctx context.Context) ([]NetworkA
 }
 
 var listNetworkAzureFirewallFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -4911,7 +4911,7 @@ func ListNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 var getNetworkAzureFirewallFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.AzureFirewall.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -5027,7 +5027,7 @@ func (p ExpressRouteCircuitPaginator) NextPage(ctx context.Context) ([]ExpressRo
 }
 
 var listExpressRouteCircuitFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListExpressRouteCircuit(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -5061,7 +5061,7 @@ func ListExpressRouteCircuit(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getExpressRouteCircuitFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ExpressRouteCircuit.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -5177,7 +5177,7 @@ func (p VirtualNetworkGatewayPaginator) NextPage(ctx context.Context) ([]Virtual
 }
 
 var listVirtualNetworkGatewayFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -5211,7 +5211,7 @@ func ListVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getVirtualNetworkGatewayFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.VirtualNetworkGateway.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -5327,7 +5327,7 @@ func (p DNSZonePaginator) NextPage(ctx context.Context) ([]DNSZone, error) {
 }
 
 var listDNSZoneFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListDNSZone(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -5361,7 +5361,7 @@ func ListDNSZone(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 var getDNSZoneFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Zone.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -5477,7 +5477,7 @@ func (p FirewallPolicyPaginator) NextPage(ctx context.Context) ([]FirewallPolicy
 }
 
 var listFirewallPolicyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -5511,7 +5511,7 @@ func ListFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getFirewallPolicyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.FirewallPolicy.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -5627,7 +5627,7 @@ func (p FrontdoorWebApplicationFirewallPolicyPaginator) NextPage(ctx context.Con
 }
 
 var listFrontdoorWebApplicationFirewallPolicyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListFrontdoorWebApplicationFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -5661,7 +5661,7 @@ func ListFrontdoorWebApplicationFirewallPolicy(ctx context.Context, d *plugin.Qu
 }
 
 var getFrontdoorWebApplicationFirewallPolicyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.WebApplicationFirewallPolicy.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -5777,7 +5777,7 @@ func (p LocalNetworkGatewayPaginator) NextPage(ctx context.Context) ([]LocalNetw
 }
 
 var listLocalNetworkGatewayFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -5811,7 +5811,7 @@ func ListLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getLocalNetworkGatewayFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.LocalNetworkGateway.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -5927,7 +5927,7 @@ func (p NatGatewayPaginator) NextPage(ctx context.Context) ([]NatGateway, error)
 }
 
 var listNatGatewayFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListNatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -5961,7 +5961,7 @@ func ListNatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 }
 
 var getNatGatewayFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.NatGateway.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -6077,7 +6077,7 @@ func (p PrivateLinkServicePaginator) NextPage(ctx context.Context) ([]PrivateLin
 }
 
 var listPrivateLinkServiceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6111,7 +6111,7 @@ func ListPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 }
 
 var getPrivateLinkServiceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.PrivateLinkService.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -6227,7 +6227,7 @@ func (p RouteFilterPaginator) NextPage(ctx context.Context) ([]RouteFilter, erro
 }
 
 var listRouteFilterFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListRouteFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6261,7 +6261,7 @@ func ListRouteFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getRouteFilterFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.RouteFilter.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -6377,7 +6377,7 @@ func (p VpnGatewayPaginator) NextPage(ctx context.Context) ([]VpnGateway, error)
 }
 
 var listVpnGatewayFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6411,7 +6411,7 @@ func ListVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 }
 
 var getVpnGatewayFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.VpnGateway.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -6527,7 +6527,7 @@ func (p PublicIPAddressPaginator) NextPage(ctx context.Context) ([]PublicIPAddre
 }
 
 var listPublicIPAddressFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6561,7 +6561,7 @@ func ListPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getPublicIPAddressFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.PublicIPAddress.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -6677,7 +6677,7 @@ func (p DNSZonesPaginator) NextPage(ctx context.Context) ([]DNSZones, error) {
 }
 
 var listDNSZonesFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6711,7 +6711,7 @@ func ListDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 }
 
 var getDNSZonesFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6825,7 +6825,7 @@ func (p DNSResolversPaginator) NextPage(ctx context.Context) ([]DNSResolvers, er
 }
 
 var listDNSResolversFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListDNSResolvers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6859,7 +6859,7 @@ func ListDNSResolvers(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 var getDNSResolversFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetDNSResolvers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6973,7 +6973,7 @@ func (p PrivateDNSZonesPaginator) NextPage(ctx context.Context) ([]PrivateDNSZon
 }
 
 var listPrivateDNSZonesFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7007,7 +7007,7 @@ func ListPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getPrivateDNSZonesFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7121,7 +7121,7 @@ func (p PrivateEndpointPaginator) NextPage(ctx context.Context) ([]PrivateEndpoi
 }
 
 var listPrivateEndpointFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7155,7 +7155,7 @@ func ListPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getPrivateEndpointFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7269,7 +7269,7 @@ func (p PolicyAssignmentPaginator) NextPage(ctx context.Context) ([]PolicyAssign
 }
 
 var listPolicyAssignmentFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListPolicyAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7303,7 +7303,7 @@ func ListPolicyAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getPolicyAssignmentFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Assignment.name",
 }
 
@@ -7418,7 +7418,7 @@ func (p RedisCachePaginator) NextPage(ctx context.Context) ([]RedisCache, error)
 }
 
 var listRedisCacheFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7452,7 +7452,7 @@ func ListRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 }
 
 var getRedisCacheFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ResourceType.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -7568,7 +7568,7 @@ func (p ResourceLinkPaginator) NextPage(ctx context.Context) ([]ResourceLink, er
 }
 
 var listResourceLinkFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7603,7 +7603,7 @@ func ListResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 var getResourceLinkFilters = map[string]string{
 	"id":               "description.ResourceLink.id",
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7717,7 +7717,7 @@ func (p RoleAssignmentPaginator) NextPage(ctx context.Context) ([]RoleAssignment
 }
 
 var listRoleAssignmentFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7752,7 +7752,7 @@ func ListRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 var getRoleAssignmentFilters = map[string]string{
 	"id":               "description.RoleAssignment.id",
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7866,7 +7866,7 @@ func (p RoleDefinitionPaginator) NextPage(ctx context.Context) ([]RoleDefinition
 }
 
 var listRoleDefinitionFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListRoleDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7900,7 +7900,7 @@ func ListRoleDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getRoleDefinitionFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.RoleDefinition.name",
 }
 
@@ -8015,7 +8015,7 @@ func (p PolicyDefinitionPaginator) NextPage(ctx context.Context) ([]PolicyDefini
 }
 
 var listPolicyDefinitionFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8049,7 +8049,7 @@ func ListPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getPolicyDefinitionFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Definition.Name",
 }
 
@@ -8164,7 +8164,7 @@ func (p SecurityCenterAutoProvisioningPaginator) NextPage(ctx context.Context) (
 }
 
 var listSecurityCenterAutoProvisioningFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSecurityCenterAutoProvisioning(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8198,7 +8198,7 @@ func ListSecurityCenterAutoProvisioning(ctx context.Context, d *plugin.QueryData
 }
 
 var getSecurityCenterAutoProvisioningFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.AutoProvisioningSetting.name",
 }
 
@@ -8313,7 +8313,7 @@ func (p SecurityCenterContactPaginator) NextPage(ctx context.Context) ([]Securit
 }
 
 var listSecurityCenterContactFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSecurityCenterContact(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8347,7 +8347,7 @@ func ListSecurityCenterContact(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getSecurityCenterContactFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Contact.name",
 }
 
@@ -8462,7 +8462,7 @@ func (p SecurityCenterJitNetworkAccessPolicyPaginator) NextPage(ctx context.Cont
 }
 
 var listSecurityCenterJitNetworkAccessPolicyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8496,7 +8496,7 @@ func ListSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.Que
 }
 
 var getSecurityCenterJitNetworkAccessPolicyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8610,7 +8610,7 @@ func (p SecurityCenterSettingPaginator) NextPage(ctx context.Context) ([]Securit
 }
 
 var listSecurityCenterSettingFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8644,7 +8644,7 @@ func ListSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getSecurityCenterSettingFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Setting.name",
 }
 
@@ -8759,7 +8759,7 @@ func (p SecurityCenterSubscriptionPricingPaginator) NextPage(ctx context.Context
 }
 
 var listSecurityCenterSubscriptionPricingFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8793,7 +8793,7 @@ func ListSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryD
 }
 
 var getSecurityCenterSubscriptionPricingFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Pricing.name",
 }
 
@@ -8908,7 +8908,7 @@ func (p SecurityCenterAutomationPaginator) NextPage(ctx context.Context) ([]Secu
 }
 
 var listSecurityCenterAutomationFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSecurityCenterAutomation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8942,7 +8942,7 @@ func ListSecurityCenterAutomation(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getSecurityCenterAutomationFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Automation.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -9058,7 +9058,7 @@ func (p SecurityCenterSubAssessmentPaginator) NextPage(ctx context.Context) ([]S
 }
 
 var listSecurityCenterSubAssessmentFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9092,7 +9092,7 @@ func ListSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _
 }
 
 var getSecurityCenterSubAssessmentFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9206,7 +9206,7 @@ func (p StorageContainerPaginator) NextPage(ctx context.Context) ([]StorageConta
 }
 
 var listStorageContainerFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9241,7 +9241,7 @@ func ListStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 var getStorageContainerFilters = map[string]string{
 	"account_name":     "description.AccountName",
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ListContainerItem.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -9357,7 +9357,7 @@ func (p StorageBlobPaginator) NextPage(ctx context.Context) ([]StorageBlob, erro
 }
 
 var listStorageBlobFilters = map[string]string{
-	"keibi_account_id":     "metadata.SourceID",
+	"kaytu_account_id":     "metadata.SourceID",
 	"resource_group":       "description.ResourceGroup",
 	"storage_account_name": "description.AccountName",
 }
@@ -9393,7 +9393,7 @@ func ListStorageBlob(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getStorageBlobFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetStorageBlob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9507,7 +9507,7 @@ func (p StorageBlobServicePaginator) NextPage(ctx context.Context) ([]StorageBlo
 }
 
 var listStorageBlobServiceFilters = map[string]string{
-	"keibi_account_id":     "metadata.SourceID",
+	"kaytu_account_id":     "metadata.SourceID",
 	"resource_group":       "description.ResourceGroup",
 	"storage_account_name": "description.AccountName",
 }
@@ -9543,7 +9543,7 @@ func ListStorageBlobService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 }
 
 var getStorageBlobServiceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetStorageBlobService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9657,7 +9657,7 @@ func (p StorageQueuePaginator) NextPage(ctx context.Context) ([]StorageQueue, er
 }
 
 var listStorageQueueFilters = map[string]string{
-	"keibi_account_id":     "metadata.SourceID",
+	"kaytu_account_id":     "metadata.SourceID",
 	"name":                 "description.Queue.Name",
 	"resource_group":       "description.ResourceGroup",
 	"storage_account_name": "description.AccountName",
@@ -9694,7 +9694,7 @@ func ListStorageQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 var getStorageQueueFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetStorageQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9808,7 +9808,7 @@ func (p StorageFileSharePaginator) NextPage(ctx context.Context) ([]StorageFileS
 }
 
 var listStorageFileShareFilters = map[string]string{
-	"keibi_account_id":     "metadata.SourceID",
+	"kaytu_account_id":     "metadata.SourceID",
 	"name":                 "description.FileShare.Name",
 	"resource_group":       "description.ResourceGroup",
 	"storage_account_name": "description.AccountName",
@@ -9845,7 +9845,7 @@ func ListStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getStorageFileShareFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9959,7 +9959,7 @@ func (p StorageTablePaginator) NextPage(ctx context.Context) ([]StorageTable, er
 }
 
 var listStorageTableFilters = map[string]string{
-	"keibi_account_id":     "metadata.SourceID",
+	"kaytu_account_id":     "metadata.SourceID",
 	"name":                 "description.Table.Name",
 	"resource_group":       "description.ResourceGroup",
 	"storage_account_name": "description.AccountName",
@@ -9996,7 +9996,7 @@ func ListStorageTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 var getStorageTableFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetStorageTable(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10110,7 +10110,7 @@ func (p StorageTableServicePaginator) NextPage(ctx context.Context) ([]StorageTa
 }
 
 var listStorageTableServiceFilters = map[string]string{
-	"keibi_account_id":     "metadata.SourceID",
+	"kaytu_account_id":     "metadata.SourceID",
 	"name":                 "description.TableService.Name",
 	"resource_group":       "description.ResourceGroup",
 	"storage_account_name": "description.AccountName",
@@ -10147,7 +10147,7 @@ func ListStorageTableService(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getStorageTableServiceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetStorageTableService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10261,7 +10261,7 @@ func (p SubnetPaginator) NextPage(ctx context.Context) ([]Subnet, error) {
 }
 
 var listSubnetFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSubnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10295,7 +10295,7 @@ func ListSubnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 }
 
 var getSubnetFilters = map[string]string{
-	"keibi_account_id":     "metadata.SourceID",
+	"kaytu_account_id":     "metadata.SourceID",
 	"name":                 "description.Subnet.name",
 	"resource_group":       "description.ResourceGroup",
 	"virtual_network_name": "description.VirtualNetworkName",
@@ -10412,7 +10412,7 @@ func (p VirtualNetworkPaginator) NextPage(ctx context.Context) ([]VirtualNetwork
 }
 
 var listVirtualNetworkFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListVirtualNetwork(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10446,7 +10446,7 @@ func ListVirtualNetwork(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getVirtualNetworkFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.VirtualNetwork.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -10562,7 +10562,7 @@ func (p TenantPaginator) NextPage(ctx context.Context) ([]Tenant, error) {
 }
 
 var listTenantFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10596,7 +10596,7 @@ func ListTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 }
 
 var getTenantFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10710,7 +10710,7 @@ func (p SubscriptionPaginator) NextPage(ctx context.Context) ([]Subscription, er
 }
 
 var listSubscriptionFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10744,7 +10744,7 @@ func ListSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 var getSubscriptionFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10858,7 +10858,7 @@ func (p ApplicationGatewayPaginator) NextPage(ctx context.Context) ([]Applicatio
 }
 
 var listApplicationGatewayFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListApplicationGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10892,7 +10892,7 @@ func ListApplicationGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 }
 
 var getApplicationGatewayFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ApplicationGateway.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -11008,7 +11008,7 @@ func (p BatchAccountPaginator) NextPage(ctx context.Context) ([]BatchAccount, er
 }
 
 var listBatchAccountFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListBatchAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -11042,7 +11042,7 @@ func ListBatchAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 var getBatchAccountFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Account.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -11158,7 +11158,7 @@ func (p CognitiveAccountPaginator) NextPage(ctx context.Context) ([]CognitiveAcc
 }
 
 var listCognitiveAccountFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -11192,7 +11192,7 @@ func ListCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getCognitiveAccountFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Account.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -11308,7 +11308,7 @@ func (p ComputeVirtualMachinePaginator) NextPage(ctx context.Context) ([]Compute
 }
 
 var listComputeVirtualMachineFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -11342,7 +11342,7 @@ func ListComputeVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getComputeVirtualMachineFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.VirtualMachine.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -11458,7 +11458,7 @@ func (p ComputeResourceSKUPaginator) NextPage(ctx context.Context) ([]ComputeRes
 }
 
 var listComputeResourceSKUFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeResourceSKU(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -11492,7 +11492,7 @@ func ListComputeResourceSKU(ctx context.Context, d *plugin.QueryData, _ *plugin.
 }
 
 var getComputeResourceSKUFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetComputeResourceSKU(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -11606,7 +11606,7 @@ func (p ComputeVirtualMachineCpuUtilizationPaginator) NextPage(ctx context.Conte
 }
 
 var listComputeVirtualMachineCpuUtilizationFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeVirtualMachineCpuUtilization(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -11640,7 +11640,7 @@ func ListComputeVirtualMachineCpuUtilization(ctx context.Context, d *plugin.Quer
 }
 
 var getComputeVirtualMachineCpuUtilizationFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetComputeVirtualMachineCpuUtilization(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -11754,7 +11754,7 @@ func (p ComputeVirtualMachineCpuUtilizationDailyPaginator) NextPage(ctx context.
 }
 
 var listComputeVirtualMachineCpuUtilizationDailyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -11788,7 +11788,7 @@ func ListComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, d *plugin
 }
 
 var getComputeVirtualMachineCpuUtilizationDailyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -11902,7 +11902,7 @@ func (p ComputeVirtualMachineCpuUtilizationHourlyPaginator) NextPage(ctx context
 }
 
 var listComputeVirtualMachineCpuUtilizationHourlyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -11936,7 +11936,7 @@ func ListComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, d *plugi
 }
 
 var getComputeVirtualMachineCpuUtilizationHourlyFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -12050,7 +12050,7 @@ func (p ContainerRegistryPaginator) NextPage(ctx context.Context) ([]ContainerRe
 }
 
 var listContainerRegistryFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -12084,7 +12084,7 @@ func ListContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getContainerRegistryFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Registry.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -12200,7 +12200,7 @@ func (p CosmosdbAccountPaginator) NextPage(ctx context.Context) ([]CosmosdbAccou
 }
 
 var listCosmosdbAccountFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -12234,7 +12234,7 @@ func ListCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getCosmosdbAccountFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.DatabaseAccountGetResults.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -12350,7 +12350,7 @@ func (p CosmosdbMongoDatabasePaginator) NextPage(ctx context.Context) ([]Cosmosd
 }
 
 var listCosmosdbMongoDatabaseFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -12385,7 +12385,7 @@ func ListCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plug
 
 var getCosmosdbMongoDatabaseFilters = map[string]string{
 	"account_name":     "description.Account.name",
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.MongoDatabase.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -12501,7 +12501,7 @@ func (p CosmosdbSqlDatabasePaginator) NextPage(ctx context.Context) ([]CosmosdbS
 }
 
 var listCosmosdbSqlDatabaseFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -12536,7 +12536,7 @@ func ListCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 var getCosmosdbSqlDatabaseFilters = map[string]string{
 	"account_name":     "description.Account.name",
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.SqlDatabase.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -12652,7 +12652,7 @@ func (p DataFactoryPaginator) NextPage(ctx context.Context) ([]DataFactory, erro
 }
 
 var listDataFactoryFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -12686,7 +12686,7 @@ func ListDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getDataFactoryFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Factory.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -12802,7 +12802,7 @@ func (p DataFactoryDatasetPaginator) NextPage(ctx context.Context) ([]DataFactor
 }
 
 var listDataFactoryDatasetFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListDataFactoryDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -12837,7 +12837,7 @@ func ListDataFactoryDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 var getDataFactoryDatasetFilters = map[string]string{
 	"factory_name":     "description.Factory.name",
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Dataset.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -12953,7 +12953,7 @@ func (p DataFactoryPipelinePaginator) NextPage(ctx context.Context) ([]DataFacto
 }
 
 var listDataFactoryPipelineFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -12988,7 +12988,7 @@ func ListDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 var getDataFactoryPipelineFilters = map[string]string{
 	"factory_name":     "description.Factory.name",
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Pipeline.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -13104,7 +13104,7 @@ func (p DataLakeAnalyticsAccountPaginator) NextPage(ctx context.Context) ([]Data
 }
 
 var listDataLakeAnalyticsAccountFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListDataLakeAnalyticsAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -13138,7 +13138,7 @@ func ListDataLakeAnalyticsAccount(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getDataLakeAnalyticsAccountFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.DataLakeAnalyticsAccount.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -13254,7 +13254,7 @@ func (p DataLakeStorePaginator) NextPage(ctx context.Context) ([]DataLakeStore, 
 }
 
 var listDataLakeStoreFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -13288,7 +13288,7 @@ func ListDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 }
 
 var getDataLakeStoreFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.DataLakeStoreAccount.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -13404,7 +13404,7 @@ func (p DiagnosticSettingPaginator) NextPage(ctx context.Context) ([]DiagnosticS
 }
 
 var listDiagnosticSettingFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -13438,7 +13438,7 @@ func ListDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getDiagnosticSettingFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.DiagnosticSettingsResource.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -13554,7 +13554,7 @@ func (p EventGridDomainPaginator) NextPage(ctx context.Context) ([]EventGridDoma
 }
 
 var listEventGridDomainFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListEventGridDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -13588,7 +13588,7 @@ func ListEventGridDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getEventGridDomainFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Domain.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -13704,7 +13704,7 @@ func (p EventGridTopicPaginator) NextPage(ctx context.Context) ([]EventGridTopic
 }
 
 var listEventGridTopicFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListEventGridTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -13738,7 +13738,7 @@ func ListEventGridTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getEventGridTopicFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Topic.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -13854,7 +13854,7 @@ func (p EventhubNamespacePaginator) NextPage(ctx context.Context) ([]EventhubNam
 }
 
 var listEventhubNamespaceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -13888,7 +13888,7 @@ func ListEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getEventhubNamespaceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.EHNamespace.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -14004,7 +14004,7 @@ func (p EventhubNamespaceEventhubPaginator) NextPage(ctx context.Context) ([]Eve
 }
 
 var listEventhubNamespaceEventhubFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -14038,7 +14038,7 @@ func ListEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *
 }
 
 var getEventhubNamespaceEventhubFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -14152,7 +14152,7 @@ func (p FrontdoorPaginator) NextPage(ctx context.Context) ([]Frontdoor, error) {
 }
 
 var listFrontdoorFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListFrontdoor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -14186,7 +14186,7 @@ func ListFrontdoor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 }
 
 var getFrontdoorFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.FrontDoor.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -14302,7 +14302,7 @@ func (p HdinsightClusterPaginator) NextPage(ctx context.Context) ([]HdinsightClu
 }
 
 var listHdinsightClusterFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -14336,7 +14336,7 @@ func ListHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getHdinsightClusterFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Cluster.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -14452,7 +14452,7 @@ func (p HybridComputeMachinePaginator) NextPage(ctx context.Context) ([]HybridCo
 }
 
 var listHybridComputeMachineFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -14486,7 +14486,7 @@ func ListHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 var getHybridComputeMachineFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Machine.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -14602,7 +14602,7 @@ func (p IOTHubPaginator) NextPage(ctx context.Context) ([]IOTHub, error) {
 }
 
 var listIOTHubFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListIOTHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -14636,7 +14636,7 @@ func ListIOTHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 }
 
 var getIOTHubFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.IotHubDescription.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -14752,7 +14752,7 @@ func (p IOTHubDpsPaginator) NextPage(ctx context.Context) ([]IOTHubDps, error) {
 }
 
 var listIOTHubDpsFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListIOTHubDps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -14786,7 +14786,7 @@ func ListIOTHubDps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 }
 
 var getIOTHubDpsFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.IotHubDps.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -14902,7 +14902,7 @@ func (p KeyVaultPaginator) NextPage(ctx context.Context) ([]KeyVault, error) {
 }
 
 var listKeyVaultFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListKeyVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -14936,7 +14936,7 @@ func ListKeyVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 }
 
 var getKeyVaultFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Resource.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -15052,7 +15052,7 @@ func (p KeyVaultDeletedVaultPaginator) NextPage(ctx context.Context) ([]KeyVault
 }
 
 var listKeyVaultDeletedVaultFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListKeyVaultDeletedVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -15086,7 +15086,7 @@ func ListKeyVaultDeletedVault(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 var getKeyVaultDeletedVaultFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Vault.name",
 	"region":           "description.Vault.Properties.Location",
 }
@@ -15202,7 +15202,7 @@ func (p KeyVaultManagedHardwareSecurityModulePaginator) NextPage(ctx context.Con
 }
 
 var listKeyVaultManagedHardwareSecurityModuleFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListKeyVaultManagedHardwareSecurityModule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -15236,7 +15236,7 @@ func ListKeyVaultManagedHardwareSecurityModule(ctx context.Context, d *plugin.Qu
 }
 
 var getKeyVaultManagedHardwareSecurityModuleFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ManagedHsm.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -15352,7 +15352,7 @@ func (p KeyVaultSecretPaginator) NextPage(ctx context.Context) ([]KeyVaultSecret
 }
 
 var listKeyVaultSecretFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -15386,7 +15386,7 @@ func ListKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getKeyVaultSecretFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.SecretItem.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -15502,7 +15502,7 @@ func (p KustoClusterPaginator) NextPage(ctx context.Context) ([]KustoCluster, er
 }
 
 var listKustoClusterFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -15536,7 +15536,7 @@ func ListKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 var getKustoClusterFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Cluster.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -15652,7 +15652,7 @@ func (p LogAlertPaginator) NextPage(ctx context.Context) ([]LogAlert, error) {
 }
 
 var listLogAlertFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListLogAlert(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -15686,7 +15686,7 @@ func ListLogAlert(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 }
 
 var getLogAlertFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ActivityLogAlertResource.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -15802,7 +15802,7 @@ func (p LogProfilePaginator) NextPage(ctx context.Context) ([]LogProfile, error)
 }
 
 var listLogProfileFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -15836,7 +15836,7 @@ func ListLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 }
 
 var getLogProfileFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.LogProfileResource.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -15952,7 +15952,7 @@ func (p LogicAppWorkflowPaginator) NextPage(ctx context.Context) ([]LogicAppWork
 }
 
 var listLogicAppWorkflowFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -15986,7 +15986,7 @@ func ListLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getLogicAppWorkflowFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Workflow.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -16102,7 +16102,7 @@ func (p MachineLearningWorkspacePaginator) NextPage(ctx context.Context) ([]Mach
 }
 
 var listMachineLearningWorkspaceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -16136,7 +16136,7 @@ func ListMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getMachineLearningWorkspaceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Workspace.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -16252,7 +16252,7 @@ func (p MariadbServerPaginator) NextPage(ctx context.Context) ([]MariadbServer, 
 }
 
 var listMariadbServerFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -16286,7 +16286,7 @@ func ListMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 }
 
 var getMariadbServerFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Server.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -16402,7 +16402,7 @@ func (p MariadbDatabasePaginator) NextPage(ctx context.Context) ([]MariadbDataba
 }
 
 var listMariadbDatabaseFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -16436,7 +16436,7 @@ func ListMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getMariadbDatabaseFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -16550,7 +16550,7 @@ func (p MysqlServerPaginator) NextPage(ctx context.Context) ([]MysqlServer, erro
 }
 
 var listMysqlServerFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -16584,7 +16584,7 @@ func ListMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getMysqlServerFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Server.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -16700,7 +16700,7 @@ func (p NetworkSecurityGroupPaginator) NextPage(ctx context.Context) ([]NetworkS
 }
 
 var listNetworkSecurityGroupFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListNetworkSecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -16734,7 +16734,7 @@ func ListNetworkSecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 var getNetworkSecurityGroupFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.SecurityGroup.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -16850,7 +16850,7 @@ func (p NetworkWatcherPaginator) NextPage(ctx context.Context) ([]NetworkWatcher
 }
 
 var listNetworkWatcherFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListNetworkWatcher(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -16884,7 +16884,7 @@ func ListNetworkWatcher(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getNetworkWatcherFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Watcher.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -17000,7 +17000,7 @@ func (p SearchServicePaginator) NextPage(ctx context.Context) ([]SearchService, 
 }
 
 var listSearchServiceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSearchService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -17034,7 +17034,7 @@ func ListSearchService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 }
 
 var getSearchServiceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Service.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -17150,7 +17150,7 @@ func (p ServiceFabricClusterPaginator) NextPage(ctx context.Context) ([]ServiceF
 }
 
 var listServiceFabricClusterFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -17184,7 +17184,7 @@ func ListServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 var getServiceFabricClusterFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Cluster.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -17300,7 +17300,7 @@ func (p ServicebusNamespacePaginator) NextPage(ctx context.Context) ([]Servicebu
 }
 
 var listServicebusNamespaceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -17334,7 +17334,7 @@ func ListServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getServicebusNamespaceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.SBNamespace.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -17450,7 +17450,7 @@ func (p SignalrServicePaginator) NextPage(ctx context.Context) ([]SignalrService
 }
 
 var listSignalrServiceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -17484,7 +17484,7 @@ func ListSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getSignalrServiceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ResourceType.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -17600,7 +17600,7 @@ func (p SpringCloudServicePaginator) NextPage(ctx context.Context) ([]SpringClou
 }
 
 var listSpringCloudServiceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -17634,7 +17634,7 @@ func ListSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 }
 
 var getSpringCloudServiceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ServiceResource.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -17750,7 +17750,7 @@ func (p StreamAnalyticsJobPaginator) NextPage(ctx context.Context) ([]StreamAnal
 }
 
 var listStreamAnalyticsJobFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListStreamAnalyticsJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -17784,7 +17784,7 @@ func ListStreamAnalyticsJob(ctx context.Context, d *plugin.QueryData, _ *plugin.
 }
 
 var getStreamAnalyticsJobFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.StreamingJob.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -17900,7 +17900,7 @@ func (p SynapseWorkspacePaginator) NextPage(ctx context.Context) ([]SynapseWorks
 }
 
 var listSynapseWorkspaceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -17934,7 +17934,7 @@ func ListSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getSynapseWorkspaceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Workspace.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -18050,7 +18050,7 @@ func (p LocationPaginator) NextPage(ctx context.Context) ([]Location, error) {
 }
 
 var listLocationFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListLocation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -18084,7 +18084,7 @@ func ListLocation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 }
 
 var getLocationFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Location.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -18204,7 +18204,7 @@ var listAdUsersFilters = map[string]string{
 	"display_name":        "description.AdUsers.displayName",
 	"filter":              "description.AdUsers.filter",
 	"id":                  "description.AdUsers.DirectoryObject.id",
-	"keibi_account_id":    "metadata.SourceID",
+	"kaytu_account_id":    "metadata.SourceID",
 	"surname":             "description.AdUsers.surname",
 	"user_principal_name": "description.AdUsers.userPrincipalName",
 	"user_type":           "description.AdUsers.userType",
@@ -18242,7 +18242,7 @@ func ListAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 var getAdUsersFilters = map[string]string{
 	"id":               "description.AdUsers.DirectoryObject.id",
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -18357,7 +18357,7 @@ func (p AdGroupPaginator) NextPage(ctx context.Context) ([]AdGroup, error) {
 
 var listAdGroupFilters = map[string]string{
 	"display_name":             "description.AdGroup.DisplayName",
-	"keibi_account_id":         "metadata.SourceID",
+	"kaytu_account_id":         "metadata.SourceID",
 	"mail":                     "description.AdGroup.Mail",
 	"mail_enabled":             "description.AdGroup.MailEnabled",
 	"on_premises_sync_enabled": "description.AdGroup.OnPremisesSyncEnabled",
@@ -18396,7 +18396,7 @@ func ListAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 var getAdGroupFilters = map[string]string{
 	"id":               "description.AdGroup.DirectoryObject.ID",
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -18512,7 +18512,7 @@ func (p AdServicePrincipalPaginator) NextPage(ctx context.Context) ([]AdServiceP
 var listAdServicePrincipalFilters = map[string]string{
 	"account_enabled":        "description.AdServicePrincipal.AccountEnabled",
 	"display_name":           "description.AdServicePrincipal.DisplayName",
-	"keibi_account_id":       "metadata.SourceID",
+	"kaytu_account_id":       "metadata.SourceID",
 	"service_principal_type": "description.AdServicePrincipal.ServicePrincipalType",
 }
 
@@ -18548,7 +18548,7 @@ func ListAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 var getAdServicePrincipalFilters = map[string]string{
 	"id":               "description.AdServicePrincipal.DirectoryObject.ID",
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -18662,7 +18662,7 @@ func (p PostgresqlServerPaginator) NextPage(ctx context.Context) ([]PostgresqlSe
 }
 
 var listPostgresqlServerFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -18696,7 +18696,7 @@ func ListPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getPostgresqlServerFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Server.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -18812,7 +18812,7 @@ func (p StorageSyncPaginator) NextPage(ctx context.Context) ([]StorageSync, erro
 }
 
 var listStorageSyncFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListStorageSync(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -18846,7 +18846,7 @@ func ListStorageSync(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getStorageSyncFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Service.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -18962,7 +18962,7 @@ func (p MssqlManagedInstancePaginator) NextPage(ctx context.Context) ([]MssqlMan
 }
 
 var listMssqlManagedInstanceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -18996,7 +18996,7 @@ func ListMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 var getMssqlManagedInstanceFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ManagedInstance.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -19112,7 +19112,7 @@ func (p SqlDatabasePaginator) NextPage(ctx context.Context) ([]SqlDatabase, erro
 }
 
 var listSqlDatabaseFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -19146,7 +19146,7 @@ func ListSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getSqlDatabaseFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Database.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -19262,7 +19262,7 @@ func (p SqlServerPaginator) NextPage(ctx context.Context) ([]SqlServer, error) {
 }
 
 var listSqlServerFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -19296,7 +19296,7 @@ func ListSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 }
 
 var getSqlServerFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Server.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -19412,7 +19412,7 @@ func (p SqlServerElasticPoolPaginator) NextPage(ctx context.Context) ([]SqlServe
 }
 
 var listSqlServerElasticPoolFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -19446,7 +19446,7 @@ func ListSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 var getSqlServerElasticPoolFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Pool.Name",
 	"resource_group":   "description.ResourceGroup",
 	"server_name":      "description.ServerName",
@@ -19563,7 +19563,7 @@ func (p SqlServerVirtualMachinePaginator) NextPage(ctx context.Context) ([]SqlSe
 }
 
 var listSqlServerVirtualMachineFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSqlServerVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -19597,7 +19597,7 @@ func ListSqlServerVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *pl
 }
 
 var getSqlServerVirtualMachineFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.VirtualMachine.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -19713,7 +19713,7 @@ func (p SqlServerFlexibleServerPaginator) NextPage(ctx context.Context) ([]SqlSe
 }
 
 var listSqlServerFlexibleServerFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -19747,7 +19747,7 @@ func ListSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *pl
 }
 
 var getSqlServerFlexibleServerFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.FlexibleServer.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -19863,7 +19863,7 @@ func (p StorageAccountPaginator) NextPage(ctx context.Context) ([]StorageAccount
 }
 
 var listStorageAccountFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -19897,7 +19897,7 @@ func ListStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getStorageAccountFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Account.name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -20013,7 +20013,7 @@ func (p RecoveryServicesVaultPaginator) NextPage(ctx context.Context) ([]Recover
 }
 
 var listRecoveryServicesVaultFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20047,7 +20047,7 @@ func ListRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getRecoveryServicesVaultFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Vault.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -20163,7 +20163,7 @@ func (p HybridKubernetesConnectedClusterPaginator) NextPage(ctx context.Context)
 }
 
 var listHybridKubernetesConnectedClusterFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListHybridKubernetesConnectedCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20197,7 +20197,7 @@ func ListHybridKubernetesConnectedCluster(ctx context.Context, d *plugin.QueryDa
 }
 
 var getHybridKubernetesConnectedClusterFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ConnectedCluster.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -20313,7 +20313,7 @@ func (p CostManagementCostByResourceTypePaginator) NextPage(ctx context.Context)
 }
 
 var listCostManagementCostByResourceTypeFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20347,7 +20347,7 @@ func ListCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryDa
 }
 
 var getCostManagementCostByResourceTypeFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20461,7 +20461,7 @@ func (p CostManagementCostBySubscriptionPaginator) NextPage(ctx context.Context)
 }
 
 var listCostManagementCostBySubscriptionFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20495,7 +20495,7 @@ func ListCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryDa
 }
 
 var getCostManagementCostBySubscriptionFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20609,7 +20609,7 @@ func (p LoadBalancerPaginator) NextPage(ctx context.Context) ([]LoadBalancer, er
 }
 
 var listLoadBalancerFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20643,7 +20643,7 @@ func ListLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 var getLoadBalancerFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.LoadBalancer.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -20759,7 +20759,7 @@ func (p LoadBalancerBackendAddressPoolPaginator) NextPage(ctx context.Context) (
 }
 
 var listLoadBalancerBackendAddressPoolFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListLoadBalancerBackendAddressPool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20793,7 +20793,7 @@ func ListLoadBalancerBackendAddressPool(ctx context.Context, d *plugin.QueryData
 }
 
 var getLoadBalancerBackendAddressPoolFilters = map[string]string{
-	"keibi_account_id":   "metadata.SourceID",
+	"kaytu_account_id":   "metadata.SourceID",
 	"load_balancer_name": "description.LoadBalancer.Name",
 	"name":               "description.Pool.Name",
 	"resource_group":     "description.ResourceGroup",
@@ -20910,7 +20910,7 @@ func (p LoadBalancerNatRulePaginator) NextPage(ctx context.Context) ([]LoadBalan
 }
 
 var listLoadBalancerNatRuleFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListLoadBalancerNatRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20944,7 +20944,7 @@ func ListLoadBalancerNatRule(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getLoadBalancerNatRuleFilters = map[string]string{
-	"keibi_account_id":   "metadata.SourceID",
+	"kaytu_account_id":   "metadata.SourceID",
 	"load_balancer_name": "description.LoadBalancerName",
 	"name":               "description.Rule.Name",
 	"resource_group":     "description.ResourceGroup",
@@ -21061,7 +21061,7 @@ func (p LoadBalancerOutboundRulePaginator) NextPage(ctx context.Context) ([]Load
 }
 
 var listLoadBalancerOutboundRuleFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListLoadBalancerOutboundRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -21095,7 +21095,7 @@ func ListLoadBalancerOutboundRule(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getLoadBalancerOutboundRuleFilters = map[string]string{
-	"keibi_account_id":   "metadata.SourceID",
+	"kaytu_account_id":   "metadata.SourceID",
 	"load_balancer_name": "description.LoadBalancerName",
 	"name":               "description.Rule.Name",
 	"resource_group":     "description.ResourceGroup",
@@ -21212,7 +21212,7 @@ func (p LoadBalancerProbePaginator) NextPage(ctx context.Context) ([]LoadBalance
 }
 
 var listLoadBalancerProbeFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListLoadBalancerProbe(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -21246,7 +21246,7 @@ func ListLoadBalancerProbe(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getLoadBalancerProbeFilters = map[string]string{
-	"keibi_account_id":   "metadata.SourceID",
+	"kaytu_account_id":   "metadata.SourceID",
 	"load_balancer_name": "description.LoadBalancerName",
 	"name":               "description.Probe.Name",
 	"resource_group":     "description.ResourceGroup",
@@ -21363,7 +21363,7 @@ func (p LoadBalancerRulePaginator) NextPage(ctx context.Context) ([]LoadBalancer
 }
 
 var listLoadBalancerRuleFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListLoadBalancerRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -21397,7 +21397,7 @@ func ListLoadBalancerRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getLoadBalancerRuleFilters = map[string]string{
-	"keibi_account_id":   "metadata.SourceID",
+	"kaytu_account_id":   "metadata.SourceID",
 	"load_balancer_name": "description.LoadBalancerName",
 	"name":               "description.Rule.Name",
 	"resource_group":     "description.ResourceGroup",
@@ -21514,7 +21514,7 @@ func (p ManagementGroupPaginator) NextPage(ctx context.Context) ([]ManagementGro
 }
 
 var listManagementGroupFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -21548,7 +21548,7 @@ func ListManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getManagementGroupFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Group.Name",
 }
 
@@ -21663,7 +21663,7 @@ func (p ManagementLockPaginator) NextPage(ctx context.Context) ([]ManagementLock
 }
 
 var listManagementLockFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -21697,7 +21697,7 @@ func ListManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getManagementLockFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Lock.Name",
 	"resource_group":   "description.ResourceGroup",
 }
@@ -21813,7 +21813,7 @@ func (p ResourceProviderPaginator) NextPage(ctx context.Context) ([]ResourceProv
 }
 
 var listResourceProviderFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListResourceProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -21847,7 +21847,7 @@ func ListResourceProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getResourceProviderFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"namespace":        "description.Provider.Namespace",
 }
 
@@ -21962,7 +21962,7 @@ func (p ResourceGroupPaginator) NextPage(ctx context.Context) ([]ResourceGroup, 
 }
 
 var listResourceGroupFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func ListResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -21996,7 +21996,7 @@ func ListResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 }
 
 var getResourceGroupFilters = map[string]string{
-	"keibi_account_id": "metadata.SourceID",
+	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Group.Name",
 }
 
