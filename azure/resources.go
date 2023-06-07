@@ -401,6 +401,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        nil,
 		TerraformServiceName: "",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Storage/tableServices": {
 		Connector:            source.CloudAzure,
@@ -431,6 +432,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        nil,
 		TerraformServiceName: "",
+		FastDiscovery:        true,
 	},
 	"Microsoft.Synapse/workspaces/sqlpools": {
 		Connector:            source.CloudAzure,
@@ -441,6 +443,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        nil,
 		TerraformServiceName: "",
+		FastDiscovery:        true,
 	},
 	"Microsoft.StreamAnalytics/streamingJobs": {
 		Connector:            source.CloudAzure,
