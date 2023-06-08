@@ -7,7 +7,6 @@ build:
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags "-w -extldflags -static" -o ./build/kaytu-azure-describer ./main.go
 	cd build && zip ./kaytu-azure-describer.zip ./kaytu-azure-describer
 	aws s3 cp ./build/kaytu-azure-describer.zip s3://lambda-describe-binary/kaytu-azure-describer.zip
-	aws lambda update-function-code --function-name DescribeAzure --region us-east-2 --s3-bucket lambda-describe-binary --s3-key kaytu-azure-describer.zip --no-cli-pager --no-cli-auto-prompt
 	aws lambda update-function-code --function-name kaytu-azure-describer --region us-east-2 --s3-bucket lambda-describe-binary --s3-key kaytu-azure-describer.zip --no-cli-pager --no-cli-auto-prompt
 
 build-cli:
