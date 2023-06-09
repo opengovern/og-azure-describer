@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"fmt"
+	compute2 "github.com/Azure/azure-sdk-for-go/profiles/latest/compute/mgmt/compute"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2017-09-01/skus"
@@ -1148,6 +1149,47 @@ func ComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, authorizer a
 				} else {
 					values = append(values, resource)
 				}
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
+func ComputeCloudServices(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := compute2.NewCloudServicesClient(subscription)
+	client.Authorizer = authorizer
+
+	result, err := client.ListAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, v := range result.Values() {
+			resource := Resource{
+				ID:       *v.ID,
+				Name:     *v.Name,
+				Location: *v.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeCloudServiceDescription{
+						CloudService: v,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
 			}
 		}
 		if !result.NotDone() {

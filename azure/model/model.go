@@ -14,21 +14,26 @@ import (
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/policy"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/resources"
 	sub "github.com/Azure/azure-sdk-for-go/profiles/latest/subscription/mgmt/subscription"
+	"github.com/Azure/azure-sdk-for-go/profiles/preview/preview/blueprint/mgmt/blueprint"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
 	"github.com/Azure/azure-sdk-for-go/services/analysisservices/mgmt/2017-08-01/analysisservices"
 	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2020-12-01/apimanagement"
 	"github.com/Azure/azure-sdk-for-go/services/appconfiguration/mgmt/2020-06-01/appconfiguration"
 	"github.com/Azure/azure-sdk-for-go/services/appplatform/mgmt/2020-07-01/appplatform"
 	"github.com/Azure/azure-sdk-for-go/services/batch/mgmt/2020-09-01/batch"
+	"github.com/Azure/azure-sdk-for-go/services/cdn/mgmt/2021-06-01/cdn"
 	"github.com/Azure/azure-sdk-for-go/services/cognitiveservices/mgmt/2021-04-30/cognitiveservices"
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2017-09-01/skus"
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2020-06-01/compute"
+	compute2 "github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2022-08-01/compute"
+	"github.com/Azure/azure-sdk-for-go/services/containerinstance/mgmt/2021-10-01/containerinstance"
 	"github.com/Azure/azure-sdk-for-go/services/containerservice/mgmt/2021-02-01/containerservice"
 	"github.com/Azure/azure-sdk-for-go/services/databoxedge/mgmt/2019-07-01/databoxedge"
 	"github.com/Azure/azure-sdk-for-go/services/databricks/mgmt/2018-04-01/databricks"
 	"github.com/Azure/azure-sdk-for-go/services/datafactory/mgmt/2018-06-01/datafactory"
 	analytics "github.com/Azure/azure-sdk-for-go/services/datalake/analytics/mgmt/2016-11-01/account"
 	store "github.com/Azure/azure-sdk-for-go/services/datalake/store/mgmt/2016-11-01/account"
+	"github.com/Azure/azure-sdk-for-go/services/dataprotection/mgmt/2021-07-01/dataprotection"
 	"github.com/Azure/azure-sdk-for-go/services/dns/mgmt/2018-05-01/dns"
 	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-05-01/frontdoor"
 	"github.com/Azure/azure-sdk-for-go/services/guestconfiguration/mgmt/2020-06-25/guestconfiguration"
@@ -42,12 +47,14 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2020-01-01/mysql"
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2021-05-01/mysqlflexibleservers"
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-02-01/network"
+	"github.com/Azure/azure-sdk-for-go/services/operationalinsights/mgmt/2021-06-01/operationalinsights"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2020-01-01/postgresql"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2021-06-01/postgresqlflexibleservers"
 	"github.com/Azure/azure-sdk-for-go/services/preview/authorization/mgmt/2018-09-01-preview/authorization"
 	"github.com/Azure/azure-sdk-for-go/services/preview/automation/mgmt/2020-01-13-preview/automation"
 	"github.com/Azure/azure-sdk-for-go/services/preview/containerregistry/mgmt/2022-02-01-preview/containerregistry"
 	"github.com/Azure/azure-sdk-for-go/services/preview/cosmos-db/mgmt/2021-11-15-preview/documentdb"
+	"github.com/Azure/azure-sdk-for-go/services/preview/datamigration/mgmt/2021-10-30-preview/datamigration"
 	"github.com/Azure/azure-sdk-for-go/services/preview/eventgrid/mgmt/2021-06-01-preview/eventgrid"
 	"github.com/Azure/azure-sdk-for-go/services/preview/eventhub/mgmt/2018-01-01-preview/eventhub"
 	previewKeyvault "github.com/Azure/azure-sdk-for-go/services/preview/keyvault/mgmt/2020-04-01-preview/keyvault"
@@ -59,6 +66,8 @@ import (
 	sqlv3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
 	sqlv5 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v5.0/sql"
 	"github.com/Azure/azure-sdk-for-go/services/preview/sqlvirtualmachine/mgmt/2021-11-01-preview/sqlvirtualmachine"
+	"github.com/Azure/azure-sdk-for-go/services/preview/timeseriesinsights/mgmt/2018-08-15-preview/timeseriesinsights"
+	web2 "github.com/Azure/azure-sdk-for-go/services/preview/web/mgmt/2015-08-01-preview/web"
 	"github.com/Azure/azure-sdk-for-go/services/privatedns/mgmt/2018-09-01/privatedns"
 	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2020-06-01/redis"
 	"github.com/Azure/azure-sdk-for-go/services/redisenterprise/mgmt/2022-01-01/redisenterprise"
@@ -70,8 +79,10 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/storagecache/mgmt/2021-05-01/storagecache"
 	"github.com/Azure/azure-sdk-for-go/services/storagesync/mgmt/2020-03-01/storagesync"
 	"github.com/Azure/azure-sdk-for-go/services/streamanalytics/mgmt/2016-03-01/streamanalytics"
+	streamanalytics2 "github.com/Azure/azure-sdk-for-go/services/streamanalytics/mgmt/2020-03-01/streamanalytics"
 	"github.com/Azure/azure-sdk-for-go/services/synapse/mgmt/2021-03-01/synapse"
-	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2020-06-01/web"
+	"github.com/Azure/azure-sdk-for-go/services/virtualmachineimagebuilder/mgmt/2020-02-14/virtualmachineimagebuilder"
+	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2021-03-01/web"
 	azblobOld "github.com/Azure/azure-storage-blob-go/azblob"
 	"github.com/manicminer/hamilton/msgraph"
 	"github.com/tombuildsstuff/giovanni/storage/2018-11-09/queue/queues"
@@ -145,7 +156,7 @@ type AppServiceWebAppDescription struct {
 	Site               web.Site
 	SiteAuthSettings   web.SiteAuthSettings
 	SiteConfigResource web.SiteConfigResource
-	VnetInfo           web.VnetInfo
+	VnetInfo           web.VnetInfoResource
 	ResourceGroup      string
 }
 
@@ -156,6 +167,32 @@ type AppServicePlanDescription struct {
 	Plan          web.AppServicePlan
 	Apps          []web.Site
 	ResourceGroup string
+}
+
+//index:microsoft_app_containerapp
+type ContainerAppDescription struct {
+	ResourceGroup string
+	Server        web.ContainerApp
+}
+
+//index:microsoft_app_managedenvironment
+type AppManagedEnvironmentDescription struct {
+	ResourceGroup      string
+	HostingEnvironment web2.HostingEnvironment
+}
+
+//index:microsoft_web_serverfarm
+type WebServerFarmsDescription struct {
+	ResourceGroup string
+	ServerFarm    web2.ServerFarmWithRichSku
+}
+
+//  =================== blueprint ==================
+
+//index:microsoft_blueprint_blueprint
+type BlueprintDescription struct {
+	ResourceGroup string
+	Blueprint     blueprint.Model
 }
 
 //  =================== compute ==================
@@ -326,6 +363,22 @@ type KubernetesClusterDescription struct {
 	ResourceGroup  string
 }
 
+//  =================== containerinstance ==================
+
+//index:microsoft_containerinstance_containergroup
+type ContainerInstanceContainerGroupDescription struct {
+	ResourceGroup  string
+	ContainerGroup containerinstance.ContainerGroup
+}
+
+//  =================== cdn ==================
+
+//index:microsoft_cdn_profile
+type CDNProfileDescription struct {
+	ResourceGroup string
+	Profile       cdn.Profile
+}
+
 //  =================== network ==================
 
 //index:microsoft_network_networkinterfaces
@@ -451,6 +504,19 @@ type VpnGatewayDescription struct {
 	ResourceGroup string
 }
 
+//index:microsoft_network_vpngatewayvpnconnection
+type VpnGatewayVpnConnectionDescription struct {
+	ResourceGroup string
+	VpnConnection network.VpnConnection
+	VpnGateway    network.VpnGateway
+}
+
+//index:microsoft_network_vpnsite
+type VpnSiteDescription struct {
+	ResourceGroup string
+	VpnSite       network.VpnSite
+}
+
 //index:microsoft_network_publicipaddresses
 //getfilter:name=description.PublicIPAddress.Name
 //getfilter:resource_group=description.ResourceGroup
@@ -459,10 +525,40 @@ type PublicIPAddressDescription struct {
 	ResourceGroup   string
 }
 
+//index:microsoft_network_publicipprefix
+type PublicIPPrefixDescription struct {
+	ResourceGroup  string
+	PublicIPPrefix network.PublicIPPrefix
+}
+
 //index:microsoft_network_dnszones
 type DNSZonesDescription struct {
 	ResourceGroup string
 	DNSZone       dns.Zone
+}
+
+//index:microsoft_network_bastianhosts
+type BastionHostsDescription struct {
+	ResourceGroup string
+	BastianHost   network.BastionHost
+}
+
+//index:microsoft_network_connection
+type ConnectionDescription struct {
+	ResourceGroup string
+	Connection    network.VirtualNetworkGatewayConnection
+}
+
+//index:microsoft_network_virtualhubs
+type VirtualHubsDescription struct {
+	ResourceGroup string
+	VirtualHub    network.VirtualHub
+}
+
+//index:microsoft_network_virtualwans
+type VirtualWansDescription struct {
+	ResourceGroup string
+	VirtualWan    network.VirtualWAN
 }
 
 //index:microsoft_network_dnsresolvers
@@ -758,6 +854,11 @@ type ComputeVirtualMachineCpuUtilizationHourlyDescription struct {
 	MonitoringMetric
 }
 
+//index:microsoft_compute_cloudservice
+type ComputeCloudServiceDescription struct {
+	CloudService compute2.CloudService
+}
+
 //  =================== containerregistry ==================
 
 //index:microsoft_containerregistry_registries
@@ -806,6 +907,28 @@ type CosmosdbSqlDatabaseDescription struct {
 type DatabricksWorkspaceDescription struct {
 	Workspace     databricks.Workspace
 	ResourceGroup string
+}
+
+//  =================== datamigration ==================
+
+//index:microsoft_datamigration_service
+type DataMigrationServiceDescription struct {
+	ResourceGroup string
+	Service       datamigration.Service
+}
+
+//  =================== dataprotection ==================
+
+//index:microsoft_dataprotection_backupvaults
+type DataProtectionBackupVaultsDescription struct {
+	ResourceGroup string
+	BackupVaults  dataprotection.BackupVaultResource
+}
+
+//index:microsoft_dataprotection_backupvaultsbackuppolicies
+type DataProtectionBackupVaultsBackupPoliciesDescription struct {
+	ResourceGroup  string
+	BackupPolicies dataprotection.BaseBackupPolicyResource
 }
 
 //  =================== datafactory ==================
@@ -1073,6 +1196,12 @@ type LogicAppWorkflowDescription struct {
 	ResourceGroup               string
 }
 
+//index:microsoft_logic_integrationaccounts
+type LogicIntegrationAccountsDescription struct {
+	ResourceGroup string
+	Account       logic.IntegrationAccount
+}
+
 //  =================== machinelearningservices ==================
 
 //index:microsoft_machinelearning_workspaces
@@ -1203,6 +1332,34 @@ type StreamAnalyticsJobDescription struct {
 	StreamingJob                streamanalytics.StreamingJob
 	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
 	ResourceGroup               string
+}
+
+//index:microsoft_streamanalytics_cluster
+type StreamAnalyticsClusterDescription struct {
+	ResourceGroup string
+	StreamingJob  streamanalytics2.Cluster
+}
+
+//index:microsoft_virtualmachineimages_imagetemplates
+type VirtualMachineImagesImageTemplatesDescription struct {
+	ResourceGroup string
+	ImageTemplate virtualmachineimagebuilder.ImageTemplate
+}
+
+//  =================== operationalinsights ==================
+
+//index:microsoft_operationalinsights_workspaces
+type OperationalInsightsWorkspacesDescription struct {
+	ResourceGroup string
+	Workspace     operationalinsights.Workspace
+}
+
+//  =================== timeseriesinsight ==================
+
+//index:microsoft_timeseriesinsight_environments
+type TimeSeriesInsightsEnvironmentsDescription struct {
+	ResourceGroup string
+	Environment   *timeseriesinsights.EnvironmentResource
 }
 
 //  =================== synapse ==================

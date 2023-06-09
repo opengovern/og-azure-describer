@@ -3,6 +3,8 @@ package describer
 import (
 	"context"
 	"fmt"
+	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/preview/preview/blueprint/mgmt/blueprint"
 	"github.com/Azure/go-autorest/autorest"
@@ -16,9 +18,13 @@ func BlueprintBlueprint(ctx context.Context, authorizer autorest.Authorizer, sub
 
 	var values []Resource
 	for _, v := range bps {
+		resourceGroupName := strings.Split(string(*v.ID), "/")[4]
 		resource := Resource{
-			ID:          *v.ID,
-			Description: JSONAllFieldsMarshaller{Value: v},
+			ID: *v.ID,
+			Description: JSONAllFieldsMarshaller{Value: model.BlueprintDescription{
+				Blueprint:     v,
+				ResourceGroup: resourceGroupName,
+			}},
 		}
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {

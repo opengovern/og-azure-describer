@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	streamanalytics2 "github.com/Azure/azure-sdk-for-go/profiles/latest/streamanalytics/mgmt/streamanalytics"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
@@ -41,6 +42,50 @@ func StreamAnalyticsJob(ctx context.Context, authorizer autorest.Authorizer, sub
 						StreamingJob:                streamingJob,
 						DiagnosticSettingsResources: streamanalyticsListOp.Value,
 						ResourceGroup:               resourceGroup,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
+func StreamAnalyticsCluster(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	streamingJobsClient := streamanalytics2.NewClustersClient(subscription)
+	streamingJobsClient.Authorizer = authorizer
+
+	result, err := streamingJobsClient.ListBySubscription(context.Background())
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, streamingJob := range result.Values() {
+			resourceGroup := strings.Split(*streamingJob.ID, "/")[4]
+
+			resource := Resource{
+				ID:       *streamingJob.ID,
+				Name:     *streamingJob.Name,
+				Location: *streamingJob.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.StreamAnalyticsClusterDescription{
+						StreamingJob:  streamingJob,
+						ResourceGroup: resourceGroup,
 					},
 				},
 			}

@@ -62,3 +62,47 @@ func LogicAppWorkflow(ctx context.Context, authorizer autorest.Authorizer, subsc
 	}
 	return values, nil
 }
+
+func LogicIntegrationAccounts(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	accountsClient := logic.NewIntegrationAccountsClient(subscription)
+	accountsClient.Authorizer = authorizer
+
+	result, err := accountsClient.ListBySubscription(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, account := range result.Values() {
+			resourceGroup := strings.Split(*account.ID, "/")[4]
+
+			resource := Resource{
+				ID:       *account.ID,
+				Name:     *account.Name,
+				Location: *account.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.LogicIntegrationAccountsDescription{
+						Account:       account,
+						ResourceGroup: resourceGroup,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}

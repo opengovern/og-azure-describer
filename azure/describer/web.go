@@ -2,9 +2,11 @@ package describer
 
 import (
 	"context"
+	"fmt"
+	web2 "github.com/Azure/azure-sdk-for-go/profiles/preview/preview/web/mgmt/web"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2020-06-01/web"
+	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2021-03-01/web"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
@@ -141,7 +143,7 @@ func AppServiceWebApp(ctx context.Context, authorizer autorest.Authorizer, subsc
 			}
 
 			// Return nil, if no virtual network is configured
-			var vnetInfo web.VnetInfo
+			var vnetInfo web.VnetInfoResource
 			if v.SiteConfig != nil && v.SiteConfig.VnetName != nil &&
 				*v.SiteConfig.VnetName != "" {
 				vnetInfo, err = webClient.GetVnetConnection(ctx, *v.SiteProperties.ResourceGroup, *v.Name, *v.SiteConfig.VnetName)
@@ -266,5 +268,135 @@ func AppServicePlan(ctx context.Context, authorizer autorest.Authorizer, subscri
 		}
 	}
 
+	return values, nil
+}
+
+func AppContainerApps(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := web.NewContainerAppsClient(subscription)
+	client.Authorizer = authorizer
+	result, err := client.ListBySubscription(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for {
+		for _, server := range result.Values() {
+			resourceGroupName := strings.Split(string(*server.ID), "/")[4]
+
+			resource := Resource{
+				ID:       *server.ID,
+				Name:     *server.Name,
+				Location: *server.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.ContainerAppDescription{
+						Server:        server,
+						ResourceGroup: resourceGroupName,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+
+		if !result.NotDone() {
+			break
+		}
+
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+	}
+	return values, nil
+}
+
+func AppManagedEnvironment(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := web2.NewManagedHostingEnvironmentsClient(subscription)
+	client.Authorizer = authorizer
+
+	it, err := client.GetManagedHostingEnvironmentsComplete(ctx, fmt.Sprintf("/subscriptions/%s", subscription))
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for v := it.Value(); it.NotDone(); v = it.Value() {
+		resourceGroupName := strings.Split(string(*v.ID), "/")[4]
+
+		resource := Resource{
+			ID:       *v.ID,
+			Name:     *v.Name,
+			Location: *v.Location,
+			Description: JSONAllFieldsMarshaller{
+				model.AppManagedEnvironmentDescription{
+					HostingEnvironment: v,
+					ResourceGroup:      resourceGroupName,
+				},
+			},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
+
+		err := it.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
+func WebServerFarms(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := web2.NewServerFarmsClient(subscription)
+	client.Authorizer = authorizer
+
+	it, err := client.GetServerFarms(ctx, fmt.Sprintf("/subscriptions/%s", subscription))
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, v := range it.Values() {
+			resourceGroupName := strings.Split(string(*v.ID), "/")[4]
+
+			resource := Resource{
+				ID:       *v.ID,
+				Name:     *v.Name,
+				Location: *v.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.WebServerFarmsDescription{
+						ServerFarm:    v,
+						ResourceGroup: resourceGroupName,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if !it.NotDone() {
+			break
+		}
+
+		err = it.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
 	return values, nil
 }

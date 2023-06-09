@@ -911,6 +911,117 @@ func VpnGateway(ctx context.Context, authorizer autorest.Authorizer, subscriptio
 	return values, nil
 }
 
+func NetworkVpnGatewaysVpnConnections(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := network.NewVpnGatewaysClient(subscription)
+	client.Authorizer = authorizer
+
+	connClient := network.NewVpnConnectionsClient(subscription)
+	connClient.Authorizer = authorizer
+
+	var values []Resource
+	result, err := client.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	for {
+		for _, vpnGateway := range result.Values() {
+			resourceGroup := strings.Split(*vpnGateway.ID, "/")[4]
+
+			connResult, err := connClient.ListByVpnGateway(ctx, resourceGroup, *vpnGateway.Name)
+			if err != nil {
+				return nil, err
+			}
+
+			for {
+				for _, vpnConn := range connResult.Values() {
+					resourceGroup := strings.Split(*vpnConn.ID, "/")[4]
+
+					resource := Resource{
+						ID:       *vpnConn.ID,
+						Name:     *vpnConn.Name,
+						Location: *vpnGateway.Location,
+						Description: JSONAllFieldsMarshaller{
+							model.VpnGatewayVpnConnectionDescription{
+								VpnConnection: vpnConn,
+								VpnGateway:    vpnGateway,
+								ResourceGroup: resourceGroup,
+							},
+						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+				if !result.NotDone() {
+					break
+				}
+				err = result.NextWithContext(ctx)
+				if err != nil {
+					return nil, err
+				}
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
+func NetworkVpnGatewaysVpnSites(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := network.NewVpnSitesClient(subscription)
+	client.Authorizer = authorizer
+
+	var values []Resource
+	result, err := client.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	for {
+		for _, v := range result.Values() {
+			resourceGroup := strings.Split(*v.ID, "/")[4]
+
+			resource := Resource{
+				ID:       *v.ID,
+				Name:     *v.Name,
+				Location: *v.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.VpnSiteDescription{
+						ResourceGroup: resourceGroup,
+						VpnSite:       v,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return values, nil
+}
+
 func PublicIPAddress(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
 	client := network.NewPublicIPAddressesClient(subscription)
 	client.Authorizer = authorizer
@@ -937,6 +1048,55 @@ func PublicIPAddress(ctx context.Context, authorizer autorest.Authorizer, subscr
 						model.PublicIPAddressDescription{
 							ResourceGroup:   *resourceGroup.Name,
 							PublicIPAddress: publicIPAddress,
+						},
+					},
+				}
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+			if !result.NotDone() {
+				break
+			}
+			err = result.NextWithContext(ctx)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
+	return values, nil
+}
+
+func PublicIPPrefix(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := network.NewPublicIPPrefixesClient(subscription)
+	client.Authorizer = authorizer
+
+	resourceGroups, err := listResourceGroups(ctx, authorizer, subscription)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, resourceGroup := range resourceGroups {
+		result, err := client.List(ctx, *resourceGroup.Name)
+		if err != nil {
+			return nil, err
+		}
+
+		for {
+			for _, publicIPPrefix := range result.Values() {
+				resource := Resource{
+					ID:       *publicIPPrefix.ID,
+					Name:     *publicIPPrefix.Name,
+					Location: *publicIPPrefix.Location,
+					Description: JSONAllFieldsMarshaller{
+						model.PublicIPPrefixDescription{
+							ResourceGroup:  *resourceGroup.Name,
+							PublicIPPrefix: publicIPPrefix,
 						},
 					},
 				}
@@ -1095,6 +1255,185 @@ func PrivateEndpoints(ctx context.Context, authorizer autorest.Authorizer, subsc
 			if err != nil {
 				return nil, err
 			}
+		}
+	}
+	return values, nil
+}
+
+func NetworkBastionHosts(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	bastianHostClient := network.NewBastionHostsClient(subscription)
+	bastianHostClient.Authorizer = authorizer
+
+	var values []Resource
+	result, err := bastianHostClient.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	for {
+		for _, v := range result.Values() {
+			resourceGroup := strings.Split(*v.ID, "/")[4]
+			resource := Resource{
+				ID:       *v.ID,
+				Name:     *v.Name,
+				Location: *v.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.BastionHostsDescription{
+						BastianHost:   v,
+						ResourceGroup: resourceGroup,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
+func NetworkConnections(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := network.NewVirtualNetworkGatewayConnectionsClient(subscription)
+	client.Authorizer = authorizer
+
+	resourceGroups, err := listResourceGroups(ctx, authorizer, subscription)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, resourceGroup := range resourceGroups {
+		result, err := client.List(ctx, *resourceGroup.Name)
+		if err != nil {
+			return nil, err
+		}
+
+		for {
+			for _, v := range result.Values() {
+				resourceGroupName := strings.Split(*v.ID, "/")[4]
+				resource := Resource{
+					ID:       *v.ID,
+					Name:     *v.Name,
+					Location: *v.Location,
+					Description: JSONAllFieldsMarshaller{
+						model.ConnectionDescription{
+							Connection:    v,
+							ResourceGroup: resourceGroupName,
+						},
+					},
+				}
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+			if !result.NotDone() {
+				break
+			}
+			err = result.NextWithContext(ctx)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
+	return values, nil
+}
+
+func NetworkVirtualHubs(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := network.NewVirtualHubsClient(subscription)
+	client.Authorizer = authorizer
+
+	var values []Resource
+	result, err := client.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	for {
+		for _, v := range result.Values() {
+			resourceGroupName := strings.Split(*v.ID, "/")[4]
+			resource := Resource{
+				ID:       *v.ID,
+				Name:     *v.Name,
+				Location: *v.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.VirtualHubsDescription{
+						VirtualHub:    v,
+						ResourceGroup: resourceGroupName,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
+func NetworkVirtualWans(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := network.NewVirtualWansClient(subscription)
+	client.Authorizer = authorizer
+
+	var values []Resource
+	result, err := client.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	for {
+		for _, v := range result.Values() {
+			resourceGroupName := strings.Split(*v.ID, "/")[4]
+			resource := Resource{
+				ID:       *v.ID,
+				Name:     *v.Name,
+				Location: *v.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.VirtualWansDescription{
+						VirtualWan:    v,
+						ResourceGroup: resourceGroupName,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
 		}
 	}
 	return values, nil
