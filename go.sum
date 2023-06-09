@@ -665,6 +665,8 @@ gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230606154356-0f91c7b0a
 gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230606154356-0f91c7b0a3db/go.mod h1:zMzFtR+qKP5Vote7jJJz4j/pG+DI3StS1gyEYc4wQIk=
 gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230609151943-76bdbeef2503 h1:TGkYUVTifbWWA3jlc0X3T5imXov23MrRUDUIMxKoskA=
 gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230609151943-76bdbeef2503/go.mod h1:5ilyFyGNc/7gRwcWWBIPwkeco+emazCMNElXl+8Hzw0=
+gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230609152219-500ff1cd8428 h1:ur73M4AGaEiLt/0c4FysfiJf0g7TyLSvkr3Fguzty44=
+gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230609152219-500ff1cd8428/go.mod h1:5ilyFyGNc/7gRwcWWBIPwkeco+emazCMNElXl+8Hzw0=
 gitlab.com/keibiengine/steampipe-plugin-azuread v0.1.1-0.20230606154406-90b091e46ef8 h1:kQEFCs3tEsnSZwRdRcIhT7xFEDR5BB9yTjD2MYh4wOY=
 gitlab.com/keibiengine/steampipe-plugin-azuread v0.1.1-0.20230606154406-90b091e46ef8/go.mod h1:I2OtV7nXc2ZW4RZGCxhMd/cFUBzgzhIV9gm0wyFdvas=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=
