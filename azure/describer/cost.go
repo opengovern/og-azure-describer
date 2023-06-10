@@ -82,7 +82,7 @@ func DailyCostByResourceType(ctx context.Context, authorizer autorest.Authorizer
 	triggerType := GetTriggerTypeFromContext(ctx)
 	from := time.Now().AddDate(0, 0, -7)
 	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
-		from = time.Now().AddDate(0, -1, -7)
+		from = time.Now().AddDate(0, -3, -7)
 	}
 
 	costResult, locationPtr, err := cost(ctx, authorizer, subscription, from, time.Now(), resourceTypeDimension)
@@ -123,7 +123,7 @@ func DailyCostBySubscription(ctx context.Context, authorizer autorest.Authorizer
 	triggerType := GetTriggerTypeFromContext(ctx)
 	from := time.Now().AddDate(0, 0, -7)
 	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
-		from = time.Now().AddDate(0, -1, -7)
+		from = time.Now().AddDate(0, -3, -7)
 	}
 
 	costResult, locationPtr, err := cost(ctx, authorizer, subscription, from, time.Now(), subscriptionDimension)
