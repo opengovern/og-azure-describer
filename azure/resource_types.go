@@ -226,9 +226,9 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
-	"Microsoft.Network/vpnGateways/vpnSites": {
+	"Microsoft.Network/vpnSites": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Network/vpnGateways/vpnSites",
+		ResourceName:         "Microsoft.Network/vpnSites",
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.NetworkVpnGatewaysVpnSites),
@@ -1293,9 +1293,9 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "network",
 		FastDiscovery:        true,
 	},
-	"Microsoft.Authorization/elevateAccessRoleAssignment": {
+	"Microsoft.Authorization/roleAssignment": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Authorization/elevateAccessRoleAssignment",
+		ResourceName:         "Microsoft.Authorization/roleAssignment",
 		ResourceLabel:        "",
 		ServiceName:          "Authorization",
 		ListDescriber:        DescribeBySubscription(describer.RoleAssignment),
