@@ -310,7 +310,7 @@ func ComputeVirtualMachine(ctx context.Context, authorizer autorest.Authorizer, 
 	networkClient.Authorizer = authorizer
 
 	networkPublicIPClient := network.NewPublicIPAddressesClient(subscription)
-	networkClient.Authorizer = authorizer
+	networkPublicIPClient.Authorizer = authorizer
 
 	client := compute.NewVirtualMachinesClient(subscription)
 	client.Authorizer = authorizer
