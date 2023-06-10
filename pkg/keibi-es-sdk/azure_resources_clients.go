@@ -201,7 +201,7 @@ type AutomationAccountsPaginator struct {
 }
 
 func (k Client) NewAutomationAccountsPaginator(filters []essdk.BoolFilter, limit *int64) (AutomationAccountsPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_automation_automationAccounts", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_automation_automationaccounts", filters, limit)
 	if err != nil {
 		return AutomationAccountsPaginator{}, err
 	}
@@ -1099,7 +1099,7 @@ type ContainerAppPaginator struct {
 }
 
 func (k Client) NewContainerAppPaginator(filters []essdk.BoolFilter, limit *int64) (ContainerAppPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_app_containerapp", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_app_containerapps", filters, limit)
 	if err != nil {
 		return ContainerAppPaginator{}, err
 	}
@@ -1247,7 +1247,7 @@ type AppManagedEnvironmentPaginator struct {
 }
 
 func (k Client) NewAppManagedEnvironmentPaginator(filters []essdk.BoolFilter, limit *int64) (AppManagedEnvironmentPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_app_managedenvironment", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_app_managedenvironments", filters, limit)
 	if err != nil {
 		return AppManagedEnvironmentPaginator{}, err
 	}
@@ -1395,7 +1395,7 @@ type WebServerFarmsPaginator struct {
 }
 
 func (k Client) NewWebServerFarmsPaginator(filters []essdk.BoolFilter, limit *int64) (WebServerFarmsPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_web_serverfarm", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_web_serverfarms", filters, limit)
 	if err != nil {
 		return WebServerFarmsPaginator{}, err
 	}
@@ -1543,7 +1543,7 @@ type BlueprintPaginator struct {
 }
 
 func (k Client) NewBlueprintPaginator(filters []essdk.BoolFilter, limit *int64) (BlueprintPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_blueprint_blueprint", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_blueprint_blueprints", filters, limit)
 	if err != nil {
 		return BlueprintPaginator{}, err
 	}
@@ -3029,7 +3029,7 @@ type ComputeVirtualMachineScaleSetNetworkInterfacePaginator struct {
 }
 
 func (k Client) NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(filters []essdk.BoolFilter, limit *int64) (ComputeVirtualMachineScaleSetNetworkInterfacePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_virtualmachinescalesetnetworkinterface", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_virtualmachinescalesets_networkinterfaces", filters, limit)
 	if err != nil {
 		return ComputeVirtualMachineScaleSetNetworkInterfacePaginator{}, err
 	}
@@ -3177,7 +3177,7 @@ type ComputeVirtualMachineScaleSetVmPaginator struct {
 }
 
 func (k Client) NewComputeVirtualMachineScaleSetVmPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeVirtualMachineScaleSetVmPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_virtualmachinescalesetvm", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_virtualmachinescalesets_virtualmachines", filters, limit)
 	if err != nil {
 		return ComputeVirtualMachineScaleSetVmPaginator{}, err
 	}
@@ -3478,7 +3478,7 @@ type ComputeAvailabilitySetPaginator struct {
 }
 
 func (k Client) NewComputeAvailabilitySetPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeAvailabilitySetPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_availabilityset", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_availabilitysets", filters, limit)
 	if err != nil {
 		return ComputeAvailabilitySetPaginator{}, err
 	}
@@ -3628,7 +3628,7 @@ type ComputeDiskEncryptionSetPaginator struct {
 }
 
 func (k Client) NewComputeDiskEncryptionSetPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeDiskEncryptionSetPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_diskencryptionset", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_diskencryptionsets", filters, limit)
 	if err != nil {
 		return ComputeDiskEncryptionSetPaginator{}, err
 	}
@@ -3739,156 +3739,6 @@ func GetComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *pl
 
 // ==========================  END: ComputeDiskEncryptionSet =============================
 
-// ==========================  START: ComputeGallery =============================
-
-type ComputeGallery struct {
-	Description   azure.ComputeGalleryDescription `json:"description"`
-	Metadata      azure.Metadata                  `json:"metadata"`
-	ResourceJobID int                             `json:"resource_job_id"`
-	SourceJobID   int                             `json:"source_job_id"`
-	ResourceType  string                          `json:"resource_type"`
-	SourceType    string                          `json:"source_type"`
-	ID            string                          `json:"id"`
-	ARN           string                          `json:"arn"`
-	SourceID      string                          `json:"source_id"`
-}
-
-type ComputeGalleryHit struct {
-	ID      string         `json:"_id"`
-	Score   float64        `json:"_score"`
-	Index   string         `json:"_index"`
-	Type    string         `json:"_type"`
-	Version int64          `json:"_version,omitempty"`
-	Source  ComputeGallery `json:"_source"`
-	Sort    []interface{}  `json:"sort"`
-}
-
-type ComputeGalleryHits struct {
-	Total essdk.SearchTotal   `json:"total"`
-	Hits  []ComputeGalleryHit `json:"hits"`
-}
-
-type ComputeGallerySearchResponse struct {
-	PitID string             `json:"pit_id"`
-	Hits  ComputeGalleryHits `json:"hits"`
-}
-
-type ComputeGalleryPaginator struct {
-	paginator *essdk.BaseESPaginator
-}
-
-func (k Client) NewComputeGalleryPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeGalleryPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_gallery", filters, limit)
-	if err != nil {
-		return ComputeGalleryPaginator{}, err
-	}
-
-	p := ComputeGalleryPaginator{
-		paginator: paginator,
-	}
-
-	return p, nil
-}
-
-func (p ComputeGalleryPaginator) HasNext() bool {
-	return !p.paginator.Done()
-}
-
-func (p ComputeGalleryPaginator) NextPage(ctx context.Context) ([]ComputeGallery, error) {
-	var response ComputeGallerySearchResponse
-	err := p.paginator.Search(ctx, &response)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []ComputeGallery
-	for _, hit := range response.Hits.Hits {
-		values = append(values, hit.Source)
-	}
-
-	hits := int64(len(response.Hits.Hits))
-	if hits > 0 {
-		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
-	} else {
-		p.paginator.UpdateState(hits, nil, "")
-	}
-
-	return values, nil
-}
-
-var listComputeGalleryFilters = map[string]string{
-	"kaytu_account_id": "metadata.SourceID",
-}
-
-func ListComputeGallery(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("ListComputeGallery")
-
-	// create service
-	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
-	if err != nil {
-		return nil, err
-	}
-	k := Client{Client: ke}
-
-	paginator, err := k.NewComputeGalleryPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeGalleryFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
-	if err != nil {
-		return nil, err
-	}
-
-	for paginator.HasNext() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page {
-			d.StreamListItem(ctx, v)
-		}
-	}
-
-	return nil, nil
-}
-
-var getComputeGalleryFilters = map[string]string{
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Gallery.Name",
-	"resource_group":   "description.ResourceGroup",
-}
-
-func GetComputeGallery(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("GetComputeGallery")
-
-	// create service
-	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
-	if err != nil {
-		return nil, err
-	}
-	k := Client{Client: ke}
-
-	limit := int64(1)
-	paginator, err := k.NewComputeGalleryPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeGalleryFilters, "azure", *cfg.AccountID), &limit)
-	if err != nil {
-		return nil, err
-	}
-
-	for paginator.HasNext() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page {
-			return v, nil
-		}
-	}
-
-	return nil, nil
-}
-
-// ==========================  END: ComputeGallery =============================
-
 // ==========================  START: ComputeImage =============================
 
 type ComputeImage struct {
@@ -3928,7 +3778,7 @@ type ComputeImagePaginator struct {
 }
 
 func (k Client) NewComputeImagePaginator(filters []essdk.BoolFilter, limit *int64) (ComputeImagePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_image", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_images", filters, limit)
 	if err != nil {
 		return ComputeImagePaginator{}, err
 	}
@@ -4829,7 +4679,7 @@ type ContainerInstanceContainerGroupPaginator struct {
 }
 
 func (k Client) NewContainerInstanceContainerGroupPaginator(filters []essdk.BoolFilter, limit *int64) (ContainerInstanceContainerGroupPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_containerinstance_containergroup", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_containerinstance_containergroups", filters, limit)
 	if err != nil {
 		return ContainerInstanceContainerGroupPaginator{}, err
 	}
@@ -4977,7 +4827,7 @@ type CDNProfilePaginator struct {
 }
 
 func (k Client) NewCDNProfilePaginator(filters []essdk.BoolFilter, limit *int64) (CDNProfilePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_cdn_profile", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_cdn_profiles", filters, limit)
 	if err != nil {
 		return CDNProfilePaginator{}, err
 	}
@@ -5275,7 +5125,7 @@ type NetworkWatcherFlowLogPaginator struct {
 }
 
 func (k Client) NewNetworkWatcherFlowLogPaginator(filters []essdk.BoolFilter, limit *int64) (NetworkWatcherFlowLogPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_networkwatchers", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_networkwatchers_flowlogs", filters, limit)
 	if err != nil {
 		return NetworkWatcherFlowLogPaginator{}, err
 	}
@@ -5726,7 +5576,7 @@ type NetworkAzureFirewallPaginator struct {
 }
 
 func (k Client) NewNetworkAzureFirewallPaginator(filters []essdk.BoolFilter, limit *int64) (NetworkAzureFirewallPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_azurefirewall", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_azurefirewalls", filters, limit)
 	if err != nil {
 		return NetworkAzureFirewallPaginator{}, err
 	}
@@ -5876,7 +5726,7 @@ type ExpressRouteCircuitPaginator struct {
 }
 
 func (k Client) NewExpressRouteCircuitPaginator(filters []essdk.BoolFilter, limit *int64) (ExpressRouteCircuitPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_expressroutecircuit", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_expressroutecircuits", filters, limit)
 	if err != nil {
 		return ExpressRouteCircuitPaginator{}, err
 	}
@@ -6026,7 +5876,7 @@ type VirtualNetworkGatewayPaginator struct {
 }
 
 func (k Client) NewVirtualNetworkGatewayPaginator(filters []essdk.BoolFilter, limit *int64) (VirtualNetworkGatewayPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_virtualnetworkgateway", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_virtualnetworkgateways", filters, limit)
 	if err != nil {
 		return VirtualNetworkGatewayPaginator{}, err
 	}
@@ -6137,156 +5987,6 @@ func GetVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 // ==========================  END: VirtualNetworkGateway =============================
 
-// ==========================  START: DNSZone =============================
-
-type DNSZone struct {
-	Description   azure.DNSZoneDescription `json:"description"`
-	Metadata      azure.Metadata           `json:"metadata"`
-	ResourceJobID int                      `json:"resource_job_id"`
-	SourceJobID   int                      `json:"source_job_id"`
-	ResourceType  string                   `json:"resource_type"`
-	SourceType    string                   `json:"source_type"`
-	ID            string                   `json:"id"`
-	ARN           string                   `json:"arn"`
-	SourceID      string                   `json:"source_id"`
-}
-
-type DNSZoneHit struct {
-	ID      string        `json:"_id"`
-	Score   float64       `json:"_score"`
-	Index   string        `json:"_index"`
-	Type    string        `json:"_type"`
-	Version int64         `json:"_version,omitempty"`
-	Source  DNSZone       `json:"_source"`
-	Sort    []interface{} `json:"sort"`
-}
-
-type DNSZoneHits struct {
-	Total essdk.SearchTotal `json:"total"`
-	Hits  []DNSZoneHit      `json:"hits"`
-}
-
-type DNSZoneSearchResponse struct {
-	PitID string      `json:"pit_id"`
-	Hits  DNSZoneHits `json:"hits"`
-}
-
-type DNSZonePaginator struct {
-	paginator *essdk.BaseESPaginator
-}
-
-func (k Client) NewDNSZonePaginator(filters []essdk.BoolFilter, limit *int64) (DNSZonePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_dnszone", filters, limit)
-	if err != nil {
-		return DNSZonePaginator{}, err
-	}
-
-	p := DNSZonePaginator{
-		paginator: paginator,
-	}
-
-	return p, nil
-}
-
-func (p DNSZonePaginator) HasNext() bool {
-	return !p.paginator.Done()
-}
-
-func (p DNSZonePaginator) NextPage(ctx context.Context) ([]DNSZone, error) {
-	var response DNSZoneSearchResponse
-	err := p.paginator.Search(ctx, &response)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []DNSZone
-	for _, hit := range response.Hits.Hits {
-		values = append(values, hit.Source)
-	}
-
-	hits := int64(len(response.Hits.Hits))
-	if hits > 0 {
-		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
-	} else {
-		p.paginator.UpdateState(hits, nil, "")
-	}
-
-	return values, nil
-}
-
-var listDNSZoneFilters = map[string]string{
-	"kaytu_account_id": "metadata.SourceID",
-}
-
-func ListDNSZone(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("ListDNSZone")
-
-	// create service
-	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
-	if err != nil {
-		return nil, err
-	}
-	k := Client{Client: ke}
-
-	paginator, err := k.NewDNSZonePaginator(essdk.BuildFilter(d.KeyColumnQuals, listDNSZoneFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
-	if err != nil {
-		return nil, err
-	}
-
-	for paginator.HasNext() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page {
-			d.StreamListItem(ctx, v)
-		}
-	}
-
-	return nil, nil
-}
-
-var getDNSZoneFilters = map[string]string{
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Zone.Name",
-	"resource_group":   "description.ResourceGroup",
-}
-
-func GetDNSZone(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("GetDNSZone")
-
-	// create service
-	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
-	if err != nil {
-		return nil, err
-	}
-	k := Client{Client: ke}
-
-	limit := int64(1)
-	paginator, err := k.NewDNSZonePaginator(essdk.BuildFilter(d.KeyColumnQuals, getDNSZoneFilters, "azure", *cfg.AccountID), &limit)
-	if err != nil {
-		return nil, err
-	}
-
-	for paginator.HasNext() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page {
-			return v, nil
-		}
-	}
-
-	return nil, nil
-}
-
-// ==========================  END: DNSZone =============================
-
 // ==========================  START: FirewallPolicy =============================
 
 type FirewallPolicy struct {
@@ -6326,7 +6026,7 @@ type FirewallPolicyPaginator struct {
 }
 
 func (k Client) NewFirewallPolicyPaginator(filters []essdk.BoolFilter, limit *int64) (FirewallPolicyPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_firewallpolicy", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_firewallpolicies", filters, limit)
 	if err != nil {
 		return FirewallPolicyPaginator{}, err
 	}
@@ -6437,156 +6137,6 @@ func GetFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 // ==========================  END: FirewallPolicy =============================
 
-// ==========================  START: FrontdoorWebApplicationFirewallPolicy =============================
-
-type FrontdoorWebApplicationFirewallPolicy struct {
-	Description   azure.FrontdoorWebApplicationFirewallPolicyDescription `json:"description"`
-	Metadata      azure.Metadata                                         `json:"metadata"`
-	ResourceJobID int                                                    `json:"resource_job_id"`
-	SourceJobID   int                                                    `json:"source_job_id"`
-	ResourceType  string                                                 `json:"resource_type"`
-	SourceType    string                                                 `json:"source_type"`
-	ID            string                                                 `json:"id"`
-	ARN           string                                                 `json:"arn"`
-	SourceID      string                                                 `json:"source_id"`
-}
-
-type FrontdoorWebApplicationFirewallPolicyHit struct {
-	ID      string                                `json:"_id"`
-	Score   float64                               `json:"_score"`
-	Index   string                                `json:"_index"`
-	Type    string                                `json:"_type"`
-	Version int64                                 `json:"_version,omitempty"`
-	Source  FrontdoorWebApplicationFirewallPolicy `json:"_source"`
-	Sort    []interface{}                         `json:"sort"`
-}
-
-type FrontdoorWebApplicationFirewallPolicyHits struct {
-	Total essdk.SearchTotal                          `json:"total"`
-	Hits  []FrontdoorWebApplicationFirewallPolicyHit `json:"hits"`
-}
-
-type FrontdoorWebApplicationFirewallPolicySearchResponse struct {
-	PitID string                                    `json:"pit_id"`
-	Hits  FrontdoorWebApplicationFirewallPolicyHits `json:"hits"`
-}
-
-type FrontdoorWebApplicationFirewallPolicyPaginator struct {
-	paginator *essdk.BaseESPaginator
-}
-
-func (k Client) NewFrontdoorWebApplicationFirewallPolicyPaginator(filters []essdk.BoolFilter, limit *int64) (FrontdoorWebApplicationFirewallPolicyPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_frontdoorwebapplicationfirewallpolicy", filters, limit)
-	if err != nil {
-		return FrontdoorWebApplicationFirewallPolicyPaginator{}, err
-	}
-
-	p := FrontdoorWebApplicationFirewallPolicyPaginator{
-		paginator: paginator,
-	}
-
-	return p, nil
-}
-
-func (p FrontdoorWebApplicationFirewallPolicyPaginator) HasNext() bool {
-	return !p.paginator.Done()
-}
-
-func (p FrontdoorWebApplicationFirewallPolicyPaginator) NextPage(ctx context.Context) ([]FrontdoorWebApplicationFirewallPolicy, error) {
-	var response FrontdoorWebApplicationFirewallPolicySearchResponse
-	err := p.paginator.Search(ctx, &response)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []FrontdoorWebApplicationFirewallPolicy
-	for _, hit := range response.Hits.Hits {
-		values = append(values, hit.Source)
-	}
-
-	hits := int64(len(response.Hits.Hits))
-	if hits > 0 {
-		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
-	} else {
-		p.paginator.UpdateState(hits, nil, "")
-	}
-
-	return values, nil
-}
-
-var listFrontdoorWebApplicationFirewallPolicyFilters = map[string]string{
-	"kaytu_account_id": "metadata.SourceID",
-}
-
-func ListFrontdoorWebApplicationFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("ListFrontdoorWebApplicationFirewallPolicy")
-
-	// create service
-	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
-	if err != nil {
-		return nil, err
-	}
-	k := Client{Client: ke}
-
-	paginator, err := k.NewFrontdoorWebApplicationFirewallPolicyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listFrontdoorWebApplicationFirewallPolicyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
-	if err != nil {
-		return nil, err
-	}
-
-	for paginator.HasNext() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page {
-			d.StreamListItem(ctx, v)
-		}
-	}
-
-	return nil, nil
-}
-
-var getFrontdoorWebApplicationFirewallPolicyFilters = map[string]string{
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.WebApplicationFirewallPolicy.Name",
-	"resource_group":   "description.ResourceGroup",
-}
-
-func GetFrontdoorWebApplicationFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("GetFrontdoorWebApplicationFirewallPolicy")
-
-	// create service
-	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
-	if err != nil {
-		return nil, err
-	}
-	k := Client{Client: ke}
-
-	limit := int64(1)
-	paginator, err := k.NewFrontdoorWebApplicationFirewallPolicyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getFrontdoorWebApplicationFirewallPolicyFilters, "azure", *cfg.AccountID), &limit)
-	if err != nil {
-		return nil, err
-	}
-
-	for paginator.HasNext() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page {
-			return v, nil
-		}
-	}
-
-	return nil, nil
-}
-
-// ==========================  END: FrontdoorWebApplicationFirewallPolicy =============================
-
 // ==========================  START: LocalNetworkGateway =============================
 
 type LocalNetworkGateway struct {
@@ -6626,7 +6176,7 @@ type LocalNetworkGatewayPaginator struct {
 }
 
 func (k Client) NewLocalNetworkGatewayPaginator(filters []essdk.BoolFilter, limit *int64) (LocalNetworkGatewayPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_localnetworkgateway", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_localnetworkgateways", filters, limit)
 	if err != nil {
 		return LocalNetworkGatewayPaginator{}, err
 	}
@@ -6926,7 +6476,7 @@ type PrivateLinkServicePaginator struct {
 }
 
 func (k Client) NewPrivateLinkServicePaginator(filters []essdk.BoolFilter, limit *int64) (PrivateLinkServicePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_privatelinkservice", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_privatelinkservices", filters, limit)
 	if err != nil {
 		return PrivateLinkServicePaginator{}, err
 	}
@@ -7037,156 +6587,6 @@ func GetPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 // ==========================  END: PrivateLinkService =============================
 
-// ==========================  START: RouteFilter =============================
-
-type RouteFilter struct {
-	Description   azure.RouteFilterDescription `json:"description"`
-	Metadata      azure.Metadata               `json:"metadata"`
-	ResourceJobID int                          `json:"resource_job_id"`
-	SourceJobID   int                          `json:"source_job_id"`
-	ResourceType  string                       `json:"resource_type"`
-	SourceType    string                       `json:"source_type"`
-	ID            string                       `json:"id"`
-	ARN           string                       `json:"arn"`
-	SourceID      string                       `json:"source_id"`
-}
-
-type RouteFilterHit struct {
-	ID      string        `json:"_id"`
-	Score   float64       `json:"_score"`
-	Index   string        `json:"_index"`
-	Type    string        `json:"_type"`
-	Version int64         `json:"_version,omitempty"`
-	Source  RouteFilter   `json:"_source"`
-	Sort    []interface{} `json:"sort"`
-}
-
-type RouteFilterHits struct {
-	Total essdk.SearchTotal `json:"total"`
-	Hits  []RouteFilterHit  `json:"hits"`
-}
-
-type RouteFilterSearchResponse struct {
-	PitID string          `json:"pit_id"`
-	Hits  RouteFilterHits `json:"hits"`
-}
-
-type RouteFilterPaginator struct {
-	paginator *essdk.BaseESPaginator
-}
-
-func (k Client) NewRouteFilterPaginator(filters []essdk.BoolFilter, limit *int64) (RouteFilterPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_routefilter", filters, limit)
-	if err != nil {
-		return RouteFilterPaginator{}, err
-	}
-
-	p := RouteFilterPaginator{
-		paginator: paginator,
-	}
-
-	return p, nil
-}
-
-func (p RouteFilterPaginator) HasNext() bool {
-	return !p.paginator.Done()
-}
-
-func (p RouteFilterPaginator) NextPage(ctx context.Context) ([]RouteFilter, error) {
-	var response RouteFilterSearchResponse
-	err := p.paginator.Search(ctx, &response)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []RouteFilter
-	for _, hit := range response.Hits.Hits {
-		values = append(values, hit.Source)
-	}
-
-	hits := int64(len(response.Hits.Hits))
-	if hits > 0 {
-		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
-	} else {
-		p.paginator.UpdateState(hits, nil, "")
-	}
-
-	return values, nil
-}
-
-var listRouteFilterFilters = map[string]string{
-	"kaytu_account_id": "metadata.SourceID",
-}
-
-func ListRouteFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("ListRouteFilter")
-
-	// create service
-	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
-	if err != nil {
-		return nil, err
-	}
-	k := Client{Client: ke}
-
-	paginator, err := k.NewRouteFilterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listRouteFilterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
-	if err != nil {
-		return nil, err
-	}
-
-	for paginator.HasNext() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page {
-			d.StreamListItem(ctx, v)
-		}
-	}
-
-	return nil, nil
-}
-
-var getRouteFilterFilters = map[string]string{
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.RouteFilter.Name",
-	"resource_group":   "description.ResourceGroup",
-}
-
-func GetRouteFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("GetRouteFilter")
-
-	// create service
-	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
-	if err != nil {
-		return nil, err
-	}
-	k := Client{Client: ke}
-
-	limit := int64(1)
-	paginator, err := k.NewRouteFilterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getRouteFilterFilters, "azure", *cfg.AccountID), &limit)
-	if err != nil {
-		return nil, err
-	}
-
-	for paginator.HasNext() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page {
-			return v, nil
-		}
-	}
-
-	return nil, nil
-}
-
-// ==========================  END: RouteFilter =============================
-
 // ==========================  START: VpnGateway =============================
 
 type VpnGateway struct {
@@ -7226,7 +6626,7 @@ type VpnGatewayPaginator struct {
 }
 
 func (k Client) NewVpnGatewayPaginator(filters []essdk.BoolFilter, limit *int64) (VpnGatewayPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_vpngateway", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_vpngateways", filters, limit)
 	if err != nil {
 		return VpnGatewayPaginator{}, err
 	}
@@ -7376,7 +6776,7 @@ type VpnGatewayVpnConnectionPaginator struct {
 }
 
 func (k Client) NewVpnGatewayVpnConnectionPaginator(filters []essdk.BoolFilter, limit *int64) (VpnGatewayVpnConnectionPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_vpngatewayvpnconnection", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_vpngateways_vpnconnections", filters, limit)
 	if err != nil {
 		return VpnGatewayVpnConnectionPaginator{}, err
 	}
@@ -7524,7 +6924,7 @@ type VpnSitePaginator struct {
 }
 
 func (k Client) NewVpnSitePaginator(filters []essdk.BoolFilter, limit *int64) (VpnSitePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_vpnsite", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_vpnsites", filters, limit)
 	if err != nil {
 		return VpnSitePaginator{}, err
 	}
@@ -7822,7 +7222,7 @@ type PublicIPPrefixPaginator struct {
 }
 
 func (k Client) NewPublicIPPrefixPaginator(filters []essdk.BoolFilter, limit *int64) (PublicIPPrefixPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_publicipprefix", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_publicipprefixes", filters, limit)
 	if err != nil {
 		return PublicIPPrefixPaginator{}, err
 	}
@@ -8118,7 +7518,7 @@ type BastionHostsPaginator struct {
 }
 
 func (k Client) NewBastionHostsPaginator(filters []essdk.BoolFilter, limit *int64) (BastionHostsPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_bastianhosts", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_bastionhosts", filters, limit)
 	if err != nil {
 		return BastionHostsPaginator{}, err
 	}
@@ -8266,7 +7666,7 @@ type ConnectionPaginator struct {
 }
 
 func (k Client) NewConnectionPaginator(filters []essdk.BoolFilter, limit *int64) (ConnectionPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_connection", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_connections", filters, limit)
 	if err != nil {
 		return ConnectionPaginator{}, err
 	}
@@ -9006,7 +8406,7 @@ type PrivateEndpointPaginator struct {
 }
 
 func (k Client) NewPrivateEndpointPaginator(filters []essdk.BoolFilter, limit *int64) (PrivateEndpointPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_privateendpoint", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_privateendpoints", filters, limit)
 	if err != nil {
 		return PrivateEndpointPaginator{}, err
 	}
@@ -9750,7 +9150,7 @@ type RoleAssignmentPaginator struct {
 }
 
 func (k Client) NewRoleAssignmentPaginator(filters []essdk.BoolFilter, limit *int64) (RoleAssignmentPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_authorization_elevateaccessroleassignment", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_authorization_roleassignment", filters, limit)
 	if err != nil {
 		return RoleAssignmentPaginator{}, err
 	}
@@ -10048,7 +9448,7 @@ type PolicyDefinitionPaginator struct {
 }
 
 func (k Client) NewPolicyDefinitionPaginator(filters []essdk.BoolFilter, limit *int64) (PolicyDefinitionPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_authorization_policydefinition", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_authorization_policydefinitions", filters, limit)
 	if err != nil {
 		return PolicyDefinitionPaginator{}, err
 	}
@@ -11200,157 +10600,6 @@ func GetSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _ 
 
 // ==========================  END: SecurityCenterSubAssessment =============================
 
-// ==========================  START: StorageContainer =============================
-
-type StorageContainer struct {
-	Description   azure.StorageContainerDescription `json:"description"`
-	Metadata      azure.Metadata                    `json:"metadata"`
-	ResourceJobID int                               `json:"resource_job_id"`
-	SourceJobID   int                               `json:"source_job_id"`
-	ResourceType  string                            `json:"resource_type"`
-	SourceType    string                            `json:"source_type"`
-	ID            string                            `json:"id"`
-	ARN           string                            `json:"arn"`
-	SourceID      string                            `json:"source_id"`
-}
-
-type StorageContainerHit struct {
-	ID      string           `json:"_id"`
-	Score   float64          `json:"_score"`
-	Index   string           `json:"_index"`
-	Type    string           `json:"_type"`
-	Version int64            `json:"_version,omitempty"`
-	Source  StorageContainer `json:"_source"`
-	Sort    []interface{}    `json:"sort"`
-}
-
-type StorageContainerHits struct {
-	Total essdk.SearchTotal     `json:"total"`
-	Hits  []StorageContainerHit `json:"hits"`
-}
-
-type StorageContainerSearchResponse struct {
-	PitID string               `json:"pit_id"`
-	Hits  StorageContainerHits `json:"hits"`
-}
-
-type StorageContainerPaginator struct {
-	paginator *essdk.BaseESPaginator
-}
-
-func (k Client) NewStorageContainerPaginator(filters []essdk.BoolFilter, limit *int64) (StorageContainerPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_containers", filters, limit)
-	if err != nil {
-		return StorageContainerPaginator{}, err
-	}
-
-	p := StorageContainerPaginator{
-		paginator: paginator,
-	}
-
-	return p, nil
-}
-
-func (p StorageContainerPaginator) HasNext() bool {
-	return !p.paginator.Done()
-}
-
-func (p StorageContainerPaginator) NextPage(ctx context.Context) ([]StorageContainer, error) {
-	var response StorageContainerSearchResponse
-	err := p.paginator.Search(ctx, &response)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []StorageContainer
-	for _, hit := range response.Hits.Hits {
-		values = append(values, hit.Source)
-	}
-
-	hits := int64(len(response.Hits.Hits))
-	if hits > 0 {
-		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
-	} else {
-		p.paginator.UpdateState(hits, nil, "")
-	}
-
-	return values, nil
-}
-
-var listStorageContainerFilters = map[string]string{
-	"kaytu_account_id": "metadata.SourceID",
-}
-
-func ListStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("ListStorageContainer")
-
-	// create service
-	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
-	if err != nil {
-		return nil, err
-	}
-	k := Client{Client: ke}
-
-	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageContainerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
-	if err != nil {
-		return nil, err
-	}
-
-	for paginator.HasNext() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page {
-			d.StreamListItem(ctx, v)
-		}
-	}
-
-	return nil, nil
-}
-
-var getStorageContainerFilters = map[string]string{
-	"account_name":     "description.AccountName",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ListContainerItem.name",
-	"resource_group":   "description.ResourceGroup",
-}
-
-func GetStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("GetStorageContainer")
-
-	// create service
-	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
-	if err != nil {
-		return nil, err
-	}
-	k := Client{Client: ke}
-
-	limit := int64(1)
-	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageContainerFilters, "azure", *cfg.AccountID), &limit)
-	if err != nil {
-		return nil, err
-	}
-
-	for paginator.HasNext() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page {
-			return v, nil
-		}
-	}
-
-	return nil, nil
-}
-
-// ==========================  END: StorageContainer =============================
-
 // ==========================  START: StorageBlob =============================
 
 type StorageBlob struct {
@@ -11540,7 +10789,7 @@ type StorageBlobServicePaginator struct {
 }
 
 func (k Client) NewStorageBlobServicePaginator(filters []essdk.BoolFilter, limit *int64) (StorageBlobServicePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_blobservices", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_blobservives", filters, limit)
 	if err != nil {
 		return StorageBlobServicePaginator{}, err
 	}
@@ -14083,7 +13332,7 @@ type ComputeCloudServicePaginator struct {
 }
 
 func (k Client) NewComputeCloudServicePaginator(filters []essdk.BoolFilter, limit *int64) (ComputeCloudServicePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_cloudservice", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_cloudservices", filters, limit)
 	if err != nil {
 		return ComputeCloudServicePaginator{}, err
 	}
@@ -14833,7 +14082,7 @@ type DatabricksWorkspacePaginator struct {
 }
 
 func (k Client) NewDatabricksWorkspacePaginator(filters []essdk.BoolFilter, limit *int64) (DatabricksWorkspacePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_databricks_workspace", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_databricks_workspaces", filters, limit)
 	if err != nil {
 		return DatabricksWorkspacePaginator{}, err
 	}
@@ -14981,7 +14230,7 @@ type DataMigrationServicePaginator struct {
 }
 
 func (k Client) NewDataMigrationServicePaginator(filters []essdk.BoolFilter, limit *int64) (DataMigrationServicePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datamigration_service", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datamigration_services", filters, limit)
 	if err != nil {
 		return DataMigrationServicePaginator{}, err
 	}
@@ -15277,7 +14526,7 @@ type DataProtectionBackupVaultsBackupPoliciesPaginator struct {
 }
 
 func (k Client) NewDataProtectionBackupVaultsBackupPoliciesPaginator(filters []essdk.BoolFilter, limit *int64) (DataProtectionBackupVaultsBackupPoliciesPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_dataprotection_backupvaultsbackuppolicies", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_dataprotection_backupvaults_backuppolicies", filters, limit)
 	if err != nil {
 		return DataProtectionBackupVaultsBackupPoliciesPaginator{}, err
 	}
@@ -15425,7 +14674,7 @@ type DataFactoryPaginator struct {
 }
 
 func (k Client) NewDataFactoryPaginator(filters []essdk.BoolFilter, limit *int64) (DataFactoryPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_datafactories", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_factories", filters, limit)
 	if err != nil {
 		return DataFactoryPaginator{}, err
 	}
@@ -15575,7 +14824,7 @@ type DataFactoryDatasetPaginator struct {
 }
 
 func (k Client) NewDataFactoryDatasetPaginator(filters []essdk.BoolFilter, limit *int64) (DataFactoryDatasetPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_datafactorydatasets", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_factoriesdatasets", filters, limit)
 	if err != nil {
 		return DataFactoryDatasetPaginator{}, err
 	}
@@ -15726,7 +14975,7 @@ type DataFactoryPipelinePaginator struct {
 }
 
 func (k Client) NewDataFactoryPipelinePaginator(filters []essdk.BoolFilter, limit *int64) (DataFactoryPipelinePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_datafactorypipelines", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_factoriespipelines", filters, limit)
 	if err != nil {
 		return DataFactoryPipelinePaginator{}, err
 	}
@@ -16777,7 +16026,7 @@ type EventhubNamespaceEventhubPaginator struct {
 }
 
 func (k Client) NewEventhubNamespaceEventhubPaginator(filters []essdk.BoolFilter, limit *int64) (EventhubNamespaceEventhubPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_eventhub_namespaceseventhub", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_eventhub_namespaces_eventhubs", filters, limit)
 	if err != nil {
 		return EventhubNamespaceEventhubPaginator{}, err
 	}
@@ -17075,7 +16324,7 @@ type HdinsightClusterPaginator struct {
 }
 
 func (k Client) NewHdinsightClusterPaginator(filters []essdk.BoolFilter, limit *int64) (HdinsightClusterPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_hdinsight_clusterpools", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_hdinsight_clusters", filters, limit)
 	if err != nil {
 		return HdinsightClusterPaginator{}, err
 	}
@@ -19023,7 +18272,7 @@ type MachineLearningWorkspacePaginator struct {
 }
 
 func (k Client) NewMachineLearningWorkspacePaginator(filters []essdk.BoolFilter, limit *int64) (MachineLearningWorkspacePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_machinelearning_workspaces", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_machinelearningservices_workspaces", filters, limit)
 	if err != nil {
 		return MachineLearningWorkspacePaginator{}, err
 	}
@@ -19323,7 +18572,7 @@ type MariadbDatabasePaginator struct {
 }
 
 func (k Client) NewMariadbDatabasePaginator(filters []essdk.BoolFilter, limit *int64) (MariadbDatabasePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_dbformariadb_databases", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_dbformariadb_servers_databases", filters, limit)
 	if err != nil {
 		return MariadbDatabasePaginator{}, err
 	}
@@ -19769,7 +19018,7 @@ type NetworkSecurityGroupPaginator struct {
 }
 
 func (k Client) NewNetworkSecurityGroupPaginator(filters []essdk.BoolFilter, limit *int64) (NetworkSecurityGroupPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_classicnetwork_networksecuritygroups", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_networksecuritygroups", filters, limit)
 	if err != nil {
 		return NetworkSecurityGroupPaginator{}, err
 	}
@@ -21413,7 +20662,7 @@ type TimeSeriesInsightsEnvironmentsPaginator struct {
 }
 
 func (k Client) NewTimeSeriesInsightsEnvironmentsPaginator(filters []essdk.BoolFilter, limit *int64) (TimeSeriesInsightsEnvironmentsPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_timeseriesinsight_environments", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_timeseriesinsights_environments", filters, limit)
 	if err != nil {
 		return TimeSeriesInsightsEnvironmentsPaginator{}, err
 	}
@@ -21711,7 +20960,7 @@ type SynapseWorkspaceBigdatapoolsPaginator struct {
 }
 
 func (k Client) NewSynapseWorkspaceBigdatapoolsPaginator(filters []essdk.BoolFilter, limit *int64) (SynapseWorkspaceBigdatapoolsPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_synapse_workspacesbigdatapools", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_synapse_workspaces_bigdatapools", filters, limit)
 	if err != nil {
 		return SynapseWorkspaceBigdatapoolsPaginator{}, err
 	}
@@ -21859,7 +21108,7 @@ type SynapseWorkspaceSqlpoolsPaginator struct {
 }
 
 func (k Client) NewSynapseWorkspaceSqlpoolsPaginator(filters []essdk.BoolFilter, limit *int64) (SynapseWorkspaceSqlpoolsPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_synapse_workspacessqlpools", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_synapse_workspaces_sqlpools", filters, limit)
 	if err != nil {
 		return SynapseWorkspaceSqlpoolsPaginator{}, err
 	}
@@ -22619,7 +21868,7 @@ type AnalysisServiceServerPaginator struct {
 }
 
 func (k Client) NewAnalysisServiceServerPaginator(filters []essdk.BoolFilter, limit *int64) (AnalysisServiceServerPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_analysisservice_servers", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_analysisservices_servers", filters, limit)
 	if err != nil {
 		return AnalysisServiceServerPaginator{}, err
 	}
@@ -23367,7 +22616,7 @@ type MssqlManagedInstanceDatabasesPaginator struct {
 }
 
 func (k Client) NewMssqlManagedInstanceDatabasesPaginator(filters []essdk.BoolFilter, limit *int64) (MssqlManagedInstanceDatabasesPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_managedinstancesdatabases", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_managedinstances_databases", filters, limit)
 	if err != nil {
 		return MssqlManagedInstanceDatabasesPaginator{}, err
 	}
@@ -23815,7 +23064,7 @@ type SqlServerJobAgentPaginator struct {
 }
 
 func (k Client) NewSqlServerJobAgentPaginator(filters []essdk.BoolFilter, limit *int64) (SqlServerJobAgentPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_serversjobagent", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_servers_jobagents", filters, limit)
 	if err != nil {
 		return SqlServerJobAgentPaginator{}, err
 	}
@@ -24710,7 +23959,7 @@ type StorageAccountPaginator struct {
 }
 
 func (k Client) NewStorageAccountPaginator(filters []essdk.BoolFilter, limit *int64) (StorageAccountPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_classicstorage_storageaccounts", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts", filters, limit)
 	if err != nil {
 		return StorageAccountPaginator{}, err
 	}
@@ -24860,7 +24109,7 @@ type RecoveryServicesVaultPaginator struct {
 }
 
 func (k Client) NewRecoveryServicesVaultPaginator(filters []essdk.BoolFilter, limit *int64) (RecoveryServicesVaultPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_recoveryservices_vault", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_recoveryservices_vaults", filters, limit)
 	if err != nil {
 		return RecoveryServicesVaultPaginator{}, err
 	}
@@ -25010,7 +24259,7 @@ type HybridKubernetesConnectedClusterPaginator struct {
 }
 
 func (k Client) NewHybridKubernetesConnectedClusterPaginator(filters []essdk.BoolFilter, limit *int64) (HybridKubernetesConnectedClusterPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_hybridkubernetes_connectedcluster", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_kubernetes_connectedclusters", filters, limit)
 	if err != nil {
 		return HybridKubernetesConnectedClusterPaginator{}, err
 	}
@@ -25606,7 +24855,7 @@ type LoadBalancerBackendAddressPoolPaginator struct {
 }
 
 func (k Client) NewLoadBalancerBackendAddressPoolPaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerBackendAddressPoolPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_lb_backendaddresspools", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_loadbalancer_backendaddresspools", filters, limit)
 	if err != nil {
 		return LoadBalancerBackendAddressPoolPaginator{}, err
 	}
@@ -25757,7 +25006,7 @@ type LoadBalancerNatRulePaginator struct {
 }
 
 func (k Client) NewLoadBalancerNatRulePaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerNatRulePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_lb_natrules", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_loadbalancer_natrules", filters, limit)
 	if err != nil {
 		return LoadBalancerNatRulePaginator{}, err
 	}
@@ -25908,7 +25157,7 @@ type LoadBalancerOutboundRulePaginator struct {
 }
 
 func (k Client) NewLoadBalancerOutboundRulePaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerOutboundRulePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_lb_outboundrules", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_loadbalancer_outboundrules", filters, limit)
 	if err != nil {
 		return LoadBalancerOutboundRulePaginator{}, err
 	}
@@ -26059,7 +25308,7 @@ type LoadBalancerProbePaginator struct {
 }
 
 func (k Client) NewLoadBalancerProbePaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerProbePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_lb_probes", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_loadbalancer_probes", filters, limit)
 	if err != nil {
 		return LoadBalancerProbePaginator{}, err
 	}
@@ -26210,7 +25459,7 @@ type LoadBalancerRulePaginator struct {
 }
 
 func (k Client) NewLoadBalancerRulePaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerRulePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_lb_rules", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_loadbalancer_rules", filters, limit)
 	if err != nil {
 		return LoadBalancerRulePaginator{}, err
 	}
@@ -26809,7 +26058,7 @@ type ResourceGroupPaginator struct {
 }
 
 func (k Client) NewResourceGroupPaginator(filters []essdk.BoolFilter, limit *int64) (ResourceGroupPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_resourcegroups", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_subscriptions_resourcegroups", filters, limit)
 	if err != nil {
 		return ResourceGroupPaginator{}, err
 	}
