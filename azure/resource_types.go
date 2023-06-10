@@ -6,6 +6,7 @@ import (
 )
 
 var resourceTypes = map[string]ResourceType{
+
 	"Microsoft.App/containerApps": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.App/containerApps",
@@ -17,6 +18,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.App/managedEnvironments": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.App/managedEnvironments",
@@ -28,6 +30,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Blueprint/blueprints": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Blueprint/blueprints",
@@ -39,6 +42,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Cdn/profiles": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Cdn/profiles",
@@ -50,6 +54,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/cloudServices": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/cloudServices",
@@ -61,6 +66,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.ContainerInstance/containerGroups": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.ContainerInstance/containerGroups",
@@ -72,6 +78,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.DataMigration/services": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DataMigration/services",
@@ -83,6 +90,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.DataProtection/backupVaults": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DataProtection/backupVaults",
@@ -94,6 +102,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.DataProtection/backupVaults/backupPolicies": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DataProtection/backupVaults/backupPolicies",
@@ -105,6 +114,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Logic/integrationAccounts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Logic/integrationAccounts",
@@ -116,6 +126,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/bastionHosts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/bastionHosts",
@@ -127,6 +138,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/connections": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/connections",
@@ -138,6 +150,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/firewallPolicies": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/firewallPolicies",
@@ -149,6 +162,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/localNetworkGateways": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/localNetworkGateways",
@@ -160,6 +174,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/privateLinkServices": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/privateLinkServices",
@@ -171,6 +186,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/publicIPPrefixes": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/publicIPPrefixes",
@@ -182,6 +198,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/virtualHubs": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/virtualHubs",
@@ -193,6 +210,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/virtualWans": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/virtualWans",
@@ -204,6 +222,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/vpnGateways": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/vpnGateways",
@@ -215,6 +234,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/vpnGateways/vpnConnections": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/vpnGateways/vpnConnections",
@@ -226,6 +246,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/vpnSites": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/vpnSites",
@@ -237,6 +258,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.OperationalInsights/workspaces": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.OperationalInsights/workspaces",
@@ -248,6 +270,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.StreamAnalytics/cluster": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.StreamAnalytics/cluster",
@@ -259,6 +282,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.TimeSeriesInsights/environments": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.TimeSeriesInsights/environments",
@@ -270,6 +294,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.VirtualMachineImages/imageTemplates": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.VirtualMachineImages/imageTemplates",
@@ -281,6 +306,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Web/serverFarms": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Web/serverFarms",
@@ -292,9 +318,10 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
-	"Microsoft.Compute/virtualMachineScaleSetsVm": {
+
+	"Microsoft.Compute/virtualMachineScaleSets/virtualMachines": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Compute/virtualMachineScaleSetsVm",
+		ResourceName:         "Microsoft.Compute/virtualMachineScaleSets/virtualMachines",
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachineScaleSetVm),
@@ -303,6 +330,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Automation/automationAccounts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Automation/automationAccounts",
@@ -314,6 +342,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Network/dnsZones": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/dnsZones",
@@ -325,6 +354,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Network/dnsResolvers": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/dnsResolvers",
@@ -336,6 +366,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Databricks/workspaces": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Databricks/workspaces",
@@ -347,6 +378,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Network/privateDnsZones": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/privateDnsZones",
@@ -358,6 +390,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Network/privateEndpoints": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/privateEndpoints",
@@ -369,6 +402,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.EventGrid/domains/topics": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.EventGrid/domains/topics",
@@ -380,6 +414,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "eventgrid",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/networkWatchers": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/networkWatchers",
@@ -391,6 +426,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "network",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Resources/resourceGroups": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Resources/resourceGroups",
@@ -402,6 +438,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "resource",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Web/staticSites": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Web/staticSites",
@@ -413,6 +450,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "appservice",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Resources/serviceprincipals": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Resources/serviceprincipals",
@@ -424,6 +462,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.CognitiveServices/accounts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.CognitiveServices/accounts",
@@ -435,6 +474,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "cognitive",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Sql/managedInstances": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Sql/managedInstances",
@@ -446,6 +486,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "mssql",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Sql/virtualclusters": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Sql/virtualclusters",
@@ -457,6 +498,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Sql/managedInstances/databases": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Sql/managedInstances/databases",
@@ -468,6 +510,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Sql/servers/databases": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Sql/servers/databases",
@@ -479,6 +522,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "sql",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Storage/fileShares": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Storage/fileShares",
@@ -490,6 +534,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "storage",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.DBforPostgreSQL/servers": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DBforPostgreSQL/servers",
@@ -501,6 +546,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "postgres",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.DBforPostgreSQL/flexibleservers": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DBforPostgreSQL/flexibleservers",
@@ -512,6 +558,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.AnalysisServices/servers": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.AnalysisServices/servers",
@@ -523,6 +570,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Security/pricings": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Security/pricings",
@@ -534,6 +582,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "securitycenter",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Insights/guestDiagnosticSettings": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Insights/guestDiagnosticSettings",
@@ -545,6 +594,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Resources/groups": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Resources/groups",
@@ -556,6 +606,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Web/hostingEnvironments": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Web/hostingEnvironments",
@@ -567,6 +618,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "web",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Cache/redis": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Cache/redis",
@@ -578,6 +630,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "redis",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.ContainerRegistry/registries": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.ContainerRegistry/registries",
@@ -589,6 +642,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "containers",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.DataFactory/factoriesPipelines": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DataFactory/factoriesPipelines",
@@ -600,6 +654,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "datafactory",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/resourceSku": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/resourceSku",
@@ -611,6 +666,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/expressRouteCircuits": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/expressRouteCircuits",
@@ -622,6 +678,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "network",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Management/groups": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Management/groups",
@@ -633,6 +690,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "managementgroup",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Sql/virtualMachines": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Sql/virtualMachines",
@@ -644,6 +702,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Sql/virtualMachineGroups": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Sql/virtualMachineGroups",
@@ -655,6 +714,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Storage/tableServices": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Storage/tableServices",
@@ -666,6 +726,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Synapse/workspaces": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Synapse/workspaces",
@@ -677,6 +738,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "synapse",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Synapse/workspaces/bigdatapools": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Synapse/workspaces/bigdatapools",
@@ -688,6 +750,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Synapse/workspaces/sqlpools": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Synapse/workspaces/sqlpools",
@@ -699,6 +762,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.StreamAnalytics/streamingJobs": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.StreamAnalytics/streamingJobs",
@@ -710,6 +774,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "streamanalytics",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.CostManagement/CostBySubscription": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.CostManagement/CostBySubscription",
@@ -721,6 +786,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.ContainerService/managedClusters": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.ContainerService/managedClusters",
@@ -732,6 +798,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "containers",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.DataFactory/factories": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DataFactory/factories",
@@ -743,6 +810,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "datafactory",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Sql/servers": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Sql/servers",
@@ -754,6 +822,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "sql",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Sql/servers/jobagents": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Sql/servers/jobagents",
@@ -765,6 +834,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Security/autoProvisioningSettings": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Security/autoProvisioningSettings",
@@ -776,6 +846,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "securitycenter",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Insights/logProfiles": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Insights/logProfiles",
@@ -787,6 +858,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.DataBoxEdge/dataBoxEdgeDevices": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DataBoxEdge/dataBoxEdgeDevices",
@@ -798,6 +870,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "databoxedge",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/loadBalancers": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/loadBalancers",
@@ -809,6 +882,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "loadbalancer",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Network/azureFirewalls": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/azureFirewalls",
@@ -820,6 +894,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "firewall",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Management/locks": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Management/locks",
@@ -831,9 +906,10 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
-	"Microsoft.Compute/virtualMachineScaleSetNetworkInterface": {
+
+	"Microsoft.Compute/virtualMachineScaleSets/networkInterfaces": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Compute/virtualMachineScaleSetNetworkInterface",
+		ResourceName:         "Microsoft.Compute/virtualMachineScaleSets/networkInterfaces",
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachineScaleSetNetworkInterface),
@@ -842,6 +918,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/frontDoors": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/frontDoors",
@@ -853,6 +930,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "frontdoor",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Resources/subscriptions/resourceGroups": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Resources/subscriptions/resourceGroups",
@@ -864,6 +942,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Authorization/policyAssignments": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Authorization/policyAssignments",
@@ -875,6 +954,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Search/searchServices": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Search/searchServices",
@@ -886,6 +966,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "search",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Security/settings": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Security/settings",
@@ -897,6 +978,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "securitycenter",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.RecoveryServices/vaults": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.RecoveryServices/vaults",
@@ -908,6 +990,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "recoveryservices",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/diskEncryptionSets": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/diskEncryptionSets",
@@ -919,6 +1002,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "compute",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.DocumentDB/SqlDatabases": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DocumentDB/SqlDatabases",
@@ -930,6 +1014,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "cosmos",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.EventGrid/topics": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.EventGrid/topics",
@@ -941,6 +1026,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "eventgrid",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.EventHub/namespaces": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.EventHub/namespaces",
@@ -952,6 +1038,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "eventhub",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.EventHub/namespaces/eventHubs": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.EventHub/namespaces/eventHubs",
@@ -963,6 +1050,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "eventhub",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.MachineLearningServices/workspaces": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.MachineLearningServices/workspaces",
@@ -974,6 +1062,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "machinelearning",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.CostManagement/CostByResourceType": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.CostManagement/CostByResourceType",
@@ -985,6 +1074,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/networkInterfaces": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/networkInterfaces",
@@ -996,6 +1086,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "network",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Network/publicIPAddresses": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/publicIPAddresses",
@@ -1007,6 +1098,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "network",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.HealthcareApis/services": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.HealthcareApis/services",
@@ -1018,6 +1110,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "healthcare",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.ServiceBus/namespaces": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.ServiceBus/namespaces",
@@ -1029,6 +1122,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "servicebus",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Web/sites": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Web/sites",
@@ -1040,6 +1134,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "web",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Compute/availabilitySets": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/availabilitySets",
@@ -1051,6 +1146,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "compute",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Network/virtualNetworks": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/virtualNetworks",
@@ -1062,6 +1158,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "network",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Security/securityContacts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Security/securityContacts",
@@ -1073,6 +1170,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "securitycenter",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/diskswriteops": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/diskswriteops",
@@ -1084,6 +1182,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/diskswriteopshourly": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/diskswriteopshourly",
@@ -1095,6 +1194,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.EventGrid/domains": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.EventGrid/domains",
@@ -1106,6 +1206,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "eventgrid",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.KeyVault/deletedVaults": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.KeyVault/deletedVaults",
@@ -1117,6 +1218,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Storage/tables": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Storage/tables",
@@ -1128,6 +1230,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "storage",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Resources/users": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Resources/users",
@@ -1139,6 +1242,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/snapshots": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/snapshots",
@@ -1150,6 +1254,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "compute",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Kusto/clusters": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Kusto/clusters",
@@ -1161,6 +1266,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "kusto",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.StorageSync/storageSyncServices": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.StorageSync/storageSyncServices",
@@ -1172,6 +1278,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "storage",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Security/locations/jitNetworkAccessPolicies": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Security/locations/jitNetworkAccessPolicies",
@@ -1183,6 +1290,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/virtualNetworks/subnets": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/virtualNetworks/subnets",
@@ -1194,6 +1302,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "network",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.LoadBalancer/backendAddressPools": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.LoadBalancer/backendAddressPools",
@@ -1205,6 +1314,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "loadbalancer",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.LoadBalancer/rules": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.LoadBalancer/rules",
@@ -1216,6 +1326,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "loadbalancer",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/virtualMachineCpuUtilizationDaily": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/virtualMachineCpuUtilizationDaily",
@@ -1227,6 +1338,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.DataLakeStore/accounts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DataLakeStore/accounts",
@@ -1238,6 +1350,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.StorageCache/caches": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.StorageCache/caches",
@@ -1249,6 +1362,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "hpccache",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Batch/batchAccounts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Batch/batchAccounts",
@@ -1260,6 +1374,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "batch",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Network/networkSecurityGroups": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/networkSecurityGroups",
@@ -1271,6 +1386,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "network",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Authorization/roleDefinitions": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Authorization/roleDefinitions",
@@ -1282,6 +1398,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "authorization",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/applicationSecurityGroups": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/applicationSecurityGroups",
@@ -1293,6 +1410,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "network",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Authorization/roleAssignment": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Authorization/roleAssignment",
@@ -1304,6 +1422,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.DocumentDB/MongoDatabases": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DocumentDB/MongoDatabases",
@@ -1315,6 +1434,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "cosmos",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/networkWatchers/flowLogs": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/networkWatchers/flowLogs",
@@ -1326,6 +1446,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "network",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Sql/elasticPools": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Sql/elasticPools",
@@ -1337,6 +1458,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "sql",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Security/subAssessments": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Security/subAssessments",
@@ -1348,6 +1470,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/disks": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/disks",
@@ -1359,6 +1482,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Devices/iotHubDpses": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Devices/iotHubDpses",
@@ -1370,6 +1494,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.HDInsight/clusters": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.HDInsight/clusters",
@@ -1381,6 +1506,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "hdinsight",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.ServiceFabric/clusters": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.ServiceFabric/clusters",
@@ -1392,6 +1518,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "servicefabric",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.SignalRService/signalR": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.SignalRService/signalR",
@@ -1403,6 +1530,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "signalr",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Storage/blobs": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Storage/blobs",
@@ -1414,6 +1542,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "storage",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Storage/blobServives": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Storage/blobServives",
@@ -1425,6 +1554,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Storage/queues": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Storage/queues",
@@ -1436,6 +1566,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "storage",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.ApiManagement/service": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.ApiManagement/service",
@@ -1447,6 +1578,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "apimanagement",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/disksreadops": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/disksreadops",
@@ -1458,6 +1590,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/virtualMachineScaleSets": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/virtualMachineScaleSets",
@@ -1469,6 +1602,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "compute",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.DataFactory/factoriesDatasets": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DataFactory/factoriesDatasets",
@@ -1480,6 +1614,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "datafactory",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Authorization/policyDefinitions": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Authorization/policyDefinitions",
@@ -1491,6 +1626,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Resources/subscriptions/locations": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Resources/subscriptions/locations",
@@ -1502,6 +1638,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/diskAccesses": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/diskAccesses",
@@ -1513,6 +1650,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "compute",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.DBforMySQL/servers": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DBforMySQL/servers",
@@ -1524,6 +1662,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "mysql",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.DBforMySQL/flexibleservers": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DBforMySQL/flexibleservers",
@@ -1535,6 +1674,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Cache/redisenterprise": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Cache/redisenterprise",
@@ -1546,6 +1686,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.DataLakeAnalytics/accounts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DataLakeAnalytics/accounts",
@@ -1557,6 +1698,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Insights/activityLogAlerts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Insights/activityLogAlerts",
@@ -1568,6 +1710,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/virtualMachineCpuUtilizationHourly": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/virtualMachineCpuUtilizationHourly",
@@ -1579,6 +1722,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.LoadBalancer/outboundRules": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.LoadBalancer/outboundRules",
@@ -1590,6 +1734,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "loadbalancer",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.HybridCompute/machines": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.HybridCompute/machines",
@@ -1601,6 +1746,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "hybridcompute",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.LoadBalancer/natRules": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.LoadBalancer/natRules",
@@ -1612,6 +1758,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "loadbalancer",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Resources/providers": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Resources/providers",
@@ -1623,6 +1770,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/routeTables": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/routeTables",
@@ -1634,6 +1782,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "network",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.DocumentDB/databaseAccounts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DocumentDB/databaseAccounts",
@@ -1645,6 +1794,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "cosmos",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Network/applicationGateways": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/applicationGateways",
@@ -1656,6 +1806,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "network",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Security/automations": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Security/automations",
@@ -1667,6 +1818,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "securitycenter",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Kubernetes/connectedClusters": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Kubernetes/connectedClusters",
@@ -1678,6 +1830,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.KeyVault/vaults/keys": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.KeyVault/vaults/keys",
@@ -1689,6 +1842,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.DBforMariaDB/servers": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DBforMariaDB/servers",
@@ -1700,6 +1854,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "mariadb",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.DBforMariaDB/servers/databases": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DBforMariaDB/servers/databases",
@@ -1711,6 +1866,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Compute/disksreadopsdaily": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/disksreadopsdaily",
@@ -1722,6 +1878,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Web/plan": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Web/plan",
@@ -1733,6 +1890,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "web",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/disksreadopshourly": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/disksreadopshourly",
@@ -1744,6 +1902,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/diskswriteopsdaily": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/diskswriteopsdaily",
@@ -1755,6 +1914,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Resources/tenants": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Resources/tenants",
@@ -1766,6 +1926,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Network/virtualNetworkGateways": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/virtualNetworkGateways",
@@ -1777,6 +1938,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "network",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Devices/iotHubs": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Devices/iotHubs",
@@ -1788,6 +1950,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "iothub",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Logic/workflows": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Logic/workflows",
@@ -1799,6 +1962,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "logic",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Sql/flexibleServers": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Sql/flexibleServers",
@@ -1810,6 +1974,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Resources/links": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Resources/links",
@@ -1821,6 +1986,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Resources/subscriptions": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Resources/subscriptions",
@@ -1832,6 +1998,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "subscription",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/images": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/images",
@@ -1843,6 +2010,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "compute",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/virtualMachines": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/virtualMachines",
@@ -1854,6 +2022,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "compute",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.Network/natGateways": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/natGateways",
@@ -1865,6 +2034,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "network",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.LoadBalancer/probes": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.LoadBalancer/probes",
@@ -1876,6 +2046,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "loadbalancer",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.KeyVault/vaults": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.KeyVault/vaults",
@@ -1887,6 +2058,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "keyvault",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.KeyVault/managedHsms": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.KeyVault/managedHsms",
@@ -1898,6 +2070,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "keyvault",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.KeyVault/vaults/secrets": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.KeyVault/vaults/secrets",
@@ -1909,6 +2082,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "keyvault",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.AppConfiguration/configurationStores": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.AppConfiguration/configurationStores",
@@ -1920,6 +2094,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Compute/virtualMachineCpuUtilization": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/virtualMachineCpuUtilization",
@@ -1931,6 +2106,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
+
 	"Microsoft.Storage/storageAccounts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Storage/storageAccounts",
@@ -1942,6 +2118,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "storage",
 		FastDiscovery:        true,
 	},
+
 	"Microsoft.AppPlatform/Spring": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.AppPlatform/Spring",
