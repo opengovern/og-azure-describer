@@ -556,10 +556,23 @@ func StorageQueue(ctx context.Context, authorizer autorest.Authorizer, subscript
 	var values []Resource
 	for {
 		for _, account := range storageAccounts.Values() {
+			if account.Kind == "FileStorage" || account.Kind == "BlockBlobStorage" {
+				continue
+			}
+
 			for _, resourceGroup := range resourceGroups {
 				queuesRes, err := storageClient.List(ctx, *resourceGroup.Name, *account.Name, "", "")
 				if err != nil {
-					return nil, err
+					/*
+					* For storage account type 'Page Blob' we are getting the kind value as 'StorageV2'.
+					* Storage account type 'Page Blob' does not support table, so we are getting 'FeatureNotSupportedForAccount'/'OperationNotAllowedOnKind' error.
+					* With same kind(StorageV2) of storage account, we my have different type(File Share) of storage account so we need to handle this particular error.
+					 */
+					if strings.Contains(err.Error(), "FeatureNotSupportedForAccount") || strings.Contains(err.Error(), "OperationNotAllowedOnKind") {
+						continue
+					} else {
+						return nil, err
+					}
 				}
 				for {
 					for _, queue := range queuesRes.Values() {
