@@ -22,7 +22,7 @@ require (
 	github.com/spf13/cobra v1.6.1
 	github.com/tombuildsstuff/giovanni v0.18.0
 	github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13
-	gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230608062902-229ecce71aa9
+	gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230610062548-95824fc23b7a
 	gitlab.com/keibiengine/steampipe-plugin-azuread v0.1.1-0.20230608063712-f481fab2c03f
 	go.uber.org/zap v1.24.0
 	golang.org/x/oauth2 v0.6.0
