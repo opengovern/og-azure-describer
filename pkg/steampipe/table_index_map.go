@@ -191,6 +191,7 @@ var azureMap = map[string]string{
 "Microsoft.Compute/sshPublicKeys": "azure_compute_ssh_public_key",
 "Microsoft.Cdn/profiles/endpoints": "azure_cdn_endpoint",
 "Microsoft.BotService/botServices": "azure_botservice_bot",
+"Microsoft.DocumentDB/cassandraClusters": "azure_cosmosdb_cassandra_cluster",
 }
 
 var AzureDescriptionMap = map[string]interface{}{
@@ -379,4 +380,5 @@ var AzureDescriptionMap = map[string]interface{}{
 "Microsoft.Compute/sshPublicKeys": &keibi.ComputeSSHPublicKey{},
 "Microsoft.Cdn/profiles/endpoints": &keibi.CDNEndpoint{},
 "Microsoft.BotService/botServices": &keibi.BotServiceBot{},
+"Microsoft.DocumentDB/cassandraClusters": &keibi.CosmosdbCassandraCluster{},
 }

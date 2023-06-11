@@ -17788,6 +17788,162 @@ func GetCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 // ==========================  END: CosmosdbSqlDatabase =============================
 
+// ==========================  START: CosmosdbCassandraCluster =============================
+
+type CosmosdbCassandraCluster struct {
+	Description   azure.CosmosdbCassandraClusterDescription `json:"description"`
+	Metadata      azure.Metadata                            `json:"metadata"`
+	ResourceJobID int                                       `json:"resource_job_id"`
+	SourceJobID   int                                       `json:"source_job_id"`
+	ResourceType  string                                    `json:"resource_type"`
+	SourceType    string                                    `json:"source_type"`
+	ID            string                                    `json:"id"`
+	ARN           string                                    `json:"arn"`
+	SourceID      string                                    `json:"source_id"`
+}
+
+type CosmosdbCassandraClusterHit struct {
+	ID      string                   `json:"_id"`
+	Score   float64                  `json:"_score"`
+	Index   string                   `json:"_index"`
+	Type    string                   `json:"_type"`
+	Version int64                    `json:"_version,omitempty"`
+	Source  CosmosdbCassandraCluster `json:"_source"`
+	Sort    []interface{}            `json:"sort"`
+}
+
+type CosmosdbCassandraClusterHits struct {
+	Total essdk.SearchTotal             `json:"total"`
+	Hits  []CosmosdbCassandraClusterHit `json:"hits"`
+}
+
+type CosmosdbCassandraClusterSearchResponse struct {
+	PitID string                       `json:"pit_id"`
+	Hits  CosmosdbCassandraClusterHits `json:"hits"`
+}
+
+type CosmosdbCassandraClusterPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewCosmosdbCassandraClusterPaginator(filters []essdk.BoolFilter, limit *int64) (CosmosdbCassandraClusterPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_cassandraclusters", filters, limit)
+	if err != nil {
+		return CosmosdbCassandraClusterPaginator{}, err
+	}
+
+	p := CosmosdbCassandraClusterPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p CosmosdbCassandraClusterPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p CosmosdbCassandraClusterPaginator) NextPage(ctx context.Context) ([]CosmosdbCassandraCluster, error) {
+	var response CosmosdbCassandraClusterSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []CosmosdbCassandraCluster
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listCosmosdbCassandraClusterFilters = map[string]string{
+	"akas":  "description.CassandraCluster.ID",
+	"id":    "description.CassandraCluster.Id",
+	"name":  "description.CassandraCluster.Name",
+	"tags":  "description.CassandraCluster.Tags",
+	"title": "description.CassandraCluster.Name",
+}
+
+func ListCosmosdbCassandraCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListCosmosdbCassandraCluster")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewCosmosdbCassandraClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCosmosdbCassandraClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getCosmosdbCassandraClusterFilters = map[string]string{
+	"akas":  "description.CassandraCluster.ID",
+	"id":    "description.CassandraCluster.Id",
+	"name":  "description.CassandraCluster.Name",
+	"tags":  "description.CassandraCluster.Tags",
+	"title": "description.CassandraCluster.Name",
+}
+
+func GetCosmosdbCassandraCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetCosmosdbCassandraCluster")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewCosmosdbCassandraClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCosmosdbCassandraClusterFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: CosmosdbCassandraCluster =============================
+
 // ==========================  START: DatabricksWorkspace =============================
 
 type DatabricksWorkspace struct {

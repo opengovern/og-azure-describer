@@ -927,6 +927,11 @@ type CosmosdbSqlDatabaseDescription struct {
 	ResourceGroup string
 }
 
+type CosmosdbCassandraClusterDescription struct {
+	CassandraCluster documentdb.ClusterResource
+	ResourceGroup    string
+}
+
 //  =================== databricks ==================
 
 //index:microsoft_databricks_workspace

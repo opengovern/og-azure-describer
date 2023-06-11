@@ -121,6 +121,49 @@ func DocumentDBMongoDatabase(ctx context.Context, authorizer autorest.Authorizer
 	return values, nil
 }
 
+func DocumentDBCassandraCluster(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := documentdb.NewCassandraClustersClient(subscription)
+	client.Authorizer = authorizer
+
+	result, err := client.ListBySubscription(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Value == nil {
+		return nil, nil
+	}
+
+	var values []Resource
+	for _, v := range *result.Value {
+		resourceGroup := strings.Split(*v.ID, "/")[4]
+		location := "global"
+		if v.Location != nil {
+			location = *v.Location
+		}
+		resource := Resource{
+			ID:       *v.ID,
+			Name:     *v.Name,
+			Location: location,
+			Description: JSONAllFieldsMarshaller{
+				model.CosmosdbCassandraClusterDescription{
+					CassandraCluster: v,
+					ResourceGroup:    resourceGroup,
+				},
+			},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
+	}
+
+	return values, nil
+}
+
 func documentDBDatabaseAccounts(ctx context.Context, authorizer autorest.Authorizer, subscription string, resourceGroup string) ([]documentdb.DatabaseAccountGetResults, error) {
 	client := documentdb.NewDatabaseAccountsClient(subscription)
 	client.Authorizer = authorizer
