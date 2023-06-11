@@ -4464,6 +4464,165 @@ func GetComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *pl
 
 // ==========================  END: ComputeDiskEncryptionSet =============================
 
+// ==========================  START: ComputeImageGallery =============================
+
+type ComputeImageGallery struct {
+	Description   azure.ComputeImageGalleryDescription `json:"description"`
+	Metadata      azure.Metadata                       `json:"metadata"`
+	ResourceJobID int                                  `json:"resource_job_id"`
+	SourceJobID   int                                  `json:"source_job_id"`
+	ResourceType  string                               `json:"resource_type"`
+	SourceType    string                               `json:"source_type"`
+	ID            string                               `json:"id"`
+	ARN           string                               `json:"arn"`
+	SourceID      string                               `json:"source_id"`
+}
+
+type ComputeImageGalleryHit struct {
+	ID      string              `json:"_id"`
+	Score   float64             `json:"_score"`
+	Index   string              `json:"_index"`
+	Type    string              `json:"_type"`
+	Version int64               `json:"_version,omitempty"`
+	Source  ComputeImageGallery `json:"_source"`
+	Sort    []interface{}       `json:"sort"`
+}
+
+type ComputeImageGalleryHits struct {
+	Total essdk.SearchTotal        `json:"total"`
+	Hits  []ComputeImageGalleryHit `json:"hits"`
+}
+
+type ComputeImageGallerySearchResponse struct {
+	PitID string                  `json:"pit_id"`
+	Hits  ComputeImageGalleryHits `json:"hits"`
+}
+
+type ComputeImageGalleryPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewComputeImageGalleryPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeImageGalleryPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_galleries", filters, limit)
+	if err != nil {
+		return ComputeImageGalleryPaginator{}, err
+	}
+
+	p := ComputeImageGalleryPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ComputeImageGalleryPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ComputeImageGalleryPaginator) NextPage(ctx context.Context) ([]ComputeImageGallery, error) {
+	var response ComputeImageGallerySearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ComputeImageGallery
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listComputeImageGalleryFilters = map[string]string{
+	"akas":             "description.ImageGallery.ID",
+	"id":               "description.ImageGallery.Id",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.ImageGallery.Name",
+	"tags":             "description.ImageGallery.Tags",
+	"title":            "description.ImageGallery.Name",
+}
+
+func ListComputeImageGallery(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListComputeImageGallery")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewComputeImageGalleryPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeImageGalleryFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getComputeImageGalleryFilters = map[string]string{
+	"akas":             "description.ImageGallery.ID",
+	"id":               "description.ImageGallery.Id",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.ImageGallery.Name",
+	"resource_group":   "description.ResourceGroup",
+	"tags":             "description.ImageGallery.Tags",
+	"title":            "description.ImageGallery.Name",
+}
+
+func GetComputeImageGallery(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetComputeImageGallery")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewComputeImageGalleryPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeImageGalleryFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ComputeImageGallery =============================
+
 // ==========================  START: ComputeImage =============================
 
 type ComputeImage struct {
@@ -4655,6 +4814,630 @@ func GetComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 // ==========================  END: ComputeImage =============================
+
+// ==========================  START: ComputeHostGroup =============================
+
+type ComputeHostGroup struct {
+	Description   azure.ComputeHostGroupDescription `json:"description"`
+	Metadata      azure.Metadata                    `json:"metadata"`
+	ResourceJobID int                               `json:"resource_job_id"`
+	SourceJobID   int                               `json:"source_job_id"`
+	ResourceType  string                            `json:"resource_type"`
+	SourceType    string                            `json:"source_type"`
+	ID            string                            `json:"id"`
+	ARN           string                            `json:"arn"`
+	SourceID      string                            `json:"source_id"`
+}
+
+type ComputeHostGroupHit struct {
+	ID      string           `json:"_id"`
+	Score   float64          `json:"_score"`
+	Index   string           `json:"_index"`
+	Type    string           `json:"_type"`
+	Version int64            `json:"_version,omitempty"`
+	Source  ComputeHostGroup `json:"_source"`
+	Sort    []interface{}    `json:"sort"`
+}
+
+type ComputeHostGroupHits struct {
+	Total essdk.SearchTotal     `json:"total"`
+	Hits  []ComputeHostGroupHit `json:"hits"`
+}
+
+type ComputeHostGroupSearchResponse struct {
+	PitID string               `json:"pit_id"`
+	Hits  ComputeHostGroupHits `json:"hits"`
+}
+
+type ComputeHostGroupPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewComputeHostGroupPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeHostGroupPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_hostgroups", filters, limit)
+	if err != nil {
+		return ComputeHostGroupPaginator{}, err
+	}
+
+	p := ComputeHostGroupPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ComputeHostGroupPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ComputeHostGroupPaginator) NextPage(ctx context.Context) ([]ComputeHostGroup, error) {
+	var response ComputeHostGroupSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ComputeHostGroup
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listComputeHostGroupFilters = map[string]string{
+	"akas":  "description.HostGroup.ID",
+	"id":    "description.HostGroup.Id",
+	"name":  "description.HostGroup.Name",
+	"tags":  "description.HostGroup.Tags",
+	"title": "description.HostGroup.Name",
+}
+
+func ListComputeHostGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListComputeHostGroup")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewComputeHostGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeHostGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getComputeHostGroupFilters = map[string]string{
+	"akas":  "description.HostGroup.ID",
+	"id":    "description.HostGroup.Id",
+	"name":  "description.HostGroup.Name",
+	"tags":  "description.HostGroup.Tags",
+	"title": "description.HostGroup.Name",
+}
+
+func GetComputeHostGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetComputeHostGroup")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewComputeHostGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeHostGroupFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ComputeHostGroup =============================
+
+// ==========================  START: ComputeHostGroupHost =============================
+
+type ComputeHostGroupHost struct {
+	Description   azure.ComputeHostGroupHostDescription `json:"description"`
+	Metadata      azure.Metadata                        `json:"metadata"`
+	ResourceJobID int                                   `json:"resource_job_id"`
+	SourceJobID   int                                   `json:"source_job_id"`
+	ResourceType  string                                `json:"resource_type"`
+	SourceType    string                                `json:"source_type"`
+	ID            string                                `json:"id"`
+	ARN           string                                `json:"arn"`
+	SourceID      string                                `json:"source_id"`
+}
+
+type ComputeHostGroupHostHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  ComputeHostGroupHost `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type ComputeHostGroupHostHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []ComputeHostGroupHostHit `json:"hits"`
+}
+
+type ComputeHostGroupHostSearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  ComputeHostGroupHostHits `json:"hits"`
+}
+
+type ComputeHostGroupHostPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewComputeHostGroupHostPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeHostGroupHostPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_hostgroups_hosts", filters, limit)
+	if err != nil {
+		return ComputeHostGroupHostPaginator{}, err
+	}
+
+	p := ComputeHostGroupHostPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ComputeHostGroupHostPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ComputeHostGroupHostPaginator) NextPage(ctx context.Context) ([]ComputeHostGroupHost, error) {
+	var response ComputeHostGroupHostSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ComputeHostGroupHost
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listComputeHostGroupHostFilters = map[string]string{
+	"akas":  "description.Host.ID",
+	"id":    "description.Host.Id",
+	"name":  "description.Host.Name",
+	"tags":  "description.Host.Tags",
+	"title": "description.Host.Name",
+}
+
+func ListComputeHostGroupHost(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListComputeHostGroupHost")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewComputeHostGroupHostPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeHostGroupHostFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getComputeHostGroupHostFilters = map[string]string{
+	"akas":  "description.Host.ID",
+	"id":    "description.Host.Id",
+	"name":  "description.Host.Name",
+	"tags":  "description.Host.Tags",
+	"title": "description.Host.Name",
+}
+
+func GetComputeHostGroupHost(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetComputeHostGroupHost")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewComputeHostGroupHostPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeHostGroupHostFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ComputeHostGroupHost =============================
+
+// ==========================  START: ComputeRestorePointCollection =============================
+
+type ComputeRestorePointCollection struct {
+	Description   azure.ComputeRestorePointCollectionDescription `json:"description"`
+	Metadata      azure.Metadata                                 `json:"metadata"`
+	ResourceJobID int                                            `json:"resource_job_id"`
+	SourceJobID   int                                            `json:"source_job_id"`
+	ResourceType  string                                         `json:"resource_type"`
+	SourceType    string                                         `json:"source_type"`
+	ID            string                                         `json:"id"`
+	ARN           string                                         `json:"arn"`
+	SourceID      string                                         `json:"source_id"`
+}
+
+type ComputeRestorePointCollectionHit struct {
+	ID      string                        `json:"_id"`
+	Score   float64                       `json:"_score"`
+	Index   string                        `json:"_index"`
+	Type    string                        `json:"_type"`
+	Version int64                         `json:"_version,omitempty"`
+	Source  ComputeRestorePointCollection `json:"_source"`
+	Sort    []interface{}                 `json:"sort"`
+}
+
+type ComputeRestorePointCollectionHits struct {
+	Total essdk.SearchTotal                  `json:"total"`
+	Hits  []ComputeRestorePointCollectionHit `json:"hits"`
+}
+
+type ComputeRestorePointCollectionSearchResponse struct {
+	PitID string                            `json:"pit_id"`
+	Hits  ComputeRestorePointCollectionHits `json:"hits"`
+}
+
+type ComputeRestorePointCollectionPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewComputeRestorePointCollectionPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeRestorePointCollectionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_restorepointcollections", filters, limit)
+	if err != nil {
+		return ComputeRestorePointCollectionPaginator{}, err
+	}
+
+	p := ComputeRestorePointCollectionPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ComputeRestorePointCollectionPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ComputeRestorePointCollectionPaginator) NextPage(ctx context.Context) ([]ComputeRestorePointCollection, error) {
+	var response ComputeRestorePointCollectionSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ComputeRestorePointCollection
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listComputeRestorePointCollectionFilters = map[string]string{
+	"akas":  "description.RestorePointCollection.ID",
+	"id":    "description.RestorePointCollection.Id",
+	"name":  "description.RestorePointCollection.Name",
+	"tags":  "description.RestorePointCollection.Tags",
+	"title": "description.RestorePointCollection.Name",
+}
+
+func ListComputeRestorePointCollection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListComputeRestorePointCollection")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewComputeRestorePointCollectionPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeRestorePointCollectionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getComputeRestorePointCollectionFilters = map[string]string{
+	"akas":  "description.RestorePointCollection.ID",
+	"id":    "description.RestorePointCollection.Id",
+	"name":  "description.RestorePointCollection.Name",
+	"tags":  "description.RestorePointCollection.Tags",
+	"title": "description.RestorePointCollection.Name",
+}
+
+func GetComputeRestorePointCollection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetComputeRestorePointCollection")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewComputeRestorePointCollectionPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeRestorePointCollectionFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ComputeRestorePointCollection =============================
+
+// ==========================  START: ComputeSSHPublicKey =============================
+
+type ComputeSSHPublicKey struct {
+	Description   azure.ComputeSSHPublicKeyDescription `json:"description"`
+	Metadata      azure.Metadata                       `json:"metadata"`
+	ResourceJobID int                                  `json:"resource_job_id"`
+	SourceJobID   int                                  `json:"source_job_id"`
+	ResourceType  string                               `json:"resource_type"`
+	SourceType    string                               `json:"source_type"`
+	ID            string                               `json:"id"`
+	ARN           string                               `json:"arn"`
+	SourceID      string                               `json:"source_id"`
+}
+
+type ComputeSSHPublicKeyHit struct {
+	ID      string              `json:"_id"`
+	Score   float64             `json:"_score"`
+	Index   string              `json:"_index"`
+	Type    string              `json:"_type"`
+	Version int64               `json:"_version,omitempty"`
+	Source  ComputeSSHPublicKey `json:"_source"`
+	Sort    []interface{}       `json:"sort"`
+}
+
+type ComputeSSHPublicKeyHits struct {
+	Total essdk.SearchTotal        `json:"total"`
+	Hits  []ComputeSSHPublicKeyHit `json:"hits"`
+}
+
+type ComputeSSHPublicKeySearchResponse struct {
+	PitID string                  `json:"pit_id"`
+	Hits  ComputeSSHPublicKeyHits `json:"hits"`
+}
+
+type ComputeSSHPublicKeyPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewComputeSSHPublicKeyPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeSSHPublicKeyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_sshpublickeys", filters, limit)
+	if err != nil {
+		return ComputeSSHPublicKeyPaginator{}, err
+	}
+
+	p := ComputeSSHPublicKeyPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ComputeSSHPublicKeyPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ComputeSSHPublicKeyPaginator) NextPage(ctx context.Context) ([]ComputeSSHPublicKey, error) {
+	var response ComputeSSHPublicKeySearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ComputeSSHPublicKey
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listComputeSSHPublicKeyFilters = map[string]string{
+	"akas":  "description.SSHPublicKey.ID",
+	"id":    "description.SSHPublicKey.Id",
+	"name":  "description.SSHPublicKey.Name",
+	"tags":  "description.SSHPublicKey.Tags",
+	"title": "description.SSHPublicKey.Name",
+}
+
+func ListComputeSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListComputeSSHPublicKey")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewComputeSSHPublicKeyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeSSHPublicKeyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getComputeSSHPublicKeyFilters = map[string]string{
+	"akas":  "description.SSHPublicKey.ID",
+	"id":    "description.SSHPublicKey.Id",
+	"name":  "description.SSHPublicKey.Name",
+	"tags":  "description.SSHPublicKey.Tags",
+	"title": "description.SSHPublicKey.Name",
+}
+
+func GetComputeSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetComputeSSHPublicKey")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewComputeSSHPublicKeyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeSSHPublicKeyFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ComputeSSHPublicKey =============================
 
 // ==========================  START: DataboxEdgeDevice =============================
 
@@ -5964,6 +6747,162 @@ func GetCDNProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 }
 
 // ==========================  END: CDNProfile =============================
+
+// ==========================  START: CDNEndpoint =============================
+
+type CDNEndpoint struct {
+	Description   azure.CDNEndpointDescription `json:"description"`
+	Metadata      azure.Metadata               `json:"metadata"`
+	ResourceJobID int                          `json:"resource_job_id"`
+	SourceJobID   int                          `json:"source_job_id"`
+	ResourceType  string                       `json:"resource_type"`
+	SourceType    string                       `json:"source_type"`
+	ID            string                       `json:"id"`
+	ARN           string                       `json:"arn"`
+	SourceID      string                       `json:"source_id"`
+}
+
+type CDNEndpointHit struct {
+	ID      string        `json:"_id"`
+	Score   float64       `json:"_score"`
+	Index   string        `json:"_index"`
+	Type    string        `json:"_type"`
+	Version int64         `json:"_version,omitempty"`
+	Source  CDNEndpoint   `json:"_source"`
+	Sort    []interface{} `json:"sort"`
+}
+
+type CDNEndpointHits struct {
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []CDNEndpointHit  `json:"hits"`
+}
+
+type CDNEndpointSearchResponse struct {
+	PitID string          `json:"pit_id"`
+	Hits  CDNEndpointHits `json:"hits"`
+}
+
+type CDNEndpointPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewCDNEndpointPaginator(filters []essdk.BoolFilter, limit *int64) (CDNEndpointPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_cdn_profiles_endpoints", filters, limit)
+	if err != nil {
+		return CDNEndpointPaginator{}, err
+	}
+
+	p := CDNEndpointPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p CDNEndpointPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p CDNEndpointPaginator) NextPage(ctx context.Context) ([]CDNEndpoint, error) {
+	var response CDNEndpointSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []CDNEndpoint
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listCDNEndpointFilters = map[string]string{
+	"akas":  "description.Endpoint.ID",
+	"id":    "description.Endpoint.Id",
+	"name":  "description.Endpoint.Name",
+	"tags":  "description.Endpoint.Tags",
+	"title": "description.Endpoint.Name",
+}
+
+func ListCDNEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListCDNEndpoint")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewCDNEndpointPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCDNEndpointFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getCDNEndpointFilters = map[string]string{
+	"akas":  "description.Endpoint.ID",
+	"id":    "description.Endpoint.Id",
+	"name":  "description.Endpoint.Name",
+	"tags":  "description.Endpoint.Tags",
+	"title": "description.Endpoint.Name",
+}
+
+func GetCDNEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetCDNEndpoint")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewCDNEndpointPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCDNEndpointFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: CDNEndpoint =============================
 
 // ==========================  START: NetworkInterface =============================
 
@@ -9549,164 +10488,6 @@ func GetVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 // ==========================  END: VirtualWans =============================
 
-// ==========================  START: DNSResolvers =============================
-
-type DNSResolvers struct {
-	Description   azure.DNSResolversDescription `json:"description"`
-	Metadata      azure.Metadata                `json:"metadata"`
-	ResourceJobID int                           `json:"resource_job_id"`
-	SourceJobID   int                           `json:"source_job_id"`
-	ResourceType  string                        `json:"resource_type"`
-	SourceType    string                        `json:"source_type"`
-	ID            string                        `json:"id"`
-	ARN           string                        `json:"arn"`
-	SourceID      string                        `json:"source_id"`
-}
-
-type DNSResolversHit struct {
-	ID      string        `json:"_id"`
-	Score   float64       `json:"_score"`
-	Index   string        `json:"_index"`
-	Type    string        `json:"_type"`
-	Version int64         `json:"_version,omitempty"`
-	Source  DNSResolvers  `json:"_source"`
-	Sort    []interface{} `json:"sort"`
-}
-
-type DNSResolversHits struct {
-	Total essdk.SearchTotal `json:"total"`
-	Hits  []DNSResolversHit `json:"hits"`
-}
-
-type DNSResolversSearchResponse struct {
-	PitID string           `json:"pit_id"`
-	Hits  DNSResolversHits `json:"hits"`
-}
-
-type DNSResolversPaginator struct {
-	paginator *essdk.BaseESPaginator
-}
-
-func (k Client) NewDNSResolversPaginator(filters []essdk.BoolFilter, limit *int64) (DNSResolversPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_dnsresolvers", filters, limit)
-	if err != nil {
-		return DNSResolversPaginator{}, err
-	}
-
-	p := DNSResolversPaginator{
-		paginator: paginator,
-	}
-
-	return p, nil
-}
-
-func (p DNSResolversPaginator) HasNext() bool {
-	return !p.paginator.Done()
-}
-
-func (p DNSResolversPaginator) NextPage(ctx context.Context) ([]DNSResolvers, error) {
-	var response DNSResolversSearchResponse
-	err := p.paginator.Search(ctx, &response)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []DNSResolvers
-	for _, hit := range response.Hits.Hits {
-		values = append(values, hit.Source)
-	}
-
-	hits := int64(len(response.Hits.Hits))
-	if hits > 0 {
-		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
-	} else {
-		p.paginator.UpdateState(hits, nil, "")
-	}
-
-	return values, nil
-}
-
-var listDNSResolversFilters = map[string]string{
-	"akas":             "description.DNSResolvers.ID",
-	"id":               "description.DNSResolvers.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.DNSResolvers.Name",
-	"tags":             "description.DNSResolvers.Tags",
-	"title":            "description.DNSResolvers.Name",
-}
-
-func ListDNSResolvers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("ListDNSResolvers")
-
-	// create service
-	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
-	if err != nil {
-		return nil, err
-	}
-	k := Client{Client: ke}
-
-	paginator, err := k.NewDNSResolversPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDNSResolversFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
-	if err != nil {
-		return nil, err
-	}
-
-	for paginator.HasNext() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page {
-			d.StreamListItem(ctx, v)
-		}
-	}
-
-	return nil, nil
-}
-
-var getDNSResolversFilters = map[string]string{
-	"akas":             "description.DNSResolvers.ID",
-	"id":               "description.DNSResolvers.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.DNSResolvers.Name",
-	"tags":             "description.DNSResolvers.Tags",
-	"title":            "description.DNSResolvers.Name",
-}
-
-func GetDNSResolvers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("GetDNSResolvers")
-
-	// create service
-	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
-	if err != nil {
-		return nil, err
-	}
-	k := Client{Client: ke}
-
-	limit := int64(1)
-	paginator, err := k.NewDNSResolversPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDNSResolversFilters, "azure", *cfg.AccountID), &limit)
-	if err != nil {
-		return nil, err
-	}
-
-	for paginator.HasNext() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page {
-			return v, nil
-		}
-	}
-
-	return nil, nil
-}
-
-// ==========================  END: DNSResolvers =============================
-
 // ==========================  START: PrivateDNSZones =============================
 
 type PrivateDNSZones struct {
@@ -10022,6 +10803,162 @@ func GetPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 // ==========================  END: PrivateEndpoint =============================
+
+// ==========================  START: NetworkDDoSProtectionPlan =============================
+
+type NetworkDDoSProtectionPlan struct {
+	Description   azure.NetworkDDoSProtectionPlanDescription `json:"description"`
+	Metadata      azure.Metadata                             `json:"metadata"`
+	ResourceJobID int                                        `json:"resource_job_id"`
+	SourceJobID   int                                        `json:"source_job_id"`
+	ResourceType  string                                     `json:"resource_type"`
+	SourceType    string                                     `json:"source_type"`
+	ID            string                                     `json:"id"`
+	ARN           string                                     `json:"arn"`
+	SourceID      string                                     `json:"source_id"`
+}
+
+type NetworkDDoSProtectionPlanHit struct {
+	ID      string                    `json:"_id"`
+	Score   float64                   `json:"_score"`
+	Index   string                    `json:"_index"`
+	Type    string                    `json:"_type"`
+	Version int64                     `json:"_version,omitempty"`
+	Source  NetworkDDoSProtectionPlan `json:"_source"`
+	Sort    []interface{}             `json:"sort"`
+}
+
+type NetworkDDoSProtectionPlanHits struct {
+	Total essdk.SearchTotal              `json:"total"`
+	Hits  []NetworkDDoSProtectionPlanHit `json:"hits"`
+}
+
+type NetworkDDoSProtectionPlanSearchResponse struct {
+	PitID string                        `json:"pit_id"`
+	Hits  NetworkDDoSProtectionPlanHits `json:"hits"`
+}
+
+type NetworkDDoSProtectionPlanPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewNetworkDDoSProtectionPlanPaginator(filters []essdk.BoolFilter, limit *int64) (NetworkDDoSProtectionPlanPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_ddosprotectionplans", filters, limit)
+	if err != nil {
+		return NetworkDDoSProtectionPlanPaginator{}, err
+	}
+
+	p := NetworkDDoSProtectionPlanPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p NetworkDDoSProtectionPlanPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p NetworkDDoSProtectionPlanPaginator) NextPage(ctx context.Context) ([]NetworkDDoSProtectionPlan, error) {
+	var response NetworkDDoSProtectionPlanSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []NetworkDDoSProtectionPlan
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listNetworkDDoSProtectionPlanFilters = map[string]string{
+	"akas":  "description.DDoSProtectionPlan.ID",
+	"id":    "description.DDoSProtectionPlan.Id",
+	"name":  "description.DDoSProtectionPlan.Name",
+	"tags":  "description.DDoSProtectionPlan.Tags",
+	"title": "description.DDoSProtectionPlan.Name",
+}
+
+func ListNetworkDDoSProtectionPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListNetworkDDoSProtectionPlan")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewNetworkDDoSProtectionPlanPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkDDoSProtectionPlanFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getNetworkDDoSProtectionPlanFilters = map[string]string{
+	"akas":  "description.DDoSProtectionPlan.ID",
+	"id":    "description.DDoSProtectionPlan.Id",
+	"name":  "description.DDoSProtectionPlan.Name",
+	"tags":  "description.DDoSProtectionPlan.Tags",
+	"title": "description.DDoSProtectionPlan.Name",
+}
+
+func GetNetworkDDoSProtectionPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetNetworkDDoSProtectionPlan")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewNetworkDDoSProtectionPlanPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkDDoSProtectionPlanFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: NetworkDDoSProtectionPlan =============================
 
 // ==========================  START: PolicyAssignment =============================
 
@@ -16848,6 +17785,162 @@ func GetCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.
 }
 
 // ==========================  END: CosmosdbSqlDatabase =============================
+
+// ==========================  START: CosmosdbCassandraCluster =============================
+
+type CosmosdbCassandraCluster struct {
+	Description   azure.CosmosdbCassandraClusterDescription `json:"description"`
+	Metadata      azure.Metadata                            `json:"metadata"`
+	ResourceJobID int                                       `json:"resource_job_id"`
+	SourceJobID   int                                       `json:"source_job_id"`
+	ResourceType  string                                    `json:"resource_type"`
+	SourceType    string                                    `json:"source_type"`
+	ID            string                                    `json:"id"`
+	ARN           string                                    `json:"arn"`
+	SourceID      string                                    `json:"source_id"`
+}
+
+type CosmosdbCassandraClusterHit struct {
+	ID      string                   `json:"_id"`
+	Score   float64                  `json:"_score"`
+	Index   string                   `json:"_index"`
+	Type    string                   `json:"_type"`
+	Version int64                    `json:"_version,omitempty"`
+	Source  CosmosdbCassandraCluster `json:"_source"`
+	Sort    []interface{}            `json:"sort"`
+}
+
+type CosmosdbCassandraClusterHits struct {
+	Total essdk.SearchTotal             `json:"total"`
+	Hits  []CosmosdbCassandraClusterHit `json:"hits"`
+}
+
+type CosmosdbCassandraClusterSearchResponse struct {
+	PitID string                       `json:"pit_id"`
+	Hits  CosmosdbCassandraClusterHits `json:"hits"`
+}
+
+type CosmosdbCassandraClusterPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewCosmosdbCassandraClusterPaginator(filters []essdk.BoolFilter, limit *int64) (CosmosdbCassandraClusterPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_cassandraclusters", filters, limit)
+	if err != nil {
+		return CosmosdbCassandraClusterPaginator{}, err
+	}
+
+	p := CosmosdbCassandraClusterPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p CosmosdbCassandraClusterPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p CosmosdbCassandraClusterPaginator) NextPage(ctx context.Context) ([]CosmosdbCassandraCluster, error) {
+	var response CosmosdbCassandraClusterSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []CosmosdbCassandraCluster
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listCosmosdbCassandraClusterFilters = map[string]string{
+	"akas":  "description.CassandraCluster.ID",
+	"id":    "description.CassandraCluster.Id",
+	"name":  "description.CassandraCluster.Name",
+	"tags":  "description.CassandraCluster.Tags",
+	"title": "description.CassandraCluster.Name",
+}
+
+func ListCosmosdbCassandraCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListCosmosdbCassandraCluster")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewCosmosdbCassandraClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCosmosdbCassandraClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getCosmosdbCassandraClusterFilters = map[string]string{
+	"akas":  "description.CassandraCluster.ID",
+	"id":    "description.CassandraCluster.Id",
+	"name":  "description.CassandraCluster.Name",
+	"tags":  "description.CassandraCluster.Tags",
+	"title": "description.CassandraCluster.Name",
+}
+
+func GetCosmosdbCassandraCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetCosmosdbCassandraCluster")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewCosmosdbCassandraClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCosmosdbCassandraClusterFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: CosmosdbCassandraCluster =============================
 
 // ==========================  START: DatabricksWorkspace =============================
 
@@ -31683,3 +32776,159 @@ func GetResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 // ==========================  END: ResourceGroup =============================
+
+// ==========================  START: BotServiceBot =============================
+
+type BotServiceBot struct {
+	Description   azure.BotServiceBotDescription `json:"description"`
+	Metadata      azure.Metadata                 `json:"metadata"`
+	ResourceJobID int                            `json:"resource_job_id"`
+	SourceJobID   int                            `json:"source_job_id"`
+	ResourceType  string                         `json:"resource_type"`
+	SourceType    string                         `json:"source_type"`
+	ID            string                         `json:"id"`
+	ARN           string                         `json:"arn"`
+	SourceID      string                         `json:"source_id"`
+}
+
+type BotServiceBotHit struct {
+	ID      string        `json:"_id"`
+	Score   float64       `json:"_score"`
+	Index   string        `json:"_index"`
+	Type    string        `json:"_type"`
+	Version int64         `json:"_version,omitempty"`
+	Source  BotServiceBot `json:"_source"`
+	Sort    []interface{} `json:"sort"`
+}
+
+type BotServiceBotHits struct {
+	Total essdk.SearchTotal  `json:"total"`
+	Hits  []BotServiceBotHit `json:"hits"`
+}
+
+type BotServiceBotSearchResponse struct {
+	PitID string            `json:"pit_id"`
+	Hits  BotServiceBotHits `json:"hits"`
+}
+
+type BotServiceBotPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewBotServiceBotPaginator(filters []essdk.BoolFilter, limit *int64) (BotServiceBotPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_botservice_botservices", filters, limit)
+	if err != nil {
+		return BotServiceBotPaginator{}, err
+	}
+
+	p := BotServiceBotPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p BotServiceBotPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p BotServiceBotPaginator) NextPage(ctx context.Context) ([]BotServiceBot, error) {
+	var response BotServiceBotSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []BotServiceBot
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listBotServiceBotFilters = map[string]string{
+	"akas":  "description.Bot.ID",
+	"id":    "description.Bot.Id",
+	"name":  "description.Bot.Name",
+	"tags":  "description.Bot.Tags",
+	"title": "description.Bot.Name",
+}
+
+func ListBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListBotServiceBot")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewBotServiceBotPaginator(essdk.BuildFilter(d.KeyColumnQuals, listBotServiceBotFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getBotServiceBotFilters = map[string]string{
+	"akas":  "description.Bot.ID",
+	"id":    "description.Bot.Id",
+	"name":  "description.Bot.Name",
+	"tags":  "description.Bot.Tags",
+	"title": "description.Bot.Name",
+}
+
+func GetBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetBotServiceBot")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewBotServiceBotPaginator(essdk.BuildFilter(d.KeyColumnQuals, getBotServiceBotFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: BotServiceBot =============================

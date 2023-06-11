@@ -21,6 +21,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/appconfiguration/mgmt/2020-06-01/appconfiguration"
 	"github.com/Azure/azure-sdk-for-go/services/appplatform/mgmt/2020-07-01/appplatform"
 	"github.com/Azure/azure-sdk-for-go/services/batch/mgmt/2020-09-01/batch"
+	"github.com/Azure/azure-sdk-for-go/services/botservice/mgmt/2021-03-01/botservice"
 	"github.com/Azure/azure-sdk-for-go/services/cdn/mgmt/2021-06-01/cdn"
 	"github.com/Azure/azure-sdk-for-go/services/cognitiveservices/mgmt/2021-04-30/cognitiveservices"
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2017-09-01/skus"
@@ -294,10 +295,10 @@ type ComputeDiskEncryptionSetDescription struct {
 }
 
 //index:microsoft_compute_gallery
-//getfilter:name=description.Gallery.Name
+//getfilter:name=description.ImageGallery.Name
 //getfilter:resource_group=description.ResourceGroup
-type ComputeGalleryDescription struct {
-	Gallery       compute.Gallery
+type ComputeImageGalleryDescription struct {
+	ImageGallery  compute.Gallery
 	ResourceGroup string
 }
 
@@ -306,6 +307,26 @@ type ComputeGalleryDescription struct {
 //getfilter:resource_group=Description.Image.ResourceGroup
 type ComputeImageDescription struct {
 	Image         compute.Image
+	ResourceGroup string
+}
+
+type ComputeHostGroupDescription struct {
+	HostGroup     compute.DedicatedHostGroup
+	ResourceGroup string
+}
+
+type ComputeHostGroupHostDescription struct {
+	Host          compute.DedicatedHost
+	ResourceGroup string
+}
+
+type ComputeRestorePointCollectionDescription struct {
+	RestorePointCollection compute2.RestorePointCollection
+	ResourceGroup          string
+}
+
+type ComputeSSHPublicKeyDescription struct {
+	SSHPublicKey  compute.SSHPublicKeyResource
 	ResourceGroup string
 }
 
@@ -377,6 +398,11 @@ type ContainerInstanceContainerGroupDescription struct {
 type CDNProfileDescription struct {
 	ResourceGroup string
 	Profile       cdn.Profile
+}
+
+type CDNEndpointDescription struct {
+	ResourceGroup string
+	Endpoint      cdn.Endpoint
 }
 
 //  =================== network ==================
@@ -562,7 +588,7 @@ type VirtualWansDescription struct {
 }
 
 //index:microsoft_network_dnsresolvers
-type DNSResolversDescription struct {
+type DNSResolverDescription struct {
 	ResourceGroup string
 }
 
@@ -576,6 +602,11 @@ type PrivateDNSZonesDescription struct {
 type PrivateEndpointDescription struct {
 	ResourceGroup   string
 	PrivateEndpoint network.PrivateEndpoint
+}
+
+type NetworkDDoSProtectionPlanDescription struct {
+	ResourceGroup      string
+	DDoSProtectionPlan network.DdosProtectionPlan
 }
 
 //  =================== policy ==================
@@ -899,6 +930,11 @@ type CosmosdbSqlDatabaseDescription struct {
 	Account       documentdb.DatabaseAccountGetResults
 	SqlDatabase   documentdb.SQLDatabaseGetResults
 	ResourceGroup string
+}
+
+type CosmosdbCassandraClusterDescription struct {
+	CassandraCluster documentdb.ClusterResource
+	ResourceGroup    string
 }
 
 //  =================== databricks ==================
@@ -1717,4 +1753,11 @@ type ResourceProviderDescription struct {
 //getfilter:name=description.Group.Name
 type ResourceGroupDescription struct {
 	Group resources.Group
+}
+
+// =================== BotService ==================
+
+type BotServiceBotDescription struct {
+	Bot           botservice.Bot
+	ResourceGroup string
 }

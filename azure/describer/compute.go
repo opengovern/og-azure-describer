@@ -3,8 +3,9 @@ package describer
 import (
 	"context"
 	"fmt"
-	compute2 "github.com/Azure/azure-sdk-for-go/profiles/latest/compute/mgmt/compute"
 	"strings"
+
+	compute2 "github.com/Azure/azure-sdk-for-go/profiles/latest/compute/mgmt/compute"
 
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2017-09-01/skus"
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2020-06-01/compute"
@@ -567,9 +568,9 @@ func ComputeGallery(ctx context.Context, authorizer autorest.Authorizer, subscri
 				Name:     *gallery.Name,
 				Location: *gallery.Location,
 				Description: JSONAllFieldsMarshaller{
-					model.ComputeGalleryDescription{
+					model.ComputeImageGalleryDescription{
 						ResourceGroup: resourceGroupName,
-						Gallery:       gallery,
+						ImageGallery:  gallery,
 					},
 				},
 			}
@@ -615,6 +616,204 @@ func ComputeImage(ctx context.Context, authorizer autorest.Authorizer, subscript
 				Description: JSONAllFieldsMarshaller{
 					model.ComputeImageDescription{
 						Image:         v,
+						ResourceGroup: resourceGroup,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+
+		if !result.NotDone() {
+			break
+		}
+
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return values, nil
+}
+
+func ComputeHostGroup(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := compute.NewDedicatedHostGroupsClient(subscription)
+	client.Authorizer = authorizer
+
+	result, err := client.ListBySubscription(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, v := range result.Values() {
+			resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
+			resource := Resource{
+				ID:       *v.ID,
+				Name:     *v.Name,
+				Location: *v.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeHostGroupDescription{
+						HostGroup:     v,
+						ResourceGroup: resourceGroup,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+
+		if !result.NotDone() {
+			break
+		}
+
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return values, nil
+}
+
+func ComputeHost(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := compute.NewDedicatedHostGroupsClient(subscription)
+	client.Authorizer = authorizer
+	result, err := client.ListBySubscription(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, v := range result.Values() {
+			resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
+			hostClient := compute.NewDedicatedHostsClient(subscription)
+			hostClient.Authorizer = authorizer
+
+			hostResult, err := hostClient.ListByHostGroup(ctx, resourceGroup, *v.Name)
+			if err != nil {
+				return nil, err
+			}
+			for _, host := range hostResult.Values() {
+				resource := Resource{
+					ID:       *v.ID,
+					Name:     *v.Name,
+					Location: *v.Location,
+					Description: JSONAllFieldsMarshaller{
+						model.ComputeHostGroupHostDescription{
+							Host:          host,
+							ResourceGroup: resourceGroup,
+						},
+					},
+				}
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+			if !hostResult.NotDone() {
+				break
+			}
+			err = hostResult.NextWithContext(ctx)
+			if err != nil {
+				return nil, err
+			}
+		}
+
+		if !result.NotDone() {
+			break
+		}
+
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return values, nil
+}
+
+func ComputeRestorePointCollection(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := compute2.NewRestorePointCollectionsClient(subscription)
+	client.Authorizer = authorizer
+	result, err := client.ListAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, v := range result.Values() {
+			resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
+			resource := Resource{
+				ID:       *v.ID,
+				Name:     *v.Name,
+				Location: *v.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeRestorePointCollectionDescription{
+						RestorePointCollection: v,
+						ResourceGroup:          resourceGroup,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+
+		if !result.NotDone() {
+			break
+		}
+
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return values, nil
+}
+
+func ComputeSSHPublicKey(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := compute.NewSSHPublicKeysClient(subscription)
+	client.Authorizer = authorizer
+
+	result, err := client.ListBySubscription(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, v := range result.Values() {
+			resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
+			resource := Resource{
+				ID:       *v.ID,
+				Name:     *v.Name,
+				Location: *v.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeSSHPublicKeyDescription{
+						SSHPublicKey:  v,
 						ResourceGroup: resourceGroup,
 					},
 				},
