@@ -2165,4 +2165,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "compute",
 		FastDiscovery: false,
 	},
+
+	"Microsoft.Compute/hostGroups/hosts": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Compute/hostGroups/hosts",
+		ResourceLabel:        "",
+		ServiceName:          "Compute",
+		ListDescriber:        DescribeBySubscription(describer.ComputeHost),
+		GetDescriber:          nil ,
+		TerraformName:        []string{"azurerm_dedicated_host"},
+		TerraformServiceName: "compute",
+		FastDiscovery: false,
+	},
 }

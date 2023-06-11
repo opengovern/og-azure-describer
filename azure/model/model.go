@@ -314,6 +314,11 @@ type ComputeHostGroupDescription struct {
 	ResourceGroup string
 }
 
+type ComputeHostGroupHostDescription struct {
+	Host          compute.DedicatedHost
+	ResourceGroup string
+}
+
 //  =================== databoxedge ==================
 
 //index:microsoft_databoxedge_databoxedgedevices

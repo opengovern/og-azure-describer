@@ -688,6 +688,69 @@ func ComputeHostGroup(ctx context.Context, authorizer autorest.Authorizer, subsc
 	return values, nil
 }
 
+func ComputeHost(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := compute.NewDedicatedHostGroupsClient(subscription)
+	client.Authorizer = authorizer
+
+	result, err := client.ListBySubscription(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, v := range result.Values() {
+			resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
+			hostClient := compute.NewDedicatedHostsClient(subscription)
+			hostClient.Authorizer = authorizer
+
+			hostResult, err := hostClient.ListByHostGroup(ctx, resourceGroup, *v.Name)
+			if err != nil {
+				return nil, err
+			}
+			for _, host := range hostResult.Values() {
+				resource := Resource{
+					ID:       *v.ID,
+					Name:     *v.Name,
+					Location: *v.Location,
+					Description: JSONAllFieldsMarshaller{
+						model.ComputeHostGroupHostDescription{
+							Host:          host,
+							ResourceGroup: resourceGroup,
+						},
+					},
+				}
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+
+				if !hostResult.NotDone() {
+					break
+				}
+				err = hostResult.NextWithContext(ctx)
+				if err != nil {
+					return nil, err
+				}
+			}
+		}
+
+		if !result.NotDone() {
+			break
+		}
+
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return values, nil
+}
+
 func ComputeDiskReadOps(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
 	client := compute.NewDisksClient(subscription)
 	client.Authorizer = authorizer

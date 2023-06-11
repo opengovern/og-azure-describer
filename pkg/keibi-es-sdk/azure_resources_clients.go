@@ -4971,6 +4971,162 @@ func GetComputeHostGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 // ==========================  END: ComputeHostGroup =============================
 
+// ==========================  START: ComputeHostGroupHost =============================
+
+type ComputeHostGroupHost struct {
+	Description   azure.ComputeHostGroupHostDescription `json:"description"`
+	Metadata      azure.Metadata                        `json:"metadata"`
+	ResourceJobID int                                   `json:"resource_job_id"`
+	SourceJobID   int                                   `json:"source_job_id"`
+	ResourceType  string                                `json:"resource_type"`
+	SourceType    string                                `json:"source_type"`
+	ID            string                                `json:"id"`
+	ARN           string                                `json:"arn"`
+	SourceID      string                                `json:"source_id"`
+}
+
+type ComputeHostGroupHostHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  ComputeHostGroupHost `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type ComputeHostGroupHostHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []ComputeHostGroupHostHit `json:"hits"`
+}
+
+type ComputeHostGroupHostSearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  ComputeHostGroupHostHits `json:"hits"`
+}
+
+type ComputeHostGroupHostPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewComputeHostGroupHostPaginator(filters []essdk.BoolFilter, limit *int64) (ComputeHostGroupHostPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_compute_hostgroups_hosts", filters, limit)
+	if err != nil {
+		return ComputeHostGroupHostPaginator{}, err
+	}
+
+	p := ComputeHostGroupHostPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ComputeHostGroupHostPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ComputeHostGroupHostPaginator) NextPage(ctx context.Context) ([]ComputeHostGroupHost, error) {
+	var response ComputeHostGroupHostSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ComputeHostGroupHost
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listComputeHostGroupHostFilters = map[string]string{
+	"akas":  "description.Host.ID",
+	"id":    "description.Host.Id",
+	"name":  "description.Host.Name",
+	"tags":  "description.Host.Tags",
+	"title": "description.Host.Name",
+}
+
+func ListComputeHostGroupHost(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListComputeHostGroupHost")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewComputeHostGroupHostPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeHostGroupHostFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getComputeHostGroupHostFilters = map[string]string{
+	"akas":  "description.Host.ID",
+	"id":    "description.Host.Id",
+	"name":  "description.Host.Name",
+	"tags":  "description.Host.Tags",
+	"title": "description.Host.Name",
+}
+
+func GetComputeHostGroupHost(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetComputeHostGroupHost")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewComputeHostGroupHostPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeHostGroupHostFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ComputeHostGroupHost =============================
+
 // ==========================  START: DataboxEdgeDevice =============================
 
 type DataboxEdgeDevice struct {
