@@ -2189,4 +2189,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery: false,
 	},
+
+	"Microsoft.Compute/sshPublicKeys": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Compute/sshPublicKeys",
+		ResourceLabel:        "",
+		ServiceName:          "Compute",
+		ListDescriber:        DescribeBySubscription(describer.ComputeSSHPublicKey),
+		GetDescriber:          nil ,
+		TerraformName:        []string{"azurerm_ssh_public_key"},
+		TerraformServiceName: "",
+		FastDiscovery: false,
+	},
 }

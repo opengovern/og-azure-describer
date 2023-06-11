@@ -324,6 +324,11 @@ type ComputeRestorePointCollectionDescription struct {
 	ResourceGroup          string
 }
 
+type ComputeSSHPublicKeyDescription struct {
+	SSHPublicKey  compute.SSHPublicKeyResource
+	ResourceGroup string
+}
+
 //  =================== databoxedge ==================
 
 //index:microsoft_databoxedge_databoxedgedevices
