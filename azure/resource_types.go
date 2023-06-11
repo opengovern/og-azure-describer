@@ -1290,9 +1290,9 @@ var resourceTypes = map[string]ResourceType{
 		FastDiscovery: false,
 	},
 
-	"Microsoft.LoadBalancer/rules": {
+	"Microsoft.Network/loadBalancers/loadBalancingRules": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.LoadBalancer/rules",
+		ResourceName:         "Microsoft.Network/loadBalancers/loadBalancingRules",
 		ResourceLabel:        "",
 		ServiceName:          "LoadBalancer",
 		ListDescriber:        DescribeBySubscription(describer.LoadBalancerRule),
@@ -1710,9 +1710,9 @@ var resourceTypes = map[string]ResourceType{
 		FastDiscovery: false,
 	},
 
-	"Microsoft.LoadBalancer/outboundRules": {
+	"Microsoft.Network/loadBalancers/outboundRules": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.LoadBalancer/outboundRules",
+		ResourceName:         "Microsoft.Network/loadBalancers/outboundRules",
 		ResourceLabel:        "",
 		ServiceName:          "LoadBalancer",
 		ListDescriber:        DescribeBySubscription(describer.LoadBalancerOutboundRule),
@@ -1734,9 +1734,9 @@ var resourceTypes = map[string]ResourceType{
 		FastDiscovery: false,
 	},
 
-	"Microsoft.LoadBalancer/natRules": {
+	"Microsoft.Network/loadBalancers/inboundNatRules": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.LoadBalancer/natRules",
+		ResourceName:         "Microsoft.Network/loadBalancers/inboundNatRules",
 		ResourceLabel:        "",
 		ServiceName:          "LoadBalancer",
 		ListDescriber:        DescribeBySubscription(describer.LoadBalancerNatRule),
@@ -2022,9 +2022,9 @@ var resourceTypes = map[string]ResourceType{
 		FastDiscovery: true,
 	},
 
-	"Microsoft.LoadBalancer/probes": {
+	"Microsoft.Network/loadBalancers/probes": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.LoadBalancer/probes",
+		ResourceName:         "Microsoft.Network/loadBalancers/probes",
 		ResourceLabel:        "",
 		ServiceName:          "LoadBalancer",
 		ListDescriber:        DescribeBySubscription(describer.LoadBalancerProbe),

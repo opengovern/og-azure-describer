@@ -31424,7 +31424,7 @@ type LoadBalancerNatRulePaginator struct {
 }
 
 func (k Client) NewLoadBalancerNatRulePaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerNatRulePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_loadbalancer_natrules", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_loadbalancers_inboundnatrules", filters, limit)
 	if err != nil {
 		return LoadBalancerNatRulePaginator{}, err
 	}
@@ -31606,7 +31606,7 @@ type LoadBalancerOutboundRulePaginator struct {
 }
 
 func (k Client) NewLoadBalancerOutboundRulePaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerOutboundRulePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_loadbalancer_outboundrules", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_loadbalancers_outboundrules", filters, limit)
 	if err != nil {
 		return LoadBalancerOutboundRulePaginator{}, err
 	}
@@ -31784,7 +31784,7 @@ type LoadBalancerProbePaginator struct {
 }
 
 func (k Client) NewLoadBalancerProbePaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerProbePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_loadbalancer_probes", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_loadbalancers_probes", filters, limit)
 	if err != nil {
 		return LoadBalancerProbePaginator{}, err
 	}
@@ -31962,7 +31962,7 @@ type LoadBalancerRulePaginator struct {
 }
 
 func (k Client) NewLoadBalancerRulePaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerRulePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_loadbalancer_rules", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_loadbalancers_loadbalancingrules", filters, limit)
 	if err != nil {
 		return LoadBalancerRulePaginator{}, err
 	}
