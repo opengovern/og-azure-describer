@@ -192,6 +192,7 @@ var azureMap = map[string]string{
 "Microsoft.Cdn/profiles/endpoints": "azure_cdn_endpoint",
 "Microsoft.BotService/botServices": "azure_botservice_bot",
 "Microsoft.DocumentDB/cassandraClusters": "azure_cosmosdb_cassandra_cluster",
+"Microsoft.Network/ddosProtectionPlans": "azure_network_ddos_protection_plan",
 }
 
 var AzureDescriptionMap = map[string]interface{}{
@@ -381,4 +382,5 @@ var AzureDescriptionMap = map[string]interface{}{
 "Microsoft.Cdn/profiles/endpoints": &keibi.CDNEndpoint{},
 "Microsoft.BotService/botServices": &keibi.BotServiceBot{},
 "Microsoft.DocumentDB/cassandraClusters": &keibi.CosmosdbCassandraCluster{},
+"Microsoft.Network/ddosProtectionPlans": &keibi.NetworkDDoSProtectionPlan{},
 }

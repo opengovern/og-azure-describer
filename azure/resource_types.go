@@ -2237,4 +2237,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "cosmos",
 		FastDiscovery: false,
 	},
+
+	"Microsoft.Network/ddosProtectionPlans": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Network/ddosProtectionPlans",
+		ResourceLabel:        "",
+		ServiceName:          "Network",
+		ListDescriber:        DescribeBySubscription(describer.NetworkDDoSProtectionPlan),
+		GetDescriber:          nil ,
+		TerraformName:        []string{"azurerm_network_ddos_protection_plan"},
+		TerraformServiceName: "network",
+		FastDiscovery: false,
+	},
 }

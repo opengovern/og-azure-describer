@@ -10488,164 +10488,6 @@ func GetVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 // ==========================  END: VirtualWans =============================
 
-// ==========================  START: DNSResolvers =============================
-
-type DNSResolvers struct {
-	Description   azure.DNSResolversDescription `json:"description"`
-	Metadata      azure.Metadata                `json:"metadata"`
-	ResourceJobID int                           `json:"resource_job_id"`
-	SourceJobID   int                           `json:"source_job_id"`
-	ResourceType  string                        `json:"resource_type"`
-	SourceType    string                        `json:"source_type"`
-	ID            string                        `json:"id"`
-	ARN           string                        `json:"arn"`
-	SourceID      string                        `json:"source_id"`
-}
-
-type DNSResolversHit struct {
-	ID      string        `json:"_id"`
-	Score   float64       `json:"_score"`
-	Index   string        `json:"_index"`
-	Type    string        `json:"_type"`
-	Version int64         `json:"_version,omitempty"`
-	Source  DNSResolvers  `json:"_source"`
-	Sort    []interface{} `json:"sort"`
-}
-
-type DNSResolversHits struct {
-	Total essdk.SearchTotal `json:"total"`
-	Hits  []DNSResolversHit `json:"hits"`
-}
-
-type DNSResolversSearchResponse struct {
-	PitID string           `json:"pit_id"`
-	Hits  DNSResolversHits `json:"hits"`
-}
-
-type DNSResolversPaginator struct {
-	paginator *essdk.BaseESPaginator
-}
-
-func (k Client) NewDNSResolversPaginator(filters []essdk.BoolFilter, limit *int64) (DNSResolversPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_dnsresolvers", filters, limit)
-	if err != nil {
-		return DNSResolversPaginator{}, err
-	}
-
-	p := DNSResolversPaginator{
-		paginator: paginator,
-	}
-
-	return p, nil
-}
-
-func (p DNSResolversPaginator) HasNext() bool {
-	return !p.paginator.Done()
-}
-
-func (p DNSResolversPaginator) NextPage(ctx context.Context) ([]DNSResolvers, error) {
-	var response DNSResolversSearchResponse
-	err := p.paginator.Search(ctx, &response)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []DNSResolvers
-	for _, hit := range response.Hits.Hits {
-		values = append(values, hit.Source)
-	}
-
-	hits := int64(len(response.Hits.Hits))
-	if hits > 0 {
-		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
-	} else {
-		p.paginator.UpdateState(hits, nil, "")
-	}
-
-	return values, nil
-}
-
-var listDNSResolversFilters = map[string]string{
-	"akas":             "description.DNSResolvers.ID",
-	"id":               "description.DNSResolvers.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.DNSResolvers.Name",
-	"tags":             "description.DNSResolvers.Tags",
-	"title":            "description.DNSResolvers.Name",
-}
-
-func ListDNSResolvers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("ListDNSResolvers")
-
-	// create service
-	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
-	if err != nil {
-		return nil, err
-	}
-	k := Client{Client: ke}
-
-	paginator, err := k.NewDNSResolversPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDNSResolversFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
-	if err != nil {
-		return nil, err
-	}
-
-	for paginator.HasNext() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page {
-			d.StreamListItem(ctx, v)
-		}
-	}
-
-	return nil, nil
-}
-
-var getDNSResolversFilters = map[string]string{
-	"akas":             "description.DNSResolvers.ID",
-	"id":               "description.DNSResolvers.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.DNSResolvers.Name",
-	"tags":             "description.DNSResolvers.Tags",
-	"title":            "description.DNSResolvers.Name",
-}
-
-func GetDNSResolvers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("GetDNSResolvers")
-
-	// create service
-	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
-	if err != nil {
-		return nil, err
-	}
-	k := Client{Client: ke}
-
-	limit := int64(1)
-	paginator, err := k.NewDNSResolversPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDNSResolversFilters, "azure", *cfg.AccountID), &limit)
-	if err != nil {
-		return nil, err
-	}
-
-	for paginator.HasNext() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page {
-			return v, nil
-		}
-	}
-
-	return nil, nil
-}
-
-// ==========================  END: DNSResolvers =============================
-
 // ==========================  START: PrivateDNSZones =============================
 
 type PrivateDNSZones struct {
@@ -10961,6 +10803,162 @@ func GetPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 // ==========================  END: PrivateEndpoint =============================
+
+// ==========================  START: NetworkDDoSProtectionPlan =============================
+
+type NetworkDDoSProtectionPlan struct {
+	Description   azure.NetworkDDoSProtectionPlanDescription `json:"description"`
+	Metadata      azure.Metadata                             `json:"metadata"`
+	ResourceJobID int                                        `json:"resource_job_id"`
+	SourceJobID   int                                        `json:"source_job_id"`
+	ResourceType  string                                     `json:"resource_type"`
+	SourceType    string                                     `json:"source_type"`
+	ID            string                                     `json:"id"`
+	ARN           string                                     `json:"arn"`
+	SourceID      string                                     `json:"source_id"`
+}
+
+type NetworkDDoSProtectionPlanHit struct {
+	ID      string                    `json:"_id"`
+	Score   float64                   `json:"_score"`
+	Index   string                    `json:"_index"`
+	Type    string                    `json:"_type"`
+	Version int64                     `json:"_version,omitempty"`
+	Source  NetworkDDoSProtectionPlan `json:"_source"`
+	Sort    []interface{}             `json:"sort"`
+}
+
+type NetworkDDoSProtectionPlanHits struct {
+	Total essdk.SearchTotal              `json:"total"`
+	Hits  []NetworkDDoSProtectionPlanHit `json:"hits"`
+}
+
+type NetworkDDoSProtectionPlanSearchResponse struct {
+	PitID string                        `json:"pit_id"`
+	Hits  NetworkDDoSProtectionPlanHits `json:"hits"`
+}
+
+type NetworkDDoSProtectionPlanPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewNetworkDDoSProtectionPlanPaginator(filters []essdk.BoolFilter, limit *int64) (NetworkDDoSProtectionPlanPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_ddosprotectionplans", filters, limit)
+	if err != nil {
+		return NetworkDDoSProtectionPlanPaginator{}, err
+	}
+
+	p := NetworkDDoSProtectionPlanPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p NetworkDDoSProtectionPlanPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p NetworkDDoSProtectionPlanPaginator) NextPage(ctx context.Context) ([]NetworkDDoSProtectionPlan, error) {
+	var response NetworkDDoSProtectionPlanSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []NetworkDDoSProtectionPlan
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listNetworkDDoSProtectionPlanFilters = map[string]string{
+	"akas":  "description.DDoSProtectionPlan.ID",
+	"id":    "description.DDoSProtectionPlan.Id",
+	"name":  "description.DDoSProtectionPlan.Name",
+	"tags":  "description.DDoSProtectionPlan.Tags",
+	"title": "description.DDoSProtectionPlan.Name",
+}
+
+func ListNetworkDDoSProtectionPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListNetworkDDoSProtectionPlan")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewNetworkDDoSProtectionPlanPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkDDoSProtectionPlanFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getNetworkDDoSProtectionPlanFilters = map[string]string{
+	"akas":  "description.DDoSProtectionPlan.ID",
+	"id":    "description.DDoSProtectionPlan.Id",
+	"name":  "description.DDoSProtectionPlan.Name",
+	"tags":  "description.DDoSProtectionPlan.Tags",
+	"title": "description.DDoSProtectionPlan.Name",
+}
+
+func GetNetworkDDoSProtectionPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetNetworkDDoSProtectionPlan")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewNetworkDDoSProtectionPlanPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkDDoSProtectionPlanFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: NetworkDDoSProtectionPlan =============================
 
 // ==========================  START: PolicyAssignment =============================
 

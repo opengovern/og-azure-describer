@@ -3,9 +3,10 @@ package describer
 import (
 	"context"
 	"errors"
+	"strings"
+
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-02-01/network"
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
-	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/dns/mgmt/2018-05-01/dns"
 	"github.com/Azure/azure-sdk-for-go/services/privatedns/mgmt/2018-09-01/privatedns"
@@ -235,6 +236,7 @@ func VirtualNetwork(ctx context.Context, authorizer autorest.Authorizer, subscri
 
 	return values, nil
 }
+
 func ApplicationGateway(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
 	insightsClient := insights.NewDiagnosticSettingsClient(subscription)
 	insightsClient.Authorizer = authorizer
@@ -1417,6 +1419,49 @@ func NetworkVirtualWans(ctx context.Context, authorizer autorest.Authorizer, sub
 					model.VirtualWansDescription{
 						VirtualWan:    v,
 						ResourceGroup: resourceGroupName,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
+func NetworkDDoSProtectionPlan(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := network.NewDdosProtectionPlansClient(subscription)
+	client.Authorizer = authorizer
+
+	var values []Resource
+	result, err := client.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	for {
+		for _, v := range result.Values() {
+			resourceGroupName := strings.Split(*v.ID, "/")[4]
+			resource := Resource{
+				ID:       *v.ID,
+				Name:     *v.Name,
+				Location: *v.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.NetworkDDoSProtectionPlanDescription{
+						DDoSProtectionPlan: v,
+						ResourceGroup:      resourceGroupName,
 					},
 				},
 			}

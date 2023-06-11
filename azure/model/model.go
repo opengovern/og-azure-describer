@@ -588,7 +588,7 @@ type VirtualWansDescription struct {
 }
 
 //index:microsoft_network_dnsresolvers
-type DNSResolversDescription struct {
+type DNSResolverDescription struct {
 	ResourceGroup string
 }
 
@@ -602,6 +602,11 @@ type PrivateDNSZonesDescription struct {
 type PrivateEndpointDescription struct {
 	ResourceGroup   string
 	PrivateEndpoint network.PrivateEndpoint
+}
+
+type NetworkDDoSProtectionPlanDescription struct {
+	ResourceGroup      string
+	DDoSProtectionPlan network.DdosProtectionPlan
 }
 
 //  =================== policy ==================
