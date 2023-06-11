@@ -399,6 +399,11 @@ type CDNProfileDescription struct {
 	Profile       cdn.Profile
 }
 
+type CDNEndpointDescription struct {
+	ResourceGroup string
+	Endpoint      cdn.Endpoint
+}
+
 //  =================== network ==================
 
 //index:microsoft_network_networkinterfaces

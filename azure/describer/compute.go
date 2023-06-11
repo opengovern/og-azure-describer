@@ -726,14 +726,13 @@ func ComputeHost(ctx context.Context, authorizer autorest.Authorizer, subscripti
 				} else {
 					values = append(values, resource)
 				}
-
-				if !hostResult.NotDone() {
-					break
-				}
-				err = hostResult.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
+			}
+			if !hostResult.NotDone() {
+				break
+			}
+			err = hostResult.NextWithContext(ctx)
+			if err != nil {
+				return nil, err
 			}
 		}
 

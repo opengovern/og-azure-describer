@@ -2201,4 +2201,18 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery: false,
 	},
+
+	"Microsoft.Cdn/profiles/endpoints
+": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Cdn/profiles/endpoints
+",
+		ResourceLabel:        "",
+		ServiceName:          "Cdn",
+		ListDescriber:        DescribeBySubscription(describer.CdnEndpoint),
+		GetDescriber:          nil ,
+		TerraformName:        []string{"azurerm_cdn_endpoint"},
+		TerraformServiceName: "",
+		FastDiscovery: false,
+	},
 }
