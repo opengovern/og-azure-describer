@@ -6787,7 +6787,7 @@ type CDNEndpointPaginator struct {
 }
 
 func (k Client) NewCDNEndpointPaginator(filters []essdk.BoolFilter, limit *int64) (CDNEndpointPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_cdn_profiles_endpoints_", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_cdn_profiles_endpoints", filters, limit)
 	if err != nil {
 		return CDNEndpointPaginator{}, err
 	}
@@ -32622,3 +32622,159 @@ func GetResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 // ==========================  END: ResourceGroup =============================
+
+// ==========================  START: BotServiceBot =============================
+
+type BotServiceBot struct {
+	Description   azure.BotServiceBotDescription `json:"description"`
+	Metadata      azure.Metadata                 `json:"metadata"`
+	ResourceJobID int                            `json:"resource_job_id"`
+	SourceJobID   int                            `json:"source_job_id"`
+	ResourceType  string                         `json:"resource_type"`
+	SourceType    string                         `json:"source_type"`
+	ID            string                         `json:"id"`
+	ARN           string                         `json:"arn"`
+	SourceID      string                         `json:"source_id"`
+}
+
+type BotServiceBotHit struct {
+	ID      string        `json:"_id"`
+	Score   float64       `json:"_score"`
+	Index   string        `json:"_index"`
+	Type    string        `json:"_type"`
+	Version int64         `json:"_version,omitempty"`
+	Source  BotServiceBot `json:"_source"`
+	Sort    []interface{} `json:"sort"`
+}
+
+type BotServiceBotHits struct {
+	Total essdk.SearchTotal  `json:"total"`
+	Hits  []BotServiceBotHit `json:"hits"`
+}
+
+type BotServiceBotSearchResponse struct {
+	PitID string            `json:"pit_id"`
+	Hits  BotServiceBotHits `json:"hits"`
+}
+
+type BotServiceBotPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewBotServiceBotPaginator(filters []essdk.BoolFilter, limit *int64) (BotServiceBotPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_botservice_botservices", filters, limit)
+	if err != nil {
+		return BotServiceBotPaginator{}, err
+	}
+
+	p := BotServiceBotPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p BotServiceBotPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p BotServiceBotPaginator) NextPage(ctx context.Context) ([]BotServiceBot, error) {
+	var response BotServiceBotSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []BotServiceBot
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listBotServiceBotFilters = map[string]string{
+	"akas":  "description.Bot.ID",
+	"id":    "description.Bot.Id",
+	"name":  "description.Bot.Name",
+	"tags":  "description.Bot.Tags",
+	"title": "description.Bot.Name",
+}
+
+func ListBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListBotServiceBot")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewBotServiceBotPaginator(essdk.BuildFilter(d.KeyColumnQuals, listBotServiceBotFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getBotServiceBotFilters = map[string]string{
+	"akas":  "description.Bot.ID",
+	"id":    "description.Bot.Id",
+	"name":  "description.Bot.Name",
+	"tags":  "description.Bot.Tags",
+	"title": "description.Bot.Name",
+}
+
+func GetBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetBotServiceBot")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewBotServiceBotPaginator(essdk.BuildFilter(d.KeyColumnQuals, getBotServiceBotFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: BotServiceBot =============================

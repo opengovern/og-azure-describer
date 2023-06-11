@@ -21,6 +21,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/appconfiguration/mgmt/2020-06-01/appconfiguration"
 	"github.com/Azure/azure-sdk-for-go/services/appplatform/mgmt/2020-07-01/appplatform"
 	"github.com/Azure/azure-sdk-for-go/services/batch/mgmt/2020-09-01/batch"
+	"github.com/Azure/azure-sdk-for-go/services/botservice/mgmt/2021-03-01/botservice"
 	"github.com/Azure/azure-sdk-for-go/services/cdn/mgmt/2021-06-01/cdn"
 	"github.com/Azure/azure-sdk-for-go/services/cognitiveservices/mgmt/2021-04-30/cognitiveservices"
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2017-09-01/skus"
@@ -1742,4 +1743,11 @@ type ResourceProviderDescription struct {
 //getfilter:name=description.Group.Name
 type ResourceGroupDescription struct {
 	Group resources.Group
+}
+
+// =================== BotService ==================
+
+type BotServiceBotDescription struct {
+	Bot           botservice.Bot
+	ResourceGroup string
 }

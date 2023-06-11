@@ -189,8 +189,8 @@ var azureMap = map[string]string{
 "Microsoft.Compute/hostGroups/hosts": "azure_compute_host",
 "Microsoft.Compute/restorePointCollections": "azure_compute_restore_point_collection",
 "Microsoft.Compute/sshPublicKeys": "azure_compute_ssh_public_key",
-"Microsoft.Cdn/profiles/endpoints
-": "azure_cdn_endpoint",
+"Microsoft.Cdn/profiles/endpoints": "azure_cdn_endpoint",
+"Microsoft.BotService/botServices": "azure_botservice_bot",
 }
 
 var AzureDescriptionMap = map[string]interface{}{
@@ -377,6 +377,6 @@ var AzureDescriptionMap = map[string]interface{}{
 "Microsoft.Compute/hostGroups/hosts": &keibi.ComputeHostGroupHost{},
 "Microsoft.Compute/restorePointCollections": &keibi.ComputeRestorePointCollection{},
 "Microsoft.Compute/sshPublicKeys": &keibi.ComputeSSHPublicKey{},
-"Microsoft.Cdn/profiles/endpoints
-": &keibi.CDNEndpoint{},
+"Microsoft.Cdn/profiles/endpoints": &keibi.CDNEndpoint{},
+"Microsoft.BotService/botServices": &keibi.BotServiceBot{},
 }

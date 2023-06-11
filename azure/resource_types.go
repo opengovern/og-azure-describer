@@ -2198,21 +2198,31 @@ var resourceTypes = map[string]ResourceType{
 		ListDescriber:        DescribeBySubscription(describer.ComputeSSHPublicKey),
 		GetDescriber:          nil ,
 		TerraformName:        []string{"azurerm_ssh_public_key"},
-		TerraformServiceName: "",
+		TerraformServiceName: "compute",
 		FastDiscovery: false,
 	},
 
-	"Microsoft.Cdn/profiles/endpoints
-": {
+	"Microsoft.Cdn/profiles/endpoints": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Cdn/profiles/endpoints
-",
+		ResourceName:         "Microsoft.Cdn/profiles/endpoints",
 		ResourceLabel:        "",
 		ServiceName:          "Cdn",
 		ListDescriber:        DescribeBySubscription(describer.CdnEndpoint),
 		GetDescriber:          nil ,
 		TerraformName:        []string{"azurerm_cdn_endpoint"},
-		TerraformServiceName: "",
+		TerraformServiceName: "cdn",
+		FastDiscovery: false,
+	},
+
+	"Microsoft.BotService/botServices": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.BotService/botServices",
+		ResourceLabel:        "",
+		ServiceName:          "Cdn",
+		ListDescriber:        DescribeBySubscription(describer.BotServiceBot),
+		GetDescriber:          nil ,
+		TerraformName:        []string{"azurerm_bot_web_app"},
+		TerraformServiceName: "bot",
 		FastDiscovery: false,
 	},
 }
