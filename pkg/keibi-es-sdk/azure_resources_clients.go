@@ -32650,7 +32650,7 @@ type ResourceGroupPaginator struct {
 }
 
 func (k Client) NewResourceGroupPaginator(filters []essdk.BoolFilter, limit *int64) (ResourceGroupPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_subscriptions_resourcegroups", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_resourcegroups", filters, limit)
 	if err != nil {
 		return ResourceGroupPaginator{}, err
 	}

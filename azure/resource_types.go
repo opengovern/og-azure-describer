@@ -918,18 +918,6 @@ var resourceTypes = map[string]ResourceType{
 		FastDiscovery: true,
 	},
 
-	"Microsoft.Resources/subscriptions/resourceGroups": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/subscriptions/resourceGroups",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        describer.GenericResourceGraph{Table: "ResourceContainers", Type: "Microsoft.Resources/subscriptions/resourceGroups"},
-		GetDescriber:          nil ,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery: false,
-	},
-
 	"Microsoft.Authorization/policyAssignments": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Authorization/policyAssignments",

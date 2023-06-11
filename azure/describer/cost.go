@@ -33,7 +33,7 @@ func cost(ctx context.Context, authorizer autorest.Authorizer, subscription stri
 	costAggregationString := "Cost"
 
 	var costs, err = client.Usage(ctx, scope, costmanagement.QueryDefinition{
-		Type:      costmanagement.ExportTypeAmortizedCost,
+		Type:      costmanagement.ExportTypeActualCost,
 		Timeframe: costmanagement.TimeframeTypeCustom,
 		TimePeriod: &costmanagement.QueryTimePeriod{
 			From: &date.Time{Time: from},
