@@ -272,6 +272,47 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 					index := stopWordsRe.ReplaceAllString(resourceType.ResourceName, "_")
 					index = strings.ToLower(index)
 					s.Index = index
+
+					plugin := "steampipe-plugin-azure/azure"
+					if strings.HasPrefix(resourceType.SteampipeTable, "azuread") {
+						plugin = "steampipe-plugin-azuread/azuread"
+					}
+					fileName := "../../../" + plugin + "/table_" + resourceType.SteampipeTable + ".go"
+					tableFileSet := token.NewFileSet()
+					tableNode, err := parser.ParseFile(tableFileSet, fileName, nil, parser.ParseComments)
+					if err != nil {
+						panic(err)
+					}
+
+					ast.Inspect(tableNode, func(tnode ast.Node) bool {
+						if c, ok := tnode.(*ast.CompositeLit); ok {
+
+							var columnName, transformer string
+							for _, arg := range c.Elts {
+								if kv, ok := arg.(*ast.KeyValueExpr); ok {
+									if i, ok := kv.Key.(*ast.Ident); ok {
+										if i.Name == "Name" {
+											if bl, ok := kv.Value.(*ast.BasicLit); ok {
+												columnName = strings.Trim(bl.Value, "\"")
+											}
+										} else if i.Name == "Transform" {
+											if cl, ok := kv.Value.(*ast.CallExpr); ok {
+												transformer = extractTransformer(cl)
+											}
+										}
+									}
+								}
+							}
+
+							if columnName != "" && transformer != "" {
+								transformer = strings.ToLower(transformer[:1]) + transformer[1:]
+								s.GetFilters[columnName] = transformer
+								s.ListFilters[columnName] = transformer
+							}
+							return true
+						}
+						return true
+					})
 				}
 			}
 
@@ -333,4 +374,20 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func extractTransformer(cl *ast.CallExpr) string {
+	if sl, ok := cl.Fun.(*ast.SelectorExpr); ok {
+		if call, ok := sl.X.(*ast.CallExpr); ok {
+			return extractTransformer(call)
+		}
+		if sl.Sel.Name == "FromField" {
+			for _, arg := range cl.Args {
+				if bl, ok := arg.(*ast.BasicLit); ok {
+					return strings.Trim(bl.Value, "\"")
+				}
+			}
+		}
+	}
+	return ""
 }
