@@ -185,6 +185,7 @@ var azureMap = map[string]string{
 "Microsoft.Storage/storageAccounts": "azure_storage_account",
 "Microsoft.AppPlatform/Spring": "azure_spring_cloud_service",
 "Microsoft.Compute/galleries": "azure_compute_image_gallery",
+"Microsoft.Compute/hostGroups": "azure_compute_host_group",
 }
 
 var AzureDescriptionMap = map[string]interface{}{
@@ -367,4 +368,5 @@ var AzureDescriptionMap = map[string]interface{}{
 "Microsoft.Storage/storageAccounts": &keibi.StorageAccount{},
 "Microsoft.AppPlatform/Spring": &keibi.SpringCloudService{},
 "Microsoft.Compute/galleries": &keibi.ComputeImageGallery{},
+"Microsoft.Compute/hostGroups": &keibi.ComputeHostGroup{},
 }
