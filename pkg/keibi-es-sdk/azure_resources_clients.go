@@ -29532,7 +29532,7 @@ type SqlServerVirtualMachinePaginator struct {
 }
 
 func (k Client) NewSqlServerVirtualMachinePaginator(filters []essdk.BoolFilter, limit *int64) (SqlServerVirtualMachinePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_virtualmachines", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sqlvirtualmachine_sqlvirtualmachines", filters, limit)
 	if err != nil {
 		return SqlServerVirtualMachinePaginator{}, err
 	}

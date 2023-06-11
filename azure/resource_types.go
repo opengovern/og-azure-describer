@@ -678,9 +678,9 @@ var resourceTypes = map[string]ResourceType{
 		FastDiscovery: false,
 	},
 
-	"Microsoft.Sql/virtualMachines": {
+	"microsoft.SqlVirtualMachine/SqlVirtualMachines": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Sql/virtualMachines",
+		ResourceName:         "microsoft.SqlVirtualMachine/SqlVirtualMachines",
 		ResourceLabel:        "",
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.SqlServerVirtualMachine),
