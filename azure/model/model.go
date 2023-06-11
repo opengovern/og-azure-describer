@@ -294,10 +294,10 @@ type ComputeDiskEncryptionSetDescription struct {
 }
 
 //index:microsoft_compute_gallery
-//getfilter:name=description.Gallery.Name
+//getfilter:name=description.ImageGallery.Name
 //getfilter:resource_group=description.ResourceGroup
-type ComputeGalleryDescription struct {
-	Gallery       compute.Gallery
+type ComputeImageGalleryDescription struct {
+	ImageGallery  compute.Gallery
 	ResourceGroup string
 }
 

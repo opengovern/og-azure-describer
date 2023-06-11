@@ -3,8 +3,9 @@ package describer
 import (
 	"context"
 	"fmt"
-	compute2 "github.com/Azure/azure-sdk-for-go/profiles/latest/compute/mgmt/compute"
 	"strings"
+
+	compute2 "github.com/Azure/azure-sdk-for-go/profiles/latest/compute/mgmt/compute"
 
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2017-09-01/skus"
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2020-06-01/compute"
@@ -567,9 +568,9 @@ func ComputeGallery(ctx context.Context, authorizer autorest.Authorizer, subscri
 				Name:     *gallery.Name,
 				Location: *gallery.Location,
 				Description: JSONAllFieldsMarshaller{
-					model.ComputeGalleryDescription{
+					model.ComputeImageGalleryDescription{
 						ResourceGroup: resourceGroupName,
-						Gallery:       gallery,
+						ImageGallery:  gallery,
 					},
 				},
 			}
