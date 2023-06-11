@@ -12405,6 +12405,200 @@ func GetSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _ 
 
 // ==========================  END: SecurityCenterSubAssessment =============================
 
+// ==========================  START: StorageContainer =============================
+
+type StorageContainer struct {
+	Description   azure.StorageContainerDescription `json:"description"`
+	Metadata      azure.Metadata                    `json:"metadata"`
+	ResourceJobID int                               `json:"resource_job_id"`
+	SourceJobID   int                               `json:"source_job_id"`
+	ResourceType  string                            `json:"resource_type"`
+	SourceType    string                            `json:"source_type"`
+	ID            string                            `json:"id"`
+	ARN           string                            `json:"arn"`
+	SourceID      string                            `json:"source_id"`
+}
+
+type StorageContainerHit struct {
+	ID      string           `json:"_id"`
+	Score   float64          `json:"_score"`
+	Index   string           `json:"_index"`
+	Type    string           `json:"_type"`
+	Version int64            `json:"_version,omitempty"`
+	Source  StorageContainer `json:"_source"`
+	Sort    []interface{}    `json:"sort"`
+}
+
+type StorageContainerHits struct {
+	Total essdk.SearchTotal     `json:"total"`
+	Hits  []StorageContainerHit `json:"hits"`
+}
+
+type StorageContainerSearchResponse struct {
+	PitID string               `json:"pit_id"`
+	Hits  StorageContainerHits `json:"hits"`
+}
+
+type StorageContainerPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewStorageContainerPaginator(filters []essdk.BoolFilter, limit *int64) (StorageContainerPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_blobservices_containers", filters, limit)
+	if err != nil {
+		return StorageContainerPaginator{}, err
+	}
+
+	p := StorageContainerPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p StorageContainerPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p StorageContainerPaginator) NextPage(ctx context.Context) ([]StorageContainer, error) {
+	var response StorageContainerSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []StorageContainer
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listStorageContainerFilters = map[string]string{
+	"account_name":                   "description.AccountName",
+	"akas":                           "description.ListContainerItem.ID",
+	"default_encryption_scope":       "description.ListContainerItem.ContainerProperties.DefaultEncryptionScope",
+	"deleted":                        "description.ListContainerItem.ContainerProperties.Deleted",
+	"deleted_time":                   "description.ListContainerItem.ContainerProperties.DeletedTime",
+	"deny_encryption_scope_override": "description.ListContainerItem.ContainerProperties.DenyEncryptionScopeOverride",
+	"has_immutability_policy":        "description.ListContainerItem.ContainerProperties.HasImmutabilityPolicy",
+	"has_legal_hold":                 "description.ListContainerItem.ContainerProperties.HasLegalHold",
+	"id":                             "description.ListContainerItem.ID",
+	"immutability_policy":            "description.ImmutabilityPolicy",
+	"kaytu_account_id":               "metadata.SourceID",
+	"last_modified_time":             "description.ListContainerItem.ContainerProperties.LastModifiedTime",
+	"lease_duration":                 "description.ListContainerItem.ContainerProperties.LeaseDuration",
+	"lease_state":                    "description.ListContainerItem.ContainerProperties.LeaseState",
+	"lease_status":                   "description.ListContainerItem.ContainerProperties.LeaseStatus",
+	"legal_hold":                     "description.ListContainerItem.ContainerProperties.LegalHold",
+	"metadata":                       "description.ListContainerItem.ContainerProperties.Metadata",
+	"name":                           "description.ListContainerItem.Name",
+	"public_access":                  "description.ListContainerItem.ContainerProperties.PublicAccess",
+	"remaining_retention_days":       "description.ListContainerItem.ContainerProperties.RemainingRetentionDays",
+	"resource_group":                 "description.ResourceGroup",
+	"title":                          "description.ListContainerItem.Name",
+	"type":                           "description.ListContainerItem.Type",
+	"version":                        "description.ListContainerItem.ContainerProperties.Version",
+}
+
+func ListStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListStorageContainer")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageContainerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getStorageContainerFilters = map[string]string{
+	"account_name":                   "description.AccountName",
+	"akas":                           "description.ListContainerItem.ID",
+	"default_encryption_scope":       "description.ListContainerItem.ContainerProperties.DefaultEncryptionScope",
+	"deleted":                        "description.ListContainerItem.ContainerProperties.Deleted",
+	"deleted_time":                   "description.ListContainerItem.ContainerProperties.DeletedTime",
+	"deny_encryption_scope_override": "description.ListContainerItem.ContainerProperties.DenyEncryptionScopeOverride",
+	"has_immutability_policy":        "description.ListContainerItem.ContainerProperties.HasImmutabilityPolicy",
+	"has_legal_hold":                 "description.ListContainerItem.ContainerProperties.HasLegalHold",
+	"id":                             "description.ListContainerItem.ID",
+	"immutability_policy":            "description.ImmutabilityPolicy",
+	"kaytu_account_id":               "metadata.SourceID",
+	"last_modified_time":             "description.ListContainerItem.ContainerProperties.LastModifiedTime",
+	"lease_duration":                 "description.ListContainerItem.ContainerProperties.LeaseDuration",
+	"lease_state":                    "description.ListContainerItem.ContainerProperties.LeaseState",
+	"lease_status":                   "description.ListContainerItem.ContainerProperties.LeaseStatus",
+	"legal_hold":                     "description.ListContainerItem.ContainerProperties.LegalHold",
+	"metadata":                       "description.ListContainerItem.ContainerProperties.Metadata",
+	"name":                           "description.ListContainerItem.name",
+	"public_access":                  "description.ListContainerItem.ContainerProperties.PublicAccess",
+	"remaining_retention_days":       "description.ListContainerItem.ContainerProperties.RemainingRetentionDays",
+	"resource_group":                 "description.ResourceGroup",
+	"title":                          "description.ListContainerItem.Name",
+	"type":                           "description.ListContainerItem.Type",
+	"version":                        "description.ListContainerItem.ContainerProperties.Version",
+}
+
+func GetStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetStorageContainer")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageContainerFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: StorageContainer =============================
+
 // ==========================  START: StorageBlob =============================
 
 type StorageBlob struct {
@@ -25671,7 +25865,7 @@ var listAdUsersFilters = map[string]string{
 	"id":                                    "description.AdUsers.DirectoryObject.id",
 	"im_addresses":                          "description.AdUsers.ImAddresses",
 	"kaytu_account_id":                      "metadata.SourceID",
-	"keibi_account_id":                      "metadata.SourceID",
+	"kaytu_resource_id":                     "iD",
 	"mail":                                  "description.AdUsers.Mail",
 	"mail_nickname":                         "description.AdUsers.MailNickname",
 	"member_of":                             "description.AdUsers.MemberOf",
@@ -25729,7 +25923,7 @@ var getAdUsersFilters = map[string]string{
 	"id":                                    "description.AdUsers.DirectoryObject.id",
 	"im_addresses":                          "description.AdUsers.ImAddresses",
 	"kaytu_account_id":                      "metadata.SourceID",
-	"keibi_account_id":                      "metadata.SourceID",
+	"kaytu_resource_id":                     "iD",
 	"mail":                                  "description.AdUsers.Mail",
 	"mail_nickname":                         "description.AdUsers.MailNickname",
 	"member_of":                             "description.AdUsers.MemberOf",

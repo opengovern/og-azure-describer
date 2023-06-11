@@ -24,9 +24,6 @@ func StorageContainer(ctx context.Context, authorizer autorest.Authorizer, subsc
 	storageClient := storage.NewAccountsClient(subscription)
 	storageClient.Authorizer = authorizer
 
-	blobContainerClient := storage.NewBlobContainersClient(subscription)
-	blobContainerClient.Authorizer = authorizer
-
 	resultAccounts, err := storageClient.List(ctx)
 	if err != nil {
 		return nil, err
@@ -53,7 +50,7 @@ func StorageContainer(ctx context.Context, authorizer autorest.Authorizer, subsc
 							resourceGroup := strings.Split(*v.ID, "/")[4]
 							accountName := strings.Split(*v.ID, "/")[8]
 
-							op, err := blobContainerClient.GetImmutabilityPolicy(ctx, resourceGroup, accountName, *v.Name, "")
+							op, err := client.GetImmutabilityPolicy(ctx, resourceGroup, accountName, *v.Name, "")
 							if err != nil {
 								return nil, err
 							}

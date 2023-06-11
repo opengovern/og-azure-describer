@@ -1542,6 +1542,18 @@ var resourceTypes = map[string]ResourceType{
 		FastDiscovery: false,
 	},
 
+	"Microsoft.Storage/storageaccounts/blobservices/containers": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Storage/storageaccounts/blobservices/containers",
+		ResourceLabel:        "",
+		ServiceName:          "Storage",
+		ListDescriber:        DescribeBySubscription(describer.StorageContainer),
+		GetDescriber:          nil ,
+		TerraformName:        []string{"azurerm_storage_container"},
+		TerraformServiceName: "storage",
+		FastDiscovery: false,
+	},
+
 	"Microsoft.Storage/blobServives": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Storage/blobServives",
