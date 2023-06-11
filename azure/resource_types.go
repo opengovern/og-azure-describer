@@ -2177,4 +2177,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "compute",
 		FastDiscovery: false,
 	},
+
+	"Microsoft.Compute/restorePointCollections": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Compute/restorePointCollections",
+		ResourceLabel:        "",
+		ServiceName:          "Compute",
+		ListDescriber:        DescribeBySubscription(describer.ComputeRestorePointCollection),
+		GetDescriber:          nil ,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery: false,
+	},
 }

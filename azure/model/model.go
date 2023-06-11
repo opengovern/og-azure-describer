@@ -319,6 +319,11 @@ type ComputeHostGroupHostDescription struct {
 	ResourceGroup string
 }
 
+type ComputeRestorePointCollectionDescription struct {
+	RestorePointCollection compute2.RestorePointCollection
+	ResourceGroup          string
+}
+
 //  =================== databoxedge ==================
 
 //index:microsoft_databoxedge_databoxedgedevices

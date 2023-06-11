@@ -187,6 +187,7 @@ var azureMap = map[string]string{
 "Microsoft.Compute/galleries": "azure_compute_image_gallery",
 "Microsoft.Compute/hostGroups": "azure_compute_host_group",
 "Microsoft.Compute/hostGroups/hosts": "azure_compute_host",
+"Microsoft.Compute/restorePointCollections": "azure_compute_restore_point_collection",
 }
 
 var AzureDescriptionMap = map[string]interface{}{
@@ -371,4 +372,5 @@ var AzureDescriptionMap = map[string]interface{}{
 "Microsoft.Compute/galleries": &keibi.ComputeImageGallery{},
 "Microsoft.Compute/hostGroups": &keibi.ComputeHostGroup{},
 "Microsoft.Compute/hostGroups/hosts": &keibi.ComputeHostGroupHost{},
+"Microsoft.Compute/restorePointCollections": &keibi.ComputeRestorePointCollection{},
 }

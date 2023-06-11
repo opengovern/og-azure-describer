@@ -691,7 +691,6 @@ func ComputeHostGroup(ctx context.Context, authorizer autorest.Authorizer, subsc
 func ComputeHost(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
 	client := compute.NewDedicatedHostGroupsClient(subscription)
 	client.Authorizer = authorizer
-
 	result, err := client.ListBySubscription(ctx)
 	if err != nil {
 		return nil, err
@@ -735,6 +734,51 @@ func ComputeHost(ctx context.Context, authorizer autorest.Authorizer, subscripti
 				if err != nil {
 					return nil, err
 				}
+			}
+		}
+
+		if !result.NotDone() {
+			break
+		}
+
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return values, nil
+}
+
+func ComputeRestorePointCollection(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := compute2.NewRestorePointCollectionsClient(subscription)
+	client.Authorizer = authorizer
+	result, err := client.ListAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, v := range result.Values() {
+			resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
+			resource := Resource{
+				ID:       *v.ID,
+				Name:     *v.Name,
+				Location: *v.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.ComputeRestorePointCollectionDescription{
+						RestorePointCollection: v,
+						ResourceGroup:          resourceGroup,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
 			}
 		}
 
