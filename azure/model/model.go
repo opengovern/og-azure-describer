@@ -15,6 +15,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/resources"
 	sub "github.com/Azure/azure-sdk-for-go/profiles/latest/subscription/mgmt/subscription"
 	"github.com/Azure/azure-sdk-for-go/profiles/preview/preview/blueprint/mgmt/blueprint"
+	"github.com/Azure/azure-sdk-for-go/profiles/preview/preview/desktopvirtualization/mgmt/desktopvirtualization"
 	web2 "github.com/Azure/azure-sdk-for-go/profiles/preview/preview/web/mgmt/web"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
 	"github.com/Azure/azure-sdk-for-go/services/analysisservices/mgmt/2017-08-01/analysisservices"
@@ -1777,5 +1778,12 @@ type NetAppAccountDescription struct {
 
 type NetAppCapacityPoolDescription struct {
 	CapacityPool  netapp.CapacityPool
+	ResourceGroup string
+}
+
+// =================== DesktopVirtualization ==================
+
+type DesktopVirtualizationHostPoolDescription struct {
+	HostPool      desktopvirtualization.HostPool
 	ResourceGroup string
 }

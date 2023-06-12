@@ -2154,4 +2154,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "netapp",
 		FastDiscovery: false,
 	},
+
+	"Microsoft.DesktopVirtualization/hostpools": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.DesktopVirtualization/hostpools",
+		ResourceLabel:        "",
+		ServiceName:          "DesktopVirtualization",
+		ListDescriber:        DescribeBySubscription(describer.DesktopVirtualizationHostPool),
+		GetDescriber:          nil ,
+		TerraformName:        []string{"azurerm_virtual_desktop_host_pool"},
+		TerraformServiceName: "desktopvirtualization",
+		FastDiscovery: false,
+	},
 }

@@ -33400,3 +33400,159 @@ func GetNetAppCapacityPool(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 // ==========================  END: NetAppCapacityPool =============================
+
+// ==========================  START: DesktopVirtualizationHostPool =============================
+
+type DesktopVirtualizationHostPool struct {
+	Description   azure.DesktopVirtualizationHostPoolDescription `json:"description"`
+	Metadata      azure.Metadata                                 `json:"metadata"`
+	ResourceJobID int                                            `json:"resource_job_id"`
+	SourceJobID   int                                            `json:"source_job_id"`
+	ResourceType  string                                         `json:"resource_type"`
+	SourceType    string                                         `json:"source_type"`
+	ID            string                                         `json:"id"`
+	ARN           string                                         `json:"arn"`
+	SourceID      string                                         `json:"source_id"`
+}
+
+type DesktopVirtualizationHostPoolHit struct {
+	ID      string                        `json:"_id"`
+	Score   float64                       `json:"_score"`
+	Index   string                        `json:"_index"`
+	Type    string                        `json:"_type"`
+	Version int64                         `json:"_version,omitempty"`
+	Source  DesktopVirtualizationHostPool `json:"_source"`
+	Sort    []interface{}                 `json:"sort"`
+}
+
+type DesktopVirtualizationHostPoolHits struct {
+	Total essdk.SearchTotal                  `json:"total"`
+	Hits  []DesktopVirtualizationHostPoolHit `json:"hits"`
+}
+
+type DesktopVirtualizationHostPoolSearchResponse struct {
+	PitID string                            `json:"pit_id"`
+	Hits  DesktopVirtualizationHostPoolHits `json:"hits"`
+}
+
+type DesktopVirtualizationHostPoolPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewDesktopVirtualizationHostPoolPaginator(filters []essdk.BoolFilter, limit *int64) (DesktopVirtualizationHostPoolPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_desktopvirtualization_hostpools", filters, limit)
+	if err != nil {
+		return DesktopVirtualizationHostPoolPaginator{}, err
+	}
+
+	p := DesktopVirtualizationHostPoolPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p DesktopVirtualizationHostPoolPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p DesktopVirtualizationHostPoolPaginator) NextPage(ctx context.Context) ([]DesktopVirtualizationHostPool, error) {
+	var response DesktopVirtualizationHostPoolSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []DesktopVirtualizationHostPool
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listDesktopVirtualizationHostPoolFilters = map[string]string{
+	"akas":  "description.HostPool.ID",
+	"id":    "description.HostPool.Id",
+	"name":  "description.HostPool.Name",
+	"tags":  "description.HostPool.Tags",
+	"title": "description.HostPool.Name",
+}
+
+func ListDesktopVirtualizationHostPool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListDesktopVirtualizationHostPool")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewDesktopVirtualizationHostPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDesktopVirtualizationHostPoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getDesktopVirtualizationHostPoolFilters = map[string]string{
+	"akas":  "description.HostPool.ID",
+	"id":    "description.HostPool.Id",
+	"name":  "description.HostPool.Name",
+	"tags":  "description.HostPool.Tags",
+	"title": "description.HostPool.Name",
+}
+
+func GetDesktopVirtualizationHostPool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetDesktopVirtualizationHostPool")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewDesktopVirtualizationHostPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDesktopVirtualizationHostPoolFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: DesktopVirtualizationHostPool =============================

@@ -193,6 +193,7 @@ var azureMap = map[string]string{
 "microsoft.Sql/instancePools": "azure_sql_instance_pool",
 "microsoft.NetApp/netAppAccounts": "azure_netapp_account",
 "Microsoft.NetApp/netAppAccounts/capacityPools": "azure_netapp_capacity_pool",
+"Microsoft.DesktopVirtualization/hostpools": "azure_desktop_virtualization_host_pool",
 }
 
 var AzureDescriptionMap = map[string]interface{}{
@@ -384,4 +385,5 @@ var AzureDescriptionMap = map[string]interface{}{
 "microsoft.Sql/instancePools": &keibi.SqlInstancePool{},
 "microsoft.NetApp/netAppAccounts": &keibi.NetAppAccount{},
 "Microsoft.NetApp/netAppAccounts/capacityPools": &keibi.NetAppCapacityPool{},
+"Microsoft.DesktopVirtualization/hostpools": &keibi.DesktopVirtualizationHostPool{},
 }
