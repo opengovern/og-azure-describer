@@ -2166,4 +2166,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "desktopvirtualization",
 		FastDiscovery: false,
 	},
+
+	"Microsoft.Devtestlab/labs": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Devtestlab/labs",
+		ResourceLabel:        "",
+		ServiceName:          "DevTestLab",
+		ListDescriber:        DescribeBySubscription(describer.DevTestLabLab),
+		GetDescriber:          nil ,
+		TerraformName:        []string{"azurerm_dev_test_lab"},
+		TerraformServiceName: "devtestlabs",
+		FastDiscovery: false,
+	},
 }

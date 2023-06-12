@@ -33556,3 +33556,159 @@ func GetDesktopVirtualizationHostPool(ctx context.Context, d *plugin.QueryData, 
 }
 
 // ==========================  END: DesktopVirtualizationHostPool =============================
+
+// ==========================  START: DevTestLabLab =============================
+
+type DevTestLabLab struct {
+	Description   azure.DevTestLabLabDescription `json:"description"`
+	Metadata      azure.Metadata                 `json:"metadata"`
+	ResourceJobID int                            `json:"resource_job_id"`
+	SourceJobID   int                            `json:"source_job_id"`
+	ResourceType  string                         `json:"resource_type"`
+	SourceType    string                         `json:"source_type"`
+	ID            string                         `json:"id"`
+	ARN           string                         `json:"arn"`
+	SourceID      string                         `json:"source_id"`
+}
+
+type DevTestLabLabHit struct {
+	ID      string        `json:"_id"`
+	Score   float64       `json:"_score"`
+	Index   string        `json:"_index"`
+	Type    string        `json:"_type"`
+	Version int64         `json:"_version,omitempty"`
+	Source  DevTestLabLab `json:"_source"`
+	Sort    []interface{} `json:"sort"`
+}
+
+type DevTestLabLabHits struct {
+	Total essdk.SearchTotal  `json:"total"`
+	Hits  []DevTestLabLabHit `json:"hits"`
+}
+
+type DevTestLabLabSearchResponse struct {
+	PitID string            `json:"pit_id"`
+	Hits  DevTestLabLabHits `json:"hits"`
+}
+
+type DevTestLabLabPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewDevTestLabLabPaginator(filters []essdk.BoolFilter, limit *int64) (DevTestLabLabPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_devtestlab_labs", filters, limit)
+	if err != nil {
+		return DevTestLabLabPaginator{}, err
+	}
+
+	p := DevTestLabLabPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p DevTestLabLabPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p DevTestLabLabPaginator) NextPage(ctx context.Context) ([]DevTestLabLab, error) {
+	var response DevTestLabLabSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []DevTestLabLab
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listDevTestLabLabFilters = map[string]string{
+	"akas":  "description.Lab.ID",
+	"id":    "description.Lab.Id",
+	"name":  "description.Lab.Name",
+	"tags":  "description.Lab.Tags",
+	"title": "description.Lab.Name",
+}
+
+func ListDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListDevTestLabLab")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewDevTestLabLabPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDevTestLabLabFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getDevTestLabLabFilters = map[string]string{
+	"akas":  "description.Lab.ID",
+	"id":    "description.Lab.Id",
+	"name":  "description.Lab.Name",
+	"tags":  "description.Lab.Tags",
+	"title": "description.Lab.Name",
+}
+
+func GetDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetDevTestLabLab")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewDevTestLabLabPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDevTestLabLabFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: DevTestLabLab =============================

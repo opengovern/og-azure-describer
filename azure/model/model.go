@@ -3,6 +3,7 @@
 package model
 
 import (
+	"github.com/Azure/azure-sdk-for-go/profiles/latest/devtestlabs/mgmt/dtl"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/healthcareapis/mgmt/healthcareapis"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/hybridcompute/mgmt/hybridcompute"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/netapp/mgmt/netapp"
@@ -1785,5 +1786,12 @@ type NetAppCapacityPoolDescription struct {
 
 type DesktopVirtualizationHostPoolDescription struct {
 	HostPool      desktopvirtualization.HostPool
+	ResourceGroup string
+}
+
+// =================== DevTestLab ==================
+
+type DevTestLabLabDescription struct {
+	Lab           dtl.Lab
 	ResourceGroup string
 }

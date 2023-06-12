@@ -194,6 +194,7 @@ var azureMap = map[string]string{
 "microsoft.NetApp/netAppAccounts": "azure_netapp_account",
 "Microsoft.NetApp/netAppAccounts/capacityPools": "azure_netapp_capacity_pool",
 "Microsoft.DesktopVirtualization/hostpools": "azure_desktop_virtualization_host_pool",
+"Microsoft.Devtestlab/labs": "azure_devtestlab_lab",
 }
 
 var AzureDescriptionMap = map[string]interface{}{
@@ -386,4 +387,5 @@ var AzureDescriptionMap = map[string]interface{}{
 "microsoft.NetApp/netAppAccounts": &keibi.NetAppAccount{},
 "Microsoft.NetApp/netAppAccounts/capacityPools": &keibi.NetAppCapacityPool{},
 "Microsoft.DesktopVirtualization/hostpools": &keibi.DesktopVirtualizationHostPool{},
+"Microsoft.Devtestlab/labs": &keibi.DevTestLabLab{},
 }
