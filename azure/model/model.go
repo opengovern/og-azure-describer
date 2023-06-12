@@ -462,8 +462,8 @@ type ExpressRouteCircuitDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type VirtualNetworkGatewayDescription struct {
 	VirtualNetworkGateway           network.VirtualNetworkGateway
-	VirtualNetworkGatewayConnection network.VirtualNetworkGatewayConnection
 	ResourceGroup                   string
+	VirtualNetworkGatewayConnection []network.VirtualNetworkGatewayConnectionListEntity
 }
 
 //index:microsoft_network_dnszone
