@@ -1,9 +1,10 @@
-
 package azure
+
 import (
 	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
 )
+
 var resourceTypes = map[string]ResourceType{
 
 	"Microsoft.App/containerApps": {
@@ -29,7 +30,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Cdn/profiles": {
@@ -55,7 +56,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.ContainerInstance/containerGroups": {
@@ -68,7 +69,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.DataMigration/services": {
@@ -94,7 +95,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.DataProtection/backupVaults/backupPolicies": {
@@ -107,7 +108,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Logic/integrationAccounts": {
@@ -120,7 +121,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/bastionHosts": {
@@ -133,7 +134,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/connections": {
@@ -146,7 +147,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/firewallPolicies": {
@@ -159,7 +160,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/localNetworkGateways": {
@@ -172,7 +173,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/privateLinkServices": {
@@ -185,7 +186,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/publicIPPrefixes": {
@@ -198,7 +199,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/virtualHubs": {
@@ -211,7 +212,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/virtualWans": {
@@ -224,7 +225,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/vpnGateways": {
@@ -237,7 +238,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/vpnGateways/vpnConnections": {
@@ -250,7 +251,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/vpnSites": {
@@ -263,7 +264,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.OperationalInsights/workspaces": {
@@ -276,7 +277,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.StreamAnalytics/cluster": {
@@ -289,7 +290,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.TimeSeriesInsights/environments": {
@@ -302,7 +303,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.VirtualMachineImages/imageTemplates": {
@@ -315,7 +316,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Compute/virtualMachineScaleSets/virtualMachines": {
@@ -328,7 +329,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Automation/automationAccounts": {
@@ -393,7 +394,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_eventgrid_domain_topic"},
 		TerraformServiceName: "eventgrid",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/networkWatchers": {
@@ -406,20 +407,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_network_watcher"},
 		TerraformServiceName: "network",
 		FastDiscovery:        false,
-		Summarize:            true,
-	},
-
-	"Microsoft.Resources/resourceGroups": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/resourceGroups",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.ResourceGroup),
-		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_resource_group"},
-		TerraformServiceName: "resource",
-		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Web/staticSites": {
@@ -429,23 +417,10 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "Web",
 		ListDescriber:        DescribeBySubscription(describer.AppServiceWebApp),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_linux_web_app","azurerm_windows_web_app"},
+		TerraformName:        []string{"azurerm_linux_web_app", "azurerm_windows_web_app"},
 		TerraformServiceName: "appservice",
 		FastDiscovery:        false,
-		Summarize:            true,
-	},
-
-	"Microsoft.Resources/serviceprincipals": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/serviceprincipals",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeADByTenantID(describer.AdServicePrinciple),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.CognitiveServices/accounts": {
@@ -458,7 +433,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_cognitive_account"},
 		TerraformServiceName: "cognitive",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Sql/managedInstances": {
@@ -523,7 +498,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_storage_share_file"},
 		TerraformServiceName: "storage",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.DBforPostgreSQL/servers": {
@@ -549,7 +524,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.AnalysisServices/servers": {
@@ -562,7 +537,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Security/pricings": {
@@ -575,7 +550,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_security_center_subscription_pricing"},
 		TerraformServiceName: "securitycenter",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Insights/guestDiagnosticSettings": {
@@ -588,20 +563,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
-	},
-
-	"Microsoft.Resources/groups": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/groups",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeADByTenantID(describer.AdGroup),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Web/hostingEnvironments": {
@@ -614,7 +576,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_app_service_environment"},
 		TerraformServiceName: "web",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Cache/redis": {
@@ -653,7 +615,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_data_factory_pipeline"},
 		TerraformServiceName: "datafactory",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Compute/resourceSku": {
@@ -666,7 +628,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/expressRouteCircuits": {
@@ -692,7 +654,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_management_group"},
 		TerraformServiceName: "managementgroup",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"microsoft.SqlVirtualMachine/SqlVirtualMachines": {
@@ -718,7 +680,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Storage/tableServices": {
@@ -731,7 +693,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Synapse/workspaces": {
@@ -744,7 +706,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_synapse_workspace"},
 		TerraformServiceName: "synapse",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Synapse/workspaces/bigdatapools": {
@@ -757,7 +719,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Synapse/workspaces/sqlpools": {
@@ -770,7 +732,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.StreamAnalytics/streamingJobs": {
@@ -783,7 +745,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_stream_analytics_job"},
 		TerraformServiceName: "streamanalytics",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.CostManagement/CostBySubscription": {
@@ -796,7 +758,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.ContainerService/managedClusters": {
@@ -822,7 +784,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_data_factory"},
 		TerraformServiceName: "datafactory",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Sql/servers": {
@@ -848,7 +810,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Security/autoProvisioningSettings": {
@@ -861,7 +823,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_security_center_auto_provisioning"},
 		TerraformServiceName: "securitycenter",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Insights/logProfiles": {
@@ -874,7 +836,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.DataBoxEdge/dataBoxEdgeDevices": {
@@ -887,7 +849,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_databox_edge_device"},
 		TerraformServiceName: "databoxedge",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/loadBalancers": {
@@ -913,7 +875,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_firewall"},
 		TerraformServiceName: "firewall",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Management/locks": {
@@ -926,7 +888,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Compute/virtualMachineScaleSets/networkInterfaces": {
@@ -939,7 +901,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/frontDoors": {
@@ -965,7 +927,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Search/searchServices": {
@@ -991,7 +953,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_security_center_setting"},
 		TerraformServiceName: "securitycenter",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.RecoveryServices/vaults": {
@@ -1004,7 +966,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_recovery_services_vault"},
 		TerraformServiceName: "recoveryservices",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Compute/diskEncryptionSets": {
@@ -1017,7 +979,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_disk_encryption_set"},
 		TerraformServiceName: "compute",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.DocumentDB/SqlDatabases": {
@@ -1030,7 +992,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_cosmosdb_sql_database"},
 		TerraformServiceName: "cosmos",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.EventGrid/topics": {
@@ -1056,7 +1018,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_eventhub_namespace"},
 		TerraformServiceName: "eventhub",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.EventHub/namespaces/eventHubs": {
@@ -1095,7 +1057,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/networkInterfaces": {
@@ -1134,7 +1096,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_healthcare_service"},
 		TerraformServiceName: "healthcare",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.ServiceBus/namespaces": {
@@ -1199,7 +1161,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_security_center_contact"},
 		TerraformServiceName: "securitycenter",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.EventGrid/domains": {
@@ -1225,7 +1187,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Storage/tables": {
@@ -1238,20 +1200,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_storage_table"},
 		TerraformServiceName: "storage",
 		FastDiscovery:        false,
-		Summarize:            true,
-	},
-
-	"Microsoft.Resources/users": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/users",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeADByTenantID(describer.AdUsers),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Compute/snapshots": {
@@ -1290,7 +1239,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_storage_sync"},
 		TerraformServiceName: "storage",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Security/locations/jitNetworkAccessPolicies": {
@@ -1303,7 +1252,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/virtualNetworks/subnets": {
@@ -1329,7 +1278,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_lb_backend_address_pool"},
 		TerraformServiceName: "loadbalancer",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/loadBalancers/loadBalancingRules": {
@@ -1342,7 +1291,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_lb_rule"},
 		TerraformServiceName: "loadbalancer",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.DataLakeStore/accounts": {
@@ -1368,7 +1317,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_hpc_cache"},
 		TerraformServiceName: "hpccache",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Batch/batchAccounts": {
@@ -1407,7 +1356,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_role_definition"},
 		TerraformServiceName: "authorization",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/applicationSecurityGroups": {
@@ -1420,7 +1369,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_application_security_group"},
 		TerraformServiceName: "network",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Authorization/roleAssignment": {
@@ -1433,7 +1382,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.DocumentDB/MongoDatabases": {
@@ -1446,7 +1395,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_cosmosdb_mongo_database"},
 		TerraformServiceName: "cosmos",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/networkWatchers/flowLogs": {
@@ -1459,7 +1408,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_network_watcher_flow_log"},
 		TerraformServiceName: "network",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"microsoft.Sql/servers/elasticpools": {
@@ -1472,7 +1421,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_sql_elasticpool"},
 		TerraformServiceName: "sql",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Security/subAssessments": {
@@ -1485,7 +1434,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Compute/disks": {
@@ -1511,7 +1460,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.HDInsight/clusters": {
@@ -1563,7 +1512,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_storage_blob"},
 		TerraformServiceName: "storage",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Storage/storageaccounts/blobservices/containers": {
@@ -1576,7 +1525,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_storage_container"},
 		TerraformServiceName: "storage",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Storage/blobServives": {
@@ -1589,7 +1538,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Storage/queues": {
@@ -1602,7 +1551,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_storage_queue"},
 		TerraformServiceName: "storage",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.ApiManagement/service": {
@@ -1625,7 +1574,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachineScaleSet),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_windows_virtual_machine_scale_set","azurerm_linux_virtual_machine_scale_set","azurerm_orchestrated_virtual_machine_scale_set"},
+		TerraformName:        []string{"azurerm_windows_virtual_machine_scale_set", "azurerm_linux_virtual_machine_scale_set", "azurerm_orchestrated_virtual_machine_scale_set"},
 		TerraformServiceName: "compute",
 		FastDiscovery:        true,
 		Summarize:            true,
@@ -1638,10 +1587,10 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "DataFactory",
 		ListDescriber:        DescribeBySubscription(describer.DataFactoryDataset),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_data_factory_dataset_azure_blob","azurerm_data_factory_dataset_binary","azurerm_data_factory_dataset_cosmosdb_sqlapi","azurerm_data_factory_dataset_delimited_text","azurerm_data_factory_dataset_http","azurerm_data_factory_dataset_json","azurerm_data_factory_dataset_mysql","azurerm_data_factory_dataset_parquet","azurerm_data_factory_dataset_postgresql","azurerm_data_factory_dataset_snowflake","azurerm_data_factory_dataset_sql_server_table","azurerm_data_factory_custom_dataset"},
+		TerraformName:        []string{"azurerm_data_factory_dataset_azure_blob", "azurerm_data_factory_dataset_binary", "azurerm_data_factory_dataset_cosmosdb_sqlapi", "azurerm_data_factory_dataset_delimited_text", "azurerm_data_factory_dataset_http", "azurerm_data_factory_dataset_json", "azurerm_data_factory_dataset_mysql", "azurerm_data_factory_dataset_parquet", "azurerm_data_factory_dataset_postgresql", "azurerm_data_factory_dataset_snowflake", "azurerm_data_factory_dataset_sql_server_table", "azurerm_data_factory_custom_dataset"},
 		TerraformServiceName: "datafactory",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Authorization/policyDefinitions": {
@@ -1654,20 +1603,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
-	},
-
-	"Microsoft.Resources/subscriptions/locations": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/subscriptions/locations",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.Location),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Compute/diskAccesses": {
@@ -1680,7 +1616,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_disk_access"},
 		TerraformServiceName: "compute",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.DBforMySQL/servers": {
@@ -1706,7 +1642,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Cache/redisenterprise": {
@@ -1719,7 +1655,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.DataLakeAnalytics/accounts": {
@@ -1745,7 +1681,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/loadBalancers/outboundRules": {
@@ -1758,7 +1694,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_lb_outbound_rule"},
 		TerraformServiceName: "loadbalancer",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.HybridCompute/machines": {
@@ -1771,7 +1707,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_hybrid_compute_machine"},
 		TerraformServiceName: "hybridcompute",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/loadBalancers/inboundNatRules": {
@@ -1784,20 +1720,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_lb_nat_rule"},
 		TerraformServiceName: "loadbalancer",
 		FastDiscovery:        false,
-		Summarize:            true,
-	},
-
-	"Microsoft.Resources/providers": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/providers",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.ResourceProvider),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/routeTables": {
@@ -1849,7 +1772,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_security_center_automation"},
 		TerraformServiceName: "securitycenter",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Kubernetes/connectedClusters": {
@@ -1862,7 +1785,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.KeyVault/vaults/keys": {
@@ -1875,7 +1798,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.DBforMariaDB/servers": {
@@ -1914,20 +1837,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_app_service_plan"},
 		TerraformServiceName: "web",
 		FastDiscovery:        false,
-		Summarize:            true,
-	},
-
-	"Microsoft.Resources/tenants": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/tenants",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.Tenant),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/virtualNetworkGateways": {
@@ -1953,7 +1863,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_iothub"},
 		TerraformServiceName: "iothub",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Logic/workflows": {
@@ -1966,7 +1876,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_logic_app_workflow"},
 		TerraformServiceName: "logic",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Sql/flexibleServers": {
@@ -1979,33 +1889,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
-	},
-
-	"Microsoft.Resources/links": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/links",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.ResourceLink),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            true,
-	},
-
-	"Microsoft.Resources/subscriptions": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/subscriptions",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.Subscription),
-		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_subscription"},
-		TerraformServiceName: "subscription",
-		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Compute/images": {
@@ -2018,7 +1902,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_image"},
 		TerraformServiceName: "compute",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Compute/virtualMachines": {
@@ -2028,7 +1912,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachine),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_linux_virtual_machine","azurerm_windows_virtual_machine"},
+		TerraformName:        []string{"azurerm_linux_virtual_machine", "azurerm_windows_virtual_machine"},
 		TerraformServiceName: "compute",
 		FastDiscovery:        true,
 		Summarize:            true,
@@ -2057,7 +1941,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_lb_probe"},
 		TerraformServiceName: "loadbalancer",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.KeyVault/vaults": {
@@ -2083,7 +1967,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_key_vault_managed_hardware_security_module"},
 		TerraformServiceName: "keyvault",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.KeyVault/vaults/secrets": {
@@ -2096,7 +1980,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_key_vault_secret"},
 		TerraformServiceName: "keyvault",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.AppConfiguration/configurationStores": {
@@ -2109,7 +1993,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Storage/storageAccounts": {
@@ -2122,7 +2006,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_storage_account"},
 		TerraformServiceName: "storage",
 		FastDiscovery:        true,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.AppPlatform/Spring": {
@@ -2135,7 +2019,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_spring_cloud_service"},
 		TerraformServiceName: "springcloud",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Compute/galleries": {
@@ -2148,7 +2032,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_shared_image_gallery"},
 		TerraformServiceName: "compute",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Compute/hostGroups": {
@@ -2161,7 +2045,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_dedicated_host_group"},
 		TerraformServiceName: "compute",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Compute/hostGroups/hosts": {
@@ -2174,7 +2058,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_dedicated_host"},
 		TerraformServiceName: "compute",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Compute/restorePointCollections": {
@@ -2187,7 +2071,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Compute/sshPublicKeys": {
@@ -2213,7 +2097,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_cdn_endpoint"},
 		TerraformServiceName: "cdn",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.BotService/botServices": {
@@ -2226,7 +2110,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_bot_web_app"},
 		TerraformServiceName: "bot",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.DocumentDB/cassandraClusters": {
@@ -2252,7 +2136,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_network_ddos_protection_plan"},
 		TerraformServiceName: "network",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"microsoft.Sql/instancePools": {
@@ -2291,7 +2175,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_netapp_pool"},
 		TerraformServiceName: "netapp",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.DesktopVirtualization/hostpools": {
@@ -2304,7 +2188,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_virtual_desktop_host_pool"},
 		TerraformServiceName: "desktopvirtualization",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Devtestlab/labs": {
@@ -2317,7 +2201,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_dev_test_lab"},
 		TerraformServiceName: "devtestlabs",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.Purview/Accounts": {
@@ -2330,7 +2214,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_purview_account"},
 		TerraformServiceName: "purview",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 
 	"Microsoft.PowerBIDedicated/capacities": {
@@ -2343,6 +2227,6 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		Summarize:            true,
+		Summarize:            false,
 	},
 }
