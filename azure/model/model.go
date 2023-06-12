@@ -8,6 +8,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/hybridcompute/mgmt/hybridcompute"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/netapp/mgmt/netapp"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/provisioningservices/mgmt/iothub"
+	"github.com/Azure/azure-sdk-for-go/profiles/latest/purview/mgmt/purview"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/recoveryservices/mgmt/recoveryservices"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/links"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/locks"
@@ -1793,5 +1794,12 @@ type DesktopVirtualizationHostPoolDescription struct {
 
 type DevTestLabLabDescription struct {
 	Lab           dtl.Lab
+	ResourceGroup string
+}
+
+// =================== Purview ==================
+
+type PurviewAccountDescription struct {
+	Account       purview.Account
 	ResourceGroup string
 }

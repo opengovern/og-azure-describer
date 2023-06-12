@@ -2178,4 +2178,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "devtestlabs",
 		FastDiscovery: false,
 	},
+
+	"Microsoft.Purview/Accounts": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Purview/Accounts",
+		ResourceLabel:        "",
+		ServiceName:          "Purview",
+		ListDescriber:        DescribeBySubscription(describer.PurviewAccount),
+		GetDescriber:          nil ,
+		TerraformName:        []string{"azurerm_purview_account"},
+		TerraformServiceName: "purview",
+		FastDiscovery: false,
+	},
 }

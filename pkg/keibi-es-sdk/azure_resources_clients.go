@@ -33712,3 +33712,159 @@ func GetDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 // ==========================  END: DevTestLabLab =============================
+
+// ==========================  START: PurviewAccount =============================
+
+type PurviewAccount struct {
+	Description   azure.PurviewAccountDescription `json:"description"`
+	Metadata      azure.Metadata                  `json:"metadata"`
+	ResourceJobID int                             `json:"resource_job_id"`
+	SourceJobID   int                             `json:"source_job_id"`
+	ResourceType  string                          `json:"resource_type"`
+	SourceType    string                          `json:"source_type"`
+	ID            string                          `json:"id"`
+	ARN           string                          `json:"arn"`
+	SourceID      string                          `json:"source_id"`
+}
+
+type PurviewAccountHit struct {
+	ID      string         `json:"_id"`
+	Score   float64        `json:"_score"`
+	Index   string         `json:"_index"`
+	Type    string         `json:"_type"`
+	Version int64          `json:"_version,omitempty"`
+	Source  PurviewAccount `json:"_source"`
+	Sort    []interface{}  `json:"sort"`
+}
+
+type PurviewAccountHits struct {
+	Total essdk.SearchTotal   `json:"total"`
+	Hits  []PurviewAccountHit `json:"hits"`
+}
+
+type PurviewAccountSearchResponse struct {
+	PitID string             `json:"pit_id"`
+	Hits  PurviewAccountHits `json:"hits"`
+}
+
+type PurviewAccountPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewPurviewAccountPaginator(filters []essdk.BoolFilter, limit *int64) (PurviewAccountPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_purview_accounts", filters, limit)
+	if err != nil {
+		return PurviewAccountPaginator{}, err
+	}
+
+	p := PurviewAccountPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p PurviewAccountPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p PurviewAccountPaginator) NextPage(ctx context.Context) ([]PurviewAccount, error) {
+	var response PurviewAccountSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []PurviewAccount
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listPurviewAccountFilters = map[string]string{
+	"akas":  "description.Account.ID",
+	"id":    "description.Account.Id",
+	"name":  "description.Account.Name",
+	"tags":  "description.Account.Tags",
+	"title": "description.Account.Name",
+}
+
+func ListPurviewAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListPurviewAccount")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewPurviewAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPurviewAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getPurviewAccountFilters = map[string]string{
+	"akas":  "description.Account.ID",
+	"id":    "description.Account.Id",
+	"name":  "description.Account.Name",
+	"tags":  "description.Account.Tags",
+	"title": "description.Account.Name",
+}
+
+func GetPurviewAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetPurviewAccount")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewPurviewAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPurviewAccountFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: PurviewAccount =============================
