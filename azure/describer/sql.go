@@ -3,11 +3,11 @@ package describer
 import (
 	"context"
 
+	"strings"
+
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2017-03-01-preview/sql"
 	sqlv3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
 	sqlV5 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v5.0/sql"
-
-	"strings"
 
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
@@ -299,6 +299,51 @@ func SqlDatabase(ctx context.Context, authorizer autorest.Authorizer, subscripti
 					values = append(values, resource)
 				}
 			}
+		}
+
+		if !result.NotDone() {
+			break
+		}
+		err = result.NextWithContext(ctx)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return values, nil
+}
+
+func SqlInstancePool(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	client := sqlV5.NewInstancePoolsClient(subscription)
+	client.Authorizer = authorizer
+
+	result, err := client.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for _, v := range result.Values() {
+			resourceGroupName := strings.Split(string(*v.ID), "/")[4]
+			resource := Resource{
+				ID:       *v.ID,
+				Name:     *v.Name,
+				Location: *v.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.SqlInstancePoolDescription{
+						InstancePool:  v,
+						ResourceGroup: resourceGroupName,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+
 		}
 
 		if !result.NotDone() {

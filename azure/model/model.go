@@ -1544,6 +1544,11 @@ type SqlDatabaseDescription struct {
 	ResourceGroup                      string
 }
 
+type SqlInstancePoolDescription struct {
+	InstancePool  sqlv5.InstancePool
+	ResourceGroup string
+}
+
 //  =================== sqlv3 ==================
 
 //index:microsoft_sql_servers

@@ -28793,6 +28793,162 @@ func GetSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 // ==========================  END: SqlDatabase =============================
 
+// ==========================  START: SqlInstancePool =============================
+
+type SqlInstancePool struct {
+	Description   azure.SqlInstancePoolDescription `json:"description"`
+	Metadata      azure.Metadata                   `json:"metadata"`
+	ResourceJobID int                              `json:"resource_job_id"`
+	SourceJobID   int                              `json:"source_job_id"`
+	ResourceType  string                           `json:"resource_type"`
+	SourceType    string                           `json:"source_type"`
+	ID            string                           `json:"id"`
+	ARN           string                           `json:"arn"`
+	SourceID      string                           `json:"source_id"`
+}
+
+type SqlInstancePoolHit struct {
+	ID      string          `json:"_id"`
+	Score   float64         `json:"_score"`
+	Index   string          `json:"_index"`
+	Type    string          `json:"_type"`
+	Version int64           `json:"_version,omitempty"`
+	Source  SqlInstancePool `json:"_source"`
+	Sort    []interface{}   `json:"sort"`
+}
+
+type SqlInstancePoolHits struct {
+	Total essdk.SearchTotal    `json:"total"`
+	Hits  []SqlInstancePoolHit `json:"hits"`
+}
+
+type SqlInstancePoolSearchResponse struct {
+	PitID string              `json:"pit_id"`
+	Hits  SqlInstancePoolHits `json:"hits"`
+}
+
+type SqlInstancePoolPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSqlInstancePoolPaginator(filters []essdk.BoolFilter, limit *int64) (SqlInstancePoolPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_instancepools", filters, limit)
+	if err != nil {
+		return SqlInstancePoolPaginator{}, err
+	}
+
+	p := SqlInstancePoolPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SqlInstancePoolPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SqlInstancePoolPaginator) NextPage(ctx context.Context) ([]SqlInstancePool, error) {
+	var response SqlInstancePoolSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SqlInstancePool
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSqlInstancePoolFilters = map[string]string{
+	"akas":  "description.InstancePool.ID",
+	"id":    "description.InstancePool.Id",
+	"name":  "description.InstancePool.Name",
+	"tags":  "description.InstancePool.Tags",
+	"title": "description.InstancePool.Name",
+}
+
+func ListSqlInstancePool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSqlInstancePool")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSqlInstancePoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlInstancePoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSqlInstancePoolFilters = map[string]string{
+	"akas":  "description.InstancePool.ID",
+	"id":    "description.InstancePool.Id",
+	"name":  "description.InstancePool.Name",
+	"tags":  "description.InstancePool.Tags",
+	"title": "description.InstancePool.Name",
+}
+
+func GetSqlInstancePool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSqlInstancePool")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSqlInstancePoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlInstancePoolFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SqlInstancePool =============================
+
 // ==========================  START: SqlServer =============================
 
 type SqlServer struct {
@@ -29348,7 +29504,7 @@ type SqlServerElasticPoolPaginator struct {
 }
 
 func (k Client) NewSqlServerElasticPoolPaginator(filters []essdk.BoolFilter, limit *int64) (SqlServerElasticPoolPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_elasticpools", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_servers_elasticpools", filters, limit)
 	if err != nil {
 		return SqlServerElasticPoolPaginator{}, err
 	}
@@ -29724,7 +29880,7 @@ type SqlServerVirtualMachineGroupPaginator struct {
 }
 
 func (k Client) NewSqlServerVirtualMachineGroupPaginator(filters []essdk.BoolFilter, limit *int64) (SqlServerVirtualMachineGroupPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sql_virtualmachinegroups", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_sqlvirtualmachine_sqlvirtualmachinegroups", filters, limit)
 	if err != nil {
 		return SqlServerVirtualMachineGroupPaginator{}, err
 	}
