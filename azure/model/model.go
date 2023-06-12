@@ -3,7 +3,6 @@
 package model
 
 import (
-	web2 "github.com/Azure/azure-sdk-for-go/profiles/2020-09-01/web/mgmt/web"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/healthcareapis/mgmt/healthcareapis"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/hybridcompute/mgmt/hybridcompute"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/provisioningservices/mgmt/iothub"
@@ -15,6 +14,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/resources"
 	sub "github.com/Azure/azure-sdk-for-go/profiles/latest/subscription/mgmt/subscription"
 	"github.com/Azure/azure-sdk-for-go/profiles/preview/preview/blueprint/mgmt/blueprint"
+	web2 "github.com/Azure/azure-sdk-for-go/profiles/preview/preview/web/mgmt/web"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
 	"github.com/Azure/azure-sdk-for-go/services/analysisservices/mgmt/2017-08-01/analysisservices"
 	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2020-12-01/apimanagement"

@@ -3,7 +3,7 @@ package describer
 import (
 	"context"
 	"fmt"
-	web2 "github.com/Azure/azure-sdk-for-go/profiles/2020-09-01/web/mgmt/web"
+	web3 "github.com/Azure/azure-sdk-for-go/profiles/preview/preview/web/mgmt/web"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2021-03-01/web"
@@ -317,7 +317,7 @@ func AppContainerApps(ctx context.Context, authorizer autorest.Authorizer, subsc
 }
 
 func AppManagedEnvironment(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := web2.NewManagedHostingEnvironmentsClient(subscription)
+	client := web3.NewManagedHostingEnvironmentsClient(subscription)
 	client.Authorizer = authorizer
 
 	it, err := client.GetManagedHostingEnvironmentsComplete(ctx, fmt.Sprintf("/subscriptions/%s", subscription))
@@ -357,7 +357,7 @@ func AppManagedEnvironment(ctx context.Context, authorizer autorest.Authorizer, 
 }
 
 func WebServerFarms(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := web2.NewServerFarmsClient(subscription)
+	client := web3.NewServerFarmsClient(subscription)
 	client.Authorizer = authorizer
 
 	it, err := client.GetServerFarms(ctx, fmt.Sprintf("/subscriptions/%s", subscription))
