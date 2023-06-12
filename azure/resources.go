@@ -44,6 +44,7 @@ type ResourceType struct {
 	TerraformServiceName string
 
 	FastDiscovery bool
+	Summarize     bool
 }
 
 func ListResourceTypes() []string {

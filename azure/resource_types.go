@@ -12,22 +12,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.AppContainerApps),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
-	},
-
-	"Microsoft.App/managedEnvironments": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.App/managedEnvironments",
-		ResourceLabel:        "",
-		ServiceName:          "Compute",
-		ListDescriber:        DescribeBySubscription(describer.AppManagedEnvironment),
-		GetDescriber:          nil ,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Blueprint/blueprints": {
@@ -36,10 +25,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Blueprint",
 		ListDescriber:        DescribeBySubscription(describer.BlueprintBlueprint),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Cdn/profiles": {
@@ -48,10 +38,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Cdn",
 		ListDescriber:        DescribeBySubscription(describer.CdnProfiles),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/cloudServices": {
@@ -60,10 +51,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeCloudServices),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.ContainerInstance/containerGroups": {
@@ -72,10 +64,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ContainerInstanceContainerGroups),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.DataMigration/services": {
@@ -84,10 +77,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.DataMigrationServices),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.DataProtection/backupVaults": {
@@ -96,10 +90,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.DataProtectionBackupVaults),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.DataProtection/backupVaults/backupPolicies": {
@@ -108,10 +103,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.DataProtectionBackupVaultsBackupPolicies),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Logic/integrationAccounts": {
@@ -120,10 +116,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.LogicIntegrationAccounts),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/bastionHosts": {
@@ -132,10 +129,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.NetworkBastionHosts),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/connections": {
@@ -144,10 +142,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.NetworkConnections),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/firewallPolicies": {
@@ -156,10 +155,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.FirewallPolicy),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/localNetworkGateways": {
@@ -168,10 +168,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.LocalNetworkGateway),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/privateLinkServices": {
@@ -180,10 +181,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.PrivateLinkService),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/publicIPPrefixes": {
@@ -192,10 +194,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.PublicIPPrefix),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/virtualHubs": {
@@ -204,10 +207,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.NetworkVirtualHubs),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/virtualWans": {
@@ -216,10 +220,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.NetworkVirtualWans),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/vpnGateways": {
@@ -228,10 +233,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.VpnGateway),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/vpnGateways/vpnConnections": {
@@ -240,10 +246,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.NetworkVpnGatewaysVpnConnections),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/vpnSites": {
@@ -252,10 +259,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.NetworkVpnGatewaysVpnSites),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.OperationalInsights/workspaces": {
@@ -264,10 +272,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.OperationalInsightsWorkspaces),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.StreamAnalytics/cluster": {
@@ -276,10 +285,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.StreamAnalyticsCluster),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.TimeSeriesInsights/environments": {
@@ -288,10 +298,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.TimeSeriesInsightsEnvironments),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.VirtualMachineImages/imageTemplates": {
@@ -300,22 +311,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.VirtualMachineImagesImageTemplates),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
-	},
-
-	"Microsoft.Web/serverFarms": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Web/serverFarms",
-		ResourceLabel:        "",
-		ServiceName:          "Compute",
-		ListDescriber:        DescribeBySubscription(describer.WebServerFarms),
-		GetDescriber:          nil ,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/virtualMachineScaleSets/virtualMachines": {
@@ -324,10 +324,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachineScaleSetVm),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Automation/automationAccounts": {
@@ -336,10 +337,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Automation",
 		ListDescriber:        DescribeBySubscription(describer.AutomationAccounts),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/dnsZones": {
@@ -348,22 +350,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.DNSZones),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
-	},
-
-	"Microsoft.Databricks/workspaces": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Databricks/workspaces",
-		ResourceLabel:        "",
-		ServiceName:          "Databricks",
-		ListDescriber:        DescribeBySubscription(describer.DatabricksWorkspaces),
-		GetDescriber:          nil ,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/privateDnsZones": {
@@ -372,10 +363,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.PrivateDnsZones),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/privateEndpoints": {
@@ -384,10 +376,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.PrivateEndpoints),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.EventGrid/domains/topics": {
@@ -396,10 +389,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "EventGrid",
 		ListDescriber:        DescribeBySubscription(describer.EventGridDomainTopic),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_eventgrid_domain_topic"},
 		TerraformServiceName: "eventgrid",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/networkWatchers": {
@@ -408,10 +402,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.NetworkWatcher),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_network_watcher"},
 		TerraformServiceName: "network",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Resources/resourceGroups": {
@@ -420,10 +415,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Resources",
 		ListDescriber:        DescribeBySubscription(describer.ResourceGroup),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_resource_group"},
 		TerraformServiceName: "resource",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Web/staticSites": {
@@ -432,10 +428,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Web",
 		ListDescriber:        DescribeBySubscription(describer.AppServiceWebApp),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_linux_web_app","azurerm_windows_web_app"},
 		TerraformServiceName: "appservice",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Resources/serviceprincipals": {
@@ -444,10 +441,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Resources",
 		ListDescriber:        DescribeADByTenantID(describer.AdServicePrinciple),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.CognitiveServices/accounts": {
@@ -456,10 +454,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "CognitiveServices",
 		ListDescriber:        DescribeBySubscription(describer.CognitiveAccount),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_cognitive_account"},
 		TerraformServiceName: "cognitive",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Sql/managedInstances": {
@@ -468,10 +467,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.MssqlManagedInstance),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_mssql_managed_instance"},
 		TerraformServiceName: "mssql",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Sql/virtualclusters": {
@@ -480,10 +480,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.SqlVirtualClusters),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Sql/managedInstances/databases": {
@@ -492,10 +493,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.MssqlManagedInstanceDatabases),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Sql/servers/databases": {
@@ -504,10 +506,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.SqlDatabase),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_sql_database"},
 		TerraformServiceName: "sql",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Storage/fileShares": {
@@ -516,10 +519,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Storage",
 		ListDescriber:        DescribeBySubscription(describer.StorageFileShare),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_storage_share_file"},
 		TerraformServiceName: "storage",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.DBforPostgreSQL/servers": {
@@ -528,10 +532,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DBforPostgreSQL",
 		ListDescriber:        DescribeBySubscription(describer.PostgresqlServer),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_postgresql_server"},
 		TerraformServiceName: "postgres",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.DBforPostgreSQL/flexibleservers": {
@@ -540,10 +545,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DBforPostgreSQL",
 		ListDescriber:        DescribeBySubscription(describer.PostgresqlFlexibleservers),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.AnalysisServices/servers": {
@@ -552,10 +558,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "AnalysisServices",
 		ListDescriber:        DescribeBySubscription(describer.AnalysisService),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Security/pricings": {
@@ -564,10 +571,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Security",
 		ListDescriber:        DescribeBySubscription(describer.SecurityCenterSubscriptionPricing),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_security_center_subscription_pricing"},
 		TerraformServiceName: "securitycenter",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Insights/guestDiagnosticSettings": {
@@ -576,10 +584,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Insights",
 		ListDescriber:        DescribeBySubscription(describer.DiagnosticSetting),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Resources/groups": {
@@ -588,10 +597,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Resources",
 		ListDescriber:        DescribeADByTenantID(describer.AdGroup),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Web/hostingEnvironments": {
@@ -600,10 +610,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Web",
 		ListDescriber:        DescribeBySubscription(describer.AppServiceEnvironment),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_app_service_environment"},
 		TerraformServiceName: "web",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Cache/redis": {
@@ -612,10 +623,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Cache",
 		ListDescriber:        DescribeBySubscription(describer.RedisCache),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_redis_cache"},
 		TerraformServiceName: "redis",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.ContainerRegistry/registries": {
@@ -624,10 +636,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "ContainerRegistry",
 		ListDescriber:        DescribeBySubscription(describer.ContainerRegistry),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_container_registry"},
 		TerraformServiceName: "containers",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.DataFactory/factoriesPipelines": {
@@ -636,10 +649,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DataFactory",
 		ListDescriber:        DescribeBySubscription(describer.DataFactoryPipeline),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_data_factory_pipeline"},
 		TerraformServiceName: "datafactory",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/resourceSku": {
@@ -648,10 +662,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeResourceSKU),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/expressRouteCircuits": {
@@ -660,10 +675,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.ExpressRouteCircuit),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_express_route_circuit"},
 		TerraformServiceName: "network",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Management/groups": {
@@ -672,10 +688,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Management",
 		ListDescriber:        DescribeBySubscription(describer.ManagementGroup),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_management_group"},
 		TerraformServiceName: "managementgroup",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"microsoft.SqlVirtualMachine/SqlVirtualMachines": {
@@ -684,10 +701,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.SqlServerVirtualMachine),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.SqlVirtualMachine/SqlVirtualMachineGroups": {
@@ -696,10 +714,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.SqlServerVirtualMachineGroups),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Storage/tableServices": {
@@ -708,10 +727,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Storage",
 		ListDescriber:        DescribeBySubscription(describer.StorageTableService),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Synapse/workspaces": {
@@ -720,10 +740,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Synapse",
 		ListDescriber:        DescribeBySubscription(describer.SynapseWorkspace),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_synapse_workspace"},
 		TerraformServiceName: "synapse",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Synapse/workspaces/bigdatapools": {
@@ -732,10 +753,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Synapse",
 		ListDescriber:        DescribeBySubscription(describer.SynapseWorkspaceBigdataPools),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Synapse/workspaces/sqlpools": {
@@ -744,10 +766,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Synapse",
 		ListDescriber:        DescribeBySubscription(describer.SynapseWorkspaceSqlpools),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.StreamAnalytics/streamingJobs": {
@@ -756,10 +779,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "StreamAnalytics",
 		ListDescriber:        DescribeBySubscription(describer.StreamAnalyticsJob),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_stream_analytics_job"},
 		TerraformServiceName: "streamanalytics",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.CostManagement/CostBySubscription": {
@@ -768,10 +792,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "CostManagement",
 		ListDescriber:        DescribeBySubscription(describer.DailyCostBySubscription),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.ContainerService/managedClusters": {
@@ -780,10 +805,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "ContainerService",
 		ListDescriber:        DescribeBySubscription(describer.KubernetesCluster),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_kubernetes_cluster"},
 		TerraformServiceName: "containers",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.DataFactory/factories": {
@@ -792,10 +818,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DataFactory",
 		ListDescriber:        DescribeBySubscription(describer.DataFactory),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_data_factory"},
 		TerraformServiceName: "datafactory",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Sql/servers": {
@@ -804,10 +831,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.SqlServer),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_sql_server"},
 		TerraformServiceName: "sql",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Sql/servers/jobagents": {
@@ -816,10 +844,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.SqlServerJobAgents),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Security/autoProvisioningSettings": {
@@ -828,10 +857,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Security",
 		ListDescriber:        DescribeBySubscription(describer.SecurityCenterAutoProvisioning),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_security_center_auto_provisioning"},
 		TerraformServiceName: "securitycenter",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Insights/logProfiles": {
@@ -840,10 +870,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Insights",
 		ListDescriber:        DescribeBySubscription(describer.LogProfile),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.DataBoxEdge/dataBoxEdgeDevices": {
@@ -852,10 +883,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DataBoxEdge",
 		ListDescriber:        DescribeBySubscription(describer.DataboxEdgeDevice),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_databox_edge_device"},
 		TerraformServiceName: "databoxedge",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/loadBalancers": {
@@ -864,10 +896,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.LoadBalancer),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_lb"},
 		TerraformServiceName: "loadbalancer",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/azureFirewalls": {
@@ -876,10 +909,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.NetworkAzureFirewall),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_firewall"},
 		TerraformServiceName: "firewall",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Management/locks": {
@@ -888,10 +922,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Management",
 		ListDescriber:        DescribeBySubscription(describer.ManagementLock),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/virtualMachineScaleSets/networkInterfaces": {
@@ -900,10 +935,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachineScaleSetNetworkInterface),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/frontDoors": {
@@ -912,10 +948,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.FrontDoor),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_frontdoor"},
 		TerraformServiceName: "frontdoor",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Authorization/policyAssignments": {
@@ -924,10 +961,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Authorization",
 		ListDescriber:        DescribeBySubscription(describer.PolicyAssignment),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Search/searchServices": {
@@ -936,10 +974,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Search",
 		ListDescriber:        DescribeBySubscription(describer.SearchService),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_search_service"},
 		TerraformServiceName: "search",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Security/settings": {
@@ -948,10 +987,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Security",
 		ListDescriber:        DescribeBySubscription(describer.SecurityCenterSetting),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_security_center_setting"},
 		TerraformServiceName: "securitycenter",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.RecoveryServices/vaults": {
@@ -960,10 +1000,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "RecoveryServices",
 		ListDescriber:        DescribeBySubscription(describer.RecoveryServicesVault),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_recovery_services_vault"},
 		TerraformServiceName: "recoveryservices",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/diskEncryptionSets": {
@@ -972,10 +1013,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeDiskEncryptionSet),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_disk_encryption_set"},
 		TerraformServiceName: "compute",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.DocumentDB/SqlDatabases": {
@@ -984,10 +1026,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DocumentDB",
 		ListDescriber:        DescribeBySubscription(describer.DocumentDBSQLDatabase),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_cosmosdb_sql_database"},
 		TerraformServiceName: "cosmos",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.EventGrid/topics": {
@@ -996,10 +1039,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "EventGrid",
 		ListDescriber:        DescribeBySubscription(describer.EventGridTopic),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_eventgrid_topic"},
 		TerraformServiceName: "eventgrid",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.EventHub/namespaces": {
@@ -1008,10 +1052,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "EventHub",
 		ListDescriber:        DescribeBySubscription(describer.EventhubNamespace),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_eventhub_namespace"},
 		TerraformServiceName: "eventhub",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.EventHub/namespaces/eventHubs": {
@@ -1020,10 +1065,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "EventHub",
 		ListDescriber:        DescribeBySubscription(describer.EventhubNamespaceEventhub),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_eventhub_namespace"},
 		TerraformServiceName: "eventhub",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.MachineLearningServices/workspaces": {
@@ -1032,10 +1078,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "MachineLearningServices",
 		ListDescriber:        DescribeBySubscription(describer.MachineLearningWorkspace),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_machine_learning_workspace"},
 		TerraformServiceName: "machinelearning",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.CostManagement/CostByResourceType": {
@@ -1044,10 +1091,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "CostManagement",
 		ListDescriber:        DescribeBySubscription(describer.DailyCostByResourceType),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/networkInterfaces": {
@@ -1056,10 +1104,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.NetworkInterface),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_network_interface"},
 		TerraformServiceName: "network",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/publicIPAddresses": {
@@ -1068,10 +1117,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.PublicIPAddress),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_public_ip"},
 		TerraformServiceName: "network",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.HealthcareApis/services": {
@@ -1080,10 +1130,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "HealthcareApis",
 		ListDescriber:        DescribeBySubscription(describer.HealthcareService),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_healthcare_service"},
 		TerraformServiceName: "healthcare",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.ServiceBus/namespaces": {
@@ -1092,10 +1143,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "ServiceBus",
 		ListDescriber:        DescribeBySubscription(describer.ServicebusNamespace),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_servicebus_namespace"},
 		TerraformServiceName: "servicebus",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Web/sites": {
@@ -1104,10 +1156,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Web",
 		ListDescriber:        DescribeBySubscription(describer.AppServiceFunctionApp),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_function_app"},
 		TerraformServiceName: "web",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/availabilitySets": {
@@ -1116,10 +1169,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeAvailabilitySet),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_availability_set"},
 		TerraformServiceName: "compute",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/virtualNetworks": {
@@ -1128,10 +1182,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.VirtualNetwork),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_virtual_network"},
 		TerraformServiceName: "network",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Security/securityContacts": {
@@ -1140,10 +1195,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Security",
 		ListDescriber:        DescribeBySubscription(describer.SecurityCenterContact),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_security_center_contact"},
 		TerraformServiceName: "securitycenter",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.EventGrid/domains": {
@@ -1152,10 +1208,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "EventGrid",
 		ListDescriber:        DescribeBySubscription(describer.EventGridDomain),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_eventgrid_domain"},
 		TerraformServiceName: "eventgrid",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.KeyVault/deletedVaults": {
@@ -1164,10 +1221,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "KeyVault",
 		ListDescriber:        DescribeBySubscription(describer.DeletedVault),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Storage/tables": {
@@ -1176,10 +1234,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Storage",
 		ListDescriber:        DescribeBySubscription(describer.StorageTable),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_storage_table"},
 		TerraformServiceName: "storage",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Resources/users": {
@@ -1188,10 +1247,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Resources",
 		ListDescriber:        DescribeADByTenantID(describer.AdUsers),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/snapshots": {
@@ -1200,10 +1260,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeSnapshots),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_snapshot"},
 		TerraformServiceName: "compute",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Kusto/clusters": {
@@ -1212,10 +1273,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Kusto",
 		ListDescriber:        DescribeBySubscription(describer.KustoCluster),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_kusto_cluster"},
 		TerraformServiceName: "kusto",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.StorageSync/storageSyncServices": {
@@ -1224,10 +1286,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "StorageSync",
 		ListDescriber:        DescribeBySubscription(describer.StorageSync),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_storage_sync"},
 		TerraformServiceName: "storage",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Security/locations/jitNetworkAccessPolicies": {
@@ -1236,10 +1299,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Security",
 		ListDescriber:        DescribeBySubscription(describer.SecurityCenterJitNetworkAccessPolicy),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/virtualNetworks/subnets": {
@@ -1248,10 +1312,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.Subnet),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_subnet"},
 		TerraformServiceName: "network",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.LoadBalancer/backendAddressPools": {
@@ -1260,10 +1325,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "LoadBalancer",
 		ListDescriber:        DescribeBySubscription(describer.LoadBalancerBackendAddressPool),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_lb_backend_address_pool"},
 		TerraformServiceName: "loadbalancer",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/loadBalancers/loadBalancingRules": {
@@ -1272,10 +1338,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "LoadBalancer",
 		ListDescriber:        DescribeBySubscription(describer.LoadBalancerRule),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_lb_rule"},
 		TerraformServiceName: "loadbalancer",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.DataLakeStore/accounts": {
@@ -1284,10 +1351,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DataLakeStore",
 		ListDescriber:        DescribeBySubscription(describer.DataLakeStore),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.StorageCache/caches": {
@@ -1296,10 +1364,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "StorageCache",
 		ListDescriber:        DescribeBySubscription(describer.HpcCache),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_hpc_cache"},
 		TerraformServiceName: "hpccache",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Batch/batchAccounts": {
@@ -1308,10 +1377,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Batch",
 		ListDescriber:        DescribeBySubscription(describer.BatchAccount),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_batch_account"},
 		TerraformServiceName: "batch",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/networkSecurityGroups": {
@@ -1320,10 +1390,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.NetworkSecurityGroup),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_network_security_group"},
 		TerraformServiceName: "network",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Authorization/roleDefinitions": {
@@ -1332,10 +1403,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Authorization",
 		ListDescriber:        DescribeBySubscription(describer.RoleDefinition),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_role_definition"},
 		TerraformServiceName: "authorization",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/applicationSecurityGroups": {
@@ -1344,10 +1416,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.NetworkApplicationSecurityGroups),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_application_security_group"},
 		TerraformServiceName: "network",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Authorization/roleAssignment": {
@@ -1356,10 +1429,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Authorization",
 		ListDescriber:        DescribeBySubscription(describer.RoleAssignment),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.DocumentDB/MongoDatabases": {
@@ -1368,10 +1442,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DocumentDB",
 		ListDescriber:        DescribeBySubscription(describer.DocumentDBMongoDatabase),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_cosmosdb_mongo_database"},
 		TerraformServiceName: "cosmos",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/networkWatchers/flowLogs": {
@@ -1380,10 +1455,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.NetworkWatcherFlowLog),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_network_watcher_flow_log"},
 		TerraformServiceName: "network",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"microsoft.Sql/servers/elasticpools": {
@@ -1392,10 +1468,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.SqlServerElasticPool),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_sql_elasticpool"},
 		TerraformServiceName: "sql",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Security/subAssessments": {
@@ -1404,10 +1481,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Security",
 		ListDescriber:        DescribeBySubscription(describer.SecurityCenterSubAssessment),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/disks": {
@@ -1416,10 +1494,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeDisk),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_managed_disk"},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Devices/iotHubDpses": {
@@ -1428,10 +1507,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Devices",
 		ListDescriber:        DescribeBySubscription(describer.IOTHubDps),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.HDInsight/clusters": {
@@ -1440,10 +1520,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "HDInsight",
 		ListDescriber:        DescribeBySubscription(describer.HdInsightCluster),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_hdinsight_cluster"},
 		TerraformServiceName: "hdinsight",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.ServiceFabric/clusters": {
@@ -1452,10 +1533,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "ServiceFabric",
 		ListDescriber:        DescribeBySubscription(describer.ServiceFabricCluster),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_service_fabric_cluster"},
 		TerraformServiceName: "servicefabric",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.SignalRService/signalR": {
@@ -1464,10 +1546,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "SignalRService",
 		ListDescriber:        DescribeBySubscription(describer.SignalrService),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_signalr_service"},
 		TerraformServiceName: "signalr",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Storage/blobs": {
@@ -1476,10 +1559,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Storage",
 		ListDescriber:        DescribeBySubscription(describer.StorageBlob),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_storage_blob"},
 		TerraformServiceName: "storage",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Storage/storageaccounts/blobservices/containers": {
@@ -1488,10 +1572,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Storage",
 		ListDescriber:        DescribeBySubscription(describer.StorageContainer),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_storage_container"},
 		TerraformServiceName: "storage",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Storage/blobServives": {
@@ -1500,10 +1585,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Storage",
 		ListDescriber:        DescribeBySubscription(describer.StorageBlobService),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Storage/queues": {
@@ -1512,10 +1598,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Storage",
 		ListDescriber:        DescribeBySubscription(describer.StorageQueue),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_storage_queue"},
 		TerraformServiceName: "storage",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.ApiManagement/service": {
@@ -1524,10 +1611,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "ApiManagement",
 		ListDescriber:        DescribeBySubscription(describer.APIManagement),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_api_management"},
 		TerraformServiceName: "apimanagement",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/virtualMachineScaleSets": {
@@ -1536,10 +1624,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachineScaleSet),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_windows_virtual_machine_scale_set","azurerm_linux_virtual_machine_scale_set","azurerm_orchestrated_virtual_machine_scale_set"},
 		TerraformServiceName: "compute",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.DataFactory/factoriesDatasets": {
@@ -1548,10 +1637,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DataFactory",
 		ListDescriber:        DescribeBySubscription(describer.DataFactoryDataset),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_data_factory_dataset_azure_blob","azurerm_data_factory_dataset_binary","azurerm_data_factory_dataset_cosmosdb_sqlapi","azurerm_data_factory_dataset_delimited_text","azurerm_data_factory_dataset_http","azurerm_data_factory_dataset_json","azurerm_data_factory_dataset_mysql","azurerm_data_factory_dataset_parquet","azurerm_data_factory_dataset_postgresql","azurerm_data_factory_dataset_snowflake","azurerm_data_factory_dataset_sql_server_table","azurerm_data_factory_custom_dataset"},
 		TerraformServiceName: "datafactory",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Authorization/policyDefinitions": {
@@ -1560,10 +1650,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Authorization",
 		ListDescriber:        DescribeBySubscription(describer.PolicyDefinition),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Resources/subscriptions/locations": {
@@ -1572,10 +1663,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Resources",
 		ListDescriber:        DescribeBySubscription(describer.Location),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/diskAccesses": {
@@ -1584,10 +1676,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeDiskAccess),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_disk_access"},
 		TerraformServiceName: "compute",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.DBforMySQL/servers": {
@@ -1596,10 +1689,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DBforMySQL",
 		ListDescriber:        DescribeBySubscription(describer.MysqlServer),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_mysql_server"},
 		TerraformServiceName: "mysql",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.DBforMySQL/flexibleservers": {
@@ -1608,10 +1702,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DBforMySQL",
 		ListDescriber:        DescribeBySubscription(describer.MysqlFlexibleservers),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Cache/redisenterprise": {
@@ -1620,10 +1715,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Cache",
 		ListDescriber:        DescribeBySubscription(describer.CacheRedisEnterprise),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.DataLakeAnalytics/accounts": {
@@ -1632,10 +1728,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DataLakeAnalytics",
 		ListDescriber:        DescribeBySubscription(describer.DataLakeAnalyticsAccount),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Insights/activityLogAlerts": {
@@ -1644,10 +1741,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Insights",
 		ListDescriber:        DescribeBySubscription(describer.LogAlert),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/loadBalancers/outboundRules": {
@@ -1656,10 +1754,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "LoadBalancer",
 		ListDescriber:        DescribeBySubscription(describer.LoadBalancerOutboundRule),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_lb_outbound_rule"},
 		TerraformServiceName: "loadbalancer",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.HybridCompute/machines": {
@@ -1668,10 +1767,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "HybridCompute",
 		ListDescriber:        DescribeBySubscription(describer.HybridComputeMachine),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_hybrid_compute_machine"},
 		TerraformServiceName: "hybridcompute",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/loadBalancers/inboundNatRules": {
@@ -1680,10 +1780,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "LoadBalancer",
 		ListDescriber:        DescribeBySubscription(describer.LoadBalancerNatRule),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_lb_nat_rule"},
 		TerraformServiceName: "loadbalancer",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Resources/providers": {
@@ -1692,10 +1793,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Resources",
 		ListDescriber:        DescribeBySubscription(describer.ResourceProvider),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/routeTables": {
@@ -1704,10 +1806,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.RouteTables),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_route_table"},
 		TerraformServiceName: "network",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.DocumentDB/databaseAccounts": {
@@ -1716,10 +1819,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DocumentDB",
 		ListDescriber:        DescribeBySubscription(describer.CosmosdbAccount),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_cosmosdb_account"},
 		TerraformServiceName: "cosmos",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/applicationGateways": {
@@ -1728,10 +1832,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.ApplicationGateway),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_application_gateway"},
 		TerraformServiceName: "network",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Security/automations": {
@@ -1740,10 +1845,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Security",
 		ListDescriber:        DescribeBySubscription(describer.SecurityCenterAutomation),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_security_center_automation"},
 		TerraformServiceName: "securitycenter",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Kubernetes/connectedClusters": {
@@ -1752,10 +1858,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Kubernetes",
 		ListDescriber:        DescribeBySubscription(describer.HybridKubernetesConnectedCluster),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.KeyVault/vaults/keys": {
@@ -1764,10 +1871,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "KeyVault",
 		ListDescriber:        DescribeBySubscription(describer.KeyVaultKey),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.DBforMariaDB/servers": {
@@ -1776,10 +1884,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DBforMariaDB",
 		ListDescriber:        DescribeBySubscription(describer.MariadbServer),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_mariadb_server"},
 		TerraformServiceName: "mariadb",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.DBforMariaDB/servers/databases": {
@@ -1788,10 +1897,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DBforMariaDB",
 		ListDescriber:        DescribeBySubscription(describer.MariadbDatabases),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Web/plan": {
@@ -1800,10 +1910,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Web",
 		ListDescriber:        DescribeBySubscription(describer.AppServicePlan),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_app_service_plan"},
 		TerraformServiceName: "web",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Resources/tenants": {
@@ -1812,10 +1923,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Resources",
 		ListDescriber:        DescribeBySubscription(describer.Tenant),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/virtualNetworkGateways": {
@@ -1824,10 +1936,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.VirtualNetworkGateway),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_virtual_network_gateway"},
 		TerraformServiceName: "network",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Devices/iotHubs": {
@@ -1836,10 +1949,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Devices",
 		ListDescriber:        DescribeBySubscription(describer.IOTHub),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_iothub"},
 		TerraformServiceName: "iothub",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Logic/workflows": {
@@ -1848,10 +1962,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Logic",
 		ListDescriber:        DescribeBySubscription(describer.LogicAppWorkflow),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_logic_app_workflow"},
 		TerraformServiceName: "logic",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Sql/flexibleServers": {
@@ -1860,10 +1975,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.SqlServerFlexibleServer),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Resources/links": {
@@ -1872,10 +1988,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Resources",
 		ListDescriber:        DescribeBySubscription(describer.ResourceLink),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Resources/subscriptions": {
@@ -1884,10 +2001,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Resources",
 		ListDescriber:        DescribeBySubscription(describer.Subscription),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_subscription"},
 		TerraformServiceName: "subscription",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/images": {
@@ -1896,10 +2014,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeImage),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_image"},
 		TerraformServiceName: "compute",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/virtualMachines": {
@@ -1908,10 +2027,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachine),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_linux_virtual_machine","azurerm_windows_virtual_machine"},
 		TerraformServiceName: "compute",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/natGateways": {
@@ -1920,10 +2040,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.NatGateway),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_nat_gateway"},
 		TerraformServiceName: "network",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/loadBalancers/probes": {
@@ -1932,10 +2053,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "LoadBalancer",
 		ListDescriber:        DescribeBySubscription(describer.LoadBalancerProbe),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_lb_probe"},
 		TerraformServiceName: "loadbalancer",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.KeyVault/vaults": {
@@ -1944,10 +2066,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "KeyVault",
 		ListDescriber:        DescribeBySubscription(describer.KeyVault),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_key_vault"},
 		TerraformServiceName: "keyvault",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.KeyVault/managedHsms": {
@@ -1956,10 +2079,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "KeyVault",
 		ListDescriber:        DescribeBySubscription(describer.KeyVaultManagedHardwareSecurityModule),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_key_vault_managed_hardware_security_module"},
 		TerraformServiceName: "keyvault",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.KeyVault/vaults/secrets": {
@@ -1968,10 +2092,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "KeyVault",
 		ListDescriber:        DescribeBySubscription(describer.KeyVaultSecret),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_key_vault_secret"},
 		TerraformServiceName: "keyvault",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.AppConfiguration/configurationStores": {
@@ -1980,10 +2105,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "AppConfiguration",
 		ListDescriber:        DescribeBySubscription(describer.AppConfiguration),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Storage/storageAccounts": {
@@ -1992,10 +2118,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Storage",
 		ListDescriber:        DescribeBySubscription(describer.StorageAccount),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_storage_account"},
 		TerraformServiceName: "storage",
-		FastDiscovery: true,
+		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"Microsoft.AppPlatform/Spring": {
@@ -2004,10 +2131,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "AppPlatform",
 		ListDescriber:        DescribeBySubscription(describer.SpringCloudService),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_spring_cloud_service"},
 		TerraformServiceName: "springcloud",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/galleries": {
@@ -2016,10 +2144,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeGallery),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_shared_image_gallery"},
 		TerraformServiceName: "compute",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/hostGroups": {
@@ -2028,10 +2157,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeHostGroup),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_dedicated_host_group"},
 		TerraformServiceName: "compute",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/hostGroups/hosts": {
@@ -2040,10 +2170,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeHost),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_dedicated_host"},
 		TerraformServiceName: "compute",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/restorePointCollections": {
@@ -2052,10 +2183,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeRestorePointCollection),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Compute/sshPublicKeys": {
@@ -2064,10 +2196,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeSSHPublicKey),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_ssh_public_key"},
 		TerraformServiceName: "compute",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Cdn/profiles/endpoints": {
@@ -2076,10 +2209,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Cdn",
 		ListDescriber:        DescribeBySubscription(describer.CdnEndpoint),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_cdn_endpoint"},
 		TerraformServiceName: "cdn",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.BotService/botServices": {
@@ -2088,10 +2222,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "BotService",
 		ListDescriber:        DescribeBySubscription(describer.BotServiceBot),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_bot_web_app"},
 		TerraformServiceName: "bot",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.DocumentDB/cassandraClusters": {
@@ -2100,10 +2235,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DocumentDB",
 		ListDescriber:        DescribeBySubscription(describer.DocumentDBCassandraCluster),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_cosmosdb_cassandra_cluster"},
 		TerraformServiceName: "cosmos",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Network/ddosProtectionPlans": {
@@ -2112,10 +2248,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.NetworkDDoSProtectionPlan),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_network_ddos_protection_plan"},
 		TerraformServiceName: "network",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"microsoft.Sql/instancePools": {
@@ -2124,10 +2261,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.SqlInstancePool),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"microsoft.NetApp/netAppAccounts": {
@@ -2136,10 +2274,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "NetApp",
 		ListDescriber:        DescribeBySubscription(describer.NetAppAccount),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_netapp_account"},
 		TerraformServiceName: "netapp",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.NetApp/netAppAccounts/capacityPools": {
@@ -2148,10 +2287,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "NetApp",
 		ListDescriber:        DescribeBySubscription(describer.NetAppCapacityPool),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_netapp_pool"},
 		TerraformServiceName: "netapp",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.DesktopVirtualization/hostpools": {
@@ -2160,10 +2300,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DesktopVirtualization",
 		ListDescriber:        DescribeBySubscription(describer.DesktopVirtualizationHostPool),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_virtual_desktop_host_pool"},
 		TerraformServiceName: "desktopvirtualization",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Devtestlab/labs": {
@@ -2172,10 +2313,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "DevTestLab",
 		ListDescriber:        DescribeBySubscription(describer.DevTestLabLab),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_dev_test_lab"},
 		TerraformServiceName: "devtestlabs",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.Purview/Accounts": {
@@ -2184,10 +2326,11 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Purview",
 		ListDescriber:        DescribeBySubscription(describer.PurviewAccount),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_purview_account"},
 		TerraformServiceName: "purview",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"Microsoft.PowerBIDedicated/capacities": {
@@ -2196,9 +2339,10 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "PowerBI",
 		ListDescriber:        DescribeBySubscription(describer.PowerBIDedicatedCapacity),
-		GetDescriber:          nil ,
+		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery: false,
+		FastDiscovery:        false,
+		Summarize:            true,
 	},
 }
