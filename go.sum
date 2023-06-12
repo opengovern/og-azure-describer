@@ -675,6 +675,8 @@ github.com/zclconf/go-cty-debug v0.0.0-20191215020915-b22d67c1ba0b/go.mod h1:ZRK
 github.com/zenazn/goji v0.9.0/go.mod h1:7S9M489iMyHBNxwZnk9/EHS098H4/F6TATF2mIxtB1Q=
 gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230611133824-9a1ea0555bd0 h1:efFSuglmzHzjYDavBsUvKMKIveYqF9qgcN9yrmbCX+c=
 gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230611133824-9a1ea0555bd0/go.mod h1:Mnk+d8gvvSk593xrZi0LnlIWJK2s4PPqXrMF8ni38I0=
+gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230612083600-8647c16dbc6c h1:Kk/ndDltZpHcngCIJTyCL3Q6fLStsjX7kNZgNQwzlDY=
+gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230612083600-8647c16dbc6c/go.mod h1:iNl0e3yhQrRbBVbmPrV2BxxiwGH7CYnmXOzh9ebPXgk=
 gitlab.com/keibiengine/steampipe-plugin-azuread v0.1.1-0.20230611092520-901cabdfc4d6 h1:6dbSY06hqRa8rUnSMzkz4NK87WpOZlKe2Z2q1zv0STg=
 gitlab.com/keibiengine/steampipe-plugin-azuread v0.1.1-0.20230611092520-901cabdfc4d6/go.mod h1:ZxHYh5bZdtrIafo6hH6rqxkhXsEZrMj3cQag/TLo+h8=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=
