@@ -30,7 +30,9 @@ func LoadBalancer(ctx context.Context, authorizer autorest.Authorizer, subscript
 			// Get diagnostic settings
 			diagnosticSettings, err := insightsClient.List(ctx, *loadBalancer.ID)
 			if err != nil {
-				return nil, err
+				//insights.DiagnosticSettingsClient#List: Failure responding to request: StatusCode=404 -- Original Error: autorest/azure: Service returned an error. Status=404 Code="ResourceGroupNotFound" Message="Resource group 'rg-famsrch-gph-eus' could not be found."
+				//subscriptions/8cd35b61-a0a9-4e39-849e-0e69b8a995de/resourceGroups/IUclient/providers/Microsoft.Network/loadBalancers/LB-testtpservicefabric-web
+				return nil, err //TODO-Saleh
 			}
 
 			resource := Resource{

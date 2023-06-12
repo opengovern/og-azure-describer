@@ -169,7 +169,7 @@ func StorageAccount(ctx context.Context, authorizer autorest.Authorizer, subscri
 			if account.Kind != "FileStorage" {
 				blobServicesPropertiesOp, err := blobServicesStorageClient.GetServiceProperties(ctx, *resourceGroup, *account.Name)
 				if err != nil {
-					if strings.Contains(err.Error(), "ContainerOperationFailure") {
+					if !strings.Contains(err.Error(), "ContainerOperationFailure") {
 						return nil, err
 					}
 				} else {
@@ -320,144 +320,141 @@ func StorageBlob(ctx context.Context, authorizer autorest.Authorizer, subscripti
 		return nil, err
 	}
 
-	resourceGroups, err := listResourceGroups(ctx, authorizer, subscription)
-	if err != nil {
-		return nil, err
-	}
-
 	var values []Resource
 	for {
 		for _, storageAccount := range storageAccounts.Values() {
-			for _, resourceGroup := range resourceGroups {
-				keys, err := accountClient.ListKeys(ctx, *resourceGroup.Name, *storageAccount.Name, "")
-				if err != nil {
-					return nil, err
-				}
+			resourceGroup := strings.Split(*storageAccount.ID, "/")[4]
 
-				credential, err := azblob.NewSharedKeyCredential(*storageAccount.Name, *(*(keys.Keys))[0].Value)
-				if err != nil {
-					return nil, err
-				}
-				baseUrl := fmt.Sprintf("https://%s.blob.core.windows.net", *storageAccount.Name)
-				blobClient, err := azblob.NewClientWithSharedKeyCredential(baseUrl, credential, nil)
-				if err != nil {
-					return nil, err
-				}
+			//for _, resourceGroup := range resourceGroups {
+			keys, err := accountClient.ListKeys(ctx, resourceGroup, *storageAccount.Name, "")
+			if err != nil {
+				return nil, err
+			}
 
-				containers, err := containerClient.List(ctx, *resourceGroup.Name, *storageAccount.Name, "", "", "")
-				if err != nil {
-					return nil, err
-				}
-				for {
-					for _, container := range containers.Values() {
-						blobPager := blobClient.NewListBlobsFlatPager(*container.Name, nil)
-						for blobPager.More() {
-							flatResponse, err := blobPager.NextPage(ctx)
-							if err != nil {
-								return nil, err
+			credential, err := azblob.NewSharedKeyCredential(*storageAccount.Name, *(*(keys.Keys))[0].Value)
+			if err != nil {
+				return nil, err
+			}
+			baseUrl := fmt.Sprintf("https://%s.blob.core.windows.net", *storageAccount.Name)
+			blobClient, err := azblob.NewClientWithSharedKeyCredential(baseUrl, credential, nil)
+			if err != nil {
+				return nil, err
+			}
+
+			containers, err := containerClient.List(ctx, resourceGroup, *storageAccount.Name, "", "", "")
+			if err != nil {
+				return nil, err
+			}
+			for {
+				for _, container := range containers.Values() {
+					blobPager := blobClient.NewListBlobsFlatPager(*container.Name, nil)
+					for blobPager.More() {
+						flatResponse, err := blobPager.NextPage(ctx)
+						if err != nil {
+							return nil, err
+						}
+						for _, blob := range flatResponse.Segment.BlobItems {
+							metadata := azblobOld.Metadata{}
+							for k, v := range blob.Metadata {
+								metadata[k] = *v
 							}
-							for _, blob := range flatResponse.Segment.BlobItems {
-								metadata := azblobOld.Metadata{}
-								for k, v := range blob.Metadata {
-									metadata[k] = *v
-								}
 
-								blobTags := &azblobOld.BlobTags{
-									BlobTagSet: []azblobOld.BlobTag{},
+							blobTags := &azblobOld.BlobTags{
+								BlobTagSet: []azblobOld.BlobTag{},
+							}
+							if blob.BlobTags != nil {
+								for _, tag := range blob.BlobTags.BlobTagSet {
+									blobTags.BlobTagSet = append(blobTags.BlobTagSet, azblobOld.BlobTag{
+										Key:   *tag.Key,
+										Value: *tag.Value,
+									})
 								}
-								if blob.BlobTags != nil {
-									for _, tag := range blob.BlobTags.BlobTagSet {
-										blobTags.BlobTagSet = append(blobTags.BlobTagSet, azblobOld.BlobTag{
-											Key:   *tag.Key,
-											Value: *tag.Value,
-										})
-									}
-								} else {
-									blobTags = nil
-								}
+							} else {
+								blobTags = nil
+							}
 
-								resource := Resource{
-									ID:       *blob.Name,
-									Name:     *blob.Name,
-									Location: *storageAccount.Location,
-									Description: JSONAllFieldsMarshaller{
-										model.StorageBlobDescription{
-											Blob: azblobOld.BlobItemInternal{
-												Name:             *blob.Name,
-												Deleted:          *blob.Deleted,
-												Snapshot:         *blob.Snapshot,
-												VersionID:        blob.VersionID,
-												IsCurrentVersion: blob.IsCurrentVersion,
-												Properties: azblobOld.BlobProperties{
-													CreationTime:              blob.Properties.CreationTime,
-													LastModified:              *blob.Properties.LastModified,
-													Etag:                      azblobOld.ETag(*blob.Properties.ETag),
-													ContentLength:             blob.Properties.ContentLength,
-													ContentType:               blob.Properties.ContentType,
-													ContentEncoding:           blob.Properties.ContentEncoding,
-													ContentLanguage:           blob.Properties.ContentLanguage,
-													ContentMD5:                blob.Properties.ContentMD5,
-													ContentDisposition:        blob.Properties.ContentDisposition,
-													CacheControl:              blob.Properties.CacheControl,
-													BlobSequenceNumber:        blob.Properties.BlobSequenceNumber,
-													BlobType:                  azblobOld.BlobType(*blob.Properties.BlobType),
-													LeaseStatus:               azblobOld.LeaseStatusType(*blob.Properties.LeaseStatus),
-													LeaseState:                azblobOld.LeaseStateType(*blob.Properties.LeaseState),
-													LeaseDuration:             azblobOld.LeaseDurationType(*blob.Properties.LeaseDuration),
-													CopyID:                    blob.Properties.CopyID,
-													CopyStatus:                azblobOld.CopyStatusType(*blob.Properties.CopyStatus),
-													CopySource:                blob.Properties.CopySource,
-													CopyProgress:              blob.Properties.CopyProgress,
-													CopyCompletionTime:        blob.Properties.CopyCompletionTime,
-													CopyStatusDescription:     blob.Properties.CopyStatusDescription,
-													ServerEncrypted:           blob.Properties.ServerEncrypted,
-													IncrementalCopy:           blob.Properties.IncrementalCopy,
-													DestinationSnapshot:       blob.Properties.DestinationSnapshot,
-													DeletedTime:               blob.Properties.DeletedTime,
-													RemainingRetentionDays:    blob.Properties.RemainingRetentionDays,
-													AccessTier:                azblobOld.AccessTierType(*blob.Properties.AccessTier),
-													AccessTierInferred:        blob.Properties.AccessTierInferred,
-													ArchiveStatus:             azblobOld.ArchiveStatusType(*blob.Properties.ArchiveStatus),
-													CustomerProvidedKeySha256: blob.Properties.CustomerProvidedKeySHA256,
-													EncryptionScope:           blob.Properties.EncryptionScope,
-													AccessTierChangeTime:      blob.Properties.AccessTierChangeTime,
-													TagCount:                  blob.Properties.TagCount,
-													ExpiresOn:                 blob.Properties.ExpiresOn,
-													IsSealed:                  blob.Properties.IsSealed,
-													RehydratePriority:         azblobOld.RehydratePriorityType(*blob.Properties.RehydratePriority),
-													LastAccessedOn:            blob.Properties.LastAccessedOn,
-												},
-												Metadata: metadata,
-												BlobTags: blobTags,
+							resource := Resource{
+								ID:       *blob.Name,
+								Name:     *blob.Name,
+								Location: *storageAccount.Location,
+								Description: JSONAllFieldsMarshaller{
+									model.StorageBlobDescription{
+										Blob: azblobOld.BlobItemInternal{
+											Name:             *blob.Name,
+											Deleted:          *blob.Deleted,
+											Snapshot:         *blob.Snapshot,
+											VersionID:        blob.VersionID,
+											IsCurrentVersion: blob.IsCurrentVersion,
+											Properties: azblobOld.BlobProperties{
+												CreationTime:              blob.Properties.CreationTime,
+												LastModified:              *blob.Properties.LastModified,
+												Etag:                      azblobOld.ETag(*blob.Properties.ETag),
+												ContentLength:             blob.Properties.ContentLength,
+												ContentType:               blob.Properties.ContentType,
+												ContentEncoding:           blob.Properties.ContentEncoding,
+												ContentLanguage:           blob.Properties.ContentLanguage,
+												ContentMD5:                blob.Properties.ContentMD5,
+												ContentDisposition:        blob.Properties.ContentDisposition,
+												CacheControl:              blob.Properties.CacheControl,
+												BlobSequenceNumber:        blob.Properties.BlobSequenceNumber,
+												BlobType:                  azblobOld.BlobType(*blob.Properties.BlobType),
+												LeaseStatus:               azblobOld.LeaseStatusType(*blob.Properties.LeaseStatus),
+												LeaseState:                azblobOld.LeaseStateType(*blob.Properties.LeaseState),
+												LeaseDuration:             azblobOld.LeaseDurationType(*blob.Properties.LeaseDuration),
+												CopyID:                    blob.Properties.CopyID,
+												CopyStatus:                azblobOld.CopyStatusType(*blob.Properties.CopyStatus),
+												CopySource:                blob.Properties.CopySource,
+												CopyProgress:              blob.Properties.CopyProgress,
+												CopyCompletionTime:        blob.Properties.CopyCompletionTime,
+												CopyStatusDescription:     blob.Properties.CopyStatusDescription,
+												ServerEncrypted:           blob.Properties.ServerEncrypted,
+												IncrementalCopy:           blob.Properties.IncrementalCopy,
+												DestinationSnapshot:       blob.Properties.DestinationSnapshot,
+												DeletedTime:               blob.Properties.DeletedTime,
+												RemainingRetentionDays:    blob.Properties.RemainingRetentionDays,
+												AccessTier:                azblobOld.AccessTierType(*blob.Properties.AccessTier),
+												AccessTierInferred:        blob.Properties.AccessTierInferred,
+												ArchiveStatus:             azblobOld.ArchiveStatusType(*blob.Properties.ArchiveStatus),
+												CustomerProvidedKeySha256: blob.Properties.CustomerProvidedKeySHA256,
+												EncryptionScope:           blob.Properties.EncryptionScope,
+												AccessTierChangeTime:      blob.Properties.AccessTierChangeTime,
+												TagCount:                  blob.Properties.TagCount,
+												ExpiresOn:                 blob.Properties.ExpiresOn,
+												IsSealed:                  blob.Properties.IsSealed,
+												RehydratePriority:         azblobOld.RehydratePriorityType(*blob.Properties.RehydratePriority),
+												LastAccessedOn:            blob.Properties.LastAccessedOn,
 											},
-											AccountName:   *storageAccount.Name,
-											ContainerName: *container.Name,
-											ResourceGroup: *resourceGroup.Name,
-											IsSnapshot:    len(*blob.Snapshot) > 0,
+											Metadata: metadata,
+											BlobTags: blobTags,
 										},
+										AccountName:   *storageAccount.Name,
+										ContainerName: *container.Name,
+										ResourceGroup: resourceGroup,
+										IsSnapshot:    len(*blob.Snapshot) > 0,
 									},
-								}
-								if stream != nil {
-									if err := (*stream)(resource); err != nil {
-										return nil, err
-									}
-								} else {
-									values = append(values, resource)
-								}
-
+								},
 							}
+							if stream != nil {
+								if err := (*stream)(resource); err != nil {
+									return nil, err
+								}
+							} else {
+								values = append(values, resource)
+							}
+
 						}
 					}
+				}
 
-					if !containers.NotDone() {
-						break
-					}
-					err := containers.NextWithContext(ctx)
-					if err != nil {
-						return nil, err
-					}
+				if !containers.NotDone() {
+					break
+				}
+				err := containers.NextWithContext(ctx)
+				if err != nil {
+					return nil, err
 				}
 			}
+			//}
 		}
 		if !storageAccounts.NotDone() {
 			break
@@ -734,6 +731,7 @@ func StorageTable(ctx context.Context, authorizer autorest.Authorizer, subscript
 					 */
 					if strings.Contains(err.Error(), "FeatureNotSupportedForAccount") ||
 						strings.Contains(err.Error(), "OperationNotAllowedOnKind") ||
+						strings.Contains(err.Error(), "AccountIsDisabled") ||
 						strings.Contains(err.Error(), "ParentResourceNotFound") {
 						continue
 					}
