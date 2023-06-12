@@ -7,6 +7,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/healthcareapis/mgmt/healthcareapis"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/hybridcompute/mgmt/hybridcompute"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/netapp/mgmt/netapp"
+	"github.com/Azure/azure-sdk-for-go/profiles/latest/powerbidedicated/mgmt/powerbidedicated"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/provisioningservices/mgmt/iothub"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/purview/mgmt/purview"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/recoveryservices/mgmt/recoveryservices"
@@ -1801,5 +1802,12 @@ type DevTestLabLabDescription struct {
 
 type PurviewAccountDescription struct {
 	Account       purview.Account
+	ResourceGroup string
+}
+
+// =================== PowerBI ==================
+
+type PowerBIDedicatedCapacityDescription struct {
+	Capacity      powerbidedicated.DedicatedCapacity
 	ResourceGroup string
 }

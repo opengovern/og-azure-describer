@@ -2190,4 +2190,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "purview",
 		FastDiscovery: false,
 	},
+
+	"Microsoft.PowerBIDedicated/capacities": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.PowerBIDedicated/capacities",
+		ResourceLabel:        "",
+		ServiceName:          "PowerBI",
+		ListDescriber:        DescribeBySubscription(describer.PowerBIDedicatedCapacity),
+		GetDescriber:          nil ,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery: false,
+	},
 }
