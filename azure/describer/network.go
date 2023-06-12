@@ -583,12 +583,11 @@ func VirtualNetworkGateway(ctx context.Context, authorizer autorest.Authorizer, 
 
 		for {
 			for _, virtualNetworkGateway := range result.Values() {
-				virtualNetworkGatewayConnection, err := conClient.Get(ctx, *rg.Name, *virtualNetworkGateway.Name)
+				resourceGroup := strings.Split(*virtualNetworkGateway.ID, "/")[4]
+				virtualNetworkGatewayConnection, err := conClient.Get(ctx, resourceGroup, *virtualNetworkGateway.Name)
 				if err != nil {
 					return nil, err
 				}
-
-				resourceGroup := strings.Split(*virtualNetworkGateway.ID, "/")[4]
 
 				resource := Resource{
 					ID:       *virtualNetworkGateway.ID,

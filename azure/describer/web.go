@@ -3,7 +3,7 @@ package describer
 import (
 	"context"
 	"fmt"
-	web2 "github.com/Azure/azure-sdk-for-go/profiles/preview/preview/web/mgmt/web"
+	web2 "github.com/Azure/azure-sdk-for-go/profiles/2020-09-01/web/mgmt/web"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2021-03-01/web"

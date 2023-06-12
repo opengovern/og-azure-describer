@@ -140,6 +140,9 @@ func MssqlManagedInstanceDatabases(ctx context.Context, authorizer autorest.Auth
 
 			dbResult, err := dbClient.ListByServer(ctx, resourceGroup, managedInstanceName, "")
 			if err != nil {
+				if strings.Contains(err.Error(), "ParentResourceNotFound") {
+					continue
+				}
 				return nil, err
 			}
 

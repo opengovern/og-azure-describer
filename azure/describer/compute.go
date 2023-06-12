@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	compute2 "github.com/Azure/azure-sdk-for-go/profiles/latest/compute/mgmt/compute"
+	compute2 "github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2022-08-01/compute"
 
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2017-09-01/skus"
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2020-06-01/compute"

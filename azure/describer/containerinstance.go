@@ -2,7 +2,7 @@ package describer
 
 import (
 	"context"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/containerinstance/mgmt/containerinstance"
+	"github.com/Azure/azure-sdk-for-go/services/containerinstance/mgmt/2021-10-01/containerinstance"
 	"strings"
 
 	"github.com/Azure/go-autorest/autorest"
