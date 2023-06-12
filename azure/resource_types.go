@@ -355,18 +355,6 @@ var resourceTypes = map[string]ResourceType{
 		FastDiscovery:        true,
 	},
 
-	"Microsoft.Network/dnsResolvers": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Network/dnsResolvers",
-		ResourceLabel:        "",
-		ServiceName:          "Network",
-		ListDescriber:        DescribeBySubscription(describer.DNSResolvers),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        true,
-	},
-
 	"Microsoft.Databricks/workspaces": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Databricks/workspaces",
