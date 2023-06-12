@@ -33244,3 +33244,159 @@ func GetNetAppAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 // ==========================  END: NetAppAccount =============================
+
+// ==========================  START: NetAppCapacityPool =============================
+
+type NetAppCapacityPool struct {
+	Description   azure.NetAppCapacityPoolDescription `json:"description"`
+	Metadata      azure.Metadata                      `json:"metadata"`
+	ResourceJobID int                                 `json:"resource_job_id"`
+	SourceJobID   int                                 `json:"source_job_id"`
+	ResourceType  string                              `json:"resource_type"`
+	SourceType    string                              `json:"source_type"`
+	ID            string                              `json:"id"`
+	ARN           string                              `json:"arn"`
+	SourceID      string                              `json:"source_id"`
+}
+
+type NetAppCapacityPoolHit struct {
+	ID      string             `json:"_id"`
+	Score   float64            `json:"_score"`
+	Index   string             `json:"_index"`
+	Type    string             `json:"_type"`
+	Version int64              `json:"_version,omitempty"`
+	Source  NetAppCapacityPool `json:"_source"`
+	Sort    []interface{}      `json:"sort"`
+}
+
+type NetAppCapacityPoolHits struct {
+	Total essdk.SearchTotal       `json:"total"`
+	Hits  []NetAppCapacityPoolHit `json:"hits"`
+}
+
+type NetAppCapacityPoolSearchResponse struct {
+	PitID string                 `json:"pit_id"`
+	Hits  NetAppCapacityPoolHits `json:"hits"`
+}
+
+type NetAppCapacityPoolPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewNetAppCapacityPoolPaginator(filters []essdk.BoolFilter, limit *int64) (NetAppCapacityPoolPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_netapp_netappaccounts_capacitypools", filters, limit)
+	if err != nil {
+		return NetAppCapacityPoolPaginator{}, err
+	}
+
+	p := NetAppCapacityPoolPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p NetAppCapacityPoolPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p NetAppCapacityPoolPaginator) NextPage(ctx context.Context) ([]NetAppCapacityPool, error) {
+	var response NetAppCapacityPoolSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []NetAppCapacityPool
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listNetAppCapacityPoolFilters = map[string]string{
+	"akas":  "description.CapacityPool.ID",
+	"id":    "description.CapacityPool.Id",
+	"name":  "description.CapacityPool.Name",
+	"tags":  "description.CapacityPool.Tags",
+	"title": "description.CapacityPool.Name",
+}
+
+func ListNetAppCapacityPool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListNetAppCapacityPool")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewNetAppCapacityPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetAppCapacityPoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getNetAppCapacityPoolFilters = map[string]string{
+	"akas":  "description.CapacityPool.ID",
+	"id":    "description.CapacityPool.Id",
+	"name":  "description.CapacityPool.Name",
+	"tags":  "description.CapacityPool.Tags",
+	"title": "description.CapacityPool.Name",
+}
+
+func GetNetAppCapacityPool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetNetAppCapacityPool")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewNetAppCapacityPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetAppCapacityPoolFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: NetAppCapacityPool =============================

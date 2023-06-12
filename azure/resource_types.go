@@ -1147,30 +1147,6 @@ var resourceTypes = map[string]ResourceType{
 		FastDiscovery:        false,
 	},
 
-	"Microsoft.Compute/diskswriteops": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Compute/diskswriteops",
-		ResourceLabel:        "",
-		ServiceName:          "Compute",
-		ListDescriber:        DescribeBySubscription(describer.ComputeDiskWriteOps),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-	},
-
-	"Microsoft.Compute/diskswriteopshourly": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Compute/diskswriteopshourly",
-		ResourceLabel:        "",
-		ServiceName:          "Compute",
-		ListDescriber:        DescribeBySubscription(describer.ComputeDiskWriteOpsHourly),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-	},
-
 	"Microsoft.EventGrid/domains": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.EventGrid/domains",
@@ -1300,18 +1276,6 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_lb_rule"},
 		TerraformServiceName: "loadbalancer",
-		FastDiscovery:        false,
-	},
-
-	"Microsoft.Compute/virtualMachineCpuUtilizationDaily": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Compute/virtualMachineCpuUtilizationDaily",
-		ResourceLabel:        "",
-		ServiceName:          "Compute",
-		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachineCpuUtilizationDaily),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
 
@@ -1567,18 +1531,6 @@ var resourceTypes = map[string]ResourceType{
 		FastDiscovery:        false,
 	},
 
-	"Microsoft.Compute/disksreadops": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Compute/disksreadops",
-		ResourceLabel:        "",
-		ServiceName:          "Compute",
-		ListDescriber:        DescribeBySubscription(describer.ComputeDiskReadOps),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-	},
-
 	"Microsoft.Compute/virtualMachineScaleSets": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/virtualMachineScaleSets",
@@ -1693,18 +1645,6 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Insights",
 		ListDescriber:        DescribeBySubscription(describer.LogAlert),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-	},
-
-	"Microsoft.Compute/virtualMachineCpuUtilizationHourly": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Compute/virtualMachineCpuUtilizationHourly",
-		ResourceLabel:        "",
-		ServiceName:          "Compute",
-		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachineCpuUtilizationHourly),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
@@ -1855,18 +1795,6 @@ var resourceTypes = map[string]ResourceType{
 		FastDiscovery:        true,
 	},
 
-	"Microsoft.Compute/disksreadopsdaily": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Compute/disksreadopsdaily",
-		ResourceLabel:        "",
-		ServiceName:          "Compute",
-		ListDescriber:        DescribeBySubscription(describer.ComputeDiskReadOpsDaily),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-	},
-
 	"Microsoft.Web/plan": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Web/plan",
@@ -1876,30 +1804,6 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_app_service_plan"},
 		TerraformServiceName: "web",
-		FastDiscovery:        false,
-	},
-
-	"Microsoft.Compute/disksreadopshourly": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Compute/disksreadopshourly",
-		ResourceLabel:        "",
-		ServiceName:          "Compute",
-		ListDescriber:        DescribeBySubscription(describer.ComputeDiskReadOpsHourly),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-	},
-
-	"Microsoft.Compute/diskswriteopsdaily": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Compute/diskswriteopsdaily",
-		ResourceLabel:        "",
-		ServiceName:          "Compute",
-		ListDescriber:        DescribeBySubscription(describer.ComputeDiskWriteOpsDaily),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
 		FastDiscovery:        false,
 	},
 
@@ -2083,18 +1987,6 @@ var resourceTypes = map[string]ResourceType{
 		FastDiscovery:        false,
 	},
 
-	"Microsoft.Compute/virtualMachineCpuUtilization": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Compute/virtualMachineCpuUtilization",
-		ResourceLabel:        "",
-		ServiceName:          "Compute",
-		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachineCpuUtilization),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-	},
-
 	"Microsoft.Storage/storageAccounts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Storage/storageAccounts",
@@ -2249,5 +2141,17 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_netapp_account"},
 		TerraformServiceName: "netapp",
 		FastDiscovery:        false,
+	},
+
+	"Microsoft.NetApp/netAppAccounts/capacityPools": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.NetApp/netAppAccounts/capacityPools",
+		ResourceLabel:        "",
+		ServiceName:          "NetApp",
+		ListDescriber:        DescribeBySubscription(describer.NetAppCapacityPool),
+		GetDescriber:          nil ,
+		TerraformName:        []string{"azurerm_netapp_pool"},
+		TerraformServiceName: "netapp",
+		FastDiscovery: false,
 	},
 }

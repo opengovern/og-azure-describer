@@ -1774,3 +1774,8 @@ type NetAppAccountDescription struct {
 	Account       netapp.Account
 	ResourceGroup string
 }
+
+type NetAppCapacityPoolDescription struct {
+	CapacityPool  netapp.CapacityPool
+	ResourceGroup string
+}
