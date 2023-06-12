@@ -192,6 +192,7 @@ var azureMap = map[string]string{
 "Microsoft.DocumentDB/cassandraClusters": "azure_cosmosdb_cassandra_cluster",
 "Microsoft.Network/ddosProtectionPlans": "azure_network_ddos_protection_plan",
 "microsoft.Sql/instancePools": "azure_sql_instance_pool",
+"microsoft.NetApp/netAppAccounts": "azure_netapp_account",
 }
 
 var AzureDescriptionMap = map[string]interface{}{
@@ -381,4 +382,5 @@ var AzureDescriptionMap = map[string]interface{}{
 "Microsoft.DocumentDB/cassandraClusters": &keibi.CosmosdbCassandraCluster{},
 "Microsoft.Network/ddosProtectionPlans": &keibi.NetworkDDoSProtectionPlan{},
 "microsoft.Sql/instancePools": &keibi.SqlInstancePool{},
+"microsoft.NetApp/netAppAccounts": &keibi.NetAppAccount{},
 }

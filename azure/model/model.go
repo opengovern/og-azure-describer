@@ -5,6 +5,7 @@ package model
 import (
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/healthcareapis/mgmt/healthcareapis"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/hybridcompute/mgmt/hybridcompute"
+	"github.com/Azure/azure-sdk-for-go/profiles/latest/netapp/mgmt/netapp"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/provisioningservices/mgmt/iothub"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/recoveryservices/mgmt/recoveryservices"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/links"
@@ -1764,5 +1765,12 @@ type ResourceGroupDescription struct {
 
 type BotServiceBotDescription struct {
 	Bot           botservice.Bot
+	ResourceGroup string
+}
+
+// =================== NetApp ==================
+
+type NetAppAccountDescription struct {
+	Account       netapp.Account
 	ResourceGroup string
 }

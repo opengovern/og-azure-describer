@@ -33088,3 +33088,159 @@ func GetBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 // ==========================  END: BotServiceBot =============================
+
+// ==========================  START: NetAppAccount =============================
+
+type NetAppAccount struct {
+	Description   azure.NetAppAccountDescription `json:"description"`
+	Metadata      azure.Metadata                 `json:"metadata"`
+	ResourceJobID int                            `json:"resource_job_id"`
+	SourceJobID   int                            `json:"source_job_id"`
+	ResourceType  string                         `json:"resource_type"`
+	SourceType    string                         `json:"source_type"`
+	ID            string                         `json:"id"`
+	ARN           string                         `json:"arn"`
+	SourceID      string                         `json:"source_id"`
+}
+
+type NetAppAccountHit struct {
+	ID      string        `json:"_id"`
+	Score   float64       `json:"_score"`
+	Index   string        `json:"_index"`
+	Type    string        `json:"_type"`
+	Version int64         `json:"_version,omitempty"`
+	Source  NetAppAccount `json:"_source"`
+	Sort    []interface{} `json:"sort"`
+}
+
+type NetAppAccountHits struct {
+	Total essdk.SearchTotal  `json:"total"`
+	Hits  []NetAppAccountHit `json:"hits"`
+}
+
+type NetAppAccountSearchResponse struct {
+	PitID string            `json:"pit_id"`
+	Hits  NetAppAccountHits `json:"hits"`
+}
+
+type NetAppAccountPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewNetAppAccountPaginator(filters []essdk.BoolFilter, limit *int64) (NetAppAccountPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_netapp_netappaccounts", filters, limit)
+	if err != nil {
+		return NetAppAccountPaginator{}, err
+	}
+
+	p := NetAppAccountPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p NetAppAccountPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p NetAppAccountPaginator) NextPage(ctx context.Context) ([]NetAppAccount, error) {
+	var response NetAppAccountSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []NetAppAccount
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listNetAppAccountFilters = map[string]string{
+	"akas":  "description.Account.ID",
+	"id":    "description.Account.Id",
+	"name":  "description.Account.Name",
+	"tags":  "description.Account.Tags",
+	"title": "description.Account.Name",
+}
+
+func ListNetAppAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListNetAppAccount")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewNetAppAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetAppAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getNetAppAccountFilters = map[string]string{
+	"akas":  "description.Account.ID",
+	"id":    "description.Account.Id",
+	"name":  "description.Account.Name",
+	"tags":  "description.Account.Tags",
+	"title": "description.Account.Name",
+}
+
+func GetNetAppAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetNetAppAccount")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewNetAppAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetAppAccountFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: NetAppAccount =============================

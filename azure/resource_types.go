@@ -2237,4 +2237,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformServiceName: "",
 		FastDiscovery: false,
 	},
+
+	"microsoft.NetApp/netAppAccounts": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "microsoft.NetApp/netAppAccounts",
+		ResourceLabel:        "",
+		ServiceName:          "NetApp",
+		ListDescriber:        DescribeBySubscription(describer.NetAppAccount),
+		GetDescriber:          nil ,
+		TerraformName:        []string{"azurerm_netapp_account"},
+		TerraformServiceName: "netapp",
+		FastDiscovery: false,
+	},
 }
