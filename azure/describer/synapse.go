@@ -33,7 +33,7 @@ func SynapseWorkspace(ctx context.Context, authorizer autorest.Authorizer, subsc
 			ignoreAssesment := false
 			synapseListResult, err := synapseClient.List(ctx, resourceGroup, *config.Name)
 			if err != nil {
-				if !strings.Contains(err.Error(), "UnsupportedOperation") {
+				if strings.Contains(err.Error(), "UnsupportedOperation") {
 					ignoreAssesment = true
 				} else {
 					return nil, err
@@ -173,6 +173,9 @@ func SynapseWorkspaceSqlpools(ctx context.Context, authorizer autorest.Authorize
 
 			wResult, err := bpClient.ListByWorkspace(ctx, resourceGroup, *v.Name)
 			if err != nil {
+				if strings.Contains(err.Error(), "UnsupportedOperation") {
+					continue
+				}
 				return nil, err
 			}
 			for {

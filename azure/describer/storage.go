@@ -169,9 +169,12 @@ func StorageAccount(ctx context.Context, authorizer autorest.Authorizer, subscri
 			if account.Kind != "FileStorage" {
 				blobServicesPropertiesOp, err := blobServicesStorageClient.GetServiceProperties(ctx, *resourceGroup, *account.Name)
 				if err != nil {
-					return nil, err
+					if strings.Contains(err.Error(), "ContainerOperationFailure") {
+						return nil, err
+					}
+				} else {
+					blobServicesProperties = &blobServicesPropertiesOp
 				}
-				blobServicesProperties = &blobServicesPropertiesOp
 			}
 
 			var logging *accounts.Logging
@@ -808,7 +811,8 @@ func StorageTableService(ctx context.Context, authorizer autorest.Authorizer, su
 			for _, resourceGroup := range resourceGroups {
 				tableServices, err := storageClient.List(ctx, *resourceGroup.Name, *account.Name)
 				if err != nil {
-					if strings.Contains(err.Error(), "ParentResourceNotFound") {
+					if strings.Contains(err.Error(), "ParentResourceNotFound") ||
+						strings.Contains(err.Error(), "FeatureNotSupportedForAccount") {
 						continue
 					}
 					return nil, err
