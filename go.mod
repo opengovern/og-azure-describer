@@ -19,10 +19,10 @@ require (
 	github.com/kaytu-io/kaytu-util v0.0.0-20230612111112-f01681c34d0f
 	github.com/manicminer/hamilton v0.43.0
 	github.com/manicminer/hamilton-autorest v0.3.0
-	github.com/spf13/cobra v1.6.1
+	github.com/spf13/cobra v1.7.0
 	github.com/tombuildsstuff/giovanni v0.18.0
 	github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13
-	gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230612085233-482989af2fac
+	gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230612131641-905128442095
 	gitlab.com/keibiengine/steampipe-plugin-azuread v0.1.1-0.20230611092520-901cabdfc4d6
 	go.uber.org/zap v1.24.0
 	golang.org/x/oauth2 v0.6.0
