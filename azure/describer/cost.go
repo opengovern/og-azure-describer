@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/cenkalti/backoff"
-	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 
 	"github.com/Azure/azure-sdk-for-go/services/costmanagement/mgmt/2019-11-01/costmanagement"
 	"github.com/Azure/go-autorest/autorest"
@@ -92,12 +91,12 @@ func DailyCostByResourceType(ctx context.Context, authorizer autorest.Authorizer
 	client := costmanagement.NewQueryClient(subscription)
 	client.Authorizer = authorizer
 
-	triggerType := GetTriggerTypeFromContext(ctx)
-	from := time.Now().AddDate(0, 0, -7)
-	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
-		from = time.Now().AddDate(0, -3, -7)
-	}
-
+	// triggerType := GetTriggerTypeFromContext(ctx)
+	// from := time.Now().AddDate(0, 0, -7)
+	// if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
+	// 	from = time.Now().AddDate(0, -3, -7)
+	// }
+	from := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)
 	costResult, locationPtr, err := cost(ctx, authorizer, subscription, from, time.Now(), resourceTypeDimension)
 	if err != nil {
 		return nil, err
@@ -133,11 +132,12 @@ func DailyCostBySubscription(ctx context.Context, authorizer autorest.Authorizer
 	client := costmanagement.NewQueryClient(subscription)
 	client.Authorizer = authorizer
 
-	triggerType := GetTriggerTypeFromContext(ctx)
-	from := time.Now().AddDate(0, 0, -7)
-	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
-		from = time.Now().AddDate(0, -3, -7)
-	}
+	// triggerType := GetTriggerTypeFromContext(ctx)
+	from := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)
+	// from := time.Now().AddDate(0, 0, -7)
+	// if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
+	// 	from = time.Now().AddDate(0, -3, -7)
+	// }
 
 	costResult, locationPtr, err := cost(ctx, authorizer, subscription, from, time.Now(), subscriptionDimension)
 	if err != nil {
