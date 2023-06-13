@@ -1,9 +1,10 @@
-
 package azure
+
 import (
 	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
 )
+
 var resourceTypes = map[string]ResourceType{
 
 	"Microsoft.App/containerApps": {
@@ -409,19 +410,6 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/resourceGroups": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/resourceGroups",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.ResourceGroup),
-		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_resource_group"},
-		TerraformServiceName: "resource",
-		FastDiscovery:        true,
-		Summarize:            false,
-	},
-
 	"Microsoft.Web/staticSites": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Web/staticSites",
@@ -431,19 +419,6 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_static_site"},
 		TerraformServiceName: "web",
-		FastDiscovery:        false,
-		Summarize:            false,
-	},
-
-	"Microsoft.Resources/serviceprincipals": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/serviceprincipals",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeADByTenantID(describer.AdServicePrinciple),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
 		FastDiscovery:        false,
 		Summarize:            false,
 	},
@@ -481,8 +456,8 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.SqlVirtualClusters),
 		GetDescriber:         nil,
-		TerraformName:        []string{"Not Supported"},
-		TerraformServiceName: "Not Supported",
+		TerraformName:        []string{},
+		TerraformServiceName: "",
 		FastDiscovery:        true,
 		Summarize:            true,
 	},
@@ -584,19 +559,6 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		ServiceName:          "Insights",
 		ListDescriber:        DescribeBySubscription(describer.DiagnosticSetting),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            false,
-	},
-
-	"Microsoft.Resources/groups": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/groups",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeADByTenantID(describer.AdGroup),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
@@ -715,8 +677,8 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.SqlServerVirtualMachineGroups),
 		GetDescriber:         nil,
-		TerraformName:        []string{"Not Supported"},
-		TerraformServiceName: "Not Supported",
+		TerraformName:        []string{},
+		TerraformServiceName: "",
 		FastDiscovery:        true,
 		Summarize:            false,
 	},
@@ -1241,19 +1203,6 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/users": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/users",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeADByTenantID(describer.AdUsers),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            false,
-	},
-
 	"Microsoft.Compute/snapshots": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/snapshots",
@@ -1475,19 +1424,6 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Security/subAssessments": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Security/subAssessments",
-		ResourceLabel:        "",
-		ServiceName:          "Security",
-		ListDescriber:        DescribeBySubscription(describer.SecurityCenterSubAssessment),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            false,
-	},
-
 	"Microsoft.Compute/disks": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/disks",
@@ -1521,7 +1457,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "HDInsight",
 		ListDescriber:        DescribeBySubscription(describer.HdInsightCluster),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_hdinsight_hadoop_cluster","azurerm_hdinsight_hbase_cluster","azurerm_hdinsight_interactive_query_cluster","azurerm_hdinsight_kafka_cluster","azurerm_hdinsight_spark_cluster"},
+		TerraformName:        []string{"azurerm_hdinsight_hadoop_cluster", "azurerm_hdinsight_hbase_cluster", "azurerm_hdinsight_interactive_query_cluster", "azurerm_hdinsight_kafka_cluster", "azurerm_hdinsight_spark_cluster"},
 		TerraformServiceName: "hdinsight",
 		FastDiscovery:        true,
 		Summarize:            true,
@@ -1625,7 +1561,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachineScaleSet),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_orchestrated_virtual_machine_scale_set","azurerm_linux_virtual_machine_scale_set","azurerm_windows_virtual_machine_scale_set"},
+		TerraformName:        []string{"azurerm_orchestrated_virtual_machine_scale_set", "azurerm_linux_virtual_machine_scale_set", "azurerm_windows_virtual_machine_scale_set"},
 		TerraformServiceName: "compute",
 		FastDiscovery:        true,
 		Summarize:            true,
@@ -1638,7 +1574,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "DataFactory",
 		ListDescriber:        DescribeBySubscription(describer.DataFactoryDataset),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_data_factory_dataset_azure_blob","azurerm_data_factory_dataset_binary","azurerm_data_factory_dataset_cosmosdb_sqlapi","azurerm_data_factory_dataset_delimited_text","azurerm_data_factory_dataset_http","azurerm_data_factory_dataset_json","azurerm_data_factory_dataset_mysql","azurerm_data_factory_dataset_parquet","azurerm_data_factory_dataset_postgresql","azurerm_data_factory_dataset_snowflake","azurerm_data_factory_dataset_sql_server_table","azurerm_data_factory_custom_dataset"},
+		TerraformName:        []string{"azurerm_data_factory_dataset_azure_blob", "azurerm_data_factory_dataset_binary", "azurerm_data_factory_dataset_cosmosdb_sqlapi", "azurerm_data_factory_dataset_delimited_text", "azurerm_data_factory_dataset_http", "azurerm_data_factory_dataset_json", "azurerm_data_factory_dataset_mysql", "azurerm_data_factory_dataset_parquet", "azurerm_data_factory_dataset_postgresql", "azurerm_data_factory_dataset_snowflake", "azurerm_data_factory_dataset_sql_server_table", "azurerm_data_factory_custom_dataset"},
 		TerraformServiceName: "datafactory",
 		FastDiscovery:        false,
 		Summarize:            false,
@@ -1653,19 +1589,6 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_policy_definition"},
 		TerraformServiceName: "policy",
-		FastDiscovery:        false,
-		Summarize:            false,
-	},
-
-	"Microsoft.Resources/subscriptions/locations": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/subscriptions/locations",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.Location),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
 		FastDiscovery:        false,
 		Summarize:            false,
 	},
@@ -1787,19 +1710,6 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/providers": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/providers",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.ResourceProvider),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            false,
-	},
-
 	"Microsoft.Network/routeTables": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/routeTables",
@@ -1917,19 +1827,6 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/tenants": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/tenants",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.Tenant),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            false,
-	},
-
 	"Microsoft.Network/virtualNetworkGateways": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/virtualNetworkGateways",
@@ -1982,32 +1879,6 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/links": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/links",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.ResourceLink),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            false,
-	},
-
-	"Microsoft.Resources/subscriptions": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/subscriptions",
-		ResourceLabel:        "",
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.Subscription),
-		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_subscription"},
-		TerraformServiceName: "subscription",
-		FastDiscovery:        false,
-		Summarize:            false,
-	},
-
 	"Microsoft.Compute/images": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/images",
@@ -2028,7 +1899,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachine),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_linux_virtual_machine","azurerm_windows_virtual_machine"},
+		TerraformName:        []string{"azurerm_linux_virtual_machine", "azurerm_windows_virtual_machine"},
 		TerraformServiceName: "compute",
 		FastDiscovery:        true,
 		Summarize:            true,
@@ -2262,8 +2133,8 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.SqlInstancePool),
 		GetDescriber:         nil,
-		TerraformName:        []string{"Not Supported"},
-		TerraformServiceName: "Not Supported",
+		TerraformName:        []string{},
+		TerraformServiceName: "",
 		FastDiscovery:        false,
 		Summarize:            true,
 	},
