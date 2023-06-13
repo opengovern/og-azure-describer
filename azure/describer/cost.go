@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/cenkalti/backoff"
 	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 
 	"github.com/Azure/azure-sdk-for-go/services/costmanagement/mgmt/2019-11-01/costmanagement"
@@ -18,6 +19,7 @@ const resourceTypeDimension = "resourceType"
 const subscriptionDimension = "SubscriptionId"
 
 func cost(ctx context.Context, authorizer autorest.Authorizer, subscription string, from time.Time, to time.Time, dimension string) ([]model.CostManagementQueryRow, *string, error) {
+	var err error
 	client := costmanagement.NewQueryClient(subscription)
 	client.Authorizer = authorizer
 
@@ -31,28 +33,39 @@ func cost(ctx context.Context, authorizer autorest.Authorizer, subscription stri
 	}
 
 	costAggregationString := "Cost"
+	var costs costmanagement.QueryResult
 
-	var costs, err = client.Usage(ctx, scope, costmanagement.QueryDefinition{
-		Type:      costmanagement.ExportTypeActualCost,
-		Timeframe: costmanagement.TimeframeTypeCustom,
-		TimePeriod: &costmanagement.QueryTimePeriod{
-			From: &date.Time{Time: from},
-			To:   &date.Time{Time: to},
-		},
-		Dataset: &costmanagement.QueryDataset{
-			Granularity: costmanagement.GranularityTypeDaily,
-			Grouping:    &groupings,
-			Aggregation: map[string]*costmanagement.QueryAggregation{
-				"Cost": {
-					Name:     &costAggregationString,
-					Function: costmanagement.FunctionTypeSum,
+	getCostWithBackOff := func() error {
+		var err error
+		costs, err = client.Usage(ctx, scope, costmanagement.QueryDefinition{
+			Type:      costmanagement.ExportTypeActualCost,
+			Timeframe: costmanagement.TimeframeTypeCustom,
+			TimePeriod: &costmanagement.QueryTimePeriod{
+				From: &date.Time{Time: from},
+				To:   &date.Time{Time: to},
+			},
+			Dataset: &costmanagement.QueryDataset{
+				Granularity: costmanagement.GranularityTypeDaily,
+				Grouping:    &groupings,
+				Aggregation: map[string]*costmanagement.QueryAggregation{
+					"Cost": {
+						Name:     &costAggregationString,
+						Function: costmanagement.FunctionTypeSum,
+					},
 				},
 			},
-		},
-	})
+		})
+		return err
+	}
+	expoBackoff := backoff.NewExponentialBackOff()
+	expoBackoff.InitialInterval = 10 * time.Second
+	expoBackoff.MaxElapsedTime = 5 * time.Minute
+	expoBackoff.MaxInterval = 1 * time.Minute
+	err = backoff.Retry(getCostWithBackOff, expoBackoff)
 	if err != nil {
 		return nil, nil, err
 	}
+
 	mapResult := make([]map[string]any, 0)
 	for _, row := range *costs.Rows {
 		rowMap := make(map[string]any)
