@@ -12,6 +12,7 @@ require (
 	github.com/Azure/go-autorest/autorest/date v0.3.0
 	github.com/Azure/go-autorest/autorest/validation v0.3.1
 	github.com/aws/aws-lambda-go v1.13.3
+	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/go-errors/errors v1.4.2
 	github.com/gofrs/uuid v4.2.0+incompatible
 	github.com/golang-jwt/jwt/v5 v5.0.0
