@@ -37,6 +37,8 @@ type ResourceType struct {
 	ResourceLabel string
 	ServiceName   string
 
+	Tags map[string][]string
+
 	ListDescriber ResourceDescriber
 	GetDescriber  ResourceDescriber // TODO: Change the type?
 
