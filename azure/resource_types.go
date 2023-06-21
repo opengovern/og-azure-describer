@@ -1,10 +1,9 @@
-package azure
 
+package azure
 import (
 	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
 )
-
 var resourceTypes = map[string]ResourceType{
 
 	"Microsoft.App/containerApps": {
@@ -52,8 +51,8 @@ var resourceTypes = map[string]ResourceType{
 	"Microsoft.Compute/cloudServices": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/cloudServices",
-		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
+		ResourceLabel:        "Cloud Services",
+		Tags:                 map[string][]string{"category": {"Compute"}},
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeCloudServices),
 		GetDescriber:         nil,
@@ -150,8 +149,8 @@ var resourceTypes = map[string]ResourceType{
 	"Microsoft.Network/connections": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/connections",
-		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
+		ResourceLabel:        "Microsoft Connections",
+		Tags:                 map[string][]string{"category": {"Networking"}},
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.NetworkConnections),
 		GetDescriber:         nil,
@@ -332,8 +331,8 @@ var resourceTypes = map[string]ResourceType{
 	"Microsoft.VirtualMachineImages/imageTemplates": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.VirtualMachineImages/imageTemplates",
-		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
+		ResourceLabel:        "Image Templates",
+		Tags:                 map[string][]string{"category": {"Compute"}},
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.VirtualMachineImagesImageTemplates),
 		GetDescriber:         nil,
@@ -907,7 +906,7 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DataBoxEdge/dataBoxEdgeDevices",
 		ResourceLabel:        "Data Box Edge Devices",
-		Tags:                 map[string][]string{"category": {"IoT"}},
+		Tags:                 map[string][]string{"category": {"IoT & Devices"}},
 		ServiceName:          "DataBoxEdge",
 		ListDescriber:        DescribeBySubscription(describer.DataboxEdgeDevice),
 		GetDescriber:         nil,
@@ -976,13 +975,13 @@ var resourceTypes = map[string]ResourceType{
 	"Microsoft.Network/frontDoors": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/frontDoors",
-		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
+		ResourceLabel:        "Frontdoors",
+		Tags:                 map[string][]string{"category": {"Networking"}},
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.FrontDoor),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_frontdoor"},
-		TerraformServiceName: "frontdoor",
+		TerraformName:        []string{},
+		TerraformServiceName: "",
 		FastDiscovery:        true,
 		Summarize:            true,
 	},
@@ -1270,8 +1269,8 @@ var resourceTypes = map[string]ResourceType{
 	"Microsoft.KeyVault/deletedVaults": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.KeyVault/deletedVaults",
-		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
+		ResourceLabel:        "Key Vault Deleted Vaults",
+		Tags:                 map[string][]string{"category": {"Security"}},
 		ServiceName:          "KeyVault",
 		ListDescriber:        DescribeBySubscription(describer.DeletedVault),
 		GetDescriber:         nil,
@@ -1396,8 +1395,8 @@ var resourceTypes = map[string]ResourceType{
 	"Microsoft.DataLakeStore/accounts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DataLakeStore/accounts",
-		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
+		ResourceLabel:        "Data Lake Store account",
+		Tags:                 map[string][]string{"category": {"Data and Analytics"}},
 		ServiceName:          "DataLakeStore",
 		ListDescriber:        DescribeBySubscription(describer.DataLakeStore),
 		GetDescriber:         nil,
@@ -1569,7 +1568,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "HDInsight",
 		ListDescriber:        DescribeBySubscription(describer.HdInsightCluster),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_hdinsight_hadoop_cluster", "azurerm_hdinsight_hbase_cluster", "azurerm_hdinsight_interactive_query_cluster", "azurerm_hdinsight_kafka_cluster", "azurerm_hdinsight_spark_cluster"},
+		TerraformName:        []string{"azurerm_hdinsight_hadoop_cluster","azurerm_hdinsight_hbase_cluster","azurerm_hdinsight_interactive_query_cluster","azurerm_hdinsight_kafka_cluster","azurerm_hdinsight_spark_cluster"},
 		TerraformServiceName: "hdinsight",
 		FastDiscovery:        true,
 		Summarize:            true,
@@ -1681,7 +1680,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachineScaleSet),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_orchestrated_virtual_machine_scale_set", "azurerm_linux_virtual_machine_scale_set", "azurerm_windows_virtual_machine_scale_set"},
+		TerraformName:        []string{"azurerm_orchestrated_virtual_machine_scale_set","azurerm_linux_virtual_machine_scale_set","azurerm_windows_virtual_machine_scale_set"},
 		TerraformServiceName: "compute",
 		FastDiscovery:        true,
 		Summarize:            true,
@@ -1695,7 +1694,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "DataFactory",
 		ListDescriber:        DescribeBySubscription(describer.DataFactoryDataset),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_data_factory_dataset_azure_blob", "azurerm_data_factory_dataset_binary", "azurerm_data_factory_dataset_cosmosdb_sqlapi", "azurerm_data_factory_dataset_delimited_text", "azurerm_data_factory_dataset_http", "azurerm_data_factory_dataset_json", "azurerm_data_factory_dataset_mysql", "azurerm_data_factory_dataset_parquet", "azurerm_data_factory_dataset_postgresql", "azurerm_data_factory_dataset_snowflake", "azurerm_data_factory_dataset_sql_server_table", "azurerm_data_factory_custom_dataset"},
+		TerraformName:        []string{"azurerm_data_factory_dataset_azure_blob","azurerm_data_factory_dataset_binary","azurerm_data_factory_dataset_cosmosdb_sqlapi","azurerm_data_factory_dataset_delimited_text","azurerm_data_factory_dataset_http","azurerm_data_factory_dataset_json","azurerm_data_factory_dataset_mysql","azurerm_data_factory_dataset_parquet","azurerm_data_factory_dataset_postgresql","azurerm_data_factory_dataset_snowflake","azurerm_data_factory_dataset_sql_server_table","azurerm_data_factory_custom_dataset"},
 		TerraformServiceName: "datafactory",
 		FastDiscovery:        false,
 		Summarize:            false,
@@ -1774,8 +1773,8 @@ var resourceTypes = map[string]ResourceType{
 	"Microsoft.DataLakeAnalytics/accounts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DataLakeAnalytics/accounts",
-		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
+		ResourceLabel:        "Data Lake Analytics account",
+		Tags:                 map[string][]string{"category": {"Data and Analytics"}},
 		ServiceName:          "DataLakeAnalytics",
 		ListDescriber:        DescribeBySubscription(describer.DataLakeAnalyticsAccount),
 		GetDescriber:         nil,
@@ -1901,7 +1900,7 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Kubernetes/connectedClusters",
 		ResourceLabel:        "Externally Hosted Kubernetes Clusters",
-		Tags:                 map[string][]string{"category": {"Containers"}},
+		Tags:                 map[string][]string{"category": {"Container"}},
 		ServiceName:          "Kubernetes",
 		ListDescriber:        DescribeBySubscription(describer.HybridKubernetesConnectedCluster),
 		GetDescriber:         nil,
@@ -2045,7 +2044,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachine),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_linux_virtual_machine", "azurerm_windows_virtual_machine"},
+		TerraformName:        []string{"azurerm_linux_virtual_machine","azurerm_windows_virtual_machine"},
 		TerraformServiceName: "compute",
 		FastDiscovery:        true,
 		Summarize:            true,
@@ -2208,8 +2207,8 @@ var resourceTypes = map[string]ResourceType{
 	"Microsoft.Compute/restorePointCollections": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/restorePointCollections",
-		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
+		ResourceLabel:        "Restoration Point Collections",
+		Tags:                 map[string][]string{"category": {"Backup"}},
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeRestorePointCollection),
 		GetDescriber:         nil,
@@ -2307,7 +2306,7 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAzure,
 		ResourceName:         "microsoft.NetApp/netAppAccounts",
 		ResourceLabel:        "NetApp Files Accounts",
-		Tags:                 map[string][]string{"category": {"Data Storage"}},
+		Tags:                 map[string][]string{"category": {"Storage"}},
 		ServiceName:          "NetApp",
 		ListDescriber:        DescribeBySubscription(describer.NetAppAccount),
 		GetDescriber:         nil,
@@ -2321,7 +2320,7 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.NetApp/netAppAccounts/capacityPools",
 		ResourceLabel:        "NetApp Capacity Pools",
-		Tags:                 map[string][]string{"category": {"Data Storage"}},
+		Tags:                 map[string][]string{"category": {"Storage"}},
 		ServiceName:          "NetApp",
 		ListDescriber:        DescribeBySubscription(describer.NetAppCapacityPool),
 		GetDescriber:         nil,
