@@ -459,6 +459,10 @@ github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/X
 github.com/jtolds/gls v4.20.0+incompatible h1:xdiiI2gbIgH/gLH7ADydsJ1uDOEzR8yvV7C0MuV77Wo=
 github.com/kaytu-io/kaytu-util v0.0.0-20230612111112-f01681c34d0f h1:UMoJqcXtEOuceVIDmrPsiOeuUyryXPJVDFGymB3QIM0=
 github.com/kaytu-io/kaytu-util v0.0.0-20230612111112-f01681c34d0f/go.mod h1:QULmP8Hug87ctExrOBAzZgwKJ7BXEWUcs0vIJAV1Hrs=
+github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230623082406-4ec6b1871eca h1:sCBxqgoQgRZI2pFccSSwgzSp+kiBH9vvYh5XyoeD38w=
+github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230623082406-4ec6b1871eca/go.mod h1:igRFc7EmXAmhcUJOJaQ4mEuvyPq8B+Akrs9TMXrIkbk=
+github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230623082825-b3d70a2498a6 h1:YwTfP7PuO/kQVdgBegBOA4CcYdmQ2bLCnrv7AYdJDIQ=
+github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230623082825-b3d70a2498a6/go.mod h1:b+6sgAE/nJ9ohjrYPQzPWFokk1VOEEBOjzU5fj2p24M=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
@@ -662,10 +666,6 @@ github.com/yuin/goldmark v1.3.5/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1
 github.com/zclconf/go-cty v1.10.0 h1:mp9ZXQeIcN8kAwuqorjH+Q+njbJKjLrvB2yIh4q7U+0=
 github.com/zclconf/go-cty v1.10.0/go.mod h1:vVKLxnk3puL4qRAv72AO+W99LUD4da90g3uUAzyuvAk=
 github.com/zenazn/goji v0.9.0/go.mod h1:7S9M489iMyHBNxwZnk9/EHS098H4/F6TATF2mIxtB1Q=
-gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230614094134-9a7e750f95ba h1:4pDGsBGECq5QG1k3TaZCx99Xrd7ki/j+3xKO0slTM2E=
-gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230614094134-9a7e750f95ba/go.mod h1:p3kPLUOvDkWnSJK3Y+N0cwfqcIvsPWLfsnfJECr3+70=
-gitlab.com/keibiengine/steampipe-plugin-azuread v0.1.1-0.20230614094139-cb568a5a01a2 h1:jW5srFi9f8oTh7VOX6ztdA7lvPJIp/CDzN8ckta5bZA=
-gitlab.com/keibiengine/steampipe-plugin-azuread v0.1.1-0.20230614094139-cb568a5a01a2/go.mod h1:ZxHYh5bZdtrIafo6hH6rqxkhXsEZrMj3cQag/TLo+h8=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=
 go.opencensus.io v0.22.0/go.mod h1:+kGneAE2xo2IficOXnaByMWTGM9T73dGwxeWcUqIpI8=
 go.opencensus.io v0.22.2/go.mod h1:yxeiOL68Rb0Xd1ddK5vPZ/oVn4vY4Ynel7k9FzqtOIw=

@@ -18,13 +18,13 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.2.2
 	github.com/kaytu-io/kaytu-util v0.0.0-20230612111112-f01681c34d0f
+	github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230623082406-4ec6b1871eca
+	github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230623082825-b3d70a2498a6
 	github.com/manicminer/hamilton v0.43.0
 	github.com/manicminer/hamilton-autorest v0.3.0
 	github.com/spf13/cobra v1.7.0
 	github.com/tombuildsstuff/giovanni v0.18.0
 	github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13
-	gitlab.com/keibiengine/steampipe-plugin-azure v0.23.2-0.20230614094134-9a7e750f95ba
-	gitlab.com/keibiengine/steampipe-plugin-azuread v0.1.1-0.20230614094139-cb568a5a01a2
 	go.uber.org/zap v1.24.0
 	golang.org/x/oauth2 v0.6.0
 	google.golang.org/grpc v1.54.0

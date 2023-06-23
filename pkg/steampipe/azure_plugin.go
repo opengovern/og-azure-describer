@@ -3,14 +3,15 @@ package steampipe
 import (
 	"context"
 	"fmt"
+	"strings"
+
 	"github.com/hashicorp/go-hclog"
 	"github.com/kaytu-io/kaytu-util/pkg/steampipe"
+	"github.com/kaytu-io/steampipe-plugin-azure/azure"
+	"github.com/kaytu-io/steampipe-plugin-azuread/azuread"
 	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v4/plugin/context_key"
-	"gitlab.com/keibiengine/steampipe-plugin-azure/azure"
-	"gitlab.com/keibiengine/steampipe-plugin-azuread/azuread"
-	"strings"
 )
 
 func buildContext() context.Context {
