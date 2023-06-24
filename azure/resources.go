@@ -229,3 +229,14 @@ func DescribeADByTenantID(describe func(context.Context, hamiltonAuth.Authorizer
 		return values, nil
 	})
 }
+
+func GetResourceTypeByTerraform(terraformType string) string {
+	for t, v := range resourceTypes {
+		for _, name := range v.TerraformName {
+			if name == terraformType {
+				return t
+			}
+		}
+	}
+	return ""
+}
