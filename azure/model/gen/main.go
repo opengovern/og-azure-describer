@@ -45,7 +45,7 @@ type ResourceType struct {
 }
 
 func main() {
-	rt := "../../../keibi-deploy/keibi/inventory-data/azure-resource-types.json"
+	rt := "../../../kaytu-deploy/keibi/inventory-data/azure-resource-types.json"
 	b, err := os.ReadFile(rt)
 	if err != nil {
 		panic(err)
