@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
+
 	"github.com/go-errors/errors"
 	"github.com/kaytu-io/kaytu-azure-describer/azure"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
@@ -14,7 +16,6 @@ import (
 	"github.com/kaytu-io/kaytu-util/pkg/vault"
 	"github.com/kaytu-io/kaytu-util/proto/src/golang"
 	"go.uber.org/zap"
-	"strings"
 )
 
 func fixAzureLocation(l string) string {
@@ -52,8 +53,9 @@ func doDescribeAzure(
 	config map[string]any,
 	workspaceName string,
 	describeEndpoint string,
-	describeToken string) ([]string, error) {
-	rs, err := NewResourceSender(workspaceName, describeEndpoint, describeToken, job.JobID, logger)
+	describeToken string,
+	kafkaTopic string) ([]string, error) {
+	rs, err := NewResourceSender(workspaceName, describeEndpoint, describeToken, job.JobID, kafkaTopic, logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to resource sender: %w", err)
 	}
@@ -190,6 +192,7 @@ func Do(ctx context.Context,
 	keyARN string,
 	describeDeliverEndpoint string,
 	describeDeliverToken string,
+	kafkaTopic string,
 	workspaceName string) (resourceIDs []string, err error) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -210,5 +213,5 @@ func Do(ctx context.Context,
 		return nil, fmt.Errorf("decrypt error: %w", err)
 	}
 
-	return doDescribeAzure(ctx, logger, job, config, workspaceName, describeDeliverEndpoint, describeDeliverToken)
+	return doDescribeAzure(ctx, logger, job, config, workspaceName, describeDeliverEndpoint, describeDeliverToken, kafkaTopic)
 }
