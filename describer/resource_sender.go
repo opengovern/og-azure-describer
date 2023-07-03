@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	golang2 "github.com/kaytu-io/kaytu-util/proto/src/golang"
 	"io"
 	"time"
+
+	golang2 "github.com/kaytu-io/kaytu-util/proto/src/golang"
 
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
@@ -33,12 +34,13 @@ type ResourceSender struct {
 	conn             *grpc.ClientConn
 	describeEndpoint string
 	jobID            uint
+	kafkaTopic       string
 	client           golang2.DescribeServiceClient
 
 	sendBuffer []*golang2.AzureResource
 }
 
-func NewResourceSender(workspaceName string, describeEndpoint string, describeToken string, jobID uint, logger *zap.Logger) (*ResourceSender, error) {
+func NewResourceSender(workspaceName string, describeEndpoint string, describeToken string, jobID uint, kafkaTopic string, logger *zap.Logger) (*ResourceSender, error) {
 	rs := ResourceSender{
 		authToken:        describeToken,
 		workspaceName:    workspaceName,
@@ -49,6 +51,7 @@ func NewResourceSender(workspaceName string, describeEndpoint string, describeTo
 		conn:             nil,
 		describeEndpoint: describeEndpoint,
 		jobID:            jobID,
+		kafkaTopic:       kafkaTopic,
 	}
 	if err := rs.Connect(); err != nil {
 		return nil, err
@@ -117,7 +120,7 @@ func (s *ResourceSender) flushBuffer(force bool) {
 		"resource-job-id": fmt.Sprintf("%d", s.jobID),
 	}))
 
-	_, err := s.client.DeliverAzureResources(grpcCtx, &golang2.AzureResources{Resources: s.sendBuffer})
+	_, err := s.client.DeliverAzureResources(grpcCtx, &golang2.AzureResources{Resources: s.sendBuffer, KafkaTopic: s.kafkaTopic})
 	if err != nil {
 		s.logger.Error("failed to send resource", zap.Error(err))
 		if errors.Is(err, io.EOF) {
