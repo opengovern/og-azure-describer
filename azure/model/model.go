@@ -20,7 +20,10 @@ import (
 	"github.com/Azure/azure-sdk-for-go/profiles/preview/preview/blueprint/mgmt/blueprint"
 	"github.com/Azure/azure-sdk-for-go/profiles/preview/preview/desktopvirtualization/mgmt/desktopvirtualization"
 	web2 "github.com/Azure/azure-sdk-for-go/profiles/preview/preview/web/mgmt/web"
+	analytics "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-analytics/armdatalakeanalytics"
+	store "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-store/armdatalakestore"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/Azure/azure-sdk-for-go/services/analysisservices/mgmt/2017-08-01/analysisservices"
 	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2020-12-01/apimanagement"
 	"github.com/Azure/azure-sdk-for-go/services/appconfiguration/mgmt/2020-06-01/appconfiguration"
@@ -37,8 +40,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/databoxedge/mgmt/2019-07-01/databoxedge"
 	"github.com/Azure/azure-sdk-for-go/services/databricks/mgmt/2018-04-01/databricks"
 	"github.com/Azure/azure-sdk-for-go/services/datafactory/mgmt/2018-06-01/datafactory"
-	analytics "github.com/Azure/azure-sdk-for-go/services/datalake/analytics/mgmt/2016-11-01/account"
-	store "github.com/Azure/azure-sdk-for-go/services/datalake/store/mgmt/2016-11-01/account"
 	"github.com/Azure/azure-sdk-for-go/services/dataprotection/mgmt/2021-07-01/dataprotection"
 	"github.com/Azure/azure-sdk-for-go/services/dns/mgmt/2018-05-01/dns"
 	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-05-01/frontdoor"
@@ -1009,8 +1010,8 @@ type DataFactoryPipelineDescription struct {
 //getfilter:name=description.DataLakeAnalyticsAccount.name
 //getfilter:resource_group=description.ResourceGroup
 type DataLakeAnalyticsAccountDescription struct {
-	DataLakeAnalyticsAccount   analytics.DataLakeAnalyticsAccount
-	DiagnosticSettingsResource *[]insights.DiagnosticSettingsResource
+	DataLakeAnalyticsAccount   analytics.Account
+	DiagnosticSettingsResource *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup              string
 }
 
@@ -1020,8 +1021,8 @@ type DataLakeAnalyticsAccountDescription struct {
 //getfilter:name=description.DataLakeStoreAccount.name
 //getfilter:resource_group=description.ResourceGroup
 type DataLakeStoreDescription struct {
-	DataLakeStoreAccount       store.DataLakeStoreAccount
-	DiagnosticSettingsResource *[]insights.DiagnosticSettingsResource
+	DataLakeStoreAccount       store.Account
+	DiagnosticSettingsResource *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup              string
 }
 

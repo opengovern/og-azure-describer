@@ -2,138 +2,187 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-analytics/armdatalakeanalytics"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-store/armdatalakestore"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"strings"
 
-	analytics "github.com/Azure/azure-sdk-for-go/services/datalake/analytics/mgmt/2016-11-01/account"
-	"github.com/Azure/azure-sdk-for-go/services/datalake/store/mgmt/2016-11-01/account"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
 func DataLakeAnalyticsAccount(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := insights.NewDiagnosticSettingsClient(subscription)
-	client.Authorizer = authorizer
-
-	accountClient := analytics.NewAccountsClient(subscription)
-	accountClient.Authorizer = authorizer
-
-	result, err := accountClient.List(context.Background(), "", nil, nil, "", "", nil)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
-
+	options := arm.ClientOptions{
+		ClientOptions: azcore.ClientOptions{
+			Cloud: cloud.AzureChina,
+		},
+	}
+	clientFactory, err := armdatalakeanalytics.NewClientFactory(subscription, cred, &options)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewAccountsClient()
+	monitorClientFactory, err := armmonitor.NewClientFactory("<subscription-id>", cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+	if err != nil {
+		return nil, err
+	}
+	accountsPages := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, account := range result.Values() {
-			splitID := strings.Split(*account.ID, "/")
-			name := *account.Name
-			resourceGroup := splitID[4]
-
-			if name == "" || resourceGroup == "" {
+	for accountsPages.More() {
+		page, err := accountsPages.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, account := range page.Value {
+			resource, err := getDataLakeAnalyticsAccount(ctx, account, client, diagnosticClient)
+			if err != nil {
+				return nil, err
+			}
+			if resource == nil {
 				continue
 			}
-
-			accountGetOp, err := accountClient.Get(ctx, resourceGroup, name)
-			if err != nil {
-				return nil, err
-			}
-
-			id := *account.ID
-			accountListOp, err := client.List(ctx, id)
-			if err != nil {
-				return nil, err
-			}
-			resource := Resource{
-				ID:       *account.ID,
-				Name:     *account.Name,
-				Location: *account.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.DataLakeAnalyticsAccountDescription{
-						DataLakeAnalyticsAccount:   accountGetOp,
-						DiagnosticSettingsResource: accountListOp.Value,
-						ResourceGroup:              resourceGroup,
-					},
-				},
-			}
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func DataLakeStore(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := insights.NewDiagnosticSettingsClient(subscription)
-	client.Authorizer = authorizer
-
-	accountClient := account.NewAccountsClient(subscription)
-	accountClient.Authorizer = authorizer
-
-	result, err := accountClient.List(ctx, "", nil, nil, "", "", nil)
+func getDataLakeAnalyticsAccount(ctx context.Context, account *armdatalakeanalytics.AccountBasic, client *armdatalakeanalytics.AccountsClient, diagnosticClient *armmonitor.DiagnosticSettingsClient) (*Resource, error) {
+	splitID := strings.Split(*account.ID, "/")
+	name := *account.Name
+	resourceGroup := splitID[4]
+	accountGetOp, err := client.Get(ctx, resourceGroup, name, nil)
 	if err != nil {
 		return nil, err
 	}
-
-	var values []Resource
-	for {
-		for _, account := range result.Values() {
-			splitID := strings.Split(*account.ID, "/")
-			name := *account.Name
-			resourceGroup := splitID[4]
-			if name == "" || resourceGroup == "" {
-				continue
-			}
-
-			accountGetOp, err := accountClient.Get(ctx, resourceGroup, name)
-			if err != nil {
-				return nil, err
-			}
-			id := *account.ID
-			accountListOp, err := client.List(ctx, id)
-			if err != nil {
-				return nil, err
-			}
-			resource := Resource{
-				ID:       *account.ID,
-				Name:     *account.Name,
-				Location: *account.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.DataLakeStoreDescription{
-						DataLakeStoreAccount:       accountGetOp,
-						DiagnosticSettingsResource: accountListOp.Value,
-						ResourceGroup:              resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	if name == "" || resourceGroup == "" {
+		return nil, nil
+	}
+	accountListOpTemp := diagnosticClient.NewListPager(*account.ID, nil)
+	var accountListOp []armmonitor.DiagnosticSettingsResource
+	for accountListOpTemp.More() {
+		accountOpPage, err := accountListOpTemp.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, accountOp := range accountOpPage.Value {
+			accountListOp = append(accountListOp, *accountOp)
+		}
+	}
+	resource := Resource{
+		ID:       *account.ID,
+		Name:     *account.Name,
+		Location: *account.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.DataLakeAnalyticsAccountDescription{
+				DataLakeAnalyticsAccount:   accountGetOp.Account,
+				DiagnosticSettingsResource: &accountListOp,
+				ResourceGroup:              resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
+}
+
+func DataLakeStore(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+	clientFactory, err := armdatalakestore.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewAccountsClient()
+	monitorClientFactory, err := armmonitor.NewClientFactory("<subscription-id>", cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+	if err != nil {
+		return nil, err
+	}
+	pager := client.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, account := range page.Value {
+			resource, err := getDataLakeStore(ctx, account, diagnosticClient, client)
+			if err != nil {
+				return nil, err
+			}
+			if resource == nil {
+				continue
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
 	return values, nil
+}
+
+func getDataLakeStore(ctx context.Context, account *armdatalakestore.AccountBasic, diagnosticClient *armmonitor.DiagnosticSettingsClient, client *armdatalakestore.AccountsClient) (*Resource, error) {
+
+	splitId := strings.Split(*account.ID, "/")
+	name := *account.Name
+	resourceGroup := splitId[4]
+
+	if name == "" || resourceGroup == "" {
+		return nil, nil
+	}
+
+	accountGetOp, err := client.Get(ctx, resourceGroup, name, nil)
+	if err != nil {
+		return nil, err
+	}
+	accountListOpTemp := diagnosticClient.NewListPager(*account.ID, nil)
+	var accountListOp []armmonitor.DiagnosticSettingsResource
+	for accountListOpTemp.More() {
+		accountOpPage, err := accountListOpTemp.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, accountOp := range accountOpPage.Value {
+			accountListOp = append(accountListOp, *accountOp)
+		}
+	}
+	resource := Resource{
+		ID:       *account.ID,
+		Name:     name,
+		Location: "",
+		Description: JSONAllFieldsMarshaller{
+			model.DataLakeStoreDescription{
+				DataLakeStoreAccount:       accountGetOp.Account,
+				DiagnosticSettingsResource: &accountListOp,
+				ResourceGroup:              resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
 }
