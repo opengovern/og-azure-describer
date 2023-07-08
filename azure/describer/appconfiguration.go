@@ -37,7 +37,7 @@ func AppConfiguration(ctx context.Context, authorizer autorest.Authorizer, subsc
 			return nil, err
 		}
 		for _, config := range page.Value {
-			resource, err := GetAppConfiguration(ctx, diagnosticClient, config)
+			resource, err := getAppConfiguration(ctx, diagnosticClient, config)
 			if err != nil {
 				return nil, err
 			}
@@ -53,7 +53,7 @@ func AppConfiguration(ctx context.Context, authorizer autorest.Authorizer, subsc
 	return values, nil
 }
 
-func GetAppConfiguration(ctx context.Context, diagnosticClient *armmonitor.DiagnosticSettingsClient, config *armappconfiguration.ConfigurationStore) (*Resource, error) {
+func getAppConfiguration(ctx context.Context, diagnosticClient *armmonitor.DiagnosticSettingsClient, config *armappconfiguration.ConfigurationStore) (*Resource, error) {
 	resourceGroup := strings.Split(*config.ID, "/")[4]
 
 	var op []armmonitor.DiagnosticSettingsResource

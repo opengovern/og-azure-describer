@@ -2,149 +2,149 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/authorization/mgmt/2018-09-01-preview/authorization"
-	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2019-09-01/policy"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
 func RoleAssignment(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := authorization.NewRoleAssignmentsClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx, "")
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
-
+	client, err := armauthorization.NewRoleAssignmentsClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: "global",
-				Description: JSONAllFieldsMarshaller{
-					model.RoleAssignmentDescription{
-						RoleAssignment: v,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, roleAssignment := range page.Value {
+			resource := getRoleAssignment(ctx, roleAssignment)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
+}
+
+func getRoleAssignment(ctx context.Context, v *armauthorization.RoleAssignment) *Resource {
+	return &Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			model.RoleAssignmentDescription{
+				RoleAssignment: *v,
+			},
+		},
+	}
 }
 
 func RoleDefinition(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := authorization.NewRoleDefinitionsClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx, "/subscriptions/"+subscription, "")
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+	client, err := armauthorization.NewRoleDefinitionsClient(cred, nil)
 	if err != nil {
 		return nil, err
 	}
 
+	pager := client.NewListPager("/subscriptions/"+subscription, nil)
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: "global",
-				Description: JSONAllFieldsMarshaller{
-					model.RoleDefinitionDescription{
-						RoleDefinition: v,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, roleDefinition := range page.Value {
+			resource := getRoleDefinition(ctx, roleDefinition)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
 }
 
-func PolicyDefinition(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := policy.NewDefinitionsClient(subscription)
-	client.Authorizer = authorizer
+func getRoleDefinition(ctx context.Context, v *armauthorization.RoleDefinition) *Resource {
+	return &Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			model.RoleDefinitionDescription{
+				RoleDefinition: *v,
+			},
+		},
+	}
+}
 
-	result, err := client.List(ctx)
+func PolicyDefinition(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
-
+	clientFactory, err := armpolicy.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDefinitionsClient()
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, definition := range result.Values() {
-			akas := []string{"azure:///subscriptions/" + subscription + *definition.ID, "azure:///subscriptions/" + subscription + strings.ToLower(*definition.ID)}
-			turbotData := map[string]interface{}{
-				"SubscriptionId": subscription,
-				"Akas":           akas,
-			}
-
-			resource := Resource{
-				ID:       *definition.ID,
-				Name:     *definition.Name,
-				Location: "global",
-				Description: JSONAllFieldsMarshaller{
-					model.PolicyDefinitionDescription{
-						Definition: definition,
-						TurboData:  turbotData,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, definition := range page.Value {
+			resource := getPolicyDefinition(ctx, subscription, definition)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getPolicyDefinition(ctx context.Context, subscription string, definition *armpolicy.Definition) *Resource {
+	akas := []string{"azure:///subscriptions/" + subscription + *definition.ID, "azure:///subscriptions/" + subscription + strings.ToLower(*definition.ID)}
+	turbotData := map[string]interface{}{
+		"SubscriptionId": subscription,
+		"Akas":           akas,
 	}
 
-	return values, nil
+	return &Resource{
+		ID:       *definition.ID,
+		Name:     *definition.Name,
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			model.PolicyDefinitionDescription{
+				Definition: *definition,
+				TurboData:  turbotData,
+			},
+		},
+	}
 }
