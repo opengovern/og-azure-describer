@@ -20,9 +20,9 @@ func AnalysisService(ctx context.Context, authorizer autorest.Authorizer, subscr
 		return nil, err
 	}
 	client := clientFactory.NewServersClient()
-	pages := client.NewListPager(nil)
-	for pages.More() {
-		page, err := pages.NextPage(ctx)
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}

@@ -29,10 +29,10 @@ func APIManagement(ctx context.Context, authorizer autorest.Authorizer, subscrip
 	if err != nil {
 		return nil, err
 	}
-	pages := client.NewListPager(nil)
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for pages.More() {
-		page, err := pages.NextPage(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
@@ -73,7 +73,7 @@ func getAPIMangement(ctx context.Context, diagnosticClient *armmonitor.Diagnosti
 		Description: JSONAllFieldsMarshaller{
 			model.APIManagementDescription{
 				APIManagement:               *apiManagement,
-				DiagnosticSettingsResources: &op,
+				DiagnosticSettingsResources: op,
 				ResourceGroup:               resourceGroup,
 			},
 		},

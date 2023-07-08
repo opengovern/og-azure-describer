@@ -22,11 +22,11 @@ import (
 	web2 "github.com/Azure/azure-sdk-for-go/profiles/preview/preview/web/mgmt/web"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/analysisservices/armanalysisservices"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
 	analytics "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-analytics/armdatalakeanalytics"
 	store "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-store/armdatalakestore"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
-	"github.com/Azure/azure-sdk-for-go/services/appconfiguration/mgmt/2020-06-01/appconfiguration"
 	"github.com/Azure/azure-sdk-for-go/services/appplatform/mgmt/2020-07-01/appplatform"
 	"github.com/Azure/azure-sdk-for-go/services/batch/mgmt/2020-09-01/batch"
 	"github.com/Azure/azure-sdk-for-go/services/botservice/mgmt/2021-03-01/botservice"
@@ -113,7 +113,7 @@ type Metadata struct {
 //getfilter:resource_group=description.ResourceGroup
 type APIManagementDescription struct {
 	APIManagement               armapimanagement.ServiceResource
-	DiagnosticSettingsResources *[]armmonitor.DiagnosticSettingsResource
+	DiagnosticSettingsResources []armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -131,8 +131,8 @@ type AutomationAccountsDescription struct {
 //getfilter:name=description.ConfigurationStore.name
 //getfilter:resource_group=description.ResourceGroup
 type AppConfigurationDescription struct {
-	ConfigurationStore          appconfiguration.ConfigurationStore
-	DiagnosticSettingsResources []insights.DiagnosticSettingsResource
+	ConfigurationStore          armappconfiguration.ConfigurationStore
+	DiagnosticSettingsResources []armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1011,7 +1011,7 @@ type DataFactoryPipelineDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type DataLakeAnalyticsAccountDescription struct {
 	DataLakeAnalyticsAccount   analytics.Account
-	DiagnosticSettingsResource *[]armmonitor.DiagnosticSettingsResource
+	DiagnosticSettingsResource []armmonitor.DiagnosticSettingsResource
 	ResourceGroup              string
 }
 
@@ -1022,7 +1022,7 @@ type DataLakeAnalyticsAccountDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type DataLakeStoreDescription struct {
 	DataLakeStoreAccount       store.Account
-	DiagnosticSettingsResource *[]armmonitor.DiagnosticSettingsResource
+	DiagnosticSettingsResource []armmonitor.DiagnosticSettingsResource
 	ResourceGroup              string
 }
 
