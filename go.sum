@@ -65,6 +65,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation v
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation v0.8.1/go.mod h1:89x2rv5BldGtKBj8vjprGdkABDwAaHhvZb2KO+pbkHI=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/batch/armbatch v1.2.1 h1:IdXgoDe3cTMEGXpaW1Y9sLNRhY4iy0Ul2rXGRfMlWLI=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/batch/armbatch v1.2.1/go.mod h1:CHiiIYxbQfbFdCvAgmJ5/Ivp+s4tz+dQ9nO0Z7InRZY=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/blueprint/armblueprint v0.6.1 h1:4Kx4e3VGS/nhItZZSS1ncQ2YaOI4bd46KARmHZKqsZc=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/blueprint/armblueprint v0.6.1/go.mod h1:mjFF+TgvMwa6VVmf3BQeCs7WcDmhmKYU/9KaxhWVgFc=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-analytics/armdatalakeanalytics v0.7.1 h1:uoQqkMFts8VHjlJvTp+0dbUgUnobKjUjpX47C6TJHf8=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-analytics/armdatalakeanalytics v0.7.1/go.mod h1:+5AoAlXOBbup0hJQbZJDXPHFlBYsTxCBdtCwTWl8Xew=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-store/armdatalakestore v1.1.0 h1:IlJ3pFC4a0+4k7RUzO1S+INTl/aOazJAhBm4KFfwz94=
