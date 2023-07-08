@@ -15,11 +15,13 @@ func AnalysisService(ctx context.Context, authorizer autorest.Authorizer, subscr
 	if err != nil {
 		return nil, err
 	}
+
 	clientFactory, err := armanalysisservices.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
 	client := clientFactory.NewServersClient()
+
 	pager := client.NewListPager(nil)
 	for pager.More() {
 		page, err := pager.NextPage(ctx)

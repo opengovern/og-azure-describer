@@ -16,19 +16,19 @@ func APIManagement(ctx context.Context, authorizer autorest.Authorizer, subscrip
 	if err != nil {
 		return nil, err
 	}
+
 	clientFactory, err := armapimanagement.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
 	client := clientFactory.NewServiceClient()
+
 	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
 	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
-	if err != nil {
-		return nil, err
-	}
+
 	pager := client.NewListPager(nil)
 	var values []Resource
 	for pager.More() {

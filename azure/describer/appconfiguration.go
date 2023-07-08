@@ -29,9 +29,6 @@ func AppConfiguration(ctx context.Context, authorizer autorest.Authorizer, subsc
 	}
 	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
 
-	if err != nil {
-		return nil, err
-	}
 	pager := client.NewListPager(nil)
 	var values []Resource
 	for pager.More() {

@@ -87,3 +87,7 @@ func SpringCloudService(ctx context.Context, authorizer autorest.Authorizer, sub
 
 	return values, nil
 }
+
+func SpringCloudService2(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+
+}

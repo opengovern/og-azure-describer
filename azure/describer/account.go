@@ -107,19 +107,19 @@ func DataLakeStore(ctx context.Context, authorizer autorest.Authorizer, subscrip
 	if err != nil {
 		return nil, err
 	}
+
 	clientFactory, err := armdatalakestore.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
 	client := clientFactory.NewAccountsClient()
+
 	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
 	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
-	if err != nil {
-		return nil, err
-	}
+
 	pager := client.NewListPager(nil)
 	var values []Resource
 	for pager.More() {
@@ -148,7 +148,6 @@ func DataLakeStore(ctx context.Context, authorizer autorest.Authorizer, subscrip
 }
 
 func getDataLakeStore(ctx context.Context, account *armdatalakestore.AccountBasic, diagnosticClient *armmonitor.DiagnosticSettingsClient, client *armdatalakestore.AccountsClient) (*Resource, error) {
-
 	splitId := strings.Split(*account.ID, "/")
 	name := *account.Name
 	resourceGroup := splitId[4]
