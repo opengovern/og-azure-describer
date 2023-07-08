@@ -26,13 +26,13 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/batch/armbatch"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/blueprint/armblueprint"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/botservice/armbotservice"
 	analytics "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-analytics/armdatalakeanalytics"
 	store "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-store/armdatalakestore"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
-	"github.com/Azure/azure-sdk-for-go/services/botservice/mgmt/2021-03-01/botservice"
 	"github.com/Azure/azure-sdk-for-go/services/cdn/mgmt/2021-06-01/cdn"
 	"github.com/Azure/azure-sdk-for-go/services/cognitiveservices/mgmt/2021-04-30/cognitiveservices"
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2017-09-01/skus"
@@ -1770,7 +1770,7 @@ type ResourceGroupDescription struct {
 // =================== BotService ==================
 
 type BotServiceBotDescription struct {
-	Bot           botservice.Bot
+	Bot           armbotservice.Bot
 	ResourceGroup string
 }
 
