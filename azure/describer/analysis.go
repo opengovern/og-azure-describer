@@ -23,33 +23,39 @@ func AnalysisService(ctx context.Context, authorizer autorest.Authorizer, subscr
 	client := clientFactory.NewServersClient()
 
 	pager := client.NewListPager(nil)
+	var values []Resource
 	for pager.More() {
 		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
 		for _, server := range page.Value {
-			resourceGroupName := strings.Split(*server.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *server.ID,
-				Name:     *server.Name,
-				Location: *server.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.AnalysisServiceServerDescription{
-						Server:        *server,
-						ResourceGroup: resourceGroupName,
-					},
-				},
-			}
+			resource := getAnalysisService(ctx, server)
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				return nil, nil
+				values = append(values, *resource)
 			}
 		}
 	}
-	return nil, nil
+	return values, nil
+}
+
+func getAnalysisService(ctx context.Context, server *armanalysisservices.Server) *Resource {
+	resourceGroupName := strings.Split(*server.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *server.ID,
+		Name:     *server.Name,
+		Location: *server.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.AnalysisServiceServerDescription{
+				Server:        *server,
+				ResourceGroup: resourceGroupName,
+			},
+		},
+	}
+	return &resource
 }
