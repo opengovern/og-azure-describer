@@ -42,6 +42,7 @@ func AutomationAccounts(ctx context.Context, authorizer autorest.Authorizer, sub
 			}
 		}
 	}
+	return values, nil
 }
 
 func getAutomationAccount(ctx context.Context, account *armautomation.Account) *Resource {

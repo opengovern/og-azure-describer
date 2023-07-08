@@ -30,11 +30,13 @@ func DataLakeAnalyticsAccount(ctx context.Context, authorizer autorest.Authorize
 		return nil, err
 	}
 	client := clientFactory.NewAccountsClient()
+
 	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
 	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+
 	if err != nil {
 		return nil, err
 	}

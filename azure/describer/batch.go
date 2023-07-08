@@ -2,64 +2,86 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/batch/armbatch"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/batch/mgmt/2020-09-01/batch"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
 func BatchAccount(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := insights.NewDiagnosticSettingsClient(subscription)
-	client.Authorizer = authorizer
-
-	batchAccountClient := batch.NewAccountClient(subscription)
-	batchAccountClient.Authorizer = authorizer
-
-	result, err := batchAccountClient.List(context.Background())
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
+	clientFactory, err := armbatch.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewAccountClient()
 
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, account := range result.Values() {
-			id := *account.ID
-			batchListOp, err := client.List(ctx, id)
-			if err != nil {
-				return nil, err
-			}
-			splitID := strings.Split(*account.ID, "/")
-
-			resourceGroup := splitID[4]
-			resource := Resource{
-				ID:       *account.ID,
-				Name:     *account.Name,
-				Location: *account.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.BatchAccountDescription{
-						Account:                     account,
-						DiagnosticSettingsResources: batchListOp.Value,
-						ResourceGroup:               resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, account := range page.Value {
+			resource, err := getBatchAccount(ctx, account, diagnosticClient)
+			if err != nil {
+				return nil, err
+			}
+			if resource == nil {
+				continue
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
 	return values, nil
+}
+
+func getBatchAccount(ctx context.Context, account *armbatch.Account, diagnosticClient *armmonitor.DiagnosticSettingsClient) (*Resource, error) {
+	id := *account.ID
+	var batchListOp []armmonitor.DiagnosticSettingsResource
+	pager := diagnosticClient.NewListPager(id, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, item := range page.Value {
+			batchListOp = append(batchListOp, *item)
+		}
+	}
+	splitID := strings.Split(*account.ID, "/")
+
+	resourceGroup := splitID[4]
+	resource := Resource{
+		ID:       *account.ID,
+		Name:     *account.Name,
+		Location: *account.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.BatchAccountDescription{
+				Account:                     *account,
+				DiagnosticSettingsResources: &batchListOp,
+				ResourceGroup:               resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
 }
