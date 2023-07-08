@@ -20,11 +20,11 @@ import (
 	"github.com/Azure/azure-sdk-for-go/profiles/preview/preview/blueprint/mgmt/blueprint"
 	"github.com/Azure/azure-sdk-for-go/profiles/preview/preview/desktopvirtualization/mgmt/desktopvirtualization"
 	web2 "github.com/Azure/azure-sdk-for-go/profiles/preview/preview/web/mgmt/web"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/analysisservices/armanalysisservices"
 	analytics "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-analytics/armdatalakeanalytics"
 	store "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-store/armdatalakestore"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
-	"github.com/Azure/azure-sdk-for-go/services/analysisservices/mgmt/2017-08-01/analysisservices"
 	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2020-12-01/apimanagement"
 	"github.com/Azure/azure-sdk-for-go/services/appconfiguration/mgmt/2020-06-01/appconfiguration"
 	"github.com/Azure/azure-sdk-for-go/services/appplatform/mgmt/2020-07-01/appplatform"
@@ -1485,7 +1485,7 @@ type AdServicePrincipalDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type AnalysisServiceServerDescription struct {
 	ResourceGroup string
-	Server        analysisservices.Server
+	Server        armanalysisservices.Server
 }
 
 //  =================== postgresql ==================
