@@ -30,7 +30,7 @@ func DataLakeAnalyticsAccount(ctx context.Context, authorizer autorest.Authorize
 		return nil, err
 	}
 	client := clientFactory.NewAccountsClient()
-	monitorClientFactory, err := armmonitor.NewClientFactory("<subscription-id>", cred, nil)
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +112,7 @@ func DataLakeStore(ctx context.Context, authorizer autorest.Authorizer, subscrip
 		return nil, err
 	}
 	client := clientFactory.NewAccountsClient()
-	monitorClientFactory, err := armmonitor.NewClientFactory("<subscription-id>", cred, nil)
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
