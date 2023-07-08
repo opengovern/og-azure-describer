@@ -74,7 +74,7 @@ func GetAppConfiguration(ctx context.Context, diagnosticClient *armmonitor.Diagn
 		Description: JSONAllFieldsMarshaller{
 			model.AppConfigurationDescription{
 				ConfigurationStore:          *config,
-				DiagnosticSettingsResources: op,
+				DiagnosticSettingsResources: &op,
 				ResourceGroup:               resourceGroup,
 			},
 		},

@@ -76,10 +76,11 @@ func getDataLakeAnalyticsAccount(ctx context.Context, account *armdatalakeanalyt
 	if name == "" || resourceGroup == "" {
 		return nil, nil
 	}
-	accountListOpTemp := diagnosticClient.NewListPager(*account.ID, nil)
+
 	var accountListOp []armmonitor.DiagnosticSettingsResource
-	for accountListOpTemp.More() {
-		accountOpPage, err := accountListOpTemp.NextPage(ctx)
+	pager := diagnosticClient.NewListPager(*account.ID, nil)
+	for pager.More() {
+		accountOpPage, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
@@ -87,6 +88,7 @@ func getDataLakeAnalyticsAccount(ctx context.Context, account *armdatalakeanalyt
 			accountListOp = append(accountListOp, *accountOp)
 		}
 	}
+
 	resource := Resource{
 		ID:       *account.ID,
 		Name:     *account.Name,
@@ -94,7 +96,7 @@ func getDataLakeAnalyticsAccount(ctx context.Context, account *armdatalakeanalyt
 		Description: JSONAllFieldsMarshaller{
 			model.DataLakeAnalyticsAccountDescription{
 				DataLakeAnalyticsAccount:   accountGetOp.Account,
-				DiagnosticSettingsResource: accountListOp,
+				DiagnosticSettingsResource: &accountListOp,
 				ResourceGroup:              resourceGroup,
 			},
 		},
@@ -178,7 +180,7 @@ func getDataLakeStore(ctx context.Context, account *armdatalakestore.AccountBasi
 		Description: JSONAllFieldsMarshaller{
 			model.DataLakeStoreDescription{
 				DataLakeStoreAccount:       accountGetOp.Account,
-				DiagnosticSettingsResource: accountListOp,
+				DiagnosticSettingsResource: &accountListOp,
 				ResourceGroup:              resourceGroup,
 			},
 		},

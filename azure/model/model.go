@@ -27,7 +27,7 @@ import (
 	store "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-store/armdatalakestore"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
-	"github.com/Azure/azure-sdk-for-go/services/appplatform/mgmt/2020-07-01/appplatform"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"github.com/Azure/azure-sdk-for-go/services/batch/mgmt/2020-09-01/batch"
 	"github.com/Azure/azure-sdk-for-go/services/botservice/mgmt/2021-03-01/botservice"
 	"github.com/Azure/azure-sdk-for-go/services/cdn/mgmt/2021-06-01/cdn"
@@ -113,7 +113,7 @@ type Metadata struct {
 //getfilter:resource_group=description.ResourceGroup
 type APIManagementDescription struct {
 	APIManagement               armapimanagement.ServiceResource
-	DiagnosticSettingsResources []armmonitor.DiagnosticSettingsResource
+	DiagnosticSettingsResources *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -132,7 +132,7 @@ type AutomationAccountsDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type AppConfigurationDescription struct {
 	ConfigurationStore          armappconfiguration.ConfigurationStore
-	DiagnosticSettingsResources []armmonitor.DiagnosticSettingsResource
+	DiagnosticSettingsResources *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1011,7 +1011,7 @@ type DataFactoryPipelineDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type DataLakeAnalyticsAccountDescription struct {
 	DataLakeAnalyticsAccount   analytics.Account
-	DiagnosticSettingsResource []armmonitor.DiagnosticSettingsResource
+	DiagnosticSettingsResource *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup              string
 }
 
@@ -1022,7 +1022,7 @@ type DataLakeAnalyticsAccountDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type DataLakeStoreDescription struct {
 	DataLakeStoreAccount       store.Account
-	DiagnosticSettingsResource []armmonitor.DiagnosticSettingsResource
+	DiagnosticSettingsResource *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup              string
 }
 
@@ -1360,8 +1360,8 @@ type SignalrServiceDescription struct {
 //getfilter:name=description.ServiceResource.name
 //getfilter:resource_group=description.ResourceGroup
 type SpringCloudServiceDescription struct {
-	ServiceResource            appplatform.ServiceResource
-	DiagnosticSettingsResource *[]insights.DiagnosticSettingsResource
+	ServiceResource            armresources.GenericResourceExpanded
+	DiagnosticSettingsResource *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup              string
 }
 
