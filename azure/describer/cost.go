@@ -4,14 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/costmanagement/armcostmanagement"
 	"time"
 
 	"github.com/cenkalti/backoff"
 	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 
-	"github.com/Azure/azure-sdk-for-go/services/costmanagement/mgmt/2019-11-01/costmanagement"
 	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/date"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
@@ -20,41 +20,54 @@ const subscriptionDimension = "SubscriptionId"
 
 func cost(ctx context.Context, authorizer autorest.Authorizer, subscription string, from time.Time, to time.Time, dimension string) ([]model.CostManagementQueryRow, *string, error) {
 	var err error
-	client := costmanagement.NewQueryClient(subscription)
-	client.Authorizer = authorizer
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, nil, err
+	}
+	clientFactory, err := armcostmanagement.NewClientFactory(cred, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+	client := clientFactory.NewQueryClient()
 
 	scope := fmt.Sprintf("subscriptions/%s", subscription)
-
-	groupings := []costmanagement.QueryGrouping{
+	groupingType := armcostmanagement.QueryColumnTypeDimension
+	groupings := []*armcostmanagement.QueryGrouping{
 		{
-			Type: costmanagement.QueryColumnTypeDimension,
+			Type: &groupingType,
 			Name: &dimension,
 		},
 	}
 
 	costAggregationString := "Cost"
-	var costs costmanagement.QueryResult
+	var costs armcostmanagement.QueryResult
 
 	getCostWithBackOff := func() error {
 		var err error
-		costs, err = client.Usage(ctx, scope, costmanagement.QueryDefinition{
-			Type:      costmanagement.ExportTypeActualCost,
-			Timeframe: costmanagement.TimeframeTypeCustom,
-			TimePeriod: &costmanagement.QueryTimePeriod{
-				From: &date.Time{Time: from},
-				To:   &date.Time{Time: to},
-			},
-			Dataset: &costmanagement.QueryDataset{
-				Granularity: costmanagement.GranularityTypeDaily,
-				Grouping:    &groupings,
-				Aggregation: map[string]*costmanagement.QueryAggregation{
+		queryFunction := armcostmanagement.FunctionTypeSum
+		queryGranularity := armcostmanagement.GranularityTypeDaily
+		queryTimeFrame := armcostmanagement.TimeframeTypeCustom
+		queryType := armcostmanagement.ExportTypeActualCost
+		queryDefinition := armcostmanagement.QueryDefinition{
+			Dataset: &armcostmanagement.QueryDataset{
+				Aggregation: map[string]*armcostmanagement.QueryAggregation{
 					"Cost": {
 						Name:     &costAggregationString,
-						Function: costmanagement.FunctionTypeSum,
+						Function: &queryFunction,
 					},
 				},
+				Granularity: &queryGranularity,
+				Grouping:    groupings,
 			},
-		})
+			Timeframe: &queryTimeFrame,
+			Type:      &queryType,
+			TimePeriod: &armcostmanagement.QueryTimePeriod{
+				From: &from,
+				To:   &to,
+			},
+		}
+		costsResponse, err := client.Usage(ctx, scope, queryDefinition, nil)
+		costs = costsResponse.QueryResult
 		return err
 	}
 	expoBackoff := backoff.NewExponentialBackOff()
@@ -67,9 +80,9 @@ func cost(ctx context.Context, authorizer autorest.Authorizer, subscription stri
 	}
 
 	mapResult := make([]map[string]any, 0)
-	for _, row := range *costs.Rows {
+	for _, row := range costs.Properties.Rows {
 		rowMap := make(map[string]any)
-		for i, column := range *costs.Columns {
+		for i, column := range costs.Properties.Columns {
 			rowMap[*column.Name] = row[i]
 		}
 		mapResult = append(mapResult, rowMap)
@@ -89,9 +102,6 @@ func cost(ctx context.Context, authorizer autorest.Authorizer, subscription stri
 }
 
 func DailyCostByResourceType(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := costmanagement.NewQueryClient(subscription)
-	client.Authorizer = authorizer
-
 	triggerType := GetTriggerTypeFromContext(ctx)
 	from := time.Now().AddDate(0, 0, -7)
 	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
@@ -130,9 +140,6 @@ func DailyCostByResourceType(ctx context.Context, authorizer autorest.Authorizer
 }
 
 func DailyCostBySubscription(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := costmanagement.NewQueryClient(subscription)
-	client.Authorizer = authorizer
-
 	triggerType := GetTriggerTypeFromContext(ctx)
 	from := time.Now().AddDate(0, 0, -7)
 	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {

@@ -27,26 +27,26 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/batch/armbatch"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/blueprint/armblueprint"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/botservice/armbotservice"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cognitiveservices/armcognitiveservices"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerinstance/armcontainerinstance"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerregistry/armcontainerregistry"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice/v2"
 	analytics "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-analytics/armdatalakeanalytics"
 	store "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-store/armdatalakestore"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"github.com/Azure/azure-sdk-for-go/services/cdn/mgmt/2021-06-01/cdn"
-	"github.com/Azure/azure-sdk-for-go/services/cognitiveservices/mgmt/2021-04-30/cognitiveservices"
-	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2017-09-01/skus"
-	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2020-06-01/compute"
-	compute2 "github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2022-08-01/compute"
-	"github.com/Azure/azure-sdk-for-go/services/containerinstance/mgmt/2021-10-01/containerinstance"
-	"github.com/Azure/azure-sdk-for-go/services/containerservice/mgmt/2021-02-01/containerservice"
 	"github.com/Azure/azure-sdk-for-go/services/databoxedge/mgmt/2019-07-01/databoxedge"
 	"github.com/Azure/azure-sdk-for-go/services/databricks/mgmt/2018-04-01/databricks"
 	"github.com/Azure/azure-sdk-for-go/services/datafactory/mgmt/2018-06-01/datafactory"
 	"github.com/Azure/azure-sdk-for-go/services/dataprotection/mgmt/2021-07-01/dataprotection"
 	"github.com/Azure/azure-sdk-for-go/services/dns/mgmt/2018-05-01/dns"
 	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-05-01/frontdoor"
-	"github.com/Azure/azure-sdk-for-go/services/guestconfiguration/mgmt/2020-06-25/guestconfiguration"
 	"github.com/Azure/azure-sdk-for-go/services/hdinsight/mgmt/2018-06-01/hdinsight"
 	"github.com/Azure/azure-sdk-for-go/services/hybridkubernetes/mgmt/2021-10-01/hybridkubernetes"
 	"github.com/Azure/azure-sdk-for-go/services/iothub/mgmt/2020-03-01/devices"
@@ -61,7 +61,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/operationalinsights/mgmt/2021-06-01/operationalinsights"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2020-01-01/postgresql"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2021-06-01/postgresqlflexibleservers"
-	"github.com/Azure/azure-sdk-for-go/services/preview/containerregistry/mgmt/2022-02-01-preview/containerregistry"
 	"github.com/Azure/azure-sdk-for-go/services/preview/cosmos-db/mgmt/2021-11-15-preview/documentdb"
 	"github.com/Azure/azure-sdk-for-go/services/preview/datamigration/mgmt/2021-10-30-preview/datamigration"
 	"github.com/Azure/azure-sdk-for-go/services/preview/eventgrid/mgmt/2021-06-01-preview/eventgrid"
@@ -209,7 +208,7 @@ type BlueprintDescription struct {
 //getfilter:name=description.Disk.name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeDiskDescription struct {
-	Disk          compute.Disk
+	Disk          armcompute.Disk
 	ResourceGroup string
 }
 
@@ -247,7 +246,7 @@ type ComputeDiskWriteOpsHourlyDescription struct {
 //getfilter:name=description.DiskAccess.name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeDiskAccessDescription struct {
-	DiskAccess    compute.DiskAccess
+	DiskAccess    armcompute.DiskAccess
 	ResourceGroup string
 }
 
@@ -255,15 +254,15 @@ type ComputeDiskAccessDescription struct {
 //getfilter:name=description.VirtualMachineScaleSet.name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeVirtualMachineScaleSetDescription struct {
-	VirtualMachineScaleSet           compute.VirtualMachineScaleSet
-	VirtualMachineScaleSetExtensions []compute.VirtualMachineScaleSetExtension
+	VirtualMachineScaleSet           armcompute.VirtualMachineScaleSet
+	VirtualMachineScaleSetExtensions []armcompute.VirtualMachineScaleSetExtension
 	ResourceGroup                    string
 }
 
 //index:microsoft_compute_virtualmachinescalesetnetworkinterface
 type ComputeVirtualMachineScaleSetNetworkInterfaceDescription struct {
-	VirtualMachineScaleSet compute.VirtualMachineScaleSet
-	NetworkInterface       network.Interface
+	VirtualMachineScaleSet armcompute.VirtualMachineScaleSet
+	NetworkInterface       armnetwork.Interface
 	ResourceGroup          string
 }
 
@@ -272,8 +271,8 @@ type ComputeVirtualMachineScaleSetNetworkInterfaceDescription struct {
 //getfilter:instance_id=description.ScaleSetVM.InstanceID
 //getfilter:resource_group=description.ResourceGroup
 type ComputeVirtualMachineScaleSetVmDescription struct {
-	VirtualMachineScaleSet compute.VirtualMachineScaleSet
-	ScaleSetVM             compute.VirtualMachineScaleSetVM
+	VirtualMachineScaleSet armcompute.VirtualMachineScaleSet
+	ScaleSetVM             armcompute.VirtualMachineScaleSetVM
 	ResourceGroup          string
 }
 
@@ -281,7 +280,7 @@ type ComputeVirtualMachineScaleSetVmDescription struct {
 //getfilter:name=description.Snapshot.Name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeSnapshotsDescription struct {
-	Snapshot      compute.Snapshot
+	Snapshot      armcompute.Snapshot
 	ResourceGroup string
 }
 
@@ -289,7 +288,7 @@ type ComputeSnapshotsDescription struct {
 //getfilter:name=description.AvailabilitySet.Name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeAvailabilitySetDescription struct {
-	AvailabilitySet compute.AvailabilitySet
+	AvailabilitySet armcompute.AvailabilitySet
 	ResourceGroup   string
 }
 
@@ -297,7 +296,7 @@ type ComputeAvailabilitySetDescription struct {
 //getfilter:name=description.DiskEncryptionSet.Name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeDiskEncryptionSetDescription struct {
-	DiskEncryptionSet compute.DiskEncryptionSet
+	DiskEncryptionSet armcompute.DiskEncryptionSet
 	ResourceGroup     string
 }
 
@@ -305,7 +304,7 @@ type ComputeDiskEncryptionSetDescription struct {
 //getfilter:name=description.ImageGallery.Name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeImageGalleryDescription struct {
-	ImageGallery  compute.Gallery
+	ImageGallery  armcompute.Gallery
 	ResourceGroup string
 }
 
@@ -313,27 +312,27 @@ type ComputeImageGalleryDescription struct {
 //getfilter:name=Description.Image.Name
 //getfilter:resource_group=Description.Image.ResourceGroup
 type ComputeImageDescription struct {
-	Image         compute.Image
+	Image         armcompute.Image
 	ResourceGroup string
 }
 
 type ComputeHostGroupDescription struct {
-	HostGroup     compute.DedicatedHostGroup
+	HostGroup     armcompute.DedicatedHostGroup
 	ResourceGroup string
 }
 
 type ComputeHostGroupHostDescription struct {
-	Host          compute.DedicatedHost
+	Host          armcompute.DedicatedHost
 	ResourceGroup string
 }
 
 type ComputeRestorePointCollectionDescription struct {
-	RestorePointCollection compute2.RestorePointCollection
+	RestorePointCollection armcompute.RestorePointCollection
 	ResourceGroup          string
 }
 
 type ComputeSSHPublicKeyDescription struct {
-	SSHPublicKey  compute.SSHPublicKeyResource
+	SSHPublicKey  armcompute.SSHPublicKeyResource
 	ResourceGroup string
 }
 
@@ -387,7 +386,7 @@ type KeyVaultKeyDescription struct {
 //getfilter:name=description.ManagedCluster.name
 //getfilter:resource_group=description.ResourceGroup
 type KubernetesClusterDescription struct {
-	ManagedCluster containerservice.ManagedCluster
+	ManagedCluster armcontainerservice.ManagedCluster
 	ResourceGroup  string
 }
 
@@ -396,7 +395,7 @@ type KubernetesClusterDescription struct {
 //index:microsoft_containerinstance_containergroup
 type ContainerInstanceContainerGroupDescription struct {
 	ResourceGroup  string
-	ContainerGroup containerinstance.ContainerGroup
+	ContainerGroup armcontainerinstance.ContainerGroup
 }
 
 //  =================== cdn ==================
@@ -852,7 +851,7 @@ type BatchAccountDescription struct {
 //getfilter:name=description.Account.name
 //getfilter:resource_group=description.ResourceGroup
 type CognitiveAccountDescription struct {
-	Account                     cognitiveservices.Account
+	Account                     armcognitiveservices.Account
 	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
 	ResourceGroup               string
 }
@@ -863,18 +862,18 @@ type CognitiveAccountDescription struct {
 //getfilter:name=description.VirtualMachine.name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeVirtualMachineDescription struct {
-	VirtualMachine             compute.VirtualMachine
-	VirtualMachineInstanceView compute.VirtualMachineInstanceView
-	InterfaceIPConfigurations  []network.InterfaceIPConfiguration
+	VirtualMachine             armcompute.VirtualMachine
+	VirtualMachineInstanceView armcompute.VirtualMachineInstanceView
+	InterfaceIPConfigurations  []armnetwork.InterfaceIPConfiguration
 	PublicIPs                  []string
-	VirtualMachineExtension    *[]compute.VirtualMachineExtension
-	Assignments                *[]guestconfiguration.Assignment
+	VirtualMachineExtension    []*armcompute.VirtualMachineExtension
+	Assignments                *[]armguestconfiguration.Assignment
 	ResourceGroup              string
 }
 
 //index:microsoft_compute_resourcesku
 type ComputeResourceSKUDescription struct {
-	ResourceSKU skus.ResourceSku
+	ResourceSKU armcompute.ResourceSKU
 }
 
 //index:microsoft_compute_virtualmachinecpuutilization
@@ -894,7 +893,7 @@ type ComputeVirtualMachineCpuUtilizationHourlyDescription struct {
 
 //index:microsoft_compute_cloudservice
 type ComputeCloudServiceDescription struct {
-	CloudService compute2.CloudService
+	CloudService armcompute.CloudService
 }
 
 //  =================== containerregistry ==================
@@ -903,9 +902,9 @@ type ComputeCloudServiceDescription struct {
 //getfilter:name=description.Registry.name
 //getfilter:resource_group=description.ResourceGroup
 type ContainerRegistryDescription struct {
-	Registry                      containerregistry.Registry
-	RegistryListCredentialsResult containerregistry.RegistryListCredentialsResult
-	RegistryUsages                *[]containerregistry.RegistryUsage
+	Registry                      armcontainerregistry.Registry
+	RegistryListCredentialsResult armcontainerregistry.RegistryListCredentialsResult
+	RegistryUsages                []*armcontainerregistry.RegistryUsage
 	ResourceGroup                 string
 }
 
@@ -1033,9 +1032,9 @@ type MonitoringMetric struct {
 	// Resource Name
 	DimensionValue string
 	// MetadataValue represents a metric metadata value.
-	MetaData *insights.MetadataValue
+	MetaData *armmonitor.MetadataValue
 	// Metric the result data of a query.
-	Metric *insights.Metric
+	Metric *armmonitor.Metric
 	// The maximum metric value for the data point.
 	Maximum *float64
 	// The minimum metric value for the data point.

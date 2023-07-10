@@ -2,12 +2,13 @@ package describer
 
 import (
 	"context"
-	"strings"
-	"time"
-
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
+	"strings"
+	"time"
 )
 
 func DiagnosticSetting(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
@@ -141,8 +142,16 @@ func getMonitoringStartDateForGranularity(granularity string) string {
 }
 
 func listAzureMonitorMetricStatistics(ctx context.Context, authorizer autorest.Authorizer, subscription string, granularity string, metricNameSpace string, metricNames string, dimensionValue string) ([]model.MonitoringMetric, error) {
-	metricClient := insights.NewMetricsClient(subscription)
-	metricClient.Authorizer = authorizer
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	metricsClient := monitorClientFactory.NewMetricsClient()
 
 	interval := getMonitoringIntervalForGranularity(granularity)
 	aggregation := "average,count,maximum,minimum,total"
@@ -150,16 +159,27 @@ func listAzureMonitorMetricStatistics(ctx context.Context, authorizer autorest.A
 	orderBy := "timestamp"
 	top := int32(1000) // Maximum number of record fetch with given interval
 	filter := ""
+	resultType := armmonitor.ResultTypeData
+	options := armmonitor.MetricsClientListOptions{
+		Aggregation:     &aggregation,
+		Interval:        &interval,
+		Timespan:        &timeSpan,
+		Orderby:         &orderBy,
+		Top:             &top,
+		Filter:          &filter,
+		Metricnames:     &metricNames,
+		ResultType:      &resultType,
+		Metricnamespace: &metricNameSpace,
+	}
 
-	result, err := metricClient.List(ctx, dimensionValue, timeSpan, &interval, metricNames, aggregation, &top, orderBy, filter, insights.ResultTypeData, metricNameSpace)
+	result, err := metricsClient.List(ctx, dimensionValue, &options)
 	if err != nil {
 		return nil, err
 	}
-
 	var values []model.MonitoringMetric
-	for _, metric := range *result.Value {
-		for _, timeseries := range *metric.Timeseries {
-			for _, data := range *timeseries.Data {
+	for _, metric := range result.Value {
+		for _, timeseries := range metric.Timeseries {
+			for _, data := range timeseries.Data {
 				if data.Average != nil {
 					values = append(values, model.MonitoringMetric{
 						DimensionValue: dimensionValue,
@@ -169,12 +189,11 @@ func listAzureMonitorMetricStatistics(ctx context.Context, authorizer autorest.A
 						Average:        data.Average,
 						Sum:            data.Total,
 						SampleCount:    data.Count,
-						Unit:           string(metric.Unit),
+						Unit:           string(*metric.Unit),
 					})
 				}
 			}
 		}
 	}
-
 	return values, nil
 }

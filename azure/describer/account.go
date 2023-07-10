@@ -2,9 +2,6 @@ package describer
 
 import (
 	"context"
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-analytics/armdatalakeanalytics"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-store/armdatalakestore"
@@ -20,12 +17,7 @@ func DataLakeAnalyticsAccount(ctx context.Context, authorizer autorest.Authorize
 	if err != nil {
 		return nil, err
 	}
-	options := arm.ClientOptions{
-		ClientOptions: azcore.ClientOptions{
-			Cloud: cloud.AzureChina,
-		},
-	}
-	clientFactory, err := armdatalakeanalytics.NewClientFactory(subscription, cred, &options)
+	clientFactory, err := armdatalakeanalytics.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}

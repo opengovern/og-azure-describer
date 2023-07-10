@@ -3,722 +3,766 @@ package describer
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
 	"strings"
 
-	compute2 "github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2022-08-01/compute"
-
-	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2017-09-01/skus"
-	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2020-06-01/compute"
-	"github.com/Azure/azure-sdk-for-go/services/guestconfiguration/mgmt/2020-06-25/guestconfiguration"
-	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-02-01/network"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
 func ComputeDisk(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewDisksClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDisksClient()
+
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ComputeDiskDescription{
-						Disk:          v,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := getComputeDisk(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
+}
+
+func getComputeDisk(ctx context.Context, v *armcompute.Disk) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+
+	return &Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeDiskDescription{
+				Disk:          *v,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
 }
 
 func ComputeDiskAccess(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewDiskAccessesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDiskAccessesClient()
+
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ComputeDiskAccessDescription{
-						DiskAccess:    v,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := getComputeDiskAccess(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
+}
+
+func getComputeDiskAccess(ctx context.Context, v *armcompute.DiskAccess) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+
+	return &Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeDiskAccessDescription{
+				DiskAccess:    *v,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
 }
 
 func ComputeVirtualMachineScaleSet(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewVirtualMachineScaleSetsClient(subscription)
-	client.Authorizer = authorizer
-
-	clientExtension := compute.NewVirtualMachineScaleSetExtensionsClient(subscription)
-	clientExtension.Authorizer = authorizer
-
-	result, err := client.ListAll(context.Background())
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
-	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroupName := strings.Split(*v.ID, "/")[4]
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewVirtualMachineScaleSetsClient()
+	clientExtension := clientFactory.NewVirtualMachineScaleSetExtensionsClient()
 
-			op, err := clientExtension.List(context.Background(), resourceGroupName, *v.Name)
+	pager := client.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource, err := getComputeVirtualMachineScaleSet(ctx, clientExtension, v)
 			if err != nil {
 				return nil, err
 			}
-
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ComputeVirtualMachineScaleSetDescription{
-						VirtualMachineScaleSet:           v,
-						VirtualMachineScaleSetExtensions: op.Values(),
-						ResourceGroup:                    resourceGroupName,
-					},
-				},
-			}
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
 		}
+	}
+	return values, nil
+}
 
-		if !result.NotDone() {
-			break
-		}
+func getComputeVirtualMachineScaleSet(ctx context.Context, clientExtension *armcompute.VirtualMachineScaleSetExtensionsClient, v *armcompute.VirtualMachineScaleSet) (*Resource, error) {
+	resourceGroupName := strings.Split(*v.ID, "/")[4]
 
-		err = result.NextWithContext(ctx)
+	var op []armcompute.VirtualMachineScaleSetExtension
+	pages := clientExtension.NewListPager(resourceGroupName, *v.Name, nil)
+	for pages.More() {
+		page, err := pages.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			op = append(op, *v)
+		}
 	}
 
-	return values, nil
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeVirtualMachineScaleSetDescription{
+				VirtualMachineScaleSet:           *v,
+				VirtualMachineScaleSetExtensions: op,
+				ResourceGroup:                    resourceGroupName,
+			},
+		},
+	}
+	return &resource, nil
 }
 
 func ComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewVirtualMachineScaleSetsClient(subscription)
-	client.Authorizer = authorizer
-
-	networkClient := network.NewInterfacesClient(subscription)
-	networkClient.Authorizer = authorizer
-
-	vmList, err := client.ListAll(context.Background())
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewVirtualMachineScaleSetsClient()
+
+	networkClientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	networkClient := networkClientFactory.NewInterfacesClient()
+
+	pager := client.NewListAllPager(nil)
 	var values []Resource
-	for {
-		for _, vm := range vmList.Values() {
-			vmResourceGroupName := strings.Split(*vm.ID, "/")[4]
-
-			result, err := networkClient.ListVirtualMachineScaleSetNetworkInterfaces(ctx, vmResourceGroupName, *vm.Name)
-			if err != nil {
-				return nil, err
-			}
-			for {
-				for _, v := range result.Values() {
-					resourceGroupName := strings.Split(*v.ID, "/")[4]
-					resource := Resource{
-						ID:       *v.ID,
-						Name:     *v.Name,
-						Location: *v.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.ComputeVirtualMachineScaleSetNetworkInterfaceDescription{
-								VirtualMachineScaleSet: vm,
-								NetworkInterface:       v,
-								ResourceGroup:          resourceGroupName,
-							},
-						},
-					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-				if !result.NotDone() {
-					break
-				}
-
-				err = result.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-		}
-		if !vmList.NotDone() {
-			break
-		}
-
-		err = vmList.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
-	}
-
-	return values, nil
-}
-
-func ComputeVirtualMachineScaleSetVm(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewVirtualMachineScaleSetsClient(subscription)
-	client.Authorizer = authorizer
-
-	ssVmClient := compute.NewVirtualMachineScaleSetVMsClient(subscription)
-	ssVmClient.Authorizer = authorizer
-
-	vmList, err := client.ListAll(context.Background())
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, vm := range vmList.Values() {
+		for _, vm := range page.Value {
 			vmResourceGroupName := strings.Split(*vm.ID, "/")[4]
-
-			result, err := ssVmClient.List(ctx, vmResourceGroupName, *vm.Name, "", "", "")
-			if err != nil {
-				return nil, err
-			}
-			for {
-				for _, v := range result.Values() {
-					resourceGroupName := strings.Split(*v.ID, "/")[4]
-					resource := Resource{
-						ID:       *v.ID,
-						Name:     *v.Name,
-						Location: *v.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.ComputeVirtualMachineScaleSetVmDescription{
-								VirtualMachineScaleSet: vm,
-								ScaleSetVM:             v,
-								ResourceGroup:          resourceGroupName,
-							},
-						},
-					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-				if !result.NotDone() {
-					break
-				}
-
-				err = result.NextWithContext(ctx)
+			pager := networkClient.NewListVirtualMachineScaleSetNetworkInterfacesPager(vmResourceGroupName, *vm.Name, nil)
+			for pager.More() {
+				page, err := pager.NextPage(ctx)
 				if err != nil {
 					return nil, err
 				}
-			}
-		}
-		if !vmList.NotDone() {
-			break
-		}
-
-		err = vmList.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func ComputeVirtualMachine(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	guestConfigurationClient := guestconfiguration.NewAssignmentsClient(subscription)
-	guestConfigurationClient.Authorizer = authorizer
-
-	computeClient := compute.NewVirtualMachineExtensionsClient(subscription)
-	computeClient.Authorizer = authorizer
-
-	networkClient := network.NewInterfacesClient(subscription)
-	networkClient.Authorizer = authorizer
-
-	networkPublicIPClient := network.NewPublicIPAddressesClient(subscription)
-	networkPublicIPClient.Authorizer = authorizer
-
-	client := compute.NewVirtualMachinesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListAll(ctx, "")
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, virtualMachine := range result.Values() {
-			resourceGroupName := strings.Split(*virtualMachine.ID, "/")[4]
-			computeInstanceViewOp, err := client.InstanceView(ctx, resourceGroupName, *virtualMachine.Name)
-			if err != nil {
-				return nil, err
-			}
-
-			var ipConfigs []network.InterfaceIPConfiguration
-			for _, nicRef := range *virtualMachine.NetworkProfile.NetworkInterfaces {
-				pathParts := strings.Split(*nicRef.ID, "/")
-				resourceGroupName := pathParts[4]
-				nicName := pathParts[len(pathParts)-1]
-
-				nic, err := networkClient.Get(ctx, resourceGroupName, nicName, "")
-				if err != nil {
-					return nil, err
-				}
-
-				ipConfigs = append(ipConfigs, *nic.IPConfigurations...)
-			}
-
-			var publicIPs []string
-			for _, ipConfig := range ipConfigs {
-				if ipConfig.PublicIPAddress != nil && ipConfig.PublicIPAddress.ID != nil {
-					pathParts := strings.Split(*ipConfig.PublicIPAddress.ID, "/")
-					resourceGroup := pathParts[4]
-					name := pathParts[len(pathParts)-1]
-
-					publicIP, err := networkPublicIPClient.Get(ctx, resourceGroup, name, "")
+				for _, v := range page.Value {
+					resource := getComputeVirtualMachineScaleSetNetworkInterface(ctx, vm, v)
 
 					if err != nil {
 						return nil, err
 					}
-					if publicIP.IPAddress != nil {
-						publicIPs = append(publicIPs, *publicIP.IPAddress)
+
+					if stream != nil {
+						if err := (*stream)(*resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, *resource)
 					}
 				}
 			}
-
-			computeListOp, err := computeClient.List(ctx, resourceGroupName, *virtualMachine.Name, "")
-			if err != nil {
-				return nil, err
-			}
-
-			configurationListOp, err := guestConfigurationClient.List(ctx, resourceGroupName, *virtualMachine.Name)
-			if err != nil {
-				if !strings.Contains(err.Error(), "404") {
-					return nil, err
-				}
-			}
-			resource := Resource{
-				ID:       *virtualMachine.ID,
-				Name:     *virtualMachine.Name,
-				Location: *virtualMachine.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ComputeVirtualMachineDescription{
-						VirtualMachine:             virtualMachine,
-						VirtualMachineInstanceView: computeInstanceViewOp,
-						InterfaceIPConfigurations:  ipConfigs,
-						PublicIPs:                  publicIPs,
-						VirtualMachineExtension:    computeListOp.Value,
-						Assignments:                configurationListOp.Value,
-						ResourceGroup:              resourceGroupName,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
+}
+
+func getComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, vm *armcompute.VirtualMachineScaleSet, v *armnetwork.Interface) *Resource {
+	resourceGroupName := strings.Split(*v.ID, "/")[4]
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeVirtualMachineScaleSetNetworkInterfaceDescription{
+				VirtualMachineScaleSet: *vm,
+				NetworkInterface:       *v,
+				ResourceGroup:          resourceGroupName,
+			},
+		},
+	}
+	return &resource
+}
+
+func ComputeVirtualMachineScaleSetVm(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	scaleSetsClient := clientFactory.NewVirtualMachineScaleSetsClient()
+	scaleSetVMsClient := clientFactory.NewVirtualMachineScaleSetVMsClient()
+
+	pager := scaleSetsClient.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, vm := range page.Value {
+			vmResourceGroupName := strings.Split(*vm.ID, "/")[4]
+			pager := scaleSetVMsClient.NewListPager(vmResourceGroupName, *vm.Name, nil)
+			for pager.More() {
+				page, err := pager.NextPage(ctx)
+				if err != nil {
+					return nil, err
+				}
+				for _, v := range page.Value {
+					resource := getComputeVirtualMachineScaleSetVm(ctx, vm, v)
+					if stream != nil {
+						if err := (*stream)(*resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, *resource)
+					}
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func getComputeVirtualMachineScaleSetVm(ctx context.Context, vm *armcompute.VirtualMachineScaleSet, v *armcompute.VirtualMachineScaleSetVM) *Resource {
+	resourceGroupName := strings.Split(*v.ID, "/")[4]
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeVirtualMachineScaleSetVmDescription{
+				VirtualMachineScaleSet: *vm,
+				ScaleSetVM:             *v,
+				ResourceGroup:          resourceGroupName,
+			},
+		},
+	}
+	return &resource
+}
+
+func ComputeVirtualMachine(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	vmClient := clientFactory.NewVirtualMachinesClient()
+	vmExtensionsClient := clientFactory.NewVirtualMachineExtensionsClient()
+
+	networkClientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	networkInterfaceClient := networkClientFactory.NewInterfacesClient()
+	networkPublicIPClient := networkClientFactory.NewPublicIPAddressesClient()
+	ipConfigClient := networkClientFactory.NewInterfaceIPConfigurationsClient()
+
+	guestConfigurationClientFactory, err := armguestconfiguration.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	guestConfigurationClient := guestConfigurationClientFactory.NewAssignmentsClient()
+
+	pager := vmClient.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, virtualMachine := range page.Value {
+			resource, err := getComputeVirtualMachine(ctx, vmClient, vmExtensionsClient, networkInterfaceClient, networkPublicIPClient, ipConfigClient, guestConfigurationClient, virtualMachine)
+			if err != nil {
+				return nil, err
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getComputeVirtualMachine(ctx context.Context, vmClient *armcompute.VirtualMachinesClient, vmExtensionsClient *armcompute.VirtualMachineExtensionsClient, networkInterfaceClient *armnetwork.InterfacesClient, networkPublicIPClient *armnetwork.PublicIPAddressesClient, ipConfigClient *armnetwork.InterfaceIPConfigurationsClient, guestConfigurationClient *armguestconfiguration.AssignmentsClient, virtualMachine *armcompute.VirtualMachine) (*Resource, error) {
+	resourceGroupName := strings.Split(*virtualMachine.ID, "/")[4]
+	computeInstanceViewOp, err := vmClient.InstanceView(ctx, resourceGroupName, *virtualMachine.Name, nil)
+
+	pager := networkInterfaceClient.NewListVirtualMachineScaleSetNetworkInterfacesPager(resourceGroupName, *virtualMachine.Name, nil)
+	var ipConfigs []armnetwork.InterfaceIPConfiguration // IP Configs done
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, n := range page.Value {
+			ipPager := ipConfigClient.NewListPager(resourceGroupName, *n.Name, nil)
+			for ipPager.More() {
+				ipPage, err := ipPager.NextPage(ctx)
+				if err != nil {
+					return nil, err
+				}
+				for _, ip := range ipPage.Value {
+					ipConfigs = append(ipConfigs, *ip)
+				}
+			}
+		}
+	}
+
+	var publicIPs []string
+	for _, ipConfig := range ipConfigs {
+		if ipConfig.Properties.PublicIPAddress != nil && ipConfig.Properties.PublicIPAddress.ID != nil {
+			pathParts := strings.Split(*ipConfig.Properties.PublicIPAddress.ID, "/")
+			resourceGroup := pathParts[4]
+			name := pathParts[len(pathParts)-1]
+
+			publicIP, err := networkPublicIPClient.Get(ctx, resourceGroup, name, nil)
+
+			if err != nil {
+				return nil, err
+			}
+			if publicIP.Properties.IPAddress != nil {
+				publicIPs = append(publicIPs, *publicIP.Properties.IPAddress)
+			}
+		}
+	}
+
+	computeListOp, err := vmExtensionsClient.List(ctx, resourceGroupName, *virtualMachine.Name, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var configurationListOp []armguestconfiguration.Assignment
+	guestPager := guestConfigurationClient.NewListPager(resourceGroupName, *virtualMachine.Name, nil)
+	for guestPager.More() {
+		page, err := guestPager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			configurationListOp = append(configurationListOp, *v)
+		}
+	}
+	resource := Resource{
+		ID:       *virtualMachine.ID,
+		Name:     *virtualMachine.Name,
+		Location: *virtualMachine.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeVirtualMachineDescription{
+				VirtualMachine:             *virtualMachine,
+				VirtualMachineInstanceView: computeInstanceViewOp.VirtualMachineInstanceView,
+				InterfaceIPConfigurations:  ipConfigs,
+				PublicIPs:                  publicIPs,
+				VirtualMachineExtension:    computeListOp.Value,
+				Assignments:                &configurationListOp,
+				ResourceGroup:              resourceGroupName,
+			},
+		},
+	}
+	return &resource, nil
 }
 
 func ComputeSnapshots(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewSnapshotsClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewSnapshotsClient()
+	pager := client.NewListPager(nil)
+
 	var values []Resource
-	for {
-		for _, snapshot := range result.Values() {
-			resourceGroupName := strings.Split(*snapshot.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *snapshot.ID,
-				Name:     *snapshot.Name,
-				Location: *snapshot.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ComputeSnapshotsDescription{
-						ResourceGroup: resourceGroupName,
-						Snapshot:      snapshot,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := getComputeSnapshot(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
+}
+
+func getComputeSnapshot(ctx context.Context, snapshot *armcompute.Snapshot) *Resource {
+	resourceGroupName := strings.Split(*snapshot.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *snapshot.ID,
+		Name:     *snapshot.Name,
+		Location: *snapshot.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeSnapshotsDescription{
+				ResourceGroup: resourceGroupName,
+				Snapshot:      *snapshot,
+			},
+		},
+	}
+	return &resource
 }
 
 func ComputeAvailabilitySet(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewAvailabilitySetsClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListBySubscription(ctx, "")
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewAvailabilitySetsClient()
+
+	pager := client.NewListBySubscriptionPager(nil)
 	var values []Resource
-	for {
-		for _, availabilitySet := range result.Values() {
-			resourceGroupName := strings.Split(*availabilitySet.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *availabilitySet.ID,
-				Name:     *availabilitySet.Name,
-				Location: *availabilitySet.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ComputeAvailabilitySetDescription{
-						ResourceGroup:   resourceGroupName,
-						AvailabilitySet: availabilitySet,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := getComputeAvailabilitySet(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
+}
+
+func getComputeAvailabilitySet(ctx context.Context, availabilitySet *armcompute.AvailabilitySet) *Resource {
+	resourceGroupName := strings.Split(*availabilitySet.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *availabilitySet.ID,
+		Name:     *availabilitySet.Name,
+		Location: *availabilitySet.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeAvailabilitySetDescription{
+				ResourceGroup:   resourceGroupName,
+				AvailabilitySet: *availabilitySet,
+			},
+		},
+	}
+	return &resource
 }
 
 func ComputeDiskEncryptionSet(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewDiskEncryptionSetsClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDiskEncryptionSetsClient()
+
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, diskEncryptionSet := range result.Values() {
-			resourceGroupName := strings.Split(*diskEncryptionSet.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *diskEncryptionSet.ID,
-				Name:     *diskEncryptionSet.Name,
-				Location: *diskEncryptionSet.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ComputeDiskEncryptionSetDescription{
-						ResourceGroup:     resourceGroupName,
-						DiskEncryptionSet: diskEncryptionSet,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := getComputeDiskEncryptionSet(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
+}
+
+func getComputeDiskEncryptionSet(ctx context.Context, diskEncryptionSet *armcompute.DiskEncryptionSet) *Resource {
+	resourceGroupName := strings.Split(*diskEncryptionSet.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *diskEncryptionSet.ID,
+		Name:     *diskEncryptionSet.Name,
+		Location: *diskEncryptionSet.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeDiskEncryptionSetDescription{
+				ResourceGroup:     resourceGroupName,
+				DiskEncryptionSet: *diskEncryptionSet,
+			},
+		},
+	}
+	return &resource
 }
 
 func ComputeGallery(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewGalleriesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewGalleriesClient()
+
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, gallery := range result.Values() {
-			resourceGroupName := strings.Split(*gallery.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *gallery.ID,
-				Name:     *gallery.Name,
-				Location: *gallery.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ComputeImageGalleryDescription{
-						ResourceGroup: resourceGroupName,
-						ImageGallery:  gallery,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := getComputeGallery(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
+}
+
+func getComputeGallery(ctx context.Context, gallery *armcompute.Gallery) *Resource {
+	resourceGroupName := strings.Split(*gallery.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *gallery.ID,
+		Name:     *gallery.Name,
+		Location: *gallery.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeImageGalleryDescription{
+				ResourceGroup: resourceGroupName,
+				ImageGallery:  *gallery,
+			},
+		},
+	}
+	return &resource
 }
 
 func ComputeImage(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewImagesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewImagesClient()
+
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ComputeImageDescription{
-						Image:         v,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := getComputeImage(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
+}
+
+func getComputeImage(ctx context.Context, v *armcompute.Image) *Resource {
+	resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeImageDescription{
+				Image:         *v,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
 }
 
 func ComputeHostGroup(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewDedicatedHostGroupsClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListBySubscription(ctx)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDedicatedHostGroupsClient()
+
+	pager := client.NewListBySubscriptionPager(nil)
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ComputeHostGroupDescription{
-						HostGroup:     v,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := getComputeHostGroup(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
+}
+
+func getComputeHostGroup(ctx context.Context, v *armcompute.DedicatedHostGroup) *Resource {
+	resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeHostGroupDescription{
+				HostGroup:     *v,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
 }
 
 func ComputeHost(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewDedicatedHostGroupsClient(subscription)
-	client.Authorizer = authorizer
-	result, err := client.ListBySubscription(ctx)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
-	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
-			hostClient := compute.NewDedicatedHostsClient(subscription)
-			hostClient.Authorizer = authorizer
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDedicatedHostGroupsClient()
+	hostClient := clientFactory.NewDedicatedHostsClient()
 
-			hostResult, err := hostClient.ListByHostGroup(ctx, resourceGroup, *v.Name)
+	pager := client.NewListBySubscriptionPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resources, err := getComputeHostsByGroup(ctx, hostClient, v)
 			if err != nil {
 				return nil, err
 			}
-			for _, host := range hostResult.Values() {
-				resource := Resource{
-					ID:       *v.ID,
-					Name:     *v.Name,
-					Location: *v.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.ComputeHostGroupHostDescription{
-							Host:          host,
-							ResourceGroup: resourceGroup,
-						},
-					},
-				}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -727,152 +771,169 @@ func ComputeHost(ctx context.Context, authorizer autorest.Authorizer, subscripti
 					values = append(values, resource)
 				}
 			}
-			if !hostResult.NotDone() {
-				break
-			}
-			err = hostResult.NextWithContext(ctx)
-			if err != nil {
-				return nil, err
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
-
 	return values, nil
 }
 
-func ComputeRestorePointCollection(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute2.NewRestorePointCollectionsClient(subscription)
-	client.Authorizer = authorizer
-	result, err := client.ListAll(ctx)
-	if err != nil {
-		return nil, err
-	}
+func getComputeHostsByGroup(ctx context.Context, hostClient *armcompute.DedicatedHostsClient, v *armcompute.DedicatedHostGroup) ([]Resource, error) {
+	resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
 
-	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
+	pager := hostClient.NewListByHostGroupPager(resourceGroup, *v.Name, nil)
+	var resources []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, host := range page.Value {
 			resource := Resource{
 				ID:       *v.ID,
 				Name:     *v.Name,
 				Location: *v.Location,
 				Description: JSONAllFieldsMarshaller{
-					model.ComputeRestorePointCollectionDescription{
-						RestorePointCollection: v,
-						ResourceGroup:          resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func ComputeSSHPublicKey(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewSSHPublicKeysClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListBySubscription(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ComputeSSHPublicKeyDescription{
-						SSHPublicKey:  v,
+					model.ComputeHostGroupHostDescription{
+						Host:          *host,
 						ResourceGroup: resourceGroup,
 					},
 				},
 			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
+			resources = append(resources, resource)
 		}
+	}
+	return resources, nil
+}
 
-		if !result.NotDone() {
-			break
-		}
+func ComputeRestorePointCollection(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
 
-		err = result.NextWithContext(ctx)
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewRestorePointCollectionsClient()
+
+	pager := client.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := getComputeResourcePointCollection(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
 }
 
+func getComputeResourcePointCollection(ctx context.Context, v *armcompute.RestorePointCollection) *Resource {
+	resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeRestorePointCollectionDescription{
+				RestorePointCollection: *v,
+				ResourceGroup:          resourceGroup,
+			},
+		},
+	}
+	return &resource
+}
+
+func ComputeSSHPublicKey(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewSSHPublicKeysClient()
+
+	pager := client.NewListBySubscriptionPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := getComputeSSHPublicKey(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getComputeSSHPublicKey(ctx context.Context, v *armcompute.SSHPublicKeyResource) *Resource {
+	resourceGroup := strings.ToLower(strings.Split(*v.ID, "/")[4])
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeSSHPublicKeyDescription{
+				SSHPublicKey:  *v,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
+}
+
 func ComputeDiskReadOps(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewDisksClient(subscription)
-	client.Authorizer = authorizer
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
 
-	clientInsight := insights.NewMetricsClient(subscription)
-	clientInsight.Authorizer = authorizer
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDisksClient()
 
-	result, err := client.List(ctx)
+	pager := client.NewListPager(nil)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
-	for {
-		for _, disk := range result.Values() {
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, disk := range page.Value {
 			if disk.ID == nil {
 				continue
 			}
-			metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "FIVE_MINUTES", "Microsoft.Compute/disks", "Composite Disk Read Operations/sec", *disk.ID)
+			resources, err := getComputeDiskReadOps(ctx, authorizer, subscription, disk)
 			if err != nil {
 				return nil, err
 			}
-			for _, metric := range metrics {
-				resource := Resource{
-					ID:       fmt.Sprintf("%s_readops", *disk.ID),
-					Name:     fmt.Sprintf("%s readops", *disk.Name),
-					Location: *disk.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.ComputeDiskReadOpsDescription{
-							MonitoringMetric: metric,
-						},
-					},
-				}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -882,51 +943,64 @@ func ComputeDiskReadOps(ctx context.Context, authorizer autorest.Authorizer, sub
 				}
 			}
 		}
-		if !result.NotDone() {
-			break
-		}
+	}
+	return values, nil
+}
 
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
+func getComputeDiskReadOps(ctx context.Context, authorizer autorest.Authorizer, subscription string, disk *armcompute.Disk) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "FIVE_MINUTES", "Microsoft.Compute/disks", "Composite Disk Read Operations/sec", *disk.ID)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, metric := range metrics {
+		resource := Resource{
+			ID:       fmt.Sprintf("%s_readops", *disk.ID),
+			Name:     fmt.Sprintf("%s readops", *disk.Name),
+			Location: *disk.Location,
+			Description: JSONAllFieldsMarshaller{
+				model.ComputeDiskReadOpsDescription{
+					MonitoringMetric: metric,
+				},
+			},
 		}
+		values = append(values, resource)
 	}
 	return values, nil
 }
 
 func ComputeDiskReadOpsDaily(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewDisksClient(subscription)
-	client.Authorizer = authorizer
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
 
-	clientInsight := insights.NewMetricsClient(subscription)
-	clientInsight.Authorizer = authorizer
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDisksClient()
 
-	result, err := client.List(ctx)
+	pager := client.NewListPager(nil)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
-	for {
-		for _, disk := range result.Values() {
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, disk := range page.Value {
 			if disk.ID == nil {
 				continue
 			}
-			metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "DAILY", "Microsoft.Compute/disks", "Composite Disk Read Operations/sec", *disk.ID)
+			resources, err := getComputeDiskReadOpsDaily(ctx, authorizer, subscription, disk)
 			if err != nil {
 				return nil, err
 			}
-			for _, metric := range metrics {
-				resource := Resource{
-					ID:       fmt.Sprintf("%s_readops_daily", *disk.ID),
-					Name:     fmt.Sprintf("%s readops-daily", *disk.Name),
-					Location: *disk.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.ComputeDiskReadOpsDailyDescription{
-							MonitoringMetric: metric,
-						},
-					},
-				}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -935,49 +1009,64 @@ func ComputeDiskReadOpsDaily(ctx context.Context, authorizer autorest.Authorizer
 					values = append(values, resource)
 				}
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
+func getComputeDiskReadOpsDaily(ctx context.Context, authorizer autorest.Authorizer, subscription string, disk *armcompute.Disk) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "DAILY", "Microsoft.Compute/disks", "Composite Disk Read Operations/sec", *disk.ID)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, metric := range metrics {
+		resource := Resource{
+			ID:       fmt.Sprintf("%s_readops_daily", *disk.ID),
+			Name:     fmt.Sprintf("%s readops-daily", *disk.Name),
+			Location: *disk.Location,
+			Description: JSONAllFieldsMarshaller{
+				model.ComputeDiskReadOpsDailyDescription{
+					MonitoringMetric: metric,
+				},
+			},
+		}
+		values = append(values, resource)
+	}
+	return values, nil
+}
 func ComputeDiskReadOpsHourly(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewDisksClient(subscription)
-	client.Authorizer = authorizer
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
 
-	result, err := client.List(ctx)
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDisksClient()
+
+	pager := client.NewListPager(nil)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
-	for {
-		for _, disk := range result.Values() {
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, disk := range page.Value {
 			if disk.ID == nil {
 				continue
 			}
-			metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "HOURLY", "Microsoft.Compute/disks", "Composite Disk Read Operations/sec", *disk.ID)
+			resources, err := getComputeDiskReadOpsHourly(ctx, authorizer, subscription, disk)
 			if err != nil {
 				return nil, err
 			}
-			for _, metric := range metrics {
-				resource := Resource{
-					ID:       fmt.Sprintf("%s_readops_hourly", *disk.ID),
-					Name:     fmt.Sprintf("%s readops-hourly", *disk.Name),
-					Location: *disk.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.ComputeDiskReadOpsHourlyDescription{
-							MonitoringMetric: metric,
-						},
-					},
-				}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -987,51 +1076,64 @@ func ComputeDiskReadOpsHourly(ctx context.Context, authorizer autorest.Authorize
 				}
 			}
 		}
-		if !result.NotDone() {
-			break
-		}
+	}
+	return values, nil
+}
 
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
+func getComputeDiskReadOpsHourly(ctx context.Context, authorizer autorest.Authorizer, subscription string, disk *armcompute.Disk) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "HOURLY", "Microsoft.Compute/disks", "Composite Disk Read Operations/sec", *disk.ID)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, metric := range metrics {
+		resource := Resource{
+			ID:       fmt.Sprintf("%s_readops_hourly", *disk.ID),
+			Name:     fmt.Sprintf("%s readops-hourly", *disk.Name),
+			Location: *disk.Location,
+			Description: JSONAllFieldsMarshaller{
+				model.ComputeDiskReadOpsHourlyDescription{
+					MonitoringMetric: metric,
+				},
+			},
 		}
+		values = append(values, resource)
 	}
 	return values, nil
 }
 
 func ComputeDiskWriteOps(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewDisksClient(subscription)
-	client.Authorizer = authorizer
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
 
-	clientInsight := insights.NewMetricsClient(subscription)
-	clientInsight.Authorizer = authorizer
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDisksClient()
 
-	result, err := client.List(ctx)
+	pager := client.NewListPager(nil)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
-	for {
-		for _, disk := range result.Values() {
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, disk := range page.Value {
 			if disk.ID == nil {
 				continue
 			}
-			metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "FIVE_MINUTES", "Microsoft.Compute/disks", "Composite Disk Write Operations/sec", *disk.ID)
+			resources, err := getComputeDiskWriteOps(ctx, authorizer, subscription, disk)
 			if err != nil {
 				return nil, err
 			}
-			for _, metric := range metrics {
-				resource := Resource{
-					ID:       fmt.Sprintf("%s_writeops", *disk.ID),
-					Name:     fmt.Sprintf("%s writeops", *disk.Name),
-					Location: *disk.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.ComputeDiskWriteOpsDescription{
-							MonitoringMetric: metric,
-						},
-					},
-				}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -1041,51 +1143,64 @@ func ComputeDiskWriteOps(ctx context.Context, authorizer autorest.Authorizer, su
 				}
 			}
 		}
-		if !result.NotDone() {
-			break
-		}
+	}
+	return values, nil
+}
 
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
+func getComputeDiskWriteOps(ctx context.Context, authorizer autorest.Authorizer, subscription string, disk *armcompute.Disk) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "FIVE_MINUTES", "Microsoft.Compute/disks", "Composite Disk Write Operations/sec", *disk.ID)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, metric := range metrics {
+		resource := Resource{
+			ID:       fmt.Sprintf("%s_writeops", *disk.ID),
+			Name:     fmt.Sprintf("%s writeops", *disk.Name),
+			Location: *disk.Location,
+			Description: JSONAllFieldsMarshaller{
+				model.ComputeDiskReadOpsDescription{
+					MonitoringMetric: metric,
+				},
+			},
 		}
+		values = append(values, resource)
 	}
 	return values, nil
 }
 
 func ComputeDiskWriteOpsDaily(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewDisksClient(subscription)
-	client.Authorizer = authorizer
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
 
-	clientInsight := insights.NewMetricsClient(subscription)
-	clientInsight.Authorizer = authorizer
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDisksClient()
 
-	result, err := client.List(ctx)
+	pager := client.NewListPager(nil)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
-	for {
-		for _, disk := range result.Values() {
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, disk := range page.Value {
 			if disk.ID == nil {
 				continue
 			}
-			metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "DAILY", "Microsoft.Compute/disks", "Composite Disk Write Operations/sec", *disk.ID)
+			resources, err := getComputeDiskWriteOpsDaily(ctx, authorizer, subscription, disk)
 			if err != nil {
 				return nil, err
 			}
-			for _, metric := range metrics {
-				resource := Resource{
-					ID:       fmt.Sprintf("%s_writeops_daily", *disk.ID),
-					Name:     fmt.Sprintf("%s writeops-daily", *disk.Name),
-					Location: *disk.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.ComputeDiskWriteOpsDailyDescription{
-							MonitoringMetric: metric,
-						},
-					},
-				}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -1094,49 +1209,64 @@ func ComputeDiskWriteOpsDaily(ctx context.Context, authorizer autorest.Authorize
 					values = append(values, resource)
 				}
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
+func getComputeDiskWriteOpsDaily(ctx context.Context, authorizer autorest.Authorizer, subscription string, disk *armcompute.Disk) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "DAILY", "Microsoft.Compute/disks", "Composite Disk Write Operations/sec", *disk.ID)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, metric := range metrics {
+		resource := Resource{
+			ID:       fmt.Sprintf("%s_writeops_daily", *disk.ID),
+			Name:     fmt.Sprintf("%s writeops-daily", *disk.Name),
+			Location: *disk.Location,
+			Description: JSONAllFieldsMarshaller{
+				model.ComputeDiskReadOpsDailyDescription{
+					MonitoringMetric: metric,
+				},
+			},
+		}
+		values = append(values, resource)
+	}
+	return values, nil
+}
 func ComputeDiskWriteOpsHourly(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewDisksClient(subscription)
-	client.Authorizer = authorizer
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
 
-	result, err := client.List(ctx)
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDisksClient()
+
+	pager := client.NewListPager(nil)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
-	for {
-		for _, disk := range result.Values() {
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, disk := range page.Value {
 			if disk.ID == nil {
 				continue
 			}
-			metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "HOURLY", "Microsoft.Compute/disks", "Composite Disk Write Operations/sec", *disk.ID)
+			resources, err := getComputeDiskWriteOpsHourly(ctx, authorizer, subscription, disk)
 			if err != nil {
 				return nil, err
 			}
-			for _, metric := range metrics {
-				resource := Resource{
-					ID:       fmt.Sprintf("%s_writeops_hourly", *disk.ID),
-					Name:     fmt.Sprintf("%s writeops-hourly", *disk.Name),
-					Location: *disk.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.ComputeDiskWriteOpsHourlyDescription{
-							MonitoringMetric: metric,
-						},
-					},
-				}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -1146,97 +1276,117 @@ func ComputeDiskWriteOpsHourly(ctx context.Context, authorizer autorest.Authoriz
 				}
 			}
 		}
-		if !result.NotDone() {
-			break
-		}
+	}
+	return values, nil
+}
 
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
+func getComputeDiskWriteOpsHourly(ctx context.Context, authorizer autorest.Authorizer, subscription string, disk *armcompute.Disk) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "HOURLY", "Microsoft.Compute/disks", "Composite Disk Write Operations/sec", *disk.ID)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, metric := range metrics {
+		resource := Resource{
+			ID:       fmt.Sprintf("%s_writeops_hourly", *disk.ID),
+			Name:     fmt.Sprintf("%s writeops-hourly", *disk.Name),
+			Location: *disk.Location,
+			Description: JSONAllFieldsMarshaller{
+				model.ComputeDiskReadOpsHourlyDescription{
+					MonitoringMetric: metric,
+				},
+			},
 		}
+		values = append(values, resource)
 	}
 	return values, nil
 }
 
 func ComputeResourceSKU(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := skus.NewResourceSkusClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewResourceSKUsClient()
+	pager := client.NewListPager(nil)
+
 	var values []Resource
-	for {
-		for _, resourceSku := range result.Values() {
-			resource := Resource{
-				Description: JSONAllFieldsMarshaller{
-					model.ComputeResourceSKUDescription{
-						ResourceSKU: resourceSku,
-					},
-				},
-			}
-			if resourceSku.Locations != nil && len(*resourceSku.Locations) > 0 {
-				resource.Location = (*resourceSku.Locations)[0]
-				if resourceSku.Name != nil {
-					resource.ID = "azure:///subscriptions/" + subscription + "/locations/" + (*resourceSku.Locations)[0] + "/resourcetypes" + *resourceSku.ResourceType + "name/" + *resourceSku.Name
-				}
-			}
-			if resourceSku.Name != nil {
-				resource.Name = *resourceSku.Name
-			}
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := getComputeResourceSKU(ctx, subscription, v)
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func ComputeVirtualMachineCpuUtilization(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewVirtualMachinesClient(subscription)
-	client.Authorizer = authorizer
+func getComputeResourceSKU(ctx context.Context, subscription string, resourceSku *armcompute.ResourceSKU) *Resource {
+	resource := Resource{
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeResourceSKUDescription{
+				ResourceSKU: *resourceSku,
+			},
+		},
+	}
+	if resourceSku.Locations != nil && len(resourceSku.Locations) > 0 {
+		resource.Location = *(resourceSku.Locations)[0]
+		if resourceSku.Name != nil {
+			resource.ID = "azure:///subscriptions/" + subscription + "/locations/" + *(resourceSku.Locations)[0] + "/resourcetypes" + *resourceSku.ResourceType + "name/" + *resourceSku.Name
+		}
+	}
+	if resourceSku.Name != nil {
+		resource.Name = *resourceSku.Name
+	}
+	return &resource
+}
 
-	result, err := client.ListAll(ctx, "")
+func ComputeVirtualMachineCpuUtilization(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewVirtualMachinesClient()
+
+	pager := client.NewListAllPager(nil)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
-	for {
-		for _, virtualMachine := range result.Values() {
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, virtualMachine := range page.Value {
 			if virtualMachine.ID == nil {
 				continue
 			}
-
-			metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "FIVE_MINUTES", "Microsoft.Compute/virtualMachines", "Percentage CPU", *virtualMachine.ID)
+			resources, err := getComputeVirtualMachineCpuUtilization(ctx, authorizer, subscription, virtualMachine)
 			if err != nil {
 				return nil, err
 			}
-
-			for _, metric := range metrics {
-				resource := Resource{
-					ID:       fmt.Sprintf("%s_cpu_utilization", *virtualMachine.ID),
-					Name:     fmt.Sprintf("%s cpu-utilization", *virtualMachine.Name),
-					Location: *virtualMachine.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.ComputeVirtualMachineCpuUtilizationDescription{
-							MonitoringMetric: metric,
-						},
-					},
-				}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -1246,49 +1396,64 @@ func ComputeVirtualMachineCpuUtilization(ctx context.Context, authorizer autores
 				}
 			}
 		}
-		if !result.NotDone() {
-			break
+	}
+	return values, nil
+}
+
+func getComputeVirtualMachineCpuUtilization(ctx context.Context, authorizer autorest.Authorizer, subscription string, virtualMachine *armcompute.VirtualMachine) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "FIVE_MINUTES", "Microsoft.Compute/virtualMachines", "Percentage CPU", *virtualMachine.ID)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, metric := range metrics {
+		resource := Resource{
+			ID:       fmt.Sprintf("%s_cpu_utilization", *virtualMachine.ID),
+			Name:     fmt.Sprintf("%s cpu-utilization", *virtualMachine.Name),
+			Location: *virtualMachine.Location,
+			Description: JSONAllFieldsMarshaller{
+				model.ComputeVirtualMachineCpuUtilizationDescription{
+					MonitoringMetric: metric,
+				},
+			},
 		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
+		values = append(values, resource)
 	}
 	return values, nil
 }
 
 func ComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewVirtualMachinesClient(subscription)
-	client.Authorizer = authorizer
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
 
-	result, err := client.ListAll(ctx, "")
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewVirtualMachinesClient()
+
+	pager := client.NewListAllPager(nil)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
-	for {
-		for _, virtualMachine := range result.Values() {
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, virtualMachine := range page.Value {
 			if virtualMachine.ID == nil {
 				continue
 			}
-
-			metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "DAILY", "Microsoft.Compute/virtualMachines", "Percentage CPU", *virtualMachine.ID)
+			resources, err := getComputeVirtualMachineCpuUtilizationDaily(ctx, authorizer, subscription, virtualMachine)
 			if err != nil {
 				return nil, err
 			}
-
-			for _, metric := range metrics {
-				resource := Resource{
-					ID:       fmt.Sprintf("%s_cpu_utilization_daily", *virtualMachine.ID),
-					Name:     fmt.Sprintf("%s cpu-utilization-daily", *virtualMachine.Name),
-					Location: *virtualMachine.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.ComputeVirtualMachineCpuUtilizationDailyDescription{
-							MonitoringMetric: metric,
-						},
-					},
-				}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -1298,49 +1463,64 @@ func ComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, authorizer au
 				}
 			}
 		}
-		if !result.NotDone() {
-			break
+	}
+	return values, nil
+}
+
+func getComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, authorizer autorest.Authorizer, subscription string, virtualMachine *armcompute.VirtualMachine) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "DAILY", "Microsoft.Compute/virtualMachines", "Percentage CPU", *virtualMachine.ID)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, metric := range metrics {
+		resource := Resource{
+			ID:       fmt.Sprintf("%s_cpu_utilization_daily", *virtualMachine.ID),
+			Name:     fmt.Sprintf("%s cpu-utilization-daily", *virtualMachine.Name),
+			Location: *virtualMachine.Location,
+			Description: JSONAllFieldsMarshaller{
+				model.ComputeVirtualMachineCpuUtilizationDescription{
+					MonitoringMetric: metric,
+				},
+			},
 		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
+		values = append(values, resource)
 	}
 	return values, nil
 }
 
 func ComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute.NewVirtualMachinesClient(subscription)
-	client.Authorizer = authorizer
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
 
-	result, err := client.ListAll(ctx, "")
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewVirtualMachinesClient()
+
+	pager := client.NewListAllPager(nil)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
-	for {
-		for _, virtualMachine := range result.Values() {
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, virtualMachine := range page.Value {
 			if virtualMachine.ID == nil {
 				continue
 			}
-
-			metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "HOURLY", "Microsoft.Compute/virtualMachines", "Percentage CPU", *virtualMachine.ID)
+			resources, err := getComputeVirtualMachineCpuUtilizationHourly(ctx, authorizer, subscription, virtualMachine)
 			if err != nil {
 				return nil, err
 			}
-
-			for _, metric := range metrics {
-				resource := Resource{
-					ID:       fmt.Sprintf("%s_cpu_utilization_hourly", *virtualMachine.ID),
-					Name:     fmt.Sprintf("%s cpu-utilization-hourly", *virtualMachine.Name),
-					Location: *virtualMachine.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.ComputeVirtualMachineCpuUtilizationHourlyDescription{
-							MonitoringMetric: metric,
-						},
-					},
-				}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -1350,54 +1530,75 @@ func ComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, authorizer a
 				}
 			}
 		}
-		if !result.NotDone() {
-			break
+	}
+	return values, nil
+}
+
+func getComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, authorizer autorest.Authorizer, subscription string, virtualMachine *armcompute.VirtualMachine) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "HOURLY", "Microsoft.Compute/virtualMachines", "Percentage CPU", *virtualMachine.ID)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, metric := range metrics {
+		resource := Resource{
+			ID:       fmt.Sprintf("%s_cpu_utilization_hourly", *virtualMachine.ID),
+			Name:     fmt.Sprintf("%s cpu-utilization-hourly", *virtualMachine.Name),
+			Location: *virtualMachine.Location,
+			Description: JSONAllFieldsMarshaller{
+				model.ComputeVirtualMachineCpuUtilizationDescription{
+					MonitoringMetric: metric,
+				},
+			},
 		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
+		values = append(values, resource)
 	}
 	return values, nil
 }
 
 func ComputeCloudServices(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := compute2.NewCloudServicesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListAll(ctx)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
+	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewCloudServicesClient()
+
+	pager := client.NewListAllPager(nil)
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ComputeCloudServiceDescription{
-						CloudService: v,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := getComputeCloudServices(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
 	return values, nil
+}
+
+func getComputeCloudServices(ctx context.Context, v *armcompute.CloudService) *Resource {
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ComputeCloudServiceDescription{
+				CloudService: *v,
+			},
+		},
+	}
+	return &resource
 }
