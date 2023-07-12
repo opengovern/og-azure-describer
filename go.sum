@@ -109,6 +109,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2 
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2 v2.1.1/go.mod h1:ZHJdpjiGjZBBILAyAUTP93YSLF/Foo1J72HSx30gMeQ=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventhub/armeventhub v1.1.1 h1:gZ1ZZvrVUhDNsGNpbo2N87Y0CJB8p3IS5UH9Z4Ui97g=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventhub/armeventhub v1.1.1/go.mod h1:7fQVOnRA11ScLE8dOCWanXHQa2NMFOM2i0u/1VRICXA=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/frontdoor/armfrontdoor v1.2.0 h1:HhKwPtmyjCFsSnWJi/C0p7iGqu7E9aXcjCCoNCeWFB4=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/frontdoor/armfrontdoor v1.2.0/go.mod h1:xdGj2hF05022FUkPH3B88lkumFNoY3AwJu9b/Q1NLqQ=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration v1.1.1 h1:Sy3eaXV2YZ8CfkPBK8Uv94PTO1Ric4EBYz82sUezPnE=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration v1.1.1/go.mod h1:RypAXtK+vqQu0X8qu6Ldk4wwY/HUPUOk8lfGUHCOk4U=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub v1.1.1 h1:Dh8SxVXcSyQN76LI4IseKyrnqyTUsx336Axg8zDYSMs=

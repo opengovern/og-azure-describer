@@ -2,63 +2,81 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/frontdoor/armfrontdoor"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-05-01/frontdoor"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
 func FrontDoor(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	insightsClient := insights.NewDiagnosticSettingsClient(subscription)
-	insightsClient.Authorizer = authorizer
-
-	client := frontdoor.NewFrontDoorsClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
 
+	clientFactory, err := armfrontdoor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewFrontDoorsClient()
+
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, door := range result.Values() {
-			resourceGroup := strings.Split(*door.ID, "/")[4]
-
-			frontDoorListOp, err := insightsClient.List(ctx, *door.ID)
-			if err != nil {
-				return nil, err
-			}
-
-			resource := Resource{
-				ID:       *door.ID,
-				Name:     *door.Name,
-				Location: *door.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.FrontdoorDescription{
-						FrontDoor:                   door,
-						DiagnosticSettingsResources: frontDoorListOp.Value,
-						ResourceGroup:               resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, door := range page.Value {
+			resource, err := getFrontDoor(ctx, diagnosticClient, door)
+			if err != nil {
+				return nil, err
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
 	return values, nil
+}
+
+func getFrontDoor(ctx context.Context, diagnosticClient *armmonitor.DiagnosticSettingsClient, door *armfrontdoor.FrontDoor) (*Resource, error) {
+	resourceGroup := strings.Split(*door.ID, "/")[4]
+
+	pager := diagnosticClient.NewListPager(*door.ID, nil)
+	var frontDoorListOp []*armmonitor.DiagnosticSettingsResource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		frontDoorListOp = append(frontDoorListOp, page.Value...)
+	}
+
+	resource := Resource{
+		ID:       *door.ID,
+		Name:     *door.Name,
+		Location: *door.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.FrontdoorDescription{
+				FrontDoor:                   *door,
+				DiagnosticSettingsResources: frontDoorListOp,
+				ResourceGroup:               resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
 }

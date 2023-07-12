@@ -43,6 +43,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventhub/armeventhub"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/frontdoor/armfrontdoor"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
@@ -1107,8 +1108,8 @@ type EventhubNamespaceEventhubDescription struct {
 //getfilter:name=description.FrontDoor.name
 //getfilter:resource_group=description.ResourceGroup
 type FrontdoorDescription struct {
-	FrontDoor                   frontdoor.FrontDoor
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	FrontDoor                   armfrontdoor.FrontDoor
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
