@@ -2,31 +2,35 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/resources"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func listResourceGroups(ctx context.Context, authorizer autorest.Authorizer, subscription string) ([]resources.Group, error) {
-	client := resources.NewGroupsClient(subscription)
-	client.Authorizer = authorizer
-
-	it, err := client.ListComplete(ctx, "", nil)
+func listResourceGroups(ctx context.Context, authorizer autorest.Authorizer, subscription string) ([]armresources.ResourceGroup, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
-
-	var values []resources.Group
-	for v := it.Value(); it.NotDone(); v = it.Value() {
-		values = append(values, v)
-
-		err := it.NextWithContext(ctx)
+	clientFactory, err := armresources.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewResourceGroupsClient()
+	pager := client.NewListPager(nil)
+	var values []armresources.ResourceGroup
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			values = append(values, *v)
+		}
 	}
-
 	return values, nil
 }
 

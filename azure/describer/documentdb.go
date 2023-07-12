@@ -2,9 +2,11 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/cosmos-db/mgmt/2021-11-15-preview/documentdb"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
@@ -15,8 +17,15 @@ func DocumentDBSQLDatabase(ctx context.Context, authorizer autorest.Authorizer, 
 		return nil, err
 	}
 
-	client := documentdb.NewSQLResourcesClient(subscription)
-	client.Authorizer = authorizer
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+	clientFactory, err := armcosmos.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewSQLResourcesClient()
 
 	var values []Resource
 	for _, rg := range rgs {
@@ -26,43 +35,53 @@ func DocumentDBSQLDatabase(ctx context.Context, authorizer autorest.Authorizer, 
 		}
 
 		for _, account := range accounts {
-			it, err := client.ListSQLDatabases(ctx, *rg.Name, *account.Name)
-			if err != nil {
-				return nil, err
-			} else if it.Value == nil {
-				continue
+
+			pager := client.NewListSQLDatabasesPager(*rg.Name, *account.Name, nil)
+			var it []*armcosmos.SQLDatabaseGetResults
+			for pager.More() {
+				page, err := pager.NextPage(ctx)
+				if err != nil {
+					return nil, err
+				}
+				for _, v := range page.Value {
+					it = append(it, v)
+				}
 			}
-
-			for _, v := range *it.Value {
-				location := "global"
-				if v.Location != nil {
-					location = *v.Location
-				}
-
-				resource := Resource{
-					ID:       *v.ID,
-					Name:     *v.Name,
-					Location: location,
-					Description: JSONAllFieldsMarshaller{
-						model.CosmosdbSqlDatabaseDescription{
-							Account:       account,
-							SqlDatabase:   v,
-							ResourceGroup: *rg.Name,
-						},
-					},
-				}
+			for _, v := range it {
+				resource := getDocumentDBSQLDatabase(ctx, v, account, rg)
 				if stream != nil {
-					if err := (*stream)(resource); err != nil {
+					if err := (*stream)(*resource); err != nil {
 						return nil, err
 					}
 				} else {
-					values = append(values, resource)
+					values = append(values, *resource)
 				}
 			}
 		}
 	}
 
 	return values, nil
+}
+
+func getDocumentDBSQLDatabase(ctx context.Context, v *armcosmos.SQLDatabaseGetResults, account *armcosmos.DatabaseAccountGetResults, rg armresources.ResourceGroup) *Resource {
+	location := "global"
+	if v.Location != nil {
+		location = *v.Location
+	}
+
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: location,
+		Description: JSONAllFieldsMarshaller{
+			model.CosmosdbSqlDatabaseDescription{
+				Account:       *account,
+				SqlDatabase:   *v,
+				ResourceGroup: *rg.Name,
+			},
+		},
+	}
+	return &resource
 }
 
 func DocumentDBMongoDatabase(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
@@ -71,8 +90,15 @@ func DocumentDBMongoDatabase(ctx context.Context, authorizer autorest.Authorizer
 		return nil, err
 	}
 
-	client := documentdb.NewMongoDBResourcesClient(subscription)
-	client.Authorizer = authorizer
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+	clientFactory, err := armcosmos.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewMongoDBResourcesClient()
 
 	var values []Resource
 	for _, rg := range rgs {
@@ -82,136 +108,177 @@ func DocumentDBMongoDatabase(ctx context.Context, authorizer autorest.Authorizer
 		}
 
 		for _, account := range accounts {
-			it, err := client.ListMongoDBDatabases(ctx, *rg.Name, *account.Name)
-			if err != nil {
-				return nil, err
-			} else if it.Value == nil {
-				continue
+			pager := client.NewListMongoDBDatabasesPager(*rg.Name, *account.Name, nil)
+			var it []*armcosmos.MongoDBDatabaseGetResults
+			for pager.More() {
+				page, err := pager.NextPage(ctx)
+				if err != nil {
+					return nil, err
+				}
+				for _, v := range page.Value {
+					it = append(it, v)
+				}
 			}
-
-			for _, v := range *it.Value {
-				location := ""
-				if v.Location != nil {
-					location = *v.Location
-				}
-
-				resource := Resource{
-					ID:       *v.ID,
-					Name:     *v.Name,
-					Location: location,
-					Description: JSONAllFieldsMarshaller{
-						model.CosmosdbMongoDatabaseDescription{
-							Account:       account,
-							MongoDatabase: v,
-							ResourceGroup: *rg.Name,
-						},
-					},
-				}
+			for _, v := range it {
+				resource := getDocumentDBMongoDatabase(ctx, v, account, rg)
 				if stream != nil {
-					if err := (*stream)(resource); err != nil {
+					if err := (*stream)(*resource); err != nil {
 						return nil, err
 					}
 				} else {
-					values = append(values, resource)
+					values = append(values, *resource)
 				}
 			}
 		}
 	}
-
 	return values, nil
+}
+
+func getDocumentDBMongoDatabase(ctx context.Context, v *armcosmos.MongoDBDatabaseGetResults, account *armcosmos.DatabaseAccountGetResults, rg armresources.ResourceGroup) *Resource {
+	location := ""
+	if v.Location != nil {
+		location = *v.Location
+	}
+
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: location,
+		Description: JSONAllFieldsMarshaller{
+			model.CosmosdbMongoDatabaseDescription{
+				Account:       *account,
+				MongoDatabase: *v,
+				ResourceGroup: *rg.Name,
+			},
+		},
+	}
+	return &resource
 }
 
 func DocumentDBCassandraCluster(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := documentdb.NewCassandraClustersClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListBySubscription(ctx)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
-
-	if result.Value == nil {
-		return nil, nil
+	clientFactory, err := armcosmos.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
 	}
+	client := clientFactory.NewCassandraClustersClient()
 
 	var values []Resource
-	for _, v := range *result.Value {
-		resourceGroup := strings.Split(*v.ID, "/")[4]
-		location := "global"
-		if v.Location != nil {
-			location = *v.Location
+	pager := client.NewListBySubscriptionPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
 		}
-		resource := Resource{
-			ID:       *v.ID,
-			Name:     *v.Name,
-			Location: location,
-			Description: JSONAllFieldsMarshaller{
-				model.CosmosdbCassandraClusterDescription{
-					CassandraCluster: v,
-					ResourceGroup:    resourceGroup,
-				},
-			},
-		}
-		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+		for _, v := range page.Value {
+			resource := getDocumentDBCassandraCluster(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
 			}
-		} else {
-			values = append(values, resource)
 		}
 	}
-
 	return values, nil
 }
 
-func documentDBDatabaseAccounts(ctx context.Context, authorizer autorest.Authorizer, subscription string, resourceGroup string) ([]documentdb.DatabaseAccountGetResults, error) {
-	client := documentdb.NewDatabaseAccountsClient(subscription)
-	client.Authorizer = authorizer
+func getDocumentDBCassandraCluster(ctx context.Context, v *armcosmos.ClusterResource) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+	location := "global"
+	if v.Location != nil {
+		location = *v.Location
+	}
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: location,
+		Description: JSONAllFieldsMarshaller{
+			model.CosmosdbCassandraClusterDescription{
+				CassandraCluster: *v,
+				ResourceGroup:    resourceGroup,
+			},
+		},
+	}
+	return &resource
+}
 
-	accounts, err := client.ListByResourceGroup(ctx, resourceGroup)
+func documentDBDatabaseAccounts(ctx context.Context, authorizer autorest.Authorizer, subscription string, resourceGroup string) ([]*armcosmos.DatabaseAccountGetResults, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
-	} else if accounts.Value == nil {
-		return nil, nil
 	}
+	clientFactory, err := armcosmos.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDatabaseAccountsClient()
 
-	var values []documentdb.DatabaseAccountGetResults
-	values = append(values, *accounts.Value...)
+	var values []*armcosmos.DatabaseAccountGetResults
+	pager := client.NewListByResourceGroupPager(resourceGroup, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		values = append(values, page.Value...)
+	}
 
 	return values, nil
 }
 
 func CosmosdbAccount(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	documentDBClient := documentdb.NewDatabaseAccountsClient(subscription)
-	documentDBClient.Authorizer = authorizer
-	result, err := documentDBClient.List(ctx)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
+	clientFactory, err := armcosmos.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDatabaseAccountsClient()
 
+	pager := client.NewListPager(nil)
 	var values []Resource
-
-	for _, account := range *result.Value {
-		resourceGroup := strings.Split(*account.ID, "/")[4]
-
-		resource := Resource{
-			ID:       *account.ID,
-			Name:     *account.Name,
-			Location: *account.Location,
-			Description: JSONAllFieldsMarshaller{
-				model.CosmosdbAccountDescription{
-					DatabaseAccountGetResults: account,
-					ResourceGroup:             resourceGroup,
-				},
-			},
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
 		}
-		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+		for _, v := range page.Value {
+			resource := getCosmosdbAccount(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
 			}
-		} else {
-			values = append(values, resource)
 		}
 	}
 	return values, nil
+}
+
+func getCosmosdbAccount(ctx context.Context, v *armcosmos.DatabaseAccountGetResults) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+	location := ""
+	if v.Location != nil {
+		location = *v.Location
+	}
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: location,
+		Description: JSONAllFieldsMarshaller{
+			model.CosmosdbAccountDescription{
+				DatabaseAccountGetResults: *v,
+				ResourceGroup:             resourceGroup,
+			},
+		},
+	}
+	return &resource
 }

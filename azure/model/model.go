@@ -3,12 +3,10 @@
 package model
 
 import (
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/devtestlabs/mgmt/dtl"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/healthcareapis/mgmt/healthcareapis"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/hybridcompute/mgmt/hybridcompute"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/netapp/mgmt/netapp"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/powerbidedicated/mgmt/powerbidedicated"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/provisioningservices/mgmt/iothub"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/purview/mgmt/purview"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/recoveryservices/mgmt/recoveryservices"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/links"
@@ -17,7 +15,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/policy"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/resources"
 	sub "github.com/Azure/azure-sdk-for-go/profiles/latest/subscription/mgmt/subscription"
-	"github.com/Azure/azure-sdk-for-go/profiles/preview/preview/desktopvirtualization/mgmt/desktopvirtualization"
 	web2 "github.com/Azure/azure-sdk-for-go/profiles/preview/preview/web/mgmt/web"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/analysisservices/armanalysisservices"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
@@ -32,24 +29,29 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerinstance/armcontainerinstance"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerregistry/armcontainerregistry"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/databoxedge/armdataboxedge"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/databricks/armdatabricks"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datafactory/armdatafactory/v2"
 	analytics "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-analytics/armdatalakeanalytics"
 	store "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-store/armdatalakestore"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datamigration/armdatamigration"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dataprotection/armdataprotection"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/desktopvirtualization/armdesktopvirtualization"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/deviceprovisioningservices/armdeviceprovisioningservices"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devtestlabs/armdevtestlabs"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"github.com/Azure/azure-sdk-for-go/services/cdn/mgmt/2021-06-01/cdn"
-	"github.com/Azure/azure-sdk-for-go/services/databoxedge/mgmt/2019-07-01/databoxedge"
-	"github.com/Azure/azure-sdk-for-go/services/databricks/mgmt/2018-04-01/databricks"
-	"github.com/Azure/azure-sdk-for-go/services/datafactory/mgmt/2018-06-01/datafactory"
-	"github.com/Azure/azure-sdk-for-go/services/dataprotection/mgmt/2021-07-01/dataprotection"
 	"github.com/Azure/azure-sdk-for-go/services/dns/mgmt/2018-05-01/dns"
 	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-05-01/frontdoor"
 	"github.com/Azure/azure-sdk-for-go/services/hdinsight/mgmt/2018-06-01/hdinsight"
 	"github.com/Azure/azure-sdk-for-go/services/hybridkubernetes/mgmt/2021-10-01/hybridkubernetes"
-	"github.com/Azure/azure-sdk-for-go/services/iothub/mgmt/2020-03-01/devices"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2019-09-01/keyvault"
 	secret "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.1/keyvault"
 	"github.com/Azure/azure-sdk-for-go/services/kusto/mgmt/2021-01-01/kusto"
@@ -61,8 +63,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/operationalinsights/mgmt/2021-06-01/operationalinsights"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2020-01-01/postgresql"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2021-06-01/postgresqlflexibleservers"
-	"github.com/Azure/azure-sdk-for-go/services/preview/cosmos-db/mgmt/2021-11-15-preview/documentdb"
-	"github.com/Azure/azure-sdk-for-go/services/preview/datamigration/mgmt/2021-10-30-preview/datamigration"
 	"github.com/Azure/azure-sdk-for-go/services/preview/eventgrid/mgmt/2021-06-01-preview/eventgrid"
 	"github.com/Azure/azure-sdk-for-go/services/preview/eventhub/mgmt/2018-01-01-preview/eventhub"
 	previewKeyvault "github.com/Azure/azure-sdk-for-go/services/preview/keyvault/mgmt/2020-04-01-preview/keyvault"
@@ -342,7 +342,7 @@ type ComputeSSHPublicKeyDescription struct {
 //getfilter:name=description.Device.name
 //getfilter:resource_group=description.ResourceGroup
 type DataboxEdgeDeviceDescription struct {
-	Device        databoxedge.Device
+	Device        armdataboxedge.Device
 	ResourceGroup string
 }
 
@@ -914,7 +914,7 @@ type ContainerRegistryDescription struct {
 //getfilter:name=description.DatabaseAccountGetResults.name
 //getfilter:resource_group=description.ResourceGroup
 type CosmosdbAccountDescription struct {
-	DatabaseAccountGetResults documentdb.DatabaseAccountGetResults
+	DatabaseAccountGetResults armcosmos.DatabaseAccountGetResults
 	ResourceGroup             string
 }
 
@@ -923,8 +923,8 @@ type CosmosdbAccountDescription struct {
 //getfilter:name=description.MongoDatabase.name
 //getfilter:resource_group=description.ResourceGroup
 type CosmosdbMongoDatabaseDescription struct {
-	Account       documentdb.DatabaseAccountGetResults
-	MongoDatabase documentdb.MongoDBDatabaseGetResults
+	Account       armcosmos.DatabaseAccountGetResults
+	MongoDatabase armcosmos.MongoDBDatabaseGetResults
 	ResourceGroup string
 }
 
@@ -933,13 +933,13 @@ type CosmosdbMongoDatabaseDescription struct {
 //getfilter:name=description.SqlDatabase.name
 //getfilter:resource_group=description.ResourceGroup
 type CosmosdbSqlDatabaseDescription struct {
-	Account       documentdb.DatabaseAccountGetResults
-	SqlDatabase   documentdb.SQLDatabaseGetResults
+	Account       armcosmos.DatabaseAccountGetResults
+	SqlDatabase   armcosmos.SQLDatabaseGetResults
 	ResourceGroup string
 }
 
 type CosmosdbCassandraClusterDescription struct {
-	CassandraCluster documentdb.ClusterResource
+	CassandraCluster armcosmos.ClusterResource
 	ResourceGroup    string
 }
 
@@ -947,7 +947,7 @@ type CosmosdbCassandraClusterDescription struct {
 
 //index:microsoft_databricks_workspace
 type DatabricksWorkspaceDescription struct {
-	Workspace     databricks.Workspace
+	Workspace     armdatabricks.Workspace
 	ResourceGroup string
 }
 
@@ -956,7 +956,7 @@ type DatabricksWorkspaceDescription struct {
 //index:microsoft_datamigration_service
 type DataMigrationServiceDescription struct {
 	ResourceGroup string
-	Service       datamigration.Service
+	Service       armdatamigration.Service
 }
 
 //  =================== dataprotection ==================
@@ -964,13 +964,13 @@ type DataMigrationServiceDescription struct {
 //index:microsoft_dataprotection_backupvaults
 type DataProtectionBackupVaultsDescription struct {
 	ResourceGroup string
-	BackupVaults  dataprotection.BackupVaultResource
+	BackupVaults  armdataprotection.BackupVaultResource
 }
 
 //index:microsoft_dataprotection_backupvaultsbackuppolicies
 type DataProtectionBackupVaultsBackupPoliciesDescription struct {
 	ResourceGroup  string
-	BackupPolicies dataprotection.BaseBackupPolicyResource
+	BackupPolicies armdataprotection.BaseBackupPolicyResource
 }
 
 //  =================== datafactory ==================
@@ -979,8 +979,8 @@ type DataProtectionBackupVaultsBackupPoliciesDescription struct {
 //getfilter:name=description.Factory.name
 //getfilter:resource_group=description.ResourceGroup
 type DataFactoryDescription struct {
-	Factory                    datafactory.Factory
-	PrivateEndPointConnections []datafactory.PrivateEndpointConnectionResource
+	Factory                    armdatafactory.Factory
+	PrivateEndPointConnections []armdatafactory.PrivateEndpointConnectionResource
 	ResourceGroup              string
 }
 
@@ -989,8 +989,8 @@ type DataFactoryDescription struct {
 //getfilter:name=description.Dataset.name
 //getfilter:resource_group=description.ResourceGroup
 type DataFactoryDatasetDescription struct {
-	Factory       datafactory.Factory
-	Dataset       datafactory.DatasetResource
+	Factory       armdatafactory.Factory
+	Dataset       armdatafactory.DatasetResource
 	ResourceGroup string
 }
 
@@ -999,8 +999,8 @@ type DataFactoryDatasetDescription struct {
 //getfilter:name=description.Pipeline.name
 //getfilter:resource_group=description.ResourceGroup
 type DataFactoryPipelineDescription struct {
-	Factory       datafactory.Factory
-	Pipeline      datafactory.PipelineResource
+	Factory       armdatafactory.Factory
+	Pipeline      armdatafactory.PipelineResource
 	ResourceGroup string
 }
 
@@ -1140,8 +1140,8 @@ type HybridComputeMachineDescription struct {
 //getfilter:name=description.IotHubDescription.name
 //getfilter:resource_group=description.ResourceGroup
 type IOTHubDescription struct {
-	IotHubDescription           devices.IotHubDescription
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	IotHubDescription           armiothub.Description
+	DiagnosticSettingsResources *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1149,8 +1149,8 @@ type IOTHubDescription struct {
 //getfilter:name=description.IotHubDps.name
 //getfilter:resource_group=description.ResourceGroup
 type IOTHubDpsDescription struct {
-	IotHubDps                   iothub.ProvisioningServiceDescription
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	IotHubDps                   armdeviceprovisioningservices.ProvisioningServiceDescription
+	DiagnosticSettingsResources *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1788,14 +1788,14 @@ type NetAppCapacityPoolDescription struct {
 // =================== DesktopVirtualization ==================
 
 type DesktopVirtualizationHostPoolDescription struct {
-	HostPool      desktopvirtualization.HostPool
+	HostPool      armdesktopvirtualization.HostPool
 	ResourceGroup string
 }
 
 // =================== DevTestLab ==================
 
 type DevTestLabLabDescription struct {
-	Lab           dtl.Lab
+	Lab           armdevtestlabs.Lab
 	ResourceGroup string
 }
 
