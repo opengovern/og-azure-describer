@@ -2,10 +2,11 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/eventgrid/mgmt/2021-06-01-preview/eventgrid"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
@@ -16,8 +17,15 @@ func EventGridDomainTopic(ctx context.Context, authorizer autorest.Authorizer, s
 		return nil, err
 	}
 
-	client := eventgrid.NewDomainTopicsClient(subscription)
-	client.Authorizer = authorizer
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+	clientFactory, err := armeventgrid.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDomainTopicsClient()
 
 	var values []Resource
 	for _, rg := range rgs {
@@ -27,162 +35,197 @@ func EventGridDomainTopic(ctx context.Context, authorizer autorest.Authorizer, s
 		}
 
 		for _, domain := range domains {
-			it, err := client.ListByDomainComplete(ctx, *rg.Name, *domain.Name, "", nil)
-			if err != nil {
-				return nil, err
-			}
-
-			for v := it.Value(); it.NotDone(); v = it.Value() {
-				resource := Resource{
-					ID:          *v.ID,
-					Name:        *v.Name,
-					Location:    "global",
-					Description: JSONAllFieldsMarshaller{Value: v},
-				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
-					}
-				} else {
-					values = append(values, resource)
-				}
-
-				err := it.NextWithContext(ctx)
+			it := client.NewListByDomainPager(*rg.Name, *domain.Name, nil)
+			for it.More() {
+				page, err := it.NextPage(ctx)
 				if err != nil {
 					return nil, err
 				}
+
+				for _, v := range page.Value {
+					resource := getEventGridDomainTopic(ctx, v)
+					if stream != nil {
+						if err := (*stream)(*resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, *resource)
+					}
+				}
 			}
 		}
 	}
-
 	return values, nil
 }
 
-func eventGridDomain(ctx context.Context, authorizer autorest.Authorizer, subscription string, resourceGroup string) ([]eventgrid.Domain, error) {
-	client := eventgrid.NewDomainsClient(subscription)
-	client.Authorizer = authorizer
+func getEventGridDomainTopic(ctx context.Context, v *armeventgrid.DomainTopic) *Resource {
+	return &Resource{
+		ID:          *v.ID,
+		Name:        *v.Name,
+		Location:    "global",
+		Description: JSONAllFieldsMarshaller{Value: v},
+	}
+}
 
-	it, err := client.ListByResourceGroupComplete(ctx, resourceGroup, "", nil)
+func eventGridDomain(ctx context.Context, authorizer autorest.Authorizer, subscription string, resourceGroup string) ([]*armeventgrid.Domain, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
+	clientFactory, err := armeventgrid.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDomainsClient()
 
-	var values []eventgrid.Domain
-	for v := it.Value(); it.NotDone(); v = it.Value() {
-		values = append(values, v)
-
-		err := it.NextWithContext(ctx)
+	pager := client.NewListByResourceGroupPager(resourceGroup, nil)
+	var values []*armeventgrid.Domain
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		values = append(values, page.Value...)
 	}
-
 	return values, nil
 }
 
 func EventGridDomain(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	insightsClient := insights.NewDiagnosticSettingsClient(subscription)
-	insightsClient.Authorizer = authorizer
-
-	client := eventgrid.NewDomainsClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListBySubscription(ctx, "", nil)
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, err
 	}
+	clientFactory, err := armeventgrid.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDomainsClient()
 
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+
+	pager := client.NewListBySubscriptionPager(nil)
 	var values []Resource
-	for {
-		for _, domain := range result.Values() {
-			resourceGroup := strings.Split(*domain.ID, "/")[4]
-
-			id := *domain.ID
-			eventgridListOp, err := insightsClient.List(ctx, id)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource, err := getEventGridDomain(ctx, v, diagnosticClient)
 			if err != nil {
 				return nil, err
 			}
-
-			resource := Resource{
-				ID:       *domain.ID,
-				Name:     *domain.Name,
-				Location: *domain.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.EventGridDomainDescription{
-						Domain:                      domain,
-						DiagnosticSettingsResources: eventgridListOp.Value,
-						ResourceGroup:               resourceGroup,
-					},
-				},
-			}
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func EventGridTopic(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	insightsClient := insights.NewDiagnosticSettingsClient(subscription)
-	insightsClient.Authorizer = authorizer
+func getEventGridDomain(ctx context.Context, domain *armeventgrid.Domain, client *armmonitor.DiagnosticSettingsClient) (*Resource, error) {
+	resourceGroup := strings.Split(*domain.ID, "/")[4]
 
-	client := eventgrid.NewTopicsClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListBySubscription(ctx, "", nil)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, topic := range result.Values() {
-			resourceGroup := strings.Split(*topic.ID, "/")[4]
-
-			eventgridListOp, err := insightsClient.List(ctx, *topic.ID)
-			if err != nil {
-				return nil, err
-			}
-
-			resource := Resource{
-				ID:       *topic.ID,
-				Name:     *topic.Name,
-				Location: *topic.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.EventGridTopicDescription{
-						Topic:                       topic,
-						DiagnosticSettingsResources: eventgridListOp.Value,
-						ResourceGroup:               resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	id := *domain.ID
+	pager := client.NewListPager(id, nil)
+	var eventgridListOp []*armmonitor.DiagnosticSettingsResource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		eventgridListOp = append(eventgridListOp, page.Value...)
+	}
+
+	resource := Resource{
+		ID:       *domain.ID,
+		Name:     *domain.Name,
+		Location: *domain.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.EventGridDomainDescription{
+				Domain:                      *domain,
+				DiagnosticSettingsResources: eventgridListOp,
+				ResourceGroup:               resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
+}
+
+func EventGridTopic(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+	clientFactory, err := armeventgrid.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewTopicsClient()
+
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+
+	pager := client.NewListBySubscriptionPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource, err := getEventGridTopic(ctx, v, diagnosticClient)
+			if err != nil {
+				return nil, err
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
 	return values, nil
+}
+
+func getEventGridTopic(ctx context.Context, v *armeventgrid.Topic, client *armmonitor.DiagnosticSettingsClient) (*Resource, error) {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+
+	id := *v.ID
+	pager := client.NewListPager(id, nil)
+	var eventgridListOp []*armmonitor.DiagnosticSettingsResource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		eventgridListOp = append(eventgridListOp, page.Value...)
+	}
+
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.EventGridTopicDescription{
+				Topic:                       *v,
+				DiagnosticSettingsResources: eventgridListOp,
+				ResourceGroup:               resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
 }

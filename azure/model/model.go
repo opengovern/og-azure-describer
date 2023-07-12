@@ -41,6 +41,8 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/deviceprovisioningservices/armdeviceprovisioningservices"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devtestlabs/armdevtestlabs"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventhub/armeventhub"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
@@ -63,8 +65,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/operationalinsights/mgmt/2021-06-01/operationalinsights"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2020-01-01/postgresql"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2021-06-01/postgresqlflexibleservers"
-	"github.com/Azure/azure-sdk-for-go/services/preview/eventgrid/mgmt/2021-06-01-preview/eventgrid"
-	"github.com/Azure/azure-sdk-for-go/services/preview/eventhub/mgmt/2018-01-01-preview/eventhub"
 	previewKeyvault "github.com/Azure/azure-sdk-for-go/services/preview/keyvault/mgmt/2020-04-01-preview/keyvault"
 	"github.com/Azure/azure-sdk-for-go/services/preview/machinelearningservices/mgmt/2020-02-18-preview/machinelearningservices"
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
@@ -1065,8 +1065,8 @@ type DiagnosticSettingDescription struct {
 //getfilter:name=description.Domain.name
 //getfilter:resource_group=description.ResourceGroup
 type EventGridDomainDescription struct {
-	Domain                      eventgrid.Domain
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	Domain                      armeventgrid.Domain
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1076,8 +1076,8 @@ type EventGridDomainDescription struct {
 //getfilter:name=description.Topic.name
 //getfilter:resource_group=description.ResourceGroup
 type EventGridTopicDescription struct {
-	Topic                       eventgrid.Topic
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	Topic                       armeventgrid.Topic
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1087,17 +1087,17 @@ type EventGridTopicDescription struct {
 //getfilter:name=description.EHNamespace.name
 //getfilter:resource_group=description.ResourceGroup
 type EventhubNamespaceDescription struct {
-	EHNamespace                 eventhub.EHNamespace
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
-	NetworkRuleSet              eventhub.NetworkRuleSet
-	PrivateEndpointConnection   []eventhub.PrivateEndpointConnection
+	EHNamespace                 armeventhub.EHNamespace
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
+	NetworkRuleSet              armeventhub.NetworkRuleSet
+	PrivateEndpointConnection   []*armeventhub.PrivateEndpointConnection
 	ResourceGroup               string
 }
 
 //index:microsoft_eventhub_namespaceseventhub
 type EventhubNamespaceEventhubDescription struct {
-	EHNamespace   eventhub.EHNamespace
-	EventHub      eventhub.Model
+	EHNamespace   armeventhub.EHNamespace
+	EventHub      armeventhub.Eventhub
 	ResourceGroup string
 }
 
