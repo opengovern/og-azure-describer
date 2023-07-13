@@ -2,6 +2,9 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"strings"
 
 	"github.com/kaytu-io/kaytu-util/pkg/concurrency"
@@ -126,6 +129,30 @@ func KeyVaultKey(ctx context.Context, authorizer autorest.Authorizer, subscripti
 		values = nil
 	}
 	return values, nil
+}
+
+func KeyVaultKey2(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+	maxResults := int32(100)
+
+	clientFactory, err := armkeyvault.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for {
+		for {
+
+		}
+	}
+	return values, nil
+}
+
+func getKeyVaultKey(ctx context.Context) (*Resource, error) {
+
 }
 
 func KeyVault(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
@@ -283,4 +310,60 @@ func KeyVaultManagedHardwareSecurityModule(ctx context.Context, authorizer autor
 		}
 	}
 	return values, nil
+}
+
+func KeyVaultManagedHardwareSecurityModule2(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+
+	maxResults := int32(100)
+
+	clientFactory, err := armkeyvault.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for {
+		for {
+
+		}
+	}
+	return values, nil
+}
+
+func getKeyVaultManagedHardwareSecurityModule(ctx context.Context, client *armmonitor.DiagnosticSettingsClient, vault) (*Resource, error) {
+	resourceGroup := strings.Split(*vault.ID, "/")[4]
+
+	var keyvaultListOp []*armmonitor.DiagnosticSettingsResource
+	pager := client.NewListPager(*vault.ID, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		keyvaultListOp = append(keyvaultListOp, page.Value...)
+	}
+
+	resource := Resource{
+		ID:       *vault.ID,
+		Name:     *vault.Name,
+		Location: *vault.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.KeyVaultManagedHardwareSecurityModuleDescription{
+				ManagedHsm:                  vault,
+				DiagnosticSettingsResources: keyvaultListOp.Value,
+				ResourceGroup:               resourceGroup,
+			},
+		},
+	}
+	return &resource
 }
