@@ -113,6 +113,14 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/frontdoor/armfrontdoor v1.
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/frontdoor/armfrontdoor v1.2.0/go.mod h1:xdGj2hF05022FUkPH3B88lkumFNoY3AwJu9b/Q1NLqQ=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration v1.1.1 h1:Sy3eaXV2YZ8CfkPBK8Uv94PTO1Ric4EBYz82sUezPnE=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration v1.1.1/go.mod h1:RypAXtK+vqQu0X8qu6Ldk4wwY/HUPUOk8lfGUHCOk4U=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hdinsight/armhdinsight v1.1.1 h1:6ghFnaAk11vxyGn801zsqguqy+RH4Iz3F66dmzMcggY=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hdinsight/armhdinsight v1.1.1/go.mod h1:u6bw9rYVrSELFGelW3WlH6+LvxvPhgAKOLqpqI2hv6k=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/healthcareapis/armhealthcareapis v1.1.1 h1:Zt7L/ne34j/8yXR/mqLX5yd+6Hdqq9EH+GVxDTPii00=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/healthcareapis/armhealthcareapis v1.1.1/go.mod h1:4LZ+JytFYPtkq4QJPaMLXIh9nPa5dRSLV3uul1Jmbns=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridcompute/armhybridcompute v1.1.1 h1:frJSiSBCuMJ0GUNTL62h9DLmYawr1H6PIRCWyMZbqME=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridcompute/armhybridcompute v1.1.1/go.mod h1:SaboJbwlvD/MZQplDZp0NE5+cgi11YDh3EubO/GjxAk=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridkubernetes/armhybridkubernetes v1.1.1 h1:p7za5GIgF2PL7TodK4NLO4vSiX0LYvxERFYpgdNDpsg=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridkubernetes/armhybridkubernetes v1.1.1/go.mod h1:8Al9SxZyU+MChBBtZg+pb642pM6BMGol89hWsfK5thQ=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub v1.1.1 h1:Dh8SxVXcSyQN76LI4IseKyrnqyTUsx336Axg8zDYSMs=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub v1.1.1/go.mod h1:fqmmortNEICbosf7BfNVO3wWs6Cz/pkxYfExJC97Vy8=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor v0.10.0 h1:dAPBLcjVx4qtf915ebQ10szmxqwqtlOxiQJEfjMllXs=

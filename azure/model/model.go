@@ -3,8 +3,6 @@
 package model
 
 import (
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/healthcareapis/mgmt/healthcareapis"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/hybridcompute/mgmt/hybridcompute"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/netapp/mgmt/netapp"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/powerbidedicated/mgmt/powerbidedicated"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/purview/mgmt/purview"
@@ -45,6 +43,10 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventhub/armeventhub"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/frontdoor/armfrontdoor"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hdinsight/armhdinsight"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/healthcareapis/armhealthcareapis"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridcompute/armhybridcompute"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridkubernetes/armhybridkubernetes"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
@@ -53,8 +55,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/cdn/mgmt/2021-06-01/cdn"
 	"github.com/Azure/azure-sdk-for-go/services/dns/mgmt/2018-05-01/dns"
 	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-05-01/frontdoor"
-	"github.com/Azure/azure-sdk-for-go/services/hdinsight/mgmt/2018-06-01/hdinsight"
-	"github.com/Azure/azure-sdk-for-go/services/hybridkubernetes/mgmt/2021-10-01/hybridkubernetes"
 	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2019-09-01/keyvault"
 	secret "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.1/keyvault"
 	"github.com/Azure/azure-sdk-for-go/services/kusto/mgmt/2021-01-01/kusto"
@@ -353,9 +353,9 @@ type DataboxEdgeDeviceDescription struct {
 //getfilter:name=description.ServicesDescription.name
 //getfilter:resource_group=description.ResourceGroup
 type HealthcareServiceDescription struct {
-	ServicesDescription         healthcareapis.ServicesDescription
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
-	PrivateEndpointConnections  *[]healthcareapis.PrivateEndpointConnectionDescription
+	ServicesDescription         armhealthcareapis.ServicesDescription
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
+	PrivateEndpointConnections  []*armhealthcareapis.PrivateEndpointConnectionDescription
 	ResourceGroup               string
 }
 
@@ -1119,8 +1119,8 @@ type FrontdoorDescription struct {
 //getfilter:name=description.Cluster.name
 //getfilter:resource_group=description.ResourceGroup
 type HdinsightClusterDescription struct {
-	Cluster                     hdinsight.Cluster
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	Cluster                     armhdinsight.Cluster
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1130,8 +1130,8 @@ type HdinsightClusterDescription struct {
 //getfilter:name=description.Machine.name
 //getfilter:resource_group=description.ResourceGroup
 type HybridComputeMachineDescription struct {
-	Machine           hybridcompute.Machine
-	MachineExtensions []hybridcompute.MachineExtension
+	Machine           armhybridcompute.Machine
+	MachineExtensions []*armhybridcompute.MachineExtension
 	ResourceGroup     string
 }
 
@@ -1652,7 +1652,7 @@ type RecoveryServicesVaultDescription struct {
 //getfilter:name=description.ConnectedCluster.Name
 //getfilter:resource_group=description.ResourceGroup
 type HybridKubernetesConnectedClusterDescription struct {
-	ConnectedCluster hybridkubernetes.ConnectedCluster
+	ConnectedCluster armhybridkubernetes.ConnectedCluster
 	ResourceGroup    string
 }
 
