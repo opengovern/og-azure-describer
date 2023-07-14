@@ -2,52 +2,49 @@ package describer
 
 import (
 	"context"
-
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/links"
-	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlinks"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func ResourceLink(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := links.NewResourceLinksClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListAtSubscription(ctx, "")
+func ResourceLink(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armlinks.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewResourceLinksClient()
 
+	pager := client.NewListAtSubscriptionPager(nil)
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: "global",
-				Description: JSONAllFieldsMarshaller{
-					model.ResourceLinkDescription{
-						ResourceLink: v,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := getResourceLink(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
+}
+
+func getResourceLink(ctx context.Context, v *armlinks.ResourceLink) *Resource {
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			model.ResourceLinkDescription{
+				ResourceLink: *v,
+			},
+		},
+	}
+	return &resource
 }

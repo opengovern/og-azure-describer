@@ -7,7 +7,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/powerbidedicated/mgmt/powerbidedicated"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/purview/mgmt/purview"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/recoveryservices/mgmt/recoveryservices"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/links"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/locks"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/managementgroups"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/policy"
@@ -51,14 +50,15 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/logic/armlogic"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlinks"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"github.com/Azure/azure-sdk-for-go/services/dns/mgmt/2018-05-01/dns"
 	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-05-01/frontdoor"
 	secret "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.1/keyvault"
-	"github.com/Azure/azure-sdk-for-go/services/logic/mgmt/2019-05-01/logic"
 	"github.com/Azure/azure-sdk-for-go/services/mariadb/mgmt/2020-01-01/mariadb"
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2020-01-01/mysql"
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2021-05-01/mysqlflexibleservers"
@@ -644,7 +644,7 @@ type RedisEnterpriseCacheDescription struct {
 //index:microsoft_resources_links
 //getfilter:id=description.ResourceLink.id
 type ResourceLinkDescription struct {
-	ResourceLink links.ResourceLink
+	ResourceLink armlinks.ResourceLink
 }
 
 //  =================== authorization ==================
@@ -1233,15 +1233,15 @@ type LogProfileDescription struct {
 //getfilter:name=description.Workflow.name
 //getfilter:resource_group=description.ResourceGroup
 type LogicAppWorkflowDescription struct {
-	Workflow                    logic.Workflow
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	Workflow                    armlogic.Workflow
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
 //index:microsoft_logic_integrationaccounts
 type LogicIntegrationAccountsDescription struct {
 	ResourceGroup string
-	Account       logic.IntegrationAccount
+	Account       armlogic.IntegrationAccount
 }
 
 //  =================== machinelearningservices ==================
@@ -1681,8 +1681,8 @@ type CostManagementCostBySubscriptionDescription struct {
 //getfilter:name=description.LoadBalancer.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerDescription struct {
-	LoadBalancer      network.LoadBalancer
-	DiagnosticSetting *[]insights.DiagnosticSettingsResource
+	LoadBalancer      armnetwork.LoadBalancer
+	DiagnosticSetting []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup     string
 }
 
@@ -1691,8 +1691,8 @@ type LoadBalancerDescription struct {
 //getfilter:name=description.Pool.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerBackendAddressPoolDescription struct {
-	LoadBalancer  network.LoadBalancer
-	Pool          network.BackendAddressPool
+	LoadBalancer  armnetwork.LoadBalancer
+	Pool          armnetwork.BackendAddressPool
 	ResourceGroup string
 }
 
@@ -1701,7 +1701,7 @@ type LoadBalancerBackendAddressPoolDescription struct {
 //getfilter:name=description.Rule.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerNatRuleDescription struct {
-	Rule             network.InboundNatRule
+	Rule             armnetwork.InboundNatRule
 	LoadBalancerName string
 	ResourceGroup    string
 }
@@ -1711,7 +1711,7 @@ type LoadBalancerNatRuleDescription struct {
 //getfilter:name=description.Rule.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerOutboundRuleDescription struct {
-	Rule             network.OutboundRule
+	Rule             armnetwork.OutboundRule
 	LoadBalancerName string
 	ResourceGroup    string
 }
@@ -1721,7 +1721,7 @@ type LoadBalancerOutboundRuleDescription struct {
 //getfilter:name=description.Probe.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerProbeDescription struct {
-	Probe            network.Probe
+	Probe            armnetwork.Probe
 	LoadBalancerName string
 	ResourceGroup    string
 }
@@ -1731,7 +1731,7 @@ type LoadBalancerProbeDescription struct {
 //getfilter:name=description.Rule.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerRuleDescription struct {
-	Rule             network.LoadBalancingRule
+	Rule             armnetwork.LoadBalancingRule
 	LoadBalancerName string
 	ResourceGroup    string
 }

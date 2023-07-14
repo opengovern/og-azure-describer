@@ -2,395 +2,429 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-02-01/network"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func LoadBalancer(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewLoadBalancersClient(subscription)
-	client.Authorizer = authorizer
-
-	insightsClient := insights.NewDiagnosticSettingsClient(subscription)
-	insightsClient.Authorizer = authorizer
-
-	result, err := client.ListAll(ctx)
+func LoadBalancer(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewLoadBalancersClient()
 
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+
+	pager := client.NewListAllPager(nil)
 	var values []Resource
-	for {
-		for _, loadBalancer := range result.Values() {
-			resourceGroup := strings.Split(*loadBalancer.ID, "/")[4]
-
-			// Get diagnostic settings
-			diagnosticSettings, err := insightsClient.List(ctx, *loadBalancer.ID)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, loadBalancer := range page.Value {
+			resource, err := getLoadBalancer(ctx, diagnosticClient, loadBalancer)
 			if err != nil {
-				//insights.DiagnosticSettingsClient#List: Failure responding to request: StatusCode=404 -- Original Error: autorest/azure: Service returned an error. Status=404 Code="ResourceGroupNotFound" Message="Resource group 'rg-famsrch-gph-eus' could not be found."
-				//subscriptions/8cd35b61-a0a9-4e39-849e-0e69b8a995de/resourceGroups/IUclient/providers/Microsoft.Network/loadBalancers/LB-testtpservicefabric-web
-				return nil, err //TODO-Saleh
-			}
-
-			resource := Resource{
-				ID:       *loadBalancer.ID,
-				Name:     *loadBalancer.Name,
-				Location: *loadBalancer.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.LoadBalancerDescription{
-						ResourceGroup:     resourceGroup,
-						DiagnosticSetting: diagnosticSettings.Value,
-						LoadBalancer:      loadBalancer,
-					},
-				},
+				return nil, err
 			}
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func LoadBalancerBackendAddressPool(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewLoadBalancersClient(subscription)
-	client.Authorizer = authorizer
+func getLoadBalancer(ctx context.Context, diagnosticClient *armmonitor.DiagnosticSettingsClient, loadBalancer *armnetwork.LoadBalancer) (*Resource, error) {
+	resourceGroup := strings.Split(*loadBalancer.ID, "/")[4]
 
-	poolClient := network.NewLoadBalancerBackendAddressPoolsClient(subscription)
-	poolClient.Authorizer = authorizer
+	// Get diagnostic settings
+	var diagnosticSettings []*armmonitor.DiagnosticSettingsResource
+	pager := diagnosticClient.NewListPager(*loadBalancer.ID, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		diagnosticSettings = append(diagnosticSettings, page.Value...)
+	}
 
-	result, err := client.ListAll(ctx)
+	resource := Resource{
+		ID:       *loadBalancer.ID,
+		Name:     *loadBalancer.Name,
+		Location: *loadBalancer.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.LoadBalancerDescription{
+				ResourceGroup:     resourceGroup,
+				DiagnosticSetting: diagnosticSettings,
+				LoadBalancer:      *loadBalancer,
+			},
+		},
+	}
+	return &resource, nil
+}
+
+func LoadBalancerBackendAddressPool(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewLoadBalancersClient()
+	addressClient := clientFactory.NewLoadBalancerBackendAddressPoolsClient()
 
+	pager := client.NewListAllPager(nil)
 	var values []Resource
-	for {
-		for _, loadBalancer := range result.Values() {
-			resourceGroup := strings.Split(*loadBalancer.ID, "/")[4]
-
-			backendAddressPools, err := poolClient.List(ctx, resourceGroup, *loadBalancer.Name)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, loadBalancer := range page.Value {
+			resources, err := listLoadBalancerBackendAddressPools(ctx, addressClient, loadBalancer)
 			if err != nil {
 				return nil, err
 			}
-			for {
-				for _, pool := range backendAddressPools.Values() {
-					location := "global"
-					if pool.Location != nil {
-						location = *pool.Location
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
 					}
-					resourceGroup := strings.Split(*pool.ID, "/")[4]
-					resource := Resource{
-						ID:       *pool.ID,
-						Location: location,
-						Description: JSONAllFieldsMarshaller{
-							model.LoadBalancerBackendAddressPoolDescription{
-								ResourceGroup: resourceGroup,
-								LoadBalancer:  loadBalancer,
-								Pool:          pool,
-							},
-						},
-					}
-					if pool.Name != nil {
-						resource.Name = *pool.Name
-					}
-					if pool.Location != nil {
-						resource.Location = *pool.Location
-					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-				if !backendAddressPools.NotDone() {
-					break
-				}
-				err = backendAddressPools.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
+				} else {
+					values = append(values, resource)
 				}
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func LoadBalancerNatRule(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewLoadBalancersClient(subscription)
-	client.Authorizer = authorizer
+func listLoadBalancerBackendAddressPools(ctx context.Context, addressClient *armnetwork.LoadBalancerBackendAddressPoolsClient, loadBalancer *armnetwork.LoadBalancer) ([]Resource, error) {
+	resourceGroup := strings.Split(*loadBalancer.ID, "/")[4]
 
-	natRulesClient := network.NewInboundNatRulesClient(subscription)
-	natRulesClient.Authorizer = authorizer
-
-	result, err := client.ListAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
+	pager := addressClient.NewListPager(resourceGroup, *loadBalancer.Name, nil)
 	var values []Resource
-	for {
-		for _, loadBalancer := range result.Values() {
-			resourceGroup := strings.Split(*loadBalancer.ID, "/")[4]
-
-			natRules, err := natRulesClient.List(ctx, resourceGroup, *loadBalancer.Name)
-			if err != nil {
-				return nil, err
-			}
-			for {
-				for _, natRule := range natRules.Values() {
-					resourceGroup := strings.Split(*natRule.ID, "/")[4]
-					resource := Resource{
-						ID:       *natRule.ID,
-						Name:     *natRule.Name,
-						Location: *loadBalancer.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.LoadBalancerNatRuleDescription{
-								ResourceGroup:    resourceGroup,
-								LoadBalancerName: *loadBalancer.Name,
-								Rule:             natRule,
-							},
-						},
-					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-				if !natRules.NotDone() {
-					break
-				}
-				err = natRules.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
+		}
+		for _, pool := range page.Value {
+			resource := getLoadBalancerBackendAddressPools(ctx, loadBalancer, pool)
+			values = append(values, *resource)
 		}
 	}
 	return values, nil
 }
 
-func LoadBalancerOutboundRule(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewLoadBalancersClient(subscription)
-	client.Authorizer = authorizer
+func getLoadBalancerBackendAddressPools(ctx context.Context, loadBalancer *armnetwork.LoadBalancer, pool *armnetwork.BackendAddressPool) *Resource {
+	location := "global"
+	if pool.Properties.Location != nil {
+		location = *pool.Properties.Location
+	}
+	resourceGroup := strings.Split(*pool.ID, "/")[4]
+	resource := Resource{
+		ID:       *pool.ID,
+		Location: location,
+		Description: JSONAllFieldsMarshaller{
+			model.LoadBalancerBackendAddressPoolDescription{
+				ResourceGroup: resourceGroup,
+				LoadBalancer:  *loadBalancer,
+				Pool:          *pool,
+			},
+		},
+	}
 
-	outboundRulesClient := network.NewLoadBalancerOutboundRulesClient(subscription)
-	outboundRulesClient.Authorizer = authorizer
+	return &resource
+}
 
-	result, err := client.ListAll(ctx)
+func LoadBalancerNatRule(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewLoadBalancersClient()
+	natRulesClient := clientFactory.NewInboundNatRulesClient()
 
+	pager := client.NewListAllPager(nil)
 	var values []Resource
-	for {
-		for _, loadBalancer := range result.Values() {
-			resourceGroup := strings.Split(*loadBalancer.ID, "/")[4]
-
-			outboundRuleListResultPage, err := outboundRulesClient.List(ctx, resourceGroup, *loadBalancer.Name)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, loadBalancer := range page.Value {
+			resources, err := listLoadBalancerNatRules(ctx, natRulesClient, loadBalancer)
 			if err != nil {
 				return nil, err
 			}
-			for {
-				for _, outboundRule := range outboundRuleListResultPage.Values() {
-					resourceGroup := strings.Split(*outboundRule.ID, "/")[4]
-					resource := Resource{
-						ID:       *outboundRule.ID,
-						Name:     *outboundRule.Name,
-						Location: *loadBalancer.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.LoadBalancerOutboundRuleDescription{
-								ResourceGroup:    resourceGroup,
-								LoadBalancerName: *loadBalancer.Name,
-								Rule:             outboundRule,
-							},
-						},
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
 					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-				if !outboundRuleListResultPage.NotDone() {
-					break
-				}
-				err = outboundRuleListResultPage.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
+				} else {
+					values = append(values, resource)
 				}
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func LoadBalancerProbe(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewLoadBalancersClient(subscription)
-	client.Authorizer = authorizer
+func listLoadBalancerNatRules(ctx context.Context, natRulesClient *armnetwork.InboundNatRulesClient, loadBalancer *armnetwork.LoadBalancer) ([]Resource, error) {
+	resourceGroup := strings.Split(*loadBalancer.ID, "/")[4]
 
-	probesClient := network.NewLoadBalancerProbesClient(subscription)
-	probesClient.Authorizer = authorizer
-
-	result, err := client.ListAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
+	pager := natRulesClient.NewListPager(resourceGroup, *loadBalancer.Name, nil)
 	var values []Resource
-	for {
-		for _, loadBalancer := range result.Values() {
-			resourceGroup := strings.Split(*loadBalancer.ID, "/")[4]
-
-			probeListResultPage, err := probesClient.List(ctx, resourceGroup, *loadBalancer.Name)
-			if err != nil {
-				return nil, err
-			}
-			for {
-				for _, probe := range probeListResultPage.Values() {
-					resourceGroup := strings.Split(*probe.ID, "/")[4]
-					resource := Resource{
-						ID:       *probe.ID,
-						Name:     *probe.Name,
-						Location: *loadBalancer.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.LoadBalancerProbeDescription{
-								ResourceGroup:    resourceGroup,
-								LoadBalancerName: *loadBalancer.Name,
-								Probe:            probe,
-							},
-						},
-					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-				if !probeListResultPage.NotDone() {
-					break
-				}
-				err = probeListResultPage.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
+		}
+		for _, natRule := range page.Value {
+			resource := getLoadBalancerNatRule(ctx, loadBalancer, natRule)
+			values = append(values, *resource)
 		}
 	}
 	return values, nil
 }
 
-func LoadBalancerRule(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewLoadBalancersClient(subscription)
-	client.Authorizer = authorizer
+func getLoadBalancerNatRule(ctx context.Context, loadBalancer *armnetwork.LoadBalancer, natRule *armnetwork.InboundNatRule) *Resource {
+	resourceGroup := strings.Split(*natRule.ID, "/")[4]
+	resource := Resource{
+		ID:       *natRule.ID,
+		Name:     *natRule.Name,
+		Location: *loadBalancer.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.LoadBalancerNatRuleDescription{
+				ResourceGroup:    resourceGroup,
+				LoadBalancerName: *loadBalancer.Name,
+				Rule:             *natRule,
+			},
+		},
+	}
 
-	rulesClient := network.NewLoadBalancerLoadBalancingRulesClient(subscription)
-	rulesClient.Authorizer = authorizer
+	return &resource
+}
 
-	result, err := client.ListAll(ctx)
+func LoadBalancerOutboundRule(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewLoadBalancersClient()
+	outboundRulesClient := clientFactory.NewLoadBalancerOutboundRulesClient()
 
+	pager := client.NewListAllPager(nil)
 	var values []Resource
-	for {
-		for _, loadBalancer := range result.Values() {
-			resourceGroup := strings.Split(*loadBalancer.ID, "/")[4]
-
-			ruleListResultPage, err := rulesClient.List(ctx, resourceGroup, *loadBalancer.Name)
-			if err != nil {
-				return nil, err
-			}
-			for {
-				for _, rule := range ruleListResultPage.Values() {
-					resourceGroup := strings.Split(*rule.ID, "/")[4]
-					resource := Resource{
-						ID:       *rule.ID,
-						Name:     *rule.Name,
-						Location: *loadBalancer.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.LoadBalancerRuleDescription{
-								ResourceGroup:    resourceGroup,
-								LoadBalancerName: *loadBalancer.Name,
-								Rule:             rule,
-							},
-						},
-					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-				if !ruleListResultPage.NotDone() {
-					break
-				}
-				err = ruleListResultPage.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, loadBalancer := range page.Value {
+			resources, err := listLoadBalancerOutboundRules(ctx, outboundRulesClient, loadBalancer)
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
 	}
 	return values, nil
+}
+
+func listLoadBalancerOutboundRules(ctx context.Context, outboundRulesClient *armnetwork.LoadBalancerOutboundRulesClient, loadBalancer *armnetwork.LoadBalancer) ([]Resource, error) {
+	resourceGroup := strings.Split(*loadBalancer.ID, "/")[4]
+
+	pager := outboundRulesClient.NewListPager(resourceGroup, *loadBalancer.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, outboundRule := range page.Value {
+			resource := getLoadBalancerOutboundRule(ctx, loadBalancer, outboundRule)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func getLoadBalancerOutboundRule(ctx context.Context, loadBalancer *armnetwork.LoadBalancer, outboundRule *armnetwork.OutboundRule) *Resource {
+	resourceGroup := strings.Split(*outboundRule.ID, "/")[4]
+	resource := Resource{
+		ID:       *outboundRule.ID,
+		Name:     *outboundRule.Name,
+		Location: *loadBalancer.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.LoadBalancerOutboundRuleDescription{
+				ResourceGroup:    resourceGroup,
+				LoadBalancerName: *loadBalancer.Name,
+				Rule:             *outboundRule,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func LoadBalancerProbe(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewLoadBalancersClient()
+	probesClient := clientFactory.NewLoadBalancerProbesClient()
+
+	pager := client.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, loadBalancer := range page.Value {
+			resources, err := listLoadBalancerProbes(ctx, probesClient, loadBalancer)
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func listLoadBalancerProbes(ctx context.Context, probesClient *armnetwork.LoadBalancerProbesClient, loadBalancer *armnetwork.LoadBalancer) ([]Resource, error) {
+	resourceGroup := strings.Split(*loadBalancer.ID, "/")[4]
+
+	pager := probesClient.NewListPager(resourceGroup, *loadBalancer.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, probe := range page.Value {
+			resource := getLoadBalancerProbe(ctx, loadBalancer, probe)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func getLoadBalancerProbe(ctx context.Context, loadBalancer *armnetwork.LoadBalancer, probe *armnetwork.Probe) *Resource {
+	resourceGroup := strings.Split(*probe.ID, "/")[4]
+	resource := Resource{
+		ID:       *probe.ID,
+		Name:     *probe.Name,
+		Location: *loadBalancer.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.LoadBalancerProbeDescription{
+				ResourceGroup:    resourceGroup,
+				LoadBalancerName: *loadBalancer.Name,
+				Probe:            *probe,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func LoadBalancerRule(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewLoadBalancersClient()
+	rulesClient := clientFactory.NewLoadBalancerLoadBalancingRulesClient()
+
+	pager := client.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, loadBalancer := range page.Value {
+			resources, err := listLoadBalancerRules(ctx, rulesClient, loadBalancer)
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func listLoadBalancerRules(ctx context.Context, rulesClient *armnetwork.LoadBalancerLoadBalancingRulesClient, loadBalancer *armnetwork.LoadBalancer) ([]Resource, error) {
+	resourceGroup := strings.Split(*loadBalancer.ID, "/")[4]
+
+	pager := rulesClient.NewListPager(resourceGroup, *loadBalancer.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, rule := range page.Value {
+			resource := getLoadBalancerRule(ctx, loadBalancer, rule)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func getLoadBalancerRule(ctx context.Context, loadBalancer *armnetwork.LoadBalancer, rule *armnetwork.LoadBalancingRule) *Resource {
+	resourceGroup := strings.Split(*rule.ID, "/")[4]
+	resource := Resource{
+		ID:       *rule.ID,
+		Name:     *rule.Name,
+		Location: *loadBalancer.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.LoadBalancerRuleDescription{
+				ResourceGroup:    resourceGroup,
+				LoadBalancerName: *loadBalancer.Name,
+				Rule:             *rule,
+			},
+		},
+	}
+
+	return &resource
 }
