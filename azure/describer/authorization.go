@@ -7,15 +7,10 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
 	"strings"
 
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func RoleAssignment(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
+func RoleAssignment(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	client, err := armauthorization.NewRoleAssignmentsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -54,11 +49,7 @@ func getRoleAssignment(ctx context.Context, v *armauthorization.RoleAssignment) 
 	}
 }
 
-func RoleDefinition(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
+func RoleDefinition(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	client, err := armauthorization.NewRoleDefinitionsClient(cred, nil)
 	if err != nil {
 		return nil, err
@@ -98,11 +89,7 @@ func getRoleDefinition(ctx context.Context, v *armauthorization.RoleDefinition) 
 	}
 }
 
-func PolicyDefinition(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
+func PolicyDefinition(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armpolicy.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err

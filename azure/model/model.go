@@ -1056,7 +1056,7 @@ type MonitoringMetric struct {
 //getfilter:name=description.DiagnosticSettingsResource.name
 //getfilter:resource_group=description.ResourceGroup
 type DiagnosticSettingDescription struct {
-	DiagnosticSettingsResource insights.DiagnosticSettingsResource
+	DiagnosticSettingsResource armmonitor.DiagnosticSettingsResource
 	ResourceGroup              string
 }
 
@@ -1214,7 +1214,7 @@ type KustoClusterDescription struct {
 //getfilter:name=description.ActivityLogAlertResource.name
 //getfilter:resource_group=description.ResourceGroup
 type LogAlertDescription struct {
-	ActivityLogAlertResource insights.ActivityLogAlertResource
+	ActivityLogAlertResource armmonitor.ActivityLogAlertResource
 	ResourceGroup            string
 }
 
@@ -1224,7 +1224,7 @@ type LogAlertDescription struct {
 //getfilter:name=description.LogProfileResource.name
 //getfilter:resource_group=description.ResourceGroup
 type LogProfileDescription struct {
-	LogProfileResource insights.LogProfileResource
+	LogProfileResource armmonitor.LogProfileResource
 	ResourceGroup      string
 }
 

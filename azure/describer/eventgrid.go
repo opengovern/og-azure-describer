@@ -7,20 +7,15 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"strings"
 
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func EventGridDomainTopic(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	rgs, err := listResourceGroups(ctx, authorizer, subscription)
+func EventGridDomainTopic(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	rgs, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
 		return nil, err
 	}
 
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
 	clientFactory, err := armeventgrid.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -29,7 +24,7 @@ func EventGridDomainTopic(ctx context.Context, authorizer autorest.Authorizer, s
 
 	var values []Resource
 	for _, rg := range rgs {
-		domains, err := eventGridDomain(ctx, authorizer, subscription, *rg.Name)
+		domains, err := eventGridDomain(ctx, cred, subscription, *rg.Name)
 		if err != nil {
 			return nil, err
 		}
@@ -67,11 +62,7 @@ func getEventGridDomainTopic(ctx context.Context, v *armeventgrid.DomainTopic) *
 	}
 }
 
-func eventGridDomain(ctx context.Context, authorizer autorest.Authorizer, subscription string, resourceGroup string) ([]*armeventgrid.Domain, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
+func eventGridDomain(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, resourceGroup string) ([]*armeventgrid.Domain, error) {
 	clientFactory, err := armeventgrid.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -90,11 +81,7 @@ func eventGridDomain(ctx context.Context, authorizer autorest.Authorizer, subscr
 	return values, nil
 }
 
-func EventGridDomain(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
+func EventGridDomain(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armeventgrid.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -160,11 +147,7 @@ func getEventGridDomain(ctx context.Context, domain *armeventgrid.Domain, client
 	return &resource, nil
 }
 
-func EventGridTopic(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
+func EventGridTopic(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armeventgrid.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err

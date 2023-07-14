@@ -9,27 +9,22 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"strings"
 
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func DevicesProvisioningServicesCertificates(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
+func DevicesProvisioningServicesCertificates(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	client, err := armdeviceprovisioningservices.NewDpsCertificateClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	rgs, err := listResourceGroups(ctx, authorizer, subscription)
+	rgs, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
 	for _, rg := range rgs {
-		dpss, err := devicesProvisioningServices(ctx, authorizer, subscription, *rg.Name)
+		dpss, err := devicesProvisioningServices(ctx, cred, subscription, *rg.Name)
 		if err != nil {
 			return nil, err
 		}
@@ -75,11 +70,7 @@ func getDevicesProvisioningServicesCertificates(ctx context.Context, client *arm
 	return values, nil
 }
 
-func devicesProvisioningServices(ctx context.Context, authorizer autorest.Authorizer, subscription string, resourceGroup string) ([]armdeviceprovisioningservices.ProvisioningServiceDescription, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
+func devicesProvisioningServices(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, resourceGroup string) ([]armdeviceprovisioningservices.ProvisioningServiceDescription, error) {
 	clientFactory, err := armdeviceprovisioningservices.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -101,12 +92,7 @@ func devicesProvisioningServices(ctx context.Context, authorizer autorest.Author
 	return values, nil
 }
 
-func IOTHub(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func IOTHub(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -175,12 +161,7 @@ func getIOTHub(ctx context.Context, client *armmonitor.DiagnosticSettingsClient,
 	return &resource, nil
 }
 
-func IOTHubDps(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func IOTHubDps(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err

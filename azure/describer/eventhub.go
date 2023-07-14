@@ -8,16 +8,10 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/eventhub/mgmt/2018-01-01-preview/eventhub"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func EventhubNamespace(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender, namespace eventhub.EHNamespace) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func EventhubNamespace(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender, namespace eventhub.EHNamespace) ([]Resource, error) {
 	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -103,12 +97,7 @@ func getEventHubNamespace(ctx context.Context, diagnosticClient *armmonitor.Diag
 	return &resource, nil
 }
 
-func EventhubNamespaceEventhub(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func EventhubNamespaceEventhub(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armeventhub.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err

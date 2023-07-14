@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"net/http"
 	"strconv"
 	"strings"
@@ -14,7 +15,6 @@ import (
 	hamiltonAuth "github.com/manicminer/hamilton/auth"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resourcegraph/mgmt/resourcegraph"
-	"github.com/Azure/go-autorest/autorest"
 )
 
 const SubscriptionBatchSize = 100
@@ -24,7 +24,7 @@ type GenericResourceGraph struct {
 	Type  string
 }
 
-func (d GenericResourceGraph) DescribeResources(ctx context.Context, authorizer autorest.Authorizer, _ hamiltonAuth.Authorizer, subscriptions []string, tenantId string, triggerType enums.DescribeTriggerType, stream *StreamSender) ([]Resource, error) {
+func (d GenericResourceGraph) DescribeResources(ctx context.Context, cred *azidentity.ClientSecretCredential, _ hamiltonAuth.Authorizer, subscriptions []string, tenantId string, triggerType enums.DescribeTriggerType, stream *StreamSender) ([]Resource, error) {
 	ctx = WithTriggerType(ctx, triggerType)
 	query := fmt.Sprintf("%s | where type == \"%s\"", d.Table, strings.ToLower(d.Type))
 

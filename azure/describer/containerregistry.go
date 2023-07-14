@@ -6,17 +6,14 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerregistry/armcontainerregistry"
 	"strings"
 
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func ContainerRegistry(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
+func ContainerRegistry(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armcontainerregistry.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-
-	clientFactory, err := armcontainerregistry.NewClientFactory(subscription, cred, nil)
 	client := clientFactory.NewRegistriesClient()
 	pager := client.NewListPager(nil)
 	var values []Resource

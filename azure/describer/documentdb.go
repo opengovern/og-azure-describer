@@ -7,20 +7,15 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"strings"
 
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func DocumentDBSQLDatabase(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	rgs, err := listResourceGroups(ctx, authorizer, subscription)
+func DocumentDBSQLDatabase(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	rgs, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
 		return nil, err
 	}
 
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
 	clientFactory, err := armcosmos.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -29,7 +24,7 @@ func DocumentDBSQLDatabase(ctx context.Context, authorizer autorest.Authorizer, 
 
 	var values []Resource
 	for _, rg := range rgs {
-		accounts, err := documentDBDatabaseAccounts(ctx, authorizer, subscription, *rg.Name)
+		accounts, err := documentDBDatabaseAccounts(ctx, cred, subscription, *rg.Name)
 		if err != nil {
 			return nil, err
 		}
@@ -84,16 +79,12 @@ func getDocumentDBSQLDatabase(ctx context.Context, v *armcosmos.SQLDatabaseGetRe
 	return &resource
 }
 
-func DocumentDBMongoDatabase(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	rgs, err := listResourceGroups(ctx, authorizer, subscription)
+func DocumentDBMongoDatabase(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	rgs, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
 		return nil, err
 	}
 
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
 	clientFactory, err := armcosmos.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -102,7 +93,7 @@ func DocumentDBMongoDatabase(ctx context.Context, authorizer autorest.Authorizer
 
 	var values []Resource
 	for _, rg := range rgs {
-		accounts, err := documentDBDatabaseAccounts(ctx, authorizer, subscription, *rg.Name)
+		accounts, err := documentDBDatabaseAccounts(ctx, cred, subscription, *rg.Name)
 		if err != nil {
 			return nil, err
 		}
@@ -155,11 +146,7 @@ func getDocumentDBMongoDatabase(ctx context.Context, v *armcosmos.MongoDBDatabas
 	return &resource
 }
 
-func DocumentDBCassandraCluster(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
+func DocumentDBCassandraCluster(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcosmos.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -207,11 +194,7 @@ func getDocumentDBCassandraCluster(ctx context.Context, v *armcosmos.ClusterReso
 	return &resource
 }
 
-func documentDBDatabaseAccounts(ctx context.Context, authorizer autorest.Authorizer, subscription string, resourceGroup string) ([]*armcosmos.DatabaseAccountGetResults, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
+func documentDBDatabaseAccounts(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, resourceGroup string) ([]*armcosmos.DatabaseAccountGetResults, error) {
 	clientFactory, err := armcosmos.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -231,11 +214,7 @@ func documentDBDatabaseAccounts(ctx context.Context, authorizer autorest.Authori
 	return values, nil
 }
 
-func CosmosdbAccount(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
+func CosmosdbAccount(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcosmos.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err

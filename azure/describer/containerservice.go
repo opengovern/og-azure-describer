@@ -6,16 +6,14 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice/v2"
 	"strings"
 
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func KubernetesCluster(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
+func KubernetesCluster(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armcontainerservice.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	clientFactory, err := armcontainerservice.NewClientFactory(subscription, cred, nil)
 	client := clientFactory.NewManagedClustersClient()
 
 	pager := client.NewListPager(nil)

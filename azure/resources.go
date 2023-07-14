@@ -5,6 +5,7 @@ package azure
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"os"
 	"sort"
 	"strings"
@@ -21,12 +22,12 @@ import (
 )
 
 type ResourceDescriber interface {
-	DescribeResources(context.Context, autorest.Authorizer, hamiltonAuth.Authorizer, []string, string, enums.DescribeTriggerType, *describer.StreamSender) ([]describer.Resource, error)
+	DescribeResources(context.Context, *azidentity.ClientSecretCredential, hamiltonAuth.Authorizer, []string, string, enums.DescribeTriggerType, *describer.StreamSender) ([]describer.Resource, error)
 }
 
-type ResourceDescribeFunc func(context.Context, autorest.Authorizer, hamiltonAuth.Authorizer, []string, string, enums.DescribeTriggerType, *describer.StreamSender) ([]describer.Resource, error)
+type ResourceDescribeFunc func(context.Context, *azidentity.ClientSecretCredential, hamiltonAuth.Authorizer, []string, string, enums.DescribeTriggerType, *describer.StreamSender) ([]describer.Resource, error)
 
-func (fn ResourceDescribeFunc) DescribeResources(c context.Context, a autorest.Authorizer, ah hamiltonAuth.Authorizer, s []string, t string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) ([]describer.Resource, error) {
+func (fn ResourceDescribeFunc) DescribeResources(c context.Context, a *azidentity.ClientSecretCredential, ah hamiltonAuth.Authorizer, s []string, t string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) ([]describer.Resource, error) {
 	return fn(c, a, ah, s, t, triggerType, stream)
 }
 
@@ -145,7 +146,12 @@ func GetResources(
 		return nil, err
 	}
 
-	resources, err := describe(ctx, authorizer, hamiltonAuthorizer, resourceType, subscriptions, cfg.TenantID, triggerType, stream)
+	cred, err := azidentity.NewClientSecretCredential(cfg.TenantID, cfg.ClientID, cfg.ClientSecret, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resources, err := describe(ctx, cred, hamiltonAuthorizer, resourceType, subscriptions, cfg.TenantID, triggerType, stream)
 	if err != nil {
 		return nil, err
 	}
@@ -181,7 +187,7 @@ func setEnvIfNotEmpty(env, s string) {
 	}
 }
 
-func describe(ctx context.Context, authorizer autorest.Authorizer, hamiltonAuth hamiltonAuth.Authorizer, resourceType string, subscriptions []string, tenantId string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) ([]describer.Resource, error) {
+func describe(ctx context.Context, cred *azidentity.ClientSecretCredential, hamiltonAuth hamiltonAuth.Authorizer, resourceType string, subscriptions []string, tenantId string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) ([]describer.Resource, error) {
 	resourceTypeObject, ok := resourceTypes[resourceType]
 	if !ok {
 		return nil, fmt.Errorf("unsupported resource type: %s", resourceType)
@@ -192,15 +198,15 @@ func describe(ctx context.Context, authorizer autorest.Authorizer, hamiltonAuth 
 		listDescriber = describer.GenericResourceGraph{Table: "Resources", Type: resourceType}
 	}
 
-	return listDescriber.DescribeResources(ctx, authorizer, hamiltonAuth, subscriptions, tenantId, triggerType, stream)
+	return listDescriber.DescribeResources(ctx, cred, hamiltonAuth, subscriptions, tenantId, triggerType, stream)
 }
 
-func DescribeBySubscription(describe func(context.Context, autorest.Authorizer, string, *describer.StreamSender) ([]describer.Resource, error)) ResourceDescriber {
-	return ResourceDescribeFunc(func(ctx context.Context, authorizer autorest.Authorizer, hamiltonAuth hamiltonAuth.Authorizer, subscriptions []string, tenantId string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) ([]describer.Resource, error) {
+func DescribeBySubscription(describe func(context.Context, *azidentity.ClientSecretCredential, string, *describer.StreamSender) ([]describer.Resource, error)) ResourceDescriber {
+	return ResourceDescribeFunc(func(ctx context.Context, client *azidentity.ClientSecretCredential, hamiltonAuth hamiltonAuth.Authorizer, subscriptions []string, tenantId string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) ([]describer.Resource, error) {
 		ctx = describer.WithTriggerType(ctx, triggerType)
 		values := []describer.Resource{}
 		for _, subscription := range subscriptions {
-			result, err := describe(ctx, authorizer, subscription, stream)
+			result, err := describe(ctx, client, subscription, stream)
 			if err != nil {
 				return nil, err
 			}
@@ -216,7 +222,7 @@ func DescribeBySubscription(describe func(context.Context, autorest.Authorizer, 
 }
 
 func DescribeADByTenantID(describe func(context.Context, hamiltonAuth.Authorizer, string, *describer.StreamSender) ([]describer.Resource, error)) ResourceDescriber {
-	return ResourceDescribeFunc(func(ctx context.Context, authorizer autorest.Authorizer, hamiltonAuth hamiltonAuth.Authorizer, subscription []string, tenantId string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) ([]describer.Resource, error) {
+	return ResourceDescribeFunc(func(ctx context.Context, cred *azidentity.ClientSecretCredential, hamiltonAuth hamiltonAuth.Authorizer, subscription []string, tenantId string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) ([]describer.Resource, error) {
 		ctx = describer.WithTriggerType(ctx, triggerType)
 		var values []describer.Resource
 		result, err := describe(ctx, hamiltonAuth, tenantId, stream)

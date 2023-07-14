@@ -6,15 +6,10 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/resources"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func listResourceGroups(ctx context.Context, authorizer autorest.Authorizer, subscription string) ([]armresources.ResourceGroup, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
+func listResourceGroups(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string) ([]armresources.ResourceGroup, error) {
 	clientFactory, err := armresources.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -34,7 +29,7 @@ func listResourceGroups(ctx context.Context, authorizer autorest.Authorizer, sub
 	return values, nil
 }
 
-func ResourceProvider(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+func ResourceProvider(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	client := resources.NewProvidersClient(subscription)
 	client.Authorizer = authorizer
 
@@ -75,7 +70,7 @@ func ResourceProvider(ctx context.Context, authorizer autorest.Authorizer, subsc
 	return values, nil
 }
 
-func ResourceGroup(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+func ResourceGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	client := resources.NewGroupsClient(subscription)
 	client.Authorizer = authorizer
 

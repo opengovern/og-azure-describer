@@ -11,19 +11,14 @@ import (
 	"github.com/cenkalti/backoff"
 	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
 const resourceTypeDimension = "resourceType"
 const subscriptionDimension = "SubscriptionId"
 
-func cost(ctx context.Context, authorizer autorest.Authorizer, subscription string, from time.Time, to time.Time, dimension string) ([]model.CostManagementQueryRow, *string, error) {
+func cost(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, from time.Time, to time.Time, dimension string) ([]model.CostManagementQueryRow, *string, error) {
 	var err error
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, nil, err
-	}
 	clientFactory, err := armcostmanagement.NewClientFactory(cred, nil)
 	if err != nil {
 		return nil, nil, err
@@ -101,14 +96,14 @@ func cost(ctx context.Context, authorizer autorest.Authorizer, subscription stri
 	return result, costs.Location, nil
 }
 
-func DailyCostByResourceType(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+func DailyCostByResourceType(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	triggerType := GetTriggerTypeFromContext(ctx)
 	from := time.Now().AddDate(0, 0, -7)
 	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
 		from = time.Now().AddDate(0, -3, -7)
 	}
 
-	costResult, locationPtr, err := cost(ctx, authorizer, subscription, from, time.Now(), resourceTypeDimension)
+	costResult, locationPtr, err := cost(ctx, cred, subscription, from, time.Now(), resourceTypeDimension)
 	if err != nil {
 		return nil, err
 	}
@@ -139,14 +134,14 @@ func DailyCostByResourceType(ctx context.Context, authorizer autorest.Authorizer
 	return values, nil
 }
 
-func DailyCostBySubscription(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+func DailyCostBySubscription(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	triggerType := GetTriggerTypeFromContext(ctx)
 	from := time.Now().AddDate(0, 0, -7)
 	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
 		from = time.Now().AddDate(0, -3, -7)
 	}
 
-	costResult, locationPtr, err := cost(ctx, authorizer, subscription, from, time.Now(), subscriptionDimension)
+	costResult, locationPtr, err := cost(ctx, cred, subscription, from, time.Now(), subscriptionDimension)
 	if err != nil {
 		return nil, err
 	}

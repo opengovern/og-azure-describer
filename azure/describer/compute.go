@@ -9,16 +9,10 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
 	"strings"
 
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func ComputeDisk(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeDisk(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -62,12 +56,7 @@ func getComputeDisk(ctx context.Context, v *armcompute.Disk) *Resource {
 	}
 }
 
-func ComputeDiskAccess(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeDiskAccess(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -111,12 +100,7 @@ func getComputeDiskAccess(ctx context.Context, v *armcompute.DiskAccess) *Resour
 	}
 }
 
-func ComputeVirtualMachineScaleSet(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeVirtualMachineScaleSet(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -178,12 +162,7 @@ func getComputeVirtualMachineScaleSet(ctx context.Context, clientExtension *armc
 	return &resource, nil
 }
 
-func ComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -249,12 +228,7 @@ func getComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, vm *a
 	return &resource
 }
 
-func ComputeVirtualMachineScaleSetVm(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeVirtualMachineScaleSetVm(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -310,12 +284,7 @@ func getComputeVirtualMachineScaleSetVm(ctx context.Context, vm *armcompute.Virt
 	return &resource
 }
 
-func ComputeVirtualMachine(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeVirtualMachine(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -439,12 +408,7 @@ func getComputeVirtualMachine(ctx context.Context, vmClient *armcompute.VirtualM
 	return &resource, nil
 }
 
-func ComputeSnapshots(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeSnapshots(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -489,12 +453,7 @@ func getComputeSnapshot(ctx context.Context, snapshot *armcompute.Snapshot) *Res
 	return &resource
 }
 
-func ComputeAvailabilitySet(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeAvailabilitySet(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -539,12 +498,7 @@ func getComputeAvailabilitySet(ctx context.Context, availabilitySet *armcompute.
 	return &resource
 }
 
-func ComputeDiskEncryptionSet(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeDiskEncryptionSet(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -589,12 +543,7 @@ func getComputeDiskEncryptionSet(ctx context.Context, diskEncryptionSet *armcomp
 	return &resource
 }
 
-func ComputeGallery(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeGallery(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -639,12 +588,7 @@ func getComputeGallery(ctx context.Context, gallery *armcompute.Gallery) *Resour
 	return &resource
 }
 
-func ComputeImage(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeImage(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -688,12 +632,7 @@ func getComputeImage(ctx context.Context, v *armcompute.Image) *Resource {
 	return &resource
 }
 
-func ComputeHostGroup(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeHostGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -737,12 +676,7 @@ func getComputeHostGroup(ctx context.Context, v *armcompute.DedicatedHostGroup) 
 	return &resource
 }
 
-func ComputeHost(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeHost(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -804,12 +738,7 @@ func getComputeHostsByGroup(ctx context.Context, hostClient *armcompute.Dedicate
 	return resources, nil
 }
 
-func ComputeRestorePointCollection(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeRestorePointCollection(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -853,12 +782,7 @@ func getComputeResourcePointCollection(ctx context.Context, v *armcompute.Restor
 	return &resource
 }
 
-func ComputeSSHPublicKey(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeSSHPublicKey(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -902,12 +826,7 @@ func getComputeSSHPublicKey(ctx context.Context, v *armcompute.SSHPublicKeyResou
 	return &resource
 }
 
-func ComputeDiskReadOps(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeDiskReadOps(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -929,7 +848,7 @@ func ComputeDiskReadOps(ctx context.Context, authorizer autorest.Authorizer, sub
 			if disk.ID == nil {
 				continue
 			}
-			resources, err := getComputeDiskReadOps(ctx, authorizer, subscription, disk)
+			resources, err := getComputeDiskReadOps(ctx, cred, subscription, disk)
 			if err != nil {
 				return nil, err
 			}
@@ -947,8 +866,8 @@ func ComputeDiskReadOps(ctx context.Context, authorizer autorest.Authorizer, sub
 	return values, nil
 }
 
-func getComputeDiskReadOps(ctx context.Context, authorizer autorest.Authorizer, subscription string, disk *armcompute.Disk) ([]Resource, error) {
-	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "FIVE_MINUTES", "Microsoft.Compute/disks", "Composite Disk Read Operations/sec", *disk.ID)
+func getComputeDiskReadOps(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, disk *armcompute.Disk) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, cred, subscription, "FIVE_MINUTES", "Microsoft.Compute/disks", "Composite Disk Read Operations/sec", *disk.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -969,12 +888,7 @@ func getComputeDiskReadOps(ctx context.Context, authorizer autorest.Authorizer, 
 	return values, nil
 }
 
-func ComputeDiskReadOpsDaily(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeDiskReadOpsDaily(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -996,7 +910,7 @@ func ComputeDiskReadOpsDaily(ctx context.Context, authorizer autorest.Authorizer
 			if disk.ID == nil {
 				continue
 			}
-			resources, err := getComputeDiskReadOpsDaily(ctx, authorizer, subscription, disk)
+			resources, err := getComputeDiskReadOpsDaily(ctx, cred, subscription, disk)
 			if err != nil {
 				return nil, err
 			}
@@ -1014,8 +928,8 @@ func ComputeDiskReadOpsDaily(ctx context.Context, authorizer autorest.Authorizer
 	return values, nil
 }
 
-func getComputeDiskReadOpsDaily(ctx context.Context, authorizer autorest.Authorizer, subscription string, disk *armcompute.Disk) ([]Resource, error) {
-	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "DAILY", "Microsoft.Compute/disks", "Composite Disk Read Operations/sec", *disk.ID)
+func getComputeDiskReadOpsDaily(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, disk *armcompute.Disk) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, cred, subscription, "DAILY", "Microsoft.Compute/disks", "Composite Disk Read Operations/sec", *disk.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -1035,12 +949,7 @@ func getComputeDiskReadOpsDaily(ctx context.Context, authorizer autorest.Authori
 	}
 	return values, nil
 }
-func ComputeDiskReadOpsHourly(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeDiskReadOpsHourly(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -1062,7 +971,7 @@ func ComputeDiskReadOpsHourly(ctx context.Context, authorizer autorest.Authorize
 			if disk.ID == nil {
 				continue
 			}
-			resources, err := getComputeDiskReadOpsHourly(ctx, authorizer, subscription, disk)
+			resources, err := getComputeDiskReadOpsHourly(ctx, cred, subscription, disk)
 			if err != nil {
 				return nil, err
 			}
@@ -1080,8 +989,8 @@ func ComputeDiskReadOpsHourly(ctx context.Context, authorizer autorest.Authorize
 	return values, nil
 }
 
-func getComputeDiskReadOpsHourly(ctx context.Context, authorizer autorest.Authorizer, subscription string, disk *armcompute.Disk) ([]Resource, error) {
-	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "HOURLY", "Microsoft.Compute/disks", "Composite Disk Read Operations/sec", *disk.ID)
+func getComputeDiskReadOpsHourly(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, disk *armcompute.Disk) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, cred, subscription, "HOURLY", "Microsoft.Compute/disks", "Composite Disk Read Operations/sec", *disk.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -1102,12 +1011,7 @@ func getComputeDiskReadOpsHourly(ctx context.Context, authorizer autorest.Author
 	return values, nil
 }
 
-func ComputeDiskWriteOps(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeDiskWriteOps(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -1129,7 +1033,7 @@ func ComputeDiskWriteOps(ctx context.Context, authorizer autorest.Authorizer, su
 			if disk.ID == nil {
 				continue
 			}
-			resources, err := getComputeDiskWriteOps(ctx, authorizer, subscription, disk)
+			resources, err := getComputeDiskWriteOps(ctx, cred, subscription, disk)
 			if err != nil {
 				return nil, err
 			}
@@ -1147,8 +1051,8 @@ func ComputeDiskWriteOps(ctx context.Context, authorizer autorest.Authorizer, su
 	return values, nil
 }
 
-func getComputeDiskWriteOps(ctx context.Context, authorizer autorest.Authorizer, subscription string, disk *armcompute.Disk) ([]Resource, error) {
-	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "FIVE_MINUTES", "Microsoft.Compute/disks", "Composite Disk Write Operations/sec", *disk.ID)
+func getComputeDiskWriteOps(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, disk *armcompute.Disk) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, cred, subscription, "FIVE_MINUTES", "Microsoft.Compute/disks", "Composite Disk Write Operations/sec", *disk.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -1169,12 +1073,7 @@ func getComputeDiskWriteOps(ctx context.Context, authorizer autorest.Authorizer,
 	return values, nil
 }
 
-func ComputeDiskWriteOpsDaily(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeDiskWriteOpsDaily(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -1196,7 +1095,7 @@ func ComputeDiskWriteOpsDaily(ctx context.Context, authorizer autorest.Authorize
 			if disk.ID == nil {
 				continue
 			}
-			resources, err := getComputeDiskWriteOpsDaily(ctx, authorizer, subscription, disk)
+			resources, err := getComputeDiskWriteOpsDaily(ctx, cred, subscription, disk)
 			if err != nil {
 				return nil, err
 			}
@@ -1214,8 +1113,8 @@ func ComputeDiskWriteOpsDaily(ctx context.Context, authorizer autorest.Authorize
 	return values, nil
 }
 
-func getComputeDiskWriteOpsDaily(ctx context.Context, authorizer autorest.Authorizer, subscription string, disk *armcompute.Disk) ([]Resource, error) {
-	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "DAILY", "Microsoft.Compute/disks", "Composite Disk Write Operations/sec", *disk.ID)
+func getComputeDiskWriteOpsDaily(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, disk *armcompute.Disk) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, cred, subscription, "DAILY", "Microsoft.Compute/disks", "Composite Disk Write Operations/sec", *disk.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -1235,12 +1134,7 @@ func getComputeDiskWriteOpsDaily(ctx context.Context, authorizer autorest.Author
 	}
 	return values, nil
 }
-func ComputeDiskWriteOpsHourly(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeDiskWriteOpsHourly(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -1262,7 +1156,7 @@ func ComputeDiskWriteOpsHourly(ctx context.Context, authorizer autorest.Authoriz
 			if disk.ID == nil {
 				continue
 			}
-			resources, err := getComputeDiskWriteOpsHourly(ctx, authorizer, subscription, disk)
+			resources, err := getComputeDiskWriteOpsHourly(ctx, cred, subscription, disk)
 			if err != nil {
 				return nil, err
 			}
@@ -1280,8 +1174,8 @@ func ComputeDiskWriteOpsHourly(ctx context.Context, authorizer autorest.Authoriz
 	return values, nil
 }
 
-func getComputeDiskWriteOpsHourly(ctx context.Context, authorizer autorest.Authorizer, subscription string, disk *armcompute.Disk) ([]Resource, error) {
-	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "HOURLY", "Microsoft.Compute/disks", "Composite Disk Write Operations/sec", *disk.ID)
+func getComputeDiskWriteOpsHourly(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, disk *armcompute.Disk) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, cred, subscription, "HOURLY", "Microsoft.Compute/disks", "Composite Disk Write Operations/sec", *disk.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -1302,12 +1196,7 @@ func getComputeDiskWriteOpsHourly(ctx context.Context, authorizer autorest.Autho
 	return values, nil
 }
 
-func ComputeResourceSKU(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeResourceSKU(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -1355,12 +1244,7 @@ func getComputeResourceSKU(ctx context.Context, subscription string, resourceSku
 	return &resource
 }
 
-func ComputeVirtualMachineCpuUtilization(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeVirtualMachineCpuUtilization(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -1382,7 +1266,7 @@ func ComputeVirtualMachineCpuUtilization(ctx context.Context, authorizer autores
 			if virtualMachine.ID == nil {
 				continue
 			}
-			resources, err := getComputeVirtualMachineCpuUtilization(ctx, authorizer, subscription, virtualMachine)
+			resources, err := getComputeVirtualMachineCpuUtilization(ctx, cred, subscription, virtualMachine)
 			if err != nil {
 				return nil, err
 			}
@@ -1400,8 +1284,8 @@ func ComputeVirtualMachineCpuUtilization(ctx context.Context, authorizer autores
 	return values, nil
 }
 
-func getComputeVirtualMachineCpuUtilization(ctx context.Context, authorizer autorest.Authorizer, subscription string, virtualMachine *armcompute.VirtualMachine) ([]Resource, error) {
-	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "FIVE_MINUTES", "Microsoft.Compute/virtualMachines", "Percentage CPU", *virtualMachine.ID)
+func getComputeVirtualMachineCpuUtilization(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, virtualMachine *armcompute.VirtualMachine) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, cred, subscription, "FIVE_MINUTES", "Microsoft.Compute/virtualMachines", "Percentage CPU", *virtualMachine.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -1422,12 +1306,7 @@ func getComputeVirtualMachineCpuUtilization(ctx context.Context, authorizer auto
 	return values, nil
 }
 
-func ComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -1449,7 +1328,7 @@ func ComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, authorizer au
 			if virtualMachine.ID == nil {
 				continue
 			}
-			resources, err := getComputeVirtualMachineCpuUtilizationDaily(ctx, authorizer, subscription, virtualMachine)
+			resources, err := getComputeVirtualMachineCpuUtilizationDaily(ctx, cred, subscription, virtualMachine)
 			if err != nil {
 				return nil, err
 			}
@@ -1467,8 +1346,8 @@ func ComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, authorizer au
 	return values, nil
 }
 
-func getComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, authorizer autorest.Authorizer, subscription string, virtualMachine *armcompute.VirtualMachine) ([]Resource, error) {
-	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "DAILY", "Microsoft.Compute/virtualMachines", "Percentage CPU", *virtualMachine.ID)
+func getComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, virtualMachine *armcompute.VirtualMachine) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, cred, subscription, "DAILY", "Microsoft.Compute/virtualMachines", "Percentage CPU", *virtualMachine.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -1489,12 +1368,7 @@ func getComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, authorizer
 	return values, nil
 }
 
-func ComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
@@ -1516,7 +1390,7 @@ func ComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, authorizer a
 			if virtualMachine.ID == nil {
 				continue
 			}
-			resources, err := getComputeVirtualMachineCpuUtilizationHourly(ctx, authorizer, subscription, virtualMachine)
+			resources, err := getComputeVirtualMachineCpuUtilizationHourly(ctx, cred, subscription, virtualMachine)
 			if err != nil {
 				return nil, err
 			}
@@ -1534,8 +1408,8 @@ func ComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, authorizer a
 	return values, nil
 }
 
-func getComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, authorizer autorest.Authorizer, subscription string, virtualMachine *armcompute.VirtualMachine) ([]Resource, error) {
-	metrics, err := listAzureMonitorMetricStatistics(ctx, authorizer, subscription, "HOURLY", "Microsoft.Compute/virtualMachines", "Percentage CPU", *virtualMachine.ID)
+func getComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, virtualMachine *armcompute.VirtualMachine) ([]Resource, error) {
+	metrics, err := listAzureMonitorMetricStatistics(ctx, cred, subscription, "HOURLY", "Microsoft.Compute/virtualMachines", "Percentage CPU", *virtualMachine.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -1556,12 +1430,7 @@ func getComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, authorize
 	return values, nil
 }
 
-func ComputeCloudServices(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		return nil, err
-	}
-
+func ComputeCloudServices(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	clientFactory, err := armcompute.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
