@@ -22,6 +22,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/batch/armbatch"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/blueprint/armblueprint"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/botservice/armbotservice"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cognitiveservices/armcognitiveservices"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerinstance/armcontainerinstance"
@@ -48,16 +49,15 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridcompute/armhybridcompute"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridkubernetes/armhybridkubernetes"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
-	"github.com/Azure/azure-sdk-for-go/services/cdn/mgmt/2021-06-01/cdn"
 	"github.com/Azure/azure-sdk-for-go/services/dns/mgmt/2018-05-01/dns"
 	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-05-01/frontdoor"
-	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2019-09-01/keyvault"
 	secret "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.1/keyvault"
-	"github.com/Azure/azure-sdk-for-go/services/kusto/mgmt/2021-01-01/kusto"
 	"github.com/Azure/azure-sdk-for-go/services/logic/mgmt/2019-05-01/logic"
 	"github.com/Azure/azure-sdk-for-go/services/mariadb/mgmt/2020-01-01/mariadb"
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2020-01-01/mysql"
@@ -66,7 +66,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/operationalinsights/mgmt/2021-06-01/operationalinsights"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2020-01-01/postgresql"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2021-06-01/postgresqlflexibleservers"
-	previewKeyvault "github.com/Azure/azure-sdk-for-go/services/preview/keyvault/mgmt/2020-04-01-preview/keyvault"
 	"github.com/Azure/azure-sdk-for-go/services/preview/machinelearningservices/mgmt/2020-02-18-preview/machinelearningservices"
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
 	"github.com/Azure/azure-sdk-for-go/services/preview/security/mgmt/v1.0/security"
@@ -376,8 +375,8 @@ type HpcCacheDescription struct {
 //getfilter:name=description.Key.name
 //getfilter:resource_group=description.ResourceGroup
 type KeyVaultKeyDescription struct {
-	Vault         keyvault.Resource
-	Key           keyvault.Key
+	Vault         armkeyvault.Resource
+	Key           armkeyvault.Key
 	ResourceGroup string
 }
 
@@ -404,12 +403,12 @@ type ContainerInstanceContainerGroupDescription struct {
 //index:microsoft_cdn_profile
 type CDNProfileDescription struct {
 	ResourceGroup string
-	Profile       cdn.Profile
+	Profile       armcdn.Profile
 }
 
 type CDNEndpointDescription struct {
 	ResourceGroup string
-	Endpoint      cdn.Endpoint
+	Endpoint      armcdn.Endpoint
 }
 
 //  =================== network ==================
@@ -1161,9 +1160,9 @@ type IOTHubDpsDescription struct {
 //getfilter:name=description.Resource.name
 //getfilter:resource_group=description.ResourceGroup
 type KeyVaultDescription struct {
-	Resource                    keyvault.Resource
-	Vault                       keyvault.Vault
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	Resource                    armkeyvault.Resource
+	Vault                       armkeyvault.Vault
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1171,7 +1170,7 @@ type KeyVaultDescription struct {
 //getfilter:name=description.Vault.name
 //getfilter:region=description.Vault.Properties.Location
 type KeyVaultDeletedVaultDescription struct {
-	Vault         keyvault.DeletedVault
+	Vault         armkeyvault.DeletedVault
 	ResourceGroup string
 }
 
@@ -1181,8 +1180,8 @@ type KeyVaultDeletedVaultDescription struct {
 //getfilter:name=description.ManagedHsm.name
 //getfilter:resource_group=description.ResourceGroup
 type KeyVaultManagedHardwareSecurityModuleDescription struct {
-	ManagedHsm                  previewKeyvault.ManagedHsm
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	ManagedHsm                  armkeyvault.ManagedHsm
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1204,7 +1203,7 @@ type KeyVaultSecretDescription struct {
 //getfilter:name=description.Cluster.name
 //getfilter:resource_group=description.ResourceGroup
 type KustoClusterDescription struct {
-	Cluster       kusto.Cluster
+	Cluster       armkusto.Cluster
 	ResourceGroup string
 }
 

@@ -69,6 +69,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/blueprint/armblueprint v0.
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/blueprint/armblueprint v0.6.1/go.mod h1:mjFF+TgvMwa6VVmf3BQeCs7WcDmhmKYU/9KaxhWVgFc=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/botservice/armbotservice v1.1.1 h1:SoKRYni+Y9ckaxUbrqHqV2tu2yUK1i74fe+h61wnvvo=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/botservice/armbotservice v1.1.1/go.mod h1:ojs9TglxCeuWMnDYKzvkpye1rT3w6NKoNcuo4TqzaD4=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn v1.1.1 h1:CtE6GCP9YEDF6DjpFxl7xQBqklqfyCC/xkBKUGa/IAc=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn v1.1.1/go.mod h1:b9yk+8vyxSsBsiEjk9kzrwxgyn+7+J4HzDOYUPznES4=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cognitiveservices/armcognitiveservices v1.4.1 h1:ynIxbR7wH5nBEJzprbeBFVBtoYTYcQbN39vM7eNS3Xc=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cognitiveservices/armcognitiveservices v1.4.1/go.mod h1:nUhnLNlOtAVpn/PRwJKIf3ulXLvdMiWlGk8nufEUaKc=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4 v4.2.1 h1:UPeCRD+XY7QlaGQte2EVI2iOcWvUYA2XY8w5T/8v0NQ=
@@ -125,6 +127,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub v1.1.1 h1
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub v1.1.1/go.mod h1:fqmmortNEICbosf7BfNVO3wWs6Cz/pkxYfExJC97Vy8=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault v1.2.0 h1:8d4U82r7ItT1Es91x3eUcAQweih36KWvUha8AZ9X0Rs=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault v1.2.0/go.mod h1:/1bkGperHinQbAHMWivoec/Ucu6//iXo6jn5mhmqCVU=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto v1.3.1 h1:ik0pyYcwUqdiPPXOioZfKL62SVu7iN5eh5zxHEbV3VE=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto v1.3.1/go.mod h1:st4TFPle8b16a2B9MEN+ofQT6iJjWBPAD9F5rfMQtZg=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor v0.10.0 h1:dAPBLcjVx4qtf915ebQ10szmxqwqtlOxiQJEfjMllXs=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor v0.10.0/go.mod h1:4hjzROcZTj3XS2sGdNOp5037ncCI+y+6kmXSRKIDvvg=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2 v2.2.1 h1:bWh0Z2rOEDfB/ywv/l0iHN1JgyazE6kW/aIA89+CEK0=

@@ -2,92 +2,80 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/cdn/mgmt/2021-06-01/cdn"
-
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func CdnProfiles(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := cdn.NewProfilesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+func CdnProfiles(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armcdn.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewProfilesClient()
 
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.CDNProfileDescription{
-						Profile:       v,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := getCdnProfiles(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
 }
 
-func CdnEndpoint(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := cdn.NewProfilesClient(subscription)
-	client.Authorizer = authorizer
+func getCdnProfiles(ctx context.Context, v *armcdn.Profile) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
 
-	result, err := client.List(ctx)
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.CDNProfileDescription{
+				Profile:       *v,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
+}
+
+func CdnEndpoint(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armcdn.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
 
+	client := clientFactory.NewProfilesClient()
+	endpointsClient := clientFactory.NewEndpointsClient()
+
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-			endpointClient := cdn.NewEndpointsClient(subscription)
-			endpointClient.Authorizer = authorizer
-			endpointResult, err := endpointClient.ListByProfile(ctx, resourceGroup, *v.Name)
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resources, err := getCdnProfilesEndpoints(ctx, endpointsClient, v)
 			if err != nil {
 				return nil, err
 			}
-			for _, endpoint := range endpointResult.Values() {
-				resource := Resource{
-					ID:       *v.ID,
-					Name:     *v.Name,
-					Location: *v.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.CDNEndpointDescription{
-							Endpoint:      endpoint,
-							ResourceGroup: resourceGroup,
-						},
-					},
-				}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -96,24 +84,40 @@ func CdnEndpoint(ctx context.Context, authorizer autorest.Authorizer, subscripti
 					values = append(values, resource)
 				}
 			}
-			if !endpointResult.NotDone() {
-				break
-			}
-			err = endpointResult.NextWithContext(ctx)
-			if err != nil {
-				return nil, err
-			}
 		}
+	}
+	return values, nil
+}
 
-		if !result.NotDone() {
-			break
-		}
+func getCdnProfilesEndpoints(ctx context.Context, endpointsClient *armcdn.EndpointsClient, v *armcdn.Profile) ([]Resource, error) {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
 
-		err = result.NextWithContext(ctx)
+	pager := endpointsClient.NewListByProfilePager(resourceGroup, *v.Name, nil)
+
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, endpoint := range page.Value {
+			resource := getCdnEndpoint(ctx, v, endpoint, resourceGroup)
+			values = append(values, *resource)
+		}
 	}
-
 	return values, nil
+}
+
+func getCdnEndpoint(ctx context.Context, v *armcdn.Profile, endpoint *armcdn.Endpoint, resourceGroup string) *Resource {
+	return &Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.CDNEndpointDescription{
+				Endpoint:      *endpoint,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
 }
