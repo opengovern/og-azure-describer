@@ -7,8 +7,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/powerbidedicated/mgmt/powerbidedicated"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/purview/mgmt/purview"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/recoveryservices/mgmt/recoveryservices"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/locks"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/managementgroups"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/policy"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/resources"
 	sub "github.com/Azure/azure-sdk-for-go/profiles/latest/subscription/mgmt/subscription"
@@ -51,22 +49,25 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/logic/armlogic"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearningservices/armmachinelearningservices"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/managementgroups/armmanagementgroups"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mariadb/armmariadb"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysql"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysqlflexibleservers"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlinks"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlocks"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"github.com/Azure/azure-sdk-for-go/services/dns/mgmt/2018-05-01/dns"
 	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-05-01/frontdoor"
 	secret "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.1/keyvault"
-	"github.com/Azure/azure-sdk-for-go/services/mariadb/mgmt/2020-01-01/mariadb"
-	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2020-01-01/mysql"
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2021-05-01/mysqlflexibleservers"
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-02-01/network"
 	"github.com/Azure/azure-sdk-for-go/services/operationalinsights/mgmt/2021-06-01/operationalinsights"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2020-01-01/postgresql"
 	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2021-06-01/postgresqlflexibleservers"
-	"github.com/Azure/azure-sdk-for-go/services/preview/machinelearningservices/mgmt/2020-02-18-preview/machinelearningservices"
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
 	"github.com/Azure/azure-sdk-for-go/services/preview/security/mgmt/v1.0/security"
 	"github.com/Azure/azure-sdk-for-go/services/preview/servicebus/mgmt/2021-06-01-preview/servicebus"
@@ -1250,8 +1251,8 @@ type LogicIntegrationAccountsDescription struct {
 //getfilter:name=description.Workspace.name
 //getfilter:resource_group=description.ResourceGroup
 type MachineLearningWorkspaceDescription struct {
-	Workspace                   machinelearningservices.Workspace
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	Workspace                   armmachinelearningservices.Workspace
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1261,14 +1262,14 @@ type MachineLearningWorkspaceDescription struct {
 //getfilter:name=description.Server.name
 //getfilter:resource_group=description.ResourceGroup
 type MariadbServerDescription struct {
-	Server        mariadb.Server
+	Server        armmariadb.Server
 	ResourceGroup string
 }
 
 //index:microsoft_dbformariadb_databases
 type MariadbDatabaseDescription struct {
-	Server        mariadb.Server
-	Database      mariadb.Database
+	Server        armmariadb.Server
+	Database      armmariadb.Database
 	ResourceGroup string
 }
 
@@ -1278,15 +1279,15 @@ type MariadbDatabaseDescription struct {
 //getfilter:name=description.Server.name
 //getfilter:resource_group=description.ResourceGroup
 type MysqlServerDescription struct {
-	Server         mysql.Server
-	Configurations *[]mysql.Configuration
-	ServerKeys     []mysql.ServerKey
+	Server         armmysql.Server
+	Configurations []*armmysql.Configuration
+	ServerKeys     []*armmysql.ServerKey
 	ResourceGroup  string
 }
 
 //index:microsoft_dbformysql_flexibleservers
 type MysqlFlexibleserverDescription struct {
-	Server        mysqlflexibleservers.Server
+	Server        armmysqlflexibleservers.Server
 	ResourceGroup string
 }
 
@@ -1741,14 +1742,14 @@ type LoadBalancerRuleDescription struct {
 //index:microsoft_management_groups
 //getfilter:name=description.Group.Name
 type ManagementGroupDescription struct {
-	Group managementgroups.ManagementGroup
+	Group armmanagementgroups.ManagementGroupInfo
 }
 
 //index:microsoft_management_locks
 //getfilter:name=description.Lock.Name
 //getfilter:resource_group=description.ResourceGroup
 type ManagementLockDescription struct {
-	Lock          locks.ManagementLockObject
+	Lock          armlocks.ManagementLockObject
 	ResourceGroup string
 }
 

@@ -2,109 +2,128 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysql"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysqlflexibleservers"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2020-01-01/mysql"
-	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2021-05-01/mysqlflexibleservers"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func MysqlServer(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	keysClient := mysql.NewServerKeysClient(subscription)
-	keysClient.Authorizer = authorizer
-
-	mysqlClient := mysql.NewConfigurationsClient(subscription)
-	mysqlClient.Authorizer = authorizer
-
-	client := mysql.NewServersClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+func MysqlServer(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armmysql.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	serversClient := clientFactory.NewServersClient()
+	keysClient := clientFactory.NewServerKeysClient()
+	configClient := clientFactory.NewConfigurationsClient()
 
+	pager := serversClient.NewListPager(nil)
 	var values []Resource
-	for _, server := range *result.Value {
-		resourceGroup := strings.Split(string(*server.ID), "/")[4]
-		serverName := *server.Name
-
-		mysqlListByServerOp, err := mysqlClient.ListByServer(ctx, resourceGroup, serverName)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
-
-		keysListOp, err := keysClient.List(ctx, resourceGroup, serverName)
-		if err != nil {
-			return nil, err
-		}
-
-		var keys []mysql.ServerKey
-		keys = append(keys, keysListOp.Values()...)
-		for keysListOp.NotDone() {
-			err = keysListOp.NextWithContext(ctx)
+		for _, r := range page.Value {
+			resource, err := getMysqlServer(ctx, keysClient, configClient, r)
 			if err != nil {
 				return nil, err
 			}
-			keys = append(keys, keysListOp.Values()...)
-		}
-
-		resource := Resource{
-			ID:       *server.ID,
-			Name:     *server.Name,
-			Location: *server.Location,
-			Description: JSONAllFieldsMarshaller{
-				model.MysqlServerDescription{
-					Server:         server,
-					Configurations: mysqlListByServerOp.Value,
-					ServerKeys:     keys,
-					ResourceGroup:  resourceGroup,
-				},
-			},
-		}
-		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
 			}
-		} else {
-			values = append(values, resource)
 		}
 	}
 	return values, nil
 }
 
-func MysqlFlexibleservers(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := mysqlflexibleservers.NewServersClient(subscription)
-	client.Authorizer = authorizer
+func getMysqlServer(ctx context.Context, keysClient *armmysql.ServerKeysClient, configClient *armmysql.ConfigurationsClient, server *armmysql.Server) (*Resource, error) {
+	resourceGroup := strings.Split(string(*server.ID), "/")[4]
+	serverName := *server.Name
 
-	result, err := client.List(ctx)
+	pager1 := configClient.NewListByServerPager(resourceGroup, serverName, nil)
+	var configurations []*armmysql.Configuration
+	for pager1.More() {
+		page, err := pager1.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		configurations = append(configurations, page.Value...)
+	}
+
+	pager2 := keysClient.NewListPager(resourceGroup, serverName, nil)
+	var keys []*armmysql.ServerKey
+	for pager2.More() {
+		page, err := pager2.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		keys = append(keys, page.Value...)
+	}
+
+	resource := Resource{
+		ID:       *server.ID,
+		Name:     *server.Name,
+		Location: *server.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.MysqlServerDescription{
+				Server:         *server,
+				Configurations: configurations,
+				ServerKeys:     keys,
+				ResourceGroup:  resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
+}
+
+func MysqlFlexibleservers(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armmysqlflexibleservers.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewServersClient()
 
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for _, server := range result.Values() {
-		resourceGroup := strings.Split(string(*server.ID), "/")[4]
-
-		resource := Resource{
-			ID:       *server.ID,
-			Name:     *server.Name,
-			Location: *server.Location,
-			Description: JSONAllFieldsMarshaller{
-				model.MysqlFlexibleserverDescription{
-					Server:        server,
-					ResourceGroup: resourceGroup,
-				},
-			},
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
 		}
-		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+		for _, server := range page.Value {
+			resource := getMysqlFlexibleservers(ctx, server)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
 			}
-		} else {
-			values = append(values, resource)
 		}
 	}
 	return values, nil
+}
+
+func getMysqlFlexibleservers(ctx context.Context, server *armmysqlflexibleservers.Server) *Resource {
+	resourceGroup := strings.Split(string(*server.ID), "/")[4]
+
+	resource := Resource{
+		ID:       *server.ID,
+		Name:     *server.Name,
+		Location: *server.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.MysqlFlexibleserverDescription{
+				Server:        *server,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
 }

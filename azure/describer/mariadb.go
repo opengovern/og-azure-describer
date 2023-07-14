@@ -2,94 +2,126 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mariadb/armmariadb"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/mariadb/mgmt/2020-01-01/mariadb"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func MariadbServer(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := mariadb.NewServersClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+func MariadbServer(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armmariadb.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewServersClient()
 
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for _, v := range *result.Value {
-		resourceGroup := strings.Split(*v.ID, "/")[4]
-
-		resource := Resource{
-			ID:       *v.ID,
-			Name:     *v.Name,
-			Location: *v.Location,
-			Description: JSONAllFieldsMarshaller{
-				model.MariadbServerDescription{
-					Server:        v,
-					ResourceGroup: resourceGroup,
-				},
-			},
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
 		}
-		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+		for _, server := range page.Value {
+			resource := getMariadbServer(ctx, server)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
 			}
-		} else {
-			values = append(values, resource)
 		}
 	}
 	return values, nil
 }
 
-func MariadbDatabases(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	serverClient := mariadb.NewServersClient(subscription)
-	serverClient.Authorizer = authorizer
+func getMariadbServer(ctx context.Context, server *armmariadb.Server) *Resource {
+	resourceGroup := strings.Split(*server.ID, "/")[4]
 
-	client := mariadb.NewDatabasesClient(subscription)
-	client.Authorizer = authorizer
+	resource := Resource{
+		ID:       *server.ID,
+		Name:     *server.Name,
+		Location: *server.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.MariadbServerDescription{
+				Server:        *server,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
 
-	result, err := serverClient.List(ctx)
+	return &resource
+}
+
+func MariadbDatabases(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armmariadb.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewServersClient()
+	databaseClient := clientFactory.NewDatabasesClient()
 
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for _, server := range *result.Value {
-		resourceGroup := strings.Split(*server.ID, "/")[4]
-
-		res, err := client.ListByServer(ctx, resourceGroup, *server.Name)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
-
-		if res.Value == nil {
-			continue
-		}
-
-		for _, r := range *res.Value {
-			resource := Resource{
-				ID:       *r.ID,
-				Name:     *r.Name,
-				Location: *server.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.MariadbDatabaseDescription{
-						Database:      r,
-						Server:        server,
-						ResourceGroup: resourceGroup,
-					},
-				},
+		for _, server := range page.Value {
+			resource, err := listMariadbServerDatabases(ctx, databaseClient, server)
+			if err != nil {
+				return nil, err
 			}
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
+				for _, r := range resource {
+					if err := (*stream)(r); err != nil {
+						return nil, err
+					}
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, resource...)
 			}
 		}
 	}
 	return values, nil
+}
+
+func listMariadbServerDatabases(ctx context.Context, databaseClient *armmariadb.DatabasesClient, server *armmariadb.Server) ([]Resource, error) {
+	resourceGroup := strings.Split(*server.ID, "/")[4]
+
+	pager := databaseClient.NewListByServerPager(resourceGroup, *server.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, database := range page.Value {
+			resource := getMariadbDatabase(ctx, server, database)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func getMariadbDatabase(ctx context.Context, server *armmariadb.Server, r *armmariadb.Database) *Resource {
+	resourceGroup := strings.Split(*server.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *r.ID,
+		Name:     *r.Name,
+		Location: *server.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.MariadbDatabaseDescription{
+				Database:      *r,
+				Server:        *server,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+
+	return &resource
 }
