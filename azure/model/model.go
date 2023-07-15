@@ -3,10 +3,7 @@
 package model
 
 import (
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/powerbidedicated/mgmt/powerbidedicated"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/purview/mgmt/purview"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/recoveryservices/mgmt/recoveryservices"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/policy"
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/resources"
 	sub "github.com/Azure/azure-sdk-for-go/profiles/latest/subscription/mgmt/subscription"
 	web2 "github.com/Azure/azure-sdk-for-go/profiles/preview/preview/web/mgmt/web"
@@ -57,7 +54,11 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/netapp/armnetapp/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresql"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresqlflexibleservers"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/powerbidedicated/armpowerbidedicated"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/privatedns/armprivatedns"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/purview/armpurview"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlinks"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlocks"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
@@ -65,8 +66,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-05-01/frontdoor"
 	secret "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.1/keyvault"
 	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2021-05-01/mysqlflexibleservers"
-	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2020-01-01/postgresql"
-	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2021-06-01/postgresqlflexibleservers"
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
 	"github.com/Azure/azure-sdk-for-go/services/preview/security/mgmt/v1.0/security"
 	"github.com/Azure/azure-sdk-for-go/services/preview/servicebus/mgmt/2021-06-01-preview/servicebus"
@@ -619,7 +618,7 @@ type NetworkDDoSProtectionPlanDescription struct {
 //index:microsoft_authorization_policyassignments
 //getfilter:name=description.Assignment.name
 type PolicyAssignmentDescription struct {
-	Assignment policy.Assignment
+	Assignment armpolicy.Assignment
 }
 
 //  =================== redis ==================
@@ -1493,18 +1492,18 @@ type AnalysisServiceServerDescription struct {
 //getfilter:name=description.Server.name
 //getfilter:resource_group=description.ResourceGroup
 type PostgresqlServerDescription struct {
-	Server                       postgresql.Server
-	ServerAdministratorResources *[]postgresql.ServerAdministratorResource
-	Configurations               *[]postgresql.Configuration
-	ServerKeys                   []postgresql.ServerKey
-	FirewallRules                *[]postgresql.FirewallRule
+	Server                       armpostgresql.Server
+	ServerAdministratorResources []*armpostgresql.ServerAdministratorResource
+	Configurations               []*armpostgresql.Configuration
+	ServerKeys                   []*armpostgresql.ServerKey
+	FirewallRules                []*armpostgresql.FirewallRule
 	ResourceGroup                string
 }
 
 //index:microsoft_dbforpostgresql_flexibleservers
 type PostgresqlFlexibleServerDescription struct {
 	ResourceGroup string
-	Server        postgresqlflexibleservers.Server
+	Server        armpostgresqlflexibleservers.Server
 }
 
 //  =================== storagesync ==================
@@ -1801,13 +1800,13 @@ type DevTestLabLabDescription struct {
 // =================== Purview ==================
 
 type PurviewAccountDescription struct {
-	Account       purview.Account
+	Account       armpurview.Account
 	ResourceGroup string
 }
 
 // =================== PowerBI ==================
 
 type PowerBIDedicatedCapacityDescription struct {
-	Capacity      powerbidedicated.DedicatedCapacity
+	Capacity      armpowerbidedicated.DedicatedCapacity
 	ResourceGroup string
 }

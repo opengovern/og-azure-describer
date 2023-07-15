@@ -145,8 +145,16 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2 v2.2
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2 v2.2.1/go.mod h1:Bzf34hhAE9NSxailk8xVeLEZbUjOXcC+GnU1mMKdhLw=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2 v2.0.0-beta.3 h1:M1crtD5xLQdt1WFoO4g9onH2Bs23TprcK5JD4E4ttAM=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2 v2.0.0-beta.3/go.mod h1:/eYJMwoYM1BQZSyskkQQLyDW8SwIt8307FYFjak3rTk=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresql v1.1.1 h1:bbLzpw/L7oJXgFydh1z1SD1B8GTa8heWEM/DSVowRyM=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresql v1.1.1/go.mod h1:XuVagOJ3SVFrcbWgteWmWc9688zWn16w4sVkxdIu7sw=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresqlflexibleservers v1.1.0 h1:HzqcSJWx32XQdr8KtxAu/SZJj0PqDo9tKf2YGPdynV0=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresqlflexibleservers v1.1.0/go.mod h1:nKcJObAisSPDrO9lMuuCBoYY7Ki7ADt8p6XmBhpKNTk=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/powerbidedicated/armpowerbidedicated v1.1.0 h1:yc/6tXSQXwyvFPp6ap0MeCcZsnOUCicGyoiuGXWFX9M=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/powerbidedicated/armpowerbidedicated v1.1.0/go.mod h1:hJRjo+3ogn+zZ8AVo0Ls6fmeDwRV1IsGo1AjTuznoVA=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/privatedns/armprivatedns v1.1.0 h1:rR8ZW79lE/ppfXTfiYSnMFv5EzmVuY4pfZWIkscIJ64=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/privatedns/armprivatedns v1.1.0/go.mod h1:y2zXtLSMM/X5Mfawq0lOftpWn3f4V6OCsRdINsvWBPI=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/purview/armpurview v1.1.0 h1:konkWE1GsP6AgM67r+knAHuKoPcB3stC+5TIe7R5BaI=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/purview/armpurview v1.1.0/go.mod h1:1534T+m6sciFjLVJA+2H4eyq5QxLAUsK/WhJ3qioKdU=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlinks v1.1.1 h1:RepzlWKERByaoOzrSw2ZewI2DaSt2ARhowkIZYO0aDo=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlinks v1.1.1/go.mod h1:oaMgRY0Ozu4pYX4HeK88fxbsuL7KO5kTAvJ5BGj71FA=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlocks v1.1.1 h1:Lzhk9fI3qvRciGwsA7ZP1ZsDq3AZAtKk0UyI1a6WW4k=
