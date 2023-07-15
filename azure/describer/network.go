@@ -3,611 +3,83 @@ package describer
 import (
 	"context"
 	"errors"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/privatedns/armprivatedns"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-02-01/network"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
-
-	"github.com/Azure/azure-sdk-for-go/services/dns/mgmt/2018-05-01/dns"
-	"github.com/Azure/azure-sdk-for-go/services/privatedns/mgmt/2018-09-01/privatedns"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func NetworkInterface(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewInterfacesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListAll(ctx)
+func NetworkInterface(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewInterfacesClient()
 
+	pager := client.NewListAllPager(nil)
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.NetworkInterfaceDescription{
-						Interface:     v,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := getNetworkInterface(ctx, v)
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func NetworkWatcherFlowLog(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewFlowLogsClient(subscription)
-	client.Authorizer = authorizer
-
-	networkWatcherClient := network.NewWatchersClient(subscription)
-	networkWatcherClient.Authorizer = authorizer
-
-	resultWatchers, err := networkWatcherClient.ListAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	if resultWatchers.Value == nil || len(*resultWatchers.Value) == 0 {
-		return nil, nil
-	}
-
-	var values []Resource
-	for _, networkWatcherDetails := range *resultWatchers.Value {
-		resourceGroupID := strings.Split(*networkWatcherDetails.ID, "/")[4]
-		result, err := client.List(ctx, resourceGroupID, *networkWatcherDetails.Name)
-		if err != nil {
-			return nil, err
-		}
-
-		for {
-			for _, v := range result.Values() {
-				resource := Resource{
-					ID:       *v.ID,
-					Name:     *v.Name,
-					Location: *v.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.NetworkWatcherFlowLogDescription{
-							NetworkWatcherName: *networkWatcherDetails.Name,
-							FlowLog:            v,
-							ResourceGroup:      resourceGroupID,
-						},
-					},
-				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
-					}
-				} else {
-					values = append(values, resource)
-				}
-			}
-
-			if !result.NotDone() {
-				break
-			}
-
-			err = result.NextWithContext(ctx)
-			if err != nil {
-				return nil, err
-			}
-		}
-	}
-
-	return values, nil
-}
-
-func Subnet(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	networkClient := network.NewVirtualNetworksClient(subscription)
-	networkClient.Authorizer = authorizer
-
-	client := network.NewSubnetsClient(subscription)
-	client.Authorizer = authorizer
-
-	resultVirtualNetworks, err := networkClient.ListAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, virtualNetwork := range resultVirtualNetworks.Values() {
-			resourceGroupName := &strings.Split(*virtualNetwork.ID, "/")[4]
-			result, err := client.List(ctx, *resourceGroupName, *virtualNetwork.Name)
-			if err != nil {
-				return nil, err
-			}
-
-			for {
-				for _, v := range result.Values() {
-					resource := Resource{
-						ID:       *v.ID,
-						Name:     *v.Name,
-						Location: "global",
-						Description: JSONAllFieldsMarshaller{
-							model.SubnetDescription{
-								VirtualNetworkName: *virtualNetwork.Name,
-								Subnet:             v,
-								ResourceGroup:      *resourceGroupName,
-							},
-						},
-					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-
-				if !result.NotDone() {
-					break
-				}
-
-				err = result.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-		}
-
-		if !resultVirtualNetworks.NotDone() {
-			break
-		}
-
-		err = resultVirtualNetworks.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func VirtualNetwork(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewVirtualNetworksClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.VirtualNetworkDescription{
-						VirtualNetwork: v,
-						ResourceGroup:  resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func ApplicationGateway(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	insightsClient := insights.NewDiagnosticSettingsClient(subscription)
-	insightsClient.Authorizer = authorizer
-
-	client := network.NewApplicationGatewaysClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, gateway := range result.Values() {
-			resourceGroup := strings.Split(*gateway.ID, "/")[4]
-
-			networkListOp, err := insightsClient.List(ctx, *gateway.ID)
-			if err != nil {
-				return nil, err
-			}
-
-			resource := Resource{
-				ID:       *gateway.ID,
-				Name:     *gateway.Name,
-				Location: *gateway.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ApplicationGatewayDescription{
-						ApplicationGateway:          gateway,
-						DiagnosticSettingsResources: networkListOp.Value,
-						ResourceGroup:               resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func NetworkSecurityGroup(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := insights.NewDiagnosticSettingsClient(subscription)
-	client.Authorizer = authorizer
+func getNetworkInterface(ctx context.Context, v *armnetwork.Interface) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
 
-	NetworkSecurityGroupClient := network.NewSecurityGroupsClient(subscription)
-	NetworkSecurityGroupClient.Authorizer = authorizer
-
-	result, err := NetworkSecurityGroupClient.ListAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, networkSecurityGroup := range result.Values() {
-			resourceGroup := strings.Split(*networkSecurityGroup.ID, "/")[4]
-
-			id := *networkSecurityGroup.ID
-			networkListOp, err := client.List(ctx, id)
-			if err != nil {
-				if strings.Contains(err.Error(), "ResourceNotFound") || strings.Contains(err.Error(), "SubscriptionNotRegistered") {
-					// ignore
-				} else {
-					return nil, err
-				}
-			}
-
-			resource := Resource{
-				ID:       *networkSecurityGroup.ID,
-				Name:     *networkSecurityGroup.Name,
-				Location: *networkSecurityGroup.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.NetworkSecurityGroupDescription{
-						SecurityGroup:               networkSecurityGroup,
-						DiagnosticSettingsResources: networkListOp.Value,
-						ResourceGroup:               resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-	return values, nil
-}
-
-func NetworkWatcher(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	networkWatcherClient := network.NewWatchersClient(subscription)
-	networkWatcherClient.Authorizer = authorizer
-	result, err := networkWatcherClient.ListAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for _, networkWatcher := range *result.Value {
-		resourceGroup := strings.Split(*networkWatcher.ID, "/")[4]
-
-		resource := Resource{
-			ID:       *networkWatcher.ID,
-			Name:     *networkWatcher.Name,
-			Location: *networkWatcher.Location,
-			Description: JSONAllFieldsMarshaller{
-				model.NetworkWatcherDescription{
-					Watcher:       networkWatcher,
-					ResourceGroup: resourceGroup,
-				},
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.NetworkInterfaceDescription{
+				Interface:     *v,
+				ResourceGroup: resourceGroup,
 			},
+		},
+	}
+	return &resource
+}
+
+func NetworkWatcherFlowLog(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	logsClient := clientFactory.NewFlowLogsClient()
+	watcherClient := clientFactory.NewWatchersClient()
+
+	pager := watcherClient.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
 		}
-		if stream != nil {
-			if err := (*stream)(resource); err != nil {
+		for _, watcher := range page.Value {
+			resources, err := listWatcherFlowLogs(ctx, logsClient, watcher)
+			if err != nil {
 				return nil, err
 			}
-		} else {
-			values = append(values, resource)
-		}
-	}
-
-	return values, nil
-}
-
-func RouteTables(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewRouteTablesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, routeTable := range result.Values() {
-			resourceGroup := strings.Split(*routeTable.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *routeTable.ID,
-				Name:     *routeTable.Name,
-				Location: *routeTable.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.RouteTablesDescription{
-						ResourceGroup: resourceGroup,
-						RouteTable:    routeTable,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-	return values, nil
-}
-
-func NetworkApplicationSecurityGroups(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewApplicationSecurityGroupsClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, applicationSecurityGroup := range result.Values() {
-			resourceGroup := strings.Split(*applicationSecurityGroup.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *applicationSecurityGroup.ID,
-				Name:     *applicationSecurityGroup.Name,
-				Location: *applicationSecurityGroup.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.NetworkApplicationSecurityGroupsDescription{
-						ApplicationSecurityGroup: applicationSecurityGroup,
-						ResourceGroup:            resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func NetworkAzureFirewall(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewAzureFirewallsClient(subscription)
-	client.Authorizer = authorizer
-	result, err := client.ListAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-
-	for {
-		for _, azureFirewall := range result.Values() {
-			resourceGroup := strings.Split(*azureFirewall.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *azureFirewall.ID,
-				Name:     *azureFirewall.Name,
-				Location: *azureFirewall.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.NetworkAzureFirewallDescription{
-						AzureFirewall: azureFirewall,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func ExpressRouteCircuit(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewExpressRouteCircuitsClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, expressRouteCircuit := range result.Values() {
-			resourceGroup := strings.Split(*expressRouteCircuit.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *expressRouteCircuit.ID,
-				Name:     *expressRouteCircuit.Name,
-				Location: *expressRouteCircuit.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ExpressRouteCircuitDescription{
-						ExpressRouteCircuit: expressRouteCircuit,
-						ResourceGroup:       resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-	return values, nil
-}
-
-func VirtualNetworkGateway(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewVirtualNetworkGatewaysClient(subscription)
-	client.Authorizer = authorizer
-
-	rgs, err := listResourceGroups(ctx, authorizer, subscription)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for _, rg := range rgs {
-		result, err := client.List(ctx, *rg.Name)
-		if err != nil {
-			return nil, err
-		}
-
-		for {
-			for _, virtualNetworkGateway := range result.Values() {
-				resourceGroup := strings.Split(*virtualNetworkGateway.ID, "/")[4]
-
-				var gatewayConnections []network.VirtualNetworkGatewayConnectionListEntity
-				result, err := client.ListConnections(ctx, resourceGroup, *virtualNetworkGateway.Name)
-				if err != nil {
-					return nil, err
-				}
-				gatewayConnections = append(gatewayConnections, result.Values()...)
-				for result.NotDone() {
-					err = result.NextWithContext(ctx)
-					if err != nil {
-						return nil, err
-					}
-					gatewayConnections = append(gatewayConnections, result.Values()...)
-				}
-
-				resource := Resource{
-					ID:       *virtualNetworkGateway.ID,
-					Name:     *virtualNetworkGateway.Name,
-					Location: *virtualNetworkGateway.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.VirtualNetworkGatewayDescription{
-							ResourceGroup:                   resourceGroup,
-							VirtualNetworkGateway:           virtualNetworkGateway,
-							VirtualNetworkGatewayConnection: gatewayConnections,
-						},
-					},
-				}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -616,94 +88,68 @@ func VirtualNetworkGateway(ctx context.Context, authorizer autorest.Authorizer, 
 					values = append(values, resource)
 				}
 			}
-			if !result.NotDone() {
-				break
-			}
-			err = result.NextWithContext(ctx)
+		}
+	}
+	return values, nil
+}
+
+func listWatcherFlowLogs(ctx context.Context, logsClient *armnetwork.FlowLogsClient, watcher *armnetwork.Watcher) ([]Resource, error) {
+	resourceGroupID := strings.Split(*watcher.ID, "/")[4]
+
+	pager := logsClient.NewListPager(resourceGroupID, *watcher.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := getWatcherFlowLog(ctx, watcher, v)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func getWatcherFlowLog(ctx context.Context, watcher *armnetwork.Watcher, v *armnetwork.FlowLog) *Resource {
+	resourceGroupID := strings.Split(*watcher.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.NetworkWatcherFlowLogDescription{
+				NetworkWatcherName: *watcher.Name,
+				FlowLog:            *v,
+				ResourceGroup:      resourceGroupID,
+			},
+		},
+	}
+	return &resource
+}
+
+func Subnet(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	subnetsClient := clientFactory.NewSubnetsClient()
+	virtualnetworkClient := clientFactory.NewVirtualNetworksClient()
+
+	pager := virtualnetworkClient.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, virtualnetwork := range page.Value {
+			resources, err := listVirtualNetworkSubnets(ctx, subnetsClient, virtualnetwork)
 			if err != nil {
 				return nil, err
 			}
-		}
-	}
-
-	return values, nil
-}
-
-func FirewallPolicy(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewFirewallPoliciesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.ListAll(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, firewallPolicy := range result.Values() {
-			resourceGroup := strings.Split(*firewallPolicy.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *firewallPolicy.ID,
-				Name:     *firewallPolicy.Name,
-				Location: *firewallPolicy.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.FirewallPolicyDescription{
-						ResourceGroup:  resourceGroup,
-						FirewallPolicy: firewallPolicy,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-	return values, nil
-}
-
-func LocalNetworkGateway(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewLocalNetworkGatewaysClient(subscription)
-	client.Authorizer = authorizer
-
-	rgs, err := listResourceGroups(ctx, authorizer, subscription)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for _, rg := range rgs {
-		result, err := client.List(ctx, *rg.Name)
-		if err != nil {
-			return nil, err
-		}
-
-		for {
-			for _, localNetworkGateway := range result.Values() {
-				resourceGroup := strings.Split(*localNetworkGateway.ID, "/")[4]
-
-				resource := Resource{
-					ID:       *localNetworkGateway.ID,
-					Name:     *localNetworkGateway.Name,
-					Location: *localNetworkGateway.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.LocalNetworkGatewayDescription{
-							ResourceGroup:       resourceGroup,
-							LocalNetworkGateway: localNetworkGateway,
-						},
-					},
-				}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -712,50 +158,890 @@ func LocalNetworkGateway(ctx context.Context, authorizer autorest.Authorizer, su
 					values = append(values, resource)
 				}
 			}
-			if !result.NotDone() {
-				break
-			}
-			err = result.NextWithContext(ctx)
-			if err != nil {
-				return nil, err
-			}
 		}
 	}
-
 	return values, nil
 }
 
-func NatGateway(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewNatGatewaysClient(subscription)
-	client.Authorizer = authorizer
+func listVirtualNetworkSubnets(ctx context.Context, subnetsClient *armnetwork.SubnetsClient, virtualnetwork *armnetwork.VirtualNetwork) ([]Resource, error) {
+	resourceGroupID := strings.Split(*virtualnetwork.ID, "/")[4]
 
-	rgs, err := listResourceGroups(ctx, authorizer, subscription)
+	pager := subnetsClient.NewListPager(resourceGroupID, *virtualnetwork.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := getVirtualNetworkSubnet(ctx, virtualnetwork, v)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func getVirtualNetworkSubnet(ctx context.Context, virtualnetwork *armnetwork.VirtualNetwork, v *armnetwork.Subnet) *Resource {
+	resourceGroupID := strings.Split(*virtualnetwork.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			model.SubnetDescription{
+				VirtualNetworkName: *virtualnetwork.Name,
+				Subnet:             *v,
+				ResourceGroup:      resourceGroupID,
+			},
+		},
+	}
+	return &resource
+}
+
+func VirtualNetwork(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewVirtualNetworksClient()
+
+	pager := client.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := getVirtualNetwork(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getVirtualNetwork(ctx context.Context, v *armnetwork.VirtualNetwork) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.VirtualNetworkDescription{
+				VirtualNetwork: *v,
+				ResourceGroup:  resourceGroup,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func ApplicationGateway(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewApplicationGatewaysClient()
+
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+
+	pager := client.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, gateway := range page.Value {
+			resource, err := getApplicationGateway(ctx, diagnosticClient, gateway)
+			if err != nil {
+				return nil, err
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getApplicationGateway(ctx context.Context, diagnosticClient *armmonitor.DiagnosticSettingsClient, gateway *armnetwork.ApplicationGateway) (*Resource, error) {
+	resourceGroup := strings.Split(*gateway.ID, "/")[4]
+
+	var networkListOp []*armmonitor.DiagnosticSettingsResource
+	pager := diagnosticClient.NewListPager(resourceGroup, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		networkListOp = append(networkListOp, page.Value...)
+	}
+
+	resource := Resource{
+		ID:       *gateway.ID,
+		Name:     *gateway.Name,
+		Location: *gateway.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ApplicationGatewayDescription{
+				ApplicationGateway:          *gateway,
+				DiagnosticSettingsResources: networkListOp,
+				ResourceGroup:               resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
+}
+
+func NetworkSecurityGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewSecurityGroupsClient()
+
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+
+	pager := client.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, networkSecurityGroup := range page.Value {
+			resource, err := getNetworkSecurityGroup(ctx, diagnosticClient, networkSecurityGroup)
+			if err != nil {
+				return nil, err
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getNetworkSecurityGroup(ctx context.Context, diagnosticClient *armmonitor.DiagnosticSettingsClient, networkSecurityGroup *armnetwork.SecurityGroup) (*Resource, error) {
+	resourceGroup := strings.Split(*networkSecurityGroup.ID, "/")[4]
+
+	id := *networkSecurityGroup.ID
+	pager := diagnosticClient.NewListPager(id, nil)
+	var networkListOp []*armmonitor.DiagnosticSettingsResource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			if strings.Contains(err.Error(), "ResourceNotFound") || strings.Contains(err.Error(), "SubscriptionNotRegistered") {
+				// ignore
+			} else {
+				return nil, err
+			}
+		}
+		networkListOp = append(networkListOp, page.Value...)
+	}
+
+	resource := Resource{
+		ID:       *networkSecurityGroup.ID,
+		Name:     *networkSecurityGroup.Name,
+		Location: *networkSecurityGroup.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.NetworkSecurityGroupDescription{
+				SecurityGroup:               *networkSecurityGroup,
+				DiagnosticSettingsResources: networkListOp,
+				ResourceGroup:               resourceGroup,
+			},
+		},
+	}
+
+	return &resource, nil
+}
+
+func NetworkWatcher(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewWatchersClient()
+
+	pager := client.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, networkWatcher := range page.Value {
+			resource := getNetworkWatcher(ctx, networkWatcher)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getNetworkWatcher(ctx context.Context, networkWatcher *armnetwork.Watcher) *Resource {
+	resourceGroup := strings.Split(*networkWatcher.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *networkWatcher.ID,
+		Name:     *networkWatcher.Name,
+		Location: *networkWatcher.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.NetworkWatcherDescription{
+				Watcher:       *networkWatcher,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func RouteTables(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewRouteTablesClient()
+
+	pager := client.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, routeTable := range page.Value {
+			resource := getRouteTable(ctx, routeTable)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getRouteTable(ctx context.Context, routeTable *armnetwork.RouteTable) *Resource {
+	resourceGroup := strings.Split(*routeTable.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *routeTable.ID,
+		Name:     *routeTable.Name,
+		Location: *routeTable.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.RouteTablesDescription{
+				ResourceGroup: resourceGroup,
+				RouteTable:    *routeTable,
+			},
+		},
+	}
+	return &resource
+}
+
+func NetworkApplicationSecurityGroups(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewApplicationSecurityGroupsClient()
+
+	pager := client.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, applicationSecurityGroup := range page.Value {
+			resource := getApplicationSecurityGroup(ctx, applicationSecurityGroup)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getApplicationSecurityGroup(ctx context.Context, applicationSecurityGroup *armnetwork.ApplicationSecurityGroup) *Resource {
+	resourceGroup := strings.Split(*applicationSecurityGroup.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *applicationSecurityGroup.ID,
+		Name:     *applicationSecurityGroup.Name,
+		Location: *applicationSecurityGroup.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.NetworkApplicationSecurityGroupsDescription{
+				ApplicationSecurityGroup: *applicationSecurityGroup,
+				ResourceGroup:            resourceGroup,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func NetworkAzureFirewall(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewAzureFirewallsClient()
+
+	pager := client.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, azureFirewall := range page.Value {
+			resource := getAzureFirewall(ctx, azureFirewall)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getAzureFirewall(ctx context.Context, azureFirewall *armnetwork.AzureFirewall) *Resource {
+	resourceGroup := strings.Split(*azureFirewall.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *azureFirewall.ID,
+		Name:     *azureFirewall.Name,
+		Location: *azureFirewall.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.NetworkAzureFirewallDescription{
+				AzureFirewall: *azureFirewall,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func ExpressRouteCircuit(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewExpressRouteCircuitsClient()
+
+	pager := client.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, expressRouteCircuit := range page.Value {
+			resource := getExpressRouteCircuit(ctx, expressRouteCircuit)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getExpressRouteCircuit(ctx context.Context, expressRouteCircuit *armnetwork.ExpressRouteCircuit) *Resource {
+	resourceGroup := strings.Split(*expressRouteCircuit.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *expressRouteCircuit.ID,
+		Name:     *expressRouteCircuit.Name,
+		Location: *expressRouteCircuit.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ExpressRouteCircuitDescription{
+				ExpressRouteCircuit: *expressRouteCircuit,
+				ResourceGroup:       resourceGroup,
+			},
+		},
+	}
+	return &resource
+}
+
+func VirtualNetworkGateway(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewVirtualNetworkGatewaysClient()
+
+	rgs, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
 	for _, rg := range rgs {
-		result, err := client.List(ctx, *rg.Name)
+		resources, err := getResourceGroupVirtualNetworkGateway(ctx, client, rg)
 		if err != nil {
 			return nil, err
 		}
-
-		for {
-			for _, natGateway := range result.Values() {
-				resourceGroup := strings.Split(*natGateway.ID, "/")[4]
-
-				resource := Resource{
-					ID:       *natGateway.ID,
-					Name:     *natGateway.Name,
-					Location: *natGateway.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.NatGatewayDescription{
-							ResourceGroup: resourceGroup,
-							NatGateway:    natGateway,
-						},
-					},
+		for _, resource := range resources {
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
 				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getResourceGroupVirtualNetworkGateway(ctx context.Context, client *armnetwork.VirtualNetworkGatewaysClient, resourceGroup armresources.ResourceGroup) ([]Resource, error) {
+	pager := client.NewListPager(*resourceGroup.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, virtualNetworkGateway := range page.Value {
+			resource, err := getVirtualNetworkGateway(ctx, client, virtualNetworkGateway)
+			if err != nil {
+				return nil, err
+			}
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func getVirtualNetworkGateway(ctx context.Context, client *armnetwork.VirtualNetworkGatewaysClient, virtualNetworkGateway *armnetwork.VirtualNetworkGateway) (*Resource, error) {
+	resourceGroup := strings.Split(*virtualNetworkGateway.ID, "/")[4]
+
+	var gatewayConnections []*armnetwork.VirtualNetworkGatewayConnectionListEntity
+	pager := client.NewListConnectionsPager(resourceGroup, *virtualNetworkGateway.Name, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		gatewayConnections = append(gatewayConnections, page.Value...)
+	}
+
+	resource := Resource{
+		ID:       *virtualNetworkGateway.ID,
+		Name:     *virtualNetworkGateway.Name,
+		Location: *virtualNetworkGateway.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.VirtualNetworkGatewayDescription{
+				ResourceGroup:                   resourceGroup,
+				VirtualNetworkGateway:           *virtualNetworkGateway,
+				VirtualNetworkGatewayConnection: gatewayConnections,
+			},
+		},
+	}
+
+	return &resource, nil
+}
+
+func FirewallPolicy(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewFirewallPoliciesClient()
+
+	pager := client.NewListAllPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, firewallPolicy := range page.Value {
+			resource := getFirewallPolicy(ctx, firewallPolicy)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getFirewallPolicy(ctx context.Context, firewallPolicy *armnetwork.FirewallPolicy) *Resource {
+	resourceGroup := strings.Split(*firewallPolicy.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *firewallPolicy.ID,
+		Name:     *firewallPolicy.Name,
+		Location: *firewallPolicy.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.FirewallPolicyDescription{
+				ResourceGroup:  resourceGroup,
+				FirewallPolicy: *firewallPolicy,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func LocalNetworkGateway(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewLocalNetworkGatewaysClient()
+
+	rgs, err := listResourceGroups(ctx, cred, subscription)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, rg := range rgs {
+		resources, err := ListResourceGroupLocalNetworkGateways(ctx, client, rg)
+		if err != nil {
+			return nil, err
+		}
+		for _, resource := range resources {
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func ListResourceGroupLocalNetworkGateways(ctx context.Context, client *armnetwork.LocalNetworkGatewaysClient, rg armresources.ResourceGroup) ([]Resource, error) {
+	var values []Resource
+	pager := client.NewListPager(*rg.Name, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, localNetworkGateway := range page.Value {
+			resource := getLocalNetworkGateway(ctx, localNetworkGateway)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func getLocalNetworkGateway(ctx context.Context, localNetworkGateway *armnetwork.LocalNetworkGateway) *Resource {
+	resourceGroup := strings.Split(*localNetworkGateway.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *localNetworkGateway.ID,
+		Name:     *localNetworkGateway.Name,
+		Location: *localNetworkGateway.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.LocalNetworkGatewayDescription{
+				ResourceGroup:       resourceGroup,
+				LocalNetworkGateway: *localNetworkGateway,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func NatGateway(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewNatGatewaysClient()
+
+	rgs, err := listResourceGroups(ctx, cred, subscription)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, rg := range rgs {
+		resources, err := ListResourceGroupNatGateways(ctx, client, rg)
+		if err != nil {
+			return nil, err
+		}
+		for _, resource := range resources {
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func ListResourceGroupNatGateways(ctx context.Context, client *armnetwork.NatGatewaysClient, rg armresources.ResourceGroup) ([]Resource, error) {
+	var values []Resource
+	pager := client.NewListPager(*rg.Name, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, natGateway := range page.Value {
+			resource := getNatGateway(ctx, natGateway)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func getNatGateway(ctx context.Context, natGateway *armnetwork.NatGateway) *Resource {
+	resourceGroup := strings.Split(*natGateway.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *natGateway.ID,
+		Name:     *natGateway.Name,
+		Location: *natGateway.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.NatGatewayDescription{
+				ResourceGroup: resourceGroup,
+				NatGateway:    *natGateway,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func PrivateLinkService(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewPrivateLinkServicesClient()
+
+	rgs, err := listResourceGroups(ctx, cred, subscription)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, rg := range rgs {
+		resources, err := ListResourceGroupPrivateLinkServices(ctx, client, rg)
+		if err != nil {
+			return nil, err
+		}
+		for _, resource := range resources {
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func ListResourceGroupPrivateLinkServices(ctx context.Context, client *armnetwork.PrivateLinkServicesClient, rg armresources.ResourceGroup) ([]Resource, error) {
+	var values []Resource
+	pager := client.NewListPager(*rg.Name, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, privateLinkService := range page.Value {
+			resource := getPrivateLinkService(ctx, privateLinkService)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func getPrivateLinkService(ctx context.Context, privateLinkService *armnetwork.PrivateLinkService) *Resource {
+	resourceGroup := strings.Split(*privateLinkService.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *privateLinkService.ID,
+		Name:     *privateLinkService.Name,
+		Location: *privateLinkService.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.PrivateLinkServiceDescription{
+				ResourceGroup:      resourceGroup,
+				PrivateLinkService: *privateLinkService,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func RouteFilter(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewRouteFiltersClient()
+
+	var values []Resource
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, routeFilter := range page.Value {
+			resource := getRouteFilter(ctx, routeFilter)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getRouteFilter(ctx context.Context, routeFilter *armnetwork.RouteFilter) *Resource {
+	resourceGroup := strings.Split(*routeFilter.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *routeFilter.ID,
+		Name:     *routeFilter.Name,
+		Location: *routeFilter.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.RouteFilterDescription{
+				ResourceGroup: resourceGroup,
+				RouteFilter:   *routeFilter,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func VpnGateway(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewVPNGatewaysClient()
+
+	var values []Resource
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, vpnGateway := range page.Value {
+			resource := getVpnGateway(ctx, vpnGateway)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getVpnGateway(ctx context.Context, vpnGateway *armnetwork.VPNGateway) *Resource {
+	resourceGroup := strings.Split(*vpnGateway.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *vpnGateway.ID,
+		Name:     *vpnGateway.Name,
+		Location: *vpnGateway.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.VpnGatewayDescription{
+				ResourceGroup: resourceGroup,
+				VpnGateway:    *vpnGateway,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func NetworkVpnGatewaysVpnConnections(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewVPNGatewaysClient()
+	connClient := clientFactory.NewVPNConnectionsClient()
+
+	var values []Resource
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, vpnGateway := range page.Value {
+			resources, err := ListNetworkVpnGatewayVpnConnections(ctx, connClient, vpnGateway)
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -764,394 +1050,107 @@ func NatGateway(ctx context.Context, authorizer autorest.Authorizer, subscriptio
 					values = append(values, resource)
 				}
 			}
-			if !result.NotDone() {
-				break
-			}
-			err = result.NextWithContext(ctx)
-			if err != nil {
-				return nil, err
-			}
 		}
 	}
-
 	return values, nil
 }
 
-func PrivateLinkService(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewPrivateLinkServicesClient(subscription)
-	client.Authorizer = authorizer
-
-	rgs, err := listResourceGroups(ctx, authorizer, subscription)
-	if err != nil {
-		return nil, err
-	}
+func ListNetworkVpnGatewayVpnConnections(ctx context.Context, connClient *armnetwork.VPNConnectionsClient, vpnGateway *armnetwork.VPNGateway) ([]Resource, error) {
+	resourceGroup := strings.Split(*vpnGateway.ID, "/")[4]
 
 	var values []Resource
-	for _, rg := range rgs {
-		result, err := client.List(ctx, *rg.Name)
+	pager := connClient.NewListByVPNGatewayPager(resourceGroup, *vpnGateway.Name, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
-
-		for {
-			for _, privateLinkService := range result.Values() {
-				resourceGroup := strings.Split(*privateLinkService.ID, "/")[4]
-
-				resource := Resource{
-					ID:       *privateLinkService.ID,
-					Name:     *privateLinkService.Name,
-					Location: *privateLinkService.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.PrivateLinkServiceDescription{
-							ResourceGroup:      resourceGroup,
-							PrivateLinkService: privateLinkService,
-						},
-					},
-				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
-					}
-				} else {
-					values = append(values, resource)
-				}
-			}
-			if !result.NotDone() {
-				break
-			}
-			err = result.NextWithContext(ctx)
-			if err != nil {
-				return nil, err
-			}
+		for _, vpnConn := range page.Value {
+			resource := getNetworkVpnGatewaysVpnConnections(ctx, vpnGateway, vpnConn)
+			values = append(values, *resource)
 		}
 	}
-
 	return values, nil
 }
 
-func RouteFilter(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewRouteFiltersClient(subscription)
-	client.Authorizer = authorizer
+func getNetworkVpnGatewaysVpnConnections(ctx context.Context, vpnGateway *armnetwork.VPNGateway, vpnConn *armnetwork.VPNConnection) *Resource {
+	resourceGroup := strings.Split(*vpnConn.ID, "/")[4]
 
-	var values []Resource
-	result, err := client.List(ctx)
+	resource := Resource{
+		ID:       *vpnConn.ID,
+		Name:     *vpnConn.Name,
+		Location: *vpnGateway.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.VpnGatewayVpnConnectionDescription{
+				VpnConnection: *vpnConn,
+				VpnGateway:    *vpnGateway,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func NetworkVpnGatewaysVpnSites(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewVPNSitesClient()
 
-	for {
-		for _, routeFilter := range result.Values() {
-			resourceGroup := strings.Split(*routeFilter.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *routeFilter.ID,
-				Name:     *routeFilter.Name,
-				Location: *routeFilter.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.RouteFilterDescription{
-						ResourceGroup: resourceGroup,
-						RouteFilter:   routeFilter,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	var values []Resource
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, vpnSite := range page.Value {
+			resource := getNetworkVpnGatewaysVpnSites(ctx, vpnSite)
+			values = append(values, *resource)
+		}
 	}
-
 	return values, nil
 }
 
-func VpnGateway(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewVpnGatewaysClient(subscription)
-	client.Authorizer = authorizer
+func getNetworkVpnGatewaysVpnSites(ctx context.Context, v *armnetwork.VPNSite) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
 
-	var values []Resource
-	result, err := client.List(ctx)
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.VpnSiteDescription{
+				ResourceGroup: resourceGroup,
+				VpnSite:       *v,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func PublicIPAddress(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewPublicIPAddressesClient()
 
-	for {
-		for _, vpnGateway := range result.Values() {
-			resourceGroup := strings.Split(*vpnGateway.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *vpnGateway.ID,
-				Name:     *vpnGateway.Name,
-				Location: *vpnGateway.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.VpnGatewayDescription{
-						ResourceGroup: resourceGroup,
-						VpnGateway:    vpnGateway,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func NetworkVpnGatewaysVpnConnections(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewVpnGatewaysClient(subscription)
-	client.Authorizer = authorizer
-
-	connClient := network.NewVpnConnectionsClient(subscription)
-	connClient.Authorizer = authorizer
-
-	var values []Resource
-	result, err := client.List(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	for {
-		for _, vpnGateway := range result.Values() {
-			resourceGroup := strings.Split(*vpnGateway.ID, "/")[4]
-
-			connResult, err := connClient.ListByVpnGateway(ctx, resourceGroup, *vpnGateway.Name)
-			if err != nil {
-				return nil, err
-			}
-
-			for {
-				for _, vpnConn := range connResult.Values() {
-					resourceGroup := strings.Split(*vpnConn.ID, "/")[4]
-
-					resource := Resource{
-						ID:       *vpnConn.ID,
-						Name:     *vpnConn.Name,
-						Location: *vpnGateway.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.VpnGatewayVpnConnectionDescription{
-								VpnConnection: vpnConn,
-								VpnGateway:    vpnGateway,
-								ResourceGroup: resourceGroup,
-							},
-						},
-					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-				if !result.NotDone() {
-					break
-				}
-				err = result.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-	return values, nil
-}
-
-func NetworkVpnGatewaysVpnSites(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewVpnSitesClient(subscription)
-	client.Authorizer = authorizer
-
-	var values []Resource
-	result, err := client.List(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.VpnSiteDescription{
-						ResourceGroup: resourceGroup,
-						VpnSite:       v,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func PublicIPAddress(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewPublicIPAddressesClient(subscription)
-	client.Authorizer = authorizer
-
-	resourceGroups, err := listResourceGroups(ctx, authorizer, subscription)
+	resourceGroups, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
 	for _, resourceGroup := range resourceGroups {
-		result, err := client.List(ctx, *resourceGroup.Name)
+		resources, err := ListResourceGroupPublicIPAddresses(ctx, client, resourceGroup)
 		if err != nil {
 			return nil, err
 		}
-
-		for {
-			for _, publicIPAddress := range result.Values() {
-				resource := Resource{
-					ID:       *publicIPAddress.ID,
-					Name:     *publicIPAddress.Name,
-					Location: *publicIPAddress.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.PublicIPAddressDescription{
-							ResourceGroup:   *resourceGroup.Name,
-							PublicIPAddress: publicIPAddress,
-						},
-					},
-				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
-					}
-				} else {
-					values = append(values, resource)
-				}
-			}
-			if !result.NotDone() {
-				break
-			}
-			err = result.NextWithContext(ctx)
-			if err != nil {
-				return nil, err
-			}
-		}
-	}
-	return values, nil
-}
-
-func PublicIPPrefix(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewPublicIPPrefixesClient(subscription)
-	client.Authorizer = authorizer
-
-	resourceGroups, err := listResourceGroups(ctx, authorizer, subscription)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for _, resourceGroup := range resourceGroups {
-		result, err := client.List(ctx, *resourceGroup.Name)
-		if err != nil {
-			return nil, err
-		}
-
-		for {
-			for _, publicIPPrefix := range result.Values() {
-				resource := Resource{
-					ID:       *publicIPPrefix.ID,
-					Name:     *publicIPPrefix.Name,
-					Location: *publicIPPrefix.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.PublicIPPrefixDescription{
-							ResourceGroup:  *resourceGroup.Name,
-							PublicIPPrefix: publicIPPrefix,
-						},
-					},
-				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
-					}
-				} else {
-					values = append(values, resource)
-				}
-			}
-			if !result.NotDone() {
-				break
-			}
-			err = result.NextWithContext(ctx)
-			if err != nil {
-				return nil, err
-			}
-		}
-	}
-	return values, nil
-}
-
-func DNSZones(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := dns.NewZonesClient(subscription)
-	client.Authorizer = authorizer
-
-	var values []Resource
-	result, err := client.List(ctx, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	for {
-		for _, dnsZone := range result.Values() {
-			resourceGroup := strings.Split(*dnsZone.ID, "/")[4]
-			resource := Resource{
-				ID:       *dnsZone.ID,
-				Name:     *dnsZone.Name,
-				Location: *dnsZone.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.DNSZonesDescription{
-						DNSZone:       dnsZone,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
+		for _, resource := range resources {
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -1160,138 +1159,218 @@ func DNSZones(ctx context.Context, authorizer autorest.Authorizer, subscription 
 				values = append(values, resource)
 			}
 		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	}
+	return values, nil
+}
+
+func ListResourceGroupPublicIPAddresses(ctx context.Context, client *armnetwork.PublicIPAddressesClient, resourceGroup armresources.ResourceGroup) ([]Resource, error) {
+	pager := client.NewListPager(*resourceGroup.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
+		}
+		for _, publicIPAddress := range page.Value {
+			resource := getPublicIPAddress(ctx, resourceGroup, publicIPAddress)
+			values = append(values, *resource)
 		}
 	}
 	return values, nil
 }
 
-func DNSResolvers(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
+func getPublicIPAddress(ctx context.Context, resourceGroup armresources.ResourceGroup, publicIPAddress *armnetwork.PublicIPAddress) *Resource {
+	resource := Resource{
+		ID:       *publicIPAddress.ID,
+		Name:     *publicIPAddress.Name,
+		Location: *publicIPAddress.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.PublicIPAddressDescription{
+				ResourceGroup:   *resourceGroup.Name,
+				PublicIPAddress: *publicIPAddress,
+			},
+		},
+	}
+	return &resource
+}
+
+func PublicIPPrefix(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewPublicIPPrefixesClient()
+
+	resourceGroups, err := listResourceGroups(ctx, cred, subscription)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, resourceGroup := range resourceGroups {
+		resources, err := ListResourceGroupPublicIPPrefixes(ctx, client, resourceGroup)
+		if err != nil {
+			return nil, err
+		}
+		for _, resource := range resources {
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func ListResourceGroupPublicIPPrefixes(ctx context.Context, client *armnetwork.PublicIPPrefixesClient, resourceGroup armresources.ResourceGroup) ([]Resource, error) {
+	pager := client.NewListPager(*resourceGroup.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, publicIPPrefix := range page.Value {
+			resource := getPublicIPPrefix(ctx, resourceGroup, publicIPPrefix)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func getPublicIPPrefix(ctx context.Context, resourceGroup armresources.ResourceGroup, publicIPPrefix *armnetwork.PublicIPPrefix) *Resource {
+	resource := Resource{
+		ID:       *publicIPPrefix.ID,
+		Name:     *publicIPPrefix.Name,
+		Location: *publicIPPrefix.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.PublicIPPrefixDescription{
+				ResourceGroup:  *resourceGroup.Name,
+				PublicIPPrefix: *publicIPPrefix,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func DNSZones(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armdns.NewClientFactory("<subscription-id>", cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewZonesClient()
+
+	pager := client.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, dnsZone := range page.Value {
+			resource := GetDNSZone(ctx, dnsZone)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func GetDNSZone(ctx context.Context, dnsZone *armdns.Zone) *Resource {
+	resourceGroup := strings.Split(*dnsZone.ID, "/")[4]
+	resource := Resource{
+		ID:       *dnsZone.ID,
+		Name:     *dnsZone.Name,
+		Location: *dnsZone.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.DNSZonesDescription{
+				DNSZone:       *dnsZone,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func DNSResolvers(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	//clientFactory, err := armdnsresolver.NewDNSResolversClient(subscription, cred, nil)
 	return nil, errors.New("unimplemented")
 }
 
-func PrivateDnsZones(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	dnsClient := privatedns.NewPrivateZonesClient(subscription)
-	dnsClient.Authorizer = authorizer
-
-	var values []Resource
-	result, err := dnsClient.List(ctx, nil)
+func PrivateDnsZones(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armprivatedns.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewPrivateZonesClient()
 
-	for {
-		for _, privateZone := range result.Values() {
-			resourceGroup := strings.Split(*privateZone.ID, "/")[4]
-			resource := Resource{
-				ID:       *privateZone.ID,
-				Name:     *privateZone.Name,
-				Location: *privateZone.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.PrivateDNSZonesDescription{
-						PrivateZone:   privateZone,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
+	pager := client.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, privateZone := range page.Value {
+			resource := GetPrivateDnsZone(ctx, privateZone)
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func PrivateEndpoints(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	dnsClient := network.NewPrivateEndpointsClient(subscription)
-	dnsClient.Authorizer = authorizer
+func GetPrivateDnsZone(ctx context.Context, privateZone *armprivatedns.PrivateZone) *Resource {
+	resourceGroup := strings.Split(*privateZone.ID, "/")[4]
+	resource := Resource{
+		ID:       *privateZone.ID,
+		Name:     *privateZone.Name,
+		Location: *privateZone.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.PrivateDNSZonesDescription{
+				PrivateZone:   *privateZone,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
 
-	resourceGroups, err := listResourceGroups(ctx, authorizer, subscription)
+	return &resource
+}
+
+func PrivateEndpoints(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewPrivateEndpointsClient()
+
+	resourceGroups, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
 	for _, resourceGroup := range resourceGroups {
-		result, err := dnsClient.List(ctx, *resourceGroup.Name)
+		resources, err := ListResourceGroupPrivateEndpoints(ctx, client, resourceGroup)
 		if err != nil {
 			return nil, err
 		}
-
-		for {
-			for _, v := range result.Values() {
-				resource := Resource{
-					ID:       *v.ID,
-					Name:     *v.Name,
-					Location: *v.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.PrivateEndpointDescription{
-							PrivateEndpoint: v,
-							ResourceGroup:   *resourceGroup.Name,
-						},
-					},
-				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
-					}
-				} else {
-					values = append(values, resource)
-				}
-			}
-			if !result.NotDone() {
-				break
-			}
-			err = result.NextWithContext(ctx)
-			if err != nil {
-				return nil, err
-			}
-		}
-	}
-	return values, nil
-}
-
-func NetworkBastionHosts(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	bastianHostClient := network.NewBastionHostsClient(subscription)
-	bastianHostClient.Authorizer = authorizer
-
-	var values []Resource
-	result, err := bastianHostClient.List(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.BastionHostsDescription{
-						BastianHost:   v,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
+		for _, resource := range resources {
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -1300,91 +1379,106 @@ func NetworkBastionHosts(ctx context.Context, authorizer autorest.Authorizer, su
 				values = append(values, resource)
 			}
 		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	}
+	return values, nil
+}
+
+func ListResourceGroupPrivateEndpoints(ctx context.Context, client *armnetwork.PrivateEndpointsClient, resourceGroup armresources.ResourceGroup) ([]Resource, error) {
+	pager := client.NewListPager(*resourceGroup.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
+		}
+		for _, privateEndpoint := range page.Value {
+			resource := GetPrivateEndpoint(ctx, resourceGroup, privateEndpoint)
+			values = append(values, *resource)
 		}
 	}
 	return values, nil
 }
 
-func NetworkConnections(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewVirtualNetworkGatewayConnectionsClient(subscription)
-	client.Authorizer = authorizer
+func GetPrivateEndpoint(ctx context.Context, resourceGroup armresources.ResourceGroup, v *armnetwork.PrivateEndpoint) *Resource {
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.PrivateEndpointDescription{
+				PrivateEndpoint: *v,
+				ResourceGroup:   *resourceGroup.Name,
+			},
+		},
+	}
 
-	resourceGroups, err := listResourceGroups(ctx, authorizer, subscription)
+	return &resource
+}
+
+func NetworkBastionHosts(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewBastionHostsClient()
+
+	var values []Resource
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, bastionHost := range page.Value {
+			resource := GetBastionHost(ctx, bastionHost)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func GetBastionHost(ctx context.Context, v *armnetwork.BastionHost) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.BastionHostsDescription{
+				BastianHost:   *v,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func NetworkConnections(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewVirtualNetworkGatewayConnectionsClient()
+
+	resourceGroups, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
 	for _, resourceGroup := range resourceGroups {
-		result, err := client.List(ctx, *resourceGroup.Name)
+		resources, err := ListResourceGroupNetworkCOnnections(ctx, client, resourceGroup)
 		if err != nil {
 			return nil, err
 		}
-
-		for {
-			for _, v := range result.Values() {
-				resourceGroupName := strings.Split(*v.ID, "/")[4]
-				resource := Resource{
-					ID:       *v.ID,
-					Name:     *v.Name,
-					Location: *v.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.ConnectionDescription{
-							Connection:    v,
-							ResourceGroup: resourceGroupName,
-						},
-					},
-				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
-					}
-				} else {
-					values = append(values, resource)
-				}
-			}
-			if !result.NotDone() {
-				break
-			}
-			err = result.NextWithContext(ctx)
-			if err != nil {
-				return nil, err
-			}
-		}
-	}
-	return values, nil
-}
-
-func NetworkVirtualHubs(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewVirtualHubsClient(subscription)
-	client.Authorizer = authorizer
-
-	var values []Resource
-	result, err := client.List(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	for {
-		for _, v := range result.Values() {
-			resourceGroupName := strings.Split(*v.ID, "/")[4]
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.VirtualHubsDescription{
-						VirtualHub:    v,
-						ResourceGroup: resourceGroupName,
-					},
-				},
-			}
+		for _, resource := range resources {
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -1393,99 +1487,172 @@ func NetworkVirtualHubs(ctx context.Context, authorizer autorest.Authorizer, sub
 				values = append(values, resource)
 			}
 		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	}
+	return values, nil
+}
+
+func ListResourceGroupNetworkCOnnections(ctx context.Context, client *armnetwork.VirtualNetworkGatewayConnectionsClient, resourceGroup armresources.ResourceGroup) ([]Resource, error) {
+	pager := client.NewListPager(*resourceGroup.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
+		}
+		for _, connection := range page.Value {
+			resource := GetNetworkConnection(ctx, resourceGroup, connection)
+			values = append(values, *resource)
 		}
 	}
 	return values, nil
 }
 
-func NetworkVirtualWans(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewVirtualWansClient(subscription)
-	client.Authorizer = authorizer
+func GetNetworkConnection(ctx context.Context, resourceGroup armresources.ResourceGroup, v *armnetwork.VirtualNetworkGatewayConnection) *Resource {
+	resourceGroupName := strings.Split(*v.ID, "/")[4]
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ConnectionDescription{
+				Connection:    *v,
+				ResourceGroup: resourceGroupName,
+			},
+		},
+	}
 
-	var values []Resource
-	result, err := client.List(ctx)
+	return &resource
+}
+
+func NetworkVirtualHubs(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewVirtualHubsClient()
 
-	for {
-		for _, v := range result.Values() {
-			resourceGroupName := strings.Split(*v.ID, "/")[4]
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.VirtualWansDescription{
-						VirtualWan:    v,
-						ResourceGroup: resourceGroupName,
-					},
-				},
-			}
+	pager := client.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := GetNetworkVirtualHub(ctx, v)
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func NetworkDDoSProtectionPlan(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := network.NewDdosProtectionPlansClient(subscription)
-	client.Authorizer = authorizer
+func GetNetworkVirtualHub(ctx context.Context, v *armnetwork.VirtualHub) *Resource {
+	resourceGroupName := strings.Split(*v.ID, "/")[4]
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.VirtualHubsDescription{
+				VirtualHub:    *v,
+				ResourceGroup: resourceGroupName,
+			},
+		},
+	}
 
-	var values []Resource
-	result, err := client.List(ctx)
+	return &resource
+}
+
+func NetworkVirtualWans(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewVirtualWansClient()
 
-	for {
-		for _, v := range result.Values() {
-			resourceGroupName := strings.Split(*v.ID, "/")[4]
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.NetworkDDoSProtectionPlanDescription{
-						DDoSProtectionPlan: v,
-						ResourceGroup:      resourceGroupName,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	pager := client.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := GetNetworkVirtualWan(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
 	return values, nil
+}
+
+func GetNetworkVirtualWan(ctx context.Context, v *armnetwork.VirtualWAN) *Resource {
+	resourceGroupName := strings.Split(*v.ID, "/")[4]
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.VirtualWansDescription{
+				VirtualWan:    *v,
+				ResourceGroup: resourceGroupName,
+			},
+		},
+	}
+	return &resource
+}
+
+func NetworkDDoSProtectionPlan(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDdosProtectionPlansClient()
+
+	pager := client.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := GetNetworkDDoSProtectionPlan(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func GetNetworkDDoSProtectionPlan(ctx context.Context, v *armnetwork.DdosProtectionPlan) *Resource {
+	resourceGroupName := strings.Split(*v.ID, "/")[4]
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.NetworkDDoSProtectionPlanDescription{
+				DDoSProtectionPlan: *v,
+				ResourceGroup:      resourceGroupName,
+			},
+		},
+	}
+	return &resource
 }
