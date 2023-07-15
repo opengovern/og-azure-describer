@@ -3,8 +3,6 @@
 package model
 
 import (
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/recoveryservices/mgmt/recoveryservices"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/resources"
 	sub "github.com/Azure/azure-sdk-for-go/profiles/latest/subscription/mgmt/subscription"
 	web2 "github.com/Azure/azure-sdk-for-go/profiles/preview/preview/web/mgmt/web"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/analysisservices/armanalysisservices"
@@ -59,6 +57,9 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/powerbidedicated/armpowerbidedicated"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/privatedns/armprivatedns"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/purview/armpurview"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlinks"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlocks"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
@@ -74,8 +75,6 @@ import (
 	sqlv5 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v5.0/sql"
 	"github.com/Azure/azure-sdk-for-go/services/preview/sqlvirtualmachine/mgmt/2021-11-01-preview/sqlvirtualmachine"
 	"github.com/Azure/azure-sdk-for-go/services/preview/timeseriesinsights/mgmt/2018-08-15-preview/timeseriesinsights"
-	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2020-06-01/redis"
-	"github.com/Azure/azure-sdk-for-go/services/redisenterprise/mgmt/2022-01-01/redisenterprise"
 	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2019-06-01/subscriptions"
 	"github.com/Azure/azure-sdk-for-go/services/search/mgmt/2020-08-01/search"
 	"github.com/Azure/azure-sdk-for-go/services/servicefabric/mgmt/2019-03-01/servicefabric"
@@ -627,14 +626,14 @@ type PolicyAssignmentDescription struct {
 //getfilter:name=description.ResourceType.name
 //getfilter:resource_group=description.ResourceGroup
 type RedisCacheDescription struct {
-	ResourceType  redis.ResourceType
+	ResourceInfo  armredis.ResourceInfo
 	ResourceGroup string
 }
 
 //index:microsoft_cache_redisenterprise
 type RedisEnterpriseCacheDescription struct {
 	ResourceGroup   string
-	RedisEnterprise redisenterprise.Cluster
+	RedisEnterprise armredisenterprise.Cluster
 }
 
 //  =================== links ==================
@@ -1639,7 +1638,7 @@ type StorageAccountDescription struct {
 //getfilter:name=description.Vault.Name
 //getfilter:resource_group=description.ResourceGroup
 type RecoveryServicesVaultDescription struct {
-	Vault         recoveryservices.Vault
+	Vault         armrecoveryservices.Vault
 	ResourceGroup string
 }
 
@@ -1755,13 +1754,13 @@ type ManagementLockDescription struct {
 //index:microsoft_resources_providers
 //getfilter:namespace=description.Provider.Namespace
 type ResourceProviderDescription struct {
-	Provider resources.Provider
+	Provider armresources.Provider
 }
 
 //index:microsoft_resources_resourcegroups
 //getfilter:name=description.Group.Name
 type ResourceGroupDescription struct {
-	Group resources.Group
+	Group armresources.ResourceGroup
 }
 
 // =================== BotService ==================

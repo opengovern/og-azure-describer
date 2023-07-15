@@ -155,6 +155,14 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/privatedns/armprivatedns v
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/privatedns/armprivatedns v1.1.0/go.mod h1:y2zXtLSMM/X5Mfawq0lOftpWn3f4V6OCsRdINsvWBPI=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/purview/armpurview v1.1.0 h1:konkWE1GsP6AgM67r+knAHuKoPcB3stC+5TIe7R5BaI=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/purview/armpurview v1.1.0/go.mod h1:1534T+m6sciFjLVJA+2H4eyq5QxLAUsK/WhJ3qioKdU=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices v1.4.0 h1:JOW+dUk9NvI+e87zO18DUiX1u90Z+ptB0SZ4Evvwmn0=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices v1.4.0/go.mod h1:BpQAFlSv/fIX1fyNq76CNenQAYVsbYWuEUez8jh1UWg=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis/v2 v2.3.0 h1:/DeaPA3K0LQXaFGsGJMBeCswc2arEsM1SsueqAJIwe8=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis/v2 v2.3.0/go.mod h1:FMVQhV2nfxsI9cDUBqn/rWfN5y1KxwZ/+q1Bl1oqko0=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise v1.1.1 h1:YJ85UcbuFt2quyUS6NntBPuXMk8ob2zHOeFlXZysSwA=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise v1.1.1/go.mod h1:Xv4zciAMUA5eyLkWrsvDai7VLndnthFMRkPDmDNNF0I=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph v0.8.0 h1:+fxpya1I3WJEvl+qzET7NO2MkjtYkiZJxIcEN690W64=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph v0.8.0/go.mod h1:1wZ2sD5NUZGEk/RVNxjBFPqVHC39ekUDtmNnWhKhrGY=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlinks v1.1.1 h1:RepzlWKERByaoOzrSw2ZewI2DaSt2ARhowkIZYO0aDo=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlinks v1.1.1/go.mod h1:oaMgRY0Ozu4pYX4HeK88fxbsuL7KO5kTAvJ5BGj71FA=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlocks v1.1.1 h1:Lzhk9fI3qvRciGwsA7ZP1ZsDq3AZAtKk0UyI1a6WW4k=
