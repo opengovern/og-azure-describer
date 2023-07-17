@@ -7,17 +7,13 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/blueprint/armblueprint"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 	"strings"
-
-	"github.com/Azure/go-autorest/autorest"
 )
 
-func BlueprintArtifact(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
+func BlueprintArtifact(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armblueprint.NewClientFactory(cred, nil)
 	if err != nil {
 		return nil, err
 	}
-
-	clientFactory, err := armblueprint.NewClientFactory(cred, nil)
 
 	artifactClient := clientFactory.NewArtifactsClient()
 	client := clientFactory.NewBlueprintsClient()
@@ -64,14 +60,11 @@ func getBluePrintArtifact(ctx context.Context, v armblueprint.ArtifactClassifica
 	}
 }
 
-func BlueprintBlueprint(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	cred, err := azidentity.NewDefaultAzureCredential(nil)
+func BlueprintBlueprint(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armblueprint.NewClientFactory(cred, nil)
 	if err != nil {
 		return nil, err
 	}
-
-	clientFactory, err := armblueprint.NewClientFactory(cred, nil)
-
 	client := clientFactory.NewBlueprintsClient()
 	pager := client.NewListPager(fmt.Sprintf("/subscriptions/%s", subscription), nil)
 

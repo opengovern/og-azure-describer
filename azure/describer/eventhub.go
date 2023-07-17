@@ -7,11 +7,10 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/eventhub/mgmt/2018-01-01-preview/eventhub"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func EventhubNamespace(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender, namespace eventhub.EHNamespace) ([]Resource, error) {
+func EventhubNamespace(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
