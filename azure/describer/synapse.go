@@ -2,221 +2,230 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/synapse/armsynapse"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
-	"github.com/Azure/azure-sdk-for-go/services/synapse/mgmt/2021-03-01/synapse"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func SynapseWorkspace(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	insightsClient := insights.NewDiagnosticSettingsClient(subscription)
-	insightsClient.Authorizer = authorizer
-
-	synapseClient := synapse.NewWorkspaceManagedSQLServerVulnerabilityAssessmentsClient(subscription)
-	synapseClient.Authorizer = authorizer
-
-	client := synapse.NewWorkspacesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+func SynapseWorkspace(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsynapse.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	synapseClient := clientFactory.NewWorkspaceManagedSQLServerVulnerabilityAssessmentsClient()
+	client := clientFactory.NewWorkspacesClient()
+
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
 
 	var values []Resource
-	for {
-		for _, config := range result.Values() {
-			resourceGroup := strings.Split(*config.ID, "/")[4]
-
-			ignoreAssesment := false
-			synapseListResult, err := synapseClient.List(ctx, resourceGroup, *config.Name)
-			if err != nil {
-				if strings.Contains(err.Error(), "UnsupportedOperation") {
-					ignoreAssesment = true
-				} else {
-					return nil, err
-				}
-			}
-
-			var serverVulnerabilityAssessments []synapse.ServerVulnerabilityAssessment
-			if !ignoreAssesment {
-				serverVulnerabilityAssessments = append(serverVulnerabilityAssessments, synapseListResult.Values()...)
-
-				for synapseListResult.NotDone() {
-					err = synapseListResult.NextWithContext(ctx)
-					if err != nil {
-						return nil, err
-					}
-					serverVulnerabilityAssessments = append(serverVulnerabilityAssessments, synapseListResult.Values()...)
-				}
-			}
-
-			synapseListOp, err := insightsClient.List(ctx, *config.ID)
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource, err := GetSynapseWorkspace(ctx, synapseClient, diagnosticClient, v)
 			if err != nil {
 				return nil, err
 			}
-
-			resource := Resource{
-				ID:       *config.ID,
-				Name:     *config.Name,
-				Location: *config.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.SynapseWorkspaceDescription{
-						Workspace:                      config,
-						ServerVulnerabilityAssessments: serverVulnerabilityAssessments,
-						DiagnosticSettingsResources:    synapseListOp.Value,
-						ResourceGroup:                  resourceGroup,
-					},
-				},
-			}
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func SynapseWorkspaceBigdataPools(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := synapse.NewWorkspacesClient(subscription)
-	client.Authorizer = authorizer
+func GetSynapseWorkspace(ctx context.Context, synapseClient *armsynapse.WorkspaceManagedSQLServerVulnerabilityAssessmentsClient, diagnosticClient *armmonitor.DiagnosticSettingsClient, config *armsynapse.Workspace) (*Resource, error) {
+	resourceGroup := strings.Split(*config.ID, "/")[4]
 
-	bpClient := synapse.NewBigDataPoolsClient(subscription)
-	bpClient.Authorizer = authorizer
+	ignoreAssesment := false
+	var synapseListResult []*armsynapse.ServerVulnerabilityAssessment
+	pager1 := synapseClient.NewListPager(resourceGroup, *config.Name, nil)
+	for pager1.More() {
+		pager1, err := pager1.NextPage(ctx)
+		if err != nil {
+			if strings.Contains(err.Error(), "UnsupportedOperation") {
+				ignoreAssesment = true
+			} else {
+				return nil, err
+			}
+		}
+		synapseListResult = append(synapseListResult, pager1.Value...)
+	}
 
-	result, err := client.List(ctx)
+	var serverVulnerabilityAssessments []*armsynapse.ServerVulnerabilityAssessment
+	if !ignoreAssesment {
+		serverVulnerabilityAssessments = append(serverVulnerabilityAssessments, synapseListResult...)
+	}
+
+	var synapseListOp []*armmonitor.DiagnosticSettingsResource
+	pager2 := diagnosticClient.NewListPager(resourceGroup, nil)
+	for pager2.More() {
+		page2, err := pager2.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		synapseListOp = append(synapseListOp, page2.Value...)
+	}
+
+	resource := Resource{
+		ID:       *config.ID,
+		Name:     *config.Name,
+		Location: *config.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.SynapseWorkspaceDescription{
+				Workspace:                      *config,
+				ServerVulnerabilityAssessments: serverVulnerabilityAssessments,
+				DiagnosticSettingsResources:    synapseListOp,
+				ResourceGroup:                  resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
+}
+
+func SynapseWorkspaceBigdataPools(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsynapse.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	bigDataPoolsClient := clientFactory.NewBigDataPoolsClient()
+	client := clientFactory.NewWorkspacesClient()
 
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			wResult, err := bpClient.ListByWorkspace(ctx, resourceGroup, *v.Name)
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resources, err := ListSynapseWorkspaceBigdataPools(ctx, bigDataPoolsClient, v)
 			if err != nil {
 				return nil, err
 			}
-			for {
-				for _, bp := range wResult.Values() {
+			values = append(values, resources...)
+		}
+	}
+	return values, err
+}
 
-					resource := Resource{
-						ID:       *v.ID,
-						Name:     *v.Name,
-						Location: *v.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.SynapseWorkspaceBigdatapoolsDescription{
-								Workspace:     v,
-								BigDataPool:   bp,
-								ResourceGroup: resourceGroup,
-							},
-						},
-					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-				if !wResult.NotDone() {
-					break
-				}
-				err = wResult.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+func ListSynapseWorkspaceBigdataPools(ctx context.Context, bigDataPoolsClient *armsynapse.BigDataPoolsClient, v *armsynapse.Workspace) ([]Resource, error) {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+
+	var values []Resource
+	pager := bigDataPoolsClient.NewListByWorkspacePager(resourceGroup, *v.Name, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
+		}
+		for _, bp := range page.Value {
+			resource := GetSynapseWorkspaceBigdataPools(ctx, resourceGroup, bp, v)
+			values = append(values, *resource)
 		}
 	}
 	return values, nil
 }
 
-func SynapseWorkspaceSqlpools(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := synapse.NewWorkspacesClient(subscription)
-	client.Authorizer = authorizer
+func GetSynapseWorkspaceBigdataPools(ctx context.Context, resourceGroup string, bp *armsynapse.BigDataPoolResourceInfo, v *armsynapse.Workspace) *Resource {
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.SynapseWorkspaceBigdatapoolsDescription{
+				Workspace:     *v,
+				BigDataPool:   *bp,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
+}
 
-	bpClient := synapse.NewSQLPoolsClient(subscription)
-	bpClient.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+func SynapseWorkspaceSqlpools(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsynapse.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewWorkspacesClient()
+	bpClient := clientFactory.NewSQLPoolsClient()
 
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			wResult, err := bpClient.ListByWorkspace(ctx, resourceGroup, *v.Name)
-			if err != nil {
-				if strings.Contains(err.Error(), "UnsupportedOperation") {
-					continue
-				}
-				return nil, err
-			}
-			for {
-				for _, bp := range wResult.Values() {
-
-					resource := Resource{
-						ID:       *v.ID,
-						Name:     *v.Name,
-						Location: *v.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.SynapseWorkspaceSqlpoolsDescription{
-								Workspace:     v,
-								SqlPool:       bp,
-								ResourceGroup: resourceGroup,
-							},
-						},
-					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-				if !wResult.NotDone() {
-					break
-				}
-				err = wResult.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resources, err := ListSynapseWorkspaceSqlpools(ctx, bpClient, v)
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
 	}
 	return values, nil
+}
+
+func ListSynapseWorkspaceSqlpools(ctx context.Context, bpClient *armsynapse.SQLPoolsClient, v *armsynapse.Workspace) ([]Resource, error) {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+
+	var values []Resource
+	pager := bpClient.NewListByWorkspacePager(resourceGroup, *v.Name, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			if strings.Contains(err.Error(), "UnsupportedOperation") {
+				continue
+			}
+			return nil, err
+		}
+		for _, bp := range page.Value {
+			resource := GetSynapseWorkspaceSqlpools(ctx, v, bp)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func GetSynapseWorkspaceSqlpools(ctx context.Context, v *armsynapse.Workspace, bp *armsynapse.SQLPool) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.SynapseWorkspaceSqlpoolsDescription{
+				Workspace:     *v,
+				SqlPool:       *bp,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
 }

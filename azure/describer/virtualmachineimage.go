@@ -2,53 +2,54 @@ package describer
 
 import (
 	"context"
-	"github.com/Azure/azure-sdk-for-go/services/virtualmachineimagebuilder/mgmt/2020-02-14/virtualmachineimagebuilder"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/virtualmachineimagebuilder/armvirtualmachineimagebuilder"
 	"strings"
 
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func VirtualMachineImagesImageTemplates(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := virtualmachineimagebuilder.NewVirtualMachineImageTemplatesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(context.Background())
+func VirtualMachineImagesImageTemplates(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armvirtualmachineimagebuilder.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewVirtualMachineImageTemplatesClient()
 
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.VirtualMachineImagesImageTemplatesDescription{
-						ImageTemplate: v,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := GetVirtualMachineImagesImageTemplates(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-	return values, nil
+	return values, err
+}
+
+func GetVirtualMachineImagesImageTemplates(ctx context.Context, v *armvirtualmachineimagebuilder.ImageTemplate) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.VirtualMachineImagesImageTemplatesDescription{
+				ImageTemplate: *v,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
 }

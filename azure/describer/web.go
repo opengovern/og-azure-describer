@@ -3,400 +3,343 @@ package describer
 import (
 	"context"
 	"fmt"
-	web3 "github.com/Azure/azure-sdk-for-go/profiles/preview/preview/web/mgmt/web"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2021-03-01/web"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func AppServiceEnvironment(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := web.NewAppServiceEnvironmentsClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+func AppServiceEnvironment(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armappservice.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewEnvironmentsClient()
 
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.AppServiceEnvironmentDescription{
-						AppServiceEnvironmentResource: v,
-						ResourceGroup:                 resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
-	}
-
-	return values, nil
-}
-
-func AppServiceFunctionApp(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := web.NewAppsClient(subscription)
-	client.Authorizer = authorizer
-
-	webClient := web.NewAppsClient(subscription)
-	webClient.Authorizer = authorizer
-
-	result, err := client.List(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			authSettings, err := webClient.GetAuthSettings(ctx, *v.SiteProperties.ResourceGroup, *v.Name)
-			if err != nil {
-				return nil, err
-			}
-
-			configuration, err := webClient.GetConfiguration(ctx, *v.SiteProperties.ResourceGroup, *v.Name)
-			if err != nil {
-				return nil, err
-			}
-
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.AppServiceFunctionAppDescription{
-						Site:               v,
-						SiteAuthSettings:   authSettings,
-						SiteConfigResource: configuration,
-						ResourceGroup:      resourceGroup,
-					},
-				},
-			}
+		for _, v := range page.Value {
+			resource := GetAppServiceEnvironment(ctx, v)
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
 		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func AppServiceWebApp(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := web.NewAppsClient(subscription)
-	client.Authorizer = authorizer
-
-	webClient := web.NewAppsClient(subscription)
-	webClient.Authorizer = authorizer
-
-	result, err := client.List(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			op, err := webClient.GetConfiguration(ctx, *v.SiteProperties.ResourceGroup, *v.Name)
-			if err != nil {
-				return nil, err
-			}
-
-			// Return nil, if no virtual network is configured
-			var vnetInfo web.VnetInfoResource
-			if v.SiteConfig != nil && v.SiteConfig.VnetName != nil &&
-				*v.SiteConfig.VnetName != "" {
-				vnetInfo, err = webClient.GetVnetConnection(ctx, *v.SiteProperties.ResourceGroup, *v.Name, *v.SiteConfig.VnetName)
-				if err != nil {
-					return nil, err
-				}
-			}
-
-			authSettings, err := webClient.GetAuthSettings(ctx, *v.SiteProperties.ResourceGroup, *v.Name)
-			if err != nil {
-				return nil, err
-			}
-
-			location := ""
-			if v.Location != nil {
-				location = *v.Location
-			}
-
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: location,
-				Description: JSONAllFieldsMarshaller{
-					model.AppServiceWebAppDescription{
-						Site:               v,
-						SiteConfigResource: op,
-						SiteAuthSettings:   authSettings,
-						VnetInfo:           vnetInfo,
-						ResourceGroup:      resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func AppServicePlan(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := web.NewAppServicePlansClient(subscription)
-	client.Authorizer = authorizer
-
-	detailed := true
-
-	result, err := client.List(ctx, &detailed)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			location := ""
-			if v.Location != nil {
-				location = *v.Location
-			}
-
-			var webApps []web.Site
-			webAppsPaginator, err := client.ListWebApps(ctx, resourceGroup, *v.Name, "", "", "")
-			if err != nil {
-				return nil, err
-			}
-			for {
-				for _, webAppPaginator := range webAppsPaginator.Values() {
-					webApps = append(webApps, webAppPaginator)
-				}
-				if !webAppsPaginator.NotDone() {
-					break
-				}
-				err = webAppsPaginator.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: location,
-				Description: JSONAllFieldsMarshaller{
-					model.AppServicePlanDescription{
-						Plan:          v,
-						Apps:          webApps,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func AppContainerApps(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := web.NewContainerAppsClient(subscription)
-	client.Authorizer = authorizer
-	result, err := client.ListBySubscription(ctx)
-	if err != nil {
-		return nil, err
-	}
-	var values []Resource
-	for {
-		for _, server := range result.Values() {
-			resourceGroupName := strings.Split(string(*server.ID), "/")[4]
-
-			resource := Resource{
-				ID:       *server.ID,
-				Name:     *server.Name,
-				Location: *server.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ContainerAppDescription{
-						Server:        server,
-						ResourceGroup: resourceGroupName,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-
 	}
 	return values, nil
 }
 
-func AppManagedEnvironment(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := web3.NewManagedHostingEnvironmentsClient(subscription)
-	client.Authorizer = authorizer
+func GetAppServiceEnvironment(ctx context.Context, v *armappservice.EnvironmentResource) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
 
-	it, err := client.GetManagedHostingEnvironmentsComplete(ctx, fmt.Sprintf("/subscriptions/%s", subscription))
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for v := it.Value(); it.NotDone(); v = it.Value() {
-		resourceGroupName := strings.Split(string(*v.ID), "/")[4]
-
-		resource := Resource{
-			ID:       *v.ID,
-			Name:     *v.Name,
-			Location: *v.Location,
-			Description: JSONAllFieldsMarshaller{
-				model.AppManagedEnvironmentDescription{
-					HostingEnvironment: v,
-					ResourceGroup:      resourceGroupName,
-				},
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.AppServiceEnvironmentDescription{
+				AppServiceEnvironmentResource: *v,
+				ResourceGroup:                 resourceGroup,
 			},
-		}
-		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
-			}
-		} else {
-			values = append(values, resource)
-		}
+		},
+	}
 
-		err := it.NextWithContext(ctx)
+	return &resource
+}
+
+func AppServiceFunctionApp(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armappservice.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewWebAppsClient()
+	webClient := clientFactory.NewWebAppsClient()
+
+	var values []Resource
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
+		}
+		for _, v := range page.Value {
+			resource, err := GetAppServiceFunctionApp(ctx, webClient, v)
+			if err != nil {
+				return nil, err
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, err
+}
+
+func GetAppServiceFunctionApp(ctx context.Context, webClient *armappservice.WebAppsClient, v *armappservice.Site) (*Resource, error) {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+
+	configuration, err := webClient.GetConfiguration(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
+	if err != nil {
+		return nil, err
+	}
+	authSettings, err := webClient.GetAuthSettings(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
+	if err != nil {
+		return nil, err
+	}
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.AppServiceFunctionAppDescription{
+				Site:               *v,
+				SiteAuthSettings:   authSettings.SiteAuthSettings,
+				SiteConfigResource: configuration.SiteConfigResource,
+				ResourceGroup:      resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
+}
+
+func AppServiceWebApp(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armappservice.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewWebAppsClient()
+	webClient := clientFactory.NewWebAppsClient()
+
+	var values []Resource
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource, err := GetAppServiceWebApp(ctx, webClient, v)
+			if err != nil {
+				return nil, err
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, err
+}
+
+func GetAppServiceWebApp(ctx context.Context, webClient *armappservice.WebAppsClient, v *armappservice.Site) (*Resource, error) {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+
+	configuration, err := webClient.GetConfiguration(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
+	if err != nil {
+		return nil, err
+	}
+	authSettings, err := webClient.GetAuthSettings(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	vnet, err := webClient.GetVnetConnection(ctx, *v.Properties.ResourceGroup, *v.Name, *v.Properties.VirtualNetworkSubnetID, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	location := ""
+	if v.Location != nil {
+		location = *v.Location
+	}
+
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: location,
+		Description: JSONAllFieldsMarshaller{
+			model.AppServiceWebAppDescription{
+				Site:               *v,
+				SiteConfigResource: configuration.SiteConfigResource,
+				SiteAuthSettings:   authSettings.SiteAuthSettings,
+				VnetInfo:           vnet.VnetInfoResource,
+				ResourceGroup:      resourceGroup,
+			},
+		},
+	}
+
+	return &resource, nil
+}
+
+func AppServicePlan(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armappservice.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewPlansClient()
+
+	var values []Resource
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource, err := GetAppServicePlan(ctx, client, v)
+			if err != nil {
+				return nil, err
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
 		}
 	}
 	return values, nil
 }
 
-func WebServerFarms(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := web3.NewServerFarmsClient(subscription)
-	client.Authorizer = authorizer
+func GetAppServicePlan(ctx context.Context, client *armappservice.PlansClient, v *armappservice.Plan) (*Resource, error) {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
 
-	it, err := client.GetServerFarms(ctx, fmt.Sprintf("/subscriptions/%s", subscription))
-	if err != nil {
-		return nil, err
+	location := ""
+	if v.Location != nil {
+		location = *v.Location
 	}
 
-	var values []Resource
-	for {
-		for _, v := range it.Values() {
-			resourceGroupName := strings.Split(string(*v.ID), "/")[4]
+	var webApps []*armappservice.Site
 
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.WebServerFarmsDescription{
-						ServerFarm:    v,
-						ResourceGroup: resourceGroupName,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !it.NotDone() {
-			break
-		}
-
-		err = it.NextWithContext(ctx)
+	pager := client.NewListWebAppsPager(resourceGroup, *v.Name, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		webApps = append(webApps, page.Value...)
+	}
+
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: location,
+		Description: JSONAllFieldsMarshaller{
+			model.AppServicePlanDescription{
+				Plan:          *v,
+				Apps:          webApps,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+
+	return &resource, nil
+}
+
+func AppContainerApps(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armappservice.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewContainerAppsClient()
+
+	pager := client.NewListBySubscriptionPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := GetAppContainerApps(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
 	return values, nil
+}
+
+func GetAppContainerApps(ctx context.Context, server *armappservice.ContainerApp) *Resource {
+	resourceGroupName := strings.Split(string(*server.ID), "/")[4]
+
+	resource := Resource{
+		ID:       *server.ID,
+		Name:     *server.Name,
+		Location: *server.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ContainerAppDescription{
+				Server:        *server,
+				ResourceGroup: resourceGroupName,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func WebServerFarms(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armappservice.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewPlansClient()
+
+	pager := client.NewListByResourceGroupPager(fmt.Sprintf("/subscriptions/%s", subscription), nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := GetWebServerFarm(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func GetWebServerFarm(ctx context.Context, v *armappservice.Plan) *Resource {
+	resourceGroupName := strings.Split(string(*v.ID), "/")[4]
+
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.WebServerFarmsDescription{
+				ServerFarm:    *v,
+				ResourceGroup: resourceGroupName,
+			},
+		},
+	}
+	return &resource
 }

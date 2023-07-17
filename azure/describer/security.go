@@ -2,322 +2,306 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/security/armsecurity"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/security/mgmt/v1.0/security"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func SecurityCenterAutoProvisioning(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := security.NewAutoProvisioningSettingsClient(subscription, "")
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+func SecurityCenterAutoProvisioning(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsecurity.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewAutoProvisioningSettingsClient()
 
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: "global",
-				Description: JSONAllFieldsMarshaller{
-					model.SecurityCenterAutoProvisioningDescription{
-						AutoProvisioningSetting: v,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := GetSecurityCenterAutoProvisioning(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
 }
 
-func SecurityCenterContact(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := security.NewContactsClient(subscription, "")
-	client.Authorizer = authorizer
+func GetSecurityCenterAutoProvisioning(ctx context.Context, v *armsecurity.AutoProvisioningSetting) *Resource {
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			model.SecurityCenterAutoProvisioningDescription{
+				AutoProvisioningSetting: *v,
+			},
+		},
+	}
 
-	result, err := client.List(ctx)
+	return &resource
+}
+
+func SecurityCenterContact(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsecurity.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewContactsClient()
 
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: "global",
-				Description: JSONAllFieldsMarshaller{
-					model.SecurityCenterContactDescription{
-						Contact: v,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := GetSecurityCenterContact(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
 }
 
-func SecurityCenterJitNetworkAccessPolicy(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := security.NewJitNetworkAccessPoliciesClient(subscription, "")
-	client.Authorizer = authorizer
+func GetSecurityCenterContact(ctx context.Context, v *armsecurity.Contact) *Resource {
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			model.SecurityCenterContactDescription{
+				Contact: *v,
+			},
+		},
+	}
+	return &resource
+}
 
-	result, err := client.List(ctx)
+func SecurityCenterJitNetworkAccessPolicy(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsecurity.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewJitNetworkAccessPoliciesClient()
 
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.SecurityCenterJitNetworkAccessPolicyDescription{
-						JitNetworkAccessPolicy: v,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := GetSecurityCenterJitNetworkAccessPolicy(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
 }
 
-func SecurityCenterSetting(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := security.NewSettingsClient(subscription, "")
-	client.Authorizer = authorizer
+func GetSecurityCenterJitNetworkAccessPolicy(ctx context.Context, v *armsecurity.JitNetworkAccessPolicy) *Resource {
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.SecurityCenterJitNetworkAccessPolicyDescription{
+				JitNetworkAccessPolicy: *v,
+			},
+		},
+	}
+	return &resource
+}
 
-	result, err := client.List(ctx)
+func SecurityCenterSetting(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsecurity.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewSettingsClient()
 
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: "global",
-				Description: JSONAllFieldsMarshaller{
-					model.SecurityCenterSettingDescription{
-						Setting: v,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := GetSecurityCenterSetting(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
 }
 
-func SecurityCenterSubscriptionPricing(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := security.NewPricingsClient(subscription, "")
-	client.Authorizer = authorizer
+func GetSecurityCenterSetting(ctx context.Context, v armsecurity.SettingClassification) *Resource {
+	resource := Resource{
+		ID:       *v.GetSetting().ID,
+		Name:     *v.GetSetting().Name,
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			model.SecurityCenterSettingDescription{
+				Setting: *v.GetSetting(),
+			},
+		},
+	}
+	return &resource
+}
 
-	result, err := client.List(ctx)
+func SecurityCenterSubscriptionPricing(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsecurity.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewPricingsClient()
 
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: "global",
-				Description: JSONAllFieldsMarshaller{
-					model.SecurityCenterSubscriptionPricingDescription{
-						Pricing: v,
-					},
-				},
+	list, err := client.List(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
+	for _, v := range list.Value {
+		resource := GetSecurityCenterSubscriptionPricing(ctx, v)
+		if stream != nil {
+			if err := (*stream)(*resource); err != nil {
+				return nil, err
 			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
+		} else {
+			values = append(values, *resource)
 		}
 	}
-
 	return values, nil
 }
 
-func SecurityCenterAutomation(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := security.NewAutomationsClient(subscription, "")
-	client.Authorizer = authorizer
+func GetSecurityCenterSubscriptionPricing(ctx context.Context, v *armsecurity.Pricing) *Resource {
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			model.SecurityCenterSubscriptionPricingDescription{
+				Pricing: *v,
+			},
+		},
+	}
+	return &resource
+}
 
-	result, err := client.List(ctx)
+func SecurityCenterAutomation(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsecurity.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewAutomationsClient()
 
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.SecurityCenterAutomationDescription{
-						Automation:    v,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := GetSecurityCenterAutomation(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
 }
 
-func SecurityCenterSubAssessment(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := security.NewSubAssessmentsClient(subscription, "")
-	client.Authorizer = authorizer
+func GetSecurityCenterAutomation(ctx context.Context, v *armsecurity.Automation) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.SecurityCenterAutomationDescription{
+				Automation:    *v,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
+}
 
-	result, err := client.ListAll(ctx, "subscriptions/"+subscription)
+func SecurityCenterSubAssessment(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsecurity.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewSubAssessmentsClient()
 
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *v.ID,
-				Location: "global",
-				Name:     *v.Name,
-				Description: JSONAllFieldsMarshaller{
-					model.SecurityCenterSubAssessmentDescription{
-						SubAssessment: v,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	pager := client.NewListAllPager("subscriptions/"+subscription, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, v := range page.Value {
+			resource := GetSecurityCenterSubAssessment(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-
 	return values, nil
+}
+
+func GetSecurityCenterSubAssessment(ctx context.Context, v *armsecurity.SubAssessment) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *v.ID,
+		Location: "global",
+		Name:     *v.Name,
+		Description: JSONAllFieldsMarshaller{
+			model.SecurityCenterSubAssessmentDescription{
+				SubAssessment: *v,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
 }
