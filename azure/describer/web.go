@@ -4,18 +4,17 @@ import (
 	"context"
 	"fmt"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+	appservice "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
 	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
 func AppServiceEnvironment(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armappservice.NewClientFactory(subscription, cred, nil)
+	client, err := appservice.NewEnvironmentsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewEnvironmentsClient()
 
 	var values []Resource
 	pager := client.NewListPager(nil)
@@ -38,7 +37,7 @@ func AppServiceEnvironment(ctx context.Context, cred *azidentity.ClientSecretCre
 	return values, nil
 }
 
-func GetAppServiceEnvironment(ctx context.Context, v *armappservice.EnvironmentResource) *Resource {
+func GetAppServiceEnvironment(ctx context.Context, v *appservice.EnvironmentResource) *Resource {
 	resourceGroup := strings.Split(*v.ID, "/")[4]
 
 	resource := Resource{
@@ -57,12 +56,15 @@ func GetAppServiceEnvironment(ctx context.Context, v *armappservice.EnvironmentR
 }
 
 func AppServiceFunctionApp(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armappservice.NewClientFactory(subscription, cred, nil)
+	client, err := appservice.NewWebAppsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewWebAppsClient()
-	webClient := clientFactory.NewWebAppsClient()
+
+	webClient, err := appservice.NewWebAppsClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
 
 	var values []Resource
 	pager := client.NewListPager(nil)
@@ -88,7 +90,7 @@ func AppServiceFunctionApp(ctx context.Context, cred *azidentity.ClientSecretCre
 	return values, err
 }
 
-func GetAppServiceFunctionApp(ctx context.Context, webClient *armappservice.WebAppsClient, v *armappservice.Site) (*Resource, error) {
+func GetAppServiceFunctionApp(ctx context.Context, webClient *appservice.WebAppsClient, v *appservice.Site) (*Resource, error) {
 	resourceGroup := strings.Split(*v.ID, "/")[4]
 
 	configuration, err := webClient.GetConfiguration(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
@@ -116,12 +118,14 @@ func GetAppServiceFunctionApp(ctx context.Context, webClient *armappservice.WebA
 }
 
 func AppServiceWebApp(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armappservice.NewClientFactory(subscription, cred, nil)
+	client, err := appservice.NewWebAppsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewWebAppsClient()
-	webClient := clientFactory.NewWebAppsClient()
+	webClient, err := appservice.NewWebAppsClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
 
 	var values []Resource
 	pager := client.NewListPager(nil)
@@ -147,7 +151,7 @@ func AppServiceWebApp(ctx context.Context, cred *azidentity.ClientSecretCredenti
 	return values, err
 }
 
-func GetAppServiceWebApp(ctx context.Context, webClient *armappservice.WebAppsClient, v *armappservice.Site) (*Resource, error) {
+func GetAppServiceWebApp(ctx context.Context, webClient *appservice.WebAppsClient, v *appservice.Site) (*Resource, error) {
 	resourceGroup := strings.Split(*v.ID, "/")[4]
 
 	configuration, err := webClient.GetConfiguration(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
@@ -188,11 +192,10 @@ func GetAppServiceWebApp(ctx context.Context, webClient *armappservice.WebAppsCl
 }
 
 func AppServicePlan(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armappservice.NewClientFactory(subscription, cred, nil)
+	client, err := appservice.NewPlansClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewPlansClient()
 
 	var values []Resource
 	pager := client.NewListPager(nil)
@@ -218,7 +221,7 @@ func AppServicePlan(ctx context.Context, cred *azidentity.ClientSecretCredential
 	return values, nil
 }
 
-func GetAppServicePlan(ctx context.Context, client *armappservice.PlansClient, v *armappservice.Plan) (*Resource, error) {
+func GetAppServicePlan(ctx context.Context, client *appservice.PlansClient, v *appservice.Plan) (*Resource, error) {
 	resourceGroup := strings.Split(*v.ID, "/")[4]
 
 	location := ""
@@ -226,7 +229,7 @@ func GetAppServicePlan(ctx context.Context, client *armappservice.PlansClient, v
 		location = *v.Location
 	}
 
-	var webApps []*armappservice.Site
+	var webApps []*appservice.Site
 
 	pager := client.NewListWebAppsPager(resourceGroup, *v.Name, nil)
 	for pager.More() {
@@ -254,11 +257,10 @@ func GetAppServicePlan(ctx context.Context, client *armappservice.PlansClient, v
 }
 
 func AppContainerApps(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armappservice.NewClientFactory(subscription, cred, nil)
+	client, err := appservice.NewContainerAppsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewContainerAppsClient()
 
 	pager := client.NewListBySubscriptionPager(nil)
 	var values []Resource
@@ -281,7 +283,7 @@ func AppContainerApps(ctx context.Context, cred *azidentity.ClientSecretCredenti
 	return values, nil
 }
 
-func GetAppContainerApps(ctx context.Context, server *armappservice.ContainerApp) *Resource {
+func GetAppContainerApps(ctx context.Context, server *appservice.ContainerApp) *Resource {
 	resourceGroupName := strings.Split(string(*server.ID), "/")[4]
 
 	resource := Resource{
@@ -300,11 +302,10 @@ func GetAppContainerApps(ctx context.Context, server *armappservice.ContainerApp
 }
 
 func WebServerFarms(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armappservice.NewClientFactory(subscription, cred, nil)
+	client, err := appservice.NewPlansClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewPlansClient()
 
 	pager := client.NewListByResourceGroupPager(fmt.Sprintf("/subscriptions/%s", subscription), nil)
 	var values []Resource
@@ -327,7 +328,7 @@ func WebServerFarms(ctx context.Context, cred *azidentity.ClientSecretCredential
 	return values, nil
 }
 
-func GetWebServerFarm(ctx context.Context, v *armappservice.Plan) *Resource {
+func GetWebServerFarm(ctx context.Context, v *appservice.Plan) *Resource {
 	resourceGroupName := strings.Split(string(*v.ID), "/")[4]
 
 	resource := Resource{

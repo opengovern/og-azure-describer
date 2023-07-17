@@ -90,7 +90,7 @@ func BlueprintBlueprint(ctx context.Context, cred *azidentity.ClientSecretCreden
 }
 
 func getBlueprintBlueprint(ctx context.Context, blueprint *armblueprint.Blueprint) *Resource {
-	resourceGroupName := strings.Split(string(*blueprint.ID), "/")[4]
+	resourceGroupName := strings.Split(*blueprint.ID, "/")[4]
 	return &Resource{
 		ID: *blueprint.ID,
 		Description: JSONAllFieldsMarshaller{Value: model.BlueprintDescription{

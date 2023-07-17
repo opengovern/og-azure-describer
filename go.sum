@@ -53,6 +53,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanage
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement v1.1.1/go.mod h1:a0Ug1l73Il7EhrCJEEt2dGjlNjvphppZq5KqJdgnwuw=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration v1.1.1 h1:iRc20pGuVlc1HwRO2bg0m1tfP9rkPB0K88trl8Fei2w=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration v1.1.1/go.mod h1:21Lewei+tg5zp5xmyOxfDY//2tBvWQXee0UoM8xZjr8=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice v1.0.0 h1:kRX8I0dWAcpW6Vq0m90CgV+qw4O1vXodgwrhoPr1RWs=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice v1.0.0/go.mod h1:avvc5/7qR4taCvAhOM7KFXuEHhAU0Wek9YX7sh9H3EM=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2 v2.1.1 h1:APDvQUs7TMuQTcclQHOT8kpCnz4qU3T6Po77XFIWVL8=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2 v2.1.1/go.mod h1:XQLwMCyOcUmKwvm1L1cZKZEZ7AWylzrrVRzswqsfd4Q=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization v1.0.0 h1:qtRcg5Y7jNJ4jEzPq4GpWLfTspHdNe2ZK6LjwGcjgmU=

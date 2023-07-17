@@ -6,7 +6,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/analysisservices/armanalysisservices"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+	appservice "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/batch/armbatch"
@@ -133,7 +133,7 @@ type AppConfigurationDescription struct {
 //getfilter:name=description.AppServiceEnvironmentResource.name
 //getfilter:resource_group=description.ResourceGroup
 type AppServiceEnvironmentDescription struct {
-	AppServiceEnvironmentResource armappservice.EnvironmentResource
+	AppServiceEnvironmentResource appservice.EnvironmentResource
 	ResourceGroup                 string
 }
 
@@ -141,9 +141,9 @@ type AppServiceEnvironmentDescription struct {
 //getfilter:name=description.Site.name
 //getfilter:resource_group=description.ResourceGroup
 type AppServiceFunctionAppDescription struct {
-	Site               armappservice.Site
-	SiteAuthSettings   armappservice.SiteAuthSettings
-	SiteConfigResource armappservice.SiteConfigResource
+	Site               appservice.Site
+	SiteAuthSettings   appservice.SiteAuthSettings
+	SiteConfigResource appservice.SiteConfigResource
 	ResourceGroup      string
 }
 
@@ -151,10 +151,10 @@ type AppServiceFunctionAppDescription struct {
 //getfilter:name=description.Site.name
 //getfilter:resource_group=description.ResourceGroup
 type AppServiceWebAppDescription struct {
-	Site               armappservice.Site
-	SiteAuthSettings   armappservice.SiteAuthSettings
-	SiteConfigResource armappservice.SiteConfigResource
-	VnetInfo           armappservice.VnetInfoResource
+	Site               appservice.Site
+	SiteAuthSettings   appservice.SiteAuthSettings
+	SiteConfigResource appservice.SiteConfigResource
+	VnetInfo           appservice.VnetInfoResource
 	ResourceGroup      string
 }
 
@@ -162,15 +162,15 @@ type AppServiceWebAppDescription struct {
 //getfilter:name=description.Site.name
 //getfilter:resource_group=description.ResourceGroup
 type AppServicePlanDescription struct {
-	Plan          armappservice.Plan
-	Apps          []*armappservice.Site
+	Plan          appservice.Plan
+	Apps          []*appservice.Site
 	ResourceGroup string
 }
 
 //index:microsoft_app_containerapp
 type ContainerAppDescription struct {
 	ResourceGroup string
-	Server        armappservice.ContainerApp
+	Server        appservice.ContainerApp
 }
 
 //index:microsoft_app_managedenvironment
@@ -182,7 +182,7 @@ type AppManagedEnvironmentDescription struct {
 //index:microsoft_web_serverfarm
 type WebServerFarmsDescription struct {
 	ResourceGroup string
-	ServerFarm    armappservice.Plan
+	ServerFarm    appservice.Plan
 }
 
 //  =================== blueprint ==================
