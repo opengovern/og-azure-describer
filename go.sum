@@ -614,10 +614,10 @@ github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/X
 github.com/jtolds/gls v4.20.0+incompatible h1:xdiiI2gbIgH/gLH7ADydsJ1uDOEzR8yvV7C0MuV77Wo=
 github.com/kaytu-io/kaytu-util v0.0.0-20230703125355-15bec58e8130 h1:LvcDHCu845EPIyPCRfar1y7aPGor/Y+Iir1WG1OsNPs=
 github.com/kaytu-io/kaytu-util v0.0.0-20230703125355-15bec58e8130/go.mod h1:QULmP8Hug87ctExrOBAzZgwKJ7BXEWUcs0vIJAV1Hrs=
-github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230718072959-0573912c9d1d h1:7XFtx44vjzK75+VjFoI+/2vogwSaxpTP6U6alR3IVzA=
-github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230718072959-0573912c9d1d/go.mod h1:UBlV3PJm33miMgXkcbLVYTpWz0LgpUi5nbuLjQOjdOc=
-github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230623082825-b3d70a2498a6 h1:YwTfP7PuO/kQVdgBegBOA4CcYdmQ2bLCnrv7AYdJDIQ=
-github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230623082825-b3d70a2498a6/go.mod h1:b+6sgAE/nJ9ohjrYPQzPWFokk1VOEEBOjzU5fj2p24M=
+github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230718083138-5dd091ae7e71 h1:bVnaXGT8lE2Xxot5hiaVEYaTMNvi7T0Rkt0N0Pr9W6o=
+github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230718083138-5dd091ae7e71/go.mod h1:Br3AFFYI3Xdq25v5pGggd60E0UTklJ/8iMdepCWyvEw=
+github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230718082348-6a343a735488 h1:gURJ7KAqROZRQ/h5sEbOBPqoiAeeo52/PaEMZSUV+Kw=
+github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230718082348-6a343a735488/go.mod h1:3Qi56gRCA69UY+WcUWjPQeDeKMynBpCFfjN7/qHwYtQ=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=

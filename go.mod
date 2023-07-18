@@ -94,8 +94,8 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.2.2
 	github.com/kaytu-io/kaytu-util v0.0.0-20230703125355-15bec58e8130
-	github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230718072959-0573912c9d1d
-	github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230623082825-b3d70a2498a6
+	github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230718083138-5dd091ae7e71
+	github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230718082348-6a343a735488
 	github.com/manicminer/hamilton v0.43.0
 	github.com/manicminer/hamilton-autorest v0.3.0
 	github.com/spf13/cobra v1.7.0
