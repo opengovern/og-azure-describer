@@ -2,116 +2,153 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 	"strings"
 	"time"
-
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func DiagnosticSetting(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	diagnosticSettingClient := insights.NewDiagnosticSettingsClient(subscription)
-	diagnosticSettingClient.Authorizer = authorizer
+func DiagnosticSetting(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := monitorClientFactory.NewDiagnosticSettingsClient()
 	resourceURI := "/subscriptions/" + subscription
-	result, err := diagnosticSettingClient.List(ctx, resourceURI)
-	if err != nil {
-		return nil, err
-	}
+	pager := client.NewListPager(resourceURI, nil)
 
 	var values []Resource
-	for _, diagnosticSetting := range *result.Value {
-		resourceGroup := strings.Split(*diagnosticSetting.ID, "/")[4]
-
-		resource := Resource{
-			ID:       *diagnosticSetting.ID,
-			Name:     *diagnosticSetting.Name,
-			Location: "global",
-			Description: JSONAllFieldsMarshaller{
-				model.DiagnosticSettingDescription{
-					DiagnosticSettingsResource: diagnosticSetting,
-					ResourceGroup:              resourceGroup,
-				},
-			},
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
 		}
-		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+		for _, diagnosticSetting := range page.Value {
+			resource := getDiagnosticSetting(ctx, diagnosticSetting)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
 			}
-		} else {
-			values = append(values, resource)
 		}
 	}
 	return values, nil
 }
-func LogAlert(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	logAlertClient := insights.NewActivityLogAlertsClient(subscription)
-	logAlertClient.Authorizer = authorizer
-	result, err := logAlertClient.ListBySubscriptionID(ctx)
+
+func getDiagnosticSetting(ctx context.Context, diagnosticSetting *armmonitor.DiagnosticSettingsResource) *Resource {
+	resourceGroup := strings.Split(*diagnosticSetting.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *diagnosticSetting.ID,
+		Name:     *diagnosticSetting.Name,
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			model.DiagnosticSettingDescription{
+				DiagnosticSettingsResource: *diagnosticSetting,
+				ResourceGroup:              resourceGroup,
+			},
+		},
+	}
+	return &resource
+}
+
+func LogAlert(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	var values []Resource
-	for _, logAlert := range result.Values() {
-		resourceGroup := strings.Split(*logAlert.ID, "/")[4]
+	client := monitorClientFactory.NewActivityLogAlertsClient()
 
-		resource := Resource{
-			ID:       *logAlert.ID,
-			Name:     *logAlert.Name,
-			Location: *logAlert.Location,
-			Description: JSONAllFieldsMarshaller{
-				model.LogAlertDescription{
-					ActivityLogAlertResource: logAlert,
-					ResourceGroup:            resourceGroup,
-				},
-			},
+	pager := client.NewListBySubscriptionIDPager(nil)
+
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
 		}
-		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+		for _, logAlert := range page.Value {
+			resource := getLogAlert(ctx, logAlert)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
 			}
-		} else {
-			values = append(values, resource)
 		}
 	}
-
 	return values, nil
 }
-func LogProfile(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	logProfileClient := insights.NewLogProfilesClient(subscription)
-	logProfileClient.Authorizer = authorizer
-	result, err := logProfileClient.List(ctx)
+
+func getLogAlert(ctx context.Context, logAlert *armmonitor.ActivityLogAlertResource) *Resource {
+	resourceGroup := strings.Split(*logAlert.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *logAlert.ID,
+		Name:     *logAlert.Name,
+		Location: *logAlert.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.LogAlertDescription{
+				ActivityLogAlertResource: *logAlert,
+				ResourceGroup:            resourceGroup,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func LogProfile(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := monitorClientFactory.NewLogProfilesClient()
+
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for _, logProfile := range *result.Value {
-		resourceGroup := strings.Split(*logProfile.ID, "/")[4]
-		location := "global"
-		if logProfile.Location != nil {
-			location = *logProfile.Location
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
 		}
-		resource := Resource{
-			ID:       *logProfile.ID,
-			Name:     *logProfile.Name,
-			Location: location,
-			Description: JSONAllFieldsMarshaller{
-				model.LogProfileDescription{
-					LogProfileResource: logProfile,
-					ResourceGroup:      resourceGroup,
-				},
-			},
-		}
-		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+		for _, r := range page.Value {
+			resource := getLogProfile(ctx, r)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
 			}
-		} else {
-			values = append(values, resource)
 		}
 	}
-
 	return values, nil
+}
+
+func getLogProfile(ctx context.Context, logProfile *armmonitor.LogProfileResource) *Resource {
+	resourceGroup := strings.Split(*logProfile.ID, "/")[4]
+	location := "global"
+	if logProfile.Location != nil {
+		location = *logProfile.Location
+	}
+	resource := Resource{
+		ID:       *logProfile.ID,
+		Name:     *logProfile.Name,
+		Location: location,
+		Description: JSONAllFieldsMarshaller{
+			model.LogProfileDescription{
+				LogProfileResource: *logProfile,
+				ResourceGroup:      resourceGroup,
+			},
+		},
+	}
+
+	return &resource
 }
 
 func getMonitoringIntervalForGranularity(granularity string) string {
@@ -140,9 +177,12 @@ func getMonitoringStartDateForGranularity(granularity string) string {
 	return time.Now().UTC().AddDate(0, 0, -5).Format(time.RFC3339)
 }
 
-func listAzureMonitorMetricStatistics(ctx context.Context, authorizer autorest.Authorizer, subscription string, granularity string, metricNameSpace string, metricNames string, dimensionValue string) ([]model.MonitoringMetric, error) {
-	metricClient := insights.NewMetricsClient(subscription)
-	metricClient.Authorizer = authorizer
+func listAzureMonitorMetricStatistics(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, granularity string, metricNameSpace string, metricNames string, dimensionValue string) ([]model.MonitoringMetric, error) {
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	metricsClient := monitorClientFactory.NewMetricsClient()
 
 	interval := getMonitoringIntervalForGranularity(granularity)
 	aggregation := "average,count,maximum,minimum,total"
@@ -150,16 +190,27 @@ func listAzureMonitorMetricStatistics(ctx context.Context, authorizer autorest.A
 	orderBy := "timestamp"
 	top := int32(1000) // Maximum number of record fetch with given interval
 	filter := ""
+	resultType := armmonitor.ResultTypeData
+	options := armmonitor.MetricsClientListOptions{
+		Aggregation:     &aggregation,
+		Interval:        &interval,
+		Timespan:        &timeSpan,
+		Orderby:         &orderBy,
+		Top:             &top,
+		Filter:          &filter,
+		Metricnames:     &metricNames,
+		ResultType:      &resultType,
+		Metricnamespace: &metricNameSpace,
+	}
 
-	result, err := metricClient.List(ctx, dimensionValue, timeSpan, &interval, metricNames, aggregation, &top, orderBy, filter, insights.ResultTypeData, metricNameSpace)
+	result, err := metricsClient.List(ctx, dimensionValue, &options)
 	if err != nil {
 		return nil, err
 	}
-
 	var values []model.MonitoringMetric
-	for _, metric := range *result.Value {
-		for _, timeseries := range *metric.Timeseries {
-			for _, data := range *timeseries.Data {
+	for _, metric := range result.Value {
+		for _, timeseries := range metric.Timeseries {
+			for _, data := range timeseries.Data {
 				if data.Average != nil {
 					values = append(values, model.MonitoringMetric{
 						DimensionValue: dimensionValue,
@@ -169,12 +220,11 @@ func listAzureMonitorMetricStatistics(ctx context.Context, authorizer autorest.A
 						Average:        data.Average,
 						Sum:            data.Total,
 						SampleCount:    data.Count,
-						Unit:           string(metric.Unit),
+						Unit:           string(*metric.Unit),
 					})
 				}
 			}
 		}
 	}
-
 	return values, nil
 }

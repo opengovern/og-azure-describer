@@ -3,13 +3,16 @@ package describer
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob"
 	azblobOld "github.com/Azure/azure-storage-blob-go/azblob"
 	"github.com/kaytu-io/kaytu-util/pkg/concurrency"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-06-01/storage"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
@@ -17,70 +20,26 @@ import (
 	"github.com/tombuildsstuff/giovanni/storage/2019-12-12/blob/accounts"
 )
 
-func StorageContainer(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := storage.NewBlobContainersClient(subscription)
-	client.Authorizer = authorizer
-
-	storageClient := storage.NewAccountsClient(subscription)
-	storageClient.Authorizer = authorizer
-
-	resultAccounts, err := storageClient.List(ctx)
+func StorageContainer(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armstorage.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewBlobContainersClient()
+	storageClient := clientFactory.NewAccountsClient()
 
 	wpe := concurrency.NewWorkPool(4)
 	var values []Resource
-	for {
-		for _, ac := range resultAccounts.Values() {
+	pager := storageClient.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, ac := range page.Value {
 			account := ac
 			wpe.AddJob(func() (interface{}, error) {
-				resourceGroup := &strings.Split(string(*account.ID), "/")[4]
-				result, err := client.List(ctx, *resourceGroup, *account.Name, "", "", "")
-				if err != nil {
-					return nil, err
-				}
-
-				wp := concurrency.NewWorkPool(8)
-				for {
-					for _, vl := range result.Values() {
-						v := vl
-						acc := account
-						wp.AddJob(func() (interface{}, error) {
-							resourceGroup := strings.Split(*v.ID, "/")[4]
-							accountName := strings.Split(*v.ID, "/")[8]
-
-							op, err := client.GetImmutabilityPolicy(ctx, resourceGroup, accountName, *v.Name, "")
-							if err != nil {
-								return nil, err
-							}
-
-							return Resource{
-								ID:       *v.ID,
-								Name:     *v.Name,
-								Location: "global",
-								Description: JSONAllFieldsMarshaller{
-									model.StorageContainerDescription{
-										AccountName:        *acc.Name,
-										ListContainerItem:  v,
-										ImmutabilityPolicy: op,
-										ResourceGroup:      resourceGroup,
-									},
-								},
-							}, nil
-						})
-					}
-
-					if !result.NotDone() {
-						break
-					}
-
-					err = result.NextWithContext(ctx)
-					if err != nil {
-						return nil, err
-					}
-				}
-				results := wp.Run()
+				results, err := ListAccountStorageContainers(ctx, client, account)
 				var vvv []Resource
 				for _, r := range results {
 					if r.Error != nil {
@@ -93,15 +52,6 @@ func StorageContainer(ctx context.Context, authorizer autorest.Authorizer, subsc
 				}
 				return vvv, nil
 			})
-		}
-
-		if !resultAccounts.NotDone() {
-			break
-		}
-
-		err = resultAccounts.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 
@@ -123,395 +73,501 @@ func StorageContainer(ctx context.Context, authorizer autorest.Authorizer, subsc
 		}
 		values = nil
 	}
+
 	return values, nil
 }
 
-func StorageAccount(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	encryptionScopesStorageClient := storage.NewEncryptionScopesClient(subscription)
-	encryptionScopesStorageClient.Authorizer = authorizer
+func ListAccountStorageContainers(ctx context.Context, client *armstorage.BlobContainersClient, account *armstorage.Account) ([]concurrency.Result, error) {
+	resourceGroup := &strings.Split(string(*account.ID), "/")[4]
 
-	client := insights.NewDiagnosticSettingsClient(subscription)
-	client.Authorizer = authorizer
+	var result []*armstorage.ListContainerItem
+	pager := client.NewListPager(*resourceGroup, *account.Name, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, page.Value...)
+	}
 
-	fileServicesStorageClient := storage.NewFileServicesClient(subscription)
-	fileServicesStorageClient.Authorizer = authorizer
+	wp := concurrency.NewWorkPool(8)
+	for _, vl := range result {
+		wp.AddJob(func() (interface{}, error) {
+			resource, err := GetAccountStorageContainter(ctx, client, vl, account)
+			if err != nil {
+				return nil, err
+			}
+			return resource, nil
+		})
+	}
+	return wp.Run(), nil
+}
 
-	blobServicesStorageClient := storage.NewBlobServicesClient(subscription)
-	blobServicesStorageClient.Authorizer = authorizer
+func GetAccountStorageContainter(ctx context.Context, client *armstorage.BlobContainersClient, v *armstorage.ListContainerItem, acc *armstorage.Account) (*Resource, error) {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+	accountName := strings.Split(*v.ID, "/")[8]
 
-	managementPoliciesStorageClient := storage.NewManagementPoliciesClient(subscription)
-	managementPoliciesStorageClient.Authorizer = authorizer
-
-	storageClient := storage.NewAccountsClient(subscription)
-	storageClient.Authorizer = authorizer
-
-	result, err := storageClient.List(ctx)
+	op, err := client.GetImmutabilityPolicy(ctx, resourceGroup, accountName, *v.Name, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	var values []Resource
-	for {
-		for _, account := range result.Values() {
-			resourceGroup := &strings.Split(*account.ID, "/")[4]
+	return &Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			model.StorageContainerDescription{
+				AccountName:        *acc.Name,
+				ListContainerItem:  *v,
+				ImmutabilityPolicy: op.ImmutabilityPolicy,
+				ResourceGroup:      resourceGroup,
+			},
+		},
+	}, nil
+}
 
-			var managementPolicy *storage.ManagementPolicy
-			storageGetOp, err := managementPoliciesStorageClient.Get(ctx, *resourceGroup, *account.Name)
+func StorageAccount(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+
+	clientFactory, err := armstorage.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	encryptionScopesStorageClient := clientFactory.NewEncryptionScopesClient()
+
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+
+	fileServicesStorageClient := clientFactory.NewFileServicesClient()
+
+	blobServicesStorageClient := clientFactory.NewBlobServicesClient()
+
+	managementPoliciesStorageClient := clientFactory.NewManagementPoliciesClient()
+
+	storageClient := clientFactory.NewAccountsClient()
+
+	pager := storageClient.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, account := range page.Value {
+			resource, err := GetStorageAccount(ctx, storageClient, encryptionScopesStorageClient, diagnosticClient, fileServicesStorageClient, blobServicesStorageClient, managementPoliciesStorageClient, account)
 			if err != nil {
-				if !strings.Contains(err.Error(), "ManagementPolicyNotFound") {
+				return nil, err
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				managementPolicy = &storageGetOp
+				values = append(values, *resource)
 			}
+		}
+	}
+	return values, nil
+}
 
-			var blobServicesProperties *storage.BlobServiceProperties
-			if account.Kind != "FileStorage" {
-				blobServicesPropertiesOp, err := blobServicesStorageClient.GetServiceProperties(ctx, *resourceGroup, *account.Name)
+func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsClient, encryptionScopesStorageClient *armstorage.EncryptionScopesClient, diagnosticClient *armmonitor.DiagnosticSettingsClient, fileServicesStorageClient *armstorage.FileServicesClient, blobServicesStorageClient *armstorage.BlobServicesClient, managementPoliciesStorageClient *armstorage.ManagementPoliciesClient, account *armstorage.Account) (*Resource, error) {
+	resourceGroup := &strings.Split(*account.ID, "/")[4]
+
+	var managementPolicy *armstorage.ManagementPolicy
+	storageGetOp, err := managementPoliciesStorageClient.Get(ctx, *resourceGroup, *account.Name, armstorage.ManagementPolicyNameDefault, nil)
+	if err != nil {
+		if !strings.Contains(err.Error(), "ManagementPolicyNotFound") {
+			return nil, err
+		}
+	} else {
+		managementPolicy = &storageGetOp.ManagementPolicy
+	}
+
+	var blobServicesProperties *armstorage.BlobServiceProperties
+	if *account.Kind != "FileStorage" {
+		blobServicesPropertiesOp, err := blobServicesStorageClient.GetServiceProperties(ctx, *resourceGroup, *account.Name, nil)
+		if err != nil {
+			if !strings.Contains(err.Error(), "ContainerOperationFailure") {
+				return nil, err
+			}
+		} else {
+			blobServicesProperties = &blobServicesPropertiesOp.BlobServiceProperties
+		}
+	}
+
+	var logging *accounts.Logging
+	if *account.Kind != "FileStorage" {
+		v, err := storageClient.ListKeys(ctx, *resourceGroup, *account.Name, nil)
+		if err != nil {
+			if !strings.Contains(err.Error(), "ScopeLocked") {
+				return nil, err
+			}
+		} else {
+			if v.Keys != nil || len(v.Keys) > 0 {
+				key := (v.Keys)[0]
+
+				storageAuth, err := autorest.NewSharedKeyAuthorizer(*account.Name, *key.Value, autorest.SharedKeyLite)
 				if err != nil {
-					if !strings.Contains(err.Error(), "ContainerOperationFailure") {
-						return nil, err
-					}
-				} else {
-					blobServicesProperties = &blobServicesPropertiesOp
+					return nil, err
 				}
-			}
 
-			var logging *accounts.Logging
-			if account.Kind != "FileStorage" {
-				v, err := storageClient.ListKeys(ctx, *resourceGroup, *account.Name, "")
-				if err != nil {
-					if !strings.Contains(err.Error(), "ScopeLocked") {
-						return nil, err
-					}
-				} else {
-					if *v.Keys != nil || len(*v.Keys) > 0 {
-						key := (*v.Keys)[0]
+				client := accounts.New()
+				client.Client.Authorizer = storageAuth
+				client.BaseURI = storage.DefaultBaseURI
 
-						storageAuth, err := autorest.NewSharedKeyAuthorizer(*account.Name, *key.Value, autorest.SharedKeyLite)
-						if err != nil {
-							return nil, err
-						}
-
-						client := accounts.New()
-						client.Client.Authorizer = storageAuth
-						client.BaseURI = storage.DefaultBaseURI
-
-						resp, err := client.GetServiceProperties(ctx, *account.Name)
-						if err != nil {
-							if !strings.Contains(err.Error(), "FeatureNotSupportedForAccount") {
-								return nil, err
-							}
-						} else {
-							logging = resp.StorageServiceProperties.Logging
-						}
-					}
-				}
-			}
-
-			var storageGetServicePropertiesOp *storage.FileServiceProperties
-			if account.Kind != "BlobStorage" {
-				v, err := fileServicesStorageClient.GetServiceProperties(ctx, *resourceGroup, *account.Name)
+				resp, err := client.GetServiceProperties(ctx, *account.Name)
 				if err != nil {
 					if !strings.Contains(err.Error(), "FeatureNotSupportedForAccount") {
 						return nil, err
 					}
+				} else {
+					logging = resp.StorageServiceProperties.Logging
 				}
-				storageGetServicePropertiesOp = &v
 			}
+		}
+	}
 
-			diagSettingsOp, err := client.List(ctx, *account.ID)
-			if err != nil {
+	var storageGetServicePropertiesOp *armstorage.FileServiceProperties
+	if *account.Kind != "BlobStorage" {
+		v, err := fileServicesStorageClient.GetServiceProperties(ctx, *resourceGroup, *account.Name, nil)
+		if err != nil {
+			if !strings.Contains(err.Error(), "FeatureNotSupportedForAccount") {
 				return nil, err
 			}
+		}
+		storageGetServicePropertiesOp = &v.FileServiceProperties
+	}
 
-			storageListEncryptionScope, err := encryptionScopesStorageClient.List(ctx, *resourceGroup, *account.Name)
-			if err != nil {
+	var diagSettingsOp []*armmonitor.DiagnosticSettingsResource
+	pager1 := diagnosticClient.NewListPager(*account.ID, nil)
+	for pager1.More() {
+		page1, err := pager1.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		diagSettingsOp = append(diagSettingsOp, page1.Value...)
+	}
+
+	var vsop []*armstorage.EncryptionScope
+	pager2 := encryptionScopesStorageClient.NewListPager(*resourceGroup, *account.Name, nil)
+	for pager2.More() {
+		page2, err := pager2.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		vsop = append(vsop, page2.Value...)
+	}
+
+	var storageProperties *queues.StorageServiceProperties
+	if *account.SKU.Tier == "Standard" && (*account.Kind == "Storage" || *account.Kind == "StorageV2") {
+		accountKeys, err := storageClient.ListKeys(ctx, *resourceGroup, *account.Name, nil)
+		if err != nil {
+			if !strings.Contains(err.Error(), "ScopeLocked") {
 				return nil, err
 			}
-			vsop := storageListEncryptionScope.Values()
-			for storageListEncryptionScope.NotDone() {
-				err := storageListEncryptionScope.NextWithContext(ctx)
+		} else {
+			if accountKeys.Keys != nil || len(accountKeys.Keys) > 0 {
+				key := (accountKeys.Keys)[0]
+				storageAuth, err := autorest.NewSharedKeyAuthorizer(*account.Name, *key.Value, autorest.SharedKeyLite)
 				if err != nil {
 					return nil, err
 				}
 
-				vsop = append(vsop, storageListEncryptionScope.Values()...)
-			}
+				queuesClient := queues.New()
+				queuesClient.Client.Authorizer = storageAuth
+				queuesClient.BaseURI = storage.DefaultBaseURI
 
-			var storageProperties *queues.StorageServiceProperties
-			if account.Sku.Tier == "Standard" && (account.Kind == "Storage" || account.Kind == "StorageV2") {
-				accountKeys, err := storageClient.ListKeys(ctx, *resourceGroup, *account.Name, "")
+				resp, err := queuesClient.GetServiceProperties(ctx, *account.Name)
+
 				if err != nil {
-					if !strings.Contains(err.Error(), "ScopeLocked") {
+					if !strings.Contains(err.Error(), "FeatureNotSupportedForAccount") {
 						return nil, err
 					}
 				} else {
-					if *accountKeys.Keys != nil || len(*accountKeys.Keys) > 0 {
-						key := (*accountKeys.Keys)[0]
-						storageAuth, err := autorest.NewSharedKeyAuthorizer(*account.Name, *key.Value, autorest.SharedKeyLite)
-						if err != nil {
-							return nil, err
-						}
-
-						queuesClient := queues.New()
-						queuesClient.Client.Authorizer = storageAuth
-						queuesClient.BaseURI = storage.DefaultBaseURI
-
-						resp, err := queuesClient.GetServiceProperties(ctx, *account.Name)
-
-						if err != nil {
-							if !strings.Contains(err.Error(), "FeatureNotSupportedForAccount") {
-								return nil, err
-							}
-						} else {
-							storageProperties = &resp.StorageServiceProperties
-						}
-					}
+					storageProperties = &resp.StorageServiceProperties
 				}
 			}
+		}
+	}
 
-			resource := Resource{
-				ID:       *account.ID,
-				Name:     *account.Name,
-				Location: *account.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.StorageAccountDescription{
-						Account:                     account,
-						ManagementPolicy:            managementPolicy,
-						BlobServiceProperties:       blobServicesProperties,
-						Logging:                     logging,
-						StorageServiceProperties:    storageProperties,
-						FileServiceProperties:       storageGetServicePropertiesOp,
-						DiagnosticSettingsResources: diagSettingsOp.Value,
-						EncryptionScopes:            vsop,
-						ResourceGroup:               *resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	resource := Resource{
+		ID:       *account.ID,
+		Name:     *account.Name,
+		Location: *account.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.StorageAccountDescription{
+				Account:                     *account,
+				ManagementPolicy:            managementPolicy,
+				BlobServiceProperties:       blobServicesProperties,
+				Logging:                     logging,
+				StorageServiceProperties:    storageProperties,
+				FileServiceProperties:       storageGetServicePropertiesOp,
+				DiagnosticSettingsResources: diagSettingsOp,
+				EncryptionScopes:            vsop,
+				ResourceGroup:               *resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
+}
+
+func StorageBlob(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armstorage.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	accountClient := clientFactory.NewAccountsClient()
+	containerClient := clientFactory.NewBlobContainersClient()
+
+	pager := accountClient.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
+		}
+		for _, v := range page.Value {
+			resources, err := ListAccountStorageBlobs(ctx, containerClient, accountClient, v)
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
 		}
 	}
 	return values, nil
 }
 
-func StorageBlob(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	accountClient := storage.NewAccountsClient(subscription)
-	accountClient.Authorizer = authorizer
+func ListAccountStorageBlobs(ctx context.Context, containerClient *armstorage.BlobContainersClient, accountClient *armstorage.AccountsClient, storageAccount *armstorage.Account) ([]Resource, error) {
+	resourceGroup := strings.Split(*storageAccount.ID, "/")[4]
 
-	containerClient := storage.NewBlobContainersClient(subscription)
-	containerClient.Authorizer = authorizer
-
-	storageAccounts, err := accountClient.List(ctx)
+	//for _, resourceGroup := range resourceGroups {
+	keys, err := accountClient.ListKeys(ctx, resourceGroup, *storageAccount.Name, nil)
 	if err != nil {
 		return nil, err
 	}
 
+	credential, err := azblob.NewSharedKeyCredential(*storageAccount.Name, *(keys.Keys)[0].Value)
+	if err != nil {
+		return nil, err
+	}
+	baseUrl := fmt.Sprintf("https://%s.blob.core.windows.net", *storageAccount.Name)
+	blobClient, err := azblob.NewClientWithSharedKeyCredential(baseUrl, credential, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	pager := containerClient.NewListPager(resourceGroup, *storageAccount.Name, nil)
 	var values []Resource
-	for {
-		for _, storageAccount := range storageAccounts.Values() {
-			resourceGroup := strings.Split(*storageAccount.ID, "/")[4]
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, container := range page.Value {
+			blobPager := blobClient.NewListBlobsFlatPager(*container.Name, nil)
+			for blobPager.More() {
+				flatResponse, err := blobPager.NextPage(ctx)
+				if err != nil {
+					return nil, err
+				}
+				for _, blob := range flatResponse.Segment.BlobItems {
+					metadata := azblobOld.Metadata{}
+					for k, v := range blob.Metadata {
+						metadata[k] = *v
+					}
 
-			//for _, resourceGroup := range resourceGroups {
-			keys, err := accountClient.ListKeys(ctx, resourceGroup, *storageAccount.Name, "")
-			if err != nil {
-				return nil, err
-			}
-
-			credential, err := azblob.NewSharedKeyCredential(*storageAccount.Name, *(*(keys.Keys))[0].Value)
-			if err != nil {
-				return nil, err
-			}
-			baseUrl := fmt.Sprintf("https://%s.blob.core.windows.net", *storageAccount.Name)
-			blobClient, err := azblob.NewClientWithSharedKeyCredential(baseUrl, credential, nil)
-			if err != nil {
-				return nil, err
-			}
-
-			containers, err := containerClient.List(ctx, resourceGroup, *storageAccount.Name, "", "", "")
-			if err != nil {
-				return nil, err
-			}
-			for {
-				for _, container := range containers.Values() {
-					blobPager := blobClient.NewListBlobsFlatPager(*container.Name, nil)
-					for blobPager.More() {
-						flatResponse, err := blobPager.NextPage(ctx)
-						if err != nil {
-							return nil, err
+					blobTags := &azblobOld.BlobTags{
+						BlobTagSet: []azblobOld.BlobTag{},
+					}
+					if blob.BlobTags != nil {
+						for _, tag := range blob.BlobTags.BlobTagSet {
+							blobTags.BlobTagSet = append(blobTags.BlobTagSet, azblobOld.BlobTag{
+								Key:   *tag.Key,
+								Value: *tag.Value,
+							})
 						}
-						for _, blob := range flatResponse.Segment.BlobItems {
-							metadata := azblobOld.Metadata{}
-							for k, v := range blob.Metadata {
-								metadata[k] = *v
-							}
+					} else {
+						blobTags = nil
+					}
 
-							blobTags := &azblobOld.BlobTags{
-								BlobTagSet: []azblobOld.BlobTag{},
-							}
-							if blob.BlobTags != nil {
-								for _, tag := range blob.BlobTags.BlobTagSet {
-									blobTags.BlobTagSet = append(blobTags.BlobTagSet, azblobOld.BlobTag{
-										Key:   *tag.Key,
-										Value: *tag.Value,
-									})
-								}
-							} else {
-								blobTags = nil
-							}
-
-							resource := Resource{
-								ID:       *blob.Name,
-								Name:     *blob.Name,
-								Location: *storageAccount.Location,
-								Description: JSONAllFieldsMarshaller{
-									model.StorageBlobDescription{
-										Blob: azblobOld.BlobItemInternal{
-											Name:             *blob.Name,
-											Deleted:          *blob.Deleted,
-											Snapshot:         *blob.Snapshot,
-											VersionID:        blob.VersionID,
-											IsCurrentVersion: blob.IsCurrentVersion,
-											Properties: azblobOld.BlobProperties{
-												CreationTime:              blob.Properties.CreationTime,
-												LastModified:              *blob.Properties.LastModified,
-												Etag:                      azblobOld.ETag(*blob.Properties.ETag),
-												ContentLength:             blob.Properties.ContentLength,
-												ContentType:               blob.Properties.ContentType,
-												ContentEncoding:           blob.Properties.ContentEncoding,
-												ContentLanguage:           blob.Properties.ContentLanguage,
-												ContentMD5:                blob.Properties.ContentMD5,
-												ContentDisposition:        blob.Properties.ContentDisposition,
-												CacheControl:              blob.Properties.CacheControl,
-												BlobSequenceNumber:        blob.Properties.BlobSequenceNumber,
-												BlobType:                  azblobOld.BlobType(*blob.Properties.BlobType),
-												LeaseStatus:               azblobOld.LeaseStatusType(*blob.Properties.LeaseStatus),
-												LeaseState:                azblobOld.LeaseStateType(*blob.Properties.LeaseState),
-												LeaseDuration:             azblobOld.LeaseDurationType(*blob.Properties.LeaseDuration),
-												CopyID:                    blob.Properties.CopyID,
-												CopyStatus:                azblobOld.CopyStatusType(*blob.Properties.CopyStatus),
-												CopySource:                blob.Properties.CopySource,
-												CopyProgress:              blob.Properties.CopyProgress,
-												CopyCompletionTime:        blob.Properties.CopyCompletionTime,
-												CopyStatusDescription:     blob.Properties.CopyStatusDescription,
-												ServerEncrypted:           blob.Properties.ServerEncrypted,
-												IncrementalCopy:           blob.Properties.IncrementalCopy,
-												DestinationSnapshot:       blob.Properties.DestinationSnapshot,
-												DeletedTime:               blob.Properties.DeletedTime,
-												RemainingRetentionDays:    blob.Properties.RemainingRetentionDays,
-												AccessTier:                azblobOld.AccessTierType(*blob.Properties.AccessTier),
-												AccessTierInferred:        blob.Properties.AccessTierInferred,
-												ArchiveStatus:             azblobOld.ArchiveStatusType(*blob.Properties.ArchiveStatus),
-												CustomerProvidedKeySha256: blob.Properties.CustomerProvidedKeySHA256,
-												EncryptionScope:           blob.Properties.EncryptionScope,
-												AccessTierChangeTime:      blob.Properties.AccessTierChangeTime,
-												TagCount:                  blob.Properties.TagCount,
-												ExpiresOn:                 blob.Properties.ExpiresOn,
-												IsSealed:                  blob.Properties.IsSealed,
-												RehydratePriority:         azblobOld.RehydratePriorityType(*blob.Properties.RehydratePriority),
-												LastAccessedOn:            blob.Properties.LastAccessedOn,
-											},
-											Metadata: metadata,
-											BlobTags: blobTags,
-										},
-										AccountName:   *storageAccount.Name,
-										ContainerName: *container.Name,
-										ResourceGroup: resourceGroup,
-										IsSnapshot:    len(*blob.Snapshot) > 0,
+					resource := Resource{
+						ID:       *blob.Name,
+						Name:     *blob.Name,
+						Location: *storageAccount.Location,
+						Description: JSONAllFieldsMarshaller{
+							model.StorageBlobDescription{
+								Blob: azblobOld.BlobItemInternal{
+									Name:             *blob.Name,
+									Deleted:          *blob.Deleted,
+									Snapshot:         *blob.Snapshot,
+									VersionID:        blob.VersionID,
+									IsCurrentVersion: blob.IsCurrentVersion,
+									Properties: azblobOld.BlobProperties{
+										CreationTime:              blob.Properties.CreationTime,
+										LastModified:              *blob.Properties.LastModified,
+										Etag:                      azblobOld.ETag(*blob.Properties.ETag),
+										ContentLength:             blob.Properties.ContentLength,
+										ContentType:               blob.Properties.ContentType,
+										ContentEncoding:           blob.Properties.ContentEncoding,
+										ContentLanguage:           blob.Properties.ContentLanguage,
+										ContentMD5:                blob.Properties.ContentMD5,
+										ContentDisposition:        blob.Properties.ContentDisposition,
+										CacheControl:              blob.Properties.CacheControl,
+										BlobSequenceNumber:        blob.Properties.BlobSequenceNumber,
+										BlobType:                  azblobOld.BlobType(*blob.Properties.BlobType),
+										LeaseStatus:               azblobOld.LeaseStatusType(*blob.Properties.LeaseStatus),
+										LeaseState:                azblobOld.LeaseStateType(*blob.Properties.LeaseState),
+										LeaseDuration:             azblobOld.LeaseDurationType(*blob.Properties.LeaseDuration),
+										CopyID:                    blob.Properties.CopyID,
+										CopyStatus:                azblobOld.CopyStatusType(*blob.Properties.CopyStatus),
+										CopySource:                blob.Properties.CopySource,
+										CopyProgress:              blob.Properties.CopyProgress,
+										CopyCompletionTime:        blob.Properties.CopyCompletionTime,
+										CopyStatusDescription:     blob.Properties.CopyStatusDescription,
+										ServerEncrypted:           blob.Properties.ServerEncrypted,
+										IncrementalCopy:           blob.Properties.IncrementalCopy,
+										DestinationSnapshot:       blob.Properties.DestinationSnapshot,
+										DeletedTime:               blob.Properties.DeletedTime,
+										RemainingRetentionDays:    blob.Properties.RemainingRetentionDays,
+										AccessTier:                azblobOld.AccessTierType(*blob.Properties.AccessTier),
+										AccessTierInferred:        blob.Properties.AccessTierInferred,
+										ArchiveStatus:             azblobOld.ArchiveStatusType(*blob.Properties.ArchiveStatus),
+										CustomerProvidedKeySha256: blob.Properties.CustomerProvidedKeySHA256,
+										EncryptionScope:           blob.Properties.EncryptionScope,
+										AccessTierChangeTime:      blob.Properties.AccessTierChangeTime,
+										TagCount:                  blob.Properties.TagCount,
+										ExpiresOn:                 blob.Properties.ExpiresOn,
+										IsSealed:                  blob.Properties.IsSealed,
+										RehydratePriority:         azblobOld.RehydratePriorityType(*blob.Properties.RehydratePriority),
+										LastAccessedOn:            blob.Properties.LastAccessedOn,
 									},
+									Metadata: metadata,
+									BlobTags: blobTags,
 								},
-							}
-							if stream != nil {
-								if err := (*stream)(resource); err != nil {
-									return nil, err
-								}
-							} else {
-								values = append(values, resource)
-							}
-
-						}
-					}
-				}
-
-				if !containers.NotDone() {
-					break
-				}
-				err := containers.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-			//}
-		}
-		if !storageAccounts.NotDone() {
-			break
-		}
-		err := storageAccounts.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func StorageBlobService(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	accountClient := storage.NewAccountsClient(subscription)
-	accountClient.Authorizer = authorizer
-
-	storageClient := storage.NewBlobServicesClient(subscription)
-	storageClient.Authorizer = authorizer
-
-	resourceGroups, err := listResourceGroups(ctx, authorizer, subscription)
-	if err != nil {
-		return nil, err
-	}
-
-	storageAccounts, err := accountClient.List(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, account := range storageAccounts.Values() {
-			for _, resourceGroup := range resourceGroups {
-				blobServices, err := storageClient.List(ctx, *resourceGroup.Name, *account.Name)
-				if err != nil {
-					if strings.Contains(err.Error(), "ParentResourceNotFound") ||
-						strings.Contains(err.Error(), "ContainerOperationFailure") ||
-						strings.Contains(err.Error(), "FeatureNotSupportedForAccount") {
-						continue
-					}
-					return nil, err
-				}
-				for _, blobService := range *blobServices.Value {
-					resource := Resource{
-						ID:       *blobService.ID,
-						Name:     *blobService.Name,
-						Location: *account.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.StorageBlobServiceDescription{
-								BlobService:   blobService,
-								AccountName:   *account.Name,
-								Location:      *account.Location,
-								ResourceGroup: *resourceGroup.Name,
+								AccountName:   *storageAccount.Name,
+								ContainerName: *container.Name,
+								ResourceGroup: resourceGroup,
+								IsSnapshot:    len(*blob.Snapshot) > 0,
 							},
 						},
 					}
+					values = append(values, resource)
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func StorageBlobService(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armstorage.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	accountClient := clientFactory.NewAccountsClient()
+	storageClient := clientFactory.NewBlobServicesClient()
+
+	resourceGroups, err := listResourceGroups(ctx, cred, subscription)
+	if err != nil {
+		return nil, err
+	}
+
+	pager := accountClient.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, account := range page.Value {
+			for _, resourceGroup := range resourceGroups {
+				var blobServices []*armstorage.BlobServiceProperties
+				pager := storageClient.NewListPager(*resourceGroup.Name, *account.Name, nil)
+				for pager.More() {
+					page, err := pager.NextPage(ctx)
+					if err != nil {
+						if strings.Contains(err.Error(), "ParentResourceNotFound") ||
+							strings.Contains(err.Error(), "ContainerOperationFailure") ||
+							strings.Contains(err.Error(), "FeatureNotSupportedForAccount") {
+							continue
+						}
+						return nil, err
+					}
+					blobServices = append(blobServices, page.Value...)
+				}
+
+				for _, blobService := range blobServices {
+					resource := GetStorageBlobService(ctx, account, resourceGroup, blobService)
+					if stream != nil {
+						if err := (*stream)(*resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, *resource)
+					}
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func GetStorageBlobService(ctx context.Context, account *armstorage.Account, resourceGroup armresources.ResourceGroup, blobService *armstorage.BlobServiceProperties) *Resource {
+	resource := Resource{
+		ID:       *blobService.ID,
+		Name:     *blobService.Name,
+		Location: *account.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.StorageBlobServiceDescription{
+				BlobService:   *blobService,
+				AccountName:   *account.Name,
+				Location:      *account.Location,
+				ResourceGroup: *resourceGroup.Name,
+			},
+		},
+	}
+	return &resource
+}
+
+func StorageQueue(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armstorage.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	accountClient := clientFactory.NewAccountsClient()
+	storageClient := clientFactory.NewQueueClient()
+
+	resourceGroups, err := listResourceGroups(ctx, cred, subscription)
+	if err != nil {
+		return nil, err
+	}
+
+	pager := accountClient.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, account := range page.Value {
+			for _, resourceGroup := range resourceGroups {
+				resources, err := ListAccountStorageQueue(ctx, storageClient, account, resourceGroup)
+				if err != nil {
+					return nil, err
+				}
+				for _, resource := range resources {
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
 							return nil, err
@@ -522,314 +578,82 @@ func StorageBlobService(ctx context.Context, authorizer autorest.Authorizer, sub
 				}
 			}
 		}
-
-		if !storageAccounts.NotDone() {
-			break
-		}
-		err := storageAccounts.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
 	}
-
 	return values, nil
 }
 
-func StorageQueue(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	accountClient := storage.NewAccountsClient(subscription)
-	accountClient.Authorizer = authorizer
-
-	storageClient := storage.NewQueueClient(subscription)
-	storageClient.Authorizer = authorizer
-
-	resourceGroups, err := listResourceGroups(ctx, authorizer, subscription)
-	if err != nil {
-		return nil, err
-	}
-
-	storageAccounts, err := accountClient.List(ctx)
-	if err != nil {
-		return nil, err
-	}
-
+func ListAccountStorageQueue(ctx context.Context, storageClient *armstorage.QueueClient, account *armstorage.Account, resourceGroup armresources.ResourceGroup) ([]Resource, error) {
 	var values []Resource
-	for {
-		for _, account := range storageAccounts.Values() {
-			if account.Kind == "FileStorage" || account.Kind == "BlockBlobStorage" {
+	pager := storageClient.NewListPager(*resourceGroup.Name, *account.Name, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			/*
+			* For storage account type 'Page Blob' we are getting the kind value as 'StorageV2'.
+			* Storage account type 'Page Blob' does not support table, so we are getting 'FeatureNotSupportedForAccount'/'OperationNotAllowedOnKind' error.
+			* With same kind(StorageV2) of storage account, we my have different type(File Share) of storage account so we need to handle this particular error.
+			 */
+			if strings.Contains(err.Error(), "FeatureNotSupportedForAccount") ||
+				strings.Contains(err.Error(), "AccountIsDisabled") ||
+				strings.Contains(err.Error(), "ParentResourceNotFound") ||
+				strings.Contains(err.Error(), "OperationNotAllowedOnKind") {
 				continue
-			}
-
-			for _, resourceGroup := range resourceGroups {
-				queuesRes, err := storageClient.List(ctx, *resourceGroup.Name, *account.Name, "", "")
-				if err != nil {
-					/*
-					* For storage account type 'Page Blob' we are getting the kind value as 'StorageV2'.
-					* Storage account type 'Page Blob' does not support table, so we are getting 'FeatureNotSupportedForAccount'/'OperationNotAllowedOnKind' error.
-					* With same kind(StorageV2) of storage account, we my have different type(File Share) of storage account so we need to handle this particular error.
-					 */
-					if strings.Contains(err.Error(), "FeatureNotSupportedForAccount") ||
-						strings.Contains(err.Error(), "AccountIsDisabled") ||
-						strings.Contains(err.Error(), "ParentResourceNotFound") ||
-						strings.Contains(err.Error(), "OperationNotAllowedOnKind") {
-						continue
-					} else {
-						return nil, err
-					}
-				}
-				for {
-					for _, queue := range queuesRes.Values() {
-						resource := Resource{
-							ID:       *queue.ID,
-							Name:     *queue.Name,
-							Location: *account.Location,
-							Description: JSONAllFieldsMarshaller{
-								model.StorageQueueDescription{
-									Queue:         queue,
-									AccountName:   *account.Name,
-									Location:      *account.Location,
-									ResourceGroup: *resourceGroup.Name,
-								},
-							},
-						}
-						if stream != nil {
-							if err := (*stream)(resource); err != nil {
-								return nil, err
-							}
-						} else {
-							values = append(values, resource)
-						}
-					}
-					if !queuesRes.NotDone() {
-						break
-					}
-					err := queuesRes.NextWithContext(ctx)
-					if err != nil {
-						return nil, err
-					}
-				}
+			} else {
+				return nil, err
 			}
 		}
-
-		if !storageAccounts.NotDone() {
-			break
-		}
-		err := storageAccounts.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
+		for _, queue := range page.Value {
+			resource := GetStorageQueue(ctx, account, resourceGroup, queue)
+			values = append(values, *resource)
 		}
 	}
-
 	return values, nil
 }
 
-func StorageFileShare(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	accountClient := storage.NewAccountsClient(subscription)
-	accountClient.Authorizer = authorizer
+func GetStorageQueue(ctx context.Context, account *armstorage.Account, resourceGroup armresources.ResourceGroup, queue *armstorage.ListQueue) *Resource {
+	resource := Resource{
+		ID:       *queue.ID,
+		Name:     *queue.Name,
+		Location: *account.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.StorageQueueDescription{
+				Queue:         *queue,
+				AccountName:   *account.Name,
+				Location:      *account.Location,
+				ResourceGroup: *resourceGroup.Name,
+			},
+		},
+	}
+	return &resource
+}
 
-	storageClient := storage.NewFileSharesClient(subscription)
-	storageClient.Authorizer = authorizer
+func StorageFileShare(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armstorage.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	accountClient := clientFactory.NewAccountsClient()
+	storageClient := clientFactory.NewFileSharesClient()
 
-	resourceGroups, err := listResourceGroups(ctx, authorizer, subscription)
+	resourceGroups, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
 		return nil, err
 	}
 
-	storageAccounts, err := accountClient.List(ctx)
-	if err != nil {
-		return nil, err
-	}
-
+	pager := accountClient.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, account := range storageAccounts.Values() {
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, account := range page.Value {
 			for _, resourceGroup := range resourceGroups {
-				fileShares, err := storageClient.List(ctx, *resourceGroup.Name, *account.Name, "", "", "")
+				resources, err := ListAccountStorageFileShares(ctx, storageClient, account, resourceGroup)
 				if err != nil {
-					if strings.Contains(err.Error(), "ParentResourceNotFound") ||
-						strings.Contains(err.Error(), "FeatureNotSupportedForAccount") ||
-						strings.Contains(err.Error(), "AccountIsDisabled") {
-						continue
-					}
 					return nil, err
 				}
-				for {
-					for _, fileShareItem := range fileShares.Values() {
-						resource := Resource{
-							ID:       *fileShareItem.ID,
-							Name:     *fileShareItem.Name,
-							Location: *account.Location,
-							Description: JSONAllFieldsMarshaller{
-								model.StorageFileShareDescription{
-									FileShare:     fileShareItem,
-									AccountName:   *account.Name,
-									Location:      *account.Location,
-									ResourceGroup: *resourceGroup.Name,
-								},
-							},
-						}
-						if stream != nil {
-							if err := (*stream)(resource); err != nil {
-								return nil, err
-							}
-						} else {
-							values = append(values, resource)
-						}
-					}
-					if !fileShares.NotDone() {
-						break
-					}
-					err := fileShares.NextWithContext(ctx)
-					if err != nil {
-						return nil, err
-					}
-				}
-			}
-		}
-
-		if !storageAccounts.NotDone() {
-			break
-		}
-		err := storageAccounts.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func StorageTable(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	accountClient := storage.NewAccountsClient(subscription)
-	accountClient.Authorizer = authorizer
-
-	storageClient := storage.NewTableClient(subscription)
-	storageClient.Authorizer = authorizer
-
-	resourceGroups, err := listResourceGroups(ctx, authorizer, subscription)
-	if err != nil {
-		return nil, err
-	}
-
-	storageAccounts, err := accountClient.List(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, account := range storageAccounts.Values() {
-			if account.Kind == "FileStorage" || account.Kind == "BlockBlobStorage" {
-				continue
-			}
-			for _, resourceGroup := range resourceGroups {
-				tables, err := storageClient.List(ctx, *resourceGroup.Name, *account.Name)
-				if err != nil {
-					/*
-					* For storage account type 'Page Blob' we are getting the kind value as 'StorageV2'.
-					* Storage account type 'Page Blob' does not support table, so we are getting 'FeatureNotSupportedForAccount'/'OperationNotAllowedOnKind' error.
-					* With same kind(StorageV2) of storage account, we my have different type(File Share) of storage account so we need to handle this particular error.
-					 */
-					if strings.Contains(err.Error(), "FeatureNotSupportedForAccount") ||
-						strings.Contains(err.Error(), "OperationNotAllowedOnKind") ||
-						strings.Contains(err.Error(), "AccountIsDisabled") ||
-						strings.Contains(err.Error(), "ParentResourceNotFound") {
-						continue
-					}
-					return nil, err
-				}
-				for {
-					for _, table := range tables.Values() {
-						resource := Resource{
-							ID:       *table.ID,
-							Name:     *table.Name,
-							Location: *account.Location,
-							Description: JSONAllFieldsMarshaller{
-								model.StorageTableDescription{
-									Table:         table,
-									AccountName:   *account.Name,
-									Location:      *account.Location,
-									ResourceGroup: *resourceGroup.Name,
-								},
-							},
-						}
-						if stream != nil {
-							if err := (*stream)(resource); err != nil {
-								return nil, err
-							}
-						} else {
-							values = append(values, resource)
-						}
-					}
-					if !tables.NotDone() {
-						break
-					}
-					err := tables.NextWithContext(ctx)
-					if err != nil {
-						return nil, err
-					}
-				}
-			}
-		}
-
-		if !storageAccounts.NotDone() {
-			break
-		}
-		err := storageAccounts.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-
-func StorageTableService(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	accountClient := storage.NewAccountsClient(subscription)
-	accountClient.Authorizer = authorizer
-
-	storageClient := storage.NewTableServicesClient(subscription)
-	storageClient.Authorizer = authorizer
-
-	resourceGroups, err := listResourceGroups(ctx, authorizer, subscription)
-	if err != nil {
-		return nil, err
-	}
-
-	storageAccounts, err := accountClient.List(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, account := range storageAccounts.Values() {
-			if account.Kind == "FileStorage" {
-				continue
-			}
-			for _, resourceGroup := range resourceGroups {
-				tableServices, err := storageClient.List(ctx, *resourceGroup.Name, *account.Name)
-				if err != nil {
-					if strings.Contains(err.Error(), "ParentResourceNotFound") ||
-						strings.Contains(err.Error(), "FeatureNotSupportedForAccount") {
-						continue
-					}
-					return nil, err
-				}
-
-				for _, tableService := range *tableServices.Value {
-					resource := Resource{
-						ID:       *tableService.ID,
-						Name:     *tableService.Name,
-						Location: *account.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.StorageTableServiceDescription{
-								TableService:  tableService,
-								AccountName:   *account.Name,
-								Location:      *account.Location,
-								ResourceGroup: *resourceGroup.Name,
-							},
-						},
-					}
+				for _, resource := range resources {
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
 							return nil, err
@@ -840,15 +664,213 @@ func StorageTableService(ctx context.Context, authorizer autorest.Authorizer, su
 				}
 			}
 		}
+	}
+	return values, nil
+}
 
-		if !storageAccounts.NotDone() {
-			break
+func ListAccountStorageFileShares(ctx context.Context, storageClient *armstorage.FileSharesClient, account *armstorage.Account, resourceGroup armresources.ResourceGroup) ([]Resource, error) {
+	pager := storageClient.NewListPager(*resourceGroup.Name, *account.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			if strings.Contains(err.Error(), "ParentResourceNotFound") ||
+				strings.Contains(err.Error(), "FeatureNotSupportedForAccount") ||
+				strings.Contains(err.Error(), "AccountIsDisabled") {
+				continue
+			}
+			return nil, err
 		}
-		err := storageAccounts.NextWithContext(ctx)
+		for _, fileShareItem := range page.Value {
+			resource := GetStorageFileShares(ctx, account, resourceGroup, fileShareItem)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func GetStorageFileShares(ctx context.Context, account *armstorage.Account, resourceGroup armresources.ResourceGroup, fileShareItem *armstorage.FileShareItem) *Resource {
+	resource := Resource{
+		ID:       *fileShareItem.ID,
+		Name:     *fileShareItem.Name,
+		Location: *account.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.StorageFileShareDescription{
+				FileShare:     *fileShareItem,
+				AccountName:   *account.Name,
+				Location:      *account.Location,
+				ResourceGroup: *resourceGroup.Name,
+			},
+		},
+	}
+	return &resource
+}
+
+func StorageTable(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armstorage.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	accountClient := clientFactory.NewAccountsClient()
+	storageClient := clientFactory.NewTableClient()
+
+	resourceGroups, err := listResourceGroups(ctx, cred, subscription)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	pager := accountClient.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, account := range page.Value {
+			if *account.Kind == "FileStorage" || *account.Kind == "BlockBlobStorage" {
+				continue
+			}
+			for _, resourceGroup := range resourceGroups {
+				resources, err := ListAccountStorageTables(ctx, storageClient, account, resourceGroup)
+				if err != nil {
+					return nil, err
+				}
+				for _, resource := range resources {
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func ListAccountStorageTables(ctx context.Context, storageClient *armstorage.TableClient, account *armstorage.Account, resourceGroup armresources.ResourceGroup) ([]Resource, error) {
+	pager := storageClient.NewListPager(*resourceGroup.Name, *account.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			/*
+			* For storage account type 'Page Blob' we are getting the kind value as 'StorageV2'.
+			* Storage account type 'Page Blob' does not support table, so we are getting 'FeatureNotSupportedForAccount'/'OperationNotAllowedOnKind' error.
+			* With same kind(StorageV2) of storage account, we my have different type(File Share) of storage account so we need to handle this particular error.
+			 */
+			if strings.Contains(err.Error(), "FeatureNotSupportedForAccount") ||
+				strings.Contains(err.Error(), "OperationNotAllowedOnKind") ||
+				strings.Contains(err.Error(), "AccountIsDisabled") ||
+				strings.Contains(err.Error(), "ParentResourceNotFound") {
+				continue
+			}
+			return nil, err
+		}
+		for _, table := range page.Value {
+			resource := GetStorageTable(ctx, account, resourceGroup, table)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func GetStorageTable(ctx context.Context, account *armstorage.Account, resourceGroup armresources.ResourceGroup, table *armstorage.Table) *Resource {
+	resource := Resource{
+		ID:       *table.ID,
+		Name:     *table.Name,
+		Location: *account.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.StorageTableDescription{
+				Table:         *table,
+				AccountName:   *account.Name,
+				Location:      *account.Location,
+				ResourceGroup: *resourceGroup.Name,
+			},
+		},
+	}
+	return &resource
+}
+
+func StorageTableService(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armstorage.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	accountClient := clientFactory.NewAccountsClient()
+	storageClient := clientFactory.NewTableServicesClient()
+
+	resourceGroups, err := listResourceGroups(ctx, cred, subscription)
+	if err != nil {
+		return nil, err
 	}
 
+	var values []Resource
+	pager := accountClient.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, account := range page.Value {
+			if *account.Kind == "FileStorage" {
+				continue
+			}
+			for _, resourceGroup := range resourceGroups {
+				resources, err := ListAccountStorageTableService(ctx, storageClient, account, resourceGroup)
+				if err != nil {
+					return nil, err
+				}
+				if resources == nil {
+					continue
+				}
+				for _, resource := range resources {
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+			}
+		}
+	}
 	return values, nil
+}
+
+func ListAccountStorageTableService(ctx context.Context, storageClient *armstorage.TableServicesClient, account *armstorage.Account, resourceGroup armresources.ResourceGroup) ([]Resource, error) {
+	tableServices, err := storageClient.List(ctx, *resourceGroup.Name, *account.Name, nil)
+	if err != nil {
+		if strings.Contains(err.Error(), "ParentResourceNotFound") ||
+			strings.Contains(err.Error(), "FeatureNotSupportedForAccount") {
+			return nil, nil
+		}
+		return nil, err
+	}
+	var values []Resource
+	for _, tableService := range tableServices.Value {
+		resource := GetAccountStorageTableService(ctx, resourceGroup, account, tableService)
+		values = append(values, *resource)
+	}
+	return values, nil
+}
+
+func GetAccountStorageTableService(ctx context.Context, resourceGroup armresources.ResourceGroup, account *armstorage.Account, tableService *armstorage.TableServiceProperties) *Resource {
+	resource := Resource{
+		ID:       *tableService.ID,
+		Name:     *tableService.Name,
+		Location: *account.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.StorageTableServiceDescription{
+				TableService:  *tableService,
+				AccountName:   *account.Name,
+				Location:      *account.Location,
+				ResourceGroup: *resourceGroup.Name,
+			},
+		},
+	}
+	return &resource
 }

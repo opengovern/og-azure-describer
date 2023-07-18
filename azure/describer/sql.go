@@ -2,295 +2,197 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
 
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2017-03-01-preview/sql"
-	sqlv3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
-	sqlV5 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v5.0/sql"
-
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func MssqlManagedInstance(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	managedInstanceClient := sqlV5.NewManagedInstanceVulnerabilityAssessmentsClient(subscription)
-	managedInstanceClient.Authorizer = authorizer
-
-	managedServerClient := sqlV5.NewManagedServerSecurityAlertPoliciesClient(subscription)
-	managedServerClient.Authorizer = authorizer
-
-	managedInstanceEncClient := sqlV5.NewManagedInstanceEncryptionProtectorsClient(subscription)
-	managedInstanceEncClient.Authorizer = authorizer
-
-	client := sqlV5.NewManagedInstancesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx, "")
+func MssqlManagedInstance(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsql.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewManagedInstancesClient()
+	managedInstanceClient := clientFactory.NewManagedInstanceVulnerabilityAssessmentsClient()
+	managedServerClient := clientFactory.NewManagedServerSecurityAlertPoliciesClient()
+	managedInstanceEncClient := clientFactory.NewManagedInstanceEncryptionProtectorsClient()
 
 	var values []Resource
-	for {
-		for _, managedInstance := range result.Values() {
-			resourceGroup := strings.Split(string(*managedInstance.ID), "/")[4]
-			managedInstanceName := *managedInstance.Name
-			iop, err := managedInstanceClient.ListByInstance(ctx, resourceGroup, managedInstanceName)
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, managedInstance := range page.Value {
+			resource, err := GetMssqlManagedInstance(ctx, managedInstanceClient, managedServerClient, managedInstanceEncClient, managedInstance)
 			if err != nil {
 				return nil, err
-			}
-			viop := iop.Values()
-			for iop.NotDone() {
-				err := iop.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-
-				viop = append(viop, iop.Values()...)
-			}
-
-			sop, err := managedServerClient.ListByInstance(ctx, resourceGroup, managedInstanceName)
-			if err != nil {
-				return nil, err
-			}
-			vsop := sop.Values()
-			for sop.NotDone() {
-				err := sop.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-
-				vsop = append(vsop, sop.Values()...)
-			}
-
-			eop, err := managedInstanceEncClient.ListByInstance(ctx, resourceGroup, managedInstanceName)
-			if err != nil {
-				return nil, err
-			}
-			veop := eop.Values()
-			for eop.NotDone() {
-				err := eop.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-
-				veop = append(veop, eop.Values()...)
-			}
-
-			resource := Resource{
-				ID:       *managedInstance.ID,
-				Name:     *managedInstance.Name,
-				Location: *managedInstance.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.MssqlManagedInstanceDescription{
-						ManagedInstance:                         managedInstance,
-						ManagedInstanceVulnerabilityAssessments: viop,
-						ManagedDatabaseSecurityAlertPolicies:    vsop,
-						ManagedInstanceEncryptionProtectors:     veop,
-						ResourceGroup:                           resourceGroup,
-					},
-				},
 			}
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func MssqlManagedInstanceDatabases(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	managedInstanceClient := sqlV5.NewManagedInstanceVulnerabilityAssessmentsClient(subscription)
-	managedInstanceClient.Authorizer = authorizer
+func GetMssqlManagedInstance(ctx context.Context, managedInstanceClient *armsql.ManagedInstanceVulnerabilityAssessmentsClient, managedServerClient *armsql.ManagedServerSecurityAlertPoliciesClient, managedInstanceEncClient *armsql.ManagedInstanceEncryptionProtectorsClient, managedInstance *armsql.ManagedInstance) (*Resource, error) {
+	resourceGroup := strings.Split(string(*managedInstance.ID), "/")[4]
+	managedInstanceName := *managedInstance.Name
 
-	managedServerClient := sqlV5.NewManagedServerSecurityAlertPoliciesClient(subscription)
-	managedServerClient.Authorizer = authorizer
+	var viop []*armsql.ManagedInstanceVulnerabilityAssessment
+	pager1 := managedInstanceClient.NewListByInstancePager(resourceGroup, managedInstanceName, nil)
+	for pager1.More() {
+		page1, err := pager1.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		viop = append(viop, page1.Value...)
+	}
 
-	managedInstanceEncClient := sqlV5.NewManagedInstanceEncryptionProtectorsClient(subscription)
-	managedInstanceEncClient.Authorizer = authorizer
+	var vsop []*armsql.ManagedServerSecurityAlertPolicy
+	pager2 := managedServerClient.NewListByInstancePager(resourceGroup, managedInstanceName, nil)
+	for pager2.More() {
+		page2, err := pager2.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		vsop = append(vsop, page2.Value...)
+	}
 
-	client := sqlV5.NewManagedInstancesClient(subscription)
-	client.Authorizer = authorizer
+	var veop []*armsql.ManagedInstanceEncryptionProtector
+	pager3 := managedInstanceEncClient.NewListByInstancePager(resourceGroup, managedInstanceName, nil)
+	for pager3.More() {
+		page3, err := pager3.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		veop = append(veop, page3.Value...)
+	}
 
-	dbClient := sqlV5.NewDatabasesClient(subscription)
-	dbClient.Authorizer = authorizer
+	resource := Resource{
+		ID:       *managedInstance.ID,
+		Name:     *managedInstance.Name,
+		Location: *managedInstance.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.MssqlManagedInstanceDescription{
+				ManagedInstance:                         *managedInstance,
+				ManagedInstanceVulnerabilityAssessments: viop,
+				ManagedDatabaseSecurityAlertPolicies:    vsop,
+				ManagedInstanceEncryptionProtectors:     veop,
+				ResourceGroup:                           resourceGroup,
+			},
+		},
+	}
 
-	result, err := client.List(ctx, "")
+	return &resource, nil
+}
+
+func MssqlManagedInstanceDatabases(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsql.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewManagedInstancesClient()
+	dbClient := clientFactory.NewDatabasesClient()
 
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, managedInstance := range result.Values() {
-			resourceGroup := strings.Split(string(*managedInstance.ID), "/")[4]
-			managedInstanceName := *managedInstance.Name
-
-			dbResult, err := dbClient.ListByServer(ctx, resourceGroup, managedInstanceName, "")
-			if err != nil {
-				if strings.Contains(err.Error(), "ParentResourceNotFound") {
-					continue
-				}
-				return nil, err
-			}
-
-			for {
-				for _, db := range dbResult.Values() {
-					resource := Resource{
-						ID:       *db.ID,
-						Name:     *db.Name,
-						Location: *db.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.MssqlManagedInstanceDatabasesDescription{
-								ManagedInstance: managedInstance,
-								Database:        db,
-								ResourceGroup:   resourceGroup,
-							},
-						},
-					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-				if !dbResult.NotDone() {
-					break
-				}
-				err = dbResult.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
+		}
+		for _, managedInstance := range page.Value {
+			resources, err := ListManagedInstanceDatabases(ctx, dbClient, managedInstance)
+			if err != nil {
+				return nil, err
+			}
+			if stream != nil {
+				for _, resource := range resources {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				}
+			} else {
+				values = append(values, resources...)
+			}
 		}
 	}
 	return values, nil
 }
 
-func SqlDatabase(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	parentClient := sqlv3.NewServersClient(subscription)
-	parentClient.Authorizer = authorizer
+func ListManagedInstanceDatabases(ctx context.Context, dbClient *armsql.DatabasesClient, managedInstance *armsql.ManagedInstance) ([]Resource, error) {
+	resourceGroup := strings.Split(string(*managedInstance.ID), "/")[4]
+	managedInstanceName := *managedInstance.Name
 
-	databaseVulnerabilityScanClient := sqlV5.NewDatabaseVulnerabilityAssessmentScansClient(subscription)
-	databaseVulnerabilityScanClient.Authorizer = authorizer
+	var values []Resource
+	pager := dbClient.NewListByServerPager(resourceGroup, managedInstanceName, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, db := range page.Value {
+			resource := GetManagedInstanceDatabases(ctx, managedInstance, db)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
 
-	databaseVulnerabilityClient := sqlV5.NewDatabaseVulnerabilityAssessmentsClient(subscription)
-	databaseVulnerabilityClient.Authorizer = authorizer
+func GetManagedInstanceDatabases(ctx context.Context, managedInstance *armsql.ManagedInstance, db *armsql.Database) *Resource {
+	resourceGroup := strings.Split(string(*managedInstance.ID), "/")[4]
 
-	transparentDataClient := sql.NewTransparentDataEncryptionsClient(subscription)
-	transparentDataClient.Authorizer = authorizer
+	resource := Resource{
+		ID:       *db.ID,
+		Name:     *db.Name,
+		Location: *db.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.MssqlManagedInstanceDatabasesDescription{
+				ManagedInstance: *managedInstance,
+				Database:        *db,
+				ResourceGroup:   resourceGroup,
+			},
+		},
+	}
+	return &resource
+}
 
-	longTermClient := sqlV5.NewLongTermRetentionPoliciesClient(subscription)
-	longTermClient.Authorizer = authorizer
-
-	databasesClientClient := sql.NewDatabasesClient(subscription)
-	databasesClientClient.Authorizer = authorizer
-
-	client := sql.NewDatabasesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := parentClient.List(ctx)
+func SqlDatabase(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsql.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	parentClient := clientFactory.NewServersClient()
+	databaseVulnerabilityScanClient := clientFactory.NewDatabaseVulnerabilityAssessmentScansClient()
+	databaseVulnerabilityClient := clientFactory.NewDatabaseVulnerabilityAssessmentsClient()
+	transparentDataClient := clientFactory.NewTransparentDataEncryptionsClient()
+	longTermClient := clientFactory.NewLongTermRetentionPoliciesClient()
+	databasesClientClient := clientFactory.NewDatabasesClient()
+	client := clientFactory.NewDatabasesClient()
 
+	pager := parentClient.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, server := range result.Values() {
-			resourceGroupName := strings.Split(string(*server.ID), "/")[4]
-			result, err := client.ListByServer(ctx, resourceGroupName, *server.Name, "", "")
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, server := range page.Value {
+			resources, err := ListServerSqlDatabases(ctx, databaseVulnerabilityScanClient, databaseVulnerabilityClient, transparentDataClient, longTermClient, databasesClientClient, client, server)
 			if err != nil {
 				return nil, err
 			}
-			for _, database := range *result.Value {
-				serverName := strings.Split(*database.ID, "/")[8]
-				databaseName := *database.Name
-				resourceGroupName := strings.Split(string(*database.ID), "/")[4]
-
-				op, err := longTermClient.ListByDatabase(ctx, resourceGroupName, serverName, databaseName)
-				if err != nil {
-					return nil, err
-				}
-				longTermRetentionPolicies := op.Values()
-				var longTermRetentionPolicy sqlV5.LongTermRetentionPolicy
-				if len(longTermRetentionPolicies) > 0 {
-					longTermRetentionPolicy = longTermRetentionPolicies[0]
-				}
-
-				transparentDataOp, err := transparentDataClient.Get(ctx, resourceGroupName, serverName, databaseName)
-				if err != nil {
-					return nil, err
-				}
-
-				var c []sqlV5.DatabaseVulnerabilityAssessment
-				dbVulnerabilityOp, err := databaseVulnerabilityClient.ListByDatabase(ctx, resourceGroupName, serverName, databaseName)
-				if err == nil {
-					c = dbVulnerabilityOp.Values()
-					for dbVulnerabilityOp.NotDone() {
-						err := dbVulnerabilityOp.NextWithContext(ctx)
-						if err != nil {
-							break
-						}
-
-						c = append(c, dbVulnerabilityOp.Values()...)
-					}
-				}
-
-				dbVulnerabilityScanOp, err := databaseVulnerabilityScanClient.ListByDatabase(ctx, resourceGroupName, serverName, databaseName)
-				var v []sqlV5.VulnerabilityAssessmentScanRecord
-				if err == nil {
-					v = dbVulnerabilityScanOp.Values()
-					for dbVulnerabilityScanOp.NotDone() {
-						err := dbVulnerabilityScanOp.NextWithContext(ctx)
-						if err != nil {
-							break
-						}
-
-						v = append(v, dbVulnerabilityScanOp.Values()...)
-					}
-				}
-
-				getOp, err := client.Get(ctx, resourceGroupName, serverName, databaseName, "")
-				if err != nil {
-					return nil, err
-				}
-
-				resource := Resource{
-					ID:       *server.ID,
-					Name:     *server.Name,
-					Location: *server.Location,
-					Description: JSONAllFieldsMarshaller{
-						model.SqlDatabaseDescription{
-							Database:                           getOp,
-							LongTermRetentionPolicy:            longTermRetentionPolicy,
-							TransparentDataEncryption:          transparentDataOp,
-							DatabaseVulnerabilityAssessments:   c,
-							VulnerabilityAssessmentScanRecords: v,
-							ResourceGroup:                      resourceGroupName,
-						},
-					},
-				}
+			for _, resource := range resources {
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -300,59 +202,141 @@ func SqlDatabase(ctx context.Context, authorizer autorest.Authorizer, subscripti
 				}
 			}
 		}
+	}
+	return values, nil
+}
 
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+func ListServerSqlDatabases(ctx context.Context, databaseVulnerabilityScanClient *armsql.DatabaseVulnerabilityAssessmentScansClient, databaseVulnerabilityClient *armsql.DatabaseVulnerabilityAssessmentsClient, transparentDataClient *armsql.TransparentDataEncryptionsClient, longTermClient *armsql.LongTermRetentionPoliciesClient, databasesClientClient *armsql.DatabasesClient, client *armsql.DatabasesClient, server *armsql.Server) ([]Resource, error) {
+	resourceGroupName := strings.Split(string(*server.ID), "/")[4]
+	pager := client.NewListByServerPager(resourceGroupName, *server.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
+		}
+		for _, database := range page.Value {
+			resource, err := GetSqlDatabase(ctx, databaseVulnerabilityScanClient, databaseVulnerabilityClient, transparentDataClient, longTermClient, databasesClientClient, server, database)
+			if err != nil {
+				return nil, err
+			}
+			values = append(values, *resource)
 		}
 	}
 	return values, nil
 }
 
-func SqlInstancePool(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := sqlV5.NewInstancePoolsClient(subscription)
-	client.Authorizer = authorizer
+func GetSqlDatabase(ctx context.Context, databaseVulnerabilityScanClient *armsql.DatabaseVulnerabilityAssessmentScansClient, databaseVulnerabilityClient *armsql.DatabaseVulnerabilityAssessmentsClient, transparentDataClient *armsql.TransparentDataEncryptionsClient, longTermClient *armsql.LongTermRetentionPoliciesClient, databasesClientClient *armsql.DatabasesClient, server *armsql.Server, database *armsql.Database) (*Resource, error) {
+	serverName := strings.Split(*database.ID, "/")[8]
+	databaseName := *database.Name
+	resourceGroupName := strings.Split(string(*database.ID), "/")[4]
 
-	result, err := client.List(ctx)
+	var longTermRetentionPolicies []*armsql.LongTermRetentionPolicy
+	pager1 := longTermClient.NewListByDatabasePager(resourceGroupName, serverName, databaseName, nil)
+	for pager1.More() {
+		page1, err := pager1.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		longTermRetentionPolicies = append(longTermRetentionPolicies, page1.Value...)
+	}
+	var longTermRetentionPolicy armsql.LongTermRetentionPolicy
+	if len(longTermRetentionPolicies) > 0 {
+		longTermRetentionPolicy = *longTermRetentionPolicies[0]
+	}
+
+	pager2 := transparentDataClient.NewListByDatabasePager(resourceGroupName, serverName, databaseName, nil)
+	var transparentDataOp []*armsql.LogicalDatabaseTransparentDataEncryption
+	for pager2.More() {
+		page2, err := pager2.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		transparentDataOp = append(transparentDataOp, page2.Value...)
+	}
+
+	var c []*armsql.DatabaseVulnerabilityAssessment
+	pager3 := databaseVulnerabilityClient.NewListByDatabasePager(resourceGroupName, serverName, databaseName, nil)
+	for pager3.More() {
+		page3, err := pager3.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		c = append(c, page3.Value...)
+	}
+
+	var v []*armsql.VulnerabilityAssessmentScanRecord
+	for _, assessment := range c {
+		pager4 := databaseVulnerabilityScanClient.NewListByDatabasePager(resourceGroupName, serverName, databaseName, armsql.VulnerabilityAssessmentName(*assessment.Name), nil)
+		for pager4.More() {
+			page4, err := pager4.NextPage(ctx)
+			if err != nil {
+				return nil, err
+			}
+			v = append(v, page4.Value...)
+		}
+	}
+
+	getOp, err := databasesClientClient.Get(ctx, resourceGroupName, serverName, databaseName, nil)
 	if err != nil {
 		return nil, err
 	}
 
+	resource := Resource{
+		ID:       *server.ID,
+		Name:     *server.Name,
+		Location: *server.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.SqlDatabaseDescription{
+				Database:                           getOp.Database,
+				LongTermRetentionPolicy:            longTermRetentionPolicy,
+				TransparentDataEncryption:          transparentDataOp,
+				DatabaseVulnerabilityAssessments:   c,
+				VulnerabilityAssessmentScanRecords: v,
+				ResourceGroup:                      resourceGroupName,
+			},
+		},
+	}
+	return &resource, nil
+}
+
+func SqlInstancePool(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsql.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	parentClient := clientFactory.NewInstancePoolsClient()
+
+	pager := parentClient.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroupName := strings.Split(string(*v.ID), "/")[4]
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.SqlInstancePoolDescription{
-						InstancePool:  v,
-						ResourceGroup: resourceGroupName,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-
-		}
-
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, instancePool := range page.Value {
+			resource, err := GetSqlInstancePool(ctx, clientFactory, instancePool)
+			if err != nil {
+				return nil, err
+			}
+			values = append(values, *resource)
+		}
 	}
 	return values, nil
+}
+
+func GetSqlInstancePool(ctx context.Context, clientFactory *armsql.ClientFactory, v *armsql.InstancePool) (*Resource, error) {
+	resourceGroupName := strings.Split(string(*v.ID), "/")[4]
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.SqlInstancePoolDescription{
+				InstancePool:  *v,
+				ResourceGroup: resourceGroupName,
+			},
+		},
+	}
+	return &resource, nil
 }

@@ -2,45 +2,53 @@ package describer
 
 import (
 	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/timeseriesinsights/mgmt/2018-08-15-preview/timeseriesinsights"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/timeseriesinsights/armtimeseriesinsights"
 	"strings"
 
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func TimeSeriesInsightsEnvironments(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := timeseriesinsights.NewEnvironmentsClient(subscription)
-	client.Authorizer = authorizer
+func TimeSeriesInsightsEnvironments(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armtimeseriesinsights.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewEnvironmentsClient()
 
-	result, err := client.ListBySubscription(context.Background())
+	list, err := client.ListBySubscription(ctx, nil)
 	if err != nil {
 		return nil, err
 	}
 
 	var values []Resource
-	for _, record := range *result.Value {
-		v, _ := record.AsEnvironmentResource()
-		resourceGroup := strings.Split(*v.ID, "/")[4]
-
-		resource := Resource{
-			ID:       *v.ID,
-			Name:     *v.Name,
-			Location: *v.Location,
-			Description: JSONAllFieldsMarshaller{
-				model.TimeSeriesInsightsEnvironmentsDescription{
-					Environment:   v,
-					ResourceGroup: resourceGroup,
-				},
-			},
-		}
+	for _, record := range list.Value {
+		resource := GetTimeSeriesInsightsEnvironments(ctx, record)
 		if stream != nil {
-			if err := (*stream)(resource); err != nil {
+			if err := (*stream)(*resource); err != nil {
 				return nil, err
 			}
 		} else {
-			values = append(values, resource)
+			values = append(values, *resource)
 		}
 	}
 	return values, nil
+}
+
+func GetTimeSeriesInsightsEnvironments(ctx context.Context, record armtimeseriesinsights.EnvironmentResourceClassification) *Resource {
+	v := record.GetEnvironmentResource()
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.TimeSeriesInsightsEnvironmentsDescription{
+				Environment:   v,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
 }

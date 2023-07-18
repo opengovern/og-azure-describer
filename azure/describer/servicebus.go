@@ -2,191 +2,34 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/servicebus/mgmt/servicebus"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
-	previewservicebus "github.com/Azure/azure-sdk-for-go/services/preview/servicebus/mgmt/2021-06-01-preview/servicebus"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func ServiceBusQueue(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	rgs, err := listResourceGroups(ctx, authorizer, subscription)
+func ServiceBusQueue(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	rgs, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
 		return nil, err
 	}
 
-	client := servicebus.NewQueuesClient(subscription)
-	client.Authorizer = authorizer
+	clientFactory, err := armservicebus.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewQueuesClient()
 
 	var values []Resource
 	for _, rg := range rgs {
-		ns, err := serviceBusNamespace(ctx, authorizer, subscription, *rg.Name)
+		resources, err := ListResourceGroupServiceBusQueue(ctx, cred, subscription, client, rg)
 		if err != nil {
 			return nil, err
 		}
-
-		for _, n := range ns {
-			it, err := client.ListByNamespaceComplete(ctx, *rg.Name, *n.Name, nil, nil)
-			if err != nil {
-				return nil, err
-			}
-
-			for v := it.Value(); it.NotDone(); v = it.Value() {
-				resource := Resource{
-					ID:          *v.ID,
-					Name:        *v.Name,
-					Location:    "global",
-					Description: JSONAllFieldsMarshaller{Value: v},
-				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
-					}
-				} else {
-					values = append(values, resource)
-				}
-
-				err := it.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-		}
-	}
-
-	return values, nil
-}
-
-func ServiceBusTopic(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	rgs, err := listResourceGroups(ctx, authorizer, subscription)
-	if err != nil {
-		return nil, err
-	}
-
-	client := servicebus.NewTopicsClient(subscription)
-	client.Authorizer = authorizer
-
-	var values []Resource
-	for _, rg := range rgs {
-		ns, err := serviceBusNamespace(ctx, authorizer, subscription, *rg.Name)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, n := range ns {
-			it, err := client.ListByNamespaceComplete(ctx, *rg.Name, *n.Name, nil, nil)
-			if err != nil {
-				return nil, err
-			}
-
-			for v := it.Value(); it.NotDone(); v = it.Value() {
-				resource := Resource{
-					ID:          *v.ID,
-					Name:        *v.Name,
-					Location:    "global",
-					Description: JSONAllFieldsMarshaller{Value: v},
-				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
-					}
-				} else {
-					values = append(values, resource)
-				}
-
-				err := it.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-		}
-	}
-
-	return values, nil
-}
-
-func serviceBusNamespace(ctx context.Context, authorizer autorest.Authorizer, subscription string, resourceGroup string) ([]servicebus.SBNamespace, error) {
-	client := servicebus.NewNamespacesClient(subscription)
-	client.Authorizer = authorizer
-
-	it, err := client.ListByResourceGroupComplete(ctx, resourceGroup)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []servicebus.SBNamespace
-	for v := it.Value(); it.NotDone(); v = it.Value() {
-		values = append(values, v)
-
-		err := it.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return values, nil
-}
-func ServicebusNamespace(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	servicebusClient := previewservicebus.NewPrivateEndpointConnectionsClient(subscription)
-	servicebusClient.Authorizer = authorizer
-
-	namespaceClient := previewservicebus.NewNamespacesClient(subscription)
-	namespaceClient.Authorizer = authorizer
-
-	insightsClient := insights.NewDiagnosticSettingsClient(subscription)
-	insightsClient.Authorizer = authorizer
-
-	client := previewservicebus.NewNamespacesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
-	if err != nil {
-		return nil, err
-	}
-	var values []Resource
-	for {
-		for _, namespace := range result.Values() {
-			resourceGroup := strings.Split(*namespace.ID, "/")[4]
-
-			insightsListOp, err := insightsClient.List(ctx, *namespace.ID)
-			if err != nil {
-				return nil, err
-			}
-
-			servicebusGetNetworkRuleSetOp, err := namespaceClient.GetNetworkRuleSet(ctx, resourceGroup, *namespace.Name)
-			if err != nil {
-				return nil, err
-			}
-
-			servicebusListOp, err := servicebusClient.List(ctx, resourceGroup, *namespace.Name)
-			if err != nil {
-				return nil, err
-			}
-			v := servicebusListOp.Values()
-			for servicebusListOp.NotDone() {
-				err := servicebusListOp.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-
-				v = append(v, servicebusListOp.Values()...)
-			}
-			resource := Resource{
-				ID:       *namespace.ID,
-				Name:     *namespace.Name,
-				Location: *namespace.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.ServicebusNamespaceDescription{
-						SBNamespace:                 namespace,
-						DiagnosticSettingsResources: insightsListOp.Value,
-						NetworkRuleSet:              servicebusGetNetworkRuleSetOp,
-						PrivateEndpointConnections:  v,
-						ResourceGroup:               resourceGroup,
-					},
-				},
-			}
+		for _, resource := range resources {
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -195,13 +38,231 @@ func ServicebusNamespace(ctx context.Context, authorizer autorest.Authorizer, su
 				values = append(values, resource)
 			}
 		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	}
+	return values, nil
+}
+
+func ListResourceGroupServiceBusQueue(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, client *armservicebus.QueuesClient, rg armresources.ResourceGroup) ([]Resource, error) {
+	ns, err := serviceBusNamespace(ctx, cred, subscription, *rg.Name)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, n := range ns {
+		resources, err := ListNamespaceServiceBusQueues(ctx, client, rg, n)
 		if err != nil {
 			return nil, err
 		}
+		values = append(values, resources...)
 	}
 	return values, nil
+}
+
+func ListNamespaceServiceBusQueues(ctx context.Context, client *armservicebus.QueuesClient, rg armresources.ResourceGroup, n *armservicebus.SBNamespace) ([]Resource, error) {
+	pager := client.NewListByNamespacePager(*rg.Name, *n.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := GetServiceBusQueue(ctx, v)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func GetServiceBusQueue(ctx context.Context, v *armservicebus.SBQueue) *Resource {
+	resource := Resource{
+		ID:          *v.ID,
+		Name:        *v.Name,
+		Location:    "global",
+		Description: JSONAllFieldsMarshaller{Value: v},
+	}
+	return &resource
+}
+
+func ServiceBusTopic(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	rgs, err := listResourceGroups(ctx, cred, subscription)
+	if err != nil {
+		return nil, err
+	}
+
+	clientFactory, err := armservicebus.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewTopicsClient()
+
+	var values []Resource
+	for _, rg := range rgs {
+		resources, err := ListResourceGroupServiceBusTopic(ctx, cred, subscription, client, rg)
+		if err != nil {
+			return nil, err
+		}
+		for _, resource := range resources {
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func ListResourceGroupServiceBusTopic(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, client *armservicebus.TopicsClient, rg armresources.ResourceGroup) ([]Resource, error) {
+	ns, err := serviceBusNamespace(ctx, cred, subscription, *rg.Name)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, n := range ns {
+		resources, err := ListNamespaceServiceBusTopics(ctx, client, rg, n)
+		if err != nil {
+			return nil, err
+		}
+		values = append(values, resources...)
+	}
+	return values, nil
+}
+
+func ListNamespaceServiceBusTopics(ctx context.Context, client *armservicebus.TopicsClient, rg armresources.ResourceGroup, n *armservicebus.SBNamespace) ([]Resource, error) {
+	pager := client.NewListByNamespacePager(*rg.Name, *n.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := GetServiceBusTopic(ctx, v)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func GetServiceBusTopic(ctx context.Context, v *armservicebus.SBTopic) *Resource {
+	resource := Resource{
+		ID:          *v.ID,
+		Name:        *v.Name,
+		Location:    "global",
+		Description: JSONAllFieldsMarshaller{Value: v},
+	}
+	return &resource
+}
+
+func serviceBusNamespace(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, resourceGroup string) ([]*armservicebus.SBNamespace, error) {
+	clientFactory, err := armservicebus.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewNamespacesClient()
+
+	var values []*armservicebus.SBNamespace
+	pager := client.NewListByResourceGroupPager(resourceGroup, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		values = append(values, page.Value...)
+	}
+	return values, nil
+}
+
+func ServicebusNamespace(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armservicebus.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	servicebusClient := clientFactory.NewPrivateEndpointConnectionsClient()
+	namespaceClient := clientFactory.NewNamespacesClient()
+	client := clientFactory.NewNamespacesClient()
+
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+
+	pager := client.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, namespace := range page.Value {
+			resource, err := GetServicebusNamespace(ctx, namespaceClient, servicebusClient, diagnosticClient, namespace)
+			if err != nil {
+				return nil, err
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func GetServicebusNamespace(ctx context.Context, namespaceClient *armservicebus.NamespacesClient, servicebusClient *armservicebus.PrivateEndpointConnectionsClient, diagnosticClient *armmonitor.DiagnosticSettingsClient, namespace *armservicebus.SBNamespace) (*Resource, error) {
+	resourceGroup := strings.Split(*namespace.ID, "/")[4]
+
+	var insightsListOp []*armmonitor.DiagnosticSettingsResource
+	pager1 := diagnosticClient.NewListPager(resourceGroup, nil)
+	for pager1.More() {
+		page1, err := pager1.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		insightsListOp = append(insightsListOp, page1.Value...)
+	}
+
+	var servicebusGetNetworkRuleSetOp []*armservicebus.NetworkRuleSet
+	pager2 := namespaceClient.NewListNetworkRuleSetsPager(resourceGroup, *namespace.Name, nil)
+	for pager2.More() {
+		page2, err := pager2.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		servicebusGetNetworkRuleSetOp = append(servicebusGetNetworkRuleSetOp, page2.Value...)
+	}
+
+	var servicebusListOp []*armservicebus.PrivateEndpointConnection
+	pager3 := servicebusClient.NewListPager(resourceGroup, *namespace.Name, nil)
+	for pager3.More() {
+		page, err := pager3.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		servicebusListOp = append(servicebusListOp, page.Value...)
+	}
+
+	resource := Resource{
+		ID:       *namespace.ID,
+		Name:     *namespace.Name,
+		Location: *namespace.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.ServicebusNamespaceDescription{
+				SBNamespace:                 *namespace,
+				DiagnosticSettingsResources: insightsListOp,
+				NetworkRuleSet:              servicebusGetNetworkRuleSetOp,
+				PrivateEndpointConnections:  servicebusListOp,
+				ResourceGroup:               resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
 }

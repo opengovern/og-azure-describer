@@ -3,92 +3,84 @@
 package model
 
 import (
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/devtestlabs/mgmt/dtl"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/healthcareapis/mgmt/healthcareapis"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/hybridcompute/mgmt/hybridcompute"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/netapp/mgmt/netapp"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/powerbidedicated/mgmt/powerbidedicated"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/provisioningservices/mgmt/iothub"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/purview/mgmt/purview"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/recoveryservices/mgmt/recoveryservices"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/links"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/locks"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/managementgroups"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/policy"
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/resources/mgmt/resources"
-	sub "github.com/Azure/azure-sdk-for-go/profiles/latest/subscription/mgmt/subscription"
-	"github.com/Azure/azure-sdk-for-go/profiles/preview/preview/blueprint/mgmt/blueprint"
-	"github.com/Azure/azure-sdk-for-go/profiles/preview/preview/desktopvirtualization/mgmt/desktopvirtualization"
-	web2 "github.com/Azure/azure-sdk-for-go/profiles/preview/preview/web/mgmt/web"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/analysisservices/armanalysisservices"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
+	appservice "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/batch/armbatch"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/blueprint/armblueprint"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/botservice/armbotservice"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cognitiveservices/armcognitiveservices"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerinstance/armcontainerinstance"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerregistry/armcontainerregistry"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/databoxedge/armdataboxedge"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/databricks/armdatabricks"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datafactory/armdatafactory/v2"
+	analytics "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-analytics/armdatalakeanalytics"
+	store "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datalake-store/armdatalakestore"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datamigration/armdatamigration"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dataprotection/armdataprotection"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/desktopvirtualization/armdesktopvirtualization"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/deviceprovisioningservices/armdeviceprovisioningservices"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devtestlabs/armdevtestlabs"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
-	"github.com/Azure/azure-sdk-for-go/services/analysisservices/mgmt/2017-08-01/analysisservices"
-	"github.com/Azure/azure-sdk-for-go/services/apimanagement/mgmt/2020-12-01/apimanagement"
-	"github.com/Azure/azure-sdk-for-go/services/appconfiguration/mgmt/2020-06-01/appconfiguration"
-	"github.com/Azure/azure-sdk-for-go/services/appplatform/mgmt/2020-07-01/appplatform"
-	"github.com/Azure/azure-sdk-for-go/services/batch/mgmt/2020-09-01/batch"
-	"github.com/Azure/azure-sdk-for-go/services/botservice/mgmt/2021-03-01/botservice"
-	"github.com/Azure/azure-sdk-for-go/services/cdn/mgmt/2021-06-01/cdn"
-	"github.com/Azure/azure-sdk-for-go/services/cognitiveservices/mgmt/2021-04-30/cognitiveservices"
-	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2017-09-01/skus"
-	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2020-06-01/compute"
-	compute2 "github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2022-08-01/compute"
-	"github.com/Azure/azure-sdk-for-go/services/containerinstance/mgmt/2021-10-01/containerinstance"
-	"github.com/Azure/azure-sdk-for-go/services/containerservice/mgmt/2021-02-01/containerservice"
-	"github.com/Azure/azure-sdk-for-go/services/databoxedge/mgmt/2019-07-01/databoxedge"
-	"github.com/Azure/azure-sdk-for-go/services/databricks/mgmt/2018-04-01/databricks"
-	"github.com/Azure/azure-sdk-for-go/services/datafactory/mgmt/2018-06-01/datafactory"
-	analytics "github.com/Azure/azure-sdk-for-go/services/datalake/analytics/mgmt/2016-11-01/account"
-	store "github.com/Azure/azure-sdk-for-go/services/datalake/store/mgmt/2016-11-01/account"
-	"github.com/Azure/azure-sdk-for-go/services/dataprotection/mgmt/2021-07-01/dataprotection"
-	"github.com/Azure/azure-sdk-for-go/services/dns/mgmt/2018-05-01/dns"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventhub/armeventhub"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/frontdoor/armfrontdoor"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hdinsight/armhdinsight"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/healthcareapis/armhealthcareapis"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridcompute/armhybridcompute"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridkubernetes/armhybridkubernetes"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/logic/armlogic"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearningservices/armmachinelearningservices"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/managementgroups/armmanagementgroups"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mariadb/armmariadb"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysql"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysqlflexibleservers"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/netapp/armnetapp/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresql"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresqlflexibleservers"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/powerbidedicated/armpowerbidedicated"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/privatedns/armprivatedns"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/purview/armpurview"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlinks"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlocks"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/security/armsecurity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicefabric/armservicefabric"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sqlvirtualmachine/armsqlvirtualmachine"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storagecache/armstoragecache/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storagesync/armstoragesync"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/streamanalytics/armstreamanalytics"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/synapse/armsynapse"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/timeseriesinsights/armtimeseriesinsights"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/virtualmachineimagebuilder/armvirtualmachineimagebuilder"
 	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-05-01/frontdoor"
-	"github.com/Azure/azure-sdk-for-go/services/guestconfiguration/mgmt/2020-06-25/guestconfiguration"
-	"github.com/Azure/azure-sdk-for-go/services/hdinsight/mgmt/2018-06-01/hdinsight"
-	"github.com/Azure/azure-sdk-for-go/services/hybridkubernetes/mgmt/2021-10-01/hybridkubernetes"
-	"github.com/Azure/azure-sdk-for-go/services/iothub/mgmt/2020-03-01/devices"
-	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2019-09-01/keyvault"
-	secret "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.1/keyvault"
-	"github.com/Azure/azure-sdk-for-go/services/kusto/mgmt/2021-01-01/kusto"
-	"github.com/Azure/azure-sdk-for-go/services/logic/mgmt/2019-05-01/logic"
-	"github.com/Azure/azure-sdk-for-go/services/mariadb/mgmt/2020-01-01/mariadb"
-	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2020-01-01/mysql"
-	"github.com/Azure/azure-sdk-for-go/services/mysql/mgmt/2021-05-01/mysqlflexibleservers"
-	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-02-01/network"
-	"github.com/Azure/azure-sdk-for-go/services/operationalinsights/mgmt/2021-06-01/operationalinsights"
-	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2020-01-01/postgresql"
-	"github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/2021-06-01/postgresqlflexibleservers"
-	"github.com/Azure/azure-sdk-for-go/services/preview/authorization/mgmt/2018-09-01-preview/authorization"
-	"github.com/Azure/azure-sdk-for-go/services/preview/automation/mgmt/2020-01-13-preview/automation"
-	"github.com/Azure/azure-sdk-for-go/services/preview/containerregistry/mgmt/2022-02-01-preview/containerregistry"
-	"github.com/Azure/azure-sdk-for-go/services/preview/cosmos-db/mgmt/2021-11-15-preview/documentdb"
-	"github.com/Azure/azure-sdk-for-go/services/preview/datamigration/mgmt/2021-10-30-preview/datamigration"
-	"github.com/Azure/azure-sdk-for-go/services/preview/eventgrid/mgmt/2021-06-01-preview/eventgrid"
-	"github.com/Azure/azure-sdk-for-go/services/preview/eventhub/mgmt/2018-01-01-preview/eventhub"
-	previewKeyvault "github.com/Azure/azure-sdk-for-go/services/preview/keyvault/mgmt/2020-04-01-preview/keyvault"
-	"github.com/Azure/azure-sdk-for-go/services/preview/machinelearningservices/mgmt/2020-02-18-preview/machinelearningservices"
 	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
-	"github.com/Azure/azure-sdk-for-go/services/preview/security/mgmt/v1.0/security"
-	"github.com/Azure/azure-sdk-for-go/services/preview/servicebus/mgmt/2021-06-01-preview/servicebus"
-	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2017-03-01-preview/sql"
-	sqlv3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
-	sqlv5 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v5.0/sql"
-	"github.com/Azure/azure-sdk-for-go/services/preview/sqlvirtualmachine/mgmt/2021-11-01-preview/sqlvirtualmachine"
-	"github.com/Azure/azure-sdk-for-go/services/preview/timeseriesinsights/mgmt/2018-08-15-preview/timeseriesinsights"
-	"github.com/Azure/azure-sdk-for-go/services/privatedns/mgmt/2018-09-01/privatedns"
-	"github.com/Azure/azure-sdk-for-go/services/redis/mgmt/2020-06-01/redis"
-	"github.com/Azure/azure-sdk-for-go/services/redisenterprise/mgmt/2022-01-01/redisenterprise"
-	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2019-06-01/subscriptions"
-	"github.com/Azure/azure-sdk-for-go/services/search/mgmt/2020-08-01/search"
-	"github.com/Azure/azure-sdk-for-go/services/servicefabric/mgmt/2019-03-01/servicefabric"
-	"github.com/Azure/azure-sdk-for-go/services/signalr/mgmt/2020-05-01/signalr"
-	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-06-01/storage"
-	"github.com/Azure/azure-sdk-for-go/services/storagecache/mgmt/2021-05-01/storagecache"
-	"github.com/Azure/azure-sdk-for-go/services/storagesync/mgmt/2020-03-01/storagesync"
-	"github.com/Azure/azure-sdk-for-go/services/streamanalytics/mgmt/2016-03-01/streamanalytics"
-	streamanalytics2 "github.com/Azure/azure-sdk-for-go/services/streamanalytics/mgmt/2020-03-01/streamanalytics"
-	"github.com/Azure/azure-sdk-for-go/services/synapse/mgmt/2021-03-01/synapse"
-	"github.com/Azure/azure-sdk-for-go/services/virtualmachineimagebuilder/mgmt/2020-02-14/virtualmachineimagebuilder"
-	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2021-03-01/web"
+	"github.com/Azure/azure-sdk-for-go/services/preview/web/mgmt/2015-08-01-preview/web"
 	azblobOld "github.com/Azure/azure-storage-blob-go/azblob"
 	"github.com/manicminer/hamilton/msgraph"
 	"github.com/tombuildsstuff/giovanni/storage/2018-11-09/queue/queues"
@@ -111,8 +103,8 @@ type Metadata struct {
 //getfilter:name=description.APIManagement.name
 //getfilter:resource_group=description.ResourceGroup
 type APIManagementDescription struct {
-	APIManagement               apimanagement.ServiceResource
-	DiagnosticSettingsResources []insights.DiagnosticSettingsResource
+	APIManagement               armapimanagement.ServiceResource
+	DiagnosticSettingsResources *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -120,7 +112,7 @@ type APIManagementDescription struct {
 
 //index:microsoft_automation_automationAccounts
 type AutomationAccountsDescription struct {
-	Automation    automation.Account
+	Automation    armautomation.Account
 	ResourceGroup string
 }
 
@@ -130,8 +122,8 @@ type AutomationAccountsDescription struct {
 //getfilter:name=description.ConfigurationStore.name
 //getfilter:resource_group=description.ResourceGroup
 type AppConfigurationDescription struct {
-	ConfigurationStore          appconfiguration.ConfigurationStore
-	DiagnosticSettingsResources []insights.DiagnosticSettingsResource
+	ConfigurationStore          armappconfiguration.ConfigurationStore
+	DiagnosticSettingsResources *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -141,7 +133,7 @@ type AppConfigurationDescription struct {
 //getfilter:name=description.AppServiceEnvironmentResource.name
 //getfilter:resource_group=description.ResourceGroup
 type AppServiceEnvironmentDescription struct {
-	AppServiceEnvironmentResource web.AppServiceEnvironmentResource
+	AppServiceEnvironmentResource appservice.EnvironmentResource
 	ResourceGroup                 string
 }
 
@@ -149,9 +141,9 @@ type AppServiceEnvironmentDescription struct {
 //getfilter:name=description.Site.name
 //getfilter:resource_group=description.ResourceGroup
 type AppServiceFunctionAppDescription struct {
-	Site               web.Site
-	SiteAuthSettings   web.SiteAuthSettings
-	SiteConfigResource web.SiteConfigResource
+	Site               appservice.Site
+	SiteAuthSettings   appservice.SiteAuthSettings
+	SiteConfigResource appservice.SiteConfigResource
 	ResourceGroup      string
 }
 
@@ -159,10 +151,10 @@ type AppServiceFunctionAppDescription struct {
 //getfilter:name=description.Site.name
 //getfilter:resource_group=description.ResourceGroup
 type AppServiceWebAppDescription struct {
-	Site               web.Site
-	SiteAuthSettings   web.SiteAuthSettings
-	SiteConfigResource web.SiteConfigResource
-	VnetInfo           web.VnetInfoResource
+	Site               appservice.Site
+	SiteAuthSettings   appservice.SiteAuthSettings
+	SiteConfigResource appservice.SiteConfigResource
+	VnetInfo           appservice.VnetInfoResource
 	ResourceGroup      string
 }
 
@@ -170,27 +162,27 @@ type AppServiceWebAppDescription struct {
 //getfilter:name=description.Site.name
 //getfilter:resource_group=description.ResourceGroup
 type AppServicePlanDescription struct {
-	Plan          web.AppServicePlan
-	Apps          []web.Site
+	Plan          appservice.Plan
+	Apps          []*appservice.Site
 	ResourceGroup string
 }
 
 //index:microsoft_app_containerapp
 type ContainerAppDescription struct {
 	ResourceGroup string
-	Server        web.ContainerApp
+	Server        appservice.ContainerApp
 }
 
 //index:microsoft_app_managedenvironment
 type AppManagedEnvironmentDescription struct {
 	ResourceGroup      string
-	HostingEnvironment web2.HostingEnvironment
+	HostingEnvironment web.HostingEnvironment
 }
 
 //index:microsoft_web_serverfarm
 type WebServerFarmsDescription struct {
 	ResourceGroup string
-	ServerFarm    web2.ServerFarmWithRichSku
+	ServerFarm    appservice.Plan
 }
 
 //  =================== blueprint ==================
@@ -198,7 +190,7 @@ type WebServerFarmsDescription struct {
 //index:microsoft_blueprint_blueprint
 type BlueprintDescription struct {
 	ResourceGroup string
-	Blueprint     blueprint.Model
+	Blueprint     armblueprint.Blueprint
 }
 
 //  =================== compute ==================
@@ -207,7 +199,7 @@ type BlueprintDescription struct {
 //getfilter:name=description.Disk.name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeDiskDescription struct {
-	Disk          compute.Disk
+	Disk          armcompute.Disk
 	ResourceGroup string
 }
 
@@ -245,7 +237,7 @@ type ComputeDiskWriteOpsHourlyDescription struct {
 //getfilter:name=description.DiskAccess.name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeDiskAccessDescription struct {
-	DiskAccess    compute.DiskAccess
+	DiskAccess    armcompute.DiskAccess
 	ResourceGroup string
 }
 
@@ -253,15 +245,15 @@ type ComputeDiskAccessDescription struct {
 //getfilter:name=description.VirtualMachineScaleSet.name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeVirtualMachineScaleSetDescription struct {
-	VirtualMachineScaleSet           compute.VirtualMachineScaleSet
-	VirtualMachineScaleSetExtensions []compute.VirtualMachineScaleSetExtension
+	VirtualMachineScaleSet           armcompute.VirtualMachineScaleSet
+	VirtualMachineScaleSetExtensions []armcompute.VirtualMachineScaleSetExtension
 	ResourceGroup                    string
 }
 
 //index:microsoft_compute_virtualmachinescalesetnetworkinterface
 type ComputeVirtualMachineScaleSetNetworkInterfaceDescription struct {
-	VirtualMachineScaleSet compute.VirtualMachineScaleSet
-	NetworkInterface       network.Interface
+	VirtualMachineScaleSet armcompute.VirtualMachineScaleSet
+	NetworkInterface       armnetwork.Interface
 	ResourceGroup          string
 }
 
@@ -270,8 +262,8 @@ type ComputeVirtualMachineScaleSetNetworkInterfaceDescription struct {
 //getfilter:instance_id=description.ScaleSetVM.InstanceID
 //getfilter:resource_group=description.ResourceGroup
 type ComputeVirtualMachineScaleSetVmDescription struct {
-	VirtualMachineScaleSet compute.VirtualMachineScaleSet
-	ScaleSetVM             compute.VirtualMachineScaleSetVM
+	VirtualMachineScaleSet armcompute.VirtualMachineScaleSet
+	ScaleSetVM             armcompute.VirtualMachineScaleSetVM
 	ResourceGroup          string
 }
 
@@ -279,7 +271,7 @@ type ComputeVirtualMachineScaleSetVmDescription struct {
 //getfilter:name=description.Snapshot.Name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeSnapshotsDescription struct {
-	Snapshot      compute.Snapshot
+	Snapshot      armcompute.Snapshot
 	ResourceGroup string
 }
 
@@ -287,7 +279,7 @@ type ComputeSnapshotsDescription struct {
 //getfilter:name=description.AvailabilitySet.Name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeAvailabilitySetDescription struct {
-	AvailabilitySet compute.AvailabilitySet
+	AvailabilitySet armcompute.AvailabilitySet
 	ResourceGroup   string
 }
 
@@ -295,7 +287,7 @@ type ComputeAvailabilitySetDescription struct {
 //getfilter:name=description.DiskEncryptionSet.Name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeDiskEncryptionSetDescription struct {
-	DiskEncryptionSet compute.DiskEncryptionSet
+	DiskEncryptionSet armcompute.DiskEncryptionSet
 	ResourceGroup     string
 }
 
@@ -303,7 +295,7 @@ type ComputeDiskEncryptionSetDescription struct {
 //getfilter:name=description.ImageGallery.Name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeImageGalleryDescription struct {
-	ImageGallery  compute.Gallery
+	ImageGallery  armcompute.Gallery
 	ResourceGroup string
 }
 
@@ -311,27 +303,27 @@ type ComputeImageGalleryDescription struct {
 //getfilter:name=Description.Image.Name
 //getfilter:resource_group=Description.Image.ResourceGroup
 type ComputeImageDescription struct {
-	Image         compute.Image
+	Image         armcompute.Image
 	ResourceGroup string
 }
 
 type ComputeHostGroupDescription struct {
-	HostGroup     compute.DedicatedHostGroup
+	HostGroup     armcompute.DedicatedHostGroup
 	ResourceGroup string
 }
 
 type ComputeHostGroupHostDescription struct {
-	Host          compute.DedicatedHost
+	Host          armcompute.DedicatedHost
 	ResourceGroup string
 }
 
 type ComputeRestorePointCollectionDescription struct {
-	RestorePointCollection compute2.RestorePointCollection
+	RestorePointCollection armcompute.RestorePointCollection
 	ResourceGroup          string
 }
 
 type ComputeSSHPublicKeyDescription struct {
-	SSHPublicKey  compute.SSHPublicKeyResource
+	SSHPublicKey  armcompute.SSHPublicKeyResource
 	ResourceGroup string
 }
 
@@ -341,7 +333,7 @@ type ComputeSSHPublicKeyDescription struct {
 //getfilter:name=description.Device.name
 //getfilter:resource_group=description.ResourceGroup
 type DataboxEdgeDeviceDescription struct {
-	Device        databoxedge.Device
+	Device        armdataboxedge.Device
 	ResourceGroup string
 }
 
@@ -351,9 +343,9 @@ type DataboxEdgeDeviceDescription struct {
 //getfilter:name=description.ServicesDescription.name
 //getfilter:resource_group=description.ResourceGroup
 type HealthcareServiceDescription struct {
-	ServicesDescription         healthcareapis.ServicesDescription
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
-	PrivateEndpointConnections  *[]healthcareapis.PrivateEndpointConnectionDescription
+	ServicesDescription         armhealthcareapis.ServicesDescription
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
+	PrivateEndpointConnections  []*armhealthcareapis.PrivateEndpointConnectionDescription
 	ResourceGroup               string
 }
 
@@ -363,7 +355,7 @@ type HealthcareServiceDescription struct {
 //getfilter:name=description.Cache.name
 //getfilter:resource_group=description.ResourceGroup
 type HpcCacheDescription struct {
-	Cache         storagecache.Cache
+	Cache         armstoragecache.Cache
 	ResourceGroup string
 }
 
@@ -374,8 +366,8 @@ type HpcCacheDescription struct {
 //getfilter:name=description.Key.name
 //getfilter:resource_group=description.ResourceGroup
 type KeyVaultKeyDescription struct {
-	Vault         keyvault.Resource
-	Key           keyvault.Key
+	Vault         armkeyvault.Resource
+	Key           armkeyvault.Key
 	ResourceGroup string
 }
 
@@ -385,7 +377,7 @@ type KeyVaultKeyDescription struct {
 //getfilter:name=description.ManagedCluster.name
 //getfilter:resource_group=description.ResourceGroup
 type KubernetesClusterDescription struct {
-	ManagedCluster containerservice.ManagedCluster
+	ManagedCluster armcontainerservice.ManagedCluster
 	ResourceGroup  string
 }
 
@@ -394,7 +386,7 @@ type KubernetesClusterDescription struct {
 //index:microsoft_containerinstance_containergroup
 type ContainerInstanceContainerGroupDescription struct {
 	ResourceGroup  string
-	ContainerGroup containerinstance.ContainerGroup
+	ContainerGroup armcontainerinstance.ContainerGroup
 }
 
 //  =================== cdn ==================
@@ -402,12 +394,12 @@ type ContainerInstanceContainerGroupDescription struct {
 //index:microsoft_cdn_profile
 type CDNProfileDescription struct {
 	ResourceGroup string
-	Profile       cdn.Profile
+	Profile       armcdn.Profile
 }
 
 type CDNEndpointDescription struct {
 	ResourceGroup string
-	Endpoint      cdn.Endpoint
+	Endpoint      armcdn.Endpoint
 }
 
 //  =================== network ==================
@@ -416,7 +408,7 @@ type CDNEndpointDescription struct {
 //getfilter:name=description.Interface.name
 //getfilter:resource_group=description.ResourceGroup
 type NetworkInterfaceDescription struct {
-	Interface     network.Interface
+	Interface     armnetwork.Interface
 	ResourceGroup string
 }
 
@@ -426,7 +418,7 @@ type NetworkInterfaceDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type NetworkWatcherFlowLogDescription struct {
 	NetworkWatcherName string
-	FlowLog            network.FlowLog
+	FlowLog            armnetwork.FlowLog
 	ResourceGroup      string
 }
 
@@ -434,7 +426,7 @@ type NetworkWatcherFlowLogDescription struct {
 //getfilter:name=description.RouteTable.Name
 //getfilter:resource_group=description.ResourceGroup
 type RouteTablesDescription struct {
-	RouteTable    network.RouteTable
+	RouteTable    armnetwork.RouteTable
 	ResourceGroup string
 }
 
@@ -442,7 +434,7 @@ type RouteTablesDescription struct {
 //getfilter:name=description.ApplicationSecurityGroup.Name
 //getfilter:resource_group=description.ResourceGroup
 type NetworkApplicationSecurityGroupsDescription struct {
-	ApplicationSecurityGroup network.ApplicationSecurityGroup
+	ApplicationSecurityGroup armnetwork.ApplicationSecurityGroup
 	ResourceGroup            string
 }
 
@@ -450,7 +442,7 @@ type NetworkApplicationSecurityGroupsDescription struct {
 //getfilter:name=description.AzureFirewall.Name
 //getfilter:resource_group=description.ResourceGroup
 type NetworkAzureFirewallDescription struct {
-	AzureFirewall network.AzureFirewall
+	AzureFirewall armnetwork.AzureFirewall
 	ResourceGroup string
 }
 
@@ -458,7 +450,7 @@ type NetworkAzureFirewallDescription struct {
 //getfilter:name=description.ExpressRouteCircuit.name
 //getfilter:resource_group=description.ResourceGroup
 type ExpressRouteCircuitDescription struct {
-	ExpressRouteCircuit network.ExpressRouteCircuit
+	ExpressRouteCircuit armnetwork.ExpressRouteCircuit
 	ResourceGroup       string
 }
 
@@ -466,9 +458,9 @@ type ExpressRouteCircuitDescription struct {
 //getfilter:name=description.VirtualNetworkGateway.Name
 //getfilter:resource_group=description.ResourceGroup
 type VirtualNetworkGatewayDescription struct {
-	VirtualNetworkGateway           network.VirtualNetworkGateway
+	VirtualNetworkGateway           armnetwork.VirtualNetworkGateway
 	ResourceGroup                   string
-	VirtualNetworkGatewayConnection []network.VirtualNetworkGatewayConnectionListEntity
+	VirtualNetworkGatewayConnection []*armnetwork.VirtualNetworkGatewayConnectionListEntity
 }
 
 //index:microsoft_network_dnszone
@@ -483,7 +475,7 @@ type DNSZoneDescription struct { // TODO: Implement describer func
 //getfilter:name=description.FirewallPolicy.Name
 //getfilter:resource_group=description.ResourceGroup
 type FirewallPolicyDescription struct {
-	FirewallPolicy network.FirewallPolicy
+	FirewallPolicy armnetwork.FirewallPolicy
 	ResourceGroup  string
 }
 
@@ -499,7 +491,7 @@ type FrontdoorWebApplicationFirewallPolicyDescription struct { // TODO: Implemen
 //getfilter:name=description.LocalNetworkGateway.Name
 //getfilter:resource_group=description.ResourceGroup
 type LocalNetworkGatewayDescription struct {
-	LocalNetworkGateway network.LocalNetworkGateway
+	LocalNetworkGateway armnetwork.LocalNetworkGateway
 	ResourceGroup       string
 }
 
@@ -507,7 +499,7 @@ type LocalNetworkGatewayDescription struct {
 //getfilter:name=description.NatGateway.Name
 //getfilter:resource_group=description.ResourceGroup
 type NatGatewayDescription struct {
-	NatGateway    network.NatGateway
+	NatGateway    armnetwork.NatGateway
 	ResourceGroup string
 }
 
@@ -515,7 +507,7 @@ type NatGatewayDescription struct {
 //getfilter:name=description.PrivateLinkService.Name
 //getfilter:resource_group=description.ResourceGroup
 type PrivateLinkServiceDescription struct {
-	PrivateLinkService network.PrivateLinkService
+	PrivateLinkService armnetwork.PrivateLinkService
 	ResourceGroup      string
 }
 
@@ -523,7 +515,7 @@ type PrivateLinkServiceDescription struct {
 //getfilter:name=description.RouteFilter.Name
 //getfilter:resource_group=description.ResourceGroup
 type RouteFilterDescription struct {
-	RouteFilter   network.RouteFilter
+	RouteFilter   armnetwork.RouteFilter
 	ResourceGroup string
 }
 
@@ -531,65 +523,65 @@ type RouteFilterDescription struct {
 //getfilter:name=description.VpnGateway.Name
 //getfilter:resource_group=description.ResourceGroup
 type VpnGatewayDescription struct {
-	VpnGateway    network.VpnGateway
+	VpnGateway    armnetwork.VPNGateway
 	ResourceGroup string
 }
 
 //index:microsoft_network_vpngatewayvpnconnection
 type VpnGatewayVpnConnectionDescription struct {
 	ResourceGroup string
-	VpnConnection network.VpnConnection
-	VpnGateway    network.VpnGateway
+	VpnConnection armnetwork.VPNConnection
+	VpnGateway    armnetwork.VPNGateway
 }
 
 //index:microsoft_network_vpnsite
 type VpnSiteDescription struct {
 	ResourceGroup string
-	VpnSite       network.VpnSite
+	VpnSite       armnetwork.VPNSite
 }
 
 //index:microsoft_network_publicipaddresses
 //getfilter:name=description.PublicIPAddress.Name
 //getfilter:resource_group=description.ResourceGroup
 type PublicIPAddressDescription struct {
-	PublicIPAddress network.PublicIPAddress
+	PublicIPAddress armnetwork.PublicIPAddress
 	ResourceGroup   string
 }
 
 //index:microsoft_network_publicipprefix
 type PublicIPPrefixDescription struct {
 	ResourceGroup  string
-	PublicIPPrefix network.PublicIPPrefix
+	PublicIPPrefix armnetwork.PublicIPPrefix
 }
 
 //index:microsoft_network_dnszones
 type DNSZonesDescription struct {
 	ResourceGroup string
-	DNSZone       dns.Zone
+	DNSZone       armdns.Zone
 }
 
 //index:microsoft_network_bastianhosts
 type BastionHostsDescription struct {
 	ResourceGroup string
-	BastianHost   network.BastionHost
+	BastianHost   armnetwork.BastionHost
 }
 
 //index:microsoft_network_connection
 type ConnectionDescription struct {
 	ResourceGroup string
-	Connection    network.VirtualNetworkGatewayConnection
+	Connection    armnetwork.VirtualNetworkGatewayConnection
 }
 
 //index:microsoft_network_virtualhubs
 type VirtualHubsDescription struct {
 	ResourceGroup string
-	VirtualHub    network.VirtualHub
+	VirtualHub    armnetwork.VirtualHub
 }
 
 //index:microsoft_network_virtualwans
 type VirtualWansDescription struct {
 	ResourceGroup string
-	VirtualWan    network.VirtualWAN
+	VirtualWan    armnetwork.VirtualWAN
 }
 
 //index:microsoft_network_dnsresolvers
@@ -600,18 +592,18 @@ type DNSResolverDescription struct {
 //index:microsoft_network_privatednszones
 type PrivateDNSZonesDescription struct {
 	ResourceGroup string
-	PrivateZone   privatedns.PrivateZone
+	PrivateZone   armprivatedns.PrivateZone
 }
 
 //index:microsoft_network_privateendpoint
 type PrivateEndpointDescription struct {
 	ResourceGroup   string
-	PrivateEndpoint network.PrivateEndpoint
+	PrivateEndpoint armnetwork.PrivateEndpoint
 }
 
 type NetworkDDoSProtectionPlanDescription struct {
 	ResourceGroup      string
-	DDoSProtectionPlan network.DdosProtectionPlan
+	DDoSProtectionPlan armnetwork.DdosProtectionPlan
 }
 
 //  =================== policy ==================
@@ -619,7 +611,7 @@ type NetworkDDoSProtectionPlanDescription struct {
 //index:microsoft_authorization_policyassignments
 //getfilter:name=description.Assignment.name
 type PolicyAssignmentDescription struct {
-	Assignment policy.Assignment
+	Assignment armpolicy.Assignment
 }
 
 //  =================== redis ==================
@@ -628,14 +620,14 @@ type PolicyAssignmentDescription struct {
 //getfilter:name=description.ResourceType.name
 //getfilter:resource_group=description.ResourceGroup
 type RedisCacheDescription struct {
-	ResourceType  redis.ResourceType
+	ResourceInfo  armredis.ResourceInfo
 	ResourceGroup string
 }
 
 //index:microsoft_cache_redisenterprise
 type RedisEnterpriseCacheDescription struct {
 	ResourceGroup   string
-	RedisEnterprise redisenterprise.Cluster
+	RedisEnterprise armredisenterprise.Cluster
 }
 
 //  =================== links ==================
@@ -643,7 +635,7 @@ type RedisEnterpriseCacheDescription struct {
 //index:microsoft_resources_links
 //getfilter:id=description.ResourceLink.id
 type ResourceLinkDescription struct {
-	ResourceLink links.ResourceLink
+	ResourceLink armlinks.ResourceLink
 }
 
 //  =================== authorization ==================
@@ -651,19 +643,19 @@ type ResourceLinkDescription struct {
 //index:microsoft_authorization_elevateaccessroleassignment
 //getfilter:id=description.RoleAssignment.id
 type RoleAssignmentDescription struct {
-	RoleAssignment authorization.RoleAssignment
+	RoleAssignment armauthorization.RoleAssignment
 }
 
 //index:microsoft_authorization_roledefinitions
 //getfilter:name=description.RoleDefinition.name
 type RoleDefinitionDescription struct {
-	RoleDefinition authorization.RoleDefinition
+	RoleDefinition armauthorization.RoleDefinition
 }
 
 //index:microsoft_authorization_policydefinition
 //getfilter:name=description.Definition.Name
 type PolicyDefinitionDescription struct {
-	Definition policy.Definition
+	Definition armpolicy.Definition
 	TurboData  map[string]interface{}
 }
 
@@ -672,43 +664,43 @@ type PolicyDefinitionDescription struct {
 //index:microsoft_security_autoprovisioningsettings
 //getfilter:name=description.AutoProvisioningSetting.name
 type SecurityCenterAutoProvisioningDescription struct {
-	AutoProvisioningSetting security.AutoProvisioningSetting
+	AutoProvisioningSetting armsecurity.AutoProvisioningSetting
 }
 
 //index:microsoft_security_securitycontacts
 //getfilter:name=description.Contact.name
 type SecurityCenterContactDescription struct {
-	Contact security.Contact
+	Contact armsecurity.Contact
 }
 
 //index:microsoft_security_locations_jitnetworkaccesspolicies
 type SecurityCenterJitNetworkAccessPolicyDescription struct {
-	JitNetworkAccessPolicy security.JitNetworkAccessPolicy
+	JitNetworkAccessPolicy armsecurity.JitNetworkAccessPolicy
 }
 
 //index:microsoft_security_settings
 //getfilter:name=description.Setting.name
 type SecurityCenterSettingDescription struct {
-	Setting security.Setting
+	Setting armsecurity.Setting
 }
 
 //index:microsoft_security_pricings
 //getfilter:name=description.Pricing.name
 type SecurityCenterSubscriptionPricingDescription struct {
-	Pricing security.Pricing
+	Pricing armsecurity.Pricing
 }
 
 //index:microsoft_security_automations
 //getfilter:name=description.Automation.name
 //getfilter:resource_group=description.ResourceGroup
 type SecurityCenterAutomationDescription struct {
-	Automation    security.Automation
+	Automation    armsecurity.Automation
 	ResourceGroup string
 }
 
 //index:microsoft_security_subassessments
 type SecurityCenterSubAssessmentDescription struct {
-	SubAssessment security.SubAssessment
+	SubAssessment armsecurity.SubAssessment
 	ResourceGroup string
 }
 
@@ -720,8 +712,8 @@ type SecurityCenterSubAssessmentDescription struct {
 //getfilter:account_name=description.AccountName
 type StorageContainerDescription struct {
 	AccountName        string
-	ListContainerItem  storage.ListContainerItem
-	ImmutabilityPolicy storage.ImmutabilityPolicy
+	ListContainerItem  armstorage.ListContainerItem
+	ImmutabilityPolicy armstorage.ImmutabilityPolicy
 	ResourceGroup      string
 }
 
@@ -740,7 +732,7 @@ type StorageBlobDescription struct {
 //listfilter:storage_account_name=description.AccountName
 //listfilter:resource_group=description.ResourceGroup
 type StorageBlobServiceDescription struct {
-	BlobService   storage.BlobServiceProperties
+	BlobService   armstorage.BlobServiceProperties
 	AccountName   string
 	Location      string
 	ResourceGroup string
@@ -751,7 +743,7 @@ type StorageBlobServiceDescription struct {
 //listfilter:storage_account_name=description.AccountName
 //listfilter:resource_group=description.ResourceGroup
 type StorageQueueDescription struct {
-	Queue         storage.ListQueue
+	Queue         armstorage.ListQueue
 	AccountName   string
 	Location      string
 	ResourceGroup string
@@ -762,7 +754,7 @@ type StorageQueueDescription struct {
 //listfilter:storage_account_name=description.AccountName
 //listfilter:resource_group=description.ResourceGroup
 type StorageFileShareDescription struct {
-	FileShare     storage.FileShareItem
+	FileShare     armstorage.FileShareItem
 	AccountName   string
 	Location      string
 	ResourceGroup string
@@ -773,7 +765,7 @@ type StorageFileShareDescription struct {
 //listfilter:storage_account_name=description.AccountName
 //listfilter:resource_group=description.ResourceGroup
 type StorageTableDescription struct {
-	Table         storage.Table
+	Table         armstorage.Table
 	AccountName   string
 	Location      string
 	ResourceGroup string
@@ -784,7 +776,7 @@ type StorageTableDescription struct {
 //listfilter:storage_account_name=description.AccountName
 //listfilter:resource_group=description.ResourceGroup
 type StorageTableServiceDescription struct {
-	TableService  storage.TableServiceProperties
+	TableService  armstorage.TableServiceProperties
 	AccountName   string
 	Location      string
 	ResourceGroup string
@@ -798,7 +790,7 @@ type StorageTableServiceDescription struct {
 //getfilter:virtual_network_name=description.VirtualNetworkName
 type SubnetDescription struct {
 	VirtualNetworkName string
-	Subnet             network.Subnet
+	Subnet             armnetwork.Subnet
 	ResourceGroup      string
 }
 
@@ -806,7 +798,7 @@ type SubnetDescription struct {
 //getfilter:name=description.VirtualNetwork.name
 //getfilter:resource_group=description.ResourceGroup
 type VirtualNetworkDescription struct {
-	VirtualNetwork network.VirtualNetwork
+	VirtualNetwork armnetwork.VirtualNetwork
 	ResourceGroup  string
 }
 
@@ -814,12 +806,12 @@ type VirtualNetworkDescription struct {
 
 //index:microsoft_resources_tenants
 type TenantDescription struct {
-	TenantIDDescription subscriptions.TenantIDDescription
+	TenantIDDescription armsubscription.TenantIDDescription
 }
 
 //index:microsoft_resources_subscriptions
 type SubscriptionDescription struct {
-	Subscription subscriptions.Subscription
+	Subscription armsubscription.Subscription
 }
 
 //  =================== network ==================
@@ -828,8 +820,8 @@ type SubscriptionDescription struct {
 //getfilter:name=description.ApplicationGateway.name
 //getfilter:resource_group=description.ResourceGroup
 type ApplicationGatewayDescription struct {
-	ApplicationGateway          network.ApplicationGateway
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	ApplicationGateway          armnetwork.ApplicationGateway
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -839,8 +831,8 @@ type ApplicationGatewayDescription struct {
 //getfilter:name=description.Account.name
 //getfilter:resource_group=description.ResourceGroup
 type BatchAccountDescription struct {
-	Account                     batch.Account
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	Account                     armbatch.Account
+	DiagnosticSettingsResources *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -850,7 +842,7 @@ type BatchAccountDescription struct {
 //getfilter:name=description.Account.name
 //getfilter:resource_group=description.ResourceGroup
 type CognitiveAccountDescription struct {
-	Account                     cognitiveservices.Account
+	Account                     armcognitiveservices.Account
 	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
 	ResourceGroup               string
 }
@@ -861,18 +853,18 @@ type CognitiveAccountDescription struct {
 //getfilter:name=description.VirtualMachine.name
 //getfilter:resource_group=description.ResourceGroup
 type ComputeVirtualMachineDescription struct {
-	VirtualMachine             compute.VirtualMachine
-	VirtualMachineInstanceView compute.VirtualMachineInstanceView
-	InterfaceIPConfigurations  []network.InterfaceIPConfiguration
+	VirtualMachine             armcompute.VirtualMachine
+	VirtualMachineInstanceView armcompute.VirtualMachineInstanceView
+	InterfaceIPConfigurations  []armnetwork.InterfaceIPConfiguration
 	PublicIPs                  []string
-	VirtualMachineExtension    *[]compute.VirtualMachineExtension
-	Assignments                *[]guestconfiguration.Assignment
+	VirtualMachineExtension    []*armcompute.VirtualMachineExtension
+	Assignments                *[]armguestconfiguration.Assignment
 	ResourceGroup              string
 }
 
 //index:microsoft_compute_resourcesku
 type ComputeResourceSKUDescription struct {
-	ResourceSKU skus.ResourceSku
+	ResourceSKU armcompute.ResourceSKU
 }
 
 //index:microsoft_compute_virtualmachinecpuutilization
@@ -892,7 +884,7 @@ type ComputeVirtualMachineCpuUtilizationHourlyDescription struct {
 
 //index:microsoft_compute_cloudservice
 type ComputeCloudServiceDescription struct {
-	CloudService compute2.CloudService
+	CloudService armcompute.CloudService
 }
 
 //  =================== containerregistry ==================
@@ -901,9 +893,9 @@ type ComputeCloudServiceDescription struct {
 //getfilter:name=description.Registry.name
 //getfilter:resource_group=description.ResourceGroup
 type ContainerRegistryDescription struct {
-	Registry                      containerregistry.Registry
-	RegistryListCredentialsResult containerregistry.RegistryListCredentialsResult
-	RegistryUsages                *[]containerregistry.RegistryUsage
+	Registry                      armcontainerregistry.Registry
+	RegistryListCredentialsResult armcontainerregistry.RegistryListCredentialsResult
+	RegistryUsages                []*armcontainerregistry.RegistryUsage
 	ResourceGroup                 string
 }
 
@@ -913,7 +905,7 @@ type ContainerRegistryDescription struct {
 //getfilter:name=description.DatabaseAccountGetResults.name
 //getfilter:resource_group=description.ResourceGroup
 type CosmosdbAccountDescription struct {
-	DatabaseAccountGetResults documentdb.DatabaseAccountGetResults
+	DatabaseAccountGetResults armcosmos.DatabaseAccountGetResults
 	ResourceGroup             string
 }
 
@@ -922,8 +914,8 @@ type CosmosdbAccountDescription struct {
 //getfilter:name=description.MongoDatabase.name
 //getfilter:resource_group=description.ResourceGroup
 type CosmosdbMongoDatabaseDescription struct {
-	Account       documentdb.DatabaseAccountGetResults
-	MongoDatabase documentdb.MongoDBDatabaseGetResults
+	Account       armcosmos.DatabaseAccountGetResults
+	MongoDatabase armcosmos.MongoDBDatabaseGetResults
 	ResourceGroup string
 }
 
@@ -932,13 +924,13 @@ type CosmosdbMongoDatabaseDescription struct {
 //getfilter:name=description.SqlDatabase.name
 //getfilter:resource_group=description.ResourceGroup
 type CosmosdbSqlDatabaseDescription struct {
-	Account       documentdb.DatabaseAccountGetResults
-	SqlDatabase   documentdb.SQLDatabaseGetResults
+	Account       armcosmos.DatabaseAccountGetResults
+	SqlDatabase   armcosmos.SQLDatabaseGetResults
 	ResourceGroup string
 }
 
 type CosmosdbCassandraClusterDescription struct {
-	CassandraCluster documentdb.ClusterResource
+	CassandraCluster armcosmos.ClusterResource
 	ResourceGroup    string
 }
 
@@ -946,7 +938,7 @@ type CosmosdbCassandraClusterDescription struct {
 
 //index:microsoft_databricks_workspace
 type DatabricksWorkspaceDescription struct {
-	Workspace     databricks.Workspace
+	Workspace     armdatabricks.Workspace
 	ResourceGroup string
 }
 
@@ -955,7 +947,7 @@ type DatabricksWorkspaceDescription struct {
 //index:microsoft_datamigration_service
 type DataMigrationServiceDescription struct {
 	ResourceGroup string
-	Service       datamigration.Service
+	Service       armdatamigration.Service
 }
 
 //  =================== dataprotection ==================
@@ -963,13 +955,13 @@ type DataMigrationServiceDescription struct {
 //index:microsoft_dataprotection_backupvaults
 type DataProtectionBackupVaultsDescription struct {
 	ResourceGroup string
-	BackupVaults  dataprotection.BackupVaultResource
+	BackupVaults  armdataprotection.BackupVaultResource
 }
 
 //index:microsoft_dataprotection_backupvaultsbackuppolicies
 type DataProtectionBackupVaultsBackupPoliciesDescription struct {
 	ResourceGroup  string
-	BackupPolicies dataprotection.BaseBackupPolicyResource
+	BackupPolicies armdataprotection.BaseBackupPolicyResource
 }
 
 //  =================== datafactory ==================
@@ -978,8 +970,8 @@ type DataProtectionBackupVaultsBackupPoliciesDescription struct {
 //getfilter:name=description.Factory.name
 //getfilter:resource_group=description.ResourceGroup
 type DataFactoryDescription struct {
-	Factory                    datafactory.Factory
-	PrivateEndPointConnections []datafactory.PrivateEndpointConnectionResource
+	Factory                    armdatafactory.Factory
+	PrivateEndPointConnections []armdatafactory.PrivateEndpointConnectionResource
 	ResourceGroup              string
 }
 
@@ -988,8 +980,8 @@ type DataFactoryDescription struct {
 //getfilter:name=description.Dataset.name
 //getfilter:resource_group=description.ResourceGroup
 type DataFactoryDatasetDescription struct {
-	Factory       datafactory.Factory
-	Dataset       datafactory.DatasetResource
+	Factory       armdatafactory.Factory
+	Dataset       armdatafactory.DatasetResource
 	ResourceGroup string
 }
 
@@ -998,8 +990,8 @@ type DataFactoryDatasetDescription struct {
 //getfilter:name=description.Pipeline.name
 //getfilter:resource_group=description.ResourceGroup
 type DataFactoryPipelineDescription struct {
-	Factory       datafactory.Factory
-	Pipeline      datafactory.PipelineResource
+	Factory       armdatafactory.Factory
+	Pipeline      armdatafactory.PipelineResource
 	ResourceGroup string
 }
 
@@ -1009,8 +1001,8 @@ type DataFactoryPipelineDescription struct {
 //getfilter:name=description.DataLakeAnalyticsAccount.name
 //getfilter:resource_group=description.ResourceGroup
 type DataLakeAnalyticsAccountDescription struct {
-	DataLakeAnalyticsAccount   analytics.DataLakeAnalyticsAccount
-	DiagnosticSettingsResource *[]insights.DiagnosticSettingsResource
+	DataLakeAnalyticsAccount   analytics.Account
+	DiagnosticSettingsResource *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup              string
 }
 
@@ -1020,8 +1012,8 @@ type DataLakeAnalyticsAccountDescription struct {
 //getfilter:name=description.DataLakeStoreAccount.name
 //getfilter:resource_group=description.ResourceGroup
 type DataLakeStoreDescription struct {
-	DataLakeStoreAccount       store.DataLakeStoreAccount
-	DiagnosticSettingsResource *[]insights.DiagnosticSettingsResource
+	DataLakeStoreAccount       store.Account
+	DiagnosticSettingsResource *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup              string
 }
 
@@ -1031,9 +1023,9 @@ type MonitoringMetric struct {
 	// Resource Name
 	DimensionValue string
 	// MetadataValue represents a metric metadata value.
-	MetaData *insights.MetadataValue
+	MetaData *armmonitor.MetadataValue
 	// Metric the result data of a query.
-	Metric *insights.Metric
+	Metric *armmonitor.Metric
 	// The maximum metric value for the data point.
 	Maximum *float64
 	// The minimum metric value for the data point.
@@ -1054,7 +1046,7 @@ type MonitoringMetric struct {
 //getfilter:name=description.DiagnosticSettingsResource.name
 //getfilter:resource_group=description.ResourceGroup
 type DiagnosticSettingDescription struct {
-	DiagnosticSettingsResource insights.DiagnosticSettingsResource
+	DiagnosticSettingsResource armmonitor.DiagnosticSettingsResource
 	ResourceGroup              string
 }
 
@@ -1064,8 +1056,8 @@ type DiagnosticSettingDescription struct {
 //getfilter:name=description.Domain.name
 //getfilter:resource_group=description.ResourceGroup
 type EventGridDomainDescription struct {
-	Domain                      eventgrid.Domain
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	Domain                      armeventgrid.Domain
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1075,8 +1067,8 @@ type EventGridDomainDescription struct {
 //getfilter:name=description.Topic.name
 //getfilter:resource_group=description.ResourceGroup
 type EventGridTopicDescription struct {
-	Topic                       eventgrid.Topic
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	Topic                       armeventgrid.Topic
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1086,17 +1078,17 @@ type EventGridTopicDescription struct {
 //getfilter:name=description.EHNamespace.name
 //getfilter:resource_group=description.ResourceGroup
 type EventhubNamespaceDescription struct {
-	EHNamespace                 eventhub.EHNamespace
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
-	NetworkRuleSet              eventhub.NetworkRuleSet
-	PrivateEndpointConnection   []eventhub.PrivateEndpointConnection
+	EHNamespace                 armeventhub.EHNamespace
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
+	NetworkRuleSet              armeventhub.NetworkRuleSet
+	PrivateEndpointConnection   []*armeventhub.PrivateEndpointConnection
 	ResourceGroup               string
 }
 
 //index:microsoft_eventhub_namespaceseventhub
 type EventhubNamespaceEventhubDescription struct {
-	EHNamespace   eventhub.EHNamespace
-	EventHub      eventhub.Model
+	EHNamespace   armeventhub.EHNamespace
+	EventHub      armeventhub.Eventhub
 	ResourceGroup string
 }
 
@@ -1106,8 +1098,8 @@ type EventhubNamespaceEventhubDescription struct {
 //getfilter:name=description.FrontDoor.name
 //getfilter:resource_group=description.ResourceGroup
 type FrontdoorDescription struct {
-	FrontDoor                   frontdoor.FrontDoor
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	FrontDoor                   armfrontdoor.FrontDoor
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1117,8 +1109,8 @@ type FrontdoorDescription struct {
 //getfilter:name=description.Cluster.name
 //getfilter:resource_group=description.ResourceGroup
 type HdinsightClusterDescription struct {
-	Cluster                     hdinsight.Cluster
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	Cluster                     armhdinsight.Cluster
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1128,8 +1120,8 @@ type HdinsightClusterDescription struct {
 //getfilter:name=description.Machine.name
 //getfilter:resource_group=description.ResourceGroup
 type HybridComputeMachineDescription struct {
-	Machine           hybridcompute.Machine
-	MachineExtensions []hybridcompute.MachineExtension
+	Machine           armhybridcompute.Machine
+	MachineExtensions []*armhybridcompute.MachineExtension
 	ResourceGroup     string
 }
 
@@ -1139,8 +1131,8 @@ type HybridComputeMachineDescription struct {
 //getfilter:name=description.IotHubDescription.name
 //getfilter:resource_group=description.ResourceGroup
 type IOTHubDescription struct {
-	IotHubDescription           devices.IotHubDescription
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	IotHubDescription           armiothub.Description
+	DiagnosticSettingsResources *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1148,8 +1140,8 @@ type IOTHubDescription struct {
 //getfilter:name=description.IotHubDps.name
 //getfilter:resource_group=description.ResourceGroup
 type IOTHubDpsDescription struct {
-	IotHubDps                   iothub.ProvisioningServiceDescription
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	IotHubDps                   armdeviceprovisioningservices.ProvisioningServiceDescription
+	DiagnosticSettingsResources *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1159,9 +1151,9 @@ type IOTHubDpsDescription struct {
 //getfilter:name=description.Resource.name
 //getfilter:resource_group=description.ResourceGroup
 type KeyVaultDescription struct {
-	Resource                    keyvault.Resource
-	Vault                       keyvault.Vault
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	Resource                    armkeyvault.Resource
+	Vault                       armkeyvault.Vault
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1169,7 +1161,7 @@ type KeyVaultDescription struct {
 //getfilter:name=description.Vault.name
 //getfilter:region=description.Vault.Properties.Location
 type KeyVaultDeletedVaultDescription struct {
-	Vault         keyvault.DeletedVault
+	Vault         armkeyvault.DeletedVault
 	ResourceGroup string
 }
 
@@ -1179,8 +1171,8 @@ type KeyVaultDeletedVaultDescription struct {
 //getfilter:name=description.ManagedHsm.name
 //getfilter:resource_group=description.ResourceGroup
 type KeyVaultManagedHardwareSecurityModuleDescription struct {
-	ManagedHsm                  previewKeyvault.ManagedHsm
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	ManagedHsm                  armkeyvault.ManagedHsm
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1190,8 +1182,7 @@ type KeyVaultManagedHardwareSecurityModuleDescription struct {
 //getfilter:name=description.SecretItem.name
 //getfilter:resource_group=description.ResourceGroup
 type KeyVaultSecretDescription struct {
-	SecretItem    secret.SecretItem
-	SecretBundle  secret.SecretBundle
+	SecretItem    armkeyvault.Secret
 	TurboData     map[string]interface{}
 	ResourceGroup string
 }
@@ -1202,7 +1193,7 @@ type KeyVaultSecretDescription struct {
 //getfilter:name=description.Cluster.name
 //getfilter:resource_group=description.ResourceGroup
 type KustoClusterDescription struct {
-	Cluster       kusto.Cluster
+	Cluster       armkusto.Cluster
 	ResourceGroup string
 }
 
@@ -1212,7 +1203,7 @@ type KustoClusterDescription struct {
 //getfilter:name=description.ActivityLogAlertResource.name
 //getfilter:resource_group=description.ResourceGroup
 type LogAlertDescription struct {
-	ActivityLogAlertResource insights.ActivityLogAlertResource
+	ActivityLogAlertResource armmonitor.ActivityLogAlertResource
 	ResourceGroup            string
 }
 
@@ -1222,7 +1213,7 @@ type LogAlertDescription struct {
 //getfilter:name=description.LogProfileResource.name
 //getfilter:resource_group=description.ResourceGroup
 type LogProfileDescription struct {
-	LogProfileResource insights.LogProfileResource
+	LogProfileResource armmonitor.LogProfileResource
 	ResourceGroup      string
 }
 
@@ -1232,15 +1223,15 @@ type LogProfileDescription struct {
 //getfilter:name=description.Workflow.name
 //getfilter:resource_group=description.ResourceGroup
 type LogicAppWorkflowDescription struct {
-	Workflow                    logic.Workflow
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	Workflow                    armlogic.Workflow
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
 //index:microsoft_logic_integrationaccounts
 type LogicIntegrationAccountsDescription struct {
 	ResourceGroup string
-	Account       logic.IntegrationAccount
+	Account       armlogic.IntegrationAccount
 }
 
 //  =================== machinelearningservices ==================
@@ -1249,8 +1240,8 @@ type LogicIntegrationAccountsDescription struct {
 //getfilter:name=description.Workspace.name
 //getfilter:resource_group=description.ResourceGroup
 type MachineLearningWorkspaceDescription struct {
-	Workspace                   machinelearningservices.Workspace
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	Workspace                   armmachinelearningservices.Workspace
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1260,14 +1251,14 @@ type MachineLearningWorkspaceDescription struct {
 //getfilter:name=description.Server.name
 //getfilter:resource_group=description.ResourceGroup
 type MariadbServerDescription struct {
-	Server        mariadb.Server
+	Server        armmariadb.Server
 	ResourceGroup string
 }
 
 //index:microsoft_dbformariadb_databases
 type MariadbDatabaseDescription struct {
-	Server        mariadb.Server
-	Database      mariadb.Database
+	Server        armmariadb.Server
+	Database      armmariadb.Database
 	ResourceGroup string
 }
 
@@ -1277,15 +1268,15 @@ type MariadbDatabaseDescription struct {
 //getfilter:name=description.Server.name
 //getfilter:resource_group=description.ResourceGroup
 type MysqlServerDescription struct {
-	Server         mysql.Server
-	Configurations *[]mysql.Configuration
-	ServerKeys     []mysql.ServerKey
+	Server         armmysql.Server
+	Configurations []*armmysql.Configuration
+	ServerKeys     []*armmysql.ServerKey
 	ResourceGroup  string
 }
 
 //index:microsoft_dbformysql_flexibleservers
 type MysqlFlexibleserverDescription struct {
-	Server        mysqlflexibleservers.Server
+	Server        armmysqlflexibleservers.Server
 	ResourceGroup string
 }
 
@@ -1295,8 +1286,8 @@ type MysqlFlexibleserverDescription struct {
 //getfilter:name=description.SecurityGroup.name
 //getfilter:resource_group=description.ResourceGroup
 type NetworkSecurityGroupDescription struct {
-	SecurityGroup               network.SecurityGroup
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	SecurityGroup               armnetwork.SecurityGroup
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1304,7 +1295,7 @@ type NetworkSecurityGroupDescription struct {
 //getfilter:name=description.Watcher.name
 //getfilter:resource_group=description.ResourceGroup
 type NetworkWatcherDescription struct {
-	Watcher       network.Watcher
+	Watcher       armnetwork.Watcher
 	ResourceGroup string
 }
 
@@ -1314,8 +1305,8 @@ type NetworkWatcherDescription struct {
 //getfilter:name=description.Service.name
 //getfilter:resource_group=description.ResourceGroup
 type SearchServiceDescription struct {
-	Service                     search.Service
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	Service                     armsearch.Service
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1325,7 +1316,7 @@ type SearchServiceDescription struct {
 //getfilter:name=description.Cluster.name
 //getfilter:resource_group=description.ResourceGroup
 type ServiceFabricClusterDescription struct {
-	Cluster       servicefabric.Cluster
+	Cluster       armservicefabric.Cluster
 	ResourceGroup string
 }
 
@@ -1335,10 +1326,10 @@ type ServiceFabricClusterDescription struct {
 //getfilter:name=description.SBNamespace.name
 //getfilter:resource_group=description.ResourceGroup
 type ServicebusNamespaceDescription struct {
-	SBNamespace                 servicebus.SBNamespace
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
-	NetworkRuleSet              servicebus.NetworkRuleSet
-	PrivateEndpointConnections  []servicebus.PrivateEndpointConnection
+	SBNamespace                 armservicebus.SBNamespace
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
+	NetworkRuleSet              []*armservicebus.NetworkRuleSet
+	PrivateEndpointConnections  []*armservicebus.PrivateEndpointConnection
 	ResourceGroup               string
 }
 
@@ -1348,8 +1339,8 @@ type ServicebusNamespaceDescription struct {
 //getfilter:name=description.ResourceType.name
 //getfilter:resource_group=description.ResourceGroup
 type SignalrServiceDescription struct {
-	ResourceType                signalr.ResourceType
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	ResourceInfo                armsignalr.ResourceInfo
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1359,8 +1350,8 @@ type SignalrServiceDescription struct {
 //getfilter:name=description.ServiceResource.name
 //getfilter:resource_group=description.ResourceGroup
 type SpringCloudServiceDescription struct {
-	ServiceResource            appplatform.ServiceResource
-	DiagnosticSettingsResource *[]insights.DiagnosticSettingsResource
+	ServiceResource            armresources.GenericResourceExpanded
+	DiagnosticSettingsResource *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup              string
 }
 
@@ -1370,21 +1361,21 @@ type SpringCloudServiceDescription struct {
 //getfilter:name=description.StreamingJob.name
 //getfilter:resource_group=description.ResourceGroup
 type StreamAnalyticsJobDescription struct {
-	StreamingJob                streamanalytics.StreamingJob
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	StreamingJob                armstreamanalytics.StreamingJob
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
 //index:microsoft_streamanalytics_cluster
 type StreamAnalyticsClusterDescription struct {
 	ResourceGroup string
-	StreamingJob  streamanalytics2.Cluster
+	StreamingJob  armstreamanalytics.Cluster
 }
 
 //index:microsoft_virtualmachineimages_imagetemplates
 type VirtualMachineImagesImageTemplatesDescription struct {
 	ResourceGroup string
-	ImageTemplate virtualmachineimagebuilder.ImageTemplate
+	ImageTemplate armvirtualmachineimagebuilder.ImageTemplate
 }
 
 //  =================== operationalinsights ==================
@@ -1392,7 +1383,7 @@ type VirtualMachineImagesImageTemplatesDescription struct {
 //index:microsoft_operationalinsights_workspaces
 type OperationalInsightsWorkspacesDescription struct {
 	ResourceGroup string
-	Workspace     operationalinsights.Workspace
+	Workspace     armoperationalinsights.Workspace
 }
 
 //  =================== timeseriesinsight ==================
@@ -1400,7 +1391,7 @@ type OperationalInsightsWorkspacesDescription struct {
 //index:microsoft_timeseriesinsight_environments
 type TimeSeriesInsightsEnvironmentsDescription struct {
 	ResourceGroup string
-	Environment   *timeseriesinsights.EnvironmentResource
+	Environment   *armtimeseriesinsights.EnvironmentResource
 }
 
 //  =================== synapse ==================
@@ -1409,23 +1400,23 @@ type TimeSeriesInsightsEnvironmentsDescription struct {
 //getfilter:name=description.Workspace.name
 //getfilter:resource_group=description.ResourceGroup
 type SynapseWorkspaceDescription struct {
-	Workspace                      synapse.Workspace
-	ServerVulnerabilityAssessments []synapse.ServerVulnerabilityAssessment
-	DiagnosticSettingsResources    *[]insights.DiagnosticSettingsResource
+	Workspace                      armsynapse.Workspace
+	ServerVulnerabilityAssessments []*armsynapse.ServerVulnerabilityAssessment
+	DiagnosticSettingsResources    []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup                  string
 }
 
 //index:microsoft_synapse_workspacesbigdatapools
 type SynapseWorkspaceBigdatapoolsDescription struct {
-	Workspace     synapse.Workspace
-	BigDataPool   synapse.BigDataPoolResourceInfo
+	Workspace     armsynapse.Workspace
+	BigDataPool   armsynapse.BigDataPoolResourceInfo
 	ResourceGroup string
 }
 
 //index:microsoft_synapse_workspacessqlpools
 type SynapseWorkspaceSqlpoolsDescription struct {
-	Workspace     synapse.Workspace
-	SqlPool       synapse.SQLPool
+	Workspace     armsynapse.Workspace
+	SqlPool       armsynapse.SQLPool
 	ResourceGroup string
 }
 
@@ -1435,7 +1426,7 @@ type SynapseWorkspaceSqlpoolsDescription struct {
 //getfilter:name=description.Location.name
 //getfilter:resource_group=description.ResourceGroup
 type LocationDescription struct {
-	Location      sub.Location
+	Location      armsubscription.Location
 	ResourceGroup string
 }
 
@@ -1484,7 +1475,7 @@ type AdServicePrincipalDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type AnalysisServiceServerDescription struct {
 	ResourceGroup string
-	Server        analysisservices.Server
+	Server        armanalysisservices.Server
 }
 
 //  =================== postgresql ==================
@@ -1493,18 +1484,18 @@ type AnalysisServiceServerDescription struct {
 //getfilter:name=description.Server.name
 //getfilter:resource_group=description.ResourceGroup
 type PostgresqlServerDescription struct {
-	Server                       postgresql.Server
-	ServerAdministratorResources *[]postgresql.ServerAdministratorResource
-	Configurations               *[]postgresql.Configuration
-	ServerKeys                   []postgresql.ServerKey
-	FirewallRules                *[]postgresql.FirewallRule
+	Server                       armpostgresql.Server
+	ServerAdministratorResources []*armpostgresql.ServerAdministratorResource
+	Configurations               []*armpostgresql.Configuration
+	ServerKeys                   []*armpostgresql.ServerKey
+	FirewallRules                []*armpostgresql.FirewallRule
 	ResourceGroup                string
 }
 
 //index:microsoft_dbforpostgresql_flexibleservers
 type PostgresqlFlexibleServerDescription struct {
 	ResourceGroup string
-	Server        postgresqlflexibleservers.Server
+	Server        armpostgresqlflexibleservers.Server
 }
 
 //  =================== storagesync ==================
@@ -1513,7 +1504,7 @@ type PostgresqlFlexibleServerDescription struct {
 //getfilter:name=description.Service.name
 //getfilter:resource_group=description.ResourceGroup
 type StorageSyncDescription struct {
-	Service       storagesync.Service
+	Service       armstoragesync.Service
 	ResourceGroup string
 }
 
@@ -1523,17 +1514,17 @@ type StorageSyncDescription struct {
 //getfilter:name=description.ManagedInstance.name
 //getfilter:resource_group=description.ResourceGroup
 type MssqlManagedInstanceDescription struct {
-	ManagedInstance                         sqlv5.ManagedInstance
-	ManagedInstanceVulnerabilityAssessments []sqlv5.ManagedInstanceVulnerabilityAssessment
-	ManagedDatabaseSecurityAlertPolicies    []sqlv5.ManagedServerSecurityAlertPolicy
-	ManagedInstanceEncryptionProtectors     []sqlv5.ManagedInstanceEncryptionProtector
+	ManagedInstance                         armsql.ManagedInstance
+	ManagedInstanceVulnerabilityAssessments []*armsql.ManagedInstanceVulnerabilityAssessment
+	ManagedDatabaseSecurityAlertPolicies    []*armsql.ManagedServerSecurityAlertPolicy
+	ManagedInstanceEncryptionProtectors     []*armsql.ManagedInstanceEncryptionProtector
 	ResourceGroup                           string
 }
 
 //index:microsoft_sql_managedinstancesdatabases
 type MssqlManagedInstanceDatabasesDescription struct {
-	ManagedInstance sqlv5.ManagedInstance
-	Database        sqlv5.Database
+	ManagedInstance armsql.ManagedInstance
+	Database        armsql.Database
 	ResourceGroup   string
 }
 
@@ -1541,16 +1532,16 @@ type MssqlManagedInstanceDatabasesDescription struct {
 //getfilter:name=description.Database.name
 //getfilter:resource_group=description.ResourceGroup
 type SqlDatabaseDescription struct {
-	Database                           sql.Database
-	LongTermRetentionPolicy            sqlv5.LongTermRetentionPolicy
-	TransparentDataEncryption          sql.TransparentDataEncryption
-	DatabaseVulnerabilityAssessments   []sqlv5.DatabaseVulnerabilityAssessment
-	VulnerabilityAssessmentScanRecords []sqlv5.VulnerabilityAssessmentScanRecord
+	Database                           armsql.Database
+	LongTermRetentionPolicy            armsql.LongTermRetentionPolicy
+	TransparentDataEncryption          []*armsql.LogicalDatabaseTransparentDataEncryption
+	DatabaseVulnerabilityAssessments   []*armsql.DatabaseVulnerabilityAssessment
+	VulnerabilityAssessmentScanRecords []*armsql.VulnerabilityAssessmentScanRecord
 	ResourceGroup                      string
 }
 
 type SqlInstancePoolDescription struct {
-	InstancePool  sqlv5.InstancePool
+	InstancePool  armsql.InstancePool
 	ResourceGroup string
 }
 
@@ -1560,29 +1551,29 @@ type SqlInstancePoolDescription struct {
 //getfilter:name=description.Server.name
 //getfilter:resource_group=description.ResourceGroup
 type SqlServerDescription struct {
-	Server                         sqlv3.Server
-	ServerBlobAuditingPolicies     []sql.ServerBlobAuditingPolicy
-	ServerSecurityAlertPolicies    []sql.ServerSecurityAlertPolicy
-	ServerAzureADAdministrators    *[]sql.ServerAzureADAdministrator
-	ServerVulnerabilityAssessments []sqlv3.ServerVulnerabilityAssessment
-	FirewallRules                  *[]sql.FirewallRule
-	EncryptionProtectors           []sql.EncryptionProtector
-	PrivateEndpointConnections     []sqlv3.PrivateEndpointConnection
-	VirtualNetworkRules            []sql.VirtualNetworkRule
+	Server                         armsql.Server
+	ServerBlobAuditingPolicies     []*armsql.ServerBlobAuditingPolicy
+	ServerSecurityAlertPolicies    []*armsql.ServerSecurityAlertPolicy
+	ServerAzureADAdministrators    []*armsql.ServerAzureADAdministrator
+	ServerVulnerabilityAssessments []*armsql.ServerVulnerabilityAssessment
+	FirewallRules                  []*armsql.FirewallRule
+	EncryptionProtectors           []*armsql.EncryptionProtector
+	PrivateEndpointConnections     []*armsql.PrivateEndpointConnection
+	VirtualNetworkRules            []*armsql.VirtualNetworkRule
 	ResourceGroup                  string
 }
 
 //index:microsoft_sql_serversjobagent
 type SqlServerJobAgentDescription struct {
 	ResourceGroup string
-	Server        sqlv3.Server
-	JobAgent      sqlv3.JobAgent
+	Server        armsql.Server
+	JobAgent      armsql.JobAgent
 }
 
 //index:microsoft_sql_virtualclusters
 type SqlVirtualClustersDescription struct {
 	ResourceGroup   string
-	VirtualClusters sql.VirtualCluster
+	VirtualClusters armsql.VirtualCluster
 }
 
 //index:microsoft_sql_elasticpools
@@ -1590,7 +1581,7 @@ type SqlVirtualClustersDescription struct {
 //getfilter:server_name=description.ServerName
 //getfilter:resource_group=description.ResourceGroup
 type SqlServerElasticPoolDescription struct {
-	Pool          sql.ElasticPool
+	Pool          armsql.ElasticPool
 	ServerName    string
 	ResourceGroup string
 }
@@ -1599,13 +1590,13 @@ type SqlServerElasticPoolDescription struct {
 //getfilter:name=description.VirtualMachine.Name
 //getfilter:resource_group=description.ResourceGroup
 type SqlServerVirtualMachineDescription struct {
-	VirtualMachine sqlvirtualmachine.SQLVirtualMachine
+	VirtualMachine armsqlvirtualmachine.SQLVirtualMachine
 	ResourceGroup  string
 }
 
 //index:microsoft_sql_virtualmachinegroups
 type SqlServerVirtualMachineGroupDescription struct {
-	Group         sqlvirtualmachine.Group
+	Group         armsqlvirtualmachine.Group
 	ResourceGroup string
 }
 
@@ -1613,7 +1604,7 @@ type SqlServerVirtualMachineGroupDescription struct {
 //getfilter:name=description.FlexibleServer.Name
 //getfilter:resource_group=description.ResourceGroup
 type SqlServerFlexibleServerDescription struct {
-	FlexibleServer mysqlflexibleservers.Server
+	FlexibleServer armmysqlflexibleservers.Server
 	ResourceGroup  string
 }
 
@@ -1623,14 +1614,14 @@ type SqlServerFlexibleServerDescription struct {
 //getfilter:name=description.Account.name
 //getfilter:resource_group=description.ResourceGroup
 type StorageAccountDescription struct {
-	Account                     storage.Account
-	ManagementPolicy            *storage.ManagementPolicy
-	BlobServiceProperties       *storage.BlobServiceProperties
+	Account                     armstorage.Account
+	ManagementPolicy            *armstorage.ManagementPolicy
+	BlobServiceProperties       *armstorage.BlobServiceProperties
 	Logging                     *accounts.Logging
 	StorageServiceProperties    *queues.StorageServiceProperties
-	FileServiceProperties       *storage.FileServiceProperties
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
-	EncryptionScopes            []storage.EncryptionScope
+	FileServiceProperties       *armstorage.FileServiceProperties
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
+	EncryptionScopes            []*armstorage.EncryptionScope
 	ResourceGroup               string
 }
 
@@ -1640,7 +1631,7 @@ type StorageAccountDescription struct {
 //getfilter:name=description.Vault.Name
 //getfilter:resource_group=description.ResourceGroup
 type RecoveryServicesVaultDescription struct {
-	Vault         recoveryservices.Vault
+	Vault         armrecoveryservices.Vault
 	ResourceGroup string
 }
 
@@ -1650,7 +1641,7 @@ type RecoveryServicesVaultDescription struct {
 //getfilter:name=description.ConnectedCluster.Name
 //getfilter:resource_group=description.ResourceGroup
 type HybridKubernetesConnectedClusterDescription struct {
-	ConnectedCluster hybridkubernetes.ConnectedCluster
+	ConnectedCluster armhybridkubernetes.ConnectedCluster
 	ResourceGroup    string
 }
 
@@ -1680,8 +1671,8 @@ type CostManagementCostBySubscriptionDescription struct {
 //getfilter:name=description.LoadBalancer.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerDescription struct {
-	LoadBalancer      network.LoadBalancer
-	DiagnosticSetting *[]insights.DiagnosticSettingsResource
+	LoadBalancer      armnetwork.LoadBalancer
+	DiagnosticSetting []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup     string
 }
 
@@ -1690,8 +1681,8 @@ type LoadBalancerDescription struct {
 //getfilter:name=description.Pool.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerBackendAddressPoolDescription struct {
-	LoadBalancer  network.LoadBalancer
-	Pool          network.BackendAddressPool
+	LoadBalancer  armnetwork.LoadBalancer
+	Pool          armnetwork.BackendAddressPool
 	ResourceGroup string
 }
 
@@ -1700,7 +1691,7 @@ type LoadBalancerBackendAddressPoolDescription struct {
 //getfilter:name=description.Rule.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerNatRuleDescription struct {
-	Rule             network.InboundNatRule
+	Rule             armnetwork.InboundNatRule
 	LoadBalancerName string
 	ResourceGroup    string
 }
@@ -1710,7 +1701,7 @@ type LoadBalancerNatRuleDescription struct {
 //getfilter:name=description.Rule.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerOutboundRuleDescription struct {
-	Rule             network.OutboundRule
+	Rule             armnetwork.OutboundRule
 	LoadBalancerName string
 	ResourceGroup    string
 }
@@ -1720,7 +1711,7 @@ type LoadBalancerOutboundRuleDescription struct {
 //getfilter:name=description.Probe.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerProbeDescription struct {
-	Probe            network.Probe
+	Probe            armnetwork.Probe
 	LoadBalancerName string
 	ResourceGroup    string
 }
@@ -1730,7 +1721,7 @@ type LoadBalancerProbeDescription struct {
 //getfilter:name=description.Rule.Name
 //getfilter:resource_group=description.ResourceGroup
 type LoadBalancerRuleDescription struct {
-	Rule             network.LoadBalancingRule
+	Rule             armnetwork.LoadBalancingRule
 	LoadBalancerName string
 	ResourceGroup    string
 }
@@ -1740,14 +1731,14 @@ type LoadBalancerRuleDescription struct {
 //index:microsoft_management_groups
 //getfilter:name=description.Group.Name
 type ManagementGroupDescription struct {
-	Group managementgroups.ManagementGroup
+	Group armmanagementgroups.ManagementGroupInfo
 }
 
 //index:microsoft_management_locks
 //getfilter:name=description.Lock.Name
 //getfilter:resource_group=description.ResourceGroup
 type ManagementLockDescription struct {
-	Lock          locks.ManagementLockObject
+	Lock          armlocks.ManagementLockObject
 	ResourceGroup string
 }
 
@@ -1756,58 +1747,58 @@ type ManagementLockDescription struct {
 //index:microsoft_resources_providers
 //getfilter:namespace=description.Provider.Namespace
 type ResourceProviderDescription struct {
-	Provider resources.Provider
+	Provider armresources.Provider
 }
 
 //index:microsoft_resources_resourcegroups
 //getfilter:name=description.Group.Name
 type ResourceGroupDescription struct {
-	Group resources.Group
+	Group armresources.ResourceGroup
 }
 
 // =================== BotService ==================
 
 type BotServiceBotDescription struct {
-	Bot           botservice.Bot
+	Bot           armbotservice.Bot
 	ResourceGroup string
 }
 
 // =================== NetApp ==================
 
 type NetAppAccountDescription struct {
-	Account       netapp.Account
+	Account       armnetapp.Account
 	ResourceGroup string
 }
 
 type NetAppCapacityPoolDescription struct {
-	CapacityPool  netapp.CapacityPool
+	CapacityPool  armnetapp.CapacityPool
 	ResourceGroup string
 }
 
 // =================== DesktopVirtualization ==================
 
 type DesktopVirtualizationHostPoolDescription struct {
-	HostPool      desktopvirtualization.HostPool
+	HostPool      armdesktopvirtualization.HostPool
 	ResourceGroup string
 }
 
 // =================== DevTestLab ==================
 
 type DevTestLabLabDescription struct {
-	Lab           dtl.Lab
+	Lab           armdevtestlabs.Lab
 	ResourceGroup string
 }
 
 // =================== Purview ==================
 
 type PurviewAccountDescription struct {
-	Account       purview.Account
+	Account       armpurview.Account
 	ResourceGroup string
 }
 
 // =================== PowerBI ==================
 
 type PowerBIDedicatedCapacityDescription struct {
-	Capacity      powerbidedicated.DedicatedCapacity
+	Capacity      armpowerbidedicated.DedicatedCapacity
 	ResourceGroup string
 }

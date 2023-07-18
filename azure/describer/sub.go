@@ -2,44 +2,55 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription"
 	"strings"
 
-	sub "github.com/Azure/azure-sdk-for-go/profiles/latest/subscription/mgmt/subscription"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func Location(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	subscriptionsClient := sub.NewSubscriptionsClient()
-	subscriptionsClient.Authorizer = authorizer
-
-	result, err := subscriptionsClient.ListLocations(ctx, subscription)
+func Location(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsubscription.NewClientFactory(cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewSubscriptionsClient()
 
 	var values []Resource
-	for _, location := range *result.Value {
-		resourceGroup := strings.Split(*location.ID, "/")[4]
-
-		resource := Resource{
-			ID:       *location.ID,
-			Name:     *location.Name,
-			Location: "global",
-			Description: JSONAllFieldsMarshaller{
-				model.LocationDescription{
-					Location:      location,
-					ResourceGroup: resourceGroup,
-				},
-			},
+	pager := client.NewListLocationsPager(subscription, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
 		}
-		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+		for _, v := range page.Value {
+			resource := GetLocation(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
 			}
-		} else {
-			values = append(values, resource)
 		}
 	}
 	return values, nil
+}
+
+func GetLocation(ctx context.Context, location *armsubscription.Location) *Resource {
+	resourceGroup := strings.Split(*location.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *location.ID,
+		Name:     *location.Name,
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			model.LocationDescription{
+				Location:      *location,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+
+	return &resource
 }

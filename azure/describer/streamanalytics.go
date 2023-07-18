@@ -2,108 +2,120 @@ package describer
 
 import (
 	"context"
-	streamanalytics2 "github.com/Azure/azure-sdk-for-go/profiles/latest/streamanalytics/mgmt/streamanalytics"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/streamanalytics/armstreamanalytics"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
-	"github.com/Azure/azure-sdk-for-go/services/streamanalytics/mgmt/2016-03-01/streamanalytics"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func StreamAnalyticsJob(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := insights.NewDiagnosticSettingsClient(subscription)
-	client.Authorizer = authorizer
-
-	streamingJobsClient := streamanalytics.NewStreamingJobsClient(subscription)
-	streamingJobsClient.Authorizer = authorizer
-
-	result, err := streamingJobsClient.List(context.Background(), "")
+func StreamAnalyticsJob(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armstreamanalytics.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	streamingJobsClient := clientFactory.NewStreamingJobsClient()
+
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
 
 	var values []Resource
-	for {
-		for _, streamingJob := range result.Values() {
-			resourceGroup := strings.Split(*streamingJob.ID, "/")[4]
-
-			streamanalyticsListOp, err := client.List(ctx, *streamingJob.ID)
+	pager := streamingJobsClient.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource, err := GetStreamAnalyticsJob(ctx, diagnosticClient, v)
 			if err != nil {
 				return nil, err
 			}
-
-			resource := Resource{
-				ID:       *streamingJob.ID,
-				Name:     *streamingJob.Name,
-				Location: *streamingJob.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.StreamAnalyticsJobDescription{
-						StreamingJob:                streamingJob,
-						DiagnosticSettingsResources: streamanalyticsListOp.Value,
-						ResourceGroup:               resourceGroup,
-					},
-				},
-			}
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func StreamAnalyticsCluster(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	streamingJobsClient := streamanalytics2.NewClustersClient(subscription)
-	streamingJobsClient.Authorizer = authorizer
+func GetStreamAnalyticsJob(ctx context.Context, diagnosticClient *armmonitor.DiagnosticSettingsClient, streamingJob *armstreamanalytics.StreamingJob) (*Resource, error) {
+	resourceGroup := strings.Split(*streamingJob.ID, "/")[4]
 
-	result, err := streamingJobsClient.ListBySubscription(context.Background())
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, streamingJob := range result.Values() {
-			resourceGroup := strings.Split(*streamingJob.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *streamingJob.ID,
-				Name:     *streamingJob.Name,
-				Location: *streamingJob.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.StreamAnalyticsClusterDescription{
-						StreamingJob:  streamingJob,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	pager := diagnosticClient.NewListPager(resourceGroup, nil)
+	var streamanalyticsListOp []*armmonitor.DiagnosticSettingsResource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		streamanalyticsListOp = append(streamanalyticsListOp, page.Value...)
+	}
+
+	resource := Resource{
+		ID:       *streamingJob.ID,
+		Name:     *streamingJob.Name,
+		Location: *streamingJob.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.StreamAnalyticsJobDescription{
+				StreamingJob:                *streamingJob,
+				DiagnosticSettingsResources: streamanalyticsListOp,
+				ResourceGroup:               resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
+}
+
+func StreamAnalyticsCluster(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armstreamanalytics.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	streamingJobsClient := clientFactory.NewClustersClient()
+
+	var values []Resource
+	pager := streamingJobsClient.NewListBySubscriptionPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := GetStreamAnalyticsCluster(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
 	return values, nil
+}
+
+func GetStreamAnalyticsCluster(ctx context.Context, streamingJob *armstreamanalytics.Cluster) *Resource {
+	resourceGroup := strings.Split(*streamingJob.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *streamingJob.ID,
+		Name:     *streamingJob.Name,
+		Location: *streamingJob.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.StreamAnalyticsClusterDescription{
+				StreamingJob:  *streamingJob,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
 }

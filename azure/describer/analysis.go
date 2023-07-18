@@ -2,42 +2,54 @@ package describer
 
 import (
 	"context"
-	"github.com/Azure/azure-sdk-for-go/services/analysisservices/mgmt/2017-08-01/analysisservices"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/analysisservices/armanalysisservices"
 	"strings"
 
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func AnalysisService(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := analysisservices.NewServersClient(subscription)
-	client.Authorizer = authorizer
-	result, err := client.List(ctx)
+func AnalysisService(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armanalysisservices.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	var values []Resource
-	for _, server := range *result.Value {
-		resourceGroupName := strings.Split(string(*server.ID), "/")[4]
+	client := clientFactory.NewServersClient()
 
-		resource := Resource{
-			ID:       *server.ID,
-			Name:     *server.Name,
-			Location: *server.Location,
-			Description: JSONAllFieldsMarshaller{
-				model.AnalysisServiceServerDescription{
-					Server:        server,
-					ResourceGroup: resourceGroupName,
-				},
-			},
+	pager := client.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
 		}
-		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+		for _, server := range page.Value {
+			resource := getAnalysisService(ctx, server)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
 			}
-		} else {
-			values = append(values, resource)
 		}
 	}
 	return values, nil
+}
+
+func getAnalysisService(ctx context.Context, server *armanalysisservices.Server) *Resource {
+	resourceGroupName := strings.Split(*server.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *server.ID,
+		Name:     *server.Name,
+		Location: *server.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.AnalysisServiceServerDescription{
+				Server:        *server,
+				ResourceGroup: resourceGroupName,
+			},
+		},
+	}
+	return &resource
 }

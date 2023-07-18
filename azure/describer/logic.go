@@ -2,107 +2,120 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/logic/armlogic"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/logic/mgmt/2019-05-01/logic"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func LogicAppWorkflow(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := insights.NewDiagnosticSettingsClient(subscription)
-	client.Authorizer = authorizer
-
-	workflowClient := logic.NewWorkflowsClient(subscription)
-	workflowClient.Authorizer = authorizer
-
-	result, err := workflowClient.ListBySubscription(ctx, nil, "")
+func LogicAppWorkflow(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armlogic.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewWorkflowsClient()
 
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+
+	pager := client.NewListBySubscriptionPager(nil)
 	var values []Resource
-	for {
-		for _, workflow := range result.Values() {
-			resourceGroup := strings.Split(*workflow.ID, "/")[4]
-
-			logicListOp, err := client.List(ctx, *workflow.ID)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, workflow := range page.Value {
+			resource, err := getLogicAppWorkflow(ctx, diagnosticClient, workflow)
 			if err != nil {
 				return nil, err
 			}
-
-			resource := Resource{
-				ID:       *workflow.ID,
-				Name:     *workflow.Name,
-				Location: *workflow.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.LogicAppWorkflowDescription{
-						Workflow:                    workflow,
-						DiagnosticSettingsResources: logicListOp.Value,
-						ResourceGroup:               resourceGroup,
-					},
-				},
-			}
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func LogicIntegrationAccounts(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	accountsClient := logic.NewIntegrationAccountsClient(subscription)
-	accountsClient.Authorizer = authorizer
+func getLogicAppWorkflow(ctx context.Context, diagnosticClient *armmonitor.DiagnosticSettingsClient, workflow *armlogic.Workflow) (*Resource, error) {
+	resourceGroup := strings.Split(*workflow.ID, "/")[4]
 
-	result, err := accountsClient.ListBySubscription(ctx, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
-	for {
-		for _, account := range result.Values() {
-			resourceGroup := strings.Split(*account.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *account.ID,
-				Name:     *account.Name,
-				Location: *account.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.LogicIntegrationAccountsDescription{
-						Account:       account,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	var logicListOp []*armmonitor.DiagnosticSettingsResource
+	pager := diagnosticClient.NewListPager(resourceGroup, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		logicListOp = append(logicListOp, page.Value...)
+	}
+
+	resource := Resource{
+		ID:       *workflow.ID,
+		Name:     *workflow.Name,
+		Location: *workflow.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.LogicAppWorkflowDescription{
+				Workflow:                    *workflow,
+				DiagnosticSettingsResources: logicListOp,
+				ResourceGroup:               resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
+}
+
+func LogicIntegrationAccounts(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armlogic.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewIntegrationAccountsClient()
+
+	pager := client.NewListBySubscriptionPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, account := range page.Value {
+			resource := getLogicIntegrationAccounts(ctx, account)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
 	return values, nil
+}
+
+func getLogicIntegrationAccounts(ctx context.Context, account *armlogic.IntegrationAccount) *Resource {
+	resourceGroup := strings.Split(*account.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *account.ID,
+		Name:     *account.Name,
+		Location: *account.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.LogicIntegrationAccountsDescription{
+				Account:       *account,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
 }

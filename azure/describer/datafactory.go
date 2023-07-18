@@ -2,201 +2,208 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datafactory/armdatafactory/v2"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/services/datafactory/mgmt/2018-06-01/datafactory"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func DataFactory(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	connClient := datafactory.NewPrivateEndPointConnectionsClient(subscription)
-	connClient.Authorizer = authorizer
-	factoryClient := datafactory.NewFactoriesClient(subscription)
-	factoryClient.Authorizer = authorizer
-	result, err := factoryClient.List(ctx)
+func DataFactory(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	client, err := armdatafactory.NewFactoriesClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	connClient, err := armdatafactory.NewPrivateEndPointConnectionsClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, factory := range result.Values() {
-			factoryName := factory.Name
-			resourceGroup := strings.Split(*factory.ID, "/")[4]
-
-			datafactoryListByFactoryOp, err := connClient.ListByFactory(ctx, resourceGroup, *factoryName)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource, err := getDataFactory(ctx, connClient, v)
 			if err != nil {
 				return nil, err
 			}
-			v := datafactoryListByFactoryOp.Values()
-			for datafactoryListByFactoryOp.NotDone() {
-				err := datafactoryListByFactoryOp.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-
-				v = append(v, datafactoryListByFactoryOp.Values()...)
-			}
-
-			resource := Resource{
-				ID:       *factory.ID,
-				Name:     *factory.Name,
-				Location: *factory.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.DataFactoryDescription{
-						Factory:                    factory,
-						PrivateEndPointConnections: v,
-						ResourceGroup:              resourceGroup,
-					},
-				},
-			}
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func DataFactoryDataset(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	factoryClient := datafactory.NewFactoriesClient(subscription)
-	factoryClient.Authorizer = authorizer
+func getDataFactory(ctx context.Context, connClient *armdatafactory.PrivateEndPointConnectionsClient, factory *armdatafactory.Factory) (*Resource, error) {
+	resourceGroup := strings.Split(*factory.ID, "/")[4]
 
-	datasetClient := datafactory.NewDatasetsClient(subscription)
-	datasetClient.Authorizer = authorizer
+	pager := connClient.NewListByFactoryPager(resourceGroup, *factory.Name, nil)
+	var datafactoryListByFactoryOp []armdatafactory.PrivateEndpointConnectionResource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			datafactoryListByFactoryOp = append(datafactoryListByFactoryOp, *v)
+		}
+	}
 
-	result, err := factoryClient.List(ctx)
+	resource := Resource{
+		ID:       *factory.ID,
+		Name:     *factory.Name,
+		Location: *factory.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.DataFactoryDescription{
+				Factory:                    *factory,
+				PrivateEndPointConnections: datafactoryListByFactoryOp,
+				ResourceGroup:              resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
+}
+
+func DataFactoryDataset(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	client, err := armdatafactory.NewFactoriesClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	var values []Resource
-	for {
-		for _, factory := range result.Values() {
-			factoryName := factory.Name
-			factoryResourceGroup := strings.Split(*factory.ID, "/")[4]
+	datasetsClient, err := armdatafactory.NewDatasetsClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
 
-			datasetListResponsePage, err := datasetClient.ListByFactory(ctx, factoryResourceGroup, *factoryName)
+	pager := client.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resources, err := getDataFactoryDataset(ctx, datasetsClient, v)
 			if err != nil {
 				return nil, err
 			}
-
-			for datasetListResponsePage.NotDone() {
-				err := datasetListResponsePage.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-				for _, dataset := range datasetListResponsePage.Values() {
-					resource := Resource{
-						ID:       *dataset.ID,
-						Name:     *dataset.Name,
-						Location: *factory.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.DataFactoryDatasetDescription{
-								Factory:       factory,
-								Dataset:       dataset,
-								ResourceGroup: factoryResourceGroup,
-							},
-						},
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
 					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-				err = datasetListResponsePage.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
+				} else {
+					values = append(values, resource)
 				}
 			}
-
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func DataFactoryPipeline(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	factoryClient := datafactory.NewFactoriesClient(subscription)
-	factoryClient.Authorizer = authorizer
+func getDataFactoryDataset(ctx context.Context, client *armdatafactory.DatasetsClient, factory *armdatafactory.Factory) ([]Resource, error) {
+	factoryName := *factory.Name
+	factoryResourceGroup := strings.Split(*factory.ID, "/")[4]
 
-	pipelineClient := datafactory.NewPipelinesClient(subscription)
-	pipelineClient.Authorizer = authorizer
+	pager := client.NewListByFactoryPager(factoryResourceGroup, factoryName, nil)
 
-	result, err := factoryClient.List(ctx)
-	if err != nil {
-		return nil, err
-	}
 	var values []Resource
-	for {
-		for _, factory := range result.Values() {
-			factoryName := factory.Name
-			factoryResourceGroup := strings.Split(*factory.ID, "/")[4]
-
-			pipelineListResponsePage, err := pipelineClient.ListByFactory(ctx, factoryResourceGroup, *factoryName)
-			if err != nil {
-				return nil, err
-			}
-
-			for pipelineListResponsePage.NotDone() {
-				err := pipelineListResponsePage.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-				for _, pipelineResource := range pipelineListResponsePage.Values() {
-					resource := Resource{
-						ID:       *pipelineResource.ID,
-						Name:     *pipelineResource.Name,
-						Location: *factory.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.DataFactoryPipelineDescription{
-								Factory:       factory,
-								Pipeline:      pipelineResource,
-								ResourceGroup: factoryResourceGroup,
-							},
-						},
-					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-				err = pipelineListResponsePage.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, dataset := range page.Value {
+			resource := Resource{
+				ID:       *dataset.ID,
+				Name:     *dataset.Name,
+				Location: *factory.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.DataFactoryDatasetDescription{
+						Factory:       *factory,
+						Dataset:       *dataset,
+						ResourceGroup: factoryResourceGroup,
+					},
+				},
+			}
+			values = append(values, resource)
+		}
 	}
+
+	return values, nil
+}
+
+func DataFactoryPipeline(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	client, err := armdatafactory.NewFactoriesClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	pipelineClient, err := armdatafactory.NewPipelinesClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	pager := client.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resources, err := getDataFactoryPipeline(ctx, pipelineClient, v)
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func getDataFactoryPipeline(ctx context.Context, client *armdatafactory.PipelinesClient, factory *armdatafactory.Factory) ([]Resource, error) {
+	factoryName := *factory.Name
+	factoryResourceGroup := strings.Split(*factory.ID, "/")[4]
+
+	pager := client.NewListByFactoryPager(factoryResourceGroup, factoryName, nil)
+
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, pipeline := range page.Value {
+			resource := Resource{
+				ID:       *pipeline.ID,
+				Name:     *pipeline.Name,
+				Location: *factory.Location,
+				Description: JSONAllFieldsMarshaller{
+					model.DataFactoryPipelineDescription{
+						Factory:       *factory,
+						Pipeline:      *pipeline,
+						ResourceGroup: factoryResourceGroup,
+					},
+				},
+			}
+			values = append(values, resource)
+		}
+	}
+
 	return values, nil
 }

@@ -2,119 +2,88 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
 	"strings"
 
-	secret "github.com/Azure/azure-sdk-for-go/services/keyvault/v7.1/keyvault"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
-
-	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2019-09-01/keyvault"
 )
 
-func KeyVaultSecret(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	keyVaultClient := keyvault.NewVaultsClient(subscription)
-	keyVaultClient.Authorizer = authorizer
-
-	vaultsClient := keyvault.NewVaultsClient(subscription)
-	vaultsClient.Authorizer = authorizer
-
-	client := secret.New()
-	client.Authorizer = authorizer
-
-	maxResults := int32(100)
-	result, err := keyVaultClient.List(ctx, &maxResults)
+func KeyVaultSecret(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armkeyvault.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
 
+	vaultsClient := clientFactory.NewVaultsClient()
+	secretsClient := clientFactory.NewSecretsClient()
+
+	maxResults := int32(100)
+	options := armkeyvault.VaultsClientListOptions{
+		Top: &maxResults,
+	}
+	pager := vaultsClient.NewListPager(&options)
 	var values []Resource
-	for {
-		for _, vault := range result.Values() {
-			vaultURI := "https://" + *vault.Name + ".vault.azure.net/"
-			maxResults := int32(25)
-			res, err := client.GetSecrets(ctx, vaultURI, &maxResults)
-			if err != nil {
-				return nil, err
-			}
-
-			for {
-				for _, sc := range res.Values() {
-					splitID := strings.Split(*sc.ID, "/")
-					resourceGroup := splitID[4]
-
-					if !*sc.Attributes.Enabled {
-						continue
-					}
-					op, err := client.GetSecret(ctx, vaultURI, resourceGroup, "")
-					if err != nil {
-						return nil, err
-					}
-
-					maxResults := int32(100)
-					vaultsOp, err := vaultsClient.List(ctx, &maxResults)
-					if err != nil {
-						return nil, err
-					}
-
-					var vaultID, location string
-					for _, i := range vaultsOp.Values() {
-						if *i.Name == *vault.Name {
-							vaultID = *i.ID
-							location = *i.Location
-						}
-					}
-					splitVaultID := strings.Split(vaultID, "/")
-					akas := []string{"azure:///subscriptions/" + subscription + "/resourceGroups/" + splitVaultID[4] +
-						"/providers/Microsoft.KeyVault/vaults/" + *vault.Name + "/secrets/" + splitID[4],
-						"azure:///subscriptions/" + subscription + "/resourcegroups/" + splitVaultID[4] +
-							"/providers/microsoft.keyvault/vaults/" + *vault.Name + "/secrets/" + splitID[4]}
-
-					turbotData := map[string]interface{}{
-						"SubscriptionId": subscription,
-						"ResourceGroup":  splitVaultID[4],
-						"Location":       location,
-						"Akas":           akas,
-					}
-
-					resource := Resource{
-						ID:       *sc.ID,
-						Name:     *sc.ID,
-						Location: "global",
-						Description: JSONAllFieldsMarshaller{
-							model.KeyVaultSecretDescription{
-								SecretItem:    sc,
-								SecretBundle:  op,
-								TurboData:     turbotData,
-								ResourceGroup: resourceGroup,
-							},
-						},
-					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-
-				}
-				if !res.NotDone() {
-					break
-				}
-				err = res.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
-	}
+		for _, vault := range page.Value {
+			vaultURI := "https://" + *vault.Name + ".vault.azure.net/"
+			maxResults := int32(25)
+			rgs, err := listResourceGroups(ctx, cred, subscription)
+			if err != nil {
+				return nil, err
+			}
+			for _, rg := range rgs {
+				options := armkeyvault.SecretsClientListOptions{
+					Top: &maxResults,
+				}
+				pager := secretsClient.NewListPager(*rg.Name, vaultURI, &options)
+				for pager.More() {
+					page, err := pager.NextPage(ctx)
+					if err != nil {
+						return nil, err
+					}
+					for _, sc := range page.Value {
+						splitID := strings.Split(*sc.ID, "/")
+						splitVaultID := strings.Split(*vault.ID, "/")
+						akas := []string{"azure:///subscriptions/" + subscription + "/resourceGroups/" + splitVaultID[4] +
+							"/providers/Microsoft.KeyVault/vaults/" + *vault.Name + "/secrets/" + splitID[4],
+							"azure:///subscriptions/" + subscription + "/resourcegroups/" + splitVaultID[4] +
+								"/providers/microsoft.keyvault/vaults/" + *vault.Name + "/secrets/" + splitID[4]}
 
+						turbotData := map[string]interface{}{
+							"SubscriptionId": subscription,
+							"ResourceGroup":  splitVaultID[4],
+							"Location":       vault.Location,
+							"Akas":           akas,
+						}
+
+						resource := Resource{
+							ID:       *sc.ID,
+							Name:     *sc.ID,
+							Location: "global",
+							Description: JSONAllFieldsMarshaller{
+								model.KeyVaultSecretDescription{
+									SecretItem:    *sc,
+									TurboData:     turbotData,
+									ResourceGroup: *rg.Name,
+								},
+							},
+						}
+						if stream != nil {
+							if err := (*stream)(resource); err != nil {
+								return nil, err
+							}
+						} else {
+							values = append(values, resource)
+						}
+					}
+				}
+			}
+		}
+	}
 	return values, nil
 }

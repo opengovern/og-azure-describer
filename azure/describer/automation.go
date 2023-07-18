@@ -2,56 +2,56 @@ package describer
 
 import (
 	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/automation/mgmt/2020-01-13-preview/automation"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation"
 	"strings"
 
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func AutomationAccounts(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	automationClient := automation.NewAccountClient(subscription)
-	automationClient.Authorizer = authorizer
-
-	result, err := automationClient.List(ctx)
+func AutomationAccounts(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armautomation.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
 
+	client := clientFactory.NewAccountClient()
+
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroup := strings.Split(*v.ID, "/")[4]
-
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.AutomationAccountsDescription{
-						Automation:    v,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-
-		if !result.NotDone() {
-			break
-		}
-
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		result, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
-	}
 
+		for _, v := range result.Value {
+			resource := getAutomationAccount(ctx, v)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
 	return values, nil
+}
+
+func getAutomationAccount(ctx context.Context, account *armautomation.Account) *Resource {
+	resourceGroup := strings.Split(*account.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *account.ID,
+		Name:     *account.Name,
+		Location: *account.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.AutomationAccountsDescription{
+				Automation:    *account,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
 }

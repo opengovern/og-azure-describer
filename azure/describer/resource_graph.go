@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resourcegraph/armresourcegraph"
 	"net/http"
 	"strconv"
 	"strings"
@@ -12,9 +14,6 @@ import (
 	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 
 	hamiltonAuth "github.com/manicminer/hamilton/auth"
-
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/resourcegraph/mgmt/resourcegraph"
-	"github.com/Azure/go-autorest/autorest"
 )
 
 const SubscriptionBatchSize = 100
@@ -24,14 +23,21 @@ type GenericResourceGraph struct {
 	Type  string
 }
 
-func (d GenericResourceGraph) DescribeResources(ctx context.Context, authorizer autorest.Authorizer, _ hamiltonAuth.Authorizer, subscriptions []string, tenantId string, triggerType enums.DescribeTriggerType, stream *StreamSender) ([]Resource, error) {
+func (d GenericResourceGraph) DescribeResources(ctx context.Context, cred *azidentity.ClientSecretCredential, _ hamiltonAuth.Authorizer, tempSubscriptions []string, tenantId string, triggerType enums.DescribeTriggerType, stream *StreamSender) ([]Resource, error) {
 	ctx = WithTriggerType(ctx, triggerType)
 	query := fmt.Sprintf("%s | where type == \"%s\"", d.Table, strings.ToLower(d.Type))
 
-	client := resourcegraph.New()
-	client.Authorizer = authorizer
+	client, err := armresourcegraph.NewClient(cred, nil)
+	if err != nil {
+		return nil, err
+	}
 
-	values := []Resource{}
+	var values []Resource
+
+	var subscriptions []*string
+	for _, subscription := range tempSubscriptions {
+		subscriptions = append(subscriptions, &subscription)
+	}
 
 	// Group the subscriptions to batches with a max size
 	for i := 0; i < len(subscriptions); i = i + SubscriptionBatchSize {
@@ -40,12 +46,13 @@ func (d GenericResourceGraph) DescribeResources(ctx context.Context, authorizer 
 			j = len(subscriptions)
 		}
 
+		resultFormat := armresourcegraph.ResultFormatObjectArray
 		subs := subscriptions[i:j]
-		request := resourcegraph.QueryRequest{
-			Subscriptions: &subs,
+		request := armresourcegraph.QueryRequest{
+			Subscriptions: subs,
 			Query:         &query,
-			Options: &resourcegraph.QueryRequestOptions{
-				ResultFormat: resourcegraph.ResultFormatObjectArray,
+			Options: &armresourcegraph.QueryRequestOptions{
+				ResultFormat: &resultFormat,
 			},
 		}
 
@@ -53,19 +60,20 @@ func (d GenericResourceGraph) DescribeResources(ctx context.Context, authorizer 
 		for first, skipToken := true, (*string)(nil); first || skipToken != nil; {
 			request.Options.SkipToken = skipToken
 
-			response, err := client.Resources(ctx, request)
+			response, err := client.Resources(ctx, request, nil)
 			if err != nil {
 				return nil, err
 			}
 
-			quotaRemaining, untilResets, err := quota(response.Header)
-			if err != nil {
-				return nil, err
-			}
-
-			if quotaRemaining == 0 {
-				time.Sleep(untilResets)
-			}
+			// No Need to wait for quota
+			//
+			//quotaRemaining, untilResets, err := quota()
+			//if err != nil {
+			//	return nil, err
+			//}
+			//if quotaRemaining == 0 {
+			//	time.Sleep(untilResets)
+			//}
 
 			for _, v := range response.Data.([]interface{}) {
 				m := v.(map[string]interface{})

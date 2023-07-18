@@ -2,485 +2,476 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysqlflexibleservers"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sqlvirtualmachine/armsqlvirtualmachine"
 	"strings"
 
-	"github.com/Azure/azure-sdk-for-go/profiles/latest/mysql/mgmt/mysqlflexibleservers"
-	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/2017-03-01-preview/sql"
-	sqlv3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v4.0/sql"
-	"github.com/Azure/azure-sdk-for-go/services/preview/sqlvirtualmachine/mgmt/2021-11-01-preview/sqlvirtualmachine"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func SqlServer(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	virtualNetworkClient := sql.NewVirtualNetworkRulesClient(subscription)
-	virtualNetworkClient.Authorizer = authorizer
-
-	privateEndpointClient := sqlv3.NewPrivateEndpointConnectionsClient(subscription)
-	privateEndpointClient.Authorizer = authorizer
-
-	encryptionProtectorsClient := sql.NewEncryptionProtectorsClient(subscription)
-	encryptionProtectorsClient.Authorizer = authorizer
-
-	firewallRulesClient := sql.NewFirewallRulesClient(subscription)
-	firewallRulesClient.Authorizer = authorizer
-
-	serverVulnerabilityClient := sqlv3.NewServerVulnerabilityAssessmentsClient(subscription)
-	serverVulnerabilityClient.Authorizer = authorizer
-
-	serverAzureClient := sql.NewServerAzureADAdministratorsClient(subscription)
-	serverAzureClient.Authorizer = authorizer
-
-	serverSecurityClient := sql.NewServerSecurityAlertPoliciesClient(subscription)
-	serverSecurityClient.Authorizer = authorizer
-
-	serverBlobClient := sql.NewServerBlobAuditingPoliciesClient(subscription)
-	serverBlobClient.Authorizer = authorizer
-
-	client := sqlv3.NewServersClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
+func SqlServer(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsql.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	virtualNetworkClient := clientFactory.NewVirtualNetworkRulesClient()
+	privateEndpointClient := clientFactory.NewPrivateEndpointConnectionsClient()
+	encryptionProtectorsClient := clientFactory.NewEncryptionProtectorsClient()
+	firewallRulesClient := clientFactory.NewFirewallRulesClient()
+	serverVulnerabilityClient := clientFactory.NewServerVulnerabilityAssessmentsClient()
+	serverAzureClient := clientFactory.NewServerAzureADAdministratorsClient()
+	serverSecurityClient := clientFactory.NewServerSecurityAlertPoliciesClient()
+	serverBlobClient := clientFactory.NewServerBlobAuditingPoliciesClient()
+	client := clientFactory.NewServersClient()
 
+	pager := client.NewListPager(nil)
 	var values []Resource
-	for {
-		for _, server := range result.Values() {
-			resourceGroupName := strings.Split(string(*server.ID), "/")[4]
-
-			blobOp, err := serverBlobClient.ListByServer(ctx, resourceGroupName, *server.Name)
-			if err != nil {
-				return nil, err
-			}
-			bop := blobOp.Values()
-			for blobOp.NotDone() {
-				err := blobOp.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-
-				bop = append(bop, blobOp.Values()...)
-			}
-
-			securityOp, err := serverSecurityClient.ListByServer(ctx, resourceGroupName, *server.Name)
-			if err != nil {
-				return nil, err
-			}
-			sop := securityOp.Values()
-			for securityOp.NotDone() {
-				err := securityOp.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-
-				sop = append(sop, securityOp.Values()...)
-			}
-
-			adminOp, err := serverAzureClient.ListByServer(ctx, resourceGroupName, *server.Name)
-			if err != nil {
-				if !strings.Contains(err.Error(), "NotFound") {
-					return nil, err
-				}
-			}
-
-			vulnerabilityOp, err := serverVulnerabilityClient.ListByServer(ctx, resourceGroupName, *server.Name)
-			if err != nil {
-				return nil, err
-			}
-			vop := vulnerabilityOp.Values()
-			for vulnerabilityOp.NotDone() {
-				err := vulnerabilityOp.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-
-				vop = append(vop, vulnerabilityOp.Values()...)
-			}
-
-			firewallOp, err := firewallRulesClient.ListByServer(ctx, resourceGroupName, *server.Name)
-			if err != nil {
-				return nil, err
-			}
-
-			encryptionProtectorOp, err := encryptionProtectorsClient.ListByServer(ctx, resourceGroupName, *server.Name)
-			if err != nil {
-				return nil, err
-			}
-			eop := encryptionProtectorOp.Values()
-			for encryptionProtectorOp.NotDone() {
-				err := encryptionProtectorOp.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-
-				eop = append(eop, encryptionProtectorOp.Values()...)
-			}
-
-			pvEndpointOp, err := privateEndpointClient.ListByServer(ctx, resourceGroupName, *server.Name)
-			if err != nil {
-				return nil, err
-			}
-			pop := pvEndpointOp.Values()
-			for pvEndpointOp.NotDone() {
-				err := pvEndpointOp.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-
-				pop = append(pop, pvEndpointOp.Values()...)
-			}
-
-			networkOp, err := virtualNetworkClient.ListByServer(ctx, resourceGroupName, *server.Name)
-			if err != nil {
-				return nil, err
-			}
-			nop := networkOp.Values()
-			for networkOp.NotDone() {
-				err := networkOp.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
-				}
-
-				nop = append(nop, networkOp.Values()...)
-			}
-
-			resource := Resource{
-				ID:       *server.ID,
-				Name:     *server.Name,
-				Location: *server.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.SqlServerDescription{
-						Server:                         server,
-						ServerBlobAuditingPolicies:     bop,
-						ServerSecurityAlertPolicies:    sop,
-						ServerAzureADAdministrators:    adminOp.Value,
-						ServerVulnerabilityAssessments: vop,
-						FirewallRules:                  firewallOp.Value,
-						EncryptionProtectors:           eop,
-						PrivateEndpointConnections:     pop,
-						VirtualNetworkRules:            nop,
-						ResourceGroup:                  resourceGroupName,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, server := range page.Value {
+			resource, err := GetSqlServer(ctx, virtualNetworkClient, privateEndpointClient, encryptionProtectorsClient, firewallRulesClient, serverVulnerabilityClient, serverAzureClient, serverSecurityClient, serverBlobClient, server)
+			if err != nil {
+				return nil, err
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
-	return values, nil
+	return values, err
 }
 
-func SqlServerJobAgents(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	serverClient := sqlv3.NewServersClient(subscription)
-	serverClient.Authorizer = authorizer
+func GetSqlServer(ctx context.Context, virtualNetworkClient *armsql.VirtualNetworkRulesClient, privateEndpointClient *armsql.PrivateEndpointConnectionsClient, encryptionProtectorsClient *armsql.EncryptionProtectorsClient, firewallRulesClient *armsql.FirewallRulesClient, serverVulnerabilityClient *armsql.ServerVulnerabilityAssessmentsClient, serverAzureClient *armsql.ServerAzureADAdministratorsClient, serverSecurityClient *armsql.ServerSecurityAlertPoliciesClient, serverBlobClient *armsql.ServerBlobAuditingPoliciesClient, server *armsql.Server) (*Resource, error) {
+	resourceGroupName := strings.Split(string(*server.ID), "/")[4]
 
-	client := sqlv3.NewJobAgentsClient(subscription)
-	client.Authorizer = authorizer
+	pager1 := serverBlobClient.NewListByServerPager(resourceGroupName, *server.Name, nil)
+	var bop []*armsql.ServerBlobAuditingPolicy
+	for pager1.More() {
+		page, err := pager1.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		bop = append(bop, page.Value...)
+	}
 
-	result, err := serverClient.List(ctx)
+	pager2 := serverSecurityClient.NewListByServerPager(resourceGroupName, *server.Name, nil)
+	var sop []*armsql.ServerSecurityAlertPolicy
+	for pager2.More() {
+		page2, err := pager2.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		sop = append(sop, page2.Value...)
+	}
+
+	pager3 := serverAzureClient.NewListByServerPager(resourceGroupName, *server.Name, nil)
+	var adminOp []*armsql.ServerAzureADAdministrator
+	for pager3.More() {
+		page3, err := pager3.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		adminOp = append(adminOp, page3.Value...)
+	}
+
+	pager4 := serverVulnerabilityClient.NewListByServerPager(resourceGroupName, *server.Name, nil)
+	var vop []*armsql.ServerVulnerabilityAssessment
+	for pager4.More() {
+		page4, err := pager4.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		vop = append(vop, page4.Value...)
+	}
+
+	pager5 := firewallRulesClient.NewListByServerPager(resourceGroupName, *server.Name, nil)
+	var firewallOp []*armsql.FirewallRule
+	for pager5.More() {
+		page5, err := pager5.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		firewallOp = append(firewallOp, page5.Value...)
+	}
+
+	pager6 := encryptionProtectorsClient.NewListByServerPager(resourceGroupName, *server.Name, nil)
+	var eop []*armsql.EncryptionProtector
+	for pager6.More() {
+		page6, err := pager6.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		eop = append(eop, page6.Value...)
+	}
+
+	pager7 := privateEndpointClient.NewListByServerPager(resourceGroupName, *server.Name, nil)
+	var pop []*armsql.PrivateEndpointConnection
+	for pager7.More() {
+		page7, err := pager7.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		pop = append(pop, page7.Value...)
+	}
+
+	pager8 := virtualNetworkClient.NewListByServerPager(resourceGroupName, *server.Name, nil)
+	var nop []*armsql.VirtualNetworkRule
+	for pager8.More() {
+		page8, err := pager8.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		nop = append(nop, page8.Value...)
+	}
+
+	resource := Resource{
+		ID:       *server.ID,
+		Name:     *server.Name,
+		Location: *server.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.SqlServerDescription{
+				Server:                         *server,
+				ServerBlobAuditingPolicies:     bop,
+				ServerSecurityAlertPolicies:    sop,
+				ServerAzureADAdministrators:    adminOp,
+				ServerVulnerabilityAssessments: vop,
+				FirewallRules:                  firewallOp,
+				EncryptionProtectors:           eop,
+				PrivateEndpointConnections:     pop,
+				VirtualNetworkRules:            nop,
+				ResourceGroup:                  resourceGroupName,
+			},
+		},
+	}
+	return &resource, nil
+}
+
+func SqlServerJobAgents(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsql.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	var values []Resource
-	for {
-		for _, server := range result.Values() {
-			resourceGroupName := strings.Split(string(*server.ID), "/")[4]
+	serverClient := clientFactory.NewServersClient()
+	client := clientFactory.NewJobAgentsClient()
 
-			resultJobs, err := client.ListByServer(ctx, resourceGroupName, *server.Name)
+	var values []Resource
+	pager := serverClient.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, server := range page.Value {
+			resources, err := ListSqlServerJobAgents(ctx, client, server)
 			if err != nil {
 				return nil, err
 			}
-
-			for {
-				for _, job := range resultJobs.Values() {
-					jobResourceGroupName := strings.Split(string(*job.ID), "/")[4]
-
-					resource := Resource{
-						ID:       *job.ID,
-						Name:     *job.Name,
-						Location: *job.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.SqlServerJobAgentDescription{
-								Server:        server,
-								JobAgent:      job,
-								ResourceGroup: jobResourceGroupName,
-							},
-						},
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
 					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
-				}
-				if !resultJobs.NotDone() {
-					break
-				}
-				err = resultJobs.NextWithContext(ctx)
-				if err != nil {
-					return nil, err
+				} else {
+					values = append(values, resource)
 				}
 			}
 		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	}
+	return values, err
+}
+
+func ListSqlServerJobAgents(ctx context.Context, client *armsql.JobAgentsClient, server *armsql.Server) ([]Resource, error) {
+	resourceGroupName := strings.Split(string(*server.ID), "/")[4]
+
+	pager := client.NewListByServerPager(resourceGroupName, *server.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
+		}
+		for _, job := range page.Value {
+			resource := GetSqlServerJobAgent(ctx, server, job)
+			values = append(values, *resource)
 		}
 	}
 	return values, nil
 }
 
-func SqlVirtualClusters(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := sql.NewVirtualClustersClient(subscription)
-	client.Authorizer = authorizer
+func GetSqlServerJobAgent(ctx context.Context, server *armsql.Server, job *armsql.JobAgent) *Resource {
+	jobResourceGroupName := strings.Split(string(*job.ID), "/")[4]
 
-	result, err := client.List(ctx)
+	resource := Resource{
+		ID:       *job.ID,
+		Name:     *job.Name,
+		Location: *job.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.SqlServerJobAgentDescription{
+				Server:        *server,
+				JobAgent:      *job,
+				ResourceGroup: jobResourceGroupName,
+			},
+		},
+	}
+	return &resource
+}
+
+func SqlVirtualClusters(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsql.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	var values []Resource
-	for {
-		for _, v := range result.Values() {
-			resourceGroupName := strings.Split(string(*v.ID), "/")[4]
+	client := clientFactory.NewVirtualClustersClient()
 
-			resource := Resource{
-				ID:       *v.ID,
-				Name:     *v.Name,
-				Location: *v.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.SqlVirtualClustersDescription{
-						VirtualClusters: v,
-						ResourceGroup:   resourceGroupName,
-					},
-				},
-			}
+	var values []Resource
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := GetSqlVirtualCluster(ctx, v)
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func SqlServerElasticPool(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := sqlv3.NewServersClient(subscription)
-	client.Authorizer = authorizer
+func GetSqlVirtualCluster(ctx context.Context, v *armsql.VirtualCluster) *Resource {
+	resourceGroupName := strings.Split(string(*v.ID), "/")[4]
 
-	elasticPoolClient := sql.NewElasticPoolsClient(subscription)
-	elasticPoolClient.Authorizer = authorizer
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.SqlVirtualClustersDescription{
+				VirtualClusters: *v,
+				ResourceGroup:   resourceGroupName,
+			},
+		},
+	}
 
-	result, err := client.List(ctx)
+	return &resource
+}
+
+func SqlServerElasticPool(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsql.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	var values []Resource
-	for {
-		for _, server := range result.Values() {
-			serverResourceGroup := strings.Split(string(*server.ID), "/")[4]
+	client := clientFactory.NewServersClient()
+	elasticPoolClient := clientFactory.NewElasticPoolsClient()
 
-			elasticPoolResult, err := elasticPoolClient.ListByServer(ctx, serverResourceGroup, *server.Name)
+	var values []Resource
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, server := range page.Value {
+			resources, err := ListSqlServerElasticPools(ctx, elasticPoolClient, server)
 			if err != nil {
 				return nil, err
 			}
-
-			for {
-				for _, elasticPool := range *elasticPoolResult.Value {
-					resourceGroup := strings.Split(string(*elasticPool.ID), "/")[4]
-					resource := Resource{
-						ID:       *elasticPool.ID,
-						Name:     *elasticPool.Name,
-						Location: *elasticPool.Location,
-						Description: JSONAllFieldsMarshaller{
-							model.SqlServerElasticPoolDescription{
-								Pool:          elasticPool,
-								ServerName:    *server.Name,
-								ResourceGroup: resourceGroup,
-							},
-						},
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
 					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
+				} else {
+					values = append(values, resource)
 				}
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func SqlServerVirtualMachine(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := sqlvirtualmachine.NewSQLVirtualMachinesClient(subscription)
-	client.Authorizer = authorizer
-
-	result, err := client.List(ctx)
-	if err != nil {
-		return nil, err
-	}
+func ListSqlServerElasticPools(ctx context.Context, elasticPoolClient *armsql.ElasticPoolsClient, server *armsql.Server) ([]Resource, error) {
+	serverResourceGroup := strings.Split(string(*server.ID), "/")[4]
 
 	var values []Resource
-	for {
-		for _, vm := range result.Values() {
-			resourceGroup := strings.Split(string(*vm.ID), "/")[4]
-			resource := Resource{
-				ID:       *vm.ID,
-				Name:     *vm.Name,
-				Location: *vm.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.SqlServerVirtualMachineDescription{
-						VirtualMachine: vm,
-						ResourceGroup:  resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	pager := elasticPoolClient.NewListByServerPager(serverResourceGroup, *server.Name, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := GetSqlServerElasticPool(ctx, server, v)
+			values = append(values, *resource)
 		}
 	}
 	return values, nil
 }
 
-func SqlServerVirtualMachineGroups(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	gClient := sqlvirtualmachine.NewGroupsClient(subscription)
-	gClient.Authorizer = authorizer
+func GetSqlServerElasticPool(ctx context.Context, server *armsql.Server, elasticPool *armsql.ElasticPool) *Resource {
+	resourceGroup := strings.Split(string(*elasticPool.ID), "/")[4]
+	resource := Resource{
+		ID:       *elasticPool.ID,
+		Name:     *elasticPool.Name,
+		Location: *elasticPool.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.SqlServerElasticPoolDescription{
+				Pool:          *elasticPool,
+				ServerName:    *server.Name,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
+}
 
-	result, err := gClient.List(ctx)
+func SqlServerVirtualMachine(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsqlvirtualmachine.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewSQLVirtualMachinesClient()
 
 	var values []Resource
-	for {
-		for _, vm := range result.Values() {
-			resourceGroup := strings.Split(string(*vm.ID), "/")[4]
-
-			resource := Resource{
-				ID:       *vm.ID,
-				Name:     *vm.Name,
-				Location: *vm.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.SqlServerVirtualMachineGroupDescription{
-						Group:         vm,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := GetSqlServerVirtualMachine(ctx, v)
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func SqlServerFlexibleServer(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := mysqlflexibleservers.NewServersClient(subscription)
-	client.Authorizer = authorizer
+func GetSqlServerVirtualMachine(ctx context.Context, vm *armsqlvirtualmachine.SQLVirtualMachine) *Resource {
+	resourceGroup := strings.Split(string(*vm.ID), "/")[4]
+	resource := Resource{
+		ID:       *vm.ID,
+		Name:     *vm.Name,
+		Location: *vm.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.SqlServerVirtualMachineDescription{
+				VirtualMachine: *vm,
+				ResourceGroup:  resourceGroup,
+			},
+		},
+	}
+	return &resource
+}
 
-	result, err := client.List(ctx)
+func SqlServerVirtualMachineGroups(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armsqlvirtualmachine.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	client := clientFactory.NewGroupsClient()
 
 	var values []Resource
-	for {
-		for _, fs := range result.Values() {
-			resourceGroup := strings.Split(string(*fs.ID), "/")[4]
-			resource := Resource{
-				ID:       *fs.ID,
-				Name:     *fs.Name,
-				Location: *fs.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.SqlServerFlexibleServerDescription{
-						FlexibleServer: fs,
-						ResourceGroup:  resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, vm := range page.Value {
+			resource := GetSqlServerVirtualMachineGroups(ctx, vm)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
 	return values, nil
+}
+
+func GetSqlServerVirtualMachineGroups(ctx context.Context, vm *armsqlvirtualmachine.Group) *Resource {
+	resourceGroup := strings.Split(string(*vm.ID), "/")[4]
+
+	resource := Resource{
+		ID:       *vm.ID,
+		Name:     *vm.Name,
+		Location: *vm.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.SqlServerVirtualMachineGroupDescription{
+				Group:         *vm,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
+}
+
+func SqlServerFlexibleServer(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armmysqlflexibleservers.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewServersClient()
+
+	var values []Resource
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, fs := range page.Value {
+			resource := GetSqlServerFlexibleServer(ctx, fs)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func GetSqlServerFlexibleServer(ctx context.Context, fs *armmysqlflexibleservers.Server) *Resource {
+	resourceGroup := strings.Split(string(*fs.ID), "/")[4]
+	resource := Resource{
+		ID:       *fs.ID,
+		Name:     *fs.Name,
+		Location: *fs.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.SqlServerFlexibleServerDescription{
+				FlexibleServer: *fs,
+				ResourceGroup:  resourceGroup,
+			},
+		},
+	}
+	return &resource
 }

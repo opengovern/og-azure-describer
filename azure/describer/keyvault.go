@@ -2,83 +2,82 @@ package describer
 
 import (
 	"context"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"strings"
 
 	"github.com/kaytu-io/kaytu-util/pkg/concurrency"
 
-	"github.com/Azure/azure-sdk-for-go/services/keyvault/mgmt/2019-09-01/keyvault"
-	previewKeyvault "github.com/Azure/azure-sdk-for-go/services/preview/keyvault/mgmt/2020-04-01-preview/keyvault"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
-	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-func KeyVaultKey(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	keyVaultClient := keyvault.NewVaultsClient(subscription)
-	keyVaultClient.Authorizer = authorizer
-	maxResults := int32(100)
-
-	client := keyvault.NewKeysClient(subscription)
-	client.Authorizer = authorizer
-
-	resultKV, err := keyVaultClient.List(ctx, &maxResults)
+func KeyVaultKey(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armkeyvault.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	vaultsClient := clientFactory.NewVaultsClient()
+	keysClient := clientFactory.NewKeysClient()
+
+	maxResults := int32(100)
+	options := &armkeyvault.VaultsClientListOptions{
+		Top: &maxResults,
+	}
+	pager := vaultsClient.NewListPager(options)
 
 	wpe := concurrency.NewWorkPool(4)
+
 	var values []Resource
-	for {
-		for _, vaultLoop := range resultKV.Values() {
-			vault := vaultLoop
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			vault := v
 			wpe.AddJob(func() (interface{}, error) {
 				resourceGroup := strings.Split(*vault.ID, "/")[4]
-				result, err := client.List(ctx, resourceGroup, *vault.Name)
-				if err != nil {
-					return nil, err
-				}
 
-				wp := concurrency.NewWorkPool(8)
-				for {
-					for _, v := range result.Values() {
-						resourceGroupCopy := resourceGroup
-						vaultCopy := vault
-						vCopy := v
-						wp.AddJob(func() (interface{}, error) {
-							op, err := client.Get(ctx, resourceGroupCopy, *vaultCopy.Name, *vCopy.Name)
-							if err != nil {
-								return nil, err
-							}
-
-							// In some cases resource does not give any notFound error
-							// instead of notFound error, it returns empty data
-							if op.ID == nil {
-								return nil, nil
-							}
-
-							return Resource{
-								ID:       *vCopy.ID,
-								Name:     *vCopy.Name,
-								Location: *vCopy.Location,
-								Description: JSONAllFieldsMarshaller{
-									model.KeyVaultKeyDescription{
-										Vault:         vaultCopy,
-										Key:           vCopy,
-										ResourceGroup: resourceGroupCopy,
-									},
-								},
-							}, nil
-						})
-					}
-
-					if !result.NotDone() {
-						break
-					}
-
-					err = result.NextWithContext(ctx)
+				pager2 := keysClient.NewListPager(resourceGroup, *vault.Name, nil)
+				var result []*armkeyvault.Key
+				for pager2.More() {
+					page2, err := pager2.NextPage(ctx)
 					if err != nil {
 						return nil, err
 					}
+					result = append(result, page2.Value...)
+				}
+				wp := concurrency.NewWorkPool(8)
+				for _, r := range result {
+					resourceGroupCopy := resourceGroup
+					vaultCopy := vault
+					vCopy := r
+					wp.AddJob(func() (interface{}, error) {
+						op, err := keysClient.Get(ctx, resourceGroupCopy, *vaultCopy.Name, *vCopy.Name, nil)
+						if err != nil {
+							return nil, err
+						}
+
+						// In some cases resource does not give any notFound error
+						// instead of notFound error, it returns empty data
+						if op.ID == nil {
+							return nil, nil
+						}
+
+						return Resource{
+							ID:       *vCopy.ID,
+							Name:     *vCopy.Name,
+							Location: *vCopy.Location,
+							Description: JSONAllFieldsMarshaller{
+								model.KeyVaultKeyDescription{
+									Vault:         *vaultCopy,
+									Key:           *vCopy,
+									ResourceGroup: resourceGroupCopy,
+								},
+							},
+						}, nil
+					})
 				}
 
 				results := wp.Run()
@@ -94,15 +93,6 @@ func KeyVaultKey(ctx context.Context, authorizer autorest.Authorizer, subscripti
 				}
 				return vvv, nil
 			})
-		}
-
-		if !resultKV.NotDone() {
-			break
-		}
-
-		err = resultKV.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 
@@ -128,159 +118,223 @@ func KeyVaultKey(ctx context.Context, authorizer autorest.Authorizer, subscripti
 	return values, nil
 }
 
-func KeyVault(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	insightsClient := insights.NewDiagnosticSettingsClient(subscription)
-	insightsClient.Authorizer = authorizer
-
-	keyVaultClient := keyvault.NewVaultsClient(subscription)
-	keyVaultClient.Authorizer = authorizer
-
-	maxResults := int32(100)
-	result, err := keyVaultClient.List(ctx, &maxResults)
+func getKeyVaultKey(ctx context.Context, keysClient *armkeyvault.KeysClient, vCopy *armkeyvault.Key, resourceGroupCopy string, vaultCopy *armkeyvault.Resource) (*Resource, error) {
+	op, err := keysClient.Get(ctx, resourceGroupCopy, *vaultCopy.Name, *vCopy.Name, nil)
 	if err != nil {
 		return nil, err
 	}
+
+	// In some cases resource does not give any notFound error
+	// instead of notFound error, it returns empty data
+	if op.ID == nil {
+		return nil, nil
+	}
+
+	return &Resource{
+		ID:       *vCopy.ID,
+		Name:     *vCopy.Name,
+		Location: *vCopy.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.KeyVaultKeyDescription{
+				Vault:         *vaultCopy,
+				Key:           *vCopy,
+				ResourceGroup: resourceGroupCopy,
+			},
+		},
+	}, nil
+}
+
+func KeyVault(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armkeyvault.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	vaultsClient := clientFactory.NewVaultsClient()
+
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+
+	maxResults := int32(100)
+	options := &armkeyvault.VaultsClientListOptions{
+		Top: &maxResults,
+	}
 	var values []Resource
-	for {
-		for _, vault := range result.Values() {
-			name := *vault.Name
-			resourceGroup := strings.Split(*vault.ID, "/")[4]
-
-			keyVaultGetOp, err := keyVaultClient.Get(ctx, resourceGroup, name)
+	pager := vaultsClient.NewListPager(options)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, vault := range page.Value {
+			resource, err := getKeyVault(ctx, vault, vaultsClient, diagnosticClient)
 			if err != nil {
 				return nil, err
-			}
-
-			insightsListOp, err := insightsClient.List(ctx, *vault.ID)
-			if err != nil {
-				return nil, err
-			}
-
-			resource := Resource{
-				ID:       *vault.ID,
-				Name:     *vault.Name,
-				Location: *vault.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.KeyVaultDescription{
-						Resource:                    vault,
-						Vault:                       keyVaultGetOp,
-						DiagnosticSettingsResources: insightsListOp.Value,
-						ResourceGroup:               resourceGroup,
-					},
-				},
 			}
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func DeletedVault(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	keyVaultClient := keyvault.NewVaultsClient(subscription)
-	keyVaultClient.Authorizer = authorizer
+func getKeyVault(ctx context.Context, vault *armkeyvault.Resource, vaultsClient *armkeyvault.VaultsClient, diagnosticClient *armmonitor.DiagnosticSettingsClient) (*Resource, error) {
+	name := *vault.Name
+	resourceGroup := strings.Split(*vault.ID, "/")[4]
 
-	result, err := keyVaultClient.ListDeleted(ctx)
+	keyVaultGetOp, err := vaultsClient.Get(ctx, resourceGroup, name, nil)
 	if err != nil {
 		return nil, err
 	}
-	var values []Resource
-	for {
-		for _, vault := range result.Values() {
-			resourceGroup := strings.Split(*vault.ID, "/")[4]
 
-			resource := Resource{
-				ID:       *vault.ID,
-				Name:     *vault.Name,
-				Location: *vault.Properties.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.KeyVaultDeletedVaultDescription{
-						Vault:         vault,
-						ResourceGroup: resourceGroup,
-					},
-				},
-			}
+	var insightsListOp []*armmonitor.DiagnosticSettingsResource
+	pager := diagnosticClient.NewListPager(*vault.ID, nil)
+	if err != nil {
+		return nil, err
+	}
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		insightsListOp = append(insightsListOp, page.Value...)
+	}
+
+	resource := Resource{
+		ID:       *vault.ID,
+		Name:     *vault.Name,
+		Location: *vault.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.KeyVaultDescription{
+				Resource:                    *vault,
+				Vault:                       keyVaultGetOp.Vault,
+				DiagnosticSettingsResources: insightsListOp,
+				ResourceGroup:               resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
+}
+
+func DeletedVault(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armkeyvault.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	vaultsClient := clientFactory.NewVaultsClient()
+
+	var values []Resource
+	pager := vaultsClient.NewListDeletedPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, vault := range page.Value {
+			resource := getDeletedVault(ctx, vault)
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
-		if err != nil {
-			return nil, err
 		}
 	}
 	return values, nil
 }
 
-func KeyVaultManagedHardwareSecurityModule(ctx context.Context, authorizer autorest.Authorizer, subscription string, stream *StreamSender) ([]Resource, error) {
-	client := insights.NewDiagnosticSettingsClient(subscription)
-	client.Authorizer = authorizer
+func getDeletedVault(ctx context.Context, vault *armkeyvault.DeletedVault) *Resource {
+	resourceGroup := strings.Split(*vault.ID, "/")[4]
 
-	hsmClient := previewKeyvault.NewManagedHsmsClient(subscription)
-	hsmClient.Authorizer = authorizer
+	resource := Resource{
+		ID:       *vault.ID,
+		Name:     *vault.Name,
+		Location: *vault.Properties.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.KeyVaultDeletedVaultDescription{
+				Vault:         *vault,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
+}
 
-	maxResults := int32(100)
-	result, err := hsmClient.ListBySubscription(ctx, &maxResults)
+func KeyVaultManagedHardwareSecurityModule(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
+
+	maxResults := int32(100)
+
+	clientFactory, err := armkeyvault.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewManagedHsmsClient()
+
+	options := &armkeyvault.ManagedHsmsClientListBySubscriptionOptions{
+		Top: &maxResults,
+	}
+	pager := client.NewListBySubscriptionPager(options)
 
 	var values []Resource
-	for {
-		for _, vault := range result.Values() {
-			resourceGroup := strings.Split(*vault.ID, "/")[4]
-
-			keyvaultListOp, err := client.List(ctx, *vault.ID)
-			if err != nil {
-				return nil, err
-			}
-
-			resource := Resource{
-				ID:       *vault.ID,
-				Name:     *vault.Name,
-				Location: *vault.Location,
-				Description: JSONAllFieldsMarshaller{
-					model.KeyVaultManagedHardwareSecurityModuleDescription{
-						ManagedHsm:                  vault,
-						DiagnosticSettingsResources: keyvaultListOp.Value,
-						ResourceGroup:               resourceGroup,
-					},
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-		if !result.NotDone() {
-			break
-		}
-		err = result.NextWithContext(ctx)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
+		for _, vault := range page.Value {
+			resource, err := getKeyVaultManagedHardwareSecurityModule(ctx, diagnosticClient, vault)
+			for err != nil {
+				return nil, err
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
 	}
 	return values, nil
+}
+
+func getKeyVaultManagedHardwareSecurityModule(ctx context.Context, client *armmonitor.DiagnosticSettingsClient, vault *armkeyvault.ManagedHsm) (*Resource, error) {
+	resourceGroup := strings.Split(*vault.ID, "/")[4]
+
+	var keyvaultListOp []*armmonitor.DiagnosticSettingsResource
+	pager := client.NewListPager(*vault.ID, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		keyvaultListOp = append(keyvaultListOp, page.Value...)
+	}
+
+	resource := Resource{
+		ID:       *vault.ID,
+		Name:     *vault.Name,
+		Location: *vault.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.KeyVaultManagedHardwareSecurityModuleDescription{
+				ManagedHsm:                  *vault,
+				DiagnosticSettingsResources: keyvaultListOp,
+				ResourceGroup:               resourceGroup,
+			},
+		},
+	}
+	return &resource, nil
 }
