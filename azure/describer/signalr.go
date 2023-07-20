@@ -51,7 +51,7 @@ func GetSignalrService(ctx context.Context, diagnosticClient *armmonitor.Diagnos
 	resourceGroup := strings.Split(*service.ID, "/")[4]
 
 	var signalrListOp []*armmonitor.DiagnosticSettingsResource
-	pager := diagnosticClient.NewListPager(resourceGroup, nil)
+	pager := diagnosticClient.NewListPager(*service.ID, nil)
 	for pager.More() {
 		page, err := pager.NextPage(ctx)
 		if err != nil {

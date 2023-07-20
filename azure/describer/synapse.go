@@ -72,7 +72,7 @@ func GetSynapseWorkspace(ctx context.Context, synapseClient *armsynapse.Workspac
 	}
 
 	var synapseListOp []*armmonitor.DiagnosticSettingsResource
-	pager2 := diagnosticClient.NewListPager(resourceGroup, nil)
+	pager2 := diagnosticClient.NewListPager(*config.ID, nil)
 	for pager2.More() {
 		page2, err := pager2.NextPage(ctx)
 		if err != nil {

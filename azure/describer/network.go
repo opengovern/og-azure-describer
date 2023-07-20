@@ -286,7 +286,7 @@ func getApplicationGateway(ctx context.Context, diagnosticClient *armmonitor.Dia
 	resourceGroup := strings.Split(*gateway.ID, "/")[4]
 
 	var networkListOp []*armmonitor.DiagnosticSettingsResource
-	pager := diagnosticClient.NewListPager(resourceGroup, nil)
+	pager := diagnosticClient.NewListPager(*gateway.ID, nil)
 	for pager.More() {
 		page, err := pager.NextPage(ctx)
 		if err != nil {
@@ -1258,7 +1258,7 @@ func getPublicIPPrefix(ctx context.Context, resourceGroup armresources.ResourceG
 }
 
 func DNSZones(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armdns.NewClientFactory("<subscription-id>", cred, nil)
+	clientFactory, err := armdns.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}

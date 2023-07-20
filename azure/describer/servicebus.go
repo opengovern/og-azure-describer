@@ -221,7 +221,7 @@ func GetServicebusNamespace(ctx context.Context, namespaceClient *armservicebus.
 	resourceGroup := strings.Split(*namespace.ID, "/")[4]
 
 	var insightsListOp []*armmonitor.DiagnosticSettingsResource
-	pager1 := diagnosticClient.NewListPager(resourceGroup, nil)
+	pager1 := diagnosticClient.NewListPager(*namespace.ID, nil)
 	for pager1.More() {
 		page1, err := pager1.NextPage(ctx)
 		if err != nil {

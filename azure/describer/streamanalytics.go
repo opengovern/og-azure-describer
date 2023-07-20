@@ -50,7 +50,7 @@ func StreamAnalyticsJob(ctx context.Context, cred *azidentity.ClientSecretCreden
 func GetStreamAnalyticsJob(ctx context.Context, diagnosticClient *armmonitor.DiagnosticSettingsClient, streamingJob *armstreamanalytics.StreamingJob) (*Resource, error) {
 	resourceGroup := strings.Split(*streamingJob.ID, "/")[4]
 
-	pager := diagnosticClient.NewListPager(resourceGroup, nil)
+	pager := diagnosticClient.NewListPager(*streamingJob.ID, nil)
 	var streamanalyticsListOp []*armmonitor.DiagnosticSettingsResource
 	for pager.More() {
 		page, err := pager.NextPage(ctx)

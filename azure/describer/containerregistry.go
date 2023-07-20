@@ -43,14 +43,15 @@ func getContainerRegistry(ctx context.Context, client *armcontainerregistry.Regi
 	resourceGroup := strings.Split(*registry.ID, "/")[4]
 	containerRegistryListCredentialsOp, err := client.ListCredentials(ctx, resourceGroup, *registry.Name, nil)
 	if err != nil {
-		return nil, err
+		if !strings.Contains(err.Error(), "does not have authorization to perform action 'Microsoft.ContainerRegistry/registries/listCredentials/action'") {
+			return nil, err
+		}
 	}
 
 	containerRegistryListUsagesOp, err := client.ListUsages(ctx, resourceGroup, *registry.Name, nil)
 	if err != nil {
 		return nil, err
 	}
-
 	resource := Resource{
 		ID:       *registry.ID,
 		Name:     *registry.Name,
