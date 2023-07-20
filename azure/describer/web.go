@@ -3,9 +3,10 @@ package describer
 import (
 	"context"
 	"fmt"
+	"strings"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	appservice "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
-	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
@@ -99,7 +100,7 @@ func GetAppServiceFunctionApp(ctx context.Context, webClient *appservice.WebApps
 	}
 	authSettings, err := webClient.GetAuthSettings(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
 	if err != nil {
-		return nil, err
+		//return nil, err
 	}
 	resource := Resource{
 		ID:       *v.ID,

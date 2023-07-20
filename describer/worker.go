@@ -84,7 +84,6 @@ func doDescribeAzure(
 			return fmt.Errorf("failed to trim json: %w", err)
 		}
 		resource.Location = fixAzureLocation(resource.Location)
-
 		azureMetadata := azuremodel.Metadata{
 			ID:               resource.ID,
 			Name:             resource.Name,
@@ -105,6 +104,12 @@ func doDescribeAzure(
 			return fmt.Errorf("unmarshal metadata: %v", err.Error())
 		}
 
+		desc := resource.Description
+		err = json.Unmarshal(descriptionJSON, &desc)
+		if err != nil {
+			return fmt.Errorf("unmarshal description: %v", err.Error())
+		}
+
 		kafkaResource := Resource{
 			ID:            resource.UniqueID(),
 			Name:          resource.Name,
@@ -117,7 +122,7 @@ func doDescribeAzure(
 			SourceID:      job.SourceID,
 			ScheduleJobID: job.ScheduleJobID,
 			CreatedAt:     job.DescribedAt,
-			Description:   resource.Description,
+			Description:   desc,
 			Metadata:      metadata,
 		}
 

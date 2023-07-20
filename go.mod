@@ -93,7 +93,7 @@ require (
 	github.com/gofrs/uuid v4.2.0+incompatible
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.2.2
-	github.com/kaytu-io/kaytu-util v0.0.0-20230703125355-15bec58e8130
+	github.com/kaytu-io/kaytu-util v0.0.0-20230720103850-13062d0192c7
 	github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230718083138-5dd091ae7e71
 	github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230718082348-6a343a735488
 	github.com/manicminer/hamilton v0.43.0
