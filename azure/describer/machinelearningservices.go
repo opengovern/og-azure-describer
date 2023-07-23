@@ -50,7 +50,7 @@ func getMachineLearningWorkspace(ctx context.Context, diagnosticClient *armmonit
 	resourceGroup := strings.Split(*workspace.ID, "/")[4]
 
 	var machineLearningServicesListOp []*armmonitor.DiagnosticSettingsResource
-	pager := diagnosticClient.NewListPager(resourceGroup, nil)
+	pager := diagnosticClient.NewListPager(*workspace.ID, nil)
 	for pager.More() {
 		page, err := pager.NextPage(ctx)
 		if err != nil {

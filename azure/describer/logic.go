@@ -51,7 +51,7 @@ func getLogicAppWorkflow(ctx context.Context, diagnosticClient *armmonitor.Diagn
 	resourceGroup := strings.Split(*workflow.ID, "/")[4]
 
 	var logicListOp []*armmonitor.DiagnosticSettingsResource
-	pager := diagnosticClient.NewListPager(resourceGroup, nil)
+	pager := diagnosticClient.NewListPager(*workflow.ID, nil)
 	for pager.More() {
 		page, err := pager.NextPage(ctx)
 		if err != nil {

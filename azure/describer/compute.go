@@ -334,7 +334,7 @@ func getComputeVirtualMachine(ctx context.Context, vmClient *armcompute.VirtualM
 	resourceGroupName := strings.Split(*virtualMachine.ID, "/")[4]
 	computeInstanceViewOp, err := vmClient.InstanceView(ctx, resourceGroupName, *virtualMachine.Name, nil)
 
-	pager := networkInterfaceClient.NewListVirtualMachineScaleSetNetworkInterfacesPager(resourceGroupName, *virtualMachine.Name, nil)
+	pager := networkInterfaceClient.NewListVirtualMachineScaleSetNetworkInterfacesPager(resourceGroupName, *virtualMachine.Properties.VirtualMachineScaleSet.ID, nil)
 	var ipConfigs []armnetwork.InterfaceIPConfiguration // IP Configs done
 	for pager.More() {
 		page, err := pager.NextPage(ctx)
