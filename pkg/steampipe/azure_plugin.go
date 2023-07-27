@@ -9,9 +9,9 @@ import (
 	"github.com/kaytu-io/kaytu-util/pkg/steampipe"
 	"github.com/kaytu-io/steampipe-plugin-azure/azure"
 	"github.com/kaytu-io/steampipe-plugin-azuread/azuread"
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin/context_key"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/context_key"
 )
 
 func buildContext() context.Context {

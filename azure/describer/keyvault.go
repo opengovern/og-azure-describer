@@ -338,3 +338,135 @@ func getKeyVaultManagedHardwareSecurityModule(ctx context.Context, client *armmo
 	}
 	return &resource, nil
 }
+
+func KeyVaultKeyVersion(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armkeyvault.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	vaultsClient := clientFactory.NewVaultsClient()
+	keysClient := clientFactory.NewKeysClient()
+
+	maxResults := int32(100)
+	options := &armkeyvault.VaultsClientListOptions{
+		Top: &maxResults,
+	}
+	pager := vaultsClient.NewListPager(options)
+
+	wpe := concurrency.NewWorkPool(4)
+
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			vault := v
+			wpe.AddJob(func() (interface{}, error) {
+				resourceGroup := strings.Split(*vault.ID, "/")[4]
+
+				pager2 := keysClient.NewListPager(resourceGroup, *vault.Name, nil)
+				var result []*armkeyvault.Key
+				for pager2.More() {
+					page2, err := pager2.NextPage(ctx)
+					if err != nil {
+						return nil, err
+					}
+					result = append(result, page2.Value...)
+				}
+				wp := concurrency.NewWorkPool(8)
+				for _, r := range result {
+					resourceGroupCopy := resourceGroup
+					vaultCopy := vault
+					vCopy := r
+					wp.AddJob(func() (interface{}, error) {
+						resources, err := ListKeyVaultKeyVersion(ctx, keysClient, vCopy, resourceGroupCopy, vaultCopy)
+						if err != nil {
+							return nil, err
+						}
+						return resources, nil
+					})
+				}
+
+				results := wp.Run()
+				var vvv []Resource
+				for _, r := range results {
+					if r.Error != nil {
+						return nil, err
+					}
+					if r.Value == nil {
+						continue
+					}
+					vvv = append(vvv, r.Value.(Resource))
+				}
+				return vvv, nil
+			})
+		}
+	}
+
+	results := wpe.Run()
+	for _, result := range results {
+		if result.Error != nil {
+			return nil, err
+		}
+		if result.Value == nil {
+			continue
+		}
+		values = append(values, result.Value.([]Resource)...)
+	}
+
+	if stream != nil {
+		for _, resource := range values {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		}
+		values = nil
+	}
+	return values, nil
+}
+
+func ListKeyVaultKeyVersion(ctx context.Context, keysClient *armkeyvault.KeysClient, vCopy *armkeyvault.Key, resourceGroupCopy string, vaultCopy *armkeyvault.Resource) ([]Resource, error) {
+	op, err := keysClient.Get(ctx, resourceGroupCopy, *vaultCopy.Name, *vCopy.Name, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	pager := keysClient.NewListVersionsPager(resourceGroupCopy, *vaultCopy.Name, *vCopy.Name, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := GetKeyVaultKeyVersion(ctx, resourceGroupCopy, vaultCopy, vCopy, v)
+			values = append(values, *resource)
+		}
+	}
+	// In some cases resource does not give any notFound error
+	// instead of notFound error, it returns empty data
+	if op.ID == nil {
+		return nil, nil
+	}
+
+	return values, nil
+}
+
+func GetKeyVaultKeyVersion(ctx context.Context, resourceGroup string, vault *armkeyvault.Resource, key *armkeyvault.Key, version *armkeyvault.Key) *Resource {
+	resource := Resource{
+		ID:       *version.ID,
+		Name:     *version.Name,
+		Location: *version.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.KeyVaultKeyVersionDescription{
+				Vault:         *vault,
+				Key:           *key,
+				Version:       *version,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+	return &resource
+}

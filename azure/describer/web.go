@@ -174,6 +174,10 @@ func GetAppServiceWebApp(ctx context.Context, webClient *appservice.WebAppsClien
 		location = *v.Location
 	}
 
+	diagnosticLogConfiguration, err := webClient.GetDiagnosticLogsConfiguration(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
+	if err != nil {
+		return nil, err
+	}
 	resource := Resource{
 		ID:       *v.ID,
 		Name:     *v.Name,
@@ -183,6 +187,7 @@ func GetAppServiceWebApp(ctx context.Context, webClient *appservice.WebAppsClien
 				Site:               *v,
 				SiteConfigResource: configuration.SiteConfigResource,
 				SiteAuthSettings:   authSettings.SiteAuthSettings,
+				SiteLogConfig:      diagnosticLogConfiguration.SiteLogsConfig,
 				VnetInfo:           vnet.VnetInfoResource,
 				ResourceGroup:      resourceGroup,
 			},
@@ -190,6 +195,73 @@ func GetAppServiceWebApp(ctx context.Context, webClient *appservice.WebAppsClien
 	}
 
 	return &resource, nil
+}
+
+func AppServiceWebAppSlot(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	client, err := appservice.NewWebAppsClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	pager := client.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resources, err := ListAppServiceWebAppSlots(ctx, client, v)
+			if err != nil {
+				return nil, err
+			}
+			if stream != nil {
+				for _, resource := range resources {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				}
+			} else {
+				values = append(values, resources...)
+			}
+		}
+	}
+	return values, err
+}
+
+func ListAppServiceWebAppSlots(ctx context.Context, webClient *appservice.WebAppsClient, v *appservice.Site) ([]Resource, error) {
+	pager := webClient.NewListSlotsPager(*v.Properties.ResourceGroup, *v.Name, nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, slot := range page.Value {
+			resource := GetAppServiceWebAppSlot(ctx, v, slot)
+			values = append(values, *resource)
+		}
+	}
+	return values, nil
+}
+
+func GetAppServiceWebAppSlot(ctx context.Context, app *appservice.Site, v *appservice.Site) *Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+
+	resource := Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			model.AppServiceWebAppSlotDescription{
+				Site:          *v,
+				AppName:       *app.Name,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+
+	return &resource
 }
 
 func AppServicePlan(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {

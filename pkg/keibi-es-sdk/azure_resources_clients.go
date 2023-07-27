@@ -5,7 +5,7 @@ import (
 	"context"
 	azure "github.com/kaytu-io/kaytu-azure-describer/azure/model"
 	essdk "github.com/kaytu-io/kaytu-util/pkg/keibi-es-sdk"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 type Client struct {
@@ -147,7 +147,7 @@ func ListAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAPIManagementPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAPIManagementFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAPIManagementPaginator(essdk.BuildFilter(d.EqualsQuals, listAPIManagementFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -225,7 +225,7 @@ func GetAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAPIManagementPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAPIManagementFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAPIManagementPaginator(essdk.BuildFilter(d.EqualsQuals, getAPIManagementFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -343,7 +343,7 @@ func ListAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAutomationAccountsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAutomationAccountsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAutomationAccountsPaginator(essdk.BuildFilter(d.EqualsQuals, listAutomationAccountsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -383,7 +383,7 @@ func GetAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAutomationAccountsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAutomationAccountsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAutomationAccountsPaginator(essdk.BuildFilter(d.EqualsQuals, getAutomationAccountsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -512,7 +512,7 @@ func ListAppConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppConfigurationPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAppConfigurationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, listAppConfigurationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -563,7 +563,7 @@ func GetAppConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppConfigurationPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAppConfigurationFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, getAppConfigurationFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -698,7 +698,7 @@ func ListAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppServiceEnvironmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAppServiceEnvironmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppServiceEnvironmentPaginator(essdk.BuildFilter(d.EqualsQuals, listAppServiceEnvironmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -755,7 +755,7 @@ func GetAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppServiceEnvironmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAppServiceEnvironmentFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppServiceEnvironmentPaginator(essdk.BuildFilter(d.EqualsQuals, getAppServiceEnvironmentFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -891,7 +891,7 @@ func ListAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppServiceFunctionAppPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAppServiceFunctionAppFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppServiceFunctionAppPaginator(essdk.BuildFilter(d.EqualsQuals, listAppServiceFunctionAppFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -949,7 +949,7 @@ func GetAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppServiceFunctionAppPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAppServiceFunctionAppFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppServiceFunctionAppPaginator(essdk.BuildFilter(d.EqualsQuals, getAppServiceFunctionAppFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1086,7 +1086,7 @@ func ListAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppServiceWebAppPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAppServiceWebAppFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppServiceWebAppPaginator(essdk.BuildFilter(d.EqualsQuals, listAppServiceWebAppFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1145,7 +1145,7 @@ func GetAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppServiceWebAppPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAppServiceWebAppFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppServiceWebAppPaginator(essdk.BuildFilter(d.EqualsQuals, getAppServiceWebAppFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1282,7 +1282,7 @@ func ListAppServicePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppServicePlanPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAppServicePlanFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppServicePlanPaginator(essdk.BuildFilter(d.EqualsQuals, listAppServicePlanFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1341,7 +1341,7 @@ func GetAppServicePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppServicePlanPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAppServicePlanFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppServicePlanPaginator(essdk.BuildFilter(d.EqualsQuals, getAppServicePlanFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1459,7 +1459,7 @@ func ListContainerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewContainerAppPaginator(essdk.BuildFilter(d.KeyColumnQuals, listContainerAppFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewContainerAppPaginator(essdk.BuildFilter(d.EqualsQuals, listContainerAppFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1499,7 +1499,7 @@ func GetContainerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewContainerAppPaginator(essdk.BuildFilter(d.KeyColumnQuals, getContainerAppFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewContainerAppPaginator(essdk.BuildFilter(d.EqualsQuals, getContainerAppFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1617,7 +1617,7 @@ func ListAppManagedEnvironment(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppManagedEnvironmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAppManagedEnvironmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppManagedEnvironmentPaginator(essdk.BuildFilter(d.EqualsQuals, listAppManagedEnvironmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1657,7 +1657,7 @@ func GetAppManagedEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppManagedEnvironmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAppManagedEnvironmentFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppManagedEnvironmentPaginator(essdk.BuildFilter(d.EqualsQuals, getAppManagedEnvironmentFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1775,7 +1775,7 @@ func ListWebServerFarms(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWebServerFarmsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listWebServerFarmsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWebServerFarmsPaginator(essdk.BuildFilter(d.EqualsQuals, listWebServerFarmsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1815,7 +1815,7 @@ func GetWebServerFarms(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWebServerFarmsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getWebServerFarmsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewWebServerFarmsPaginator(essdk.BuildFilter(d.EqualsQuals, getWebServerFarmsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1933,7 +1933,7 @@ func ListBlueprint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBlueprintPaginator(essdk.BuildFilter(d.KeyColumnQuals, listBlueprintFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBlueprintPaginator(essdk.BuildFilter(d.EqualsQuals, listBlueprintFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1973,7 +1973,7 @@ func GetBlueprint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBlueprintPaginator(essdk.BuildFilter(d.KeyColumnQuals, getBlueprintFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewBlueprintPaginator(essdk.BuildFilter(d.EqualsQuals, getBlueprintFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2130,7 +2130,7 @@ func ListComputeDisk(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeDiskFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2209,7 +2209,7 @@ func GetComputeDisk(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeDiskFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2323,7 +2323,7 @@ func ListComputeDiskReadOps(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskReadOpsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskReadOpsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskReadOpsPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeDiskReadOpsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2359,7 +2359,7 @@ func GetComputeDiskReadOps(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskReadOpsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskReadOpsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskReadOpsPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeDiskReadOpsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2473,7 +2473,7 @@ func ListComputeDiskReadOpsDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskReadOpsDailyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskReadOpsDailyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskReadOpsDailyPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeDiskReadOpsDailyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2509,7 +2509,7 @@ func GetComputeDiskReadOpsDaily(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskReadOpsDailyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskReadOpsDailyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskReadOpsDailyPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeDiskReadOpsDailyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2623,7 +2623,7 @@ func ListComputeDiskReadOpsHourly(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskReadOpsHourlyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskReadOpsHourlyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskReadOpsHourlyPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeDiskReadOpsHourlyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2659,7 +2659,7 @@ func GetComputeDiskReadOpsHourly(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskReadOpsHourlyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskReadOpsHourlyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskReadOpsHourlyPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeDiskReadOpsHourlyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2773,7 +2773,7 @@ func ListComputeDiskWriteOps(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskWriteOpsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskWriteOpsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskWriteOpsPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeDiskWriteOpsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2809,7 +2809,7 @@ func GetComputeDiskWriteOps(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskWriteOpsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskWriteOpsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskWriteOpsPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeDiskWriteOpsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2923,7 +2923,7 @@ func ListComputeDiskWriteOpsDaily(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskWriteOpsDailyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskWriteOpsDailyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskWriteOpsDailyPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeDiskWriteOpsDailyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2959,7 +2959,7 @@ func GetComputeDiskWriteOpsDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskWriteOpsDailyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskWriteOpsDailyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskWriteOpsDailyPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeDiskWriteOpsDailyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3073,7 +3073,7 @@ func ListComputeDiskWriteOpsHourly(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskWriteOpsHourlyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskWriteOpsHourlyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskWriteOpsHourlyPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeDiskWriteOpsHourlyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3109,7 +3109,7 @@ func GetComputeDiskWriteOpsHourly(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskWriteOpsHourlyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskWriteOpsHourlyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskWriteOpsHourlyPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeDiskWriteOpsHourlyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3232,7 +3232,7 @@ func ListComputeDiskAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskAccessPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskAccessFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskAccessPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeDiskAccessFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3277,7 +3277,7 @@ func GetComputeDiskAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskAccessPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskAccessFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskAccessPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeDiskAccessFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3421,7 +3421,7 @@ func ListComputeVirtualMachineScaleSet(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineScaleSetPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeVirtualMachineScaleSetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeVirtualMachineScaleSetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3487,7 +3487,7 @@ func GetComputeVirtualMachineScaleSet(ctx context.Context, d *plugin.QueryData, 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineScaleSetPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeVirtualMachineScaleSetFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeVirtualMachineScaleSetFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3610,7 +3610,7 @@ func ListComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, d *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeVirtualMachineScaleSetNetworkInterfaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(essdk.BuildFilter(d.EqualsQuals, listComputeVirtualMachineScaleSetNetworkInterfaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3655,7 +3655,7 @@ func GetComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, d *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeVirtualMachineScaleSetNetworkInterfaceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(essdk.BuildFilter(d.EqualsQuals, getComputeVirtualMachineScaleSetNetworkInterfaceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3802,7 +3802,7 @@ func ListComputeVirtualMachineScaleSetVm(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineScaleSetVmPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeVirtualMachineScaleSetVmFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetVmPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeVirtualMachineScaleSetVmFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3871,7 +3871,7 @@ func GetComputeVirtualMachineScaleSetVm(ctx context.Context, d *plugin.QueryData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineScaleSetVmPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeVirtualMachineScaleSetVmFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetVmPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeVirtualMachineScaleSetVmFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4018,7 +4018,7 @@ func ListComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeSnapshotsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeSnapshotsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeSnapshotsPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeSnapshotsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4087,7 +4087,7 @@ func GetComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeSnapshotsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeSnapshotsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeSnapshotsPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeSnapshotsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4215,7 +4215,7 @@ func ListComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeAvailabilitySetPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeAvailabilitySetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeAvailabilitySetPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeAvailabilitySetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4265,7 +4265,7 @@ func GetComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeAvailabilitySetPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeAvailabilitySetFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeAvailabilitySetPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeAvailabilitySetFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4393,7 +4393,7 @@ func ListComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskEncryptionSetPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeDiskEncryptionSetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeDiskEncryptionSetPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeDiskEncryptionSetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4443,7 +4443,7 @@ func GetComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskEncryptionSetPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeDiskEncryptionSetFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeDiskEncryptionSetPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeDiskEncryptionSetFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4561,7 +4561,7 @@ func ListComputeImageGallery(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeImageGalleryPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeImageGalleryFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeImageGalleryPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeImageGalleryFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4602,7 +4602,7 @@ func GetComputeImageGallery(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeImageGalleryPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeImageGalleryFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeImageGalleryPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeImageGalleryFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4737,7 +4737,7 @@ func ListComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeImagePaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeImageFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeImagePaginator(essdk.BuildFilter(d.EqualsQuals, listComputeImageFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4794,7 +4794,7 @@ func GetComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeImagePaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeImageFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeImagePaginator(essdk.BuildFilter(d.EqualsQuals, getComputeImageFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4911,7 +4911,7 @@ func ListComputeHostGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeHostGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeHostGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeHostGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeHostGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4950,7 +4950,7 @@ func GetComputeHostGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeHostGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeHostGroupFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeHostGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeHostGroupFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5067,7 +5067,7 @@ func ListComputeHostGroupHost(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeHostGroupHostPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeHostGroupHostFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeHostGroupHostPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeHostGroupHostFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5106,7 +5106,7 @@ func GetComputeHostGroupHost(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeHostGroupHostPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeHostGroupHostFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeHostGroupHostPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeHostGroupHostFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5223,7 +5223,7 @@ func ListComputeRestorePointCollection(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeRestorePointCollectionPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeRestorePointCollectionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeRestorePointCollectionPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeRestorePointCollectionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5262,7 +5262,7 @@ func GetComputeRestorePointCollection(ctx context.Context, d *plugin.QueryData, 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeRestorePointCollectionPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeRestorePointCollectionFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeRestorePointCollectionPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeRestorePointCollectionFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5379,7 +5379,7 @@ func ListComputeSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeSSHPublicKeyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeSSHPublicKeyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeSSHPublicKeyPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeSSHPublicKeyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5418,7 +5418,7 @@ func GetComputeSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeSSHPublicKeyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeSSHPublicKeyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeSSHPublicKeyPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeSSHPublicKeyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5557,7 +5557,7 @@ func ListDataboxEdgeDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataboxEdgeDevicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataboxEdgeDeviceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataboxEdgeDevicePaginator(essdk.BuildFilter(d.EqualsQuals, listDataboxEdgeDeviceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5618,7 +5618,7 @@ func GetDataboxEdgeDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataboxEdgeDevicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataboxEdgeDeviceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataboxEdgeDevicePaginator(essdk.BuildFilter(d.EqualsQuals, getDataboxEdgeDeviceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5755,7 +5755,7 @@ func ListHealthcareService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewHealthcareServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listHealthcareServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewHealthcareServicePaginator(essdk.BuildFilter(d.EqualsQuals, listHealthcareServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5814,7 +5814,7 @@ func GetHealthcareService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewHealthcareServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getHealthcareServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewHealthcareServicePaginator(essdk.BuildFilter(d.EqualsQuals, getHealthcareServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5946,7 +5946,7 @@ func ListHpcCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewHpcCachePaginator(essdk.BuildFilter(d.KeyColumnQuals, listHpcCacheFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewHpcCachePaginator(essdk.BuildFilter(d.EqualsQuals, listHpcCacheFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6000,7 +6000,7 @@ func GetHpcCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewHpcCachePaginator(essdk.BuildFilter(d.KeyColumnQuals, getHpcCacheFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewHpcCachePaginator(essdk.BuildFilter(d.EqualsQuals, getHpcCacheFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6134,7 +6134,7 @@ func ListKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultKeyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listKeyVaultKeyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKeyVaultKeyPaginator(essdk.BuildFilter(d.EqualsQuals, listKeyVaultKeyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6191,7 +6191,7 @@ func GetKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultKeyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getKeyVaultKeyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewKeyVaultKeyPaginator(essdk.BuildFilter(d.EqualsQuals, getKeyVaultKeyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6340,7 +6340,7 @@ func ListKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKubernetesClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listKubernetesClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKubernetesClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listKubernetesClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6411,7 +6411,7 @@ func GetKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKubernetesClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getKubernetesClusterFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewKubernetesClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getKubernetesClusterFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6529,7 +6529,7 @@ func ListContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewContainerInstanceContainerGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, listContainerInstanceContainerGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewContainerInstanceContainerGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listContainerInstanceContainerGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6569,7 +6569,7 @@ func GetContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewContainerInstanceContainerGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, getContainerInstanceContainerGroupFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewContainerInstanceContainerGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getContainerInstanceContainerGroupFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6687,7 +6687,7 @@ func ListCDNProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCDNProfilePaginator(essdk.BuildFilter(d.KeyColumnQuals, listCDNProfileFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCDNProfilePaginator(essdk.BuildFilter(d.EqualsQuals, listCDNProfileFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6727,7 +6727,7 @@ func GetCDNProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCDNProfilePaginator(essdk.BuildFilter(d.KeyColumnQuals, getCDNProfileFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCDNProfilePaginator(essdk.BuildFilter(d.EqualsQuals, getCDNProfileFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6844,7 +6844,7 @@ func ListCDNEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCDNEndpointPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCDNEndpointFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCDNEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, listCDNEndpointFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6883,7 +6883,7 @@ func GetCDNEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCDNEndpointPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCDNEndpointFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCDNEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, getCDNEndpointFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7021,7 +7021,7 @@ func ListNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkInterfacePaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkInterfaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkInterfacePaginator(essdk.BuildFilter(d.EqualsQuals, listNetworkInterfaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7081,7 +7081,7 @@ func GetNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkInterfacePaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkInterfaceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkInterfacePaginator(essdk.BuildFilter(d.EqualsQuals, getNetworkInterfaceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7214,7 +7214,7 @@ func ListNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkWatcherFlowLogPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkWatcherFlowLogFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkWatcherFlowLogPaginator(essdk.BuildFilter(d.EqualsQuals, listNetworkWatcherFlowLogFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7269,7 +7269,7 @@ func GetNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkWatcherFlowLogPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkWatcherFlowLogFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkWatcherFlowLogPaginator(essdk.BuildFilter(d.EqualsQuals, getNetworkWatcherFlowLogFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7394,7 +7394,7 @@ func ListRouteTables(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRouteTablesPaginator(essdk.BuildFilter(d.KeyColumnQuals, listRouteTablesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRouteTablesPaginator(essdk.BuildFilter(d.EqualsQuals, listRouteTablesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7441,7 +7441,7 @@ func GetRouteTables(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRouteTablesPaginator(essdk.BuildFilter(d.KeyColumnQuals, getRouteTablesFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewRouteTablesPaginator(essdk.BuildFilter(d.EqualsQuals, getRouteTablesFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7564,7 +7564,7 @@ func ListNetworkApplicationSecurityGroups(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkApplicationSecurityGroupsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkApplicationSecurityGroupsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkApplicationSecurityGroupsPaginator(essdk.BuildFilter(d.EqualsQuals, listNetworkApplicationSecurityGroupsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7609,7 +7609,7 @@ func GetNetworkApplicationSecurityGroups(ctx context.Context, d *plugin.QueryDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkApplicationSecurityGroupsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkApplicationSecurityGroupsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkApplicationSecurityGroupsPaginator(essdk.BuildFilter(d.EqualsQuals, getNetworkApplicationSecurityGroupsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7745,7 +7745,7 @@ func ListNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkAzureFirewallPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkAzureFirewallFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkAzureFirewallPaginator(essdk.BuildFilter(d.EqualsQuals, listNetworkAzureFirewallFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7803,7 +7803,7 @@ func GetNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkAzureFirewallPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkAzureFirewallFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkAzureFirewallPaginator(essdk.BuildFilter(d.EqualsQuals, getNetworkAzureFirewallFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7938,7 +7938,7 @@ func ListExpressRouteCircuit(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewExpressRouteCircuitPaginator(essdk.BuildFilter(d.KeyColumnQuals, listExpressRouteCircuitFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewExpressRouteCircuitPaginator(essdk.BuildFilter(d.EqualsQuals, listExpressRouteCircuitFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7995,7 +7995,7 @@ func GetExpressRouteCircuit(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewExpressRouteCircuitPaginator(essdk.BuildFilter(d.KeyColumnQuals, getExpressRouteCircuitFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewExpressRouteCircuitPaginator(essdk.BuildFilter(d.EqualsQuals, getExpressRouteCircuitFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8135,7 +8135,7 @@ func ListVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVirtualNetworkGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, listVirtualNetworkGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewVirtualNetworkGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, listVirtualNetworkGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8197,7 +8197,7 @@ func GetVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewVirtualNetworkGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, getVirtualNetworkGatewayFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewVirtualNetworkGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, getVirtualNetworkGatewayFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8315,7 +8315,7 @@ func ListFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewFirewallPolicyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listFirewallPolicyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewFirewallPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listFirewallPolicyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8356,7 +8356,7 @@ func GetFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewFirewallPolicyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getFirewallPolicyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewFirewallPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getFirewallPolicyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8474,7 +8474,7 @@ func ListLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLocalNetworkGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, listLocalNetworkGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLocalNetworkGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, listLocalNetworkGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8515,7 +8515,7 @@ func GetLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLocalNetworkGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, getLocalNetworkGatewayFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLocalNetworkGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, getLocalNetworkGatewayFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8639,7 +8639,7 @@ func ListNatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNatGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNatGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNatGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, listNatGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8685,7 +8685,7 @@ func GetNatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNatGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNatGatewayFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNatGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, getNatGatewayFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8803,7 +8803,7 @@ func ListPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPrivateLinkServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listPrivateLinkServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPrivateLinkServicePaginator(essdk.BuildFilter(d.EqualsQuals, listPrivateLinkServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8844,7 +8844,7 @@ func GetPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPrivateLinkServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getPrivateLinkServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPrivateLinkServicePaginator(essdk.BuildFilter(d.EqualsQuals, getPrivateLinkServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8962,7 +8962,7 @@ func ListVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVpnGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, listVpnGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewVpnGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, listVpnGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9003,7 +9003,7 @@ func GetVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewVpnGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, getVpnGatewayFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewVpnGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, getVpnGatewayFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9121,7 +9121,7 @@ func ListVpnGatewayVpnConnection(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVpnGatewayVpnConnectionPaginator(essdk.BuildFilter(d.KeyColumnQuals, listVpnGatewayVpnConnectionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewVpnGatewayVpnConnectionPaginator(essdk.BuildFilter(d.EqualsQuals, listVpnGatewayVpnConnectionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9161,7 +9161,7 @@ func GetVpnGatewayVpnConnection(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewVpnGatewayVpnConnectionPaginator(essdk.BuildFilter(d.KeyColumnQuals, getVpnGatewayVpnConnectionFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewVpnGatewayVpnConnectionPaginator(essdk.BuildFilter(d.EqualsQuals, getVpnGatewayVpnConnectionFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9279,7 +9279,7 @@ func ListVpnSite(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVpnSitePaginator(essdk.BuildFilter(d.KeyColumnQuals, listVpnSiteFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewVpnSitePaginator(essdk.BuildFilter(d.EqualsQuals, listVpnSiteFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9319,7 +9319,7 @@ func GetVpnSite(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewVpnSitePaginator(essdk.BuildFilter(d.KeyColumnQuals, getVpnSiteFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewVpnSitePaginator(essdk.BuildFilter(d.EqualsQuals, getVpnSiteFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9458,7 +9458,7 @@ func ListPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPublicIPAddressPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPublicIPAddressFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPublicIPAddressPaginator(essdk.BuildFilter(d.EqualsQuals, listPublicIPAddressFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9519,7 +9519,7 @@ func GetPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPublicIPAddressPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPublicIPAddressFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPublicIPAddressPaginator(essdk.BuildFilter(d.EqualsQuals, getPublicIPAddressFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9637,7 +9637,7 @@ func ListPublicIPPrefix(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPublicIPPrefixPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPublicIPPrefixFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPublicIPPrefixPaginator(essdk.BuildFilter(d.EqualsQuals, listPublicIPPrefixFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9677,7 +9677,7 @@ func GetPublicIPPrefix(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPublicIPPrefixPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPublicIPPrefixFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPublicIPPrefixPaginator(essdk.BuildFilter(d.EqualsQuals, getPublicIPPrefixFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9795,7 +9795,7 @@ func ListDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDNSZonesPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDNSZonesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDNSZonesPaginator(essdk.BuildFilter(d.EqualsQuals, listDNSZonesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9835,7 +9835,7 @@ func GetDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDNSZonesPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDNSZonesFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDNSZonesPaginator(essdk.BuildFilter(d.EqualsQuals, getDNSZonesFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9953,7 +9953,7 @@ func ListBastionHosts(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBastionHostsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listBastionHostsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBastionHostsPaginator(essdk.BuildFilter(d.EqualsQuals, listBastionHostsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9993,7 +9993,7 @@ func GetBastionHosts(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBastionHostsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getBastionHostsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewBastionHostsPaginator(essdk.BuildFilter(d.EqualsQuals, getBastionHostsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10111,7 +10111,7 @@ func ListConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewConnectionPaginator(essdk.BuildFilter(d.KeyColumnQuals, listConnectionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewConnectionPaginator(essdk.BuildFilter(d.EqualsQuals, listConnectionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10151,7 +10151,7 @@ func GetConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewConnectionPaginator(essdk.BuildFilter(d.KeyColumnQuals, getConnectionFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewConnectionPaginator(essdk.BuildFilter(d.EqualsQuals, getConnectionFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10269,7 +10269,7 @@ func ListVirtualHubs(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVirtualHubsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listVirtualHubsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewVirtualHubsPaginator(essdk.BuildFilter(d.EqualsQuals, listVirtualHubsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10309,7 +10309,7 @@ func GetVirtualHubs(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewVirtualHubsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getVirtualHubsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewVirtualHubsPaginator(essdk.BuildFilter(d.EqualsQuals, getVirtualHubsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10427,7 +10427,7 @@ func ListVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVirtualWansPaginator(essdk.BuildFilter(d.KeyColumnQuals, listVirtualWansFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewVirtualWansPaginator(essdk.BuildFilter(d.EqualsQuals, listVirtualWansFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10467,7 +10467,7 @@ func GetVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewVirtualWansPaginator(essdk.BuildFilter(d.KeyColumnQuals, getVirtualWansFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewVirtualWansPaginator(essdk.BuildFilter(d.EqualsQuals, getVirtualWansFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10585,7 +10585,7 @@ func ListPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPrivateDNSZonesPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPrivateDNSZonesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPrivateDNSZonesPaginator(essdk.BuildFilter(d.EqualsQuals, listPrivateDNSZonesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10625,7 +10625,7 @@ func GetPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPrivateDNSZonesPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPrivateDNSZonesFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPrivateDNSZonesPaginator(essdk.BuildFilter(d.EqualsQuals, getPrivateDNSZonesFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10743,7 +10743,7 @@ func ListPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPrivateEndpointPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPrivateEndpointFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPrivateEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, listPrivateEndpointFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10783,7 +10783,7 @@ func GetPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPrivateEndpointPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPrivateEndpointFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPrivateEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, getPrivateEndpointFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10900,7 +10900,7 @@ func ListNetworkDDoSProtectionPlan(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkDDoSProtectionPlanPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkDDoSProtectionPlanFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkDDoSProtectionPlanPaginator(essdk.BuildFilter(d.EqualsQuals, listNetworkDDoSProtectionPlanFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10939,7 +10939,7 @@ func GetNetworkDDoSProtectionPlan(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkDDoSProtectionPlanPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkDDoSProtectionPlanFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkDDoSProtectionPlanPaginator(essdk.BuildFilter(d.EqualsQuals, getNetworkDDoSProtectionPlanFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11068,7 +11068,7 @@ func ListPolicyAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPolicyAssignmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPolicyAssignmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPolicyAssignmentPaginator(essdk.BuildFilter(d.EqualsQuals, listPolicyAssignmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11119,7 +11119,7 @@ func GetPolicyAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPolicyAssignmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPolicyAssignmentFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPolicyAssignmentPaginator(essdk.BuildFilter(d.EqualsQuals, getPolicyAssignmentFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11262,7 +11262,7 @@ func ListRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRedisCachePaginator(essdk.BuildFilter(d.KeyColumnQuals, listRedisCacheFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRedisCachePaginator(essdk.BuildFilter(d.EqualsQuals, listRedisCacheFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11327,7 +11327,7 @@ func GetRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRedisCachePaginator(essdk.BuildFilter(d.KeyColumnQuals, getRedisCacheFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewRedisCachePaginator(essdk.BuildFilter(d.EqualsQuals, getRedisCacheFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11445,7 +11445,7 @@ func ListRedisEnterpriseCache(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRedisEnterpriseCachePaginator(essdk.BuildFilter(d.KeyColumnQuals, listRedisEnterpriseCacheFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRedisEnterpriseCachePaginator(essdk.BuildFilter(d.EqualsQuals, listRedisEnterpriseCacheFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11485,7 +11485,7 @@ func GetRedisEnterpriseCache(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRedisEnterpriseCachePaginator(essdk.BuildFilter(d.KeyColumnQuals, getRedisEnterpriseCacheFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewRedisEnterpriseCachePaginator(essdk.BuildFilter(d.EqualsQuals, getRedisEnterpriseCacheFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11607,7 +11607,7 @@ func ListResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewResourceLinkPaginator(essdk.BuildFilter(d.KeyColumnQuals, listResourceLinkFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewResourceLinkPaginator(essdk.BuildFilter(d.EqualsQuals, listResourceLinkFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11651,7 +11651,7 @@ func GetResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewResourceLinkPaginator(essdk.BuildFilter(d.KeyColumnQuals, getResourceLinkFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewResourceLinkPaginator(essdk.BuildFilter(d.EqualsQuals, getResourceLinkFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11773,7 +11773,7 @@ func ListRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRoleAssignmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, listRoleAssignmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRoleAssignmentPaginator(essdk.BuildFilter(d.EqualsQuals, listRoleAssignmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11817,7 +11817,7 @@ func GetRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRoleAssignmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, getRoleAssignmentFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewRoleAssignmentPaginator(essdk.BuildFilter(d.EqualsQuals, getRoleAssignmentFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11940,7 +11940,7 @@ func ListRoleDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRoleDefinitionPaginator(essdk.BuildFilter(d.KeyColumnQuals, listRoleDefinitionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRoleDefinitionPaginator(essdk.BuildFilter(d.EqualsQuals, listRoleDefinitionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11985,7 +11985,7 @@ func GetRoleDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRoleDefinitionPaginator(essdk.BuildFilter(d.KeyColumnQuals, getRoleDefinitionFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewRoleDefinitionPaginator(essdk.BuildFilter(d.EqualsQuals, getRoleDefinitionFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12110,7 +12110,7 @@ func ListPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPolicyDefinitionPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPolicyDefinitionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPolicyDefinitionPaginator(essdk.BuildFilter(d.EqualsQuals, listPolicyDefinitionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12157,7 +12157,7 @@ func GetPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPolicyDefinitionPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPolicyDefinitionFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPolicyDefinitionPaginator(essdk.BuildFilter(d.EqualsQuals, getPolicyDefinitionFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12276,7 +12276,7 @@ func ListSecurityCenterAutoProvisioning(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterAutoProvisioningPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSecurityCenterAutoProvisioningFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityCenterAutoProvisioningPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityCenterAutoProvisioningFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12317,7 +12317,7 @@ func GetSecurityCenterAutoProvisioning(ctx context.Context, d *plugin.QueryData,
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterAutoProvisioningPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSecurityCenterAutoProvisioningFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityCenterAutoProvisioningPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityCenterAutoProvisioningFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12439,7 +12439,7 @@ func ListSecurityCenterContact(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterContactPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSecurityCenterContactFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityCenterContactPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityCenterContactFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12483,7 +12483,7 @@ func GetSecurityCenterContact(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterContactPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSecurityCenterContactFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityCenterContactPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityCenterContactFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12604,7 +12604,7 @@ func ListSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.Que
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterJitNetworkAccessPolicyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSecurityCenterJitNetworkAccessPolicyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityCenterJitNetworkAccessPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityCenterJitNetworkAccessPolicyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12647,7 +12647,7 @@ func GetSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.Quer
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterJitNetworkAccessPolicyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSecurityCenterJitNetworkAccessPolicyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityCenterJitNetworkAccessPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityCenterJitNetworkAccessPolicyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12767,7 +12767,7 @@ func ListSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterSettingPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSecurityCenterSettingFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityCenterSettingPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityCenterSettingFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12809,7 +12809,7 @@ func GetSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterSettingPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSecurityCenterSettingFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityCenterSettingPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityCenterSettingFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12929,7 +12929,7 @@ func ListSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterSubscriptionPricingPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSecurityCenterSubscriptionPricingFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityCenterSubscriptionPricingPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityCenterSubscriptionPricingFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12971,7 +12971,7 @@ func GetSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterSubscriptionPricingPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSecurityCenterSubscriptionPricingFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityCenterSubscriptionPricingPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityCenterSubscriptionPricingFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13099,7 +13099,7 @@ func ListSecurityCenterAutomation(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterAutomationPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSecurityCenterAutomationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityCenterAutomationPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityCenterAutomationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13149,7 +13149,7 @@ func GetSecurityCenterAutomation(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterAutomationPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSecurityCenterAutomationFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityCenterAutomationPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityCenterAutomationFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13274,7 +13274,7 @@ func ListSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterSubAssessmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSecurityCenterSubAssessmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityCenterSubAssessmentPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityCenterSubAssessmentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13321,7 +13321,7 @@ func GetSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterSubAssessmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSecurityCenterSubAssessmentFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityCenterSubAssessmentPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityCenterSubAssessmentFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13457,7 +13457,7 @@ func ListStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageContainerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(d.EqualsQuals, listStorageContainerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13515,7 +13515,7 @@ func GetStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageContainerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(d.EqualsQuals, getStorageContainerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13674,7 +13674,7 @@ func ListStorageBlob(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageBlobPaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageBlobFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageBlobPaginator(essdk.BuildFilter(d.EqualsQuals, listStorageBlobFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13755,7 +13755,7 @@ func GetStorageBlob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageBlobPaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageBlobFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageBlobPaginator(essdk.BuildFilter(d.EqualsQuals, getStorageBlobFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13886,7 +13886,7 @@ func ListStorageBlobService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageBlobServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageBlobServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageBlobServicePaginator(essdk.BuildFilter(d.EqualsQuals, listStorageBlobServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13939,7 +13939,7 @@ func GetStorageBlobService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageBlobServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageBlobServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageBlobServicePaginator(essdk.BuildFilter(d.EqualsQuals, getStorageBlobServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14061,7 +14061,7 @@ func ListStorageQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageQueuePaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageQueueFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageQueuePaginator(essdk.BuildFilter(d.EqualsQuals, listStorageQueueFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14105,7 +14105,7 @@ func GetStorageQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageQueuePaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageQueueFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageQueuePaginator(essdk.BuildFilter(d.EqualsQuals, getStorageQueueFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14238,7 +14238,7 @@ func ListStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageFileSharePaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageFileShareFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageFileSharePaginator(essdk.BuildFilter(d.EqualsQuals, listStorageFileShareFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14293,7 +14293,7 @@ func GetStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageFileSharePaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageFileShareFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageFileSharePaginator(essdk.BuildFilter(d.EqualsQuals, getStorageFileShareFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14414,7 +14414,7 @@ func ListStorageTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageTablePaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageTableFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageTablePaginator(essdk.BuildFilter(d.EqualsQuals, listStorageTableFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14457,7 +14457,7 @@ func GetStorageTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageTablePaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageTableFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageTablePaginator(essdk.BuildFilter(d.EqualsQuals, getStorageTableFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14579,7 +14579,7 @@ func ListStorageTableService(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageTableServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageTableServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageTableServicePaginator(essdk.BuildFilter(d.EqualsQuals, listStorageTableServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14623,7 +14623,7 @@ func GetStorageTableService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageTableServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageTableServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageTableServicePaginator(essdk.BuildFilter(d.EqualsQuals, getStorageTableServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14754,7 +14754,7 @@ func ListSubnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSubnetPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSubnetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSubnetPaginator(essdk.BuildFilter(d.EqualsQuals, listSubnetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14807,7 +14807,7 @@ func GetSubnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSubnetPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSubnetFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSubnetPaginator(essdk.BuildFilter(d.EqualsQuals, getSubnetFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14936,7 +14936,7 @@ func ListVirtualNetwork(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVirtualNetworkPaginator(essdk.BuildFilter(d.KeyColumnQuals, listVirtualNetworkFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewVirtualNetworkPaginator(essdk.BuildFilter(d.EqualsQuals, listVirtualNetworkFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14987,7 +14987,7 @@ func GetVirtualNetwork(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewVirtualNetworkPaginator(essdk.BuildFilter(d.KeyColumnQuals, getVirtualNetworkFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewVirtualNetworkPaginator(essdk.BuildFilter(d.EqualsQuals, getVirtualNetworkFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15108,7 +15108,7 @@ func ListTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewTenantPaginator(essdk.BuildFilter(d.KeyColumnQuals, listTenantFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewTenantPaginator(essdk.BuildFilter(d.EqualsQuals, listTenantFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15151,7 +15151,7 @@ func GetTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewTenantPaginator(essdk.BuildFilter(d.KeyColumnQuals, getTenantFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewTenantPaginator(essdk.BuildFilter(d.EqualsQuals, getTenantFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15276,7 +15276,7 @@ func ListSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSubscriptionPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSubscriptionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, listSubscriptionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15323,7 +15323,7 @@ func GetSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSubscriptionPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSubscriptionFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, getSubscriptionFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15461,7 +15461,7 @@ func ListApplicationGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApplicationGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, listApplicationGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApplicationGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, listApplicationGatewayFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15521,7 +15521,7 @@ func GetApplicationGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApplicationGatewayPaginator(essdk.BuildFilter(d.KeyColumnQuals, getApplicationGatewayFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewApplicationGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, getApplicationGatewayFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15658,7 +15658,7 @@ func ListBatchAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBatchAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, listBatchAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBatchAccountPaginator(essdk.BuildFilter(d.EqualsQuals, listBatchAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15717,7 +15717,7 @@ func GetBatchAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBatchAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, getBatchAccountFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewBatchAccountPaginator(essdk.BuildFilter(d.EqualsQuals, getBatchAccountFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15864,7 +15864,7 @@ func ListCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCognitiveAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCognitiveAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCognitiveAccountPaginator(essdk.BuildFilter(d.EqualsQuals, listCognitiveAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15933,7 +15933,7 @@ func GetCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCognitiveAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCognitiveAccountFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCognitiveAccountPaginator(essdk.BuildFilter(d.EqualsQuals, getCognitiveAccountFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16103,7 +16103,7 @@ func ListComputeVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachinePaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeVirtualMachineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeVirtualMachinePaginator(essdk.BuildFilter(d.EqualsQuals, listComputeVirtualMachineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16195,7 +16195,7 @@ func GetComputeVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachinePaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeVirtualMachineFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeVirtualMachinePaginator(essdk.BuildFilter(d.EqualsQuals, getComputeVirtualMachineFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16321,7 +16321,7 @@ func ListComputeResourceSKU(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeResourceSKUPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeResourceSKUFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeResourceSKUPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeResourceSKUFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16369,7 +16369,7 @@ func GetComputeResourceSKU(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeResourceSKUPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeResourceSKUFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeResourceSKUPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeResourceSKUFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16483,7 +16483,7 @@ func ListComputeVirtualMachineCpuUtilization(ctx context.Context, d *plugin.Quer
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeVirtualMachineCpuUtilizationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeVirtualMachineCpuUtilizationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16519,7 +16519,7 @@ func GetComputeVirtualMachineCpuUtilization(ctx context.Context, d *plugin.Query
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeVirtualMachineCpuUtilizationFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeVirtualMachineCpuUtilizationFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16633,7 +16633,7 @@ func ListComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, d *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationDailyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeVirtualMachineCpuUtilizationDailyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationDailyPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeVirtualMachineCpuUtilizationDailyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16669,7 +16669,7 @@ func GetComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, d *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationDailyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeVirtualMachineCpuUtilizationDailyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationDailyPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeVirtualMachineCpuUtilizationDailyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16783,7 +16783,7 @@ func ListComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, d *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationHourlyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeVirtualMachineCpuUtilizationHourlyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationHourlyPaginator(essdk.BuildFilter(d.EqualsQuals, listComputeVirtualMachineCpuUtilizationHourlyFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16819,7 +16819,7 @@ func GetComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, d *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationHourlyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeVirtualMachineCpuUtilizationHourlyFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationHourlyPaginator(essdk.BuildFilter(d.EqualsQuals, getComputeVirtualMachineCpuUtilizationHourlyFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16937,7 +16937,7 @@ func ListComputeCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeCloudServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listComputeCloudServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewComputeCloudServicePaginator(essdk.BuildFilter(d.EqualsQuals, listComputeCloudServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16977,7 +16977,7 @@ func GetComputeCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewComputeCloudServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getComputeCloudServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewComputeCloudServicePaginator(essdk.BuildFilter(d.EqualsQuals, getComputeCloudServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17121,7 +17121,7 @@ func ListContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewContainerRegistryPaginator(essdk.BuildFilter(d.KeyColumnQuals, listContainerRegistryFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewContainerRegistryPaginator(essdk.BuildFilter(d.EqualsQuals, listContainerRegistryFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17187,7 +17187,7 @@ func GetContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewContainerRegistryPaginator(essdk.BuildFilter(d.KeyColumnQuals, getContainerRegistryFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewContainerRegistryPaginator(essdk.BuildFilter(d.EqualsQuals, getContainerRegistryFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17335,7 +17335,7 @@ func ListCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCosmosdbAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCosmosdbAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCosmosdbAccountPaginator(essdk.BuildFilter(d.EqualsQuals, listCosmosdbAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17405,7 +17405,7 @@ func GetCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCosmosdbAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCosmosdbAccountFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCosmosdbAccountPaginator(essdk.BuildFilter(d.EqualsQuals, getCosmosdbAccountFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17533,7 +17533,7 @@ func ListCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCosmosdbMongoDatabasePaginator(essdk.BuildFilter(d.KeyColumnQuals, listCosmosdbMongoDatabaseFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCosmosdbMongoDatabasePaginator(essdk.BuildFilter(d.EqualsQuals, listCosmosdbMongoDatabaseFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17583,7 +17583,7 @@ func GetCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCosmosdbMongoDatabasePaginator(essdk.BuildFilter(d.KeyColumnQuals, getCosmosdbMongoDatabaseFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCosmosdbMongoDatabasePaginator(essdk.BuildFilter(d.EqualsQuals, getCosmosdbMongoDatabaseFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17713,7 +17713,7 @@ func ListCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCosmosdbSqlDatabasePaginator(essdk.BuildFilter(d.KeyColumnQuals, listCosmosdbSqlDatabaseFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCosmosdbSqlDatabasePaginator(essdk.BuildFilter(d.EqualsQuals, listCosmosdbSqlDatabaseFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17765,7 +17765,7 @@ func GetCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCosmosdbSqlDatabasePaginator(essdk.BuildFilter(d.KeyColumnQuals, getCosmosdbSqlDatabaseFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCosmosdbSqlDatabasePaginator(essdk.BuildFilter(d.EqualsQuals, getCosmosdbSqlDatabaseFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17882,7 +17882,7 @@ func ListCosmosdbCassandraCluster(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCosmosdbCassandraClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCosmosdbCassandraClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCosmosdbCassandraClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listCosmosdbCassandraClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17921,7 +17921,7 @@ func GetCosmosdbCassandraCluster(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCosmosdbCassandraClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCosmosdbCassandraClusterFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCosmosdbCassandraClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getCosmosdbCassandraClusterFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18039,7 +18039,7 @@ func ListDatabricksWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDatabricksWorkspacePaginator(essdk.BuildFilter(d.KeyColumnQuals, listDatabricksWorkspaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDatabricksWorkspacePaginator(essdk.BuildFilter(d.EqualsQuals, listDatabricksWorkspaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18079,7 +18079,7 @@ func GetDatabricksWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDatabricksWorkspacePaginator(essdk.BuildFilter(d.KeyColumnQuals, getDatabricksWorkspaceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDatabricksWorkspacePaginator(essdk.BuildFilter(d.EqualsQuals, getDatabricksWorkspaceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18197,7 +18197,7 @@ func ListDataMigrationService(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataMigrationServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataMigrationServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataMigrationServicePaginator(essdk.BuildFilter(d.EqualsQuals, listDataMigrationServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18237,7 +18237,7 @@ func GetDataMigrationService(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataMigrationServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataMigrationServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataMigrationServicePaginator(essdk.BuildFilter(d.EqualsQuals, getDataMigrationServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18355,7 +18355,7 @@ func ListDataProtectionBackupVaults(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataProtectionBackupVaultsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataProtectionBackupVaultsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataProtectionBackupVaultsPaginator(essdk.BuildFilter(d.EqualsQuals, listDataProtectionBackupVaultsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18395,7 +18395,7 @@ func GetDataProtectionBackupVaults(ctx context.Context, d *plugin.QueryData, _ *
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataProtectionBackupVaultsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataProtectionBackupVaultsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataProtectionBackupVaultsPaginator(essdk.BuildFilter(d.EqualsQuals, getDataProtectionBackupVaultsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18513,7 +18513,7 @@ func ListDataProtectionBackupVaultsBackupPolicies(ctx context.Context, d *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataProtectionBackupVaultsBackupPoliciesPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataProtectionBackupVaultsBackupPoliciesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataProtectionBackupVaultsBackupPoliciesPaginator(essdk.BuildFilter(d.EqualsQuals, listDataProtectionBackupVaultsBackupPoliciesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18553,7 +18553,7 @@ func GetDataProtectionBackupVaultsBackupPolicies(ctx context.Context, d *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataProtectionBackupVaultsBackupPoliciesPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataProtectionBackupVaultsBackupPoliciesFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataProtectionBackupVaultsBackupPoliciesPaginator(essdk.BuildFilter(d.EqualsQuals, getDataProtectionBackupVaultsBackupPoliciesFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18685,7 +18685,7 @@ func ListDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataFactoryPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataFactoryFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataFactoryPaginator(essdk.BuildFilter(d.EqualsQuals, listDataFactoryFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18739,7 +18739,7 @@ func GetDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataFactoryPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataFactoryFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataFactoryPaginator(essdk.BuildFilter(d.EqualsQuals, getDataFactoryFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18861,7 +18861,7 @@ func ListDataFactoryDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataFactoryDatasetPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataFactoryDatasetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataFactoryDatasetPaginator(essdk.BuildFilter(d.EqualsQuals, listDataFactoryDatasetFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18905,7 +18905,7 @@ func GetDataFactoryDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataFactoryDatasetPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataFactoryDatasetFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataFactoryDatasetPaginator(essdk.BuildFilter(d.EqualsQuals, getDataFactoryDatasetFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19035,7 +19035,7 @@ func ListDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataFactoryPipelinePaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataFactoryPipelineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataFactoryPipelinePaginator(essdk.BuildFilter(d.EqualsQuals, listDataFactoryPipelineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19087,7 +19087,7 @@ func GetDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataFactoryPipelinePaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataFactoryPipelineFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataFactoryPipelinePaginator(essdk.BuildFilter(d.EqualsQuals, getDataFactoryPipelineFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19231,7 +19231,7 @@ func ListDataLakeAnalyticsAccount(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataLakeAnalyticsAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataLakeAnalyticsAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataLakeAnalyticsAccountPaginator(essdk.BuildFilter(d.EqualsQuals, listDataLakeAnalyticsAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19297,7 +19297,7 @@ func GetDataLakeAnalyticsAccount(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataLakeAnalyticsAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataLakeAnalyticsAccountFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataLakeAnalyticsAccountPaginator(essdk.BuildFilter(d.EqualsQuals, getDataLakeAnalyticsAccountFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19438,7 +19438,7 @@ func ListDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataLakeStorePaginator(essdk.BuildFilter(d.KeyColumnQuals, listDataLakeStoreFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDataLakeStorePaginator(essdk.BuildFilter(d.EqualsQuals, listDataLakeStoreFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19501,7 +19501,7 @@ func GetDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDataLakeStorePaginator(essdk.BuildFilter(d.KeyColumnQuals, getDataLakeStoreFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDataLakeStorePaginator(essdk.BuildFilter(d.EqualsQuals, getDataLakeStoreFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19627,7 +19627,7 @@ func ListDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDiagnosticSettingPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDiagnosticSettingFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDiagnosticSettingPaginator(essdk.BuildFilter(d.EqualsQuals, listDiagnosticSettingFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19676,7 +19676,7 @@ func GetDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDiagnosticSettingPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDiagnosticSettingFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDiagnosticSettingPaginator(essdk.BuildFilter(d.EqualsQuals, getDiagnosticSettingFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19818,7 +19818,7 @@ func ListEventGridDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEventGridDomainPaginator(essdk.BuildFilter(d.KeyColumnQuals, listEventGridDomainFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEventGridDomainPaginator(essdk.BuildFilter(d.EqualsQuals, listEventGridDomainFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19882,7 +19882,7 @@ func GetEventGridDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEventGridDomainPaginator(essdk.BuildFilter(d.KeyColumnQuals, getEventGridDomainFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewEventGridDomainPaginator(essdk.BuildFilter(d.EqualsQuals, getEventGridDomainFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20022,7 +20022,7 @@ func ListEventGridTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEventGridTopicPaginator(essdk.BuildFilter(d.KeyColumnQuals, listEventGridTopicFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEventGridTopicPaginator(essdk.BuildFilter(d.EqualsQuals, listEventGridTopicFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20084,7 +20084,7 @@ func GetEventGridTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEventGridTopicPaginator(essdk.BuildFilter(d.KeyColumnQuals, getEventGridTopicFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewEventGridTopicPaginator(essdk.BuildFilter(d.EqualsQuals, getEventGridTopicFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20223,7 +20223,7 @@ func ListEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEventhubNamespacePaginator(essdk.BuildFilter(d.KeyColumnQuals, listEventhubNamespaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEventhubNamespacePaginator(essdk.BuildFilter(d.EqualsQuals, listEventhubNamespaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20284,7 +20284,7 @@ func GetEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEventhubNamespacePaginator(essdk.BuildFilter(d.KeyColumnQuals, getEventhubNamespaceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewEventhubNamespacePaginator(essdk.BuildFilter(d.EqualsQuals, getEventhubNamespaceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20402,7 +20402,7 @@ func ListEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEventhubNamespaceEventhubPaginator(essdk.BuildFilter(d.KeyColumnQuals, listEventhubNamespaceEventhubFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEventhubNamespaceEventhubPaginator(essdk.BuildFilter(d.EqualsQuals, listEventhubNamespaceEventhubFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20442,7 +20442,7 @@ func GetEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEventhubNamespaceEventhubPaginator(essdk.BuildFilter(d.KeyColumnQuals, getEventhubNamespaceEventhubFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewEventhubNamespaceEventhubPaginator(essdk.BuildFilter(d.EqualsQuals, getEventhubNamespaceEventhubFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20577,7 +20577,7 @@ func ListFrontdoor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewFrontdoorPaginator(essdk.BuildFilter(d.KeyColumnQuals, listFrontdoorFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewFrontdoorPaginator(essdk.BuildFilter(d.EqualsQuals, listFrontdoorFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20634,7 +20634,7 @@ func GetFrontdoor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewFrontdoorPaginator(essdk.BuildFilter(d.KeyColumnQuals, getFrontdoorFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewFrontdoorPaginator(essdk.BuildFilter(d.EqualsQuals, getFrontdoorFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20780,7 +20780,7 @@ func ListHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewHdinsightClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listHdinsightClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewHdinsightClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listHdinsightClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20848,7 +20848,7 @@ func GetHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewHdinsightClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getHdinsightClusterFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewHdinsightClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getHdinsightClusterFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20990,7 +20990,7 @@ func ListHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewHybridComputeMachinePaginator(essdk.BuildFilter(d.KeyColumnQuals, listHybridComputeMachineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewHybridComputeMachinePaginator(essdk.BuildFilter(d.EqualsQuals, listHybridComputeMachineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21054,7 +21054,7 @@ func GetHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewHybridComputeMachinePaginator(essdk.BuildFilter(d.KeyColumnQuals, getHybridComputeMachineFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewHybridComputeMachinePaginator(essdk.BuildFilter(d.EqualsQuals, getHybridComputeMachineFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21197,7 +21197,7 @@ func ListIOTHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIOTHubPaginator(essdk.BuildFilter(d.KeyColumnQuals, listIOTHubFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIOTHubPaginator(essdk.BuildFilter(d.EqualsQuals, listIOTHubFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21262,7 +21262,7 @@ func GetIOTHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIOTHubPaginator(essdk.BuildFilter(d.KeyColumnQuals, getIOTHubFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewIOTHubPaginator(essdk.BuildFilter(d.EqualsQuals, getIOTHubFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21396,7 +21396,7 @@ func ListIOTHubDps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIOTHubDpsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listIOTHubDpsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIOTHubDpsPaginator(essdk.BuildFilter(d.EqualsQuals, listIOTHubDpsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21452,7 +21452,7 @@ func GetIOTHubDps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIOTHubDpsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getIOTHubDpsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewIOTHubDpsPaginator(essdk.BuildFilter(d.EqualsQuals, getIOTHubDpsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21587,7 +21587,7 @@ func ListKeyVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultPaginator(essdk.BuildFilter(d.KeyColumnQuals, listKeyVaultFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKeyVaultPaginator(essdk.BuildFilter(d.EqualsQuals, listKeyVaultFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21644,7 +21644,7 @@ func GetKeyVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultPaginator(essdk.BuildFilter(d.KeyColumnQuals, getKeyVaultFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewKeyVaultPaginator(essdk.BuildFilter(d.EqualsQuals, getKeyVaultFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21768,7 +21768,7 @@ func ListKeyVaultDeletedVault(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultDeletedVaultPaginator(essdk.BuildFilter(d.KeyColumnQuals, listKeyVaultDeletedVaultFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKeyVaultDeletedVaultPaginator(essdk.BuildFilter(d.EqualsQuals, listKeyVaultDeletedVaultFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21814,7 +21814,7 @@ func GetKeyVaultDeletedVault(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultDeletedVaultPaginator(essdk.BuildFilter(d.KeyColumnQuals, getKeyVaultDeletedVaultFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewKeyVaultDeletedVaultPaginator(essdk.BuildFilter(d.EqualsQuals, getKeyVaultDeletedVaultFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21946,7 +21946,7 @@ func ListKeyVaultManagedHardwareSecurityModule(ctx context.Context, d *plugin.Qu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultManagedHardwareSecurityModulePaginator(essdk.BuildFilter(d.KeyColumnQuals, listKeyVaultManagedHardwareSecurityModuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKeyVaultManagedHardwareSecurityModulePaginator(essdk.BuildFilter(d.EqualsQuals, listKeyVaultManagedHardwareSecurityModuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22000,7 +22000,7 @@ func GetKeyVaultManagedHardwareSecurityModule(ctx context.Context, d *plugin.Que
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultManagedHardwareSecurityModulePaginator(essdk.BuildFilter(d.KeyColumnQuals, getKeyVaultManagedHardwareSecurityModuleFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewKeyVaultManagedHardwareSecurityModulePaginator(essdk.BuildFilter(d.EqualsQuals, getKeyVaultManagedHardwareSecurityModuleFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22128,7 +22128,7 @@ func ListKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultSecretPaginator(essdk.BuildFilter(d.KeyColumnQuals, listKeyVaultSecretFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKeyVaultSecretPaginator(essdk.BuildFilter(d.EqualsQuals, listKeyVaultSecretFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22179,7 +22179,7 @@ func GetKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultSecretPaginator(essdk.BuildFilter(d.KeyColumnQuals, getKeyVaultSecretFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewKeyVaultSecretPaginator(essdk.BuildFilter(d.EqualsQuals, getKeyVaultSecretFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22320,7 +22320,7 @@ func ListKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKustoClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listKustoClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKustoClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listKustoClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22383,7 +22383,7 @@ func GetKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKustoClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getKustoClusterFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewKustoClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getKustoClusterFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22510,7 +22510,7 @@ func ListLogAlert(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLogAlertPaginator(essdk.BuildFilter(d.KeyColumnQuals, listLogAlertFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLogAlertPaginator(essdk.BuildFilter(d.EqualsQuals, listLogAlertFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22559,7 +22559,7 @@ func GetLogAlert(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLogAlertPaginator(essdk.BuildFilter(d.KeyColumnQuals, getLogAlertFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLogAlertPaginator(essdk.BuildFilter(d.EqualsQuals, getLogAlertFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22686,7 +22686,7 @@ func ListLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLogProfilePaginator(essdk.BuildFilter(d.KeyColumnQuals, listLogProfileFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLogProfilePaginator(essdk.BuildFilter(d.EqualsQuals, listLogProfileFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22735,7 +22735,7 @@ func GetLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLogProfilePaginator(essdk.BuildFilter(d.KeyColumnQuals, getLogProfileFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLogProfilePaginator(essdk.BuildFilter(d.EqualsQuals, getLogProfileFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22871,7 +22871,7 @@ func ListLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLogicAppWorkflowPaginator(essdk.BuildFilter(d.KeyColumnQuals, listLogicAppWorkflowFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLogicAppWorkflowPaginator(essdk.BuildFilter(d.EqualsQuals, listLogicAppWorkflowFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22929,7 +22929,7 @@ func GetLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLogicAppWorkflowPaginator(essdk.BuildFilter(d.KeyColumnQuals, getLogicAppWorkflowFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLogicAppWorkflowPaginator(essdk.BuildFilter(d.EqualsQuals, getLogicAppWorkflowFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23047,7 +23047,7 @@ func ListLogicIntegrationAccounts(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLogicIntegrationAccountsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listLogicIntegrationAccountsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLogicIntegrationAccountsPaginator(essdk.BuildFilter(d.EqualsQuals, listLogicIntegrationAccountsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23087,7 +23087,7 @@ func GetLogicIntegrationAccounts(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLogicIntegrationAccountsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getLogicIntegrationAccountsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLogicIntegrationAccountsPaginator(essdk.BuildFilter(d.EqualsQuals, getLogicIntegrationAccountsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23226,7 +23226,7 @@ func ListMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMachineLearningWorkspacePaginator(essdk.BuildFilter(d.KeyColumnQuals, listMachineLearningWorkspaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMachineLearningWorkspacePaginator(essdk.BuildFilter(d.EqualsQuals, listMachineLearningWorkspaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23287,7 +23287,7 @@ func GetMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMachineLearningWorkspacePaginator(essdk.BuildFilter(d.KeyColumnQuals, getMachineLearningWorkspaceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewMachineLearningWorkspacePaginator(essdk.BuildFilter(d.EqualsQuals, getMachineLearningWorkspaceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23428,7 +23428,7 @@ func ListMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMariadbServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listMariadbServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMariadbServerPaginator(essdk.BuildFilter(d.EqualsQuals, listMariadbServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23491,7 +23491,7 @@ func GetMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMariadbServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getMariadbServerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewMariadbServerPaginator(essdk.BuildFilter(d.EqualsQuals, getMariadbServerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23609,7 +23609,7 @@ func ListMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMariadbDatabasePaginator(essdk.BuildFilter(d.KeyColumnQuals, listMariadbDatabaseFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMariadbDatabasePaginator(essdk.BuildFilter(d.EqualsQuals, listMariadbDatabaseFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23649,7 +23649,7 @@ func GetMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMariadbDatabasePaginator(essdk.BuildFilter(d.KeyColumnQuals, getMariadbDatabaseFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewMariadbDatabasePaginator(essdk.BuildFilter(d.EqualsQuals, getMariadbDatabaseFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23796,7 +23796,7 @@ func ListMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMysqlServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listMysqlServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMysqlServerPaginator(essdk.BuildFilter(d.EqualsQuals, listMysqlServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23865,7 +23865,7 @@ func GetMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMysqlServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getMysqlServerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewMysqlServerPaginator(essdk.BuildFilter(d.EqualsQuals, getMysqlServerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23983,7 +23983,7 @@ func ListMysqlFlexibleserver(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMysqlFlexibleserverPaginator(essdk.BuildFilter(d.KeyColumnQuals, listMysqlFlexibleserverFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMysqlFlexibleserverPaginator(essdk.BuildFilter(d.EqualsQuals, listMysqlFlexibleserverFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24023,7 +24023,7 @@ func GetMysqlFlexibleserver(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMysqlFlexibleserverPaginator(essdk.BuildFilter(d.KeyColumnQuals, getMysqlFlexibleserverFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewMysqlFlexibleserverPaginator(essdk.BuildFilter(d.EqualsQuals, getMysqlFlexibleserverFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24153,7 +24153,7 @@ func ListNetworkSecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkSecurityGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkSecurityGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkSecurityGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listNetworkSecurityGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24205,7 +24205,7 @@ func GetNetworkSecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkSecurityGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkSecurityGroupFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkSecurityGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getNetworkSecurityGroupFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24328,7 +24328,7 @@ func ListNetworkWatcher(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkWatcherPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetworkWatcherFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkWatcherPaginator(essdk.BuildFilter(d.EqualsQuals, listNetworkWatcherFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24373,7 +24373,7 @@ func GetNetworkWatcher(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkWatcherPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetworkWatcherFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkWatcherPaginator(essdk.BuildFilter(d.EqualsQuals, getNetworkWatcherFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24507,7 +24507,7 @@ func ListSearchService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSearchServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listSearchServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSearchServicePaginator(essdk.BuildFilter(d.EqualsQuals, listSearchServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24563,7 +24563,7 @@ func GetSearchService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSearchServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getSearchServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSearchServicePaginator(essdk.BuildFilter(d.EqualsQuals, getSearchServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24708,7 +24708,7 @@ func ListServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewServiceFabricClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listServiceFabricClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewServiceFabricClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listServiceFabricClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24775,7 +24775,7 @@ func GetServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewServiceFabricClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getServiceFabricClusterFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewServiceFabricClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getServiceFabricClusterFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24909,7 +24909,7 @@ func ListServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewServicebusNamespacePaginator(essdk.BuildFilter(d.KeyColumnQuals, listServicebusNamespaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewServicebusNamespacePaginator(essdk.BuildFilter(d.EqualsQuals, listServicebusNamespaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24965,7 +24965,7 @@ func GetServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewServicebusNamespacePaginator(essdk.BuildFilter(d.KeyColumnQuals, getServicebusNamespaceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewServicebusNamespacePaginator(essdk.BuildFilter(d.EqualsQuals, getServicebusNamespaceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25100,7 +25100,7 @@ func ListSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSignalrServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listSignalrServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSignalrServicePaginator(essdk.BuildFilter(d.EqualsQuals, listSignalrServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25157,7 +25157,7 @@ func GetSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSignalrServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getSignalrServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSignalrServicePaginator(essdk.BuildFilter(d.EqualsQuals, getSignalrServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25285,7 +25285,7 @@ func ListSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSpringCloudServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listSpringCloudServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSpringCloudServicePaginator(essdk.BuildFilter(d.EqualsQuals, listSpringCloudServiceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25335,7 +25335,7 @@ func GetSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSpringCloudServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getSpringCloudServiceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSpringCloudServicePaginator(essdk.BuildFilter(d.EqualsQuals, getSpringCloudServiceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25476,7 +25476,7 @@ func ListStreamAnalyticsJob(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStreamAnalyticsJobPaginator(essdk.BuildFilter(d.KeyColumnQuals, listStreamAnalyticsJobFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStreamAnalyticsJobPaginator(essdk.BuildFilter(d.EqualsQuals, listStreamAnalyticsJobFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25539,7 +25539,7 @@ func GetStreamAnalyticsJob(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStreamAnalyticsJobPaginator(essdk.BuildFilter(d.KeyColumnQuals, getStreamAnalyticsJobFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStreamAnalyticsJobPaginator(essdk.BuildFilter(d.EqualsQuals, getStreamAnalyticsJobFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25657,7 +25657,7 @@ func ListStreamAnalyticsCluster(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStreamAnalyticsClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listStreamAnalyticsClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStreamAnalyticsClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listStreamAnalyticsClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25697,7 +25697,7 @@ func GetStreamAnalyticsCluster(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStreamAnalyticsClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getStreamAnalyticsClusterFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStreamAnalyticsClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getStreamAnalyticsClusterFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25815,7 +25815,7 @@ func ListVirtualMachineImagesImageTemplates(ctx context.Context, d *plugin.Query
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVirtualMachineImagesImageTemplatesPaginator(essdk.BuildFilter(d.KeyColumnQuals, listVirtualMachineImagesImageTemplatesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewVirtualMachineImagesImageTemplatesPaginator(essdk.BuildFilter(d.EqualsQuals, listVirtualMachineImagesImageTemplatesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25855,7 +25855,7 @@ func GetVirtualMachineImagesImageTemplates(ctx context.Context, d *plugin.QueryD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewVirtualMachineImagesImageTemplatesPaginator(essdk.BuildFilter(d.KeyColumnQuals, getVirtualMachineImagesImageTemplatesFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewVirtualMachineImagesImageTemplatesPaginator(essdk.BuildFilter(d.EqualsQuals, getVirtualMachineImagesImageTemplatesFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25973,7 +25973,7 @@ func ListOperationalInsightsWorkspaces(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewOperationalInsightsWorkspacesPaginator(essdk.BuildFilter(d.KeyColumnQuals, listOperationalInsightsWorkspacesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewOperationalInsightsWorkspacesPaginator(essdk.BuildFilter(d.EqualsQuals, listOperationalInsightsWorkspacesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26013,7 +26013,7 @@ func GetOperationalInsightsWorkspaces(ctx context.Context, d *plugin.QueryData, 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewOperationalInsightsWorkspacesPaginator(essdk.BuildFilter(d.KeyColumnQuals, getOperationalInsightsWorkspacesFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewOperationalInsightsWorkspacesPaginator(essdk.BuildFilter(d.EqualsQuals, getOperationalInsightsWorkspacesFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26131,7 +26131,7 @@ func ListTimeSeriesInsightsEnvironments(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewTimeSeriesInsightsEnvironmentsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listTimeSeriesInsightsEnvironmentsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewTimeSeriesInsightsEnvironmentsPaginator(essdk.BuildFilter(d.EqualsQuals, listTimeSeriesInsightsEnvironmentsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26171,7 +26171,7 @@ func GetTimeSeriesInsightsEnvironments(ctx context.Context, d *plugin.QueryData,
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewTimeSeriesInsightsEnvironmentsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getTimeSeriesInsightsEnvironmentsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewTimeSeriesInsightsEnvironmentsPaginator(essdk.BuildFilter(d.EqualsQuals, getTimeSeriesInsightsEnvironmentsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26310,7 +26310,7 @@ func ListSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSynapseWorkspacePaginator(essdk.BuildFilter(d.KeyColumnQuals, listSynapseWorkspaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSynapseWorkspacePaginator(essdk.BuildFilter(d.EqualsQuals, listSynapseWorkspaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26371,7 +26371,7 @@ func GetSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSynapseWorkspacePaginator(essdk.BuildFilter(d.KeyColumnQuals, getSynapseWorkspaceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSynapseWorkspacePaginator(essdk.BuildFilter(d.EqualsQuals, getSynapseWorkspaceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26489,7 +26489,7 @@ func ListSynapseWorkspaceBigdatapools(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSynapseWorkspaceBigdatapoolsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSynapseWorkspaceBigdatapoolsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSynapseWorkspaceBigdatapoolsPaginator(essdk.BuildFilter(d.EqualsQuals, listSynapseWorkspaceBigdatapoolsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26529,7 +26529,7 @@ func GetSynapseWorkspaceBigdatapools(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSynapseWorkspaceBigdatapoolsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSynapseWorkspaceBigdatapoolsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSynapseWorkspaceBigdatapoolsPaginator(essdk.BuildFilter(d.EqualsQuals, getSynapseWorkspaceBigdatapoolsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26647,7 +26647,7 @@ func ListSynapseWorkspaceSqlpools(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSynapseWorkspaceSqlpoolsPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSynapseWorkspaceSqlpoolsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSynapseWorkspaceSqlpoolsPaginator(essdk.BuildFilter(d.EqualsQuals, listSynapseWorkspaceSqlpoolsFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26687,7 +26687,7 @@ func GetSynapseWorkspaceSqlpools(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSynapseWorkspaceSqlpoolsPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSynapseWorkspaceSqlpoolsFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSynapseWorkspaceSqlpoolsPaginator(essdk.BuildFilter(d.EqualsQuals, getSynapseWorkspaceSqlpoolsFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26807,7 +26807,7 @@ func ListLocation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLocationPaginator(essdk.BuildFilter(d.KeyColumnQuals, listLocationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLocationPaginator(essdk.BuildFilter(d.EqualsQuals, listLocationFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26850,7 +26850,7 @@ func GetLocation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLocationPaginator(essdk.BuildFilter(d.KeyColumnQuals, getLocationFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLocationPaginator(essdk.BuildFilter(d.EqualsQuals, getLocationFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26988,7 +26988,7 @@ func ListAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAdUsersPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAdUsersFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAdUsersPaginator(essdk.BuildFilter(d.EqualsQuals, listAdUsersFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27047,7 +27047,7 @@ func GetAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAdUsersPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAdUsersFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAdUsersPaginator(essdk.BuildFilter(d.EqualsQuals, getAdUsersFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27191,7 +27191,7 @@ func ListAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAdGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAdGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAdGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listAdGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27257,7 +27257,7 @@ func GetAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAdGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAdGroupFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAdGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getAdGroupFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27396,7 +27396,7 @@ func ListAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAdServicePrincipalPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAdServicePrincipalFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAdServicePrincipalPaginator(essdk.BuildFilter(d.EqualsQuals, listAdServicePrincipalFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27457,7 +27457,7 @@ func GetAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAdServicePrincipalPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAdServicePrincipalFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAdServicePrincipalPaginator(essdk.BuildFilter(d.EqualsQuals, getAdServicePrincipalFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27575,7 +27575,7 @@ func ListAnalysisServiceServer(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAnalysisServiceServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAnalysisServiceServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAnalysisServiceServerPaginator(essdk.BuildFilter(d.EqualsQuals, listAnalysisServiceServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27616,7 +27616,7 @@ func GetAnalysisServiceServer(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAnalysisServiceServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAnalysisServiceServerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewAnalysisServiceServerPaginator(essdk.BuildFilter(d.EqualsQuals, getAnalysisServiceServerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27764,7 +27764,7 @@ func ListPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPostgresqlServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPostgresqlServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPostgresqlServerPaginator(essdk.BuildFilter(d.EqualsQuals, listPostgresqlServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27834,7 +27834,7 @@ func GetPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPostgresqlServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPostgresqlServerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPostgresqlServerPaginator(essdk.BuildFilter(d.EqualsQuals, getPostgresqlServerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27952,7 +27952,7 @@ func ListPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPostgresqlFlexibleServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPostgresqlFlexibleServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPostgresqlFlexibleServerPaginator(essdk.BuildFilter(d.EqualsQuals, listPostgresqlFlexibleServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27992,7 +27992,7 @@ func GetPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPostgresqlFlexibleServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPostgresqlFlexibleServerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPostgresqlFlexibleServerPaginator(essdk.BuildFilter(d.EqualsQuals, getPostgresqlFlexibleServerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28119,7 +28119,7 @@ func ListStorageSync(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageSyncPaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageSyncFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageSyncPaginator(essdk.BuildFilter(d.EqualsQuals, listStorageSyncFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28168,7 +28168,7 @@ func GetStorageSync(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageSyncPaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageSyncFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageSyncPaginator(essdk.BuildFilter(d.EqualsQuals, getStorageSyncFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28314,7 +28314,7 @@ func ListMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMssqlManagedInstancePaginator(essdk.BuildFilter(d.KeyColumnQuals, listMssqlManagedInstanceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMssqlManagedInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listMssqlManagedInstanceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28382,7 +28382,7 @@ func GetMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMssqlManagedInstancePaginator(essdk.BuildFilter(d.KeyColumnQuals, getMssqlManagedInstanceFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewMssqlManagedInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getMssqlManagedInstanceFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28500,7 +28500,7 @@ func ListMssqlManagedInstanceDatabases(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMssqlManagedInstanceDatabasesPaginator(essdk.BuildFilter(d.KeyColumnQuals, listMssqlManagedInstanceDatabasesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMssqlManagedInstanceDatabasesPaginator(essdk.BuildFilter(d.EqualsQuals, listMssqlManagedInstanceDatabasesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28540,7 +28540,7 @@ func GetMssqlManagedInstanceDatabases(ctx context.Context, d *plugin.QueryData, 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMssqlManagedInstanceDatabasesPaginator(essdk.BuildFilter(d.KeyColumnQuals, getMssqlManagedInstanceDatabasesFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewMssqlManagedInstanceDatabasesPaginator(essdk.BuildFilter(d.EqualsQuals, getMssqlManagedInstanceDatabasesFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28695,7 +28695,7 @@ func ListSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlDatabasePaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlDatabaseFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSqlDatabasePaginator(essdk.BuildFilter(d.EqualsQuals, listSqlDatabaseFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28772,7 +28772,7 @@ func GetSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSqlDatabasePaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlDatabaseFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSqlDatabasePaginator(essdk.BuildFilter(d.EqualsQuals, getSqlDatabaseFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28889,7 +28889,7 @@ func ListSqlInstancePool(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlInstancePoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlInstancePoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSqlInstancePoolPaginator(essdk.BuildFilter(d.EqualsQuals, listSqlInstancePoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28928,7 +28928,7 @@ func GetSqlInstancePool(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSqlInstancePoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlInstancePoolFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSqlInstancePoolPaginator(essdk.BuildFilter(d.EqualsQuals, getSqlInstancePoolFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29067,7 +29067,7 @@ func ListSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSqlServerPaginator(essdk.BuildFilter(d.EqualsQuals, listSqlServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29128,7 +29128,7 @@ func GetSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSqlServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlServerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSqlServerPaginator(essdk.BuildFilter(d.EqualsQuals, getSqlServerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29246,7 +29246,7 @@ func ListSqlServerJobAgent(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerJobAgentPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlServerJobAgentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSqlServerJobAgentPaginator(essdk.BuildFilter(d.EqualsQuals, listSqlServerJobAgentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29286,7 +29286,7 @@ func GetSqlServerJobAgent(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSqlServerJobAgentPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlServerJobAgentFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSqlServerJobAgentPaginator(essdk.BuildFilter(d.EqualsQuals, getSqlServerJobAgentFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29404,7 +29404,7 @@ func ListSqlVirtualClusters(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlVirtualClustersPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlVirtualClustersFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSqlVirtualClustersPaginator(essdk.BuildFilter(d.EqualsQuals, listSqlVirtualClustersFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29444,7 +29444,7 @@ func GetSqlVirtualClusters(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSqlVirtualClustersPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlVirtualClustersFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSqlVirtualClustersPaginator(essdk.BuildFilter(d.EqualsQuals, getSqlVirtualClustersFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29575,7 +29575,7 @@ func ListSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerElasticPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlServerElasticPoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSqlServerElasticPoolPaginator(essdk.BuildFilter(d.EqualsQuals, listSqlServerElasticPoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29628,7 +29628,7 @@ func GetSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSqlServerElasticPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlServerElasticPoolFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSqlServerElasticPoolPaginator(essdk.BuildFilter(d.EqualsQuals, getSqlServerElasticPoolFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29763,7 +29763,7 @@ func ListSqlServerVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerVirtualMachinePaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlServerVirtualMachineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSqlServerVirtualMachinePaginator(essdk.BuildFilter(d.EqualsQuals, listSqlServerVirtualMachineFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29820,7 +29820,7 @@ func GetSqlServerVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSqlServerVirtualMachinePaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlServerVirtualMachineFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSqlServerVirtualMachinePaginator(essdk.BuildFilter(d.EqualsQuals, getSqlServerVirtualMachineFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29938,7 +29938,7 @@ func ListSqlServerVirtualMachineGroup(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerVirtualMachineGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlServerVirtualMachineGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSqlServerVirtualMachineGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listSqlServerVirtualMachineGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29978,7 +29978,7 @@ func GetSqlServerVirtualMachineGroup(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSqlServerVirtualMachineGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlServerVirtualMachineGroupFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSqlServerVirtualMachineGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getSqlServerVirtualMachineGroupFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30125,7 +30125,7 @@ func ListSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerFlexibleServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSqlServerFlexibleServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSqlServerFlexibleServerPaginator(essdk.BuildFilter(d.EqualsQuals, listSqlServerFlexibleServerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30194,7 +30194,7 @@ func GetSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSqlServerFlexibleServerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSqlServerFlexibleServerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewSqlServerFlexibleServerPaginator(essdk.BuildFilter(d.EqualsQuals, getSqlServerFlexibleServerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30364,7 +30364,7 @@ func ListStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, listStorageAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageAccountPaginator(essdk.BuildFilter(d.EqualsQuals, listStorageAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30456,7 +30456,7 @@ func GetStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, getStorageAccountFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageAccountPaginator(essdk.BuildFilter(d.EqualsQuals, getStorageAccountFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30585,7 +30585,7 @@ func ListRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRecoveryServicesVaultPaginator(essdk.BuildFilter(d.KeyColumnQuals, listRecoveryServicesVaultFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRecoveryServicesVaultPaginator(essdk.BuildFilter(d.EqualsQuals, listRecoveryServicesVaultFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30636,7 +30636,7 @@ func GetRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRecoveryServicesVaultPaginator(essdk.BuildFilter(d.KeyColumnQuals, getRecoveryServicesVaultFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewRecoveryServicesVaultPaginator(essdk.BuildFilter(d.EqualsQuals, getRecoveryServicesVaultFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30777,7 +30777,7 @@ func ListHybridKubernetesConnectedCluster(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewHybridKubernetesConnectedClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listHybridKubernetesConnectedClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewHybridKubernetesConnectedClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listHybridKubernetesConnectedClusterFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30840,7 +30840,7 @@ func GetHybridKubernetesConnectedCluster(ctx context.Context, d *plugin.QueryDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewHybridKubernetesConnectedClusterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getHybridKubernetesConnectedClusterFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewHybridKubernetesConnectedClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getHybridKubernetesConnectedClusterFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30956,7 +30956,7 @@ func ListCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCostManagementCostByResourceTypePaginator(essdk.BuildFilter(d.KeyColumnQuals, listCostManagementCostByResourceTypeFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCostManagementCostByResourceTypePaginator(essdk.BuildFilter(d.EqualsQuals, listCostManagementCostByResourceTypeFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30994,7 +30994,7 @@ func GetCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCostManagementCostByResourceTypePaginator(essdk.BuildFilter(d.KeyColumnQuals, getCostManagementCostByResourceTypeFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCostManagementCostByResourceTypePaginator(essdk.BuildFilter(d.EqualsQuals, getCostManagementCostByResourceTypeFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31110,7 +31110,7 @@ func ListCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCostManagementCostBySubscriptionPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCostManagementCostBySubscriptionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCostManagementCostBySubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, listCostManagementCostBySubscriptionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31148,7 +31148,7 @@ func GetCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCostManagementCostBySubscriptionPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCostManagementCostBySubscriptionFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewCostManagementCostBySubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, getCostManagementCostBySubscriptionFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31284,7 +31284,7 @@ func ListLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listLoadBalancerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLoadBalancerPaginator(essdk.BuildFilter(d.EqualsQuals, listLoadBalancerFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31342,7 +31342,7 @@ func GetLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getLoadBalancerFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLoadBalancerPaginator(essdk.BuildFilter(d.EqualsQuals, getLoadBalancerFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31470,7 +31470,7 @@ func ListLoadBalancerBackendAddressPool(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerBackendAddressPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, listLoadBalancerBackendAddressPoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLoadBalancerBackendAddressPoolPaginator(essdk.BuildFilter(d.EqualsQuals, listLoadBalancerBackendAddressPoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31520,7 +31520,7 @@ func GetLoadBalancerBackendAddressPool(ctx context.Context, d *plugin.QueryData,
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerBackendAddressPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, getLoadBalancerBackendAddressPoolFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLoadBalancerBackendAddressPoolPaginator(essdk.BuildFilter(d.EqualsQuals, getLoadBalancerBackendAddressPoolFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31650,7 +31650,7 @@ func ListLoadBalancerNatRule(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerNatRulePaginator(essdk.BuildFilter(d.KeyColumnQuals, listLoadBalancerNatRuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLoadBalancerNatRulePaginator(essdk.BuildFilter(d.EqualsQuals, listLoadBalancerNatRuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31702,7 +31702,7 @@ func GetLoadBalancerNatRule(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerNatRulePaginator(essdk.BuildFilter(d.KeyColumnQuals, getLoadBalancerNatRuleFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLoadBalancerNatRulePaginator(essdk.BuildFilter(d.EqualsQuals, getLoadBalancerNatRuleFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31830,7 +31830,7 @@ func ListLoadBalancerOutboundRule(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerOutboundRulePaginator(essdk.BuildFilter(d.KeyColumnQuals, listLoadBalancerOutboundRuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLoadBalancerOutboundRulePaginator(essdk.BuildFilter(d.EqualsQuals, listLoadBalancerOutboundRuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31880,7 +31880,7 @@ func GetLoadBalancerOutboundRule(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerOutboundRulePaginator(essdk.BuildFilter(d.KeyColumnQuals, getLoadBalancerOutboundRuleFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLoadBalancerOutboundRulePaginator(essdk.BuildFilter(d.EqualsQuals, getLoadBalancerOutboundRuleFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32008,7 +32008,7 @@ func ListLoadBalancerProbe(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerProbePaginator(essdk.BuildFilter(d.KeyColumnQuals, listLoadBalancerProbeFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLoadBalancerProbePaginator(essdk.BuildFilter(d.EqualsQuals, listLoadBalancerProbeFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32058,7 +32058,7 @@ func GetLoadBalancerProbe(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerProbePaginator(essdk.BuildFilter(d.KeyColumnQuals, getLoadBalancerProbeFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLoadBalancerProbePaginator(essdk.BuildFilter(d.EqualsQuals, getLoadBalancerProbeFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32192,7 +32192,7 @@ func ListLoadBalancerRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerRulePaginator(essdk.BuildFilter(d.KeyColumnQuals, listLoadBalancerRuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLoadBalancerRulePaginator(essdk.BuildFilter(d.EqualsQuals, listLoadBalancerRuleFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32248,7 +32248,7 @@ func GetLoadBalancerRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerRulePaginator(essdk.BuildFilter(d.KeyColumnQuals, getLoadBalancerRuleFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewLoadBalancerRulePaginator(essdk.BuildFilter(d.EqualsQuals, getLoadBalancerRuleFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32373,7 +32373,7 @@ func ListManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewManagementGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, listManagementGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewManagementGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listManagementGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32420,7 +32420,7 @@ func GetManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewManagementGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, getManagementGroupFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewManagementGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getManagementGroupFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32542,7 +32542,7 @@ func ListManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewManagementLockPaginator(essdk.BuildFilter(d.KeyColumnQuals, listManagementLockFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewManagementLockPaginator(essdk.BuildFilter(d.EqualsQuals, listManagementLockFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32586,7 +32586,7 @@ func GetManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewManagementLockPaginator(essdk.BuildFilter(d.KeyColumnQuals, getManagementLockFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewManagementLockPaginator(essdk.BuildFilter(d.EqualsQuals, getManagementLockFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32705,7 +32705,7 @@ func ListResourceProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewResourceProviderPaginator(essdk.BuildFilter(d.KeyColumnQuals, listResourceProviderFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewResourceProviderPaginator(essdk.BuildFilter(d.EqualsQuals, listResourceProviderFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32746,7 +32746,7 @@ func GetResourceProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewResourceProviderPaginator(essdk.BuildFilter(d.KeyColumnQuals, getResourceProviderFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewResourceProviderPaginator(essdk.BuildFilter(d.EqualsQuals, getResourceProviderFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32868,7 +32868,7 @@ func ListResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewResourceGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, listResourceGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewResourceGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listResourceGroupFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32912,7 +32912,7 @@ func GetResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewResourceGroupPaginator(essdk.BuildFilter(d.KeyColumnQuals, getResourceGroupFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewResourceGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getResourceGroupFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33029,7 +33029,7 @@ func ListBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBotServiceBotPaginator(essdk.BuildFilter(d.KeyColumnQuals, listBotServiceBotFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBotServiceBotPaginator(essdk.BuildFilter(d.EqualsQuals, listBotServiceBotFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33068,7 +33068,7 @@ func GetBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBotServiceBotPaginator(essdk.BuildFilter(d.KeyColumnQuals, getBotServiceBotFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewBotServiceBotPaginator(essdk.BuildFilter(d.EqualsQuals, getBotServiceBotFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33185,7 +33185,7 @@ func ListNetAppAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetAppAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetAppAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetAppAccountPaginator(essdk.BuildFilter(d.EqualsQuals, listNetAppAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33224,7 +33224,7 @@ func GetNetAppAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetAppAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetAppAccountFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetAppAccountPaginator(essdk.BuildFilter(d.EqualsQuals, getNetAppAccountFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33341,7 +33341,7 @@ func ListNetAppCapacityPool(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetAppCapacityPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, listNetAppCapacityPoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetAppCapacityPoolPaginator(essdk.BuildFilter(d.EqualsQuals, listNetAppCapacityPoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33380,7 +33380,7 @@ func GetNetAppCapacityPool(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetAppCapacityPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, getNetAppCapacityPoolFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetAppCapacityPoolPaginator(essdk.BuildFilter(d.EqualsQuals, getNetAppCapacityPoolFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33497,7 +33497,7 @@ func ListDesktopVirtualizationHostPool(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDesktopVirtualizationHostPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDesktopVirtualizationHostPoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDesktopVirtualizationHostPoolPaginator(essdk.BuildFilter(d.EqualsQuals, listDesktopVirtualizationHostPoolFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33536,7 +33536,7 @@ func GetDesktopVirtualizationHostPool(ctx context.Context, d *plugin.QueryData, 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDesktopVirtualizationHostPoolPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDesktopVirtualizationHostPoolFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDesktopVirtualizationHostPoolPaginator(essdk.BuildFilter(d.EqualsQuals, getDesktopVirtualizationHostPoolFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33653,7 +33653,7 @@ func ListDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDevTestLabLabPaginator(essdk.BuildFilter(d.KeyColumnQuals, listDevTestLabLabFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDevTestLabLabPaginator(essdk.BuildFilter(d.EqualsQuals, listDevTestLabLabFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33692,7 +33692,7 @@ func GetDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDevTestLabLabPaginator(essdk.BuildFilter(d.KeyColumnQuals, getDevTestLabLabFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewDevTestLabLabPaginator(essdk.BuildFilter(d.EqualsQuals, getDevTestLabLabFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33809,7 +33809,7 @@ func ListPurviewAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPurviewAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPurviewAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPurviewAccountPaginator(essdk.BuildFilter(d.EqualsQuals, listPurviewAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33848,7 +33848,7 @@ func GetPurviewAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPurviewAccountPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPurviewAccountFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPurviewAccountPaginator(essdk.BuildFilter(d.EqualsQuals, getPurviewAccountFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33965,7 +33965,7 @@ func ListPowerBIDedicatedCapacity(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPowerBIDedicatedCapacityPaginator(essdk.BuildFilter(d.KeyColumnQuals, listPowerBIDedicatedCapacityFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPowerBIDedicatedCapacityPaginator(essdk.BuildFilter(d.EqualsQuals, listPowerBIDedicatedCapacityFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34004,7 +34004,7 @@ func GetPowerBIDedicatedCapacity(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPowerBIDedicatedCapacityPaginator(essdk.BuildFilter(d.KeyColumnQuals, getPowerBIDedicatedCapacityFilters, "azure", *cfg.AccountID), &limit)
+	paginator, err := k.NewPowerBIDedicatedCapacityPaginator(essdk.BuildFilter(d.EqualsQuals, getPowerBIDedicatedCapacityFilters, "azure", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}

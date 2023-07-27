@@ -52,7 +52,7 @@ func getManagementGroup(ctx context.Context, client *armmanagementgroups.Client,
 		Name: *info.Name,
 		Description: JSONAllFieldsMarshaller{
 			model.ManagementGroupDescription{
-				Group: *group,
+				Group: info.ManagementGroup,
 			},
 		},
 	}
