@@ -45,7 +45,7 @@ type ResourceType struct {
 }
 
 func main() {
-	rt := "../../../kaytu-deploy/keibi/inventory-data/azure-resource-types.json"
+	rt := "../../../../kaytu-deploy/keibi/inventory-data/azure-resource-types.json"
 	b, err := os.ReadFile(rt)
 	if err != nil {
 		panic(err)
@@ -154,7 +154,7 @@ func List{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(d.KeyColumnQuals, list{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(d.EqualsQuals, list{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -191,7 +191,7 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(d.KeyColumnQuals, get{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID), &limit)
+	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(d.EqualsQuals, get{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -273,11 +273,11 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 					index = strings.ToLower(index)
 					s.Index = index
 
-					plugin := "steampipe-plugin-azure/azure"
+					plugin := "steampipe-plugin-azure-kaytu/azure"
 					if strings.HasPrefix(resourceType.SteampipeTable, "azuread") {
-						plugin = "steampipe-plugin-azuread/azuread"
+						plugin = "steampipe-plugin-azuread-kaytu/azuread"
 					}
-					fileName := "../../../" + plugin + "/table_" + resourceType.SteampipeTable + ".go"
+					fileName := "../../../../steampipe-plugin-compare/" + plugin + "/table_" + resourceType.SteampipeTable + ".go"
 					tableFileSet := token.NewFileSet()
 					tableNode, err := parser.ParseFile(tableFileSet, fileName, nil, parser.ParseComments)
 					if err != nil {

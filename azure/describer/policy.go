@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
-
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
@@ -15,6 +15,8 @@ func PolicyAssignment(ctx context.Context, cred *azidentity.ClientSecretCredenti
 	}
 	client := clientFactory.NewAssignmentsClient()
 
+	resourceClient, err := armresources.NewClient(subscription, cred, nil)
+
 	pager := client.NewListPager(nil)
 	var values []Resource
 	for pager.More() {
@@ -23,7 +25,7 @@ func PolicyAssignment(ctx context.Context, cred *azidentity.ClientSecretCredenti
 			return nil, err
 		}
 		for _, v := range page.Value {
-			resource := GetPolicyAssignment(ctx, v)
+			resource := GetPolicyAssignment(ctx, resourceClient, v)
 			if stream != nil {
 				if err := (*stream)(*resource); err != nil {
 					return nil, err
@@ -36,10 +38,16 @@ func PolicyAssignment(ctx context.Context, cred *azidentity.ClientSecretCredenti
 	return values, nil
 }
 
-func GetPolicyAssignment(ctx context.Context, v *armpolicy.Assignment) *Resource {
+func GetPolicyAssignment(ctx context.Context, resourceClient *armresources.Client, v *armpolicy.Assignment) *Resource {
 	location := "global"
 	if v.Location != nil {
 		location = *v.Location
+	}
+
+	res, err := resourceClient.GetByID(ctx, *v.ID, "2021-04-01", nil)
+
+	if err == nil {
+		location = *res.Location
 	}
 
 	resource := Resource{
@@ -49,6 +57,7 @@ func GetPolicyAssignment(ctx context.Context, v *armpolicy.Assignment) *Resource
 		Description: JSONAllFieldsMarshaller{
 			model.PolicyAssignmentDescription{
 				Assignment: *v,
+				Resource:   res.GenericResource,
 			},
 		},
 	}

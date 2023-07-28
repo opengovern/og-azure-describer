@@ -1,9 +1,10 @@
-
 package azure
+
 import (
 	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
 )
+
 var resourceTypes = map[string]ResourceType{
 
 	"Microsoft.App/containerApps": {
@@ -370,6 +371,20 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"Microsoft.Automation/automationVariables": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Automation/automationVariables",
+		ResourceLabel:        "Automation Variables",
+		Tags:                 map[string][]string{"category": {"Management & Governance"}},
+		ServiceName:          "Automation",
+		ListDescriber:        DescribeBySubscription(describer.AutomationVariables),
+		GetDescriber:         nil,
+		TerraformName:        []string{"azurerm_automation_variable_string", "azurerm_automation_variable_int", "azurerm_automation_variable_datetime", "azurerm_automation_variable_bool"},
+		TerraformServiceName: "automation",
+		FastDiscovery:        true,
+		Summarize:            true,
+	},
+
 	"Microsoft.Network/dnsZones": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/dnsZones",
@@ -447,6 +462,20 @@ var resourceTypes = map[string]ResourceType{
 		Tags:                 map[string][]string{"category": {"PaaS"}},
 		ServiceName:          "Web",
 		ListDescriber:        DescribeBySubscription(describer.AppServiceWebApp),
+		GetDescriber:         nil,
+		TerraformName:        []string{"azurerm_static_site"},
+		TerraformServiceName: "web",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Web/staticSitesSlot": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Web/staticSites",
+		ResourceLabel:        "Static Web App Slots",
+		Tags:                 map[string][]string{"category": {"PaaS"}},
+		ServiceName:          "Web",
+		ListDescriber:        DescribeBySubscription(describer.AppServiceWebAppSlot),
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_static_site"},
 		TerraformServiceName: "web",
@@ -827,6 +856,20 @@ var resourceTypes = map[string]ResourceType{
 		ListDescriber:        DescribeBySubscription(describer.KubernetesCluster),
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_kubernetes_cluster"},
+		TerraformServiceName: "containers",
+		FastDiscovery:        true,
+		Summarize:            true,
+	},
+
+	"microsoft.hybridcontainerservice/customLocations/orchestrators": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "microsoft.hybridcontainerservice/customLocations/orchestrators",
+		ResourceLabel:        "Kubernetes Service Version",
+		Tags:                 map[string][]string{"category": {"Container"}},
+		ServiceName:          "ContainerService",
+		ListDescriber:        DescribeBySubscription(describer.KubernetesService),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
 		TerraformServiceName: "containers",
 		FastDiscovery:        true,
 		Summarize:            true,
@@ -1504,6 +1547,20 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.DocumentDB/MongoCollection": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.DocumentDB/MongoCollection",
+		ResourceLabel:        "",
+		Tags:                 map[string][]string{},
+		ServiceName:          "DocumentDB",
+		ListDescriber:        DescribeBySubscription(describer.DocumentDBMongoCollection),
+		GetDescriber:         nil,
+		TerraformName:        []string{"azurerm_cosmosdb_mongo_collection"},
+		TerraformServiceName: "cosmos",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Network/networkWatchers/flowLogs": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/networkWatchers/flowLogs",
@@ -1568,7 +1625,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "HDInsight",
 		ListDescriber:        DescribeBySubscription(describer.HdInsightCluster),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_hdinsight_hadoop_cluster","azurerm_hdinsight_hbase_cluster","azurerm_hdinsight_interactive_query_cluster","azurerm_hdinsight_kafka_cluster","azurerm_hdinsight_spark_cluster"},
+		TerraformName:        []string{"azurerm_hdinsight_hadoop_cluster", "azurerm_hdinsight_hbase_cluster", "azurerm_hdinsight_interactive_query_cluster", "azurerm_hdinsight_kafka_cluster", "azurerm_hdinsight_spark_cluster"},
 		TerraformServiceName: "hdinsight",
 		FastDiscovery:        true,
 		Summarize:            true,
@@ -1680,7 +1737,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachineScaleSet),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_orchestrated_virtual_machine_scale_set","azurerm_linux_virtual_machine_scale_set","azurerm_windows_virtual_machine_scale_set"},
+		TerraformName:        []string{"azurerm_orchestrated_virtual_machine_scale_set", "azurerm_linux_virtual_machine_scale_set", "azurerm_windows_virtual_machine_scale_set"},
 		TerraformServiceName: "compute",
 		FastDiscovery:        true,
 		Summarize:            true,
@@ -1694,7 +1751,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "DataFactory",
 		ListDescriber:        DescribeBySubscription(describer.DataFactoryDataset),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_data_factory_dataset_azure_blob","azurerm_data_factory_dataset_binary","azurerm_data_factory_dataset_cosmosdb_sqlapi","azurerm_data_factory_dataset_delimited_text","azurerm_data_factory_dataset_http","azurerm_data_factory_dataset_json","azurerm_data_factory_dataset_mysql","azurerm_data_factory_dataset_parquet","azurerm_data_factory_dataset_postgresql","azurerm_data_factory_dataset_snowflake","azurerm_data_factory_dataset_sql_server_table","azurerm_data_factory_custom_dataset"},
+		TerraformName:        []string{"azurerm_data_factory_dataset_azure_blob", "azurerm_data_factory_dataset_binary", "azurerm_data_factory_dataset_cosmosdb_sqlapi", "azurerm_data_factory_dataset_delimited_text", "azurerm_data_factory_dataset_http", "azurerm_data_factory_dataset_json", "azurerm_data_factory_dataset_mysql", "azurerm_data_factory_dataset_parquet", "azurerm_data_factory_dataset_postgresql", "azurerm_data_factory_dataset_snowflake", "azurerm_data_factory_dataset_sql_server_table", "azurerm_data_factory_custom_dataset"},
 		TerraformServiceName: "datafactory",
 		FastDiscovery:        false,
 		Summarize:            false,
@@ -1868,6 +1925,20 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"Microsoft.DocumentDB/restorableDatabaseAccounts": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.DocumentDB/restorableDatabaseAccounts",
+		ResourceLabel:        "Restorable Database Account",
+		Tags:                 map[string][]string{"category": {"Database"}},
+		ServiceName:          "DocumentDB",
+		ListDescriber:        DescribeBySubscription(describer.CosmosdbRestorableDatabaseAccount),
+		GetDescriber:         nil,
+		TerraformName:        []string{"azurerm_cosmosdb_restorable_database_accounts"},
+		TerraformServiceName: "cosmos",
+		FastDiscovery:        true,
+		Summarize:            true,
+	},
+
 	"Microsoft.Network/applicationGateways": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/applicationGateways",
@@ -1914,6 +1985,20 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.KeyVault/vaults/keys",
 		ResourceLabel:        "Key Vault Keys",
+		Tags:                 map[string][]string{"category": {"Security"}},
+		ServiceName:          "KeyVault",
+		ListDescriber:        DescribeBySubscription(describer.KeyVaultKey),
+		GetDescriber:         nil,
+		TerraformName:        []string{"azurerm_key_vault_key"},
+		TerraformServiceName: "keyvault",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.KeyVault/vaults/keys/Versions": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.KeyVault/vaults/keys/Versions",
+		ResourceLabel:        "Key Vault Keys Versions",
 		Tags:                 map[string][]string{"category": {"Security"}},
 		ServiceName:          "KeyVault",
 		ListDescriber:        DescribeBySubscription(describer.KeyVaultKey),
@@ -2044,7 +2129,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachine),
 		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_linux_virtual_machine","azurerm_windows_virtual_machine"},
+		TerraformName:        []string{"azurerm_linux_virtual_machine", "azurerm_windows_virtual_machine"},
 		TerraformServiceName: "compute",
 		FastDiscovery:        true,
 		Summarize:            true,
@@ -2382,6 +2467,20 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_powerbi_embedded"},
 		TerraformServiceName: "powerbi",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.ApplicationInsights/components": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.ApplicationInsights/components",
+		ResourceLabel:        "Application Insights Components",
+		Tags:                 map[string][]string{"category": {"Data and Analytics"}},
+		ServiceName:          "ApplicationInsights",
+		ListDescriber:        DescribeBySubscription(describer.ApplicationInsights),
+		GetDescriber:         nil,
+		TerraformName:        []string{"azurerm_application_insights"},
+		TerraformServiceName: "applicationinsights",
 		FastDiscovery:        false,
 		Summarize:            false,
 	},

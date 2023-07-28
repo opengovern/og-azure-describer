@@ -52,7 +52,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysql"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysqlflexibleservers"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/netapp/armnetapp/v2"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresql"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresqlflexibleservers"
@@ -81,8 +81,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/synapse/armsynapse"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/timeseriesinsights/armtimeseriesinsights"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/virtualmachineimagebuilder/armvirtualmachineimagebuilder"
-	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-05-01/frontdoor"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
 	"github.com/Azure/azure-sdk-for-go/services/preview/web/mgmt/2015-08-01-preview/web"
 	azblobOld "github.com/Azure/azure-storage-blob-go/azblob"
 	"github.com/manicminer/hamilton/msgraph"
@@ -519,7 +517,7 @@ type FirewallPolicyDescription struct {
 //getfilter:name=description.WebApplicationFirewallPolicy.Name
 //getfilter:resource_group=description.ResourceGroup
 type FrontdoorWebApplicationFirewallPolicyDescription struct { // TODO: Implement describer func
-	WebApplicationFirewallPolicy frontdoor.WebApplicationFirewallPolicy
+	WebApplicationFirewallPolicy armfrontdoor.WebApplicationFirewallPolicy
 	ResourceGroup                string
 }
 
@@ -648,6 +646,7 @@ type NetworkDDoSProtectionPlanDescription struct {
 //getfilter:name=description.Assignment.name
 type PolicyAssignmentDescription struct {
 	Assignment armpolicy.Assignment
+	Resource   armresources.GenericResource
 }
 
 //  =================== redis ==================
@@ -879,7 +878,7 @@ type BatchAccountDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type CognitiveAccountDescription struct {
 	Account                     armcognitiveservices.Account
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -1239,6 +1238,7 @@ type KeyVaultManagedHardwareSecurityModuleDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type KeyVaultSecretDescription struct {
 	SecretItem    armkeyvault.Secret
+	Vault         armkeyvault.Vault
 	TurboData     map[string]interface{}
 	ResourceGroup string
 }

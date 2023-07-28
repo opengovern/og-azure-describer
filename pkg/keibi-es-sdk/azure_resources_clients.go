@@ -90,49 +90,49 @@ func (p APIManagementPaginator) NextPage(ctx context.Context) ([]APIManagement, 
 }
 
 var listAPIManagementFilters = map[string]string{
-	"additional_locations":              "description.APIManagement.ServiceProperties.AdditionalLocations",
+	"additional_locations":              "description.APIManagement.Properties.AdditionalLocations",
 	"akas":                              "description.APIManagement.ID",
-	"api_version_constraint":            "description.APIManagement.ServiceProperties.APIVersionConstraint",
-	"certificates":                      "description.APIManagement.ServiceProperties.Certificates",
-	"created_at_utc":                    "description.APIManagement.ServiceProperties.CreatedAtUtc",
-	"custom_properties":                 "description.APIManagement.ServiceProperties.CustomProperties",
-	"developer_portal_url":              "description.APIManagement.ServiceProperties.DeveloperPortalURL",
+	"api_version_constraint":            "description.APIManagement.Properties.APIVersionConstraint",
+	"certificates":                      "description.APIManagement.Properties.Certificates",
+	"created_at_utc":                    "description.APIManagement.Properties.CreatedAtUTC",
+	"custom_properties":                 "description.APIManagement.Properties.CustomProperties",
+	"developer_portal_url":              "description.APIManagement.Properties.DeveloperPortalURL",
 	"diagnostic_settings":               "description.DiagnosticSettingsResources",
-	"disable_gateway":                   "description.APIManagement.ServiceProperties.DisableGateway",
-	"enable_client_certificate":         "description.APIManagement.ServiceProperties.EnableClientCertificate",
+	"disable_gateway":                   "description.APIManagement.Properties.DisableGateway",
+	"enable_client_certificate":         "description.APIManagement.Properties.EnableClientCertificate",
 	"etag":                              "description.APIManagement.Etag",
-	"gateway_regional_url":              "description.APIManagement.ServiceProperties.GatewayRegionalURL",
-	"gateway_url":                       "description.APIManagement.ServiceProperties.GatewayURL",
-	"host_name_configurations":          "description.APIManagement.ServiceProperties.HostnameConfigurations",
+	"gateway_regional_url":              "description.APIManagement.Properties.GatewayRegionalURL",
+	"gateway_url":                       "description.APIManagement.Properties.GatewayURL",
+	"host_name_configurations":          "description.APIManagement.Properties.HostnameConfigurations",
 	"id":                                "description.APIManagement.ID",
 	"identity_principal_id":             "description.APIManagement.Identity.PrincipalID",
 	"identity_tenant_id":                "description.APIManagement.Identity.TenantID",
 	"identity_type":                     "description.APIManagement.Identity.Type",
 	"identity_user_assigned_identities": "description.APIManagement.Identity.UserAssignedIdentities",
 	"kaytu_account_id":                  "metadata.SourceID",
-	"management_api_url":                "description.APIManagement.ServiceProperties.ManagementAPIURL",
+	"management_api_url":                "description.APIManagement.Properties.ManagementAPIURL",
 	"name":                              "description.APIManagement.Name",
-	"notification_sender_email":         "description.APIManagement.ServiceProperties.NotificationSenderEmail",
-	"portal_url":                        "description.APIManagement.ServiceProperties.PortalURL",
-	"private_ip_addresses":              "description.APIManagement.ServiceProperties.PrivateIPAddresses",
-	"provisioning_state":                "description.APIManagement.ServiceProperties.ProvisioningState",
-	"public_ip_addresses":               "description.APIManagement.ServiceProperties.PublicIPAddresses",
-	"publisher_email":                   "description.APIManagement.ServiceProperties.PublisherEmail",
-	"publisher_name":                    "description.APIManagement.ServiceProperties.PublisherName",
+	"notification_sender_email":         "description.APIManagement.Properties.NotificationSenderEmail",
+	"portal_url":                        "description.APIManagement.Properties.PortalURL",
+	"private_ip_addresses":              "description.APIManagement.Properties.PrivateIPAddresses",
+	"provisioning_state":                "description.APIManagement.Properties.ProvisioningState",
+	"public_ip_addresses":               "description.APIManagement.Properties.PublicIPAddresses",
+	"publisher_email":                   "description.APIManagement.Properties.PublisherEmail",
+	"publisher_name":                    "description.APIManagement.Properties.PublisherName",
 	"region":                            "description.APIManagement.Location",
 	"resource_group":                    "description.ResourceGroup",
-	"restore":                           "description.APIManagement.ServiceProperties.Restore",
-	"scm_url":                           "description.APIManagement.ServiceProperties.ScmURL",
-	"sku_capacity":                      "description.APIManagement.Sku.Capacity",
-	"sku_name":                          "description.APIManagement.Sku.Name",
+	"restore":                           "description.APIManagement.Properties.Restore",
+	"scm_url":                           "description.APIManagement.Properties.ScmURL",
+	"sku_capacity":                      "description.APIManagement.SKU.Capacity",
+	"sku_name":                          "description.APIManagement.SKU.Name",
 	"tags":                              "description.APIManagement.Tags",
-	"target_provisioning_state":         "description.APIManagement.ServiceProperties.TargetProvisioningState",
+	"target_provisioning_state":         "description.APIManagement.Properties.TargetProvisioningState",
 	"title":                             "description.APIManagement.Name",
 	"type":                              "description.APIManagement.Type",
-	"virtual_network_configuration_id":  "description.APIManagement.ServiceProperties.VirtualNetworkConfiguration.Vnetid",
-	"virtual_network_configuration_subnet_name":        "description.APIManagement.ServiceProperties.VirtualNetworkConfiguration.Subnetname",
-	"virtual_network_configuration_subnet_resource_id": "description.APIManagement.ServiceProperties.VirtualNetworkConfiguration.SubnetResourceID",
-	"virtual_network_type":                             "description.APIManagement.ServiceProperties.VirtualNetworkType",
+	"virtual_network_configuration_id":  "description.APIManagement.Properties.VirtualNetworkConfiguration.Vnetid",
+	"virtual_network_configuration_subnet_name":        "description.APIManagement.Properties.VirtualNetworkConfiguration.Subnetname",
+	"virtual_network_configuration_subnet_resource_id": "description.APIManagement.Properties.VirtualNetworkConfiguration.SubnetResourceID",
+	"virtual_network_type":                             "description.APIManagement.Properties.VirtualNetworkType",
 	"zones":                                            "description.APIManagement.Zones",
 }
 
@@ -167,49 +167,49 @@ func ListAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 }
 
 var getAPIManagementFilters = map[string]string{
-	"additional_locations":              "description.APIManagement.ServiceProperties.AdditionalLocations",
+	"additional_locations":              "description.APIManagement.Properties.AdditionalLocations",
 	"akas":                              "description.APIManagement.ID",
-	"api_version_constraint":            "description.APIManagement.ServiceProperties.APIVersionConstraint",
-	"certificates":                      "description.APIManagement.ServiceProperties.Certificates",
-	"created_at_utc":                    "description.APIManagement.ServiceProperties.CreatedAtUtc",
-	"custom_properties":                 "description.APIManagement.ServiceProperties.CustomProperties",
-	"developer_portal_url":              "description.APIManagement.ServiceProperties.DeveloperPortalURL",
+	"api_version_constraint":            "description.APIManagement.Properties.APIVersionConstraint",
+	"certificates":                      "description.APIManagement.Properties.Certificates",
+	"created_at_utc":                    "description.APIManagement.Properties.CreatedAtUTC",
+	"custom_properties":                 "description.APIManagement.Properties.CustomProperties",
+	"developer_portal_url":              "description.APIManagement.Properties.DeveloperPortalURL",
 	"diagnostic_settings":               "description.DiagnosticSettingsResources",
-	"disable_gateway":                   "description.APIManagement.ServiceProperties.DisableGateway",
-	"enable_client_certificate":         "description.APIManagement.ServiceProperties.EnableClientCertificate",
+	"disable_gateway":                   "description.APIManagement.Properties.DisableGateway",
+	"enable_client_certificate":         "description.APIManagement.Properties.EnableClientCertificate",
 	"etag":                              "description.APIManagement.Etag",
-	"gateway_regional_url":              "description.APIManagement.ServiceProperties.GatewayRegionalURL",
-	"gateway_url":                       "description.APIManagement.ServiceProperties.GatewayURL",
-	"host_name_configurations":          "description.APIManagement.ServiceProperties.HostnameConfigurations",
+	"gateway_regional_url":              "description.APIManagement.Properties.GatewayRegionalURL",
+	"gateway_url":                       "description.APIManagement.Properties.GatewayURL",
+	"host_name_configurations":          "description.APIManagement.Properties.HostnameConfigurations",
 	"id":                                "description.APIManagement.ID",
 	"identity_principal_id":             "description.APIManagement.Identity.PrincipalID",
 	"identity_tenant_id":                "description.APIManagement.Identity.TenantID",
 	"identity_type":                     "description.APIManagement.Identity.Type",
 	"identity_user_assigned_identities": "description.APIManagement.Identity.UserAssignedIdentities",
 	"kaytu_account_id":                  "metadata.SourceID",
-	"management_api_url":                "description.APIManagement.ServiceProperties.ManagementAPIURL",
+	"management_api_url":                "description.APIManagement.Properties.ManagementAPIURL",
 	"name":                              "description.APIManagement.name",
-	"notification_sender_email":         "description.APIManagement.ServiceProperties.NotificationSenderEmail",
-	"portal_url":                        "description.APIManagement.ServiceProperties.PortalURL",
-	"private_ip_addresses":              "description.APIManagement.ServiceProperties.PrivateIPAddresses",
-	"provisioning_state":                "description.APIManagement.ServiceProperties.ProvisioningState",
-	"public_ip_addresses":               "description.APIManagement.ServiceProperties.PublicIPAddresses",
-	"publisher_email":                   "description.APIManagement.ServiceProperties.PublisherEmail",
-	"publisher_name":                    "description.APIManagement.ServiceProperties.PublisherName",
+	"notification_sender_email":         "description.APIManagement.Properties.NotificationSenderEmail",
+	"portal_url":                        "description.APIManagement.Properties.PortalURL",
+	"private_ip_addresses":              "description.APIManagement.Properties.PrivateIPAddresses",
+	"provisioning_state":                "description.APIManagement.Properties.ProvisioningState",
+	"public_ip_addresses":               "description.APIManagement.Properties.PublicIPAddresses",
+	"publisher_email":                   "description.APIManagement.Properties.PublisherEmail",
+	"publisher_name":                    "description.APIManagement.Properties.PublisherName",
 	"region":                            "description.APIManagement.Location",
 	"resource_group":                    "description.ResourceGroup",
-	"restore":                           "description.APIManagement.ServiceProperties.Restore",
-	"scm_url":                           "description.APIManagement.ServiceProperties.ScmURL",
-	"sku_capacity":                      "description.APIManagement.Sku.Capacity",
-	"sku_name":                          "description.APIManagement.Sku.Name",
+	"restore":                           "description.APIManagement.Properties.Restore",
+	"scm_url":                           "description.APIManagement.Properties.ScmURL",
+	"sku_capacity":                      "description.APIManagement.SKU.Capacity",
+	"sku_name":                          "description.APIManagement.SKU.Name",
 	"tags":                              "description.APIManagement.Tags",
-	"target_provisioning_state":         "description.APIManagement.ServiceProperties.TargetProvisioningState",
+	"target_provisioning_state":         "description.APIManagement.Properties.TargetProvisioningState",
 	"title":                             "description.APIManagement.Name",
 	"type":                              "description.APIManagement.Type",
-	"virtual_network_configuration_id":  "description.APIManagement.ServiceProperties.VirtualNetworkConfiguration.Vnetid",
-	"virtual_network_configuration_subnet_name":        "description.APIManagement.ServiceProperties.VirtualNetworkConfiguration.Subnetname",
-	"virtual_network_configuration_subnet_resource_id": "description.APIManagement.ServiceProperties.VirtualNetworkConfiguration.SubnetResourceID",
-	"virtual_network_type":                             "description.APIManagement.ServiceProperties.VirtualNetworkType",
+	"virtual_network_configuration_id":  "description.APIManagement.Properties.VirtualNetworkConfiguration.Vnetid",
+	"virtual_network_configuration_subnet_name":        "description.APIManagement.Properties.VirtualNetworkConfiguration.Subnetname",
+	"virtual_network_configuration_subnet_resource_id": "description.APIManagement.Properties.VirtualNetworkConfiguration.SubnetResourceID",
+	"virtual_network_type":                             "description.APIManagement.Properties.VirtualNetworkType",
 	"zones":                                            "description.APIManagement.Zones",
 }
 
@@ -324,12 +324,24 @@ func (p AutomationAccountsPaginator) NextPage(ctx context.Context) ([]Automation
 }
 
 var listAutomationAccountsFilters = map[string]string{
-	"akas":             "description.Accounts.ID",
-	"id":               "description.Accounts.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Accounts.Name",
-	"tags":             "description.Accounts.Tags",
-	"title":            "description.Accounts.Name",
+	"akas":               "description.Automation.ID",
+	"creation_time":      "description.Automation.Properties.CreationTime",
+	"description":        "description.Automation.Properties.Description",
+	"etag":               "description.Automation.Etag",
+	"id":                 "description.Automation.ID",
+	"kaytu_account_id":   "metadata.SourceID",
+	"last_modified_by":   "description.Automation.Properties.LastModifiedBy",
+	"last_modified_time": "description.Automation.Properties.LastModifiedTime",
+	"name":               "description.Automation.Name",
+	"region":             "description.Automation.Location",
+	"resource_group":     "description.ResourceGroup",
+	"sku_capacity":       "description.Automation.Properties.SKU.Capacity",
+	"sku_family":         "description.Automation.Properties.SKU.Family",
+	"sku_name":           "description.Automation.Properties.SKU.Name",
+	"state":              "description.Automation.Properties.State",
+	"tags":               "description.Automation.Etag",
+	"title":              "description.Automation.Name",
+	"type":               "description.Automation.Type",
 }
 
 func ListAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -363,12 +375,24 @@ func ListAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.
 }
 
 var getAutomationAccountsFilters = map[string]string{
-	"akas":             "description.Accounts.ID",
-	"id":               "description.Accounts.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Accounts.Name",
-	"tags":             "description.Accounts.Tags",
-	"title":            "description.Accounts.Name",
+	"akas":               "description.Automation.ID",
+	"creation_time":      "description.Automation.Properties.CreationTime",
+	"description":        "description.Automation.Properties.Description",
+	"etag":               "description.Automation.Etag",
+	"id":                 "description.Automation.ID",
+	"kaytu_account_id":   "metadata.SourceID",
+	"last_modified_by":   "description.Automation.Properties.LastModifiedBy",
+	"last_modified_time": "description.Automation.Properties.LastModifiedTime",
+	"name":               "description.Automation.Name",
+	"region":             "description.Automation.Location",
+	"resource_group":     "description.ResourceGroup",
+	"sku_capacity":       "description.Automation.Properties.SKU.Capacity",
+	"sku_family":         "description.Automation.Properties.SKU.Family",
+	"sku_name":           "description.Automation.Properties.SKU.Name",
+	"state":              "description.Automation.Properties.State",
+	"tags":               "description.Automation.Etag",
+	"title":              "description.Automation.Name",
+	"type":               "description.Automation.Type",
 }
 
 func GetAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -403,6 +427,178 @@ func GetAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 // ==========================  END: AutomationAccounts =============================
+
+// ==========================  START: AutomationVariables =============================
+
+type AutomationVariables struct {
+	Description   azure.AutomationVariablesDescription `json:"description"`
+	Metadata      azure.Metadata                       `json:"metadata"`
+	ResourceJobID int                                  `json:"resource_job_id"`
+	SourceJobID   int                                  `json:"source_job_id"`
+	ResourceType  string                               `json:"resource_type"`
+	SourceType    string                               `json:"source_type"`
+	ID            string                               `json:"id"`
+	ARN           string                               `json:"arn"`
+	SourceID      string                               `json:"source_id"`
+}
+
+type AutomationVariablesHit struct {
+	ID      string              `json:"_id"`
+	Score   float64             `json:"_score"`
+	Index   string              `json:"_index"`
+	Type    string              `json:"_type"`
+	Version int64               `json:"_version,omitempty"`
+	Source  AutomationVariables `json:"_source"`
+	Sort    []interface{}       `json:"sort"`
+}
+
+type AutomationVariablesHits struct {
+	Total essdk.SearchTotal        `json:"total"`
+	Hits  []AutomationVariablesHit `json:"hits"`
+}
+
+type AutomationVariablesSearchResponse struct {
+	PitID string                  `json:"pit_id"`
+	Hits  AutomationVariablesHits `json:"hits"`
+}
+
+type AutomationVariablesPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAutomationVariablesPaginator(filters []essdk.BoolFilter, limit *int64) (AutomationVariablesPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_automation_automationvariables", filters, limit)
+	if err != nil {
+		return AutomationVariablesPaginator{}, err
+	}
+
+	p := AutomationVariablesPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AutomationVariablesPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AutomationVariablesPaginator) NextPage(ctx context.Context) ([]AutomationVariables, error) {
+	var response AutomationVariablesSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AutomationVariables
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAutomationVariablesFilters = map[string]string{
+	"account_name":       "description.AccountName",
+	"akas":               "description.Automation.ID",
+	"creation_time":      "description.Automation.Properties.CreationTime",
+	"description":        "description.Automation.Properties.Description",
+	"id":                 "description.Automation.ID",
+	"is_encrypted":       "description.Automation.Properties.IsEncrypted",
+	"kaytu_account_id":   "metadata.SourceID",
+	"last_modified_time": "description.Automation.Properties.LastModifiedTime",
+	"name":               "description.Automation.Name",
+	"resource_group":     "description.ResourceGroup",
+	"title":              "description.Automation.Name",
+	"type":               "description.Automation.Type",
+	"value":              "description.Automation.Properties.Value",
+}
+
+func ListAutomationVariables(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAutomationVariables")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewAutomationVariablesPaginator(essdk.BuildFilter(d.EqualsQuals, listAutomationVariablesFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getAutomationVariablesFilters = map[string]string{
+	"account_name":       "description.AccountName",
+	"akas":               "description.Automation.ID",
+	"creation_time":      "description.Automation.Properties.CreationTime",
+	"description":        "description.Automation.Properties.Description",
+	"id":                 "description.Automation.ID",
+	"is_encrypted":       "description.Automation.Properties.IsEncrypted",
+	"kaytu_account_id":   "metadata.SourceID",
+	"last_modified_time": "description.Automation.Properties.LastModifiedTime",
+	"name":               "description.Automation.Name",
+	"resource_group":     "description.ResourceGroup",
+	"title":              "description.Automation.Name",
+	"type":               "description.Automation.Type",
+	"value":              "description.Automation.Properties.Value",
+}
+
+func GetAutomationVariables(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAutomationVariables")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewAutomationVariablesPaginator(essdk.BuildFilter(d.EqualsQuals, getAutomationVariablesFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AutomationVariables =============================
 
 // ==========================  START: AppConfiguration =============================
 
@@ -483,19 +679,19 @@ func (p AppConfigurationPaginator) NextPage(ctx context.Context) ([]AppConfigura
 
 var listAppConfigurationFilters = map[string]string{
 	"akas":                  "description.ConfigurationStore.ID",
-	"creation_date":         "description.ConfigurationStore.ConfigurationStoreProperties.CreationDate",
+	"creation_date":         "description.ConfigurationStore.Properties.CreationDate",
 	"diagnostic_settings":   "description.DiagnosticSettingsResources",
-	"encryption":            "description.ConfigurationStore.ConfigurationStoreProperties.Encryption",
-	"endpoint":              "description.ConfigurationStore.ConfigurationStoreProperties.Endpoint",
+	"encryption":            "description.ConfigurationStore.Properties.Encryption",
+	"endpoint":              "description.ConfigurationStore.Properties.Endpoint",
 	"id":                    "description.ConfigurationStore.ID",
 	"identity":              "description.ConfigurationStore.Identity",
 	"kaytu_account_id":      "metadata.SourceID",
 	"name":                  "description.ConfigurationStore.Name",
-	"provisioning_state":    "description.ConfigurationStore.ConfigurationStoreProperties.ProvisioningState",
-	"public_network_access": "description.ConfigurationStore.ConfigurationStoreProperties.PublicNetworkAccess",
+	"provisioning_state":    "description.ConfigurationStore.Properties.ProvisioningState",
+	"public_network_access": "description.ConfigurationStore.Properties.PublicNetworkAccess",
 	"region":                "description.ConfigurationStore.Location",
 	"resource_group":        "description.ResourceGroup",
-	"sku_name":              "description.ConfigurationStore.Sku.Name",
+	"sku_name":              "description.ConfigurationStore.SKU.Name",
 	"tags":                  "description.ConfigurationStore.Tags",
 	"title":                 "description.ConfigurationStore.Name",
 	"type":                  "description.ConfigurationStore.Type",
@@ -533,19 +729,19 @@ func ListAppConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 var getAppConfigurationFilters = map[string]string{
 	"akas":                  "description.ConfigurationStore.ID",
-	"creation_date":         "description.ConfigurationStore.ConfigurationStoreProperties.CreationDate",
+	"creation_date":         "description.ConfigurationStore.Properties.CreationDate",
 	"diagnostic_settings":   "description.DiagnosticSettingsResources",
-	"encryption":            "description.ConfigurationStore.ConfigurationStoreProperties.Encryption",
-	"endpoint":              "description.ConfigurationStore.ConfigurationStoreProperties.Endpoint",
+	"encryption":            "description.ConfigurationStore.Properties.Encryption",
+	"endpoint":              "description.ConfigurationStore.Properties.Endpoint",
 	"id":                    "description.ConfigurationStore.ID",
 	"identity":              "description.ConfigurationStore.Identity",
 	"kaytu_account_id":      "metadata.SourceID",
 	"name":                  "description.ConfigurationStore.name",
-	"provisioning_state":    "description.ConfigurationStore.ConfigurationStoreProperties.ProvisioningState",
-	"public_network_access": "description.ConfigurationStore.ConfigurationStoreProperties.PublicNetworkAccess",
+	"provisioning_state":    "description.ConfigurationStore.Properties.ProvisioningState",
+	"public_network_access": "description.ConfigurationStore.Properties.PublicNetworkAccess",
 	"region":                "description.ConfigurationStore.Location",
 	"resource_group":        "description.ResourceGroup",
-	"sku_name":              "description.ConfigurationStore.Sku.Name",
+	"sku_name":              "description.ConfigurationStore.SKU.Name",
 	"tags":                  "description.ConfigurationStore.Tags",
 	"title":                 "description.ConfigurationStore.Name",
 	"type":                  "description.ConfigurationStore.Type",
@@ -662,29 +858,28 @@ func (p AppServiceEnvironmentPaginator) NextPage(ctx context.Context) ([]AppServ
 }
 
 var listAppServiceEnvironmentFilters = map[string]string{
-	"akas":                           "description.AppServiceEnvironmentResource.ID",
-	"cluster_settings":               "description.AppServiceEnvironmentResource.AppServiceEnvironment.ClusterSettings",
-	"default_front_end_scale_factor": "description.AppServiceEnvironmentResource.AppServiceEnvironment.DefaultFrontEndScaleFactor",
-	"dynamic_cache_enabled":          "description.AppServiceEnvironmentResource.AppServiceEnvironment.DynamicCacheEnabled",
-	"front_end_scale_factor":         "description.AppServiceEnvironmentResource.AppServiceEnvironment.FrontEndScaleFactor",
-	"has_linux_workers":              "description.AppServiceEnvironmentResource.AppServiceEnvironment.HasLinuxWorkers",
+	"akas":                           "description.AppServiceEnvironmentResource.Kind",
+	"cluster_settings":               "description.AppServiceEnvironmentResource.Properties.ClusterSettings",
+	"default_front_end_scale_factor": "description.AppServiceEnvironmentResource.Properties.FrontEndScaleFactor",
+	"dynamic_cache_enabled":          "description.AppServiceEnvironmentResource.Properties.Suspended",
+	"front_end_scale_factor":         "description.AppServiceEnvironmentResource.Properties.FrontEndScaleFactor",
+	"has_linux_workers":              "description.AppServiceEnvironmentResource.Properties.HasLinuxWorkers",
 	"id":                             "description.AppServiceEnvironmentResource.ID",
-	"internal_load_balancing_mode":   "description.AppServiceEnvironmentResource.AppServiceEnvironment.InternalLoadBalancingMode",
-	"is_healthy_environment":         "description.AppServiceEnvironmentResource.AppServiceEnvironment.EnvironmentIsHealthy",
+	"internal_load_balancing_mode":   "description.AppServiceEnvironmentResource.Properties.InternalLoadBalancingMode",
+	"is_healthy_environment":         "description.AppServiceEnvironmentResource.Properties.FrontEndScaleFactor",
 	"kaytu_account_id":               "metadata.SourceID",
 	"kind":                           "description.AppServiceEnvironmentResource.Kind",
 	"name":                           "description.AppServiceEnvironmentResource.Name",
-	"provisioning_state":             "description.AppServiceEnvironmentResource.AppServiceEnvironment.ProvisioningState",
+	"provisioning_state":             "description.AppServiceEnvironmentResource.Properties.ProvisioningState",
 	"region":                         "description.AppServiceEnvironmentResource.Location",
-	"resource_group":                 "description.AppServiceEnvironmentResource.AppServiceEnvironment.ResourceGroup",
-	"status":                         "description.AppServiceEnvironmentResource.AppServiceEnvironment.Status",
-	"suspended":                      "description.AppServiceEnvironmentResource.AppServiceEnvironment.Suspended",
+	"resource_group":                 "description.ResourceGroup",
+	"status":                         "description.AppServiceEnvironmentResource.Properties.Status",
+	"suspended":                      "description.AppServiceEnvironmentResource.Properties.Suspended",
 	"tags":                           "description.AppServiceEnvironmentResource.Tags",
 	"title":                          "description.AppServiceEnvironmentResource.Name",
 	"type":                           "description.AppServiceEnvironmentResource.Type",
-	"vnet_name":                      "description.AppServiceEnvironmentResource.AppServiceEnvironment.VnetName",
-	"vnet_resource_group_name":       "description.AppServiceEnvironmentResource.AppServiceEnvironment.VnetResourceGroupName",
-	"vnet_subnet_name":               "description.AppServiceEnvironmentResource.AppServiceEnvironment.VnetSubnetName",
+	"vnet_name":                      "description.AppServiceEnvironmentResource.Properties.VirtualNetwork.Name",
+	"vnet_subnet_name":               "description.AppServiceEnvironmentResource.Properties.VirtualNetwork.Subnet",
 }
 
 func ListAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -718,29 +913,28 @@ func ListAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getAppServiceEnvironmentFilters = map[string]string{
-	"akas":                           "description.AppServiceEnvironmentResource.ID",
-	"cluster_settings":               "description.AppServiceEnvironmentResource.AppServiceEnvironment.ClusterSettings",
-	"default_front_end_scale_factor": "description.AppServiceEnvironmentResource.AppServiceEnvironment.DefaultFrontEndScaleFactor",
-	"dynamic_cache_enabled":          "description.AppServiceEnvironmentResource.AppServiceEnvironment.DynamicCacheEnabled",
-	"front_end_scale_factor":         "description.AppServiceEnvironmentResource.AppServiceEnvironment.FrontEndScaleFactor",
-	"has_linux_workers":              "description.AppServiceEnvironmentResource.AppServiceEnvironment.HasLinuxWorkers",
+	"akas":                           "description.AppServiceEnvironmentResource.Kind",
+	"cluster_settings":               "description.AppServiceEnvironmentResource.Properties.ClusterSettings",
+	"default_front_end_scale_factor": "description.AppServiceEnvironmentResource.Properties.FrontEndScaleFactor",
+	"dynamic_cache_enabled":          "description.AppServiceEnvironmentResource.Properties.Suspended",
+	"front_end_scale_factor":         "description.AppServiceEnvironmentResource.Properties.FrontEndScaleFactor",
+	"has_linux_workers":              "description.AppServiceEnvironmentResource.Properties.HasLinuxWorkers",
 	"id":                             "description.AppServiceEnvironmentResource.ID",
-	"internal_load_balancing_mode":   "description.AppServiceEnvironmentResource.AppServiceEnvironment.InternalLoadBalancingMode",
-	"is_healthy_environment":         "description.AppServiceEnvironmentResource.AppServiceEnvironment.EnvironmentIsHealthy",
+	"internal_load_balancing_mode":   "description.AppServiceEnvironmentResource.Properties.InternalLoadBalancingMode",
+	"is_healthy_environment":         "description.AppServiceEnvironmentResource.Properties.FrontEndScaleFactor",
 	"kaytu_account_id":               "metadata.SourceID",
 	"kind":                           "description.AppServiceEnvironmentResource.Kind",
 	"name":                           "description.AppServiceEnvironmentResource.name",
-	"provisioning_state":             "description.AppServiceEnvironmentResource.AppServiceEnvironment.ProvisioningState",
+	"provisioning_state":             "description.AppServiceEnvironmentResource.Properties.ProvisioningState",
 	"region":                         "description.AppServiceEnvironmentResource.Location",
 	"resource_group":                 "description.ResourceGroup",
-	"status":                         "description.AppServiceEnvironmentResource.AppServiceEnvironment.Status",
-	"suspended":                      "description.AppServiceEnvironmentResource.AppServiceEnvironment.Suspended",
+	"status":                         "description.AppServiceEnvironmentResource.Properties.Status",
+	"suspended":                      "description.AppServiceEnvironmentResource.Properties.Suspended",
 	"tags":                           "description.AppServiceEnvironmentResource.Tags",
 	"title":                          "description.AppServiceEnvironmentResource.Name",
 	"type":                           "description.AppServiceEnvironmentResource.Type",
-	"vnet_name":                      "description.AppServiceEnvironmentResource.AppServiceEnvironment.VnetName",
-	"vnet_resource_group_name":       "description.AppServiceEnvironmentResource.AppServiceEnvironment.VnetResourceGroupName",
-	"vnet_subnet_name":               "description.AppServiceEnvironmentResource.AppServiceEnvironment.VnetSubnetName",
+	"vnet_name":                      "description.AppServiceEnvironmentResource.Properties.VirtualNetwork.Name",
+	"vnet_subnet_name":               "description.AppServiceEnvironmentResource.Properties.VirtualNetwork.Subnet",
 }
 
 func GetAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -856,28 +1050,28 @@ func (p AppServiceFunctionAppPaginator) NextPage(ctx context.Context) ([]AppServ
 var listAppServiceFunctionAppFilters = map[string]string{
 	"akas":                           "description.Site.ID",
 	"auth_settings":                  "description.SiteAuthSettings",
-	"client_affinity_enabled":        "description.Site.SiteProperties.ClientAffinityEnabled",
-	"client_cert_enabled":            "description.Site.SiteProperties.ClientCertEnabled",
+	"client_affinity_enabled":        "description.Site.Properties.ClientAffinityEnabled",
+	"client_cert_enabled":            "description.Site.Properties.ClientCertEnabled",
 	"configuration":                  "description.SiteConfigResource",
-	"default_site_hostname":          "description.Site.SiteProperties.DefaultHostName",
-	"enabled":                        "description.Site.SiteProperties.Enabled",
-	"host_name_disabled":             "description.Site.SiteProperties.HostNamesDisabled",
-	"host_names":                     "description.Site.SiteProperties.HostNames",
-	"https_only":                     "description.Site.SiteProperties.HTTPSOnly",
+	"default_site_hostname":          "description.Site.Properties.DefaultHostName",
+	"enabled":                        "description.Site.Properties.Enabled",
+	"host_name_disabled":             "description.Site.Properties.HostNamesDisabled",
+	"host_names":                     "description.Site.Properties.HostNames",
+	"https_only":                     "description.Site.Properties.HTTPSOnly",
 	"id":                             "description.Site.ID",
 	"kaytu_account_id":               "metadata.SourceID",
 	"kind":                           "description.Site.Kind",
 	"name":                           "description.Site.Name",
-	"outbound_ip_addresses":          "description.Site.SiteProperties.OutboundIPAddresses",
-	"possible_outbound_ip_addresses": "description.Site.SiteProperties.PossibleOutboundIPAddresses",
+	"outbound_ip_addresses":          "description.Site.Properties.OutboundIPAddresses",
+	"possible_outbound_ip_addresses": "description.Site.Properties.PossibleOutboundIPAddresses",
 	"region":                         "description.Site.Location",
-	"reserved":                       "description.Site.SiteProperties.Reserved",
-	"resource_group":                 "description.Site.SiteProperties.ResourceGroup",
-	"site_config":                    "description.Site.SiteProperties.SiteConfig",
-	"state":                          "description.Site.SiteProperties.State",
+	"reserved":                       "description.Site.Properties.Reserved",
+	"resource_group":                 "description.ResourceGroup",
+	"site_config":                    "description.Site.Properties.SiteConfig",
+	"state":                          "description.Site.Properties.State",
 	"tags":                           "description.Site.Tags",
 	"title":                          "description.Site.Name",
-	"type":                           "description.Site.Type",
+	"type":                           "description.Site.Properties.Type",
 }
 
 func ListAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -913,28 +1107,28 @@ func ListAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plug
 var getAppServiceFunctionAppFilters = map[string]string{
 	"akas":                           "description.Site.ID",
 	"auth_settings":                  "description.SiteAuthSettings",
-	"client_affinity_enabled":        "description.Site.SiteProperties.ClientAffinityEnabled",
-	"client_cert_enabled":            "description.Site.SiteProperties.ClientCertEnabled",
+	"client_affinity_enabled":        "description.Site.Properties.ClientAffinityEnabled",
+	"client_cert_enabled":            "description.Site.Properties.ClientCertEnabled",
 	"configuration":                  "description.SiteConfigResource",
-	"default_site_hostname":          "description.Site.SiteProperties.DefaultHostName",
-	"enabled":                        "description.Site.SiteProperties.Enabled",
-	"host_name_disabled":             "description.Site.SiteProperties.HostNamesDisabled",
-	"host_names":                     "description.Site.SiteProperties.HostNames",
-	"https_only":                     "description.Site.SiteProperties.HTTPSOnly",
+	"default_site_hostname":          "description.Site.Properties.DefaultHostName",
+	"enabled":                        "description.Site.Properties.Enabled",
+	"host_name_disabled":             "description.Site.Properties.HostNamesDisabled",
+	"host_names":                     "description.Site.Properties.HostNames",
+	"https_only":                     "description.Site.Properties.HTTPSOnly",
 	"id":                             "description.Site.ID",
 	"kaytu_account_id":               "metadata.SourceID",
 	"kind":                           "description.Site.Kind",
 	"name":                           "description.Site.name",
-	"outbound_ip_addresses":          "description.Site.SiteProperties.OutboundIPAddresses",
-	"possible_outbound_ip_addresses": "description.Site.SiteProperties.PossibleOutboundIPAddresses",
+	"outbound_ip_addresses":          "description.Site.Properties.OutboundIPAddresses",
+	"possible_outbound_ip_addresses": "description.Site.Properties.PossibleOutboundIPAddresses",
 	"region":                         "description.Site.Location",
-	"reserved":                       "description.Site.SiteProperties.Reserved",
+	"reserved":                       "description.Site.Properties.Reserved",
 	"resource_group":                 "description.ResourceGroup",
-	"site_config":                    "description.Site.SiteProperties.SiteConfig",
-	"state":                          "description.Site.SiteProperties.State",
+	"site_config":                    "description.Site.Properties.SiteConfig",
+	"state":                          "description.Site.Properties.State",
 	"tags":                           "description.Site.Tags",
 	"title":                          "description.Site.Name",
-	"type":                           "description.Site.Type",
+	"type":                           "description.Site.Properties.Type",
 }
 
 func GetAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1050,25 +1244,26 @@ func (p AppServiceWebAppPaginator) NextPage(ctx context.Context) ([]AppServiceWe
 var listAppServiceWebAppFilters = map[string]string{
 	"akas":                           "description.Site.ID",
 	"auth_settings":                  "description.SiteAuthSettings",
-	"client_affinity_enabled":        "description.Site.SiteProperties.ClientAffinityEnabled",
-	"client_cert_enabled":            "description.Site.SiteProperties.ClientCertEnabled",
+	"client_affinity_enabled":        "description.Site.Properties.ClientAffinityEnabled",
+	"client_cert_enabled":            "description.Site.Properties.ClientCertEnabled",
 	"configuration":                  "description.SiteConfigResource",
-	"default_site_hostname":          "description.Site.SiteProperties.DefaultHostName",
-	"enabled":                        "description.Site.SiteProperties.Enabled",
-	"host_name_disabled":             "description.Site.SiteProperties.HostNamesDisabled",
-	"host_names":                     "description.Site.SiteProperties.HostNames",
-	"https_only":                     "description.Site.SiteProperties.HTTPSOnly",
+	"default_site_hostname":          "description.Site.Properties.DefaultHostName",
+	"diagnostic_logs_configuration":  "description.SiteLogConfig",
+	"enabled":                        "description.Site.Properties.Enabled",
+	"host_name_disabled":             "description.Site.Properties.HostNamesDisabled",
+	"host_names":                     "description.Site.Properties.HostNames",
+	"https_only":                     "description.Site.Properties.HTTPSOnly",
 	"id":                             "description.Site.ID",
 	"kaytu_account_id":               "metadata.SourceID",
 	"kind":                           "description.Site.Kind",
 	"name":                           "description.Site.Name",
-	"outbound_ip_addresses":          "description.Site.SiteProperties.OutboundIPAddresses",
-	"possible_outbound_ip_addresses": "description.Site.SiteProperties.PossibleOutboundIPAddresses",
+	"outbound_ip_addresses":          "description.Site.Properties.OutboundIPAddresses",
+	"possible_outbound_ip_addresses": "description.Site.Properties.PossibleOutboundIPAddresses",
 	"region":                         "description.Site.Location",
-	"reserved":                       "description.Site.SiteProperties.Reserved",
-	"resource_group":                 "description.Site.SiteProperties.ResourceGroup",
-	"site_config":                    "description.Site.SiteProperties.SiteConfig",
-	"state":                          "description.Site.SiteProperties.State",
+	"reserved":                       "description.Site.Properties.Reserved",
+	"resource_group":                 "description.ResourceGroup",
+	"site_config":                    "description.Site.Properties.SiteConfig",
+	"state":                          "description.Site.Properties.State",
 	"tags":                           "description.Site.Tags",
 	"title":                          "description.Site.Name",
 	"type":                           "description.Site.Type",
@@ -1108,25 +1303,26 @@ func ListAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 var getAppServiceWebAppFilters = map[string]string{
 	"akas":                           "description.Site.ID",
 	"auth_settings":                  "description.SiteAuthSettings",
-	"client_affinity_enabled":        "description.Site.SiteProperties.ClientAffinityEnabled",
-	"client_cert_enabled":            "description.Site.SiteProperties.ClientCertEnabled",
+	"client_affinity_enabled":        "description.Site.Properties.ClientAffinityEnabled",
+	"client_cert_enabled":            "description.Site.Properties.ClientCertEnabled",
 	"configuration":                  "description.SiteConfigResource",
-	"default_site_hostname":          "description.Site.SiteProperties.DefaultHostName",
-	"enabled":                        "description.Site.SiteProperties.Enabled",
-	"host_name_disabled":             "description.Site.SiteProperties.HostNamesDisabled",
-	"host_names":                     "description.Site.SiteProperties.HostNames",
-	"https_only":                     "description.Site.SiteProperties.HTTPSOnly",
+	"default_site_hostname":          "description.Site.Properties.DefaultHostName",
+	"diagnostic_logs_configuration":  "description.SiteLogConfig",
+	"enabled":                        "description.Site.Properties.Enabled",
+	"host_name_disabled":             "description.Site.Properties.HostNamesDisabled",
+	"host_names":                     "description.Site.Properties.HostNames",
+	"https_only":                     "description.Site.Properties.HTTPSOnly",
 	"id":                             "description.Site.ID",
 	"kaytu_account_id":               "metadata.SourceID",
 	"kind":                           "description.Site.Kind",
 	"name":                           "description.Site.name",
-	"outbound_ip_addresses":          "description.Site.SiteProperties.OutboundIPAddresses",
-	"possible_outbound_ip_addresses": "description.Site.SiteProperties.PossibleOutboundIPAddresses",
+	"outbound_ip_addresses":          "description.Site.Properties.OutboundIPAddresses",
+	"possible_outbound_ip_addresses": "description.Site.Properties.PossibleOutboundIPAddresses",
 	"region":                         "description.Site.Location",
-	"reserved":                       "description.Site.SiteProperties.Reserved",
+	"reserved":                       "description.Site.Properties.Reserved",
 	"resource_group":                 "description.ResourceGroup",
-	"site_config":                    "description.Site.SiteProperties.SiteConfig",
-	"state":                          "description.Site.SiteProperties.State",
+	"site_config":                    "description.Site.Properties.SiteConfig",
+	"state":                          "description.Site.Properties.State",
 	"tags":                           "description.Site.Tags",
 	"title":                          "description.Site.Name",
 	"type":                           "description.Site.Type",
@@ -1165,6 +1361,238 @@ func GetAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 // ==========================  END: AppServiceWebApp =============================
+
+// ==========================  START: AppServiceWebAppSlot =============================
+
+type AppServiceWebAppSlot struct {
+	Description   azure.AppServiceWebAppSlotDescription `json:"description"`
+	Metadata      azure.Metadata                        `json:"metadata"`
+	ResourceJobID int                                   `json:"resource_job_id"`
+	SourceJobID   int                                   `json:"source_job_id"`
+	ResourceType  string                                `json:"resource_type"`
+	SourceType    string                                `json:"source_type"`
+	ID            string                                `json:"id"`
+	ARN           string                                `json:"arn"`
+	SourceID      string                                `json:"source_id"`
+}
+
+type AppServiceWebAppSlotHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  AppServiceWebAppSlot `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type AppServiceWebAppSlotHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []AppServiceWebAppSlotHit `json:"hits"`
+}
+
+type AppServiceWebAppSlotSearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  AppServiceWebAppSlotHits `json:"hits"`
+}
+
+type AppServiceWebAppSlotPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAppServiceWebAppSlotPaginator(filters []essdk.BoolFilter, limit *int64) (AppServiceWebAppSlotPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_web_staticsitesslot", filters, limit)
+	if err != nil {
+		return AppServiceWebAppSlotPaginator{}, err
+	}
+
+	p := AppServiceWebAppSlotPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AppServiceWebAppSlotPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AppServiceWebAppSlotPaginator) NextPage(ctx context.Context) ([]AppServiceWebAppSlot, error) {
+	var response AppServiceWebAppSlotSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AppServiceWebAppSlot
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAppServiceWebAppSlotFilters = map[string]string{
+	"akas":                           "description.Site.ID",
+	"app_name":                       "description.AppName",
+	"availability_state":             "description.Site.Properties.AvailabilityState",
+	"client_affinity_enabled":        "description.Site.Properties.ClientAffinityEnabled",
+	"client_cert_exclusion_paths":    "description.Site.Properties.ClientCertExclusionPaths",
+	"client_cert_mode":               "description.Site.Properties.ClientCertMode",
+	"container_size":                 "description.Site.Properties.ContainerSize",
+	"custom_domain_verification_id":  "description.Site.Properties.CustomDomainVerificationID",
+	"default_host_name":              "description.Site.Properties.DefaultHostName",
+	"enabled":                        "description.Site.Properties.Enabled",
+	"enabled_host_names":             "description.Site.Properties.EnabledHostNames",
+	"host_name_ssl_states":           "description.Site.Properties.HostNameSSLStates",
+	"host_names":                     "description.Site.Properties.HostNames",
+	"host_names_disabled":            "description.Site.Properties.HostNamesDisabled",
+	"hosting_environment_profile":    "description.Site.Properties.HostingEnvironmentProfile",
+	"https_only":                     "description.Site.Properties.HTTPSOnly",
+	"hyper_v":                        "description.Site.Properties.HyperV",
+	"id":                             "description.Site.ID",
+	"identity":                       "description.Site.Identity",
+	"is_default_container":           "description.Site.Properties.IsDefaultContainer",
+	"is_xenon":                       "description.Site.Properties.IsXenon",
+	"kind":                           "description.Site.Kind",
+	"last_modified_time_utc":         "description.Site.Properties.LastModifiedTimeUTC",
+	"name":                           "description.Site.Name",
+	"outbound_ip_addresses":          "description.Site.Properties.OutboundIPAddresses",
+	"possible_outbound_ip_addresses": "description.Site.Properties.PossibleOutboundIPAddresses",
+	"redundancy_mode":                "description.Site.Properties.RedundancyMode",
+	"region":                         "description.Site.Location",
+	"repository_site_name":           "description.Site.Properties.RepositorySiteName",
+	"reserved":                       "description.Site.Properties.Reserved",
+	"resource_group":                 "description.ResourceGroup",
+	"scm_site_also_stopped":          "description.Site.Properties.ScmSiteAlsoStopped",
+	"server_farm_id":                 "description.Site.Properties.ServerFarmID",
+	"site_config":                    "description.Site.Properties.SiteConfig",
+	"slot_swap_status":               "description.Site.Properties.SlotSwapStatus",
+	"state":                          "description.Site.Properties.State",
+	"suspended_till":                 "description.Site.Properties.SuspendedTill",
+	"tags":                           "description.Site.Tags",
+	"target_swap_slot":               "description.Site.Properties.TargetSwapSlot",
+	"title":                          "description.Site.Name",
+	"traffic_manager_host_names":     "description.Site.Properties.TrafficManagerHostNames",
+	"type":                           "description.Site.Type",
+	"usage_state":                    "description.Site.Properties.UsageState",
+}
+
+func ListAppServiceWebAppSlot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAppServiceWebAppSlot")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewAppServiceWebAppSlotPaginator(essdk.BuildFilter(d.EqualsQuals, listAppServiceWebAppSlotFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getAppServiceWebAppSlotFilters = map[string]string{
+	"akas":                           "description.Site.ID",
+	"app_name":                       "description.AppName",
+	"availability_state":             "description.Site.Properties.AvailabilityState",
+	"client_affinity_enabled":        "description.Site.Properties.ClientAffinityEnabled",
+	"client_cert_exclusion_paths":    "description.Site.Properties.ClientCertExclusionPaths",
+	"client_cert_mode":               "description.Site.Properties.ClientCertMode",
+	"container_size":                 "description.Site.Properties.ContainerSize",
+	"custom_domain_verification_id":  "description.Site.Properties.CustomDomainVerificationID",
+	"default_host_name":              "description.Site.Properties.DefaultHostName",
+	"enabled":                        "description.Site.Properties.Enabled",
+	"enabled_host_names":             "description.Site.Properties.EnabledHostNames",
+	"host_name_ssl_states":           "description.Site.Properties.HostNameSSLStates",
+	"host_names":                     "description.Site.Properties.HostNames",
+	"host_names_disabled":            "description.Site.Properties.HostNamesDisabled",
+	"hosting_environment_profile":    "description.Site.Properties.HostingEnvironmentProfile",
+	"https_only":                     "description.Site.Properties.HTTPSOnly",
+	"hyper_v":                        "description.Site.Properties.HyperV",
+	"id":                             "description.Site.ID",
+	"identity":                       "description.Site.Identity",
+	"is_default_container":           "description.Site.Properties.IsDefaultContainer",
+	"is_xenon":                       "description.Site.Properties.IsXenon",
+	"kind":                           "description.Site.Kind",
+	"last_modified_time_utc":         "description.Site.Properties.LastModifiedTimeUTC",
+	"name":                           "description.Site.Name",
+	"outbound_ip_addresses":          "description.Site.Properties.OutboundIPAddresses",
+	"possible_outbound_ip_addresses": "description.Site.Properties.PossibleOutboundIPAddresses",
+	"redundancy_mode":                "description.Site.Properties.RedundancyMode",
+	"region":                         "description.Site.Location",
+	"repository_site_name":           "description.Site.Properties.RepositorySiteName",
+	"reserved":                       "description.Site.Properties.Reserved",
+	"resource_group":                 "description.ResourceGroup",
+	"scm_site_also_stopped":          "description.Site.Properties.ScmSiteAlsoStopped",
+	"server_farm_id":                 "description.Site.Properties.ServerFarmID",
+	"site_config":                    "description.Site.Properties.SiteConfig",
+	"slot_swap_status":               "description.Site.Properties.SlotSwapStatus",
+	"state":                          "description.Site.Properties.State",
+	"suspended_till":                 "description.Site.Properties.SuspendedTill",
+	"tags":                           "description.Site.Tags",
+	"target_swap_slot":               "description.Site.Properties.TargetSwapSlot",
+	"title":                          "description.Site.Name",
+	"traffic_manager_host_names":     "description.Site.Properties.TrafficManagerHostNames",
+	"type":                           "description.Site.Type",
+	"usage_state":                    "description.Site.Properties.UsageState",
+}
+
+func GetAppServiceWebAppSlot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAppServiceWebAppSlot")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewAppServiceWebAppSlotPaginator(essdk.BuildFilter(d.EqualsQuals, getAppServiceWebAppSlotFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AppServiceWebAppSlot =============================
 
 // ==========================  START: AppServicePlan =============================
 
@@ -1246,26 +1674,26 @@ func (p AppServicePlanPaginator) NextPage(ctx context.Context) ([]AppServicePlan
 var listAppServicePlanFilters = map[string]string{
 	"akas":                         "description.Plan.ID",
 	"apps":                         "description.Apps",
-	"hyper_v":                      "description.Plan.AppServicePlanProperties.HyperV",
+	"hyper_v":                      "description.Plan.Properties.HyperV",
 	"id":                           "description.Plan.ID",
-	"is_spot":                      "description.Plan.AppServicePlanProperties.IsSpot",
-	"is_xenon":                     "description.Plan.AppServicePlanProperties.IsXenon",
+	"is_spot":                      "description.Plan.Properties.IsSpot",
+	"is_xenon":                     "description.Plan.Properties.IsXenon",
 	"kaytu_account_id":             "metadata.SourceID",
 	"kind":                         "description.Plan.Kind",
-	"maximum_elastic_worker_count": "description.Plan.AppServicePlanProperties.MaximumElasticWorkerCount",
-	"maximum_number_of_workers":    "description.Plan.AppServicePlanProperties.MaximumNumberOfWorkers",
+	"maximum_elastic_worker_count": "description.Plan.Properties.MaximumElasticWorkerCount",
+	"maximum_number_of_workers":    "description.Plan.Properties.MaximumNumberOfWorkers",
 	"name":                         "description.Plan.Name",
-	"per_site_scaling":             "description.Plan.AppServicePlanProperties.PerSiteScaling",
-	"provisioning_state":           "description.Plan.AppServicePlanProperties.ProvisioningState",
+	"per_site_scaling":             "description.Plan.Properties.PerSiteScaling",
+	"provisioning_state":           "description.Plan.Properties.ProvisioningState",
 	"region":                       "description.Plan.Location",
-	"reserved":                     "description.Plan.AppServicePlanProperties.Reserved",
+	"reserved":                     "description.Plan.Properties.Reserved",
 	"resource_group":               "description.ResourceGroup",
-	"sku_capacity":                 "description.Plan.Sku.Capacity",
-	"sku_family":                   "description.Plan.Sku.Family",
-	"sku_name":                     "description.Plan.Sku.Name",
-	"sku_size":                     "description.Plan.Sku.Size",
-	"sku_tier":                     "description.Plan.Sku.Tier",
-	"status":                       "description.Plan.AppServicePlanProperties.Status",
+	"sku_capacity":                 "description.Plan.SKU.Capacity",
+	"sku_family":                   "description.Plan.SKU.Family",
+	"sku_name":                     "description.Plan.SKU.Name",
+	"sku_size":                     "description.Plan.SKU.Size",
+	"sku_tier":                     "description.Plan.SKU.Tier",
+	"status":                       "description.Plan.Properties.Status",
 	"tags":                         "description.Plan.Tags",
 	"title":                        "description.Plan.Name",
 	"type":                         "description.Plan.Type",
@@ -1304,26 +1732,26 @@ func ListAppServicePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 var getAppServicePlanFilters = map[string]string{
 	"akas":                         "description.Plan.ID",
 	"apps":                         "description.Apps",
-	"hyper_v":                      "description.Plan.AppServicePlanProperties.HyperV",
+	"hyper_v":                      "description.Plan.Properties.HyperV",
 	"id":                           "description.Plan.ID",
-	"is_spot":                      "description.Plan.AppServicePlanProperties.IsSpot",
-	"is_xenon":                     "description.Plan.AppServicePlanProperties.IsXenon",
+	"is_spot":                      "description.Plan.Properties.IsSpot",
+	"is_xenon":                     "description.Plan.Properties.IsXenon",
 	"kaytu_account_id":             "metadata.SourceID",
 	"kind":                         "description.Plan.Kind",
-	"maximum_elastic_worker_count": "description.Plan.AppServicePlanProperties.MaximumElasticWorkerCount",
-	"maximum_number_of_workers":    "description.Plan.AppServicePlanProperties.MaximumNumberOfWorkers",
+	"maximum_elastic_worker_count": "description.Plan.Properties.MaximumElasticWorkerCount",
+	"maximum_number_of_workers":    "description.Plan.Properties.MaximumNumberOfWorkers",
 	"name":                         "description.Site.name",
-	"per_site_scaling":             "description.Plan.AppServicePlanProperties.PerSiteScaling",
-	"provisioning_state":           "description.Plan.AppServicePlanProperties.ProvisioningState",
+	"per_site_scaling":             "description.Plan.Properties.PerSiteScaling",
+	"provisioning_state":           "description.Plan.Properties.ProvisioningState",
 	"region":                       "description.Plan.Location",
-	"reserved":                     "description.Plan.AppServicePlanProperties.Reserved",
+	"reserved":                     "description.Plan.Properties.Reserved",
 	"resource_group":               "description.ResourceGroup",
-	"sku_capacity":                 "description.Plan.Sku.Capacity",
-	"sku_family":                   "description.Plan.Sku.Family",
-	"sku_name":                     "description.Plan.Sku.Name",
-	"sku_size":                     "description.Plan.Sku.Size",
-	"sku_tier":                     "description.Plan.Sku.Tier",
-	"status":                       "description.Plan.AppServicePlanProperties.Status",
+	"sku_capacity":                 "description.Plan.SKU.Capacity",
+	"sku_family":                   "description.Plan.SKU.Family",
+	"sku_name":                     "description.Plan.SKU.Name",
+	"sku_size":                     "description.Plan.SKU.Size",
+	"sku_tier":                     "description.Plan.SKU.Tier",
+	"status":                       "description.Plan.Properties.Status",
 	"tags":                         "description.Plan.Tags",
 	"title":                        "description.Plan.Name",
 	"type":                         "description.Plan.Type",
@@ -1440,12 +1868,12 @@ func (p ContainerAppPaginator) NextPage(ctx context.Context) ([]ContainerApp, er
 }
 
 var listContainerAppFilters = map[string]string{
-	"akas":             "description.ContainerApps.ID",
-	"id":               "description.ContainerApps.Id",
+	"akas":             "description.Server.ID",
+	"id":               "description.Server.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ContainerApps.Name",
-	"tags":             "description.ContainerApps.Tags",
-	"title":            "description.ContainerApps.Name",
+	"name":             "description.Server.Name",
+	"tags":             "description.Server.Tags",
+	"title":            "description.Server.Name",
 }
 
 func ListContainerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1479,12 +1907,12 @@ func ListContainerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 var getContainerAppFilters = map[string]string{
-	"akas":             "description.ContainerApps.ID",
-	"id":               "description.ContainerApps.Id",
+	"akas":             "description.Server.ID",
+	"id":               "description.Server.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ContainerApps.Name",
-	"tags":             "description.ContainerApps.Tags",
-	"title":            "description.ContainerApps.Name",
+	"name":             "description.Server.Name",
+	"tags":             "description.Server.Tags",
+	"title":            "description.Server.Name",
 }
 
 func GetContainerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1598,12 +2026,12 @@ func (p AppManagedEnvironmentPaginator) NextPage(ctx context.Context) ([]AppMana
 }
 
 var listAppManagedEnvironmentFilters = map[string]string{
-	"akas":             "description.ManagedEnvironments.ID",
-	"id":               "description.ManagedEnvironments.Id",
+	"akas":             "description.HostingEnvironment.ID",
+	"id":               "description.HostingEnvironment.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ManagedEnvironments.Name",
-	"tags":             "description.ManagedEnvironments.Tags",
-	"title":            "description.ManagedEnvironments.Name",
+	"name":             "description.HostingEnvironment.Name",
+	"tags":             "description.HostingEnvironment.Tags",
+	"title":            "description.HostingEnvironment.Name",
 }
 
 func ListAppManagedEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1637,12 +2065,12 @@ func ListAppManagedEnvironment(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getAppManagedEnvironmentFilters = map[string]string{
-	"akas":             "description.ManagedEnvironments.ID",
-	"id":               "description.ManagedEnvironments.Id",
+	"akas":             "description.HostingEnvironment.ID",
+	"id":               "description.HostingEnvironment.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ManagedEnvironments.Name",
-	"tags":             "description.ManagedEnvironments.Tags",
-	"title":            "description.ManagedEnvironments.Name",
+	"name":             "description.HostingEnvironment.Name",
+	"tags":             "description.HostingEnvironment.Tags",
+	"title":            "description.HostingEnvironment.Name",
 }
 
 func GetAppManagedEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1756,12 +2184,12 @@ func (p WebServerFarmsPaginator) NextPage(ctx context.Context) ([]WebServerFarms
 }
 
 var listWebServerFarmsFilters = map[string]string{
-	"akas":             "description.ServerFarms.ID",
-	"id":               "description.ServerFarms.Id",
+	"akas":             "description.ServerFarm.ID",
+	"id":               "description.ServerFarm.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ServerFarms.Name",
-	"tags":             "description.ServerFarms.Tags",
-	"title":            "description.ServerFarms.Name",
+	"name":             "description.ServerFarm.Name",
+	"tags":             "description.ServerFarm.Tags",
+	"title":            "description.ServerFarm.Name",
 }
 
 func ListWebServerFarms(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1795,12 +2223,12 @@ func ListWebServerFarms(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getWebServerFarmsFilters = map[string]string{
-	"akas":             "description.ServerFarms.ID",
-	"id":               "description.ServerFarms.Id",
+	"akas":             "description.ServerFarm.ID",
+	"id":               "description.ServerFarm.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ServerFarms.Name",
-	"tags":             "description.ServerFarms.Tags",
-	"title":            "description.ServerFarms.Name",
+	"name":             "description.ServerFarm.Name",
+	"tags":             "description.ServerFarm.Tags",
+	"title":            "description.ServerFarm.Name",
 }
 
 func GetWebServerFarms(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1914,12 +2342,12 @@ func (p BlueprintPaginator) NextPage(ctx context.Context) ([]Blueprint, error) {
 }
 
 var listBlueprintFilters = map[string]string{
-	"akas":             "description.Blueprints.ID",
-	"id":               "description.Blueprints.Id",
+	"akas":             "description.Blueprint.ID",
+	"id":               "description.Blueprints.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Blueprints.Name",
-	"tags":             "description.Blueprints.Tags",
-	"title":            "description.Blueprints.Name",
+	"name":             "description.Blueprint.Name",
+	"tags":             "description.Blueprint.Name",
+	"title":            "description.Blueprint.Name",
 }
 
 func ListBlueprint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -1953,12 +2381,12 @@ func ListBlueprint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 }
 
 var getBlueprintFilters = map[string]string{
-	"akas":             "description.Blueprints.ID",
-	"id":               "description.Blueprints.Id",
+	"akas":             "description.Blueprint.ID",
+	"id":               "description.Blueprints.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Blueprints.Name",
-	"tags":             "description.Blueprints.Tags",
-	"title":            "description.Blueprints.Name",
+	"name":             "description.Blueprint.Name",
+	"tags":             "description.Blueprint.Name",
+	"title":            "description.Blueprint.Name",
 }
 
 func GetBlueprint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -2073,49 +2501,48 @@ func (p ComputeDiskPaginator) NextPage(ctx context.Context) ([]ComputeDisk, erro
 
 var listComputeDiskFilters = map[string]string{
 	"akas": "description.Disk.ID",
-	"creation_data_gallery_image_reference_id":  "description.Disk.DiskProperties.CreationData.GalleryImageReference.ID",
-	"creation_data_gallery_image_reference_lun": "description.Disk.DiskProperties.CreationData.GalleryImageReference.Lun",
-	"creation_data_image_reference_id":          "description.Disk.DiskProperties.CreationData.ImageReference.ID",
-	"creation_data_image_reference_lun":         "description.Disk.DiskProperties.CreationData.ImageReference.Lun",
-	"creation_data_option":                      "description.Disk.DiskProperties.CreationData.CreateOption",
-	"creation_data_source_resource_id":          "description.Disk.DiskProperties.CreationData.SourceResourceID",
-	"creation_data_source_unique_id":            "description.Disk.DiskProperties.CreationData.SourceUniqueID",
-	"creation_data_source_uri":                  "description.Disk.DiskProperties.CreationData.SourceURI",
-	"creation_data_storage_account_id":          "description.Disk.DiskProperties.CreationData.StorageAccountID",
-	"creation_data_upload_size_bytes":           "description.Disk.DiskProperties.CreationData.UploadSizeBytes",
-	"disk_access_id":                            "description.Disk.DiskProperties.DiskAccessID",
-	"disk_iops_mbps_read_only":                  "description.Disk.DiskProperties.DiskMBpsReadOnly",
-	"disk_iops_mbps_read_write":                 "description.Disk.DiskProperties.DiskMBpsReadWrite",
-	"disk_iops_read_only":                       "description.Disk.DiskProperties.DiskIOPSReadOnly",
-	"disk_iops_read_write":                      "description.Disk.DiskProperties.DiskIOPSReadWrite",
-	"disk_size_bytes":                           "description.Disk.DiskProperties.DiskSizeBytes",
-	"disk_size_gb":                              "description.Disk.DiskProperties.DiskSizeGB",
-	"disk_state":                                "description.Disk.DiskProperties.DiskState",
-	"encryption_disk_encryption_set_id":         "description.Disk.DiskProperties.Encryption.DiskEncryptionSetID",
-	"encryption_settings_collection_enabled":    "description.Disk.DiskProperties.EncryptionSettingsCollection.Enabled",
-	"encryption_settings_collection_settings":   "description.Disk.DiskProperties.EncryptionSettingsCollection.EncryptionSettings",
-	"encryption_settings_collection_version":    "description.Disk.DiskProperties.EncryptionSettingsCollection.EncryptionSettingsVersion",
-	"encryption_type":                           "description.Disk.DiskProperties.Encryption.Type",
-	"hyper_v_generation":                        "description.Disk.DiskProperties.HyperVGeneration",
+	"creation_data_gallery_image_reference_id":  "description.Disk.Properties.CreationData.GalleryImageReference.ID",
+	"creation_data_gallery_image_reference_lun": "description.Disk.Properties.CreationData.GalleryImageReference.Lun",
+	"creation_data_image_reference_id":          "description.Disk.Properties.CreationData.ImageReference.ID",
+	"creation_data_image_reference_lun":         "description.Disk.Properties.CreationData.ImageReference.Lun",
+	"creation_data_option":                      "description.Disk.Properties.CreationData.CreateOption",
+	"creation_data_source_resource_id":          "description.Disk.Properties.CreationData.SourceResourceID",
+	"creation_data_source_unique_id":            "description.Disk.Properties.CreationData.SourceUniqueID",
+	"creation_data_source_uri":                  "description.Disk.Properties.CreationData.SourceURI",
+	"creation_data_storage_account_id":          "description.Disk.Properties.CreationData.StorageAccountID",
+	"creation_data_upload_size_bytes":           "description.Disk.Properties.CreationData.UploadSizeBytes",
+	"disk_access_id":                            "description.Disk.Properties.DiskAccessID",
+	"disk_iops_mbps_read_only":                  "description.Disk.Properties.DiskMBpsReadOnly",
+	"disk_iops_mbps_read_write":                 "description.Disk.Properties.DiskMBpsReadWrite",
+	"disk_iops_read_only":                       "description.Disk.Properties.DiskMBpsReadOnly",
+	"disk_iops_read_write":                      "description.Disk.Properties.DiskMBpsReadWrite",
+	"disk_size_bytes":                           "description.Disk.Properties.DiskSizeBytes",
+	"disk_size_gb":                              "description.Disk.Properties.DiskSizeGB",
+	"disk_state":                                "description.Disk.Properties.DiskState",
+	"encryption_disk_encryption_set_id":         "description.Disk.Properties.Encryption.DiskEncryptionSetID",
+	"encryption_settings_collection_enabled":    "description.Disk.Properties.EncryptionSettingsCollection.Enabled",
+	"encryption_settings_collection_settings":   "description.Disk.Properties.EncryptionSettingsCollection.EncryptionSettings",
+	"encryption_settings_collection_version":    "description.Disk.Properties.EncryptionSettingsCollection.EncryptionSettingsVersion",
+	"encryption_type":                           "description.Disk.Properties.Encryption.Type",
+	"hyper_v_generation":                        "description.Disk.Properties.HyperVGeneration",
 	"id":                                        "description.Disk.ID",
 	"kaytu_account_id":                          "metadata.SourceID",
 	"managed_by":                                "description.Disk.ManagedBy",
 	"managed_by_extended":                       "description.Disk.ManagedByExtended",
-	"max_shares":                                "description.Disk.DiskProperties.MaxShares",
+	"max_shares":                                "description.Disk.Properties.MaxShares",
 	"name":                                      "description.Disk.Name",
-	"network_access_policy":                     "description.Disk.DiskProperties.NetworkAccessPolicy",
-	"os_type":                                   "description.Disk.DiskProperties.OsType",
-	"provisioning_state":                        "description.Disk.DiskProperties.ProvisioningState",
+	"network_access_policy":                     "description.Disk.Properties.NetworkAccessPolicy",
+	"os_type":                                   "description.Disk.Properties.OSType",
+	"provisioning_state":                        "description.Disk.Type",
 	"region":                                    "description.Disk.Location",
 	"resource_group":                            "description.ResourceGroup",
-	"share_info":                                "description.Disk.DiskProperties.ShareInfo",
-	"sku_name":                                  "description.Disk.Sku.Name",
-	"sku_tier":                                  "description.Disk.Sku.Tier",
+	"share_info":                                "description.Disk.Properties.ShareInfo",
+	"sku_name":                                  "description.Disk.SKU.Name",
+	"sku_tier":                                  "description.Disk.SKU.Tier",
 	"tags":                                      "description.Disk.Tags",
-	"time_created":                              "description.Disk.DiskProperties.TimeCreated",
+	"time_created":                              "description.Disk.Properties.TimeCreated",
 	"title":                                     "description.Disk.Name",
-	"type":                                      "description.Disk.Type",
-	"unique_id":                                 "description.Disk.DiskProperties.UniqueID",
+	"unique_id":                                 "description.Disk.Properties.UniqueID",
 	"zones":                                     "description.Disk.Zones",
 }
 
@@ -2151,49 +2578,48 @@ func ListComputeDisk(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 var getComputeDiskFilters = map[string]string{
 	"akas": "description.Disk.ID",
-	"creation_data_gallery_image_reference_id":  "description.Disk.DiskProperties.CreationData.GalleryImageReference.ID",
-	"creation_data_gallery_image_reference_lun": "description.Disk.DiskProperties.CreationData.GalleryImageReference.Lun",
-	"creation_data_image_reference_id":          "description.Disk.DiskProperties.CreationData.ImageReference.ID",
-	"creation_data_image_reference_lun":         "description.Disk.DiskProperties.CreationData.ImageReference.Lun",
-	"creation_data_option":                      "description.Disk.DiskProperties.CreationData.CreateOption",
-	"creation_data_source_resource_id":          "description.Disk.DiskProperties.CreationData.SourceResourceID",
-	"creation_data_source_unique_id":            "description.Disk.DiskProperties.CreationData.SourceUniqueID",
-	"creation_data_source_uri":                  "description.Disk.DiskProperties.CreationData.SourceURI",
-	"creation_data_storage_account_id":          "description.Disk.DiskProperties.CreationData.StorageAccountID",
-	"creation_data_upload_size_bytes":           "description.Disk.DiskProperties.CreationData.UploadSizeBytes",
-	"disk_access_id":                            "description.Disk.DiskProperties.DiskAccessID",
-	"disk_iops_mbps_read_only":                  "description.Disk.DiskProperties.DiskMBpsReadOnly",
-	"disk_iops_mbps_read_write":                 "description.Disk.DiskProperties.DiskMBpsReadWrite",
-	"disk_iops_read_only":                       "description.Disk.DiskProperties.DiskIOPSReadOnly",
-	"disk_iops_read_write":                      "description.Disk.DiskProperties.DiskIOPSReadWrite",
-	"disk_size_bytes":                           "description.Disk.DiskProperties.DiskSizeBytes",
-	"disk_size_gb":                              "description.Disk.DiskProperties.DiskSizeGB",
-	"disk_state":                                "description.Disk.DiskProperties.DiskState",
-	"encryption_disk_encryption_set_id":         "description.Disk.DiskProperties.Encryption.DiskEncryptionSetID",
-	"encryption_settings_collection_enabled":    "description.Disk.DiskProperties.EncryptionSettingsCollection.Enabled",
-	"encryption_settings_collection_settings":   "description.Disk.DiskProperties.EncryptionSettingsCollection.EncryptionSettings",
-	"encryption_settings_collection_version":    "description.Disk.DiskProperties.EncryptionSettingsCollection.EncryptionSettingsVersion",
-	"encryption_type":                           "description.Disk.DiskProperties.Encryption.Type",
-	"hyper_v_generation":                        "description.Disk.DiskProperties.HyperVGeneration",
+	"creation_data_gallery_image_reference_id":  "description.Disk.Properties.CreationData.GalleryImageReference.ID",
+	"creation_data_gallery_image_reference_lun": "description.Disk.Properties.CreationData.GalleryImageReference.Lun",
+	"creation_data_image_reference_id":          "description.Disk.Properties.CreationData.ImageReference.ID",
+	"creation_data_image_reference_lun":         "description.Disk.Properties.CreationData.ImageReference.Lun",
+	"creation_data_option":                      "description.Disk.Properties.CreationData.CreateOption",
+	"creation_data_source_resource_id":          "description.Disk.Properties.CreationData.SourceResourceID",
+	"creation_data_source_unique_id":            "description.Disk.Properties.CreationData.SourceUniqueID",
+	"creation_data_source_uri":                  "description.Disk.Properties.CreationData.SourceURI",
+	"creation_data_storage_account_id":          "description.Disk.Properties.CreationData.StorageAccountID",
+	"creation_data_upload_size_bytes":           "description.Disk.Properties.CreationData.UploadSizeBytes",
+	"disk_access_id":                            "description.Disk.Properties.DiskAccessID",
+	"disk_iops_mbps_read_only":                  "description.Disk.Properties.DiskMBpsReadOnly",
+	"disk_iops_mbps_read_write":                 "description.Disk.Properties.DiskMBpsReadWrite",
+	"disk_iops_read_only":                       "description.Disk.Properties.DiskMBpsReadOnly",
+	"disk_iops_read_write":                      "description.Disk.Properties.DiskMBpsReadWrite",
+	"disk_size_bytes":                           "description.Disk.Properties.DiskSizeBytes",
+	"disk_size_gb":                              "description.Disk.Properties.DiskSizeGB",
+	"disk_state":                                "description.Disk.Properties.DiskState",
+	"encryption_disk_encryption_set_id":         "description.Disk.Properties.Encryption.DiskEncryptionSetID",
+	"encryption_settings_collection_enabled":    "description.Disk.Properties.EncryptionSettingsCollection.Enabled",
+	"encryption_settings_collection_settings":   "description.Disk.Properties.EncryptionSettingsCollection.EncryptionSettings",
+	"encryption_settings_collection_version":    "description.Disk.Properties.EncryptionSettingsCollection.EncryptionSettingsVersion",
+	"encryption_type":                           "description.Disk.Properties.Encryption.Type",
+	"hyper_v_generation":                        "description.Disk.Properties.HyperVGeneration",
 	"id":                                        "description.Disk.ID",
 	"kaytu_account_id":                          "metadata.SourceID",
 	"managed_by":                                "description.Disk.ManagedBy",
 	"managed_by_extended":                       "description.Disk.ManagedByExtended",
-	"max_shares":                                "description.Disk.DiskProperties.MaxShares",
+	"max_shares":                                "description.Disk.Properties.MaxShares",
 	"name":                                      "description.Disk.name",
-	"network_access_policy":                     "description.Disk.DiskProperties.NetworkAccessPolicy",
-	"os_type":                                   "description.Disk.DiskProperties.OsType",
-	"provisioning_state":                        "description.Disk.DiskProperties.ProvisioningState",
+	"network_access_policy":                     "description.Disk.Properties.NetworkAccessPolicy",
+	"os_type":                                   "description.Disk.Properties.OSType",
+	"provisioning_state":                        "description.Disk.Type",
 	"region":                                    "description.Disk.Location",
 	"resource_group":                            "description.ResourceGroup",
-	"share_info":                                "description.Disk.DiskProperties.ShareInfo",
-	"sku_name":                                  "description.Disk.Sku.Name",
-	"sku_tier":                                  "description.Disk.Sku.Tier",
+	"share_info":                                "description.Disk.Properties.ShareInfo",
+	"sku_name":                                  "description.Disk.SKU.Name",
+	"sku_tier":                                  "description.Disk.SKU.Tier",
 	"tags":                                      "description.Disk.Tags",
-	"time_created":                              "description.Disk.DiskProperties.TimeCreated",
+	"time_created":                              "description.Disk.Properties.TimeCreated",
 	"title":                                     "description.Disk.Name",
-	"type":                                      "description.Disk.Type",
-	"unique_id":                                 "description.Disk.DiskProperties.UniqueID",
+	"unique_id":                                 "description.Disk.Properties.UniqueID",
 	"zones":                                     "description.Disk.Zones",
 }
 
@@ -3212,11 +3638,11 @@ var listComputeDiskAccessFilters = map[string]string{
 	"id":                 "description.DiskAccess.ID",
 	"kaytu_account_id":   "metadata.SourceID",
 	"name":               "description.DiskAccess.Name",
-	"provisioning_state": "description.DiskAccess.DiskAccessProperties.ProvisioningState",
+	"provisioning_state": "description.DiskAccess.Properties.ProvisioningState",
 	"region":             "description.DiskAccess.Location",
 	"resource_group":     "description.ResourceGroup",
 	"tags":               "description.DiskAccess.Tags",
-	"time_created":       "description.DiskAccess.DiskAccessProperties.TimeCreated",
+	"time_created":       "description.DiskAccess.Properties.TimeCreated",
 	"title":              "description.DiskAccess.Name",
 	"type":               "description.DiskAccess.Type",
 }
@@ -3256,11 +3682,11 @@ var getComputeDiskAccessFilters = map[string]string{
 	"id":                 "description.DiskAccess.ID",
 	"kaytu_account_id":   "metadata.SourceID",
 	"name":               "description.DiskAccess.name",
-	"provisioning_state": "description.DiskAccess.DiskAccessProperties.ProvisioningState",
+	"provisioning_state": "description.DiskAccess.Properties.ProvisioningState",
 	"region":             "description.DiskAccess.Location",
 	"resource_group":     "description.ResourceGroup",
 	"tags":               "description.DiskAccess.Tags",
-	"time_created":       "description.DiskAccess.DiskAccessProperties.TimeCreated",
+	"time_created":       "description.DiskAccess.Properties.TimeCreated",
 	"title":              "description.DiskAccess.Name",
 	"type":               "description.DiskAccess.Type",
 }
@@ -3377,36 +3803,36 @@ func (p ComputeVirtualMachineScaleSetPaginator) NextPage(ctx context.Context) ([
 
 var listComputeVirtualMachineScaleSetFilters = map[string]string{
 	"akas": "description.VirtualMachineScaleSet.ID",
-	"do_not_run_extensions_on_overprovisioned_vms": "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.DoNotRunExtensionsOnOverprovisionedVMs",
+	"do_not_run_extensions_on_overprovisioned_vms": "description.VirtualMachineScaleSet.Properties.DoNotRunExtensionsOnOverprovisionedVMs",
 	"extensions":                          "description.VirtualMachineScaleSetExtensions",
 	"id":                                  "description.VirtualMachineScaleSet.ID",
 	"identity":                            "description.VirtualMachineScaleSet.Identity",
 	"kaytu_account_id":                    "metadata.SourceID",
 	"location":                            "description.VirtualMachineScaleSet.Location",
 	"name":                                "description.VirtualMachineScaleSet.Name",
-	"overprovision":                       "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.Overprovision",
+	"overprovision":                       "description.VirtualMachineScaleSet.Properties.Overprovision",
 	"plan":                                "description.VirtualMachineScaleSet.Plan",
-	"platform_fault_domain_count":         "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.PlatformFaultDomainCount",
-	"provisioning_state":                  "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.ProvisioningState",
+	"platform_fault_domain_count":         "description.VirtualMachineScaleSet.Properties.PlatformFaultDomainCount",
+	"provisioning_state":                  "description.VirtualMachineScaleSet.Properties.ProvisioningState",
 	"region":                              "description.VirtualMachineScaleSet.Location",
 	"resource_group":                      "description.ResourceGroup",
-	"scale_in_policy":                     "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.ScaleInPolicy",
-	"single_placement_group":              "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.SinglePlacementGroup",
-	"sku_capacity":                        "description.VirtualMachineScaleSet.Sku.Capacity",
-	"sku_name":                            "description.VirtualMachineScaleSet.Sku.Name",
-	"sku_tier":                            "description.VirtualMachineScaleSet.Sku.Tier",
+	"scale_in_policy":                     "description.VirtualMachineScaleSet.Properties.ScaleInPolicy",
+	"single_placement_group":              "description.VirtualMachineScaleSet.Properties.SinglePlacementGroup",
+	"sku_capacity":                        "description.VirtualMachineScaleSet.SKU.Capacity",
+	"sku_name":                            "description.VirtualMachineScaleSet.SKU.Name",
+	"sku_tier":                            "description.VirtualMachineScaleSet.SKU.Tier",
 	"tags":                                "description.VirtualMachineScaleSet.Tags",
 	"tags_src":                            "description.VirtualMachineScaleSet.Tags",
 	"title":                               "description.VirtualMachineScaleSet.Name",
 	"type":                                "description.VirtualMachineScaleSet.Type",
-	"unique_id":                           "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.UniqueID",
-	"upgrade_policy":                      "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.UpgradePolicy",
-	"virtual_machine_diagnostics_profile": "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.VirtualMachineProfile.DiagnosticsProfile",
-	"virtual_machine_extension_profile":   "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.VirtualMachineProfile.ExtensionProfile",
-	"virtual_machine_network_profile":     "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.VirtualMachineProfile.NetworkProfile",
-	"virtual_machine_os_profile":          "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.VirtualMachineProfile.OsProfile",
-	"virtual_machine_security_profile":    "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.VirtualMachineProfile.SecurityProfile",
-	"virtual_machine_storage_profile":     "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.VirtualMachineProfile.StorageProfile",
+	"unique_id":                           "description.VirtualMachineScaleSet.Properties.UniqueID",
+	"upgrade_policy":                      "description.VirtualMachineScaleSet.Properties.UpgradePolicy",
+	"virtual_machine_diagnostics_profile": "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.DiagnosticsProfile",
+	"virtual_machine_extension_profile":   "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.ExtensionProfile",
+	"virtual_machine_network_profile":     "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.NetworkProfile",
+	"virtual_machine_os_profile":          "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.OSProfile",
+	"virtual_machine_security_profile":    "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.SecurityProfile",
+	"virtual_machine_storage_profile":     "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.StorageProfile",
 	"zones":                               "description.VirtualMachineScaleSet.Zones",
 }
 
@@ -3442,36 +3868,36 @@ func ListComputeVirtualMachineScaleSet(ctx context.Context, d *plugin.QueryData,
 
 var getComputeVirtualMachineScaleSetFilters = map[string]string{
 	"akas": "description.VirtualMachineScaleSet.ID",
-	"do_not_run_extensions_on_overprovisioned_vms": "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.DoNotRunExtensionsOnOverprovisionedVMs",
+	"do_not_run_extensions_on_overprovisioned_vms": "description.VirtualMachineScaleSet.Properties.DoNotRunExtensionsOnOverprovisionedVMs",
 	"extensions":                          "description.VirtualMachineScaleSetExtensions",
 	"id":                                  "description.VirtualMachineScaleSet.ID",
 	"identity":                            "description.VirtualMachineScaleSet.Identity",
 	"kaytu_account_id":                    "metadata.SourceID",
 	"location":                            "description.VirtualMachineScaleSet.Location",
 	"name":                                "description.VirtualMachineScaleSet.name",
-	"overprovision":                       "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.Overprovision",
+	"overprovision":                       "description.VirtualMachineScaleSet.Properties.Overprovision",
 	"plan":                                "description.VirtualMachineScaleSet.Plan",
-	"platform_fault_domain_count":         "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.PlatformFaultDomainCount",
-	"provisioning_state":                  "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.ProvisioningState",
+	"platform_fault_domain_count":         "description.VirtualMachineScaleSet.Properties.PlatformFaultDomainCount",
+	"provisioning_state":                  "description.VirtualMachineScaleSet.Properties.ProvisioningState",
 	"region":                              "description.VirtualMachineScaleSet.Location",
 	"resource_group":                      "description.ResourceGroup",
-	"scale_in_policy":                     "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.ScaleInPolicy",
-	"single_placement_group":              "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.SinglePlacementGroup",
-	"sku_capacity":                        "description.VirtualMachineScaleSet.Sku.Capacity",
-	"sku_name":                            "description.VirtualMachineScaleSet.Sku.Name",
-	"sku_tier":                            "description.VirtualMachineScaleSet.Sku.Tier",
+	"scale_in_policy":                     "description.VirtualMachineScaleSet.Properties.ScaleInPolicy",
+	"single_placement_group":              "description.VirtualMachineScaleSet.Properties.SinglePlacementGroup",
+	"sku_capacity":                        "description.VirtualMachineScaleSet.SKU.Capacity",
+	"sku_name":                            "description.VirtualMachineScaleSet.SKU.Name",
+	"sku_tier":                            "description.VirtualMachineScaleSet.SKU.Tier",
 	"tags":                                "description.VirtualMachineScaleSet.Tags",
 	"tags_src":                            "description.VirtualMachineScaleSet.Tags",
 	"title":                               "description.VirtualMachineScaleSet.Name",
 	"type":                                "description.VirtualMachineScaleSet.Type",
-	"unique_id":                           "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.UniqueID",
-	"upgrade_policy":                      "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.UpgradePolicy",
-	"virtual_machine_diagnostics_profile": "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.VirtualMachineProfile.DiagnosticsProfile",
-	"virtual_machine_extension_profile":   "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.VirtualMachineProfile.ExtensionProfile",
-	"virtual_machine_network_profile":     "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.VirtualMachineProfile.NetworkProfile",
-	"virtual_machine_os_profile":          "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.VirtualMachineProfile.OsProfile",
-	"virtual_machine_security_profile":    "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.VirtualMachineProfile.SecurityProfile",
-	"virtual_machine_storage_profile":     "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.VirtualMachineProfile.StorageProfile",
+	"unique_id":                           "description.VirtualMachineScaleSet.Properties.UniqueID",
+	"upgrade_policy":                      "description.VirtualMachineScaleSet.Properties.UpgradePolicy",
+	"virtual_machine_diagnostics_profile": "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.DiagnosticsProfile",
+	"virtual_machine_extension_profile":   "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.ExtensionProfile",
+	"virtual_machine_network_profile":     "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.NetworkProfile",
+	"virtual_machine_os_profile":          "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.OSProfile",
+	"virtual_machine_security_profile":    "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.SecurityProfile",
+	"virtual_machine_storage_profile":     "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.StorageProfile",
 	"zones":                               "description.VirtualMachineScaleSet.Zones",
 }
 
@@ -3589,7 +4015,7 @@ var listComputeVirtualMachineScaleSetNetworkInterfaceFilters = map[string]string
 	"akas":             "description.NetworkInterface.ID",
 	"id":               "description.NetworkInterface.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"mac_address":      "description.NetworkInterface.Location",
+	"mac_address":      "description.NetworkInterface.MacAddress",
 	"name":             "description.NetworkInterface.Name",
 	"region":           "description.NetworkInterface.Location",
 	"resource_group":   "description.ResourceGroup",
@@ -3633,7 +4059,7 @@ var getComputeVirtualMachineScaleSetNetworkInterfaceFilters = map[string]string{
 	"akas":             "description.NetworkInterface.ID",
 	"id":               "description.NetworkInterface.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"mac_address":      "description.NetworkInterface.Location",
+	"mac_address":      "description.NetworkInterface.MacAddress",
 	"name":             "description.NetworkInterface.Name",
 	"region":           "description.NetworkInterface.Location",
 	"resource_group":   "description.ResourceGroup",
@@ -3754,40 +4180,40 @@ func (p ComputeVirtualMachineScaleSetVmPaginator) NextPage(ctx context.Context) 
 }
 
 var listComputeVirtualMachineScaleSetVmFilters = map[string]string{
-	"additional_capabilities":             "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.AdditionalCapabilities",
+	"additional_capabilities":             "description.VirtualMachineScaleSet.Properties.AdditionalCapabilities",
 	"akas":                                "description.ScaleSetVM.ID",
-	"availability_set":                    "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.AvailabilitySet",
+	"availability_set":                    "description.ScaleSetVM.Properties.AvailabilitySet",
 	"id":                                  "description.NetworkInterface.ID",
 	"instance_id":                         "description.ScaleSetVM.InstanceID",
 	"kaytu_account_id":                    "metadata.SourceID",
-	"latest_model_applied":                "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.LatestModelApplied",
-	"license_type":                        "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.LicenseType",
+	"latest_model_applied":                "description.VirtualMachineScaleSet.Properties.LatestModelApplied",
+	"license_type":                        "description.VirtualMachineScaleSet.Properties.LicenseType",
 	"location":                            "description.ScaleSetVM.Location",
-	"model_definition_applied":            "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.ModelDefinitionApplied",
+	"model_definition_applied":            "description.ScaleSetVM.Properties.ModelDefinitionApplied",
 	"name":                                "description.ScaleSetVM.Name",
 	"plan":                                "description.ScaleSetVM.Plan",
-	"protection_policy":                   "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.ProtectionPolicy",
-	"provisioning_state":                  "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.ProvisioningState",
+	"protection_policy":                   "description.VirtualMachineScaleSet.Properties.SpotRestorePolicy",
+	"provisioning_state":                  "description.VirtualMachineScaleSet.Properties.ProvisioningState",
 	"region":                              "description.ScaleSetVM.Location",
 	"resource_group":                      "description.ResourceGroup",
 	"resources":                           "description.ScaleSetVM.Resources",
-	"scale_set_name":                      "description.ScaleSetVM.Name",
-	"sku_capacity":                        "description.ScaleSetVM.Sku.Capacity",
-	"sku_name":                            "description.ScaleSetVM.Sku.Name",
-	"sku_tier":                            "description.ScaleSetVM.Sku.Tier",
+	"scale_set_name":                      "description.VirtualMachineScaleSet.Name",
+	"sku_capacity":                        "description.ScaleSetVM.SKU.Capacity",
+	"sku_name":                            "description.ScaleSetVM.SKU.Name",
+	"sku_tier":                            "description.ScaleSetVM.SKU.Tier",
 	"tags":                                "description.ScaleSetVM.Tags",
 	"tags_src":                            "description.ScaleSetVM.Tags",
 	"title":                               "description.ScaleSetVM.Name",
 	"type":                                "description.ScaleSetVM.Type",
-	"upgrade_policy":                      "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.UpgradePolicy",
-	"virtual_machine_diagnostics_profile": "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.DiagnosticsProfile",
-	"virtual_machine_hardware_profile":    "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.HardwareProfile",
-	"virtual_machine_network_profile":     "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.NetworkProfile.NetworkInterfaces",
-	"virtual_machine_network_profile_configuration": "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.NetworkProfileConfiguration",
-	"virtual_machine_os_profile":                    "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.OsProfile",
-	"virtual_machine_security_profile":              "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.SecurityProfile",
-	"virtual_machine_storage_profile":               "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.StorageProfile",
-	"vm_id":                                         "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.VMID",
+	"upgrade_policy":                      "description.VirtualMachineScaleSet.Properties.UpgradePolicy",
+	"virtual_machine_diagnostics_profile": "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.DiagnosticsProfile",
+	"virtual_machine_hardware_profile":    "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.HardwareProfile",
+	"virtual_machine_network_profile":     "description.ScaleSetVM.Properties.NetworkProfile.NetworkInterfaces",
+	"virtual_machine_network_profile_configuration": "description.ScaleSetVM.Properties.NetworkProfileConfiguration",
+	"virtual_machine_os_profile":                    "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.OSProfile",
+	"virtual_machine_security_profile":              "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.SecurityProfile",
+	"virtual_machine_storage_profile":               "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.StorageProfile",
+	"vm_id":                                         "description.ScaleSetVM.Properties.VMID",
 	"zones":                                         "description.ScaleSetVM.Zones",
 }
 
@@ -3822,40 +4248,40 @@ func ListComputeVirtualMachineScaleSetVm(ctx context.Context, d *plugin.QueryDat
 }
 
 var getComputeVirtualMachineScaleSetVmFilters = map[string]string{
-	"additional_capabilities":             "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.AdditionalCapabilities",
+	"additional_capabilities":             "description.VirtualMachineScaleSet.Properties.AdditionalCapabilities",
 	"akas":                                "description.ScaleSetVM.ID",
-	"availability_set":                    "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.AvailabilitySet",
+	"availability_set":                    "description.ScaleSetVM.Properties.AvailabilitySet",
 	"id":                                  "description.NetworkInterface.ID",
 	"instance_id":                         "description.ScaleSetVM.InstanceID",
 	"kaytu_account_id":                    "metadata.SourceID",
-	"latest_model_applied":                "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.LatestModelApplied",
-	"license_type":                        "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.LicenseType",
+	"latest_model_applied":                "description.VirtualMachineScaleSet.Properties.LatestModelApplied",
+	"license_type":                        "description.VirtualMachineScaleSet.Properties.LicenseType",
 	"location":                            "description.ScaleSetVM.Location",
-	"model_definition_applied":            "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.ModelDefinitionApplied",
+	"model_definition_applied":            "description.ScaleSetVM.Properties.ModelDefinitionApplied",
 	"name":                                "description.ScaleSetVM.Name",
 	"plan":                                "description.ScaleSetVM.Plan",
-	"protection_policy":                   "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.ProtectionPolicy",
-	"provisioning_state":                  "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.ProvisioningState",
+	"protection_policy":                   "description.VirtualMachineScaleSet.Properties.SpotRestorePolicy",
+	"provisioning_state":                  "description.VirtualMachineScaleSet.Properties.ProvisioningState",
 	"region":                              "description.ScaleSetVM.Location",
 	"resource_group":                      "description.ResourceGroup",
 	"resources":                           "description.ScaleSetVM.Resources",
 	"scale_set_name":                      "description.VirtualMachineScaleSet.name",
-	"sku_capacity":                        "description.ScaleSetVM.Sku.Capacity",
-	"sku_name":                            "description.ScaleSetVM.Sku.Name",
-	"sku_tier":                            "description.ScaleSetVM.Sku.Tier",
+	"sku_capacity":                        "description.ScaleSetVM.SKU.Capacity",
+	"sku_name":                            "description.ScaleSetVM.SKU.Name",
+	"sku_tier":                            "description.ScaleSetVM.SKU.Tier",
 	"tags":                                "description.ScaleSetVM.Tags",
 	"tags_src":                            "description.ScaleSetVM.Tags",
 	"title":                               "description.ScaleSetVM.Name",
 	"type":                                "description.ScaleSetVM.Type",
-	"upgrade_policy":                      "description.VirtualMachineScaleSet.VirtualMachineScaleSetProperties.UpgradePolicy",
-	"virtual_machine_diagnostics_profile": "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.DiagnosticsProfile",
-	"virtual_machine_hardware_profile":    "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.HardwareProfile",
-	"virtual_machine_network_profile":     "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.NetworkProfile.NetworkInterfaces",
-	"virtual_machine_network_profile_configuration": "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.NetworkProfileConfiguration",
-	"virtual_machine_os_profile":                    "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.OsProfile",
-	"virtual_machine_security_profile":              "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.SecurityProfile",
-	"virtual_machine_storage_profile":               "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.StorageProfile",
-	"vm_id":                                         "description.ScaleSetVM.VirtualMachineScaleSetVMProperties.VMID",
+	"upgrade_policy":                      "description.VirtualMachineScaleSet.Properties.UpgradePolicy",
+	"virtual_machine_diagnostics_profile": "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.DiagnosticsProfile",
+	"virtual_machine_hardware_profile":    "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.HardwareProfile",
+	"virtual_machine_network_profile":     "description.ScaleSetVM.Properties.NetworkProfile.NetworkInterfaces",
+	"virtual_machine_network_profile_configuration": "description.ScaleSetVM.Properties.NetworkProfileConfiguration",
+	"virtual_machine_os_profile":                    "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.OSProfile",
+	"virtual_machine_security_profile":              "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.SecurityProfile",
+	"virtual_machine_storage_profile":               "description.VirtualMachineScaleSet.Properties.VirtualMachineProfile.StorageProfile",
+	"vm_id":                                         "description.ScaleSetVM.Properties.VMID",
 	"zones":                                         "description.ScaleSetVM.Zones",
 }
 
@@ -3971,40 +4397,41 @@ func (p ComputeSnapshotsPaginator) NextPage(ctx context.Context) ([]ComputeSnaps
 
 var listComputeSnapshotsFilters = map[string]string{
 	"akas":                                  "description.Snapshot.ID",
-	"create_option":                         "description.Snapshot.SnapshotProperties.CreationData.CreateOption",
-	"disk_access_id":                        "description.Snapshot.SnapshotProperties.DiskAccessID",
-	"disk_encryption_set_id":                "description.Snapshot.SnapshotProperties.Encryption.DiskEncryptionSetID",
-	"disk_size_bytes":                       "description.Snapshot.SnapshotProperties.DiskSizeBytes",
-	"disk_size_gb":                          "description.Snapshot.SnapshotProperties.DiskSizeGB",
-	"encryption_setting_collection_enabled": "description.Snapshot.SnapshotProperties.EncryptionSettingsCollection.Enabled",
-	"encryption_setting_version":            "description.Snapshot.SnapshotProperties.EncryptionSettingsCollection.EncryptionSettingsVersion",
-	"encryption_settings":                   "description.Snapshot.SnapshotProperties.EncryptionSettingsCollection.EncryptionSettings",
-	"encryption_type":                       "description.Snapshot.SnapshotProperties.Encryption.Type",
-	"gallery_image_reference_id":            "description.Snapshot.SnapshotProperties.CreationData.GalleryImageReference.ID",
-	"gallery_reference_lun":                 "description.Snapshot.SnapshotProperties.CreationData.GalleryImageReference.Lun",
-	"hyperv_generation":                     "description.Snapshot.SnapshotProperties.HyperVGeneration",
-	"image_reference_id":                    "description.Snapshot.SnapshotProperties.CreationData.ImageReference.ID",
-	"image_reference_lun":                   "description.Snapshot.SnapshotProperties.CreationData.ImageReference.Lun",
-	"incremental":                           "description.Snapshot.SnapshotProperties.Incremental",
+	"create_option":                         "description.Snapshot.Properties.CreationData.CreateOption",
+	"disk_access_id":                        "description.Snapshot.Properties.DiskAccessID",
+	"disk_encryption_set_id":                "description.Snapshot.Properties.Encryption.DiskEncryptionSetID",
+	"disk_size_bytes":                       "description.Snapshot.Properties.DiskSizeBytes",
+	"disk_size_gb":                          "description.Snapshot.Properties.DiskSizeGB",
+	"encryption_setting_collection_enabled": "description.Snapshot.Properties.EncryptionSettingsCollection.Enabled",
+	"encryption_setting_version":            "description.Snapshot.Properties.EncryptionSettingsCollection.EncryptionSettingsVersion",
+	"encryption_settings":                   "description.Snapshot.Properties.EncryptionSettingsCollection.EncryptionSettings",
+	"encryption_type":                       "description.Snapshot.Properties.Encryption.Type",
+	"gallery_image_reference_id":            "description.Snapshot.Properties.CreationData.GalleryImageReference.ID",
+	"gallery_reference_lun":                 "description.Snapshot.Properties.CreationData.GalleryImageReference.Lun",
+	"hyperv_generation":                     "description.Snapshot.Properties.HyperVGeneration",
+	"id":                                    "description.Snapshot.ID",
+	"image_reference_id":                    "description.Snapshot.Properties.CreationData.ImageReference.ID",
+	"image_reference_lun":                   "description.Snapshot.Properties.CreationData.ImageReference.Lun",
+	"incremental":                           "description.Snapshot.Properties.Incremental",
 	"kaytu_account_id":                      "metadata.SourceID",
 	"name":                                  "description.Snapshot.Name",
-	"network_access_policy":                 "description.Snapshot.SnapshotProperties.NetworkAccessPolicy",
-	"os_type":                               "description.Snapshot.SnapshotProperties.OsType",
-	"provisioning_state":                    "description.Snapshot.SnapshotProperties.ProvisioningState",
+	"network_access_policy":                 "description.Snapshot.Properties.NetworkAccessPolicy",
+	"os_type":                               "description.Snapshot.Properties.OSType",
+	"provisioning_state":                    "description.Snapshot.Properties.ProvisioningState",
 	"region":                                "description.Snapshot.Location",
 	"resource_group":                        "description.ResourceGroup",
-	"sku_name":                              "description.Snapshot.Sku.Name",
-	"sku_tier":                              "description.Snapshot.Sku.Tier",
-	"source_resource_id":                    "description.Snapshot.SnapshotProperties.CreationData.SourceResourceID",
-	"source_unique_id":                      "description.Snapshot.SnapshotProperties.CreationData.SourceUniqueID",
-	"source_uri":                            "description.Snapshot.SnapshotProperties.CreationData.SourceURI",
-	"storage_account_id":                    "description.Snapshot.SnapshotProperties.CreationData.StorageAccountID",
+	"sku_name":                              "description.Snapshot.SKU.Name",
+	"sku_tier":                              "description.Snapshot.SKU.Tier",
+	"source_resource_id":                    "description.Snapshot.Properties.CreationData.SourceResourceID",
+	"source_unique_id":                      "description.Snapshot.Properties.CreationData.SourceUniqueID",
+	"source_uri":                            "description.Snapshot.Properties.CreationData.SourceURI",
+	"storage_account_id":                    "description.Snapshot.Properties.CreationData.StorageAccountID",
 	"tags":                                  "description.Snapshot.Tags",
-	"time_created":                          "description.Snapshot.SnapshotProperties.TimeCreated",
+	"time_created":                          "description.Snapshot.Properties.TimeCreated",
 	"title":                                 "description.Snapshot.Name",
 	"type":                                  "description.Snapshot.Type",
-	"unique_id":                             "description.Snapshot.SnapshotProperties.UniqueID",
-	"upload_size_bytes":                     "description.Snapshot.SnapshotProperties.CreationData.UploadSizeBytes",
+	"unique_id":                             "description.Snapshot.Properties.UniqueID",
+	"upload_size_bytes":                     "description.Snapshot.Properties.CreationData.UploadSizeBytes",
 }
 
 func ListComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -4039,40 +4466,41 @@ func ListComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 var getComputeSnapshotsFilters = map[string]string{
 	"akas":                                  "description.Snapshot.ID",
-	"create_option":                         "description.Snapshot.SnapshotProperties.CreationData.CreateOption",
-	"disk_access_id":                        "description.Snapshot.SnapshotProperties.DiskAccessID",
-	"disk_encryption_set_id":                "description.Snapshot.SnapshotProperties.Encryption.DiskEncryptionSetID",
-	"disk_size_bytes":                       "description.Snapshot.SnapshotProperties.DiskSizeBytes",
-	"disk_size_gb":                          "description.Snapshot.SnapshotProperties.DiskSizeGB",
-	"encryption_setting_collection_enabled": "description.Snapshot.SnapshotProperties.EncryptionSettingsCollection.Enabled",
-	"encryption_setting_version":            "description.Snapshot.SnapshotProperties.EncryptionSettingsCollection.EncryptionSettingsVersion",
-	"encryption_settings":                   "description.Snapshot.SnapshotProperties.EncryptionSettingsCollection.EncryptionSettings",
-	"encryption_type":                       "description.Snapshot.SnapshotProperties.Encryption.Type",
-	"gallery_image_reference_id":            "description.Snapshot.SnapshotProperties.CreationData.GalleryImageReference.ID",
-	"gallery_reference_lun":                 "description.Snapshot.SnapshotProperties.CreationData.GalleryImageReference.Lun",
-	"hyperv_generation":                     "description.Snapshot.SnapshotProperties.HyperVGeneration",
-	"image_reference_id":                    "description.Snapshot.SnapshotProperties.CreationData.ImageReference.ID",
-	"image_reference_lun":                   "description.Snapshot.SnapshotProperties.CreationData.ImageReference.Lun",
-	"incremental":                           "description.Snapshot.SnapshotProperties.Incremental",
+	"create_option":                         "description.Snapshot.Properties.CreationData.CreateOption",
+	"disk_access_id":                        "description.Snapshot.Properties.DiskAccessID",
+	"disk_encryption_set_id":                "description.Snapshot.Properties.Encryption.DiskEncryptionSetID",
+	"disk_size_bytes":                       "description.Snapshot.Properties.DiskSizeBytes",
+	"disk_size_gb":                          "description.Snapshot.Properties.DiskSizeGB",
+	"encryption_setting_collection_enabled": "description.Snapshot.Properties.EncryptionSettingsCollection.Enabled",
+	"encryption_setting_version":            "description.Snapshot.Properties.EncryptionSettingsCollection.EncryptionSettingsVersion",
+	"encryption_settings":                   "description.Snapshot.Properties.EncryptionSettingsCollection.EncryptionSettings",
+	"encryption_type":                       "description.Snapshot.Properties.Encryption.Type",
+	"gallery_image_reference_id":            "description.Snapshot.Properties.CreationData.GalleryImageReference.ID",
+	"gallery_reference_lun":                 "description.Snapshot.Properties.CreationData.GalleryImageReference.Lun",
+	"hyperv_generation":                     "description.Snapshot.Properties.HyperVGeneration",
+	"id":                                    "description.Snapshot.ID",
+	"image_reference_id":                    "description.Snapshot.Properties.CreationData.ImageReference.ID",
+	"image_reference_lun":                   "description.Snapshot.Properties.CreationData.ImageReference.Lun",
+	"incremental":                           "description.Snapshot.Properties.Incremental",
 	"kaytu_account_id":                      "metadata.SourceID",
 	"name":                                  "description.Snapshot.Name",
-	"network_access_policy":                 "description.Snapshot.SnapshotProperties.NetworkAccessPolicy",
-	"os_type":                               "description.Snapshot.SnapshotProperties.OsType",
-	"provisioning_state":                    "description.Snapshot.SnapshotProperties.ProvisioningState",
+	"network_access_policy":                 "description.Snapshot.Properties.NetworkAccessPolicy",
+	"os_type":                               "description.Snapshot.Properties.OSType",
+	"provisioning_state":                    "description.Snapshot.Properties.ProvisioningState",
 	"region":                                "description.Snapshot.Location",
 	"resource_group":                        "description.ResourceGroup",
-	"sku_name":                              "description.Snapshot.Sku.Name",
-	"sku_tier":                              "description.Snapshot.Sku.Tier",
-	"source_resource_id":                    "description.Snapshot.SnapshotProperties.CreationData.SourceResourceID",
-	"source_unique_id":                      "description.Snapshot.SnapshotProperties.CreationData.SourceUniqueID",
-	"source_uri":                            "description.Snapshot.SnapshotProperties.CreationData.SourceURI",
-	"storage_account_id":                    "description.Snapshot.SnapshotProperties.CreationData.StorageAccountID",
+	"sku_name":                              "description.Snapshot.SKU.Name",
+	"sku_tier":                              "description.Snapshot.SKU.Tier",
+	"source_resource_id":                    "description.Snapshot.Properties.CreationData.SourceResourceID",
+	"source_unique_id":                      "description.Snapshot.Properties.CreationData.SourceUniqueID",
+	"source_uri":                            "description.Snapshot.Properties.CreationData.SourceURI",
+	"storage_account_id":                    "description.Snapshot.Properties.CreationData.StorageAccountID",
 	"tags":                                  "description.Snapshot.Tags",
-	"time_created":                          "description.Snapshot.SnapshotProperties.TimeCreated",
+	"time_created":                          "description.Snapshot.Properties.TimeCreated",
 	"title":                                 "description.Snapshot.Name",
 	"type":                                  "description.Snapshot.Type",
-	"unique_id":                             "description.Snapshot.SnapshotProperties.UniqueID",
-	"upload_size_bytes":                     "description.Snapshot.SnapshotProperties.CreationData.UploadSizeBytes",
+	"unique_id":                             "description.Snapshot.Properties.UniqueID",
+	"upload_size_bytes":                     "description.Snapshot.Properties.CreationData.UploadSizeBytes",
 }
 
 func GetComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -4187,21 +4615,22 @@ func (p ComputeAvailabilitySetPaginator) NextPage(ctx context.Context) ([]Comput
 
 var listComputeAvailabilitySetFilters = map[string]string{
 	"akas":                         "description.AvailabilitySet.ID",
+	"id":                           "description.AvailabilitySet.ID",
 	"kaytu_account_id":             "metadata.SourceID",
 	"name":                         "description.AvailabilitySet.Name",
-	"platform_fault_domain_count":  "description.AvailabilitySet.AvailabilitySetProperties.PlatformFaultDomainCount",
-	"platform_update_domain_count": "description.AvailabilitySet.AvailabilitySetProperties.PlatformUpdateDomainCount",
-	"proximity_placement_group_id": "description.AvailabilitySet.AvailabilitySetProperties.ProximityPlacementGroup.ID",
+	"platform_fault_domain_count":  "description.AvailabilitySet.Properties.PlatformFaultDomainCount",
+	"platform_update_domain_count": "description.AvailabilitySet.Properties.PlatformUpdateDomainCount",
+	"proximity_placement_group_id": "description.AvailabilitySet.Properties.ProximityPlacementGroup.ID",
 	"region":                       "description.AvailabilitySet.Location",
 	"resource_group":               "description.ResourceGroup",
-	"sku_capacity":                 "description.AvailabilitySet.Sku.Capacity",
-	"sku_name":                     "description.AvailabilitySet.Sku.Name",
-	"sku_tier":                     "description.AvailabilitySet.Sku.Tier",
-	"status":                       "description.AvailabilitySet.AvailabilitySetProperties.Statuses",
+	"sku_capacity":                 "description.AvailabilitySet.SKU.Capacity",
+	"sku_name":                     "description.AvailabilitySet.SKU.Name",
+	"sku_tier":                     "description.AvailabilitySet.SKU.Tier",
+	"status":                       "description.AvailabilitySet.Properties.Statuses",
 	"tags":                         "description.AvailabilitySet.Tags",
 	"title":                        "description.AvailabilitySet.Name",
 	"type":                         "description.AvailabilitySet.Type",
-	"virtual_machines":             "description.AvailabilitySet.AvailabilitySetProperties.VirtualMachines",
+	"virtual_machines":             "description.AvailabilitySet.Properties.VirtualMachines",
 }
 
 func ListComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -4236,21 +4665,22 @@ func ListComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plu
 
 var getComputeAvailabilitySetFilters = map[string]string{
 	"akas":                         "description.AvailabilitySet.ID",
+	"id":                           "description.AvailabilitySet.ID",
 	"kaytu_account_id":             "metadata.SourceID",
 	"name":                         "description.AvailabilitySet.Name",
-	"platform_fault_domain_count":  "description.AvailabilitySet.AvailabilitySetProperties.PlatformFaultDomainCount",
-	"platform_update_domain_count": "description.AvailabilitySet.AvailabilitySetProperties.PlatformUpdateDomainCount",
-	"proximity_placement_group_id": "description.AvailabilitySet.AvailabilitySetProperties.ProximityPlacementGroup.ID",
+	"platform_fault_domain_count":  "description.AvailabilitySet.Properties.PlatformFaultDomainCount",
+	"platform_update_domain_count": "description.AvailabilitySet.Properties.PlatformUpdateDomainCount",
+	"proximity_placement_group_id": "description.AvailabilitySet.Properties.ProximityPlacementGroup.ID",
 	"region":                       "description.AvailabilitySet.Location",
 	"resource_group":               "description.ResourceGroup",
-	"sku_capacity":                 "description.AvailabilitySet.Sku.Capacity",
-	"sku_name":                     "description.AvailabilitySet.Sku.Name",
-	"sku_tier":                     "description.AvailabilitySet.Sku.Tier",
-	"status":                       "description.AvailabilitySet.AvailabilitySetProperties.Statuses",
+	"sku_capacity":                 "description.AvailabilitySet.SKU.Capacity",
+	"sku_name":                     "description.AvailabilitySet.SKU.Name",
+	"sku_tier":                     "description.AvailabilitySet.SKU.Tier",
+	"status":                       "description.AvailabilitySet.Properties.Statuses",
 	"tags":                         "description.AvailabilitySet.Tags",
 	"title":                        "description.AvailabilitySet.Name",
 	"type":                         "description.AvailabilitySet.Type",
-	"virtual_machines":             "description.AvailabilitySet.AvailabilitySetProperties.VirtualMachines",
+	"virtual_machines":             "description.AvailabilitySet.Properties.VirtualMachines",
 }
 
 func GetComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -4364,17 +4794,18 @@ func (p ComputeDiskEncryptionSetPaginator) NextPage(ctx context.Context) ([]Comp
 }
 
 var listComputeDiskEncryptionSetFilters = map[string]string{
-	"active_key_source_vault_id": "description.DiskEncryptionSet.EncryptionSetProperties.ActiveKey.SourceVault.ID",
-	"active_key_url":             "description.DiskEncryptionSet.EncryptionSetProperties.ActiveKey.KeyURL",
+	"active_key_source_vault_id": "description.DiskEncryptionSet.Properties.ActiveKey.SourceVault.ID",
+	"active_key_url":             "description.DiskEncryptionSet.Properties.ActiveKey.KeyURL",
 	"akas":                       "description.DiskEncryptionSet.ID",
-	"encryption_type":            "description.DiskEncryptionSet.EncryptionSetProperties.EncryptionType",
+	"encryption_type":            "description.DiskEncryptionSet.Properties.EncryptionType",
+	"id":                         "description.DiskEncryptionSet.ID",
 	"identity_principal_id":      "description.DiskEncryptionSet.Identity.PrincipalID",
 	"identity_tenant_id":         "description.DiskEncryptionSet.Identity.TenantID",
 	"identity_type":              "description.DiskEncryptionSet.Identity.Type",
 	"kaytu_account_id":           "metadata.SourceID",
 	"name":                       "description.DiskEncryptionSet.Name",
-	"previous_keys":              "description.DiskEncryptionSet.EncryptionSetProperties.PreviousKeys",
-	"provisioning_state":         "description.DiskEncryptionSet.EncryptionSetProperties.ProvisioningState",
+	"previous_keys":              "description.DiskEncryptionSet.Properties.PreviousKeys",
+	"provisioning_state":         "description.DiskEncryptionSet.Properties.ProvisioningState",
 	"region":                     "description.DiskEncryptionSet.Location",
 	"resource_group":             "description.ResourceGroup",
 	"tags":                       "description.DiskEncryptionSet.Tags",
@@ -4413,17 +4844,18 @@ func ListComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getComputeDiskEncryptionSetFilters = map[string]string{
-	"active_key_source_vault_id": "description.DiskEncryptionSet.EncryptionSetProperties.ActiveKey.SourceVault.ID",
-	"active_key_url":             "description.DiskEncryptionSet.EncryptionSetProperties.ActiveKey.KeyURL",
+	"active_key_source_vault_id": "description.DiskEncryptionSet.Properties.ActiveKey.SourceVault.ID",
+	"active_key_url":             "description.DiskEncryptionSet.Properties.ActiveKey.KeyURL",
 	"akas":                       "description.DiskEncryptionSet.ID",
-	"encryption_type":            "description.DiskEncryptionSet.EncryptionSetProperties.EncryptionType",
+	"encryption_type":            "description.DiskEncryptionSet.Properties.EncryptionType",
+	"id":                         "description.DiskEncryptionSet.ID",
 	"identity_principal_id":      "description.DiskEncryptionSet.Identity.PrincipalID",
 	"identity_tenant_id":         "description.DiskEncryptionSet.Identity.TenantID",
 	"identity_type":              "description.DiskEncryptionSet.Identity.Type",
 	"kaytu_account_id":           "metadata.SourceID",
 	"name":                       "description.DiskEncryptionSet.Name",
-	"previous_keys":              "description.DiskEncryptionSet.EncryptionSetProperties.PreviousKeys",
-	"provisioning_state":         "description.DiskEncryptionSet.EncryptionSetProperties.ProvisioningState",
+	"previous_keys":              "description.DiskEncryptionSet.Properties.PreviousKeys",
+	"provisioning_state":         "description.DiskEncryptionSet.Properties.ProvisioningState",
 	"region":                     "description.DiskEncryptionSet.Location",
 	"resource_group":             "description.ResourceGroup",
 	"tags":                       "description.DiskEncryptionSet.Tags",
@@ -4543,7 +4975,7 @@ func (p ComputeImageGalleryPaginator) NextPage(ctx context.Context) ([]ComputeIm
 
 var listComputeImageGalleryFilters = map[string]string{
 	"akas":             "description.ImageGallery.ID",
-	"id":               "description.ImageGallery.Id",
+	"id":               "description.ImageGallery.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ImageGallery.Name",
 	"tags":             "description.ImageGallery.Tags",
@@ -4582,7 +5014,7 @@ func ListComputeImageGallery(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 var getComputeImageGalleryFilters = map[string]string{
 	"akas":             "description.ImageGallery.ID",
-	"id":               "description.ImageGallery.Id",
+	"id":               "description.ImageGallery.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ImageGallery.Name",
 	"resource_group":   "description.ResourceGroup",
@@ -4702,25 +5134,25 @@ func (p ComputeImagePaginator) NextPage(ctx context.Context) ([]ComputeImage, er
 
 var listComputeImageFilters = map[string]string{
 	"akas":                                   "description.Image.ID",
-	"hyper_v_generation":                     "description.Image.ImageProperties.HyperVGeneration",
+	"hyper_v_generation":                     "description.Image.Properties.HyperVGeneration",
 	"id":                                     "description.Image.ID",
 	"kaytu_account_id":                       "metadata.SourceID",
 	"name":                                   "description.Image.Name",
-	"provisioning_state":                     "description.Image.ImageProperties.ProvisioningState",
+	"provisioning_state":                     "description.Image.Properties.ProvisioningState",
 	"region":                                 "description.Image.Location",
 	"resource_group":                         "description.ResourceGroup",
-	"source_virtual_machine_id":              "description.Image.ImageProperties.SourceVirtualMachine.ID",
-	"storage_profile_data_disks":             "description.Image.ImageProperties.StorageProfile.DataDisks",
-	"storage_profile_os_disk_blob_uri":       "description.Image.ImageProperties.StorageProfile.OsDisk.BlobURI",
-	"storage_profile_os_disk_caching":        "description.Image.ImageProperties.StorageProfile.OsDisk.Caching",
-	"storage_profile_os_disk_encryption_set": "description.Image.ImageProperties.StorageProfile.OsDisk.DiskEncryptionSet.ID",
-	"storage_profile_os_disk_managed_disk_id":      "description.Image.ImageProperties.StorageProfile.OsDisk.ManagedDisk.ID",
-	"storage_profile_os_disk_size_gb":              "description.Image.ImageProperties.StorageProfile.OsDisk.DiskSizeGB",
-	"storage_profile_os_disk_snapshot_id":          "description.Image.ImageProperties.StorageProfile.OsDisk.Snapshot.ID",
-	"storage_profile_os_disk_state":                "description.Image.ImageProperties.StorageProfile.OsDisk.OsState",
-	"storage_profile_os_disk_storage_account_type": "description.Image.ImageProperties.StorageProfile.OsDisk.StorageAccountType",
-	"storage_profile_os_disk_type":                 "description.Image.ImageProperties.StorageProfile.OsDisk.OsType",
-	"storage_profile_zone_resilient":               "description.Image.ImageProperties.StorageProfile.ZoneResilient",
+	"source_virtual_machine_id":              "description.Image.Properties.SourceVirtualMachine.ID",
+	"storage_profile_data_disks":             "description.Image.Properties.StorageProfile.DataDisks",
+	"storage_profile_os_disk_blob_uri":       "description.Image.Properties.StorageProfile.OSDisk.BlobURI",
+	"storage_profile_os_disk_caching":        "description.Image.Properties.StorageProfile.OSDisk.Caching",
+	"storage_profile_os_disk_encryption_set": "description.Image.Properties.StorageProfile.OSDisk.DiskEncryptionSet.ID",
+	"storage_profile_os_disk_managed_disk_id":      "description.Image.Properties.StorageProfile.OSDisk.ManagedDisk.ID",
+	"storage_profile_os_disk_size_gb":              "description.Image.Properties.StorageProfile.OSDisk.DiskSizeGB",
+	"storage_profile_os_disk_snapshot_id":          "description.Image.Properties.StorageProfile.OSDisk.Snapshot.ID",
+	"storage_profile_os_disk_state":                "description.Image.Properties.StorageProfile.OSDisk.OSState",
+	"storage_profile_os_disk_storage_account_type": "description.Image.Properties.StorageProfile.OSDisk.StorageAccountType",
+	"storage_profile_os_disk_type":                 "description.Image.Properties.StorageProfile.OSDisk.OSType",
+	"storage_profile_zone_resilient":               "description.Image.Properties.StorageProfile.ZoneResilient",
 	"tags":                                         "description.Image.Tags",
 	"title":                                        "description.Image.Name",
 	"type":                                         "description.Image.Type",
@@ -4758,25 +5190,25 @@ func ListComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 var getComputeImageFilters = map[string]string{
 	"akas":                                   "description.Image.ID",
-	"hyper_v_generation":                     "description.Image.ImageProperties.HyperVGeneration",
+	"hyper_v_generation":                     "description.Image.Properties.HyperVGeneration",
 	"id":                                     "description.Image.ID",
 	"kaytu_account_id":                       "metadata.SourceID",
 	"name":                                   "Description.Image.Name",
-	"provisioning_state":                     "description.Image.ImageProperties.ProvisioningState",
+	"provisioning_state":                     "description.Image.Properties.ProvisioningState",
 	"region":                                 "description.Image.Location",
 	"resource_group":                         "Description.Image.ResourceGroup",
-	"source_virtual_machine_id":              "description.Image.ImageProperties.SourceVirtualMachine.ID",
-	"storage_profile_data_disks":             "description.Image.ImageProperties.StorageProfile.DataDisks",
-	"storage_profile_os_disk_blob_uri":       "description.Image.ImageProperties.StorageProfile.OsDisk.BlobURI",
-	"storage_profile_os_disk_caching":        "description.Image.ImageProperties.StorageProfile.OsDisk.Caching",
-	"storage_profile_os_disk_encryption_set": "description.Image.ImageProperties.StorageProfile.OsDisk.DiskEncryptionSet.ID",
-	"storage_profile_os_disk_managed_disk_id":      "description.Image.ImageProperties.StorageProfile.OsDisk.ManagedDisk.ID",
-	"storage_profile_os_disk_size_gb":              "description.Image.ImageProperties.StorageProfile.OsDisk.DiskSizeGB",
-	"storage_profile_os_disk_snapshot_id":          "description.Image.ImageProperties.StorageProfile.OsDisk.Snapshot.ID",
-	"storage_profile_os_disk_state":                "description.Image.ImageProperties.StorageProfile.OsDisk.OsState",
-	"storage_profile_os_disk_storage_account_type": "description.Image.ImageProperties.StorageProfile.OsDisk.StorageAccountType",
-	"storage_profile_os_disk_type":                 "description.Image.ImageProperties.StorageProfile.OsDisk.OsType",
-	"storage_profile_zone_resilient":               "description.Image.ImageProperties.StorageProfile.ZoneResilient",
+	"source_virtual_machine_id":              "description.Image.Properties.SourceVirtualMachine.ID",
+	"storage_profile_data_disks":             "description.Image.Properties.StorageProfile.DataDisks",
+	"storage_profile_os_disk_blob_uri":       "description.Image.Properties.StorageProfile.OSDisk.BlobURI",
+	"storage_profile_os_disk_caching":        "description.Image.Properties.StorageProfile.OSDisk.Caching",
+	"storage_profile_os_disk_encryption_set": "description.Image.Properties.StorageProfile.OSDisk.DiskEncryptionSet.ID",
+	"storage_profile_os_disk_managed_disk_id":      "description.Image.Properties.StorageProfile.OSDisk.ManagedDisk.ID",
+	"storage_profile_os_disk_size_gb":              "description.Image.Properties.StorageProfile.OSDisk.DiskSizeGB",
+	"storage_profile_os_disk_snapshot_id":          "description.Image.Properties.StorageProfile.OSDisk.Snapshot.ID",
+	"storage_profile_os_disk_state":                "description.Image.Properties.StorageProfile.OSDisk.OSState",
+	"storage_profile_os_disk_storage_account_type": "description.Image.Properties.StorageProfile.OSDisk.StorageAccountType",
+	"storage_profile_os_disk_type":                 "description.Image.Properties.StorageProfile.OSDisk.OSType",
+	"storage_profile_zone_resilient":               "description.Image.Properties.StorageProfile.ZoneResilient",
 	"tags":                                         "description.Image.Tags",
 	"title":                                        "description.Image.Name",
 	"type":                                         "description.Image.Type",
@@ -4894,7 +5326,7 @@ func (p ComputeHostGroupPaginator) NextPage(ctx context.Context) ([]ComputeHostG
 
 var listComputeHostGroupFilters = map[string]string{
 	"akas":  "description.HostGroup.ID",
-	"id":    "description.HostGroup.Id",
+	"id":    "description.HostGroup.ID",
 	"name":  "description.HostGroup.Name",
 	"tags":  "description.HostGroup.Tags",
 	"title": "description.HostGroup.Name",
@@ -4932,7 +5364,7 @@ func ListComputeHostGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 var getComputeHostGroupFilters = map[string]string{
 	"akas":  "description.HostGroup.ID",
-	"id":    "description.HostGroup.Id",
+	"id":    "description.HostGroup.ID",
 	"name":  "description.HostGroup.Name",
 	"tags":  "description.HostGroup.Tags",
 	"title": "description.HostGroup.Name",
@@ -5050,7 +5482,7 @@ func (p ComputeHostGroupHostPaginator) NextPage(ctx context.Context) ([]ComputeH
 
 var listComputeHostGroupHostFilters = map[string]string{
 	"akas":  "description.Host.ID",
-	"id":    "description.Host.Id",
+	"id":    "description.Host.ID",
 	"name":  "description.Host.Name",
 	"tags":  "description.Host.Tags",
 	"title": "description.Host.Name",
@@ -5088,7 +5520,7 @@ func ListComputeHostGroupHost(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 var getComputeHostGroupHostFilters = map[string]string{
 	"akas":  "description.Host.ID",
-	"id":    "description.Host.Id",
+	"id":    "description.Host.ID",
 	"name":  "description.Host.Name",
 	"tags":  "description.Host.Tags",
 	"title": "description.Host.Name",
@@ -5206,7 +5638,7 @@ func (p ComputeRestorePointCollectionPaginator) NextPage(ctx context.Context) ([
 
 var listComputeRestorePointCollectionFilters = map[string]string{
 	"akas":  "description.RestorePointCollection.ID",
-	"id":    "description.RestorePointCollection.Id",
+	"id":    "description.RestorePointCollection.ID",
 	"name":  "description.RestorePointCollection.Name",
 	"tags":  "description.RestorePointCollection.Tags",
 	"title": "description.RestorePointCollection.Name",
@@ -5244,7 +5676,7 @@ func ListComputeRestorePointCollection(ctx context.Context, d *plugin.QueryData,
 
 var getComputeRestorePointCollectionFilters = map[string]string{
 	"akas":  "description.RestorePointCollection.ID",
-	"id":    "description.RestorePointCollection.Id",
+	"id":    "description.RestorePointCollection.ID",
 	"name":  "description.RestorePointCollection.Name",
 	"tags":  "description.RestorePointCollection.Tags",
 	"title": "description.RestorePointCollection.Name",
@@ -5361,11 +5793,15 @@ func (p ComputeSSHPublicKeyPaginator) NextPage(ctx context.Context) ([]ComputeSS
 }
 
 var listComputeSSHPublicKeyFilters = map[string]string{
-	"akas":  "description.SSHPublicKey.ID",
-	"id":    "description.SSHPublicKey.Id",
-	"name":  "description.SSHPublicKey.Name",
-	"tags":  "description.SSHPublicKey.Tags",
-	"title": "description.SSHPublicKey.Name",
+	"akas":           "description.SSHPublicKey.ID",
+	"id":             "description.SSHPublicKey.ID",
+	"name":           "description.SSHPublicKey.Name",
+	"public_key":     "description.SSHPublicKey.Properties.PublicKey",
+	"region":         "description.SSHPublicKey.Location",
+	"resource_group": "description.ResourceGroup",
+	"tags":           "description.SSHPublicKey.Tags",
+	"title":          "description.SSHPublicKey.Name",
+	"type":           "description.SSHPublicKey.Type",
 }
 
 func ListComputeSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -5399,11 +5835,15 @@ func ListComputeSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getComputeSSHPublicKeyFilters = map[string]string{
-	"akas":  "description.SSHPublicKey.ID",
-	"id":    "description.SSHPublicKey.Id",
-	"name":  "description.SSHPublicKey.Name",
-	"tags":  "description.SSHPublicKey.Tags",
-	"title": "description.SSHPublicKey.Name",
+	"akas":           "description.SSHPublicKey.ID",
+	"id":             "description.SSHPublicKey.ID",
+	"name":           "description.SSHPublicKey.Name",
+	"public_key":     "description.SSHPublicKey.Properties.PublicKey",
+	"region":         "description.SSHPublicKey.Location",
+	"resource_group": "description.ResourceGroup",
+	"tags":           "description.SSHPublicKey.Tags",
+	"title":          "description.SSHPublicKey.Name",
+	"type":           "description.SSHPublicKey.Type",
 }
 
 func GetComputeSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -5518,30 +5958,30 @@ func (p DataboxEdgeDevicePaginator) NextPage(ctx context.Context) ([]DataboxEdge
 
 var listDataboxEdgeDeviceFilters = map[string]string{
 	"akas":                        "description.Device.ID",
-	"configured_role_types":       "description.Device.DeviceProperties.ConfiguredRoleTypes",
-	"culture":                     "description.Device.DeviceProperties.Culture",
-	"data_box_edge_device_status": "description.Device.DeviceProperties.DataBoxEdgeDeviceStatus",
-	"description":                 "description.Device.DeviceProperties.Description",
-	"device_hcs_version":          "description.Device.DeviceProperties.DeviceHcsVersion",
-	"device_local_capacity":       "description.Device.DeviceProperties.DeviceLocalCapacity",
-	"device_model":                "description.Device.DeviceProperties.DeviceModel",
-	"device_software_version":     "description.Device.DeviceProperties.DeviceSoftwareVersion",
-	"device_type":                 "description.Device.DeviceProperties.DeviceType",
+	"configured_role_types":       "description.Device.Properties.ConfiguredRoleTypes",
+	"culture":                     "description.Device.Properties.Culture",
+	"data_box_edge_device_status": "description.Device.Properties.DataBoxEdgeDeviceStatus",
+	"description":                 "description.Device.Properties.Description",
+	"device_hcs_version":          "description.Device.Properties.DeviceHcsVersion",
+	"device_local_capacity":       "description.Device.Properties.DeviceLocalCapacity",
+	"device_model":                "description.Device.Properties.DeviceModel",
+	"device_software_version":     "description.Device.Properties.DeviceSoftwareVersion",
+	"device_type":                 "description.Device.Properties.DeviceType",
 	"etag":                        "description.Device.Etag",
-	"friendly_name":               "description.Device.DeviceProperties.FriendlyName",
+	"friendly_name":               "description.Device.Properties.FriendlyName",
 	"id":                          "description.Device.ID",
 	"kaytu_account_id":            "metadata.SourceID",
 	"location":                    "description.Device.Location",
-	"model_description":           "description.Device.DeviceProperties.ModelDescription",
+	"model_description":           "description.Device.Properties.ModelDescription",
 	"name":                        "description.Device.Name",
-	"node_count":                  "description.Device.DeviceProperties.NodeCount",
+	"node_count":                  "description.Device.Properties.NodeCount",
 	"region":                      "description.Device.Location",
 	"resource_group":              "description.ResourceGroup",
-	"serial_number":               "description.Device.DeviceProperties.SerialNumber",
-	"sku_name":                    "description.Device.Sku.Name",
-	"sku_tier":                    "description.Device.Sku.Tier",
+	"serial_number":               "description.Device.Properties.SerialNumber",
+	"sku_name":                    "description.Device.SKU.Name",
+	"sku_tier":                    "description.Device.SKU.Tier",
 	"tags":                        "description.Device.Tags",
-	"time_zone":                   "description.Device.DeviceProperties.TimeZone",
+	"time_zone":                   "description.Device.Properties.TimeZone",
 	"title":                       "description.Device.Name",
 	"type":                        "description.Device.Type",
 }
@@ -5578,30 +6018,30 @@ func ListDataboxEdgeDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 var getDataboxEdgeDeviceFilters = map[string]string{
 	"akas":                        "description.Device.ID",
-	"configured_role_types":       "description.Device.DeviceProperties.ConfiguredRoleTypes",
-	"culture":                     "description.Device.DeviceProperties.Culture",
-	"data_box_edge_device_status": "description.Device.DeviceProperties.DataBoxEdgeDeviceStatus",
-	"description":                 "description.Device.DeviceProperties.Description",
-	"device_hcs_version":          "description.Device.DeviceProperties.DeviceHcsVersion",
-	"device_local_capacity":       "description.Device.DeviceProperties.DeviceLocalCapacity",
-	"device_model":                "description.Device.DeviceProperties.DeviceModel",
-	"device_software_version":     "description.Device.DeviceProperties.DeviceSoftwareVersion",
-	"device_type":                 "description.Device.DeviceProperties.DeviceType",
+	"configured_role_types":       "description.Device.Properties.ConfiguredRoleTypes",
+	"culture":                     "description.Device.Properties.Culture",
+	"data_box_edge_device_status": "description.Device.Properties.DataBoxEdgeDeviceStatus",
+	"description":                 "description.Device.Properties.Description",
+	"device_hcs_version":          "description.Device.Properties.DeviceHcsVersion",
+	"device_local_capacity":       "description.Device.Properties.DeviceLocalCapacity",
+	"device_model":                "description.Device.Properties.DeviceModel",
+	"device_software_version":     "description.Device.Properties.DeviceSoftwareVersion",
+	"device_type":                 "description.Device.Properties.DeviceType",
 	"etag":                        "description.Device.Etag",
-	"friendly_name":               "description.Device.DeviceProperties.FriendlyName",
+	"friendly_name":               "description.Device.Properties.FriendlyName",
 	"id":                          "description.Device.ID",
 	"kaytu_account_id":            "metadata.SourceID",
 	"location":                    "description.Device.Location",
-	"model_description":           "description.Device.DeviceProperties.ModelDescription",
+	"model_description":           "description.Device.Properties.ModelDescription",
 	"name":                        "description.Device.name",
-	"node_count":                  "description.Device.DeviceProperties.NodeCount",
+	"node_count":                  "description.Device.Properties.NodeCount",
 	"region":                      "description.Device.Location",
 	"resource_group":              "description.ResourceGroup",
-	"serial_number":               "description.Device.DeviceProperties.SerialNumber",
-	"sku_name":                    "description.Device.Sku.Name",
-	"sku_tier":                    "description.Device.Sku.Tier",
+	"serial_number":               "description.Device.Properties.SerialNumber",
+	"sku_name":                    "description.Device.SKU.Name",
+	"sku_tier":                    "description.Device.SKU.Tier",
 	"tags":                        "description.Device.Tags",
-	"time_zone":                   "description.Device.DeviceProperties.TimeZone",
+	"time_zone":                   "description.Device.Properties.TimeZone",
 	"title":                       "description.Device.Name",
 	"type":                        "description.Device.Type",
 }
@@ -5734,7 +6174,7 @@ var listHealthcareServiceFilters = map[string]string{
 	"methods":                      "description.ServicesDescription.Properties.CorsConfiguration.Methods",
 	"name":                         "description.ServicesDescription.Name",
 	"origins":                      "description.ServicesDescription.Properties.CorsConfiguration.Origins",
-	"private_endpoint_connections": "description.PrivateEndpointConnections",
+	"private_endpoint_connections": "description.ServicesDescription.Properties.PrivateEndpointConnections",
 	"provisioning_state":           "description.ServicesDescription.Properties.ProvisioningState",
 	"region":                       "description.ServicesDescription.Location",
 	"resource_group":               "description.ResourceGroup",
@@ -5792,7 +6232,7 @@ var getHealthcareServiceFilters = map[string]string{
 	"methods":                      "description.ServicesDescription.Properties.CorsConfiguration.Methods",
 	"name":                         "description.ServicesDescription.name",
 	"origins":                      "description.ServicesDescription.Properties.CorsConfiguration.Origins",
-	"private_endpoint_connections": "description.PrivateEndpointConnections",
+	"private_endpoint_connections": "description.ServicesDescription.Properties.PrivateEndpointConnections",
 	"provisioning_state":           "description.ServicesDescription.Properties.ProvisioningState",
 	"region":                       "description.ServicesDescription.Location",
 	"resource_group":               "description.ResourceGroup",
@@ -5914,21 +6354,21 @@ func (p HpcCachePaginator) NextPage(ctx context.Context) ([]HpcCache, error) {
 
 var listHpcCacheFilters = map[string]string{
 	"akas":                        "description.Cache.ID",
-	"cache_size_gb":               "description.Cache.CacheProperties.CacheSizeGB",
-	"directory_services_settings": "description.Cache.CacheProperties.DirectoryServicesSettings",
-	"encryption_settings":         "description.Cache.CacheProperties.EncryptionSettings",
-	"health":                      "description.Cache.CacheProperties.Health",
+	"cache_size_gb":               "description.Cache.Properties.CacheSizeGB",
+	"directory_services_settings": "description.Cache.Properties.DirectoryServicesSettings",
+	"encryption_settings":         "description.Cache.Properties.EncryptionSettings",
+	"health":                      "description.Cache.Properties.Health",
 	"id":                          "description.Cache.ID",
 	"identity":                    "description.Cache.Identity",
 	"kaytu_account_id":            "metadata.SourceID",
-	"mount_addresses":             "description.Cache.CacheProperties.MountAddresses",
+	"mount_addresses":             "description.Cache.Properties.MountAddresses",
 	"name":                        "description.Cache.Name",
-	"provisioning_state":          "description.Cache.CacheProperties.ProvisioningState",
+	"provisioning_state":          "description.Cache.Properties.ProvisioningState",
 	"region":                      "description.Cache.Location",
 	"resource_group":              "description.ResourceGroup",
-	"security_settings":           "description.Cache.CacheProperties.SecuritySettings",
-	"sku_name":                    "description.Cache.Sku.Name",
-	"subnet":                      "description.Cache.CacheProperties.Subnet",
+	"security_settings":           "description.Cache.Properties.SecuritySettings",
+	"sku_name":                    "description.Cache.SKU.Name",
+	"subnet":                      "description.Cache.Properties.Subnet",
 	"system_data":                 "description.Cache.SystemData",
 	"tags":                        "description.Cache.Tags",
 	"title":                       "description.Cache.Name",
@@ -5967,21 +6407,21 @@ func ListHpcCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 var getHpcCacheFilters = map[string]string{
 	"akas":                        "description.Cache.ID",
-	"cache_size_gb":               "description.Cache.CacheProperties.CacheSizeGB",
-	"directory_services_settings": "description.Cache.CacheProperties.DirectoryServicesSettings",
-	"encryption_settings":         "description.Cache.CacheProperties.EncryptionSettings",
-	"health":                      "description.Cache.CacheProperties.Health",
+	"cache_size_gb":               "description.Cache.Properties.CacheSizeGB",
+	"directory_services_settings": "description.Cache.Properties.DirectoryServicesSettings",
+	"encryption_settings":         "description.Cache.Properties.EncryptionSettings",
+	"health":                      "description.Cache.Properties.Health",
 	"id":                          "description.Cache.ID",
 	"identity":                    "description.Cache.Identity",
 	"kaytu_account_id":            "metadata.SourceID",
-	"mount_addresses":             "description.Cache.CacheProperties.MountAddresses",
+	"mount_addresses":             "description.Cache.Properties.MountAddresses",
 	"name":                        "description.Cache.name",
-	"provisioning_state":          "description.Cache.CacheProperties.ProvisioningState",
+	"provisioning_state":          "description.Cache.Properties.ProvisioningState",
 	"region":                      "description.Cache.Location",
 	"resource_group":              "description.ResourceGroup",
-	"security_settings":           "description.Cache.CacheProperties.SecuritySettings",
-	"sku_name":                    "description.Cache.Sku.Name",
-	"subnet":                      "description.Cache.CacheProperties.Subnet",
+	"security_settings":           "description.Cache.Properties.SecuritySettings",
+	"sku_name":                    "description.Cache.SKU.Name",
+	"subnet":                      "description.Cache.Properties.Subnet",
 	"system_data":                 "description.Cache.SystemData",
 	"tags":                        "description.Cache.Tags",
 	"title":                       "description.Cache.Name",
@@ -6100,27 +6540,27 @@ func (p KeyVaultKeyPaginator) NextPage(ctx context.Context) ([]KeyVaultKey, erro
 
 var listKeyVaultKeyFilters = map[string]string{
 	"akas":                 "description.Key.ID",
-	"created_at":           "description.Key.KeyProperties.Attributes.Created",
-	"curve_name":           "description.Key.KeyProperties.CurveName",
-	"enabled":              "description.Key.KeyProperties.Attributes.Enabled",
-	"expires_at":           "description.Key.KeyProperties.Attributes.Expires",
+	"created_at":           "description.Key.Properties.Attributes.Created",
+	"curve_name":           "description.Key.Properties.CurveName",
+	"enabled":              "description.Key.Properties.Attributes.Enabled",
+	"expires_at":           "description.Key.Properties.Attributes.Expires",
 	"id":                   "description.Key.ID",
 	"kaytu_account_id":     "metadata.SourceID",
-	"key_ops":              "description.Key.KeyProperties.KeyOps",
-	"key_size":             "description.Key.KeyProperties.KeySize",
-	"key_type":             "description.Key.Type",
-	"key_uri":              "description.Key.KeyProperties.KeyURI",
-	"key_uri_with_version": "description.Key.KeyProperties.KeyURIWithVersion",
+	"key_ops":              "description.Key.Properties.KeyOps",
+	"key_size":             "description.Key.Properties.KeySize",
+	"key_type":             "description.Key.Properties.Kty",
+	"key_uri":              "description.Key.Properties.KeyURI",
+	"key_uri_with_version": "description.Key.Properties.KeyURIWithVersion",
 	"location":             "description.Key.Location",
 	"name":                 "description.Key.Name",
-	"not_before":           "description.Key.KeyProperties.Attributes.NotBefore",
-	"recovery_level":       "description.Key.KeyProperties.Attributes.RecoveryLevel",
+	"not_before":           "description.Key.Properties.Attributes.NotBefore",
+	"recovery_level":       "description.Key.Properties.Attributes.RecoveryLevel",
 	"region":               "description.Key.Location",
 	"resource_group":       "description.ResourceGroup",
 	"tags":                 "description.Key.Tags",
 	"title":                "description.Key.Name",
 	"type":                 "description.Key.Type",
-	"updated_at":           "description.Key.KeyProperties.Attributes.Updated",
+	"updated_at":           "description.Key.Properties.Attributes.Updated",
 }
 
 func ListKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6155,27 +6595,27 @@ func ListKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 var getKeyVaultKeyFilters = map[string]string{
 	"akas":                 "description.Key.ID",
-	"created_at":           "description.Key.KeyProperties.Attributes.Created",
-	"curve_name":           "description.Key.KeyProperties.CurveName",
-	"enabled":              "description.Key.KeyProperties.Attributes.Enabled",
-	"expires_at":           "description.Key.KeyProperties.Attributes.Expires",
+	"created_at":           "description.Key.Properties.Attributes.Created",
+	"curve_name":           "description.Key.Properties.CurveName",
+	"enabled":              "description.Key.Properties.Attributes.Enabled",
+	"expires_at":           "description.Key.Properties.Attributes.Expires",
 	"id":                   "description.Key.ID",
 	"kaytu_account_id":     "metadata.SourceID",
-	"key_ops":              "description.Key.KeyProperties.KeyOps",
-	"key_size":             "description.Key.KeyProperties.KeySize",
-	"key_type":             "description.Key.Type",
-	"key_uri":              "description.Key.KeyProperties.KeyURI",
-	"key_uri_with_version": "description.Key.KeyProperties.KeyURIWithVersion",
+	"key_ops":              "description.Key.Properties.KeyOps",
+	"key_size":             "description.Key.Properties.KeySize",
+	"key_type":             "description.Key.Properties.Kty",
+	"key_uri":              "description.Key.Properties.KeyURI",
+	"key_uri_with_version": "description.Key.Properties.KeyURIWithVersion",
 	"location":             "description.Key.Location",
 	"name":                 "description.Key.name",
-	"not_before":           "description.Key.KeyProperties.Attributes.NotBefore",
-	"recovery_level":       "description.Key.KeyProperties.Attributes.RecoveryLevel",
+	"not_before":           "description.Key.Properties.Attributes.NotBefore",
+	"recovery_level":       "description.Key.Properties.Attributes.RecoveryLevel",
 	"region":               "description.Key.Location",
 	"resource_group":       "description.ResourceGroup",
 	"tags":                 "description.Key.Tags",
 	"title":                "description.Key.Name",
 	"type":                 "description.Key.Type",
-	"updated_at":           "description.Key.KeyProperties.Attributes.Updated",
+	"updated_at":           "description.Key.Properties.Attributes.Updated",
 	"vault_name":           "description.Vault.name",
 }
 
@@ -6211,6 +6651,202 @@ func GetKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 }
 
 // ==========================  END: KeyVaultKey =============================
+
+// ==========================  START: KeyVaultKeyVersion =============================
+
+type KeyVaultKeyVersion struct {
+	Description   azure.KeyVaultKeyVersionDescription `json:"description"`
+	Metadata      azure.Metadata                      `json:"metadata"`
+	ResourceJobID int                                 `json:"resource_job_id"`
+	SourceJobID   int                                 `json:"source_job_id"`
+	ResourceType  string                              `json:"resource_type"`
+	SourceType    string                              `json:"source_type"`
+	ID            string                              `json:"id"`
+	ARN           string                              `json:"arn"`
+	SourceID      string                              `json:"source_id"`
+}
+
+type KeyVaultKeyVersionHit struct {
+	ID      string             `json:"_id"`
+	Score   float64            `json:"_score"`
+	Index   string             `json:"_index"`
+	Type    string             `json:"_type"`
+	Version int64              `json:"_version,omitempty"`
+	Source  KeyVaultKeyVersion `json:"_source"`
+	Sort    []interface{}      `json:"sort"`
+}
+
+type KeyVaultKeyVersionHits struct {
+	Total essdk.SearchTotal       `json:"total"`
+	Hits  []KeyVaultKeyVersionHit `json:"hits"`
+}
+
+type KeyVaultKeyVersionSearchResponse struct {
+	PitID string                 `json:"pit_id"`
+	Hits  KeyVaultKeyVersionHits `json:"hits"`
+}
+
+type KeyVaultKeyVersionPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewKeyVaultKeyVersionPaginator(filters []essdk.BoolFilter, limit *int64) (KeyVaultKeyVersionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_keyvault_vaults_keys_versions", filters, limit)
+	if err != nil {
+		return KeyVaultKeyVersionPaginator{}, err
+	}
+
+	p := KeyVaultKeyVersionPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p KeyVaultKeyVersionPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p KeyVaultKeyVersionPaginator) NextPage(ctx context.Context) ([]KeyVaultKeyVersion, error) {
+	var response KeyVaultKeyVersionSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []KeyVaultKeyVersion
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listKeyVaultKeyVersionFilters = map[string]string{
+	"akas":                 "description.Version.ID",
+	"created_at":           "description.Version.Properties.Attributes.Created",
+	"curve_name":           "description.Version.Properties.CurveName",
+	"enabled":              "description.Version.Properties.Attributes.Enabled",
+	"expires_at":           "description.Version.Properties.Attributes.Expires",
+	"id":                   "description.Version.ID",
+	"kaytu_account_id":     "metadata.SourceID",
+	"key_id":               "description.Key.ID",
+	"key_name":             "description.Key.Name",
+	"key_ops":              "description.Version.Properties.JSONWebKeyOperation",
+	"key_size":             "description.Version.Properties.KeySize",
+	"key_type":             "description.Version.Properties.Kty",
+	"key_uri":              "description.Version.Properties.KeyURI",
+	"key_uri_with_version": "description.Version.Properties.KeyURIWithVersion",
+	"location":             "description.Version.Location",
+	"name":                 "description.Version.Name",
+	"not_before":           "description.Version.Properties.Attributes.NotBefore",
+	"recovery_level":       "description.Version.Properties.Attributes.RecoveryLevel",
+	"region":               "description.Version.Location",
+	"resource_group":       "description.ResourceGroup",
+	"tags":                 "description.Version.Tags",
+	"title":                "description.Version.Name",
+	"type":                 "description.Version.Type",
+	"updated_at":           "description.Version.Properties.Attributes.Updated",
+	"vault_name":           "description.Vault.Name",
+}
+
+func ListKeyVaultKeyVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListKeyVaultKeyVersion")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewKeyVaultKeyVersionPaginator(essdk.BuildFilter(d.EqualsQuals, listKeyVaultKeyVersionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getKeyVaultKeyVersionFilters = map[string]string{
+	"akas":                 "description.Version.ID",
+	"created_at":           "description.Version.Properties.Attributes.Created",
+	"curve_name":           "description.Version.Properties.CurveName",
+	"enabled":              "description.Version.Properties.Attributes.Enabled",
+	"expires_at":           "description.Version.Properties.Attributes.Expires",
+	"id":                   "description.Version.ID",
+	"kaytu_account_id":     "metadata.SourceID",
+	"key_id":               "description.Key.ID",
+	"key_name":             "description.Key.Name",
+	"key_ops":              "description.Version.Properties.JSONWebKeyOperation",
+	"key_size":             "description.Version.Properties.KeySize",
+	"key_type":             "description.Version.Properties.Kty",
+	"key_uri":              "description.Version.Properties.KeyURI",
+	"key_uri_with_version": "description.Version.Properties.KeyURIWithVersion",
+	"location":             "description.Version.Location",
+	"name":                 "description.Version.name",
+	"not_before":           "description.Version.Properties.Attributes.NotBefore",
+	"recovery_level":       "description.Version.Properties.Attributes.RecoveryLevel",
+	"region":               "description.Version.Location",
+	"resource_group":       "description.ResourceGroup",
+	"tags":                 "description.Version.Tags",
+	"title":                "description.Version.Name",
+	"type":                 "description.Version.Type",
+	"updated_at":           "description.Version.Properties.Attributes.Updated",
+	"vault_name":           "description.Vault.name",
+}
+
+func GetKeyVaultKeyVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetKeyVaultKeyVersion")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewKeyVaultKeyVersionPaginator(essdk.BuildFilter(d.EqualsQuals, getKeyVaultKeyVersionFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: KeyVaultKeyVersion =============================
 
 // ==========================  START: KubernetesCluster =============================
 
@@ -6290,43 +6926,43 @@ func (p KubernetesClusterPaginator) NextPage(ctx context.Context) ([]KubernetesC
 }
 
 var listKubernetesClusterFilters = map[string]string{
-	"aad_profile":                "description.ManagedCluster.ManagedClusterProperties.AadProfile",
-	"addon_profiles":             "description.ManagedCluster.ManagedClusterProperties.AddonProfiles",
-	"agent_pool_profiles":        "description.ManagedCluster.ManagedClusterProperties.AgentPoolProfiles",
+	"aad_profile":                "description.ManagedCluster.Properties.AADProfile",
+	"addon_profiles":             "description.ManagedCluster.Properties.AddonProfiles",
+	"agent_pool_profiles":        "description.ManagedCluster.Properties.AgentPoolProfiles",
 	"akas":                       "description.ManagedCluster.ID",
-	"api_server_access_profile":  "description.ManagedCluster.ManagedClusterProperties.APIServerAccessProfile",
-	"auto_scaler_profile":        "description.ManagedCluster.ManagedClusterProperties.AutoScalerProfile",
-	"auto_upgrade_profile":       "description.ManagedCluster.ManagedClusterProperties.AutoUpgradeProfile",
-	"azure_portal_fqdn":          "description.ManagedCluster.ManagedClusterProperties.AzurePortalFQDN",
-	"disk_encryption_set_id":     "description.ManagedCluster.ManagedClusterProperties.DiskEncryptionSetID",
-	"dns_prefix":                 "description.ManagedCluster.ManagedClusterProperties.DNSPrefix",
-	"enable_pod_security_policy": "description.ManagedCluster.ManagedClusterProperties.EnablePodSecurityPolicy",
-	"enable_rbac":                "description.ManagedCluster.ManagedClusterProperties.EnableRBAC",
-	"fqdn":                       "description.ManagedCluster.ManagedClusterProperties.Fqdn",
-	"fqdn_subdomain":             "description.ManagedCluster.ManagedClusterProperties.FqdnSubdomain",
+	"api_server_access_profile":  "description.ManagedCluster.Properties.APIServerAccessProfile",
+	"auto_scaler_profile":        "description.ManagedCluster.Properties.AutoScalerProfile",
+	"auto_upgrade_profile":       "description.ManagedCluster.Properties.AutoUpgradeProfile",
+	"azure_portal_fqdn":          "description.ManagedCluster.Properties.AzurePortalFQDN",
+	"disk_encryption_set_id":     "description.ManagedCluster.Properties.DiskEncryptionSetID",
+	"dns_prefix":                 "description.ManagedCluster.Properties.DNSPrefix",
+	"enable_pod_security_policy": "description.ManagedCluster.Properties.EnablePodSecurityPolicy",
+	"enable_rbac":                "description.ManagedCluster.Properties.EnableRBAC",
+	"fqdn":                       "description.ManagedCluster.Properties.Fqdn",
+	"fqdn_subdomain":             "description.ManagedCluster.Properties.FqdnSubdomain",
 	"id":                         "description.ManagedCluster.ID",
 	"identity":                   "description.ManagedCluster.Identity",
-	"identity_profile":           "description.ManagedCluster.ManagedClusterProperties.IdentityProfile",
+	"identity_profile":           "description.ManagedCluster.Properties.IdentityProfile",
 	"kaytu_account_id":           "metadata.SourceID",
-	"kubernetes_version":         "description.ManagedCluster.ManagedClusterProperties.KubernetesVersion",
-	"linux_profile":              "description.ManagedCluster.ManagedClusterProperties.LinuxProfile",
+	"kubernetes_version":         "description.ManagedCluster.Properties.KubernetesVersion",
+	"linux_profile":              "description.ManagedCluster.Properties.LinuxProfile",
 	"location":                   "description.ManagedCluster.Location",
-	"max_agent_pools":            "description.ManagedCluster.ManagedClusterProperties.MaxAgentPools",
+	"max_agent_pools":            "description.ManagedCluster.Properties.MaxAgentPools",
 	"name":                       "description.ManagedCluster.Name",
-	"network_profile":            "description.ManagedCluster.ManagedClusterProperties.NetworkProfile",
-	"node_resource_group":        "description.ManagedCluster.ManagedClusterProperties.NodeResourceGroup",
-	"pod_identity_profile":       "description.ManagedCluster.ManagedClusterProperties.PodIdentityProfile",
-	"power_state":                "description.ManagedCluster.ManagedClusterProperties.PowerState",
-	"private_fqdn":               "description.ManagedCluster.ManagedClusterProperties.PrivateFQDN",
-	"provisioning_state":         "description.ManagedCluster.ManagedClusterProperties.ProvisioningState",
+	"network_profile":            "description.ManagedCluster.Properties.NetworkProfile",
+	"node_resource_group":        "description.ManagedCluster.Properties.NodeResourceGroup",
+	"pod_identity_profile":       "description.ManagedCluster.Properties.PodIdentityProfile",
+	"power_state":                "description.ManagedCluster.Properties.PowerState",
+	"private_fqdn":               "description.ManagedCluster.Properties.PrivateFQDN",
+	"provisioning_state":         "description.ManagedCluster.Properties.ProvisioningState",
 	"region":                     "description.ManagedCluster.Location",
 	"resource_group":             "description.ResourceGroup",
-	"service_principal_profile":  "description.ManagedCluster.ManagedClusterProperties.ServicePrincipalProfile",
-	"sku":                        "description.ManagedCluster.Sku",
+	"service_principal_profile":  "description.ManagedCluster.Properties.ServicePrincipalProfile",
+	"sku":                        "description.ManagedCluster.SKU",
 	"tags":                       "description.ManagedCluster.Tags",
 	"title":                      "description.ManagedCluster.Name",
 	"type":                       "description.ManagedCluster.Type",
-	"windows_profile":            "description.ManagedCluster.ManagedClusterProperties.WindowsProfile",
+	"windows_profile":            "description.ManagedCluster.Properties.WindowsProfile",
 }
 
 func ListKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6360,43 +6996,43 @@ func ListKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getKubernetesClusterFilters = map[string]string{
-	"aad_profile":                "description.ManagedCluster.ManagedClusterProperties.AadProfile",
-	"addon_profiles":             "description.ManagedCluster.ManagedClusterProperties.AddonProfiles",
-	"agent_pool_profiles":        "description.ManagedCluster.ManagedClusterProperties.AgentPoolProfiles",
+	"aad_profile":                "description.ManagedCluster.Properties.AADProfile",
+	"addon_profiles":             "description.ManagedCluster.Properties.AddonProfiles",
+	"agent_pool_profiles":        "description.ManagedCluster.Properties.AgentPoolProfiles",
 	"akas":                       "description.ManagedCluster.ID",
-	"api_server_access_profile":  "description.ManagedCluster.ManagedClusterProperties.APIServerAccessProfile",
-	"auto_scaler_profile":        "description.ManagedCluster.ManagedClusterProperties.AutoScalerProfile",
-	"auto_upgrade_profile":       "description.ManagedCluster.ManagedClusterProperties.AutoUpgradeProfile",
-	"azure_portal_fqdn":          "description.ManagedCluster.ManagedClusterProperties.AzurePortalFQDN",
-	"disk_encryption_set_id":     "description.ManagedCluster.ManagedClusterProperties.DiskEncryptionSetID",
-	"dns_prefix":                 "description.ManagedCluster.ManagedClusterProperties.DNSPrefix",
-	"enable_pod_security_policy": "description.ManagedCluster.ManagedClusterProperties.EnablePodSecurityPolicy",
-	"enable_rbac":                "description.ManagedCluster.ManagedClusterProperties.EnableRBAC",
-	"fqdn":                       "description.ManagedCluster.ManagedClusterProperties.Fqdn",
-	"fqdn_subdomain":             "description.ManagedCluster.ManagedClusterProperties.FqdnSubdomain",
+	"api_server_access_profile":  "description.ManagedCluster.Properties.APIServerAccessProfile",
+	"auto_scaler_profile":        "description.ManagedCluster.Properties.AutoScalerProfile",
+	"auto_upgrade_profile":       "description.ManagedCluster.Properties.AutoUpgradeProfile",
+	"azure_portal_fqdn":          "description.ManagedCluster.Properties.AzurePortalFQDN",
+	"disk_encryption_set_id":     "description.ManagedCluster.Properties.DiskEncryptionSetID",
+	"dns_prefix":                 "description.ManagedCluster.Properties.DNSPrefix",
+	"enable_pod_security_policy": "description.ManagedCluster.Properties.EnablePodSecurityPolicy",
+	"enable_rbac":                "description.ManagedCluster.Properties.EnableRBAC",
+	"fqdn":                       "description.ManagedCluster.Properties.Fqdn",
+	"fqdn_subdomain":             "description.ManagedCluster.Properties.FqdnSubdomain",
 	"id":                         "description.ManagedCluster.ID",
 	"identity":                   "description.ManagedCluster.Identity",
-	"identity_profile":           "description.ManagedCluster.ManagedClusterProperties.IdentityProfile",
+	"identity_profile":           "description.ManagedCluster.Properties.IdentityProfile",
 	"kaytu_account_id":           "metadata.SourceID",
-	"kubernetes_version":         "description.ManagedCluster.ManagedClusterProperties.KubernetesVersion",
-	"linux_profile":              "description.ManagedCluster.ManagedClusterProperties.LinuxProfile",
+	"kubernetes_version":         "description.ManagedCluster.Properties.KubernetesVersion",
+	"linux_profile":              "description.ManagedCluster.Properties.LinuxProfile",
 	"location":                   "description.ManagedCluster.Location",
-	"max_agent_pools":            "description.ManagedCluster.ManagedClusterProperties.MaxAgentPools",
+	"max_agent_pools":            "description.ManagedCluster.Properties.MaxAgentPools",
 	"name":                       "description.ManagedCluster.name",
-	"network_profile":            "description.ManagedCluster.ManagedClusterProperties.NetworkProfile",
-	"node_resource_group":        "description.ManagedCluster.ManagedClusterProperties.NodeResourceGroup",
-	"pod_identity_profile":       "description.ManagedCluster.ManagedClusterProperties.PodIdentityProfile",
-	"power_state":                "description.ManagedCluster.ManagedClusterProperties.PowerState",
-	"private_fqdn":               "description.ManagedCluster.ManagedClusterProperties.PrivateFQDN",
-	"provisioning_state":         "description.ManagedCluster.ManagedClusterProperties.ProvisioningState",
+	"network_profile":            "description.ManagedCluster.Properties.NetworkProfile",
+	"node_resource_group":        "description.ManagedCluster.Properties.NodeResourceGroup",
+	"pod_identity_profile":       "description.ManagedCluster.Properties.PodIdentityProfile",
+	"power_state":                "description.ManagedCluster.Properties.PowerState",
+	"private_fqdn":               "description.ManagedCluster.Properties.PrivateFQDN",
+	"provisioning_state":         "description.ManagedCluster.Properties.ProvisioningState",
 	"region":                     "description.ManagedCluster.Location",
 	"resource_group":             "description.ResourceGroup",
-	"service_principal_profile":  "description.ManagedCluster.ManagedClusterProperties.ServicePrincipalProfile",
-	"sku":                        "description.ManagedCluster.Sku",
+	"service_principal_profile":  "description.ManagedCluster.Properties.ServicePrincipalProfile",
+	"sku":                        "description.ManagedCluster.SKU",
 	"tags":                       "description.ManagedCluster.Tags",
 	"title":                      "description.ManagedCluster.Name",
 	"type":                       "description.ManagedCluster.Type",
-	"windows_profile":            "description.ManagedCluster.ManagedClusterProperties.WindowsProfile",
+	"windows_profile":            "description.ManagedCluster.Properties.WindowsProfile",
 }
 
 func GetKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6431,6 +7067,175 @@ func GetKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 // ==========================  END: KubernetesCluster =============================
+
+// ==========================  START: KubernetesServiceVersion =============================
+
+type KubernetesServiceVersion struct {
+	Description   azure.KubernetesServiceVersionDescription `json:"description"`
+	Metadata      azure.Metadata                            `json:"metadata"`
+	ResourceJobID int                                       `json:"resource_job_id"`
+	SourceJobID   int                                       `json:"source_job_id"`
+	ResourceType  string                                    `json:"resource_type"`
+	SourceType    string                                    `json:"source_type"`
+	ID            string                                    `json:"id"`
+	ARN           string                                    `json:"arn"`
+	SourceID      string                                    `json:"source_id"`
+}
+
+type KubernetesServiceVersionHit struct {
+	ID      string                   `json:"_id"`
+	Score   float64                  `json:"_score"`
+	Index   string                   `json:"_index"`
+	Type    string                   `json:"_type"`
+	Version int64                    `json:"_version,omitempty"`
+	Source  KubernetesServiceVersion `json:"_source"`
+	Sort    []interface{}            `json:"sort"`
+}
+
+type KubernetesServiceVersionHits struct {
+	Total essdk.SearchTotal             `json:"total"`
+	Hits  []KubernetesServiceVersionHit `json:"hits"`
+}
+
+type KubernetesServiceVersionSearchResponse struct {
+	PitID string                       `json:"pit_id"`
+	Hits  KubernetesServiceVersionHits `json:"hits"`
+}
+
+type KubernetesServiceVersionPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewKubernetesServiceVersionPaginator(filters []essdk.BoolFilter, limit *int64) (KubernetesServiceVersionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_hybridcontainerservice_customlocations_orchestrators", filters, limit)
+	if err != nil {
+		return KubernetesServiceVersionPaginator{}, err
+	}
+
+	p := KubernetesServiceVersionPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p KubernetesServiceVersionPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p KubernetesServiceVersionPaginator) NextPage(ctx context.Context) ([]KubernetesServiceVersion, error) {
+	var response KubernetesServiceVersionSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []KubernetesServiceVersion
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listKubernetesServiceVersionFilters = map[string]string{
+	"akas":                 "iD",
+	"default":              "description.Orchestrator.Default",
+	"id":                   "iD",
+	"is_preview":           "description.Orchestrator.IsPreview",
+	"kaytu_account_id":     "metadata.SourceID",
+	"name":                 "name",
+	"orchestrator_type":    "description.Orchestrator.OrchestratorType",
+	"orchestrator_version": "description.Orchestrator.OrchestratorVersion",
+	"title":                "name",
+	"type":                 "type",
+	"upgrades":             "description.Orchestrator.Upgrades",
+}
+
+func ListKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListKubernetesServiceVersion")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewKubernetesServiceVersionPaginator(essdk.BuildFilter(d.EqualsQuals, listKubernetesServiceVersionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getKubernetesServiceVersionFilters = map[string]string{
+	"akas":                 "iD",
+	"default":              "description.Orchestrator.Default",
+	"id":                   "iD",
+	"is_preview":           "description.Orchestrator.IsPreview",
+	"kaytu_account_id":     "metadata.SourceID",
+	"name":                 "description.Orchestrator.name",
+	"orchestrator_type":    "description.Orchestrator.OrchestratorType",
+	"orchestrator_version": "description.Orchestrator.OrchestratorVersion",
+	"resource_group":       "description.ResourceGroup",
+	"title":                "name",
+	"type":                 "type",
+	"upgrades":             "description.Orchestrator.Upgrades",
+}
+
+func GetKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetKubernetesServiceVersion")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewKubernetesServiceVersionPaginator(essdk.BuildFilter(d.EqualsQuals, getKubernetesServiceVersionFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: KubernetesServiceVersion =============================
 
 // ==========================  START: ContainerInstanceContainerGroup =============================
 
@@ -6510,12 +7315,30 @@ func (p ContainerInstanceContainerGroupPaginator) NextPage(ctx context.Context) 
 }
 
 var listContainerInstanceContainerGroupFilters = map[string]string{
-	"akas":             "description.ContainerGroups.ID",
-	"id":               "description.ContainerGroups.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ContainerGroups.Name",
-	"tags":             "description.ContainerGroups.Tags",
-	"title":            "description.ContainerGroups.Name",
+	"akas":                       "description.ContainerGroup.ID",
+	"containers":                 "description.ContainerGroups.Properties.Containers",
+	"diagnostics":                "description.ContainerGroups.Properties.Diagnostics",
+	"dns_config":                 "description.ContainerGroups.Properties.DNSConfig",
+	"encryption_properties":      "description.ContainerGroups.Properties.EncryptionProperties",
+	"id":                         "description.ContainerGroups.ID",
+	"identity":                   "description.ContainerGroups.Identity",
+	"image_registry_credentials": "description.ContainerGroups.Properties.ImageRegistryCredentials",
+	"init_containers":            "description.ContainerGroups.Properties.InitContainers",
+	"instance_view":              "description.ContainerGroups.Properties.InstanceView",
+	"ip_address":                 "description.ContainerGroups.Properties.IPAddress",
+	"kaytu_account_id":           "metadata.SourceID",
+	"name":                       "description.ContainerGroup.Name",
+	"os_type":                    "description.ContainerGroups.Properties.OSType",
+	"provisioning_state":         "description.ContainerGroups.Properties.ProvisioningState",
+	"region":                     "description.ContainerGroup.Location",
+	"resource_group":             "description.ResourceGroup",
+	"restart_policy":             "description.ContainerGroups.Properties.RestartPolicy",
+	"sku":                        "description.ContainerGroups.Properties.SKU",
+	"subnet_ids":                 "description.ContainerGroups.Properties.SubnetIDs",
+	"tags":                       "description.ContainerGroup.Tags",
+	"title":                      "description.ContainerGroup.Name",
+	"type":                       "description.ContainerGroups.Type",
+	"volumes":                    "description.ContainerGroups.Properties.Volumes",
 }
 
 func ListContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6549,12 +7372,30 @@ func ListContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryDat
 }
 
 var getContainerInstanceContainerGroupFilters = map[string]string{
-	"akas":             "description.ContainerGroups.ID",
-	"id":               "description.ContainerGroups.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ContainerGroups.Name",
-	"tags":             "description.ContainerGroups.Tags",
-	"title":            "description.ContainerGroups.Name",
+	"akas":                       "description.ContainerGroup.ID",
+	"containers":                 "description.ContainerGroups.Properties.Containers",
+	"diagnostics":                "description.ContainerGroups.Properties.Diagnostics",
+	"dns_config":                 "description.ContainerGroups.Properties.DNSConfig",
+	"encryption_properties":      "description.ContainerGroups.Properties.EncryptionProperties",
+	"id":                         "description.ContainerGroups.ID",
+	"identity":                   "description.ContainerGroups.Identity",
+	"image_registry_credentials": "description.ContainerGroups.Properties.ImageRegistryCredentials",
+	"init_containers":            "description.ContainerGroups.Properties.InitContainers",
+	"instance_view":              "description.ContainerGroups.Properties.InstanceView",
+	"ip_address":                 "description.ContainerGroups.Properties.IPAddress",
+	"kaytu_account_id":           "metadata.SourceID",
+	"name":                       "description.ContainerGroup.Name",
+	"os_type":                    "description.ContainerGroups.Properties.OSType",
+	"provisioning_state":         "description.ContainerGroups.Properties.ProvisioningState",
+	"region":                     "description.ContainerGroup.Location",
+	"resource_group":             "description.ResourceGroup",
+	"restart_policy":             "description.ContainerGroups.Properties.RestartPolicy",
+	"sku":                        "description.ContainerGroups.Properties.SKU",
+	"subnet_ids":                 "description.ContainerGroups.Properties.SubnetIDs",
+	"tags":                       "description.ContainerGroup.Tags",
+	"title":                      "description.ContainerGroup.Name",
+	"type":                       "description.ContainerGroups.Type",
+	"volumes":                    "description.ContainerGroups.Properties.Volumes",
 }
 
 func GetContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6668,12 +7509,12 @@ func (p CDNProfilePaginator) NextPage(ctx context.Context) ([]CDNProfile, error)
 }
 
 var listCDNProfileFilters = map[string]string{
-	"akas":             "description.Profiles.ID",
-	"id":               "description.Profiles.Id",
+	"akas":             "description.Profile.ID",
+	"id":               "description.Profiles.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Profiles.Name",
-	"tags":             "description.Profiles.Tags",
-	"title":            "description.Profiles.Name",
+	"name":             "description.Profile.Name",
+	"tags":             "description.Profile.Tags",
+	"title":            "description.Profile.Name",
 }
 
 func ListCDNProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6707,12 +7548,12 @@ func ListCDNProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 }
 
 var getCDNProfileFilters = map[string]string{
-	"akas":             "description.Profiles.ID",
-	"id":               "description.Profiles.Id",
+	"akas":             "description.Profile.ID",
+	"id":               "description.Profiles.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Profiles.Name",
-	"tags":             "description.Profiles.Tags",
-	"title":            "description.Profiles.Name",
+	"name":             "description.Profile.Name",
+	"tags":             "description.Profile.Tags",
+	"title":            "description.Profile.Name",
 }
 
 func GetCDNProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -6827,7 +7668,7 @@ func (p CDNEndpointPaginator) NextPage(ctx context.Context) ([]CDNEndpoint, erro
 
 var listCDNEndpointFilters = map[string]string{
 	"akas":  "description.Endpoint.ID",
-	"id":    "description.Endpoint.Id",
+	"id":    "description.Endpoint.ID",
 	"name":  "description.Endpoint.Name",
 	"tags":  "description.Endpoint.Tags",
 	"title": "description.Endpoint.Name",
@@ -6865,7 +7706,7 @@ func ListCDNEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 var getCDNEndpointFilters = map[string]string{
 	"akas":  "description.Endpoint.ID",
-	"id":    "description.Endpoint.Id",
+	"id":    "description.Endpoint.ID",
 	"name":  "description.Endpoint.Name",
 	"tags":  "description.Endpoint.Tags",
 	"title": "description.Endpoint.Name",
@@ -6983,31 +7824,31 @@ func (p NetworkInterfacePaginator) NextPage(ctx context.Context) ([]NetworkInter
 
 var listNetworkInterfaceFilters = map[string]string{
 	"akas":                          "description.Interface.ID",
-	"applied_dns_servers":           "description.Interface.InterfacePropertiesFormat.DNSSettings.AppliedDNSServers",
-	"dns_servers":                   "description.Interface.InterfacePropertiesFormat.DNSSettings.DNSServers",
-	"enable_accelerated_networking": "description.Interface.InterfacePropertiesFormat.EnableAcceleratedNetworking",
-	"enable_ip_forwarding":          "description.Interface.InterfacePropertiesFormat.EnableIPForwarding",
+	"applied_dns_servers":           "description.Interface.Properties.DNSSettings.AppliedDNSServers",
+	"dns_servers":                   "description.Interface.Properties.DNSSettings.DNSServers",
+	"enable_accelerated_networking": "description.Interface.Properties.EnableAcceleratedNetworking",
+	"enable_ip_forwarding":          "description.Interface.Properties.EnableIPForwarding",
 	"etag":                          "description.Interface.Etag",
-	"hosted_workloads":              "description.Interface.InterfacePropertiesFormat.HostedWorkloads",
+	"hosted_workloads":              "description.Interface.Properties.HostedWorkloads",
 	"id":                            "description.Interface.ID",
-	"internal_dns_name_label":       "description.Interface.InterfacePropertiesFormat.DNSSettings.InternalDNSNameLabel",
-	"internal_domain_name_suffix":   "description.Interface.InterfacePropertiesFormat.DNSSettings.InternalDomainNameSuffix",
-	"internal_fqdn":                 "description.Interface.InterfacePropertiesFormat.DNSSettings.InternalFqdn",
-	"ip_configurations":             "description.Interface.InterfacePropertiesFormat.IPConfigurations",
-	"is_primary":                    "description.Interface.InterfacePropertiesFormat.Primary",
+	"internal_dns_name_label":       "description.Interface.Properties.DNSSettings.InternalDNSNameLabel",
+	"internal_domain_name_suffix":   "description.Interface.Properties.DNSSettings.InternalDomainNameSuffix",
+	"internal_fqdn":                 "description.Interface.Properties.DNSSettings.InternalFqdn",
+	"ip_configurations":             "description.Interface.Properties.IPConfigurations",
+	"is_primary":                    "description.Interface.Properties.Primary",
 	"kaytu_account_id":              "metadata.SourceID",
-	"mac_address":                   "description.Interface.InterfacePropertiesFormat.MacAddress",
+	"mac_address":                   "description.Interface.Properties.MacAddress",
 	"name":                          "description.Interface.Name",
-	"network_security_group_id":     "description.Interface.InterfacePropertiesFormat.NetworkSecurityGroup.ID",
-	"provisioning_state":            "description.Interface.InterfacePropertiesFormat.ProvisioningState",
+	"network_security_group_id":     "description.Interface.Properties.NetworkSecurityGroup.ID",
+	"provisioning_state":            "description.Interface.Properties.ProvisioningState",
 	"region":                        "description.Interface.Location",
 	"resource_group":                "description.ResourceGroup",
-	"resource_guid":                 "description.Interface.InterfacePropertiesFormat.ResourceGUID",
+	"resource_guid":                 "description.Interface.Properties.ResourceGUID",
 	"tags":                          "description.Interface.Tags",
-	"tap_configurations":            "description.Interface.InterfacePropertiesFormat.TapConfigurations",
+	"tap_configurations":            "description.Interface.Properties.TapConfigurations",
 	"title":                         "description.Interface.Name",
 	"type":                          "description.Interface.Type",
-	"virtual_machine_id":            "description.Interface.InterfacePropertiesFormat.VirtualMachine.ID",
+	"virtual_machine_id":            "description.Interface.Properties.VirtualMachine.ID",
 }
 
 func ListNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7042,31 +7883,31 @@ func ListNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 var getNetworkInterfaceFilters = map[string]string{
 	"akas":                          "description.Interface.ID",
-	"applied_dns_servers":           "description.Interface.InterfacePropertiesFormat.DNSSettings.AppliedDNSServers",
-	"dns_servers":                   "description.Interface.InterfacePropertiesFormat.DNSSettings.DNSServers",
-	"enable_accelerated_networking": "description.Interface.InterfacePropertiesFormat.EnableAcceleratedNetworking",
-	"enable_ip_forwarding":          "description.Interface.InterfacePropertiesFormat.EnableIPForwarding",
+	"applied_dns_servers":           "description.Interface.Properties.DNSSettings.AppliedDNSServers",
+	"dns_servers":                   "description.Interface.Properties.DNSSettings.DNSServers",
+	"enable_accelerated_networking": "description.Interface.Properties.EnableAcceleratedNetworking",
+	"enable_ip_forwarding":          "description.Interface.Properties.EnableIPForwarding",
 	"etag":                          "description.Interface.Etag",
-	"hosted_workloads":              "description.Interface.InterfacePropertiesFormat.HostedWorkloads",
+	"hosted_workloads":              "description.Interface.Properties.HostedWorkloads",
 	"id":                            "description.Interface.ID",
-	"internal_dns_name_label":       "description.Interface.InterfacePropertiesFormat.DNSSettings.InternalDNSNameLabel",
-	"internal_domain_name_suffix":   "description.Interface.InterfacePropertiesFormat.DNSSettings.InternalDomainNameSuffix",
-	"internal_fqdn":                 "description.Interface.InterfacePropertiesFormat.DNSSettings.InternalFqdn",
-	"ip_configurations":             "description.Interface.InterfacePropertiesFormat.IPConfigurations",
-	"is_primary":                    "description.Interface.InterfacePropertiesFormat.Primary",
+	"internal_dns_name_label":       "description.Interface.Properties.DNSSettings.InternalDNSNameLabel",
+	"internal_domain_name_suffix":   "description.Interface.Properties.DNSSettings.InternalDomainNameSuffix",
+	"internal_fqdn":                 "description.Interface.Properties.DNSSettings.InternalFqdn",
+	"ip_configurations":             "description.Interface.Properties.IPConfigurations",
+	"is_primary":                    "description.Interface.Properties.Primary",
 	"kaytu_account_id":              "metadata.SourceID",
-	"mac_address":                   "description.Interface.InterfacePropertiesFormat.MacAddress",
+	"mac_address":                   "description.Interface.Properties.MacAddress",
 	"name":                          "description.Interface.name",
-	"network_security_group_id":     "description.Interface.InterfacePropertiesFormat.NetworkSecurityGroup.ID",
-	"provisioning_state":            "description.Interface.InterfacePropertiesFormat.ProvisioningState",
+	"network_security_group_id":     "description.Interface.Properties.NetworkSecurityGroup.ID",
+	"provisioning_state":            "description.Interface.Properties.ProvisioningState",
 	"region":                        "description.Interface.Location",
 	"resource_group":                "description.ResourceGroup",
-	"resource_guid":                 "description.Interface.InterfacePropertiesFormat.ResourceGUID",
+	"resource_guid":                 "description.Interface.Properties.ResourceGUID",
 	"tags":                          "description.Interface.Tags",
-	"tap_configurations":            "description.Interface.InterfacePropertiesFormat.TapConfigurations",
+	"tap_configurations":            "description.Interface.Properties.TapConfigurations",
 	"title":                         "description.Interface.Name",
 	"type":                          "description.Interface.Type",
-	"virtual_machine_id":            "description.Interface.InterfacePropertiesFormat.VirtualMachine.ID",
+	"virtual_machine_id":            "description.Interface.Properties.VirtualMachine.ID",
 }
 
 func GetNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7181,26 +8022,26 @@ func (p NetworkWatcherFlowLogPaginator) NextPage(ctx context.Context) ([]Network
 
 var listNetworkWatcherFlowLogFilters = map[string]string{
 	"akas":                     "description.FlowLog.ID",
-	"enabled":                  "description.FlowLog.FlowLogPropertiesFormat.Enabled",
+	"enabled":                  "description.FlowLog.Properties.Enabled",
 	"etag":                     "description.FlowLog.Etag",
-	"file_type":                "description.FlowLog.FlowLogPropertiesFormat.Format.Type",
+	"file_type":                "description.FlowLog.Properties.Format.Type",
 	"id":                       "description.FlowLog.ID",
 	"kaytu_account_id":         "metadata.SourceID",
 	"name":                     "description.FlowLog.Name",
-	"network_watcher_name":     "description.FlowLog.Name",
-	"provisioning_state":       "description.FlowLog.FlowLogPropertiesFormat.ProvisioningState",
+	"network_watcher_name":     "description.NetworkWatcherName",
+	"provisioning_state":       "description.FlowLog.Properties.ProvisioningState",
 	"region":                   "description.FlowLog.Location",
 	"resource_group":           "description.ResourceGroup",
-	"retention_policy_days":    "description.FlowLog.FlowLogPropertiesFormat.RetentionPolicy.Days",
-	"retention_policy_enabled": "description.FlowLog.FlowLogPropertiesFormat.RetentionPolicy.Enabled",
-	"storage_id":               "description.FlowLog.FlowLogPropertiesFormat.StorageID",
+	"retention_policy_days":    "description.FlowLog.Properties.RetentionPolicy.Days",
+	"retention_policy_enabled": "description.FlowLog.Properties.RetentionPolicy.Enabled",
+	"storage_id":               "description.FlowLog.Properties.StorageID",
 	"tags":                     "description.FlowLog.Tags",
-	"target_resource_guid":     "description.FlowLog.FlowLogPropertiesFormat.TargetResourceGUID",
-	"target_resource_id":       "description.FlowLog.FlowLogPropertiesFormat.TargetResourceID",
+	"target_resource_guid":     "description.FlowLog.Properties.TargetResourceID",
+	"target_resource_id":       "description.FlowLog.Properties.TargetResourceID",
 	"title":                    "description.FlowLog.Name",
-	"traffic_analytics":        "description.FlowLog.FlowLogPropertiesFormat.FlowAnalyticsConfiguration.NetworkWatcherFlowAnalyticsConfiguration",
+	"traffic_analytics":        "description.FlowLog.Properties.FlowAnalyticsConfiguration.NetworkWatcherFlowAnalyticsConfiguration",
 	"type":                     "description.FlowLog.Type",
-	"version":                  "description.FlowLog.FlowLogPropertiesFormat.Format.Version",
+	"version":                  "description.FlowLog.Properties.Format.Version",
 }
 
 func ListNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7235,26 +8076,26 @@ func ListNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plug
 
 var getNetworkWatcherFlowLogFilters = map[string]string{
 	"akas":                     "description.FlowLog.ID",
-	"enabled":                  "description.FlowLog.FlowLogPropertiesFormat.Enabled",
+	"enabled":                  "description.FlowLog.Properties.Enabled",
 	"etag":                     "description.FlowLog.Etag",
-	"file_type":                "description.FlowLog.FlowLogPropertiesFormat.Format.Type",
+	"file_type":                "description.FlowLog.Properties.Format.Type",
 	"id":                       "description.FlowLog.ID",
 	"kaytu_account_id":         "metadata.SourceID",
 	"name":                     "description.ManagedCluster.name",
 	"network_watcher_name":     "description.NetworkWatcherName",
-	"provisioning_state":       "description.FlowLog.FlowLogPropertiesFormat.ProvisioningState",
+	"provisioning_state":       "description.FlowLog.Properties.ProvisioningState",
 	"region":                   "description.FlowLog.Location",
 	"resource_group":           "description.ResourceGroup",
-	"retention_policy_days":    "description.FlowLog.FlowLogPropertiesFormat.RetentionPolicy.Days",
-	"retention_policy_enabled": "description.FlowLog.FlowLogPropertiesFormat.RetentionPolicy.Enabled",
-	"storage_id":               "description.FlowLog.FlowLogPropertiesFormat.StorageID",
+	"retention_policy_days":    "description.FlowLog.Properties.RetentionPolicy.Days",
+	"retention_policy_enabled": "description.FlowLog.Properties.RetentionPolicy.Enabled",
+	"storage_id":               "description.FlowLog.Properties.StorageID",
 	"tags":                     "description.FlowLog.Tags",
-	"target_resource_guid":     "description.FlowLog.FlowLogPropertiesFormat.TargetResourceGUID",
-	"target_resource_id":       "description.FlowLog.FlowLogPropertiesFormat.TargetResourceID",
+	"target_resource_guid":     "description.FlowLog.Properties.TargetResourceID",
+	"target_resource_id":       "description.FlowLog.Properties.TargetResourceID",
 	"title":                    "description.FlowLog.Name",
-	"traffic_analytics":        "description.FlowLog.FlowLogPropertiesFormat.FlowAnalyticsConfiguration.NetworkWatcherFlowAnalyticsConfiguration",
+	"traffic_analytics":        "description.FlowLog.Properties.FlowAnalyticsConfiguration.NetworkWatcherFlowAnalyticsConfiguration",
 	"type":                     "description.FlowLog.Type",
-	"version":                  "description.FlowLog.FlowLogPropertiesFormat.Format.Version",
+	"version":                  "description.FlowLog.Properties.Format.Version",
 }
 
 func GetNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7369,15 +8210,15 @@ func (p RouteTablesPaginator) NextPage(ctx context.Context) ([]RouteTables, erro
 
 var listRouteTablesFilters = map[string]string{
 	"akas":                          "description.RouteTable.ID",
-	"disable_bgp_route_propagation": "description.RouteTable.RouteTablePropertiesFormat.DisableBgpRoutePropagation",
+	"disable_bgp_route_propagation": "description.RouteTable.Properties.DisableBgpRoutePropagation",
 	"etag":                          "description.RouteTable.Etag",
 	"kaytu_account_id":              "metadata.SourceID",
 	"name":                          "description.RouteTable.Name",
-	"provisioning_state":            "description.RouteTable.RouteTablePropertiesFormat.ProvisioningState",
+	"provisioning_state":            "description.RouteTable.Properties.ProvisioningState",
 	"region":                        "description.RouteTable.Location",
 	"resource_group":                "description.ResourceGroup",
-	"routes":                        "description.RouteTable.RouteTablePropertiesFormat.Routes",
-	"subnets":                       "description.RouteTable.RouteTablePropertiesFormat.Subnets",
+	"routes":                        "description.RouteTable.Properties.Routes",
+	"subnets":                       "description.RouteTable.Properties.Subnets",
 	"tags":                          "description.RouteTable.Tags",
 	"title":                         "description.RouteTable.Name",
 	"type":                          "description.RouteTable.Type",
@@ -7415,15 +8256,15 @@ func ListRouteTables(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 var getRouteTablesFilters = map[string]string{
 	"akas":                          "description.RouteTable.ID",
-	"disable_bgp_route_propagation": "description.RouteTable.RouteTablePropertiesFormat.DisableBgpRoutePropagation",
+	"disable_bgp_route_propagation": "description.RouteTable.Properties.DisableBgpRoutePropagation",
 	"etag":                          "description.RouteTable.Etag",
 	"kaytu_account_id":              "metadata.SourceID",
 	"name":                          "description.RouteTable.Name",
-	"provisioning_state":            "description.RouteTable.RouteTablePropertiesFormat.ProvisioningState",
+	"provisioning_state":            "description.RouteTable.Properties.ProvisioningState",
 	"region":                        "description.RouteTable.Location",
 	"resource_group":                "description.ResourceGroup",
-	"routes":                        "description.RouteTable.RouteTablePropertiesFormat.Routes",
-	"subnets":                       "description.RouteTable.RouteTablePropertiesFormat.Subnets",
+	"routes":                        "description.RouteTable.Properties.Routes",
+	"subnets":                       "description.RouteTable.Properties.Subnets",
 	"tags":                          "description.RouteTable.Tags",
 	"title":                         "description.RouteTable.Name",
 	"type":                          "description.RouteTable.Type",
@@ -7544,10 +8385,10 @@ var listNetworkApplicationSecurityGroupsFilters = map[string]string{
 	"etag":               "description.ApplicationSecurityGroup.Etag",
 	"kaytu_account_id":   "metadata.SourceID",
 	"name":               "description.ApplicationSecurityGroup.Name",
-	"provisioning_state": "description.ApplicationSecurityGroup.ApplicationSecurityGroupPropertiesFormat.ProvisioningState",
+	"provisioning_state": "description.ApplicationSecurityGroup.Properties.ProvisioningState",
 	"region":             "description.ApplicationSecurityGroup.Location",
 	"resource_group":     "description.ResourceGroup",
-	"resource_guid":      "description.ApplicationSecurityGroup.ApplicationSecurityGroupPropertiesFormat.ResourceGUID",
+	"resource_guid":      "description.ApplicationSecurityGroup.Properties.ResourceGUID",
 	"tags":               "description.ApplicationSecurityGroup.Tags",
 	"title":              "description.ApplicationSecurityGroup.Name",
 	"type":               "description.ApplicationSecurityGroup.Type",
@@ -7588,10 +8429,10 @@ var getNetworkApplicationSecurityGroupsFilters = map[string]string{
 	"etag":               "description.ApplicationSecurityGroup.Etag",
 	"kaytu_account_id":   "metadata.SourceID",
 	"name":               "description.ApplicationSecurityGroup.Name",
-	"provisioning_state": "description.ApplicationSecurityGroup.ApplicationSecurityGroupPropertiesFormat.ProvisioningState",
+	"provisioning_state": "description.ApplicationSecurityGroup.Properties.ProvisioningState",
 	"region":             "description.ApplicationSecurityGroup.Location",
 	"resource_group":     "description.ResourceGroup",
-	"resource_guid":      "description.ApplicationSecurityGroup.ApplicationSecurityGroupPropertiesFormat.ResourceGUID",
+	"resource_guid":      "description.ApplicationSecurityGroup.Properties.ResourceGUID",
 	"tags":               "description.ApplicationSecurityGroup.Tags",
 	"title":              "description.ApplicationSecurityGroup.Name",
 	"type":               "description.ApplicationSecurityGroup.Type",
@@ -7708,30 +8549,31 @@ func (p NetworkAzureFirewallPaginator) NextPage(ctx context.Context) ([]NetworkA
 }
 
 var listNetworkAzureFirewallFilters = map[string]string{
-	"additional_properties":        "description.AzureFirewall.AzureFirewallPropertiesFormat.AdditionalProperties",
+	"additional_properties":        "description.AzureFirewall.Properties.AdditionalProperties",
 	"akas":                         "description.AzureFirewall.ID",
-	"application_rule_collections": "description.AzureFirewall.AzureFirewallPropertiesFormat.ApplicationRuleCollections",
+	"application_rule_collections": "description.AzureFirewall.Properties.ApplicationRuleCollections",
 	"availability_zones":           "description.AzureFirewall.Zones",
 	"etag":                         "description.AzureFirewall.Etag",
-	"firewall_policy_id":           "description.AzureFirewall.AzureFirewallPropertiesFormat.FirewallPolicy.ID",
-	"hub_private_ip_address":       "description.AzureFirewall.AzureFirewallPropertiesFormat.HubIPAddresses.PrivateIPAddress",
-	"hub_public_ip_address_count":  "description.AzureFirewall.AzureFirewallPropertiesFormat.HubIPAddresses.PublicIPs.Count",
-	"hub_public_ip_addresses":      "description.AzureFirewall.AzureFirewallPropertiesFormat.HubIPAddresses.PublicIPs.Addresses",
-	"ip_groups":                    "description.AzureFirewall.AzureFirewallPropertiesFormat.IPGroups",
+	"firewall_policy_id":           "description.AzureFirewall.Properties.FirewallPolicy.ID",
+	"hub_private_ip_address":       "description.AzureFirewall.Properties.HubIPAddresses.PrivateIPAddress",
+	"hub_public_ip_address_count":  "description.AzureFirewall.Properties.HubIPAddresses.PublicIPs.Count",
+	"hub_public_ip_addresses":      "description.AzureFirewall.Properties.HubIPAddresses.PublicIPs.Addresses",
+	"id":                           "description.AzureFirewall.ID",
+	"ip_groups":                    "description.AzureFirewall.Properties.IPGroups",
 	"kaytu_account_id":             "metadata.SourceID",
 	"name":                         "description.AzureFirewall.Name",
-	"nat_rule_collections":         "description.AzureFirewall.AzureFirewallPropertiesFormat.NatRuleCollections",
-	"network_rule_collections":     "description.AzureFirewall.AzureFirewallPropertiesFormat.NetworkRuleCollections",
-	"provisioning_state":           "description.AzureFirewall.AzureFirewallPropertiesFormat.ProvisioningState",
+	"nat_rule_collections":         "description.AzureFirewall.Properties.NatRuleCollections",
+	"network_rule_collections":     "description.AzureFirewall.Properties.NetworkRuleCollections",
+	"provisioning_state":           "description.AzureFirewall.Properties.ProvisioningState",
 	"region":                       "description.AzureFirewall.Location",
 	"resource_group":               "description.ResourceGroup",
-	"sku_name":                     "description.AzureFirewall.AzureFirewallPropertiesFormat.Sku.Name",
-	"sku_tier":                     "description.AzureFirewall.AzureFirewallPropertiesFormat.Sku.Tier",
+	"sku_name":                     "description.AzureFirewall.Properties.SKU.Name",
+	"sku_tier":                     "description.AzureFirewall.Properties.SKU.Tier",
 	"tags":                         "description.AzureFirewall.Tags",
-	"threat_intel_mode":            "description.AzureFirewall.AzureFirewallPropertiesFormat.ThreatIntelMode",
+	"threat_intel_mode":            "description.AzureFirewall.Properties.ThreatIntelMode",
 	"title":                        "description.AzureFirewall.Name",
 	"type":                         "description.AzureFirewall.Type",
-	"virtual_hub_id":               "description.AzureFirewall.AzureFirewallPropertiesFormat.VirtualHub.ID",
+	"virtual_hub_id":               "description.AzureFirewall.Properties.VirtualHub.ID",
 }
 
 func ListNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7765,30 +8607,31 @@ func ListNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 var getNetworkAzureFirewallFilters = map[string]string{
-	"additional_properties":        "description.AzureFirewall.AzureFirewallPropertiesFormat.AdditionalProperties",
+	"additional_properties":        "description.AzureFirewall.Properties.AdditionalProperties",
 	"akas":                         "description.AzureFirewall.ID",
-	"application_rule_collections": "description.AzureFirewall.AzureFirewallPropertiesFormat.ApplicationRuleCollections",
+	"application_rule_collections": "description.AzureFirewall.Properties.ApplicationRuleCollections",
 	"availability_zones":           "description.AzureFirewall.Zones",
 	"etag":                         "description.AzureFirewall.Etag",
-	"firewall_policy_id":           "description.AzureFirewall.AzureFirewallPropertiesFormat.FirewallPolicy.ID",
-	"hub_private_ip_address":       "description.AzureFirewall.AzureFirewallPropertiesFormat.HubIPAddresses.PrivateIPAddress",
-	"hub_public_ip_address_count":  "description.AzureFirewall.AzureFirewallPropertiesFormat.HubIPAddresses.PublicIPs.Count",
-	"hub_public_ip_addresses":      "description.AzureFirewall.AzureFirewallPropertiesFormat.HubIPAddresses.PublicIPs.Addresses",
-	"ip_groups":                    "description.AzureFirewall.AzureFirewallPropertiesFormat.IPGroups",
+	"firewall_policy_id":           "description.AzureFirewall.Properties.FirewallPolicy.ID",
+	"hub_private_ip_address":       "description.AzureFirewall.Properties.HubIPAddresses.PrivateIPAddress",
+	"hub_public_ip_address_count":  "description.AzureFirewall.Properties.HubIPAddresses.PublicIPs.Count",
+	"hub_public_ip_addresses":      "description.AzureFirewall.Properties.HubIPAddresses.PublicIPs.Addresses",
+	"id":                           "description.AzureFirewall.ID",
+	"ip_groups":                    "description.AzureFirewall.Properties.IPGroups",
 	"kaytu_account_id":             "metadata.SourceID",
 	"name":                         "description.AzureFirewall.Name",
-	"nat_rule_collections":         "description.AzureFirewall.AzureFirewallPropertiesFormat.NatRuleCollections",
-	"network_rule_collections":     "description.AzureFirewall.AzureFirewallPropertiesFormat.NetworkRuleCollections",
-	"provisioning_state":           "description.AzureFirewall.AzureFirewallPropertiesFormat.ProvisioningState",
+	"nat_rule_collections":         "description.AzureFirewall.Properties.NatRuleCollections",
+	"network_rule_collections":     "description.AzureFirewall.Properties.NetworkRuleCollections",
+	"provisioning_state":           "description.AzureFirewall.Properties.ProvisioningState",
 	"region":                       "description.AzureFirewall.Location",
 	"resource_group":               "description.ResourceGroup",
-	"sku_name":                     "description.AzureFirewall.AzureFirewallPropertiesFormat.Sku.Name",
-	"sku_tier":                     "description.AzureFirewall.AzureFirewallPropertiesFormat.Sku.Tier",
+	"sku_name":                     "description.AzureFirewall.Properties.SKU.Name",
+	"sku_tier":                     "description.AzureFirewall.Properties.SKU.Tier",
 	"tags":                         "description.AzureFirewall.Tags",
-	"threat_intel_mode":            "description.AzureFirewall.AzureFirewallPropertiesFormat.ThreatIntelMode",
+	"threat_intel_mode":            "description.AzureFirewall.Properties.ThreatIntelMode",
 	"title":                        "description.AzureFirewall.Name",
 	"type":                         "description.AzureFirewall.Type",
-	"virtual_hub_id":               "description.AzureFirewall.AzureFirewallPropertiesFormat.VirtualHub.ID",
+	"virtual_hub_id":               "description.AzureFirewall.Properties.VirtualHub.ID",
 }
 
 func GetNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -7903,26 +8746,27 @@ func (p ExpressRouteCircuitPaginator) NextPage(ctx context.Context) ([]ExpressRo
 
 var listExpressRouteCircuitFilters = map[string]string{
 	"akas":                                "description.ExpressRouteCircuit.ID",
-	"allow_classic_operations":            "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.AllowClassicOperations",
-	"authorizations":                      "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.Authorizations",
-	"bandwidth_in_gbps":                   "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.BandwidthInGbps",
-	"circuit_provisioning_state":          "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.CircuitProvisioningState",
+	"allow_classic_operations":            "description.ExpressRouteCircuit.Properties.AllowClassicOperations",
+	"authorizations":                      "description.ExpressRouteCircuit.Properties.Authorizations",
+	"bandwidth_in_gbps":                   "description.ExpressRouteCircuit.Properties.BandwidthInGbps",
+	"circuit_provisioning_state":          "description.ExpressRouteCircuit.Properties.CircuitProvisioningState",
 	"etag":                                "description.ExpressRouteCircuit.Etag",
-	"express_route_port":                  "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.ExpressRoutePort",
-	"global_reach_enabled":                "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.GlobalReachEnabled",
+	"express_route_port":                  "description.ExpressRouteCircuit.Properties.ExpressRoutePort",
+	"global_reach_enabled":                "description.ExpressRouteCircuit.Properties.GlobalReachEnabled",
+	"id":                                  "description.ExpressRouteCircuit.ID",
 	"kaytu_account_id":                    "metadata.SourceID",
 	"name":                                "description.ExpressRouteCircuit.Name",
-	"peerings":                            "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.Peerings",
-	"provisioning_state":                  "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.ProvisioningState",
+	"peerings":                            "description.ExpressRouteCircuit.Properties.Peerings",
+	"provisioning_state":                  "description.ExpressRouteCircuit.Properties.ProvisioningState",
 	"region":                              "description.ExpressRouteCircuit.Location",
 	"resource_group":                      "description.ResourceGroup",
-	"service_key":                         "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.ServiceKey",
-	"service_provider_notes":              "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.ServiceProviderNotes",
-	"service_provider_properties":         "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.ServiceProviderProperties",
-	"service_provider_provisioning_state": "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.ServiceProviderProvisioningState",
-	"sku_family":                          "description.ExpressRouteCircuit.Sku.Family",
-	"sku_name":                            "description.ExpressRouteCircuit.Sku.Name",
-	"sku_tier":                            "description.ExpressRouteCircuit.Sku.Tier",
+	"service_key":                         "description.ExpressRouteCircuit.Properties.ServiceKey",
+	"service_provider_notes":              "description.ExpressRouteCircuit.Properties.ServiceProviderNotes",
+	"service_provider_properties":         "description.ExpressRouteCircuit.Properties.ServiceProviderProperties",
+	"service_provider_provisioning_state": "description.ExpressRouteCircuit.Properties.ServiceProviderProvisioningState",
+	"sku_family":                          "description.ExpressRouteCircuit.SKU.Family",
+	"sku_name":                            "description.ExpressRouteCircuit.SKU.Name",
+	"sku_tier":                            "description.ExpressRouteCircuit.SKU.Tier",
 	"tags":                                "description.ExpressRouteCircuit.Tags",
 	"title":                               "description.ExpressRouteCircuit.Name",
 }
@@ -7959,26 +8803,27 @@ func ListExpressRouteCircuit(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 var getExpressRouteCircuitFilters = map[string]string{
 	"akas":                                "description.ExpressRouteCircuit.ID",
-	"allow_classic_operations":            "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.AllowClassicOperations",
-	"authorizations":                      "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.Authorizations",
-	"bandwidth_in_gbps":                   "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.BandwidthInGbps",
-	"circuit_provisioning_state":          "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.CircuitProvisioningState",
+	"allow_classic_operations":            "description.ExpressRouteCircuit.Properties.AllowClassicOperations",
+	"authorizations":                      "description.ExpressRouteCircuit.Properties.Authorizations",
+	"bandwidth_in_gbps":                   "description.ExpressRouteCircuit.Properties.BandwidthInGbps",
+	"circuit_provisioning_state":          "description.ExpressRouteCircuit.Properties.CircuitProvisioningState",
 	"etag":                                "description.ExpressRouteCircuit.Etag",
-	"express_route_port":                  "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.ExpressRoutePort",
-	"global_reach_enabled":                "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.GlobalReachEnabled",
+	"express_route_port":                  "description.ExpressRouteCircuit.Properties.ExpressRoutePort",
+	"global_reach_enabled":                "description.ExpressRouteCircuit.Properties.GlobalReachEnabled",
+	"id":                                  "description.ExpressRouteCircuit.ID",
 	"kaytu_account_id":                    "metadata.SourceID",
 	"name":                                "description.ExpressRouteCircuit.name",
-	"peerings":                            "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.Peerings",
-	"provisioning_state":                  "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.ProvisioningState",
+	"peerings":                            "description.ExpressRouteCircuit.Properties.Peerings",
+	"provisioning_state":                  "description.ExpressRouteCircuit.Properties.ProvisioningState",
 	"region":                              "description.ExpressRouteCircuit.Location",
 	"resource_group":                      "description.ResourceGroup",
-	"service_key":                         "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.ServiceKey",
-	"service_provider_notes":              "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.ServiceProviderNotes",
-	"service_provider_properties":         "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.ServiceProviderProperties",
-	"service_provider_provisioning_state": "description.ExpressRouteCircuit.ExpressRouteCircuitPropertiesFormat.ServiceProviderProvisioningState",
-	"sku_family":                          "description.ExpressRouteCircuit.Sku.Family",
-	"sku_name":                            "description.ExpressRouteCircuit.Sku.Name",
-	"sku_tier":                            "description.ExpressRouteCircuit.Sku.Tier",
+	"service_key":                         "description.ExpressRouteCircuit.Properties.ServiceKey",
+	"service_provider_notes":              "description.ExpressRouteCircuit.Properties.ServiceProviderNotes",
+	"service_provider_properties":         "description.ExpressRouteCircuit.Properties.ServiceProviderProperties",
+	"service_provider_provisioning_state": "description.ExpressRouteCircuit.Properties.ServiceProviderProvisioningState",
+	"sku_family":                          "description.ExpressRouteCircuit.SKU.Family",
+	"sku_name":                            "description.ExpressRouteCircuit.SKU.Name",
+	"sku_tier":                            "description.ExpressRouteCircuit.SKU.Tier",
 	"tags":                                "description.ExpressRouteCircuit.Tags",
 	"title":                               "description.ExpressRouteCircuit.Name",
 }
@@ -8094,34 +8939,35 @@ func (p VirtualNetworkGatewayPaginator) NextPage(ctx context.Context) ([]Virtual
 }
 
 var listVirtualNetworkGatewayFilters = map[string]string{
-	"active_active":                   "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.ActiveActive",
+	"active_active":                   "description.VirtualNetworkGateway.Properties.Active",
 	"akas":                            "description.VirtualNetworkGateway.ID",
-	"bgp_settings":                    "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.BgpSettings",
-	"custom_routes_address_prefixes":  "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.CustomRoutes.AddressPrefixes",
-	"enable_bgp":                      "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.EnableBgp",
-	"enable_dns_forwarding":           "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.EnableDNSForwarding",
-	"enable_private_ip_address":       "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.EnablePrivateIPAddress",
+	"bgp_settings":                    "description.VirtualNetworkGateway.Properties.BgpSettings",
+	"custom_routes_address_prefixes":  "description.VirtualNetworkGateway.Properties.CustomRoutes.AddressPrefixes",
+	"enable_bgp":                      "description.VirtualNetworkGateway.Properties.EnableBgp",
+	"enable_dns_forwarding":           "description.VirtualNetworkGateway.Properties.EnableDNSForwarding",
+	"enable_private_ip_address":       "description.VirtualNetworkGateway.Properties.EnablePrivateIPAddress",
 	"etag":                            "description.VirtualNetworkGateway.Etag",
 	"gateway_connections":             "description.VirtualNetworkGatewayConnection",
-	"gateway_default_site":            "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.GatewayDefaultSite.ID",
-	"gateway_type":                    "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.GatewayType",
-	"inbound_dns_forwarding_endpoint": "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.InboundDNSForwardingEndpoint",
-	"ip_configurations":               "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.IPConfigurations",
+	"gateway_default_site":            "description.VirtualNetworkGateway.Properties.GatewayDefaultSite.ID",
+	"gateway_type":                    "description.VirtualNetworkGateway.Properties.GatewayType",
+	"id":                              "description.VirtualNetworkGateway.ID",
+	"inbound_dns_forwarding_endpoint": "description.VirtualNetworkGateway.Properties.InboundDNSForwardingEndpoint",
+	"ip_configurations":               "description.VirtualNetworkGateway.Properties.IPConfigurations",
 	"kaytu_account_id":                "metadata.SourceID",
 	"name":                            "description.VirtualNetworkGateway.Name",
-	"provisioning_state":              "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.ProvisioningState",
+	"provisioning_state":              "description.VirtualNetworkGateway.Properties.ProvisioningState",
 	"region":                          "description.VirtualNetworkGateway.Location",
 	"resource_group":                  "description.ResourceGroup",
-	"resource_guid":                   "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.ResourceGUID",
-	"sku_capacity":                    "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.Sku.Capacity",
-	"sku_name":                        "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.Sku.Name",
-	"sku_tier":                        "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.Sku.Tier",
+	"resource_guid":                   "description.VirtualNetworkGateway.Properties.ResourceGUID",
+	"sku_capacity":                    "description.VirtualNetworkGateway.Properties.SKU.Capacity",
+	"sku_name":                        "description.VirtualNetworkGateway.Properties.SKU.Name",
+	"sku_tier":                        "description.VirtualNetworkGateway.Properties.SKU.Tier",
 	"tags":                            "description.VirtualNetworkGateway.Tags",
 	"title":                           "description.VirtualNetworkGateway.Name",
 	"type":                            "description.VirtualNetworkGateway.Type",
-	"vpn_client_configuration":        "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.VpnClientConfiguration",
-	"vpn_gateway_generation":          "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.VpnGatewayGeneration",
-	"vpn_type":                        "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.VpnType",
+	"vpn_client_configuration":        "description.VirtualNetworkGateway.Properties.VPNClientConfiguration",
+	"vpn_gateway_generation":          "description.VirtualNetworkGateway.Properties.VPNGatewayGeneration",
+	"vpn_type":                        "description.VirtualNetworkGateway.Properties.VPNType",
 }
 
 func ListVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8155,34 +9001,35 @@ func ListVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getVirtualNetworkGatewayFilters = map[string]string{
-	"active_active":                   "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.ActiveActive",
+	"active_active":                   "description.VirtualNetworkGateway.Properties.Active",
 	"akas":                            "description.VirtualNetworkGateway.ID",
-	"bgp_settings":                    "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.BgpSettings",
-	"custom_routes_address_prefixes":  "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.CustomRoutes.AddressPrefixes",
-	"enable_bgp":                      "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.EnableBgp",
-	"enable_dns_forwarding":           "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.EnableDNSForwarding",
-	"enable_private_ip_address":       "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.EnablePrivateIPAddress",
+	"bgp_settings":                    "description.VirtualNetworkGateway.Properties.BgpSettings",
+	"custom_routes_address_prefixes":  "description.VirtualNetworkGateway.Properties.CustomRoutes.AddressPrefixes",
+	"enable_bgp":                      "description.VirtualNetworkGateway.Properties.EnableBgp",
+	"enable_dns_forwarding":           "description.VirtualNetworkGateway.Properties.EnableDNSForwarding",
+	"enable_private_ip_address":       "description.VirtualNetworkGateway.Properties.EnablePrivateIPAddress",
 	"etag":                            "description.VirtualNetworkGateway.Etag",
 	"gateway_connections":             "description.VirtualNetworkGatewayConnection",
-	"gateway_default_site":            "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.GatewayDefaultSite.ID",
-	"gateway_type":                    "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.GatewayType",
-	"inbound_dns_forwarding_endpoint": "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.InboundDNSForwardingEndpoint",
-	"ip_configurations":               "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.IPConfigurations",
+	"gateway_default_site":            "description.VirtualNetworkGateway.Properties.GatewayDefaultSite.ID",
+	"gateway_type":                    "description.VirtualNetworkGateway.Properties.GatewayType",
+	"id":                              "description.VirtualNetworkGateway.ID",
+	"inbound_dns_forwarding_endpoint": "description.VirtualNetworkGateway.Properties.InboundDNSForwardingEndpoint",
+	"ip_configurations":               "description.VirtualNetworkGateway.Properties.IPConfigurations",
 	"kaytu_account_id":                "metadata.SourceID",
 	"name":                            "description.VirtualNetworkGateway.Name",
-	"provisioning_state":              "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.ProvisioningState",
+	"provisioning_state":              "description.VirtualNetworkGateway.Properties.ProvisioningState",
 	"region":                          "description.VirtualNetworkGateway.Location",
 	"resource_group":                  "description.ResourceGroup",
-	"resource_guid":                   "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.ResourceGUID",
-	"sku_capacity":                    "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.Sku.Capacity",
-	"sku_name":                        "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.Sku.Name",
-	"sku_tier":                        "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.Sku.Tier",
+	"resource_guid":                   "description.VirtualNetworkGateway.Properties.ResourceGUID",
+	"sku_capacity":                    "description.VirtualNetworkGateway.Properties.SKU.Capacity",
+	"sku_name":                        "description.VirtualNetworkGateway.Properties.SKU.Name",
+	"sku_tier":                        "description.VirtualNetworkGateway.Properties.SKU.Tier",
 	"tags":                            "description.VirtualNetworkGateway.Tags",
 	"title":                           "description.VirtualNetworkGateway.Name",
 	"type":                            "description.VirtualNetworkGateway.Type",
-	"vpn_client_configuration":        "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.VpnClientConfiguration",
-	"vpn_gateway_generation":          "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.VpnGatewayGeneration",
-	"vpn_type":                        "description.VirtualNetworkGateway.VirtualNetworkGatewayPropertiesFormat.VpnType",
+	"vpn_client_configuration":        "description.VirtualNetworkGateway.Properties.VPNClientConfiguration",
+	"vpn_gateway_generation":          "description.VirtualNetworkGateway.Properties.VPNGatewayGeneration",
+	"vpn_type":                        "description.VirtualNetworkGateway.Properties.VPNType",
 }
 
 func GetVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8296,12 +9143,30 @@ func (p FirewallPolicyPaginator) NextPage(ctx context.Context) ([]FirewallPolicy
 }
 
 var listFirewallPolicyFilters = map[string]string{
-	"akas":             "description.FirewallPolicies.ID",
-	"id":               "description.FirewallPolicies.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.FirewallPolicies.Name",
-	"tags":             "description.FirewallPolicies.Tags",
-	"title":            "description.FirewallPolicies.Name",
+	"akas":                                "description.FirewallPolicy.ID",
+	"base_policy":                         "description.FirewallPolicies.Properties.BasePolicy",
+	"child_policies":                      "description.FirewallPolicies.Properties.ChildPolicies",
+	"dns_settings":                        "description.FirewallPolicies.Properties.DNSSettings",
+	"etag":                                "description.FirewallPolicies.Etag",
+	"firewalls":                           "description.FirewallPolicies.Properties.Firewalls",
+	"id":                                  "description.FirewallPolicy.ID",
+	"identity":                            "description.FirewallPolicies.Identity",
+	"intrusion_detection_configuration":   "description.FirewallPolicies.Properties.IntrusionDetection.Configuration",
+	"intrusion_detection_mode":            "description.FirewallPolicies.Properties.IntrusionDetection.Mode",
+	"kaytu_account_id":                    "metadata.SourceID",
+	"name":                                "description.FirewallPolicy.Name",
+	"provisioning_state":                  "description.FirewallPolicies.Properties.ProvisioningState",
+	"region":                              "description.FirewallPolicy.Location",
+	"resource_group":                      "description.ResourceGroup",
+	"rule_collection_groups":              "description.FirewallPolicies.Properties.RuleCollectionGroups",
+	"sku_tier":                            "description.FirewallPolicies.Properties.SKU.Tier",
+	"tags":                                "description.FirewallPolicy.Tags",
+	"threat_intel_mode":                   "description.FirewallPolicies.Properties.ThreatIntelMode",
+	"threat_intel_whitelist_fqdns":        "description.FirewallPolicies.Properties.ThreatIntelWhitelist.Fqdns",
+	"threat_intel_whitelist_ip_addresses": "description.FirewallPolicies.Properties.ThreatIntelWhitelist.IPAddresses",
+	"title":                               "description.FirewallPolicy.Name",
+	"transport_security_certificate_authority": "description.FirewallPolicies.Properties.TransportSecurity.CertificateAuthority",
+	"type": "description.FirewallPolicies.Type",
 }
 
 func ListFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8335,13 +9200,30 @@ func ListFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getFirewallPolicyFilters = map[string]string{
-	"akas":             "description.FirewallPolicies.ID",
-	"id":               "description.FirewallPolicies.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.FirewallPolicy.Name",
-	"resource_group":   "description.ResourceGroup",
-	"tags":             "description.FirewallPolicies.Tags",
-	"title":            "description.FirewallPolicies.Name",
+	"akas":                                "description.FirewallPolicy.ID",
+	"base_policy":                         "description.FirewallPolicies.Properties.BasePolicy",
+	"child_policies":                      "description.FirewallPolicies.Properties.ChildPolicies",
+	"dns_settings":                        "description.FirewallPolicies.Properties.DNSSettings",
+	"etag":                                "description.FirewallPolicies.Etag",
+	"firewalls":                           "description.FirewallPolicies.Properties.Firewalls",
+	"id":                                  "description.FirewallPolicy.ID",
+	"identity":                            "description.FirewallPolicies.Identity",
+	"intrusion_detection_configuration":   "description.FirewallPolicies.Properties.IntrusionDetection.Configuration",
+	"intrusion_detection_mode":            "description.FirewallPolicies.Properties.IntrusionDetection.Mode",
+	"kaytu_account_id":                    "metadata.SourceID",
+	"name":                                "description.FirewallPolicy.Name",
+	"provisioning_state":                  "description.FirewallPolicies.Properties.ProvisioningState",
+	"region":                              "description.FirewallPolicy.Location",
+	"resource_group":                      "description.ResourceGroup",
+	"rule_collection_groups":              "description.FirewallPolicies.Properties.RuleCollectionGroups",
+	"sku_tier":                            "description.FirewallPolicies.Properties.SKU.Tier",
+	"tags":                                "description.FirewallPolicy.Tags",
+	"threat_intel_mode":                   "description.FirewallPolicies.Properties.ThreatIntelMode",
+	"threat_intel_whitelist_fqdns":        "description.FirewallPolicies.Properties.ThreatIntelWhitelist.Fqdns",
+	"threat_intel_whitelist_ip_addresses": "description.FirewallPolicies.Properties.ThreatIntelWhitelist.IPAddresses",
+	"title":                               "description.FirewallPolicy.Name",
+	"transport_security_certificate_authority": "description.FirewallPolicies.Properties.TransportSecurity.CertificateAuthority",
+	"type": "description.FirewallPolicies.Type",
 }
 
 func GetFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8455,12 +9337,12 @@ func (p LocalNetworkGatewayPaginator) NextPage(ctx context.Context) ([]LocalNetw
 }
 
 var listLocalNetworkGatewayFilters = map[string]string{
-	"akas":             "description.LocalNetworkGateways.ID",
-	"id":               "description.LocalNetworkGateways.Id",
+	"akas":             "description.LocalNetworkGateway.ID",
+	"id":               "description.LocalNetworkGateways.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.LocalNetworkGateways.Name",
-	"tags":             "description.LocalNetworkGateways.Tags",
-	"title":            "description.LocalNetworkGateways.Name",
+	"name":             "description.LocalNetworkGateway.Name",
+	"tags":             "description.LocalNetworkGateway.Tags",
+	"title":            "description.LocalNetworkGateway.Name",
 }
 
 func ListLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8494,13 +9376,13 @@ func ListLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getLocalNetworkGatewayFilters = map[string]string{
-	"akas":             "description.LocalNetworkGateways.ID",
-	"id":               "description.LocalNetworkGateways.Id",
+	"akas":             "description.LocalNetworkGateway.ID",
+	"id":               "description.LocalNetworkGateways.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.LocalNetworkGateway.Name",
 	"resource_group":   "description.ResourceGroup",
-	"tags":             "description.LocalNetworkGateways.Tags",
-	"title":            "description.LocalNetworkGateways.Name",
+	"tags":             "description.LocalNetworkGateway.Tags",
+	"title":            "description.LocalNetworkGateway.Name",
 }
 
 func GetLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8621,7 +9503,7 @@ var listNatGatewayFilters = map[string]string{
 	"name":             "description.NatGateway.Name",
 	"region":           "description.NatGateway.Location",
 	"resource_group":   "description.ResourceGroup",
-	"sku_name":         "description.NatGateway.Sku.Name",
+	"sku_name":         "description.NatGateway.SKU.Name",
 	"tags":             "description.NatGateway.Tags",
 	"title":            "description.NatGateway.Name",
 	"type":             "description.NatGateway.Type",
@@ -8666,7 +9548,7 @@ var getNatGatewayFilters = map[string]string{
 	"name":             "description.NatGateway.Name",
 	"region":           "description.NatGateway.Location",
 	"resource_group":   "description.ResourceGroup",
-	"sku_name":         "description.NatGateway.Sku.Name",
+	"sku_name":         "description.NatGateway.SKU.Name",
 	"tags":             "description.NatGateway.Tags",
 	"title":            "description.NatGateway.Name",
 	"type":             "description.NatGateway.Type",
@@ -8784,12 +9666,12 @@ func (p PrivateLinkServicePaginator) NextPage(ctx context.Context) ([]PrivateLin
 }
 
 var listPrivateLinkServiceFilters = map[string]string{
-	"akas":             "description.PrivateLinkServices.ID",
-	"id":               "description.PrivateLinkServices.Id",
+	"akas":             "description.PrivateLinkService.ID",
+	"id":               "description.PrivateLinkServices.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.PrivateLinkServices.Name",
-	"tags":             "description.PrivateLinkServices.Tags",
-	"title":            "description.PrivateLinkServices.Name",
+	"name":             "description.PrivateLinkService.Name",
+	"tags":             "description.PrivateLinkService.Tags",
+	"title":            "description.PrivateLinkService.Name",
 }
 
 func ListPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8823,13 +9705,13 @@ func ListPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 }
 
 var getPrivateLinkServiceFilters = map[string]string{
-	"akas":             "description.PrivateLinkServices.ID",
-	"id":               "description.PrivateLinkServices.Id",
+	"akas":             "description.PrivateLinkService.ID",
+	"id":               "description.PrivateLinkServices.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.PrivateLinkService.Name",
 	"resource_group":   "description.ResourceGroup",
-	"tags":             "description.PrivateLinkServices.Tags",
-	"title":            "description.PrivateLinkServices.Name",
+	"tags":             "description.PrivateLinkService.Tags",
+	"title":            "description.PrivateLinkService.Name",
 }
 
 func GetPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8943,12 +9825,12 @@ func (p VpnGatewayPaginator) NextPage(ctx context.Context) ([]VpnGateway, error)
 }
 
 var listVpnGatewayFilters = map[string]string{
-	"akas":             "description.VPNGateways.ID",
-	"id":               "description.VPNGateways.Id",
+	"akas":             "description.VpnGateway.ID",
+	"id":               "description.VPNGateways.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.VPNGateways.Name",
-	"tags":             "description.VPNGateways.Tags",
-	"title":            "description.VPNGateways.Name",
+	"name":             "description.VpnGateway.Name",
+	"tags":             "description.VpnGateway.Tags",
+	"title":            "description.VpnGateway.Name",
 }
 
 func ListVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -8982,13 +9864,13 @@ func ListVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 }
 
 var getVpnGatewayFilters = map[string]string{
-	"akas":             "description.VPNGateways.ID",
-	"id":               "description.VPNGateways.Id",
+	"akas":             "description.VpnGateway.ID",
+	"id":               "description.VPNGateways.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.VpnGateway.Name",
 	"resource_group":   "description.ResourceGroup",
-	"tags":             "description.VPNGateways.Tags",
-	"title":            "description.VPNGateways.Name",
+	"tags":             "description.VpnGateway.Tags",
+	"title":            "description.VpnGateway.Name",
 }
 
 func GetVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9102,12 +9984,12 @@ func (p VpnGatewayVpnConnectionPaginator) NextPage(ctx context.Context) ([]VpnGa
 }
 
 var listVpnGatewayVpnConnectionFilters = map[string]string{
-	"akas":             "description.VPNConnections.ID",
-	"id":               "description.VPNConnections.Id",
+	"akas":             "description.VpnConnection.ID",
+	"id":               "description.VPNConnections.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.VPNConnections.Name",
-	"tags":             "description.VPNConnections.Tags",
-	"title":            "description.VPNConnections.Name",
+	"name":             "description.VpnConnection.Name",
+	"tags":             "description.VpnConnection.Etag",
+	"title":            "description.VpnConnection.Name",
 }
 
 func ListVpnGatewayVpnConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9141,12 +10023,12 @@ func ListVpnGatewayVpnConnection(ctx context.Context, d *plugin.QueryData, _ *pl
 }
 
 var getVpnGatewayVpnConnectionFilters = map[string]string{
-	"akas":             "description.VPNConnections.ID",
-	"id":               "description.VPNConnections.Id",
+	"akas":             "description.VpnConnection.ID",
+	"id":               "description.VPNConnections.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.VPNConnections.Name",
-	"tags":             "description.VPNConnections.Tags",
-	"title":            "description.VPNConnections.Name",
+	"name":             "description.VpnConnection.Name",
+	"tags":             "description.VpnConnection.Etag",
+	"title":            "description.VpnConnection.Name",
 }
 
 func GetVpnGatewayVpnConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9260,12 +10142,12 @@ func (p VpnSitePaginator) NextPage(ctx context.Context) ([]VpnSite, error) {
 }
 
 var listVpnSiteFilters = map[string]string{
-	"akas":             "description.VPNSites.ID",
-	"id":               "description.VPNSites.Id",
+	"akas":             "description.VpnSite.Properties.BgpProperties.Asn",
+	"id":               "description.VPNSites.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.VPNSites.Name",
-	"tags":             "description.VPNSites.Tags",
-	"title":            "description.VPNSites.Name",
+	"name":             "description.VpnSite.Name",
+	"tags":             "description.VpnSite.Tags",
+	"title":            "description.VpnSite.Name",
 }
 
 func ListVpnSite(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9299,12 +10181,12 @@ func ListVpnSite(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 var getVpnSiteFilters = map[string]string{
-	"akas":             "description.VPNSites.ID",
-	"id":               "description.VPNSites.Id",
+	"akas":             "description.VpnSite.Properties.BgpProperties.Asn",
+	"id":               "description.VPNSites.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.VPNSites.Name",
-	"tags":             "description.VPNSites.Tags",
-	"title":            "description.VPNSites.Name",
+	"name":             "description.VpnSite.Name",
+	"tags":             "description.VpnSite.Tags",
+	"title":            "description.VpnSite.Name",
 }
 
 func GetVpnSite(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9419,28 +10301,27 @@ func (p PublicIPAddressPaginator) NextPage(ctx context.Context) ([]PublicIPAddre
 
 var listPublicIPAddressFilters = map[string]string{
 	"akas":                              "description.PublicIPAddress.ID",
-	"ddos_custom_policy_id":             "description.PublicIPAddress.PublicIPAddressPropertiesFormat.DdosSettings.DdosCustomPolicy.ID",
-	"ddos_settings_protected_ip":        "description.PublicIPAddress.PublicIPAddressPropertiesFormat.DdosSettings.ProtectedIP",
-	"ddos_settings_protection_coverage": "description.PublicIPAddress.PublicIPAddressPropertiesFormat.DdosSettings.ProtectionCoverage",
-	"dns_settings_domain_name_label":    "description.PublicIPAddress.PublicIPAddressPropertiesFormat.DNSSettings.DomainNameLabel",
-	"dns_settings_fqdn":                 "description.PublicIPAddress.PublicIPAddressPropertiesFormat.DNSSettings.Fqdn",
-	"dns_settings_reverse_fqdn":         "description.PublicIPAddress.PublicIPAddressPropertiesFormat.DNSSettings.ReverseFqdn",
+	"ddos_custom_policy_id":             "publicIPAddressPropertiesFormat.DdosSettings.DdosCustomPolicy.ID",
+	"ddos_settings_protection_coverage": "publicIPAddressPropertiesFormat.DdosSettings.ProtectionCoverage",
+	"dns_settings_domain_name_label":    "description.PublicIPAddress.Properties.DNSSettings.DomainNameLabel",
+	"dns_settings_fqdn":                 "description.PublicIPAddress.Properties.DNSSettings.Fqdn",
+	"dns_settings_reverse_fqdn":         "description.PublicIPAddress.Properties.DNSSettings.ReverseFqdn",
 	"etag":                              "description.PublicIPAddress.Etag",
 	"id":                                "description.PublicIPAddress.ID",
-	"idle_timeout_in_minutes":           "description.PublicIPAddress.PublicIPAddressPropertiesFormat.IdleTimeoutInMinutes",
-	"ip_address":                        "description.PublicIPAddress.PublicIPAddressPropertiesFormat.IPAddress",
-	"ip_configuration_id":               "description.PublicIPAddress.PublicIPAddressPropertiesFormat.IPConfiguration.ID",
+	"idle_timeout_in_minutes":           "description.PublicIPAddress.Properties.IdleTimeoutInMinutes",
+	"ip_address":                        "description.PublicIPAddress.Properties.IPAddress",
+	"ip_configuration_id":               "description.PublicIPAddress.Properties.IPConfiguration.ID",
 	"ip_tags":                           "description.PublicIPAddress.PublicIPAddressPropertiesFormat.IPTags",
 	"kaytu_account_id":                  "metadata.SourceID",
 	"name":                              "description.PublicIPAddress.Name",
-	"provisioning_state":                "description.PublicIPAddress.PublicIPAddressPropertiesFormat.ProvisioningState",
-	"public_ip_address_version":         "description.PublicIPAddress.PublicIPAddressPropertiesFormat.PublicIPAddressVersion",
-	"public_ip_allocation_method":       "description.PublicIPAddress.PublicIPAddressPropertiesFormat.PublicIPAllocationMethod",
-	"public_ip_prefix_id":               "description.PublicIPAddress.PublicIPAddressPropertiesFormat.PublicIPPrefix.ID",
+	"provisioning_state":                "description.PublicIPAddress.Properties.ProvisioningState",
+	"public_ip_address_version":         "description.PublicIPAddress.Properties.PublicIPAddressVersion",
+	"public_ip_allocation_method":       "description.PublicIPAddress.Properties.PublicIPAllocationMethod",
+	"public_ip_prefix_id":               "description.PublicIPAddress.Properties.PublicIPPrefix.ID",
 	"region":                            "description.PublicIPAddress.Location",
 	"resource_group":                    "description.ResourceGroup",
-	"resource_guid":                     "description.PublicIPAddress.PublicIPAddressPropertiesFormat.ResourceGUID",
-	"sku_name":                          "description.PublicIPAddress.Sku.Name",
+	"resource_guid":                     "description.PublicIPAddress.Properties.ResourceGUID",
+	"sku_name":                          "description.PublicIPAddress.SKU.Name",
 	"tags":                              "description.PublicIPAddress.Tags",
 	"title":                             "description.PublicIPAddress.Name",
 	"type":                              "description.PublicIPAddress.Type",
@@ -9479,28 +10360,27 @@ func ListPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 var getPublicIPAddressFilters = map[string]string{
 	"akas":                              "description.PublicIPAddress.ID",
-	"ddos_custom_policy_id":             "description.PublicIPAddress.PublicIPAddressPropertiesFormat.DdosSettings.DdosCustomPolicy.ID",
-	"ddos_settings_protected_ip":        "description.PublicIPAddress.PublicIPAddressPropertiesFormat.DdosSettings.ProtectedIP",
-	"ddos_settings_protection_coverage": "description.PublicIPAddress.PublicIPAddressPropertiesFormat.DdosSettings.ProtectionCoverage",
-	"dns_settings_domain_name_label":    "description.PublicIPAddress.PublicIPAddressPropertiesFormat.DNSSettings.DomainNameLabel",
-	"dns_settings_fqdn":                 "description.PublicIPAddress.PublicIPAddressPropertiesFormat.DNSSettings.Fqdn",
-	"dns_settings_reverse_fqdn":         "description.PublicIPAddress.PublicIPAddressPropertiesFormat.DNSSettings.ReverseFqdn",
+	"ddos_custom_policy_id":             "publicIPAddressPropertiesFormat.DdosSettings.DdosCustomPolicy.ID",
+	"ddos_settings_protection_coverage": "publicIPAddressPropertiesFormat.DdosSettings.ProtectionCoverage",
+	"dns_settings_domain_name_label":    "description.PublicIPAddress.Properties.DNSSettings.DomainNameLabel",
+	"dns_settings_fqdn":                 "description.PublicIPAddress.Properties.DNSSettings.Fqdn",
+	"dns_settings_reverse_fqdn":         "description.PublicIPAddress.Properties.DNSSettings.ReverseFqdn",
 	"etag":                              "description.PublicIPAddress.Etag",
 	"id":                                "description.PublicIPAddress.ID",
-	"idle_timeout_in_minutes":           "description.PublicIPAddress.PublicIPAddressPropertiesFormat.IdleTimeoutInMinutes",
-	"ip_address":                        "description.PublicIPAddress.PublicIPAddressPropertiesFormat.IPAddress",
-	"ip_configuration_id":               "description.PublicIPAddress.PublicIPAddressPropertiesFormat.IPConfiguration.ID",
+	"idle_timeout_in_minutes":           "description.PublicIPAddress.Properties.IdleTimeoutInMinutes",
+	"ip_address":                        "description.PublicIPAddress.Properties.IPAddress",
+	"ip_configuration_id":               "description.PublicIPAddress.Properties.IPConfiguration.ID",
 	"ip_tags":                           "description.PublicIPAddress.PublicIPAddressPropertiesFormat.IPTags",
 	"kaytu_account_id":                  "metadata.SourceID",
 	"name":                              "description.PublicIPAddress.Name",
-	"provisioning_state":                "description.PublicIPAddress.PublicIPAddressPropertiesFormat.ProvisioningState",
-	"public_ip_address_version":         "description.PublicIPAddress.PublicIPAddressPropertiesFormat.PublicIPAddressVersion",
-	"public_ip_allocation_method":       "description.PublicIPAddress.PublicIPAddressPropertiesFormat.PublicIPAllocationMethod",
-	"public_ip_prefix_id":               "description.PublicIPAddress.PublicIPAddressPropertiesFormat.PublicIPPrefix.ID",
+	"provisioning_state":                "description.PublicIPAddress.Properties.ProvisioningState",
+	"public_ip_address_version":         "description.PublicIPAddress.Properties.PublicIPAddressVersion",
+	"public_ip_allocation_method":       "description.PublicIPAddress.Properties.PublicIPAllocationMethod",
+	"public_ip_prefix_id":               "description.PublicIPAddress.Properties.PublicIPPrefix.ID",
 	"region":                            "description.PublicIPAddress.Location",
 	"resource_group":                    "description.ResourceGroup",
-	"resource_guid":                     "description.PublicIPAddress.PublicIPAddressPropertiesFormat.ResourceGUID",
-	"sku_name":                          "description.PublicIPAddress.Sku.Name",
+	"resource_guid":                     "description.PublicIPAddress.Properties.ResourceGUID",
+	"sku_name":                          "description.PublicIPAddress.SKU.Name",
 	"tags":                              "description.PublicIPAddress.Tags",
 	"title":                             "description.PublicIPAddress.Name",
 	"type":                              "description.PublicIPAddress.Type",
@@ -9618,12 +10498,12 @@ func (p PublicIPPrefixPaginator) NextPage(ctx context.Context) ([]PublicIPPrefix
 }
 
 var listPublicIPPrefixFilters = map[string]string{
-	"akas":             "description.PublicIPPrefixes.ID",
-	"id":               "description.PublicIPPrefixes.Id",
+	"akas":             "description.PublicIPPrefix.ID",
+	"id":               "description.PublicIPPrefixes.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.PublicIPPrefixes.Name",
-	"tags":             "description.PublicIPPrefixes.Tags",
-	"title":            "description.PublicIPPrefixes.Name",
+	"name":             "description.PublicIPPrefix.Name",
+	"tags":             "description.PublicIPPrefix.Tags",
+	"title":            "description.PublicIPPrefix.Name",
 }
 
 func ListPublicIPPrefix(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9657,12 +10537,12 @@ func ListPublicIPPrefix(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getPublicIPPrefixFilters = map[string]string{
-	"akas":             "description.PublicIPPrefixes.ID",
-	"id":               "description.PublicIPPrefixes.Id",
+	"akas":             "description.PublicIPPrefix.ID",
+	"id":               "description.PublicIPPrefixes.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.PublicIPPrefixes.Name",
-	"tags":             "description.PublicIPPrefixes.Tags",
-	"title":            "description.PublicIPPrefixes.Name",
+	"name":             "description.PublicIPPrefix.Name",
+	"tags":             "description.PublicIPPrefix.Tags",
+	"title":            "description.PublicIPPrefix.Name",
 }
 
 func GetPublicIPPrefix(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9776,12 +10656,23 @@ func (p DNSZonesPaginator) NextPage(ctx context.Context) ([]DNSZones, error) {
 }
 
 var listDNSZonesFilters = map[string]string{
-	"akas":             "description.DNSZones.ID",
-	"id":               "description.DNSZones.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.DNSZones.Name",
-	"tags":             "description.DNSZones.Tags",
-	"title":            "description.DNSZones.Name",
+	"akas":                                 "description.Zone.ID",
+	"etag":                                 "description.Zone.Etag",
+	"id":                                   "description.Zone.ID",
+	"kaytu_account_id":                     "metadata.SourceID",
+	"max_number_of_record_sets":            "description.Zone.Properties.MaxNumberOfRecordSets",
+	"max_number_of_records_per_record_set": "description.Zone.Properties.MaxNumberOfRecordsPerRecordSet",
+	"name":                                 "description.Zone.Name",
+	"name_servers":                         "description.Zone.Properties.NameServers",
+	"number_of_record_sets":                "description.Zone.Properties.NumberOfRecordSets",
+	"region":                               "description.Zone.Location",
+	"registration_virtual_networks":        "description.Zone.Properties.RegistrationVirtualNetworks",
+	"resolution_virtual_networks":          "description.Zone.Properties.ResolutionVirtualNetworks",
+	"resource_group":                       "description.ResourceGroup",
+	"tags":                                 "description.Zone.Tags",
+	"title":                                "description.Zone.Name",
+	"type":                                 "description.Zone.Type",
+	"zone_type":                            "description.Zone.Properties.ZoneType",
 }
 
 func ListDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9815,12 +10706,23 @@ func ListDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 }
 
 var getDNSZonesFilters = map[string]string{
-	"akas":             "description.DNSZones.ID",
-	"id":               "description.DNSZones.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.DNSZones.Name",
-	"tags":             "description.DNSZones.Tags",
-	"title":            "description.DNSZones.Name",
+	"akas":                                 "description.Zone.ID",
+	"etag":                                 "description.Zone.Etag",
+	"id":                                   "description.Zone.ID",
+	"kaytu_account_id":                     "metadata.SourceID",
+	"max_number_of_record_sets":            "description.Zone.Properties.MaxNumberOfRecordSets",
+	"max_number_of_records_per_record_set": "description.Zone.Properties.MaxNumberOfRecordsPerRecordSet",
+	"name":                                 "description.Zone.Name",
+	"name_servers":                         "description.Zone.Properties.NameServers",
+	"number_of_record_sets":                "description.Zone.Properties.NumberOfRecordSets",
+	"region":                               "description.Zone.Location",
+	"registration_virtual_networks":        "description.Zone.Properties.RegistrationVirtualNetworks",
+	"resolution_virtual_networks":          "description.Zone.Properties.ResolutionVirtualNetworks",
+	"resource_group":                       "description.ResourceGroup",
+	"tags":                                 "description.Zone.Tags",
+	"title":                                "description.Zone.Name",
+	"type":                                 "description.Zone.Type",
+	"zone_type":                            "description.Zone.Properties.ZoneType",
 }
 
 func GetDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9934,12 +10836,18 @@ func (p BastionHostsPaginator) NextPage(ctx context.Context) ([]BastionHosts, er
 }
 
 var listBastionHostsFilters = map[string]string{
-	"akas":             "description.BastionHosts.ID",
-	"id":               "description.BastionHosts.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.BastionHosts.Name",
-	"tags":             "description.BastionHosts.Tags",
-	"title":            "description.BastionHosts.Name",
+	"akas":               "description.BastianHost.ID",
+	"dns_name":           "description.BastianHost.Properties.DNSName",
+	"etag":               "description.BastianHost.Etag",
+	"id":                 "description.BastianHost.ID",
+	"ip_configurations":  "description.BastianHost.Properties.IPConfigurations",
+	"kaytu_account_id":   "metadata.SourceID",
+	"name":               "description.BastianHost.Name",
+	"provisioning_state": "description.BastianHost.Properties.ProvisioningState",
+	"region":             "description.BastianHost.Location",
+	"resource_group":     "description.ResourceGroup",
+	"tags":               "description.BastianHost.Tags",
+	"title":              "description.BastianHost.Name",
 }
 
 func ListBastionHosts(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9973,12 +10881,18 @@ func ListBastionHosts(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 var getBastionHostsFilters = map[string]string{
-	"akas":             "description.BastionHosts.ID",
-	"id":               "description.BastionHosts.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.BastionHosts.Name",
-	"tags":             "description.BastionHosts.Tags",
-	"title":            "description.BastionHosts.Name",
+	"akas":               "description.BastianHost.ID",
+	"dns_name":           "description.BastianHost.Properties.DNSName",
+	"etag":               "description.BastianHost.Etag",
+	"id":                 "description.BastianHost.ID",
+	"ip_configurations":  "description.BastianHost.Properties.IPConfigurations",
+	"kaytu_account_id":   "metadata.SourceID",
+	"name":               "description.BastianHost.Name",
+	"provisioning_state": "description.BastianHost.Properties.ProvisioningState",
+	"region":             "description.BastianHost.Location",
+	"resource_group":     "description.ResourceGroup",
+	"tags":               "description.BastianHost.Tags",
+	"title":              "description.BastianHost.Name",
 }
 
 func GetBastionHosts(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10092,12 +11006,12 @@ func (p ConnectionPaginator) NextPage(ctx context.Context) ([]Connection, error)
 }
 
 var listConnectionFilters = map[string]string{
-	"akas":             "description.Connections.ID",
-	"id":               "description.Connections.Id",
+	"akas":             "description.Connection.Properties.ConnectionType",
+	"id":               "description.Connection.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Connections.Name",
-	"tags":             "description.Connections.Tags",
-	"title":            "description.Connections.Name",
+	"name":             "description.Connection.Name",
+	"tags":             "description.Connection.Tags",
+	"title":            "description.Connection.Name",
 }
 
 func ListConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10131,12 +11045,12 @@ func ListConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 }
 
 var getConnectionFilters = map[string]string{
-	"akas":             "description.Connections.ID",
-	"id":               "description.Connections.Id",
+	"akas":             "description.Connection.Properties.ConnectionType",
+	"id":               "description.Connection.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Connections.Name",
-	"tags":             "description.Connections.Tags",
-	"title":            "description.Connections.Name",
+	"name":             "description.Connection.Name",
+	"tags":             "description.Connection.Tags",
+	"title":            "description.Connection.Name",
 }
 
 func GetConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10250,12 +11164,12 @@ func (p VirtualHubsPaginator) NextPage(ctx context.Context) ([]VirtualHubs, erro
 }
 
 var listVirtualHubsFilters = map[string]string{
-	"akas":             "description.VirtualHubs.ID",
-	"id":               "description.VirtualHubs.Id",
+	"akas":             "description.VirtualHub.ID",
+	"id":               "description.VirtualHubs.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.VirtualHubs.Name",
-	"tags":             "description.VirtualHubs.Tags",
-	"title":            "description.VirtualHubs.Name",
+	"name":             "description.VirtualHub.Name",
+	"tags":             "description.VirtualHub.Tags",
+	"title":            "description.VirtualHub.Name",
 }
 
 func ListVirtualHubs(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10289,12 +11203,12 @@ func ListVirtualHubs(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getVirtualHubsFilters = map[string]string{
-	"akas":             "description.VirtualHubs.ID",
-	"id":               "description.VirtualHubs.Id",
+	"akas":             "description.VirtualHub.ID",
+	"id":               "description.VirtualHubs.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.VirtualHubs.Name",
-	"tags":             "description.VirtualHubs.Tags",
-	"title":            "description.VirtualHubs.Name",
+	"name":             "description.VirtualHub.Name",
+	"tags":             "description.VirtualHub.Tags",
+	"title":            "description.VirtualHub.Name",
 }
 
 func GetVirtualHubs(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10408,12 +11322,12 @@ func (p VirtualWansPaginator) NextPage(ctx context.Context) ([]VirtualWans, erro
 }
 
 var listVirtualWansFilters = map[string]string{
-	"akas":             "description.VirtualWans.ID",
-	"id":               "description.VirtualWans.Id",
+	"akas":             "description.VirtualWan.ID",
+	"id":               "description.VirtualWans.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.VirtualWans.Name",
-	"tags":             "description.VirtualWans.Tags",
-	"title":            "description.VirtualWans.Name",
+	"name":             "description.VirtualWan.Name",
+	"tags":             "description.VirtualWan.Tags",
+	"title":            "description.VirtualWan.Name",
 }
 
 func ListVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10447,12 +11361,12 @@ func ListVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getVirtualWansFilters = map[string]string{
-	"akas":             "description.VirtualWans.ID",
-	"id":               "description.VirtualWans.Id",
+	"akas":             "description.VirtualWan.ID",
+	"id":               "description.VirtualWans.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.VirtualWans.Name",
-	"tags":             "description.VirtualWans.Tags",
-	"title":            "description.VirtualWans.Name",
+	"name":             "description.VirtualWan.Name",
+	"tags":             "description.VirtualWan.Tags",
+	"title":            "description.VirtualWan.Name",
 }
 
 func GetVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10566,12 +11480,23 @@ func (p PrivateDNSZonesPaginator) NextPage(ctx context.Context) ([]PrivateDNSZon
 }
 
 var listPrivateDNSZonesFilters = map[string]string{
-	"akas":             "description.PrivateDNSZones.ID",
-	"id":               "description.PrivateDNSZones.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.PrivateDNSZones.Name",
-	"tags":             "description.PrivateDNSZones.Tags",
-	"title":            "description.PrivateDNSZones.Name",
+	"akas":                                "description.PrivateZone.ID",
+	"etag":                                "description.PrivateZone.Etag",
+	"id":                                  "description.PrivateZone.ID",
+	"kaytu_account_id":                    "metadata.SourceID",
+	"max_number_of_record_sets":           "description.PrivateZone.Properties.MaxNumberOfRecordSets",
+	"max_number_of_virtual_network_links": "description.PrivateZone.Properties.MaxNumberOfVirtualNetworkLinks",
+	"max_number_of_virtual_network_links_with_registration": "description.PrivateZone.Properties.MaxNumberOfVirtualNetworkLinksWithRegistration",
+	"name":                            "description.PrivateZone.Name",
+	"number_of_record_sets":           "description.PrivateZone.Properties.NumberOfRecordSets",
+	"number_of_virtual_network_links": "description.PrivateZone.Properties.NumberOfVirtualNetworkLinks",
+	"number_of_virtual_network_links_with_registration": "description.PrivateZone.Properties.NumberOfVirtualNetworkLinksWithRegistration",
+	"provisioning_state": "description.PrivateZone.Properties.ProvisioningState",
+	"region":             "description.PrivateZone.Location",
+	"resource_group":     "description.ResourceGroup",
+	"tags":               "description.PrivateZone.Tags",
+	"title":              "description.PrivateZone.Name",
+	"type":               "description.PrivateZone.Type",
 }
 
 func ListPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10605,12 +11530,23 @@ func ListPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getPrivateDNSZonesFilters = map[string]string{
-	"akas":             "description.PrivateDNSZones.ID",
-	"id":               "description.PrivateDNSZones.Id",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.PrivateDNSZones.Name",
-	"tags":             "description.PrivateDNSZones.Tags",
-	"title":            "description.PrivateDNSZones.Name",
+	"akas":                                "description.PrivateZone.ID",
+	"etag":                                "description.PrivateZone.Etag",
+	"id":                                  "description.PrivateZone.ID",
+	"kaytu_account_id":                    "metadata.SourceID",
+	"max_number_of_record_sets":           "description.PrivateZone.Properties.MaxNumberOfRecordSets",
+	"max_number_of_virtual_network_links": "description.PrivateZone.Properties.MaxNumberOfVirtualNetworkLinks",
+	"max_number_of_virtual_network_links_with_registration": "description.PrivateZone.Properties.MaxNumberOfVirtualNetworkLinksWithRegistration",
+	"name":                            "description.PrivateZone.Name",
+	"number_of_record_sets":           "description.PrivateZone.Properties.NumberOfRecordSets",
+	"number_of_virtual_network_links": "description.PrivateZone.Properties.NumberOfVirtualNetworkLinks",
+	"number_of_virtual_network_links_with_registration": "description.PrivateZone.Properties.NumberOfVirtualNetworkLinksWithRegistration",
+	"provisioning_state": "description.PrivateZone.Properties.ProvisioningState",
+	"region":             "description.PrivateZone.Location",
+	"resource_group":     "description.ResourceGroup",
+	"tags":               "description.PrivateZone.Tags",
+	"title":              "description.PrivateZone.Name",
+	"type":               "description.PrivateZone.Type",
 }
 
 func GetPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10724,12 +11660,12 @@ func (p PrivateEndpointPaginator) NextPage(ctx context.Context) ([]PrivateEndpoi
 }
 
 var listPrivateEndpointFilters = map[string]string{
-	"akas":             "description.PrivateEndpoints.ID",
-	"id":               "description.PrivateEndpoints.Id",
+	"akas":             "description.PrivateEndpoint.ID",
+	"id":               "description.PrivateEndpoints.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.PrivateEndpoints.Name",
-	"tags":             "description.PrivateEndpoints.Tags",
-	"title":            "description.PrivateEndpoints.Name",
+	"name":             "description.PrivateEndpoint.Name",
+	"tags":             "description.PrivateEndpoint.Tags",
+	"title":            "description.PrivateEndpoint.Name",
 }
 
 func ListPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10763,12 +11699,12 @@ func ListPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getPrivateEndpointFilters = map[string]string{
-	"akas":             "description.PrivateEndpoints.ID",
-	"id":               "description.PrivateEndpoints.Id",
+	"akas":             "description.PrivateEndpoint.ID",
+	"id":               "description.PrivateEndpoints.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.PrivateEndpoints.Name",
-	"tags":             "description.PrivateEndpoints.Tags",
-	"title":            "description.PrivateEndpoints.Name",
+	"name":             "description.PrivateEndpoint.Name",
+	"tags":             "description.PrivateEndpoint.Tags",
+	"title":            "description.PrivateEndpoint.Name",
 }
 
 func GetPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10883,7 +11819,7 @@ func (p NetworkDDoSProtectionPlanPaginator) NextPage(ctx context.Context) ([]Net
 
 var listNetworkDDoSProtectionPlanFilters = map[string]string{
 	"akas":  "description.DDoSProtectionPlan.ID",
-	"id":    "description.DDoSProtectionPlan.Id",
+	"id":    "description.DDoSProtectionPlan.ID",
 	"name":  "description.DDoSProtectionPlan.Name",
 	"tags":  "description.DDoSProtectionPlan.Tags",
 	"title": "description.DDoSProtectionPlan.Name",
@@ -10921,7 +11857,7 @@ func ListNetworkDDoSProtectionPlan(ctx context.Context, d *plugin.QueryData, _ *
 
 var getNetworkDDoSProtectionPlanFilters = map[string]string{
 	"akas":  "description.DDoSProtectionPlan.ID",
-	"id":    "description.DDoSProtectionPlan.Id",
+	"id":    "description.DDoSProtectionPlan.ID",
 	"name":  "description.DDoSProtectionPlan.Name",
 	"tags":  "description.DDoSProtectionPlan.Tags",
 	"title": "description.DDoSProtectionPlan.Name",
@@ -11039,20 +11975,20 @@ func (p PolicyAssignmentPaginator) NextPage(ctx context.Context) ([]PolicyAssign
 
 var listPolicyAssignmentFilters = map[string]string{
 	"akas":                 "description.Assignment.ID",
-	"description":          "description.Assignment.AssignmentProperties.Description",
-	"display_name":         "description.Assignment.AssignmentProperties.DisplayName",
-	"enforcement_mode":     "description.Assignment.AssignmentProperties.EnforcementMode",
+	"description":          "description.Assignment.Properties.Description",
+	"display_name":         "description.Assignment.Properties.DisplayName",
+	"enforcement_mode":     "description.Assignment.Properties.EnforcementMode",
 	"id":                   "description.Assignment.ID",
 	"identity":             "description.Assignment.Identity",
 	"kaytu_account_id":     "metadata.SourceID",
-	"metadata":             "description.Assignment.AssignmentProperties.Metadata",
+	"metadata":             "description.Assignment.Properties.Metadata",
 	"name":                 "description.Assignment.Name",
-	"not_scopes":           "description.Assignment.AssignmentProperties.NotScopes",
-	"parameters":           "description.Assignment.AssignmentProperties.Parameters",
-	"policy_definition_id": "description.Assignment.AssignmentProperties.PolicyDefinitionID",
-	"scope":                "description.Assignment.AssignmentProperties.Scope",
-	"sku_name":             "description.Assignment.Sku.Name",
-	"sku_tier":             "description.Assignment.Sku.Tier",
+	"not_scopes":           "description.Assignment.Properties.NotScopes",
+	"parameters":           "description.Assignment.Properties.Parameters",
+	"policy_definition_id": "description.Assignment.Properties.PolicyDefinitionID",
+	"scope":                "description.Assignment.Properties.Scope",
+	"sku_name":             "description.Resource.SKU.Name",
+	"sku_tier":             "description.Resource.SKU.Tier",
 	"title":                "description.Assignment.Name",
 	"type":                 "description.Assignment.Type",
 }
@@ -11089,20 +12025,20 @@ func ListPolicyAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 var getPolicyAssignmentFilters = map[string]string{
 	"akas":                 "description.Assignment.ID",
-	"description":          "description.Assignment.AssignmentProperties.Description",
-	"display_name":         "description.Assignment.AssignmentProperties.DisplayName",
-	"enforcement_mode":     "description.Assignment.AssignmentProperties.EnforcementMode",
+	"description":          "description.Assignment.Properties.Description",
+	"display_name":         "description.Assignment.Properties.DisplayName",
+	"enforcement_mode":     "description.Assignment.Properties.EnforcementMode",
 	"id":                   "description.Assignment.ID",
 	"identity":             "description.Assignment.Identity",
 	"kaytu_account_id":     "metadata.SourceID",
-	"metadata":             "description.Assignment.AssignmentProperties.Metadata",
+	"metadata":             "description.Assignment.Properties.Metadata",
 	"name":                 "description.Assignment.name",
-	"not_scopes":           "description.Assignment.AssignmentProperties.NotScopes",
-	"parameters":           "description.Assignment.AssignmentProperties.Parameters",
-	"policy_definition_id": "description.Assignment.AssignmentProperties.PolicyDefinitionID",
-	"scope":                "description.Assignment.AssignmentProperties.Scope",
-	"sku_name":             "description.Assignment.Sku.Name",
-	"sku_tier":             "description.Assignment.Sku.Tier",
+	"not_scopes":           "description.Assignment.Properties.NotScopes",
+	"parameters":           "description.Assignment.Properties.Parameters",
+	"policy_definition_id": "description.Assignment.Properties.PolicyDefinitionID",
+	"scope":                "description.Assignment.Properties.Scope",
+	"sku_name":             "description.Resource.SKU.Name",
+	"sku_tier":             "description.Resource.SKU.Tier",
 	"title":                "description.Assignment.Name",
 	"type":                 "description.Assignment.Type",
 }
@@ -11218,37 +12154,37 @@ func (p RedisCachePaginator) NextPage(ctx context.Context) ([]RedisCache, error)
 }
 
 var listRedisCacheFilters = map[string]string{
-	"access_keys":                  "description.ResourceType.Properties.AccessKeys",
-	"akas":                         "description.ResourceType.ID",
-	"enable_non_ssl_port":          "description.ResourceType.Properties.EnableNonSslPort",
-	"host_name":                    "description.ResourceType.Properties.HostName",
-	"id":                           "description.ResourceType.ID",
-	"instances":                    "description.ResourceType.Properties.Instances",
+	"access_keys":                  "description.ResourceInfo.Properties.AccessKeys",
+	"akas":                         "description.ResourceInfo.ID",
+	"enable_non_ssl_port":          "description.ResourceInfo.Properties.EnableNonSSLPort",
+	"host_name":                    "description.ResourceInfo.Properties.HostName",
+	"id":                           "description.ResourceInfo.ID",
+	"instances":                    "description.ResourceInfo.Properties.Instances",
 	"kaytu_account_id":             "metadata.SourceID",
-	"linked_servers":               "description.ResourceType.Properties.LinkedServers",
-	"minimum_tls_version":          "description.ResourceType.Properties.MinimumTLSVersion",
-	"name":                         "description.ResourceType.Name",
-	"port":                         "description.ResourceType.Properties.Port",
-	"private_endpoint_connections": "description.ResourceType.Properties.PrivateEndpointConnections",
-	"provisioning_state":           "description.ResourceType.Properties.ProvisioningState",
-	"public_network_access":        "description.ResourceType.Properties.PublicNetworkAccess",
-	"redis_configuration":          "description.ResourceType.Properties.RedisConfiguration",
-	"redis_version":                "description.ResourceType.Properties.RedisVersion",
-	"region":                       "description.ResourceType.Location",
-	"replicas_per_master":          "description.ResourceType.Properties.ReplicasPerMaster",
+	"linked_servers":               "description.ResourceInfo.Properties.LinkedServers",
+	"minimum_tls_version":          "description.ResourceInfo.Properties.MinimumTLSVersion",
+	"name":                         "description.ResourceInfo.Name",
+	"port":                         "description.ResourceInfo.Properties.Port",
+	"private_endpoint_connections": "description.ResourceInfo.Properties.PrivateEndpointConnections",
+	"provisioning_state":           "description.ResourceInfo.Properties.ProvisioningState",
+	"public_network_access":        "description.ResourceInfo.Properties.PublicNetworkAccess",
+	"redis_configuration":          "description.ResourceInfo.Properties.RedisConfiguration",
+	"redis_version":                "description.ResourceInfo.Properties.RedisVersion",
+	"region":                       "description.ResourceInfo.Location",
+	"replicas_per_master":          "description.ResourceInfo.Properties.ReplicasPerMaster",
 	"resource_group":               "description.ResourceGroup",
-	"shard_count":                  "description.ResourceType.Properties.ShardCount",
-	"sku_capacity":                 "description.ResourceType.Properties.Sku.Capacity",
-	"sku_family":                   "description.ResourceType.Properties.Sku.Family",
-	"sku_name":                     "description.ResourceType.Properties.Sku.Name",
-	"ssl_port":                     "description.ResourceType.Properties.SslPort",
-	"static_ip":                    "description.ResourceType.Properties.StaticIP",
-	"subnet_id":                    "description.ResourceType.Properties.SubnetID",
-	"tags":                         "description.ResourceType.Tags",
-	"tenant_settings":              "description.ResourceType.Properties.TenantSettings",
-	"title":                        "description.ResourceType.Name",
-	"type":                         "description.ResourceType",
-	"zones":                        "description.ResourceType.Zones",
+	"shard_count":                  "description.ResourceInfo.Properties.ShardCount",
+	"sku_capacity":                 "description.ResourceInfo.Properties.SKU.Capacity",
+	"sku_family":                   "description.ResourceInfo.Properties.SKU.Family",
+	"sku_name":                     "description.ResourceInfo.Properties.SKU.Name",
+	"ssl_port":                     "description.ResourceInfo.Properties.SSLPort",
+	"static_ip":                    "description.ResourceInfo.Properties.StaticIP",
+	"subnet_id":                    "description.ResourceInfo.Properties.SubnetID",
+	"tags":                         "description.ResourceInfo.Tags",
+	"tenant_settings":              "description.ResourceInfo.Properties.TenantSettings",
+	"title":                        "description.ResourceInfo.Name",
+	"type":                         "description.ResourceInfo.Type",
+	"zones":                        "description.ResourceInfo.Zones",
 }
 
 func ListRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -11282,37 +12218,37 @@ func ListRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 }
 
 var getRedisCacheFilters = map[string]string{
-	"access_keys":                  "description.ResourceType.Properties.AccessKeys",
-	"akas":                         "description.ResourceType.ID",
-	"enable_non_ssl_port":          "description.ResourceType.Properties.EnableNonSslPort",
-	"host_name":                    "description.ResourceType.Properties.HostName",
-	"id":                           "description.ResourceType.ID",
-	"instances":                    "description.ResourceType.Properties.Instances",
+	"access_keys":                  "description.ResourceInfo.Properties.AccessKeys",
+	"akas":                         "description.ResourceInfo.ID",
+	"enable_non_ssl_port":          "description.ResourceInfo.Properties.EnableNonSSLPort",
+	"host_name":                    "description.ResourceInfo.Properties.HostName",
+	"id":                           "description.ResourceInfo.ID",
+	"instances":                    "description.ResourceInfo.Properties.Instances",
 	"kaytu_account_id":             "metadata.SourceID",
-	"linked_servers":               "description.ResourceType.Properties.LinkedServers",
-	"minimum_tls_version":          "description.ResourceType.Properties.MinimumTLSVersion",
+	"linked_servers":               "description.ResourceInfo.Properties.LinkedServers",
+	"minimum_tls_version":          "description.ResourceInfo.Properties.MinimumTLSVersion",
 	"name":                         "description.ResourceType.name",
-	"port":                         "description.ResourceType.Properties.Port",
-	"private_endpoint_connections": "description.ResourceType.Properties.PrivateEndpointConnections",
-	"provisioning_state":           "description.ResourceType.Properties.ProvisioningState",
-	"public_network_access":        "description.ResourceType.Properties.PublicNetworkAccess",
-	"redis_configuration":          "description.ResourceType.Properties.RedisConfiguration",
-	"redis_version":                "description.ResourceType.Properties.RedisVersion",
-	"region":                       "description.ResourceType.Location",
-	"replicas_per_master":          "description.ResourceType.Properties.ReplicasPerMaster",
+	"port":                         "description.ResourceInfo.Properties.Port",
+	"private_endpoint_connections": "description.ResourceInfo.Properties.PrivateEndpointConnections",
+	"provisioning_state":           "description.ResourceInfo.Properties.ProvisioningState",
+	"public_network_access":        "description.ResourceInfo.Properties.PublicNetworkAccess",
+	"redis_configuration":          "description.ResourceInfo.Properties.RedisConfiguration",
+	"redis_version":                "description.ResourceInfo.Properties.RedisVersion",
+	"region":                       "description.ResourceInfo.Location",
+	"replicas_per_master":          "description.ResourceInfo.Properties.ReplicasPerMaster",
 	"resource_group":               "description.ResourceGroup",
-	"shard_count":                  "description.ResourceType.Properties.ShardCount",
-	"sku_capacity":                 "description.ResourceType.Properties.Sku.Capacity",
-	"sku_family":                   "description.ResourceType.Properties.Sku.Family",
-	"sku_name":                     "description.ResourceType.Properties.Sku.Name",
-	"ssl_port":                     "description.ResourceType.Properties.SslPort",
-	"static_ip":                    "description.ResourceType.Properties.StaticIP",
-	"subnet_id":                    "description.ResourceType.Properties.SubnetID",
-	"tags":                         "description.ResourceType.Tags",
-	"tenant_settings":              "description.ResourceType.Properties.TenantSettings",
-	"title":                        "description.ResourceType.Name",
-	"type":                         "description.ResourceType",
-	"zones":                        "description.ResourceType.Zones",
+	"shard_count":                  "description.ResourceInfo.Properties.ShardCount",
+	"sku_capacity":                 "description.ResourceInfo.Properties.SKU.Capacity",
+	"sku_family":                   "description.ResourceInfo.Properties.SKU.Family",
+	"sku_name":                     "description.ResourceInfo.Properties.SKU.Name",
+	"ssl_port":                     "description.ResourceInfo.Properties.SSLPort",
+	"static_ip":                    "description.ResourceInfo.Properties.StaticIP",
+	"subnet_id":                    "description.ResourceInfo.Properties.SubnetID",
+	"tags":                         "description.ResourceInfo.Tags",
+	"tenant_settings":              "description.ResourceInfo.Properties.TenantSettings",
+	"title":                        "description.ResourceInfo.Name",
+	"type":                         "description.ResourceInfo.Type",
+	"zones":                        "description.ResourceInfo.Zones",
 }
 
 func GetRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -11427,7 +12363,7 @@ func (p RedisEnterpriseCachePaginator) NextPage(ctx context.Context) ([]RedisEnt
 
 var listRedisEnterpriseCacheFilters = map[string]string{
 	"akas":             "description.RedisEnterprise.ID",
-	"id":               "description.RedisEnterprise.Id",
+	"id":               "description.RedisEnterprise.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.RedisEnterprise.Name",
 	"tags":             "description.RedisEnterprise.Tags",
@@ -11466,7 +12402,7 @@ func ListRedisEnterpriseCache(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 var getRedisEnterpriseCacheFilters = map[string]string{
 	"akas":             "description.RedisEnterprise.ID",
-	"id":               "description.RedisEnterprise.Id",
+	"id":               "description.RedisEnterprise.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.RedisEnterprise.Name",
 	"tags":             "description.RedisEnterprise.Tags",
@@ -11584,12 +12520,12 @@ func (p ResourceLinkPaginator) NextPage(ctx context.Context) ([]ResourceLink, er
 }
 
 var listResourceLinkFilters = map[string]string{
-	"akas":             "description.ResourceLink.Name",
+	"akas":             "description.ResourceLink.ID",
 	"id":               "description.ResourceLink.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ResourceLink.Name",
 	"notes":            "description.ResourceLink.Properties.Notes",
-	"resource_group":   "description.ResourceGroup",
+	"resource_group":   "description.ResourceLink.Properties.SourceID",
 	"source_id":        "description.ResourceLink.Properties.SourceID",
 	"target_id":        "description.ResourceLink.Properties.TargetID",
 	"title":            "description.ResourceLink.Name",
@@ -11627,12 +12563,12 @@ func ListResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 var getResourceLinkFilters = map[string]string{
-	"akas":             "description.ResourceLink.Name",
+	"akas":             "description.ResourceLink.ID",
 	"id":               "description.ResourceLink.id",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ResourceLink.Name",
 	"notes":            "description.ResourceLink.Properties.Notes",
-	"resource_group":   "description.ResourceGroup",
+	"resource_group":   "description.ResourceLink.Properties.SourceID",
 	"source_id":        "description.ResourceLink.Properties.SourceID",
 	"target_id":        "description.ResourceLink.Properties.TargetID",
 	"title":            "description.ResourceLink.Name",
@@ -11754,10 +12690,10 @@ var listRoleAssignmentFilters = map[string]string{
 	"id":                 "description.RoleAssignment.ID",
 	"kaytu_account_id":   "metadata.SourceID",
 	"name":               "description.RoleAssignment.Name",
-	"principal_id":       "description.RoleAssignment.RoleAssignmentPropertiesWithScope.PrincipalID",
-	"principal_type":     "description.RoleAssignment.RoleAssignmentPropertiesWithScope.PrincipalType",
-	"role_definition_id": "description.RoleAssignment.RoleAssignmentPropertiesWithScope.RoleDefinitionID",
-	"scope":              "description.RoleAssignment.RoleAssignmentPropertiesWithScope.Scope",
+	"principal_id":       "description.RoleAssignment.Properties.PrincipalID",
+	"principal_type":     "description.RoleAssignment.Properties.PrincipalID",
+	"role_definition_id": "description.RoleAssignment.Properties.RoleDefinitionID",
+	"scope":              "description.RoleAssignment.Properties.Scope",
 	"title":              "description.RoleAssignment.Name",
 	"type":               "description.RoleAssignment.Type",
 }
@@ -11797,10 +12733,10 @@ var getRoleAssignmentFilters = map[string]string{
 	"id":                 "description.RoleAssignment.id",
 	"kaytu_account_id":   "metadata.SourceID",
 	"name":               "description.RoleAssignment.Name",
-	"principal_id":       "description.RoleAssignment.RoleAssignmentPropertiesWithScope.PrincipalID",
-	"principal_type":     "description.RoleAssignment.RoleAssignmentPropertiesWithScope.PrincipalType",
-	"role_definition_id": "description.RoleAssignment.RoleAssignmentPropertiesWithScope.RoleDefinitionID",
-	"scope":              "description.RoleAssignment.RoleAssignmentPropertiesWithScope.Scope",
+	"principal_id":       "description.RoleAssignment.Properties.PrincipalID",
+	"principal_type":     "description.RoleAssignment.Properties.PrincipalID",
+	"role_definition_id": "description.RoleAssignment.Properties.RoleDefinitionID",
+	"scope":              "description.RoleAssignment.Properties.Scope",
 	"title":              "description.RoleAssignment.Name",
 	"type":               "description.RoleAssignment.Type",
 }
@@ -11917,15 +12853,15 @@ func (p RoleDefinitionPaginator) NextPage(ctx context.Context) ([]RoleDefinition
 
 var listRoleDefinitionFilters = map[string]string{
 	"akas":              "description.RoleDefinition.ID",
-	"assignable_scopes": "description.RoleDefinition.RoleDefinitionProperties.AssignableScopes",
-	"description":       "description.RoleDefinition.RoleDefinitionProperties.Description",
+	"assignable_scopes": "description.RoleDefinition.Properties.AssignableScopes",
+	"description":       "description.RoleDefinition.Properties.Description",
 	"id":                "description.RoleDefinition.ID",
 	"kaytu_account_id":  "metadata.SourceID",
 	"name":              "description.RoleDefinition.Name",
-	"permissions":       "description.RoleDefinition.RoleDefinitionProperties.Permissions",
-	"role_name":         "description.RoleDefinition.RoleDefinitionProperties.RoleName",
-	"role_type":         "description.RoleDefinition.RoleDefinitionProperties.RoleType",
-	"title":             "description.RoleDefinition.RoleDefinitionProperties.RoleName",
+	"permissions":       "description.RoleDefinition.Properties.Permissions",
+	"role_name":         "description.RoleDefinition.Properties.RoleName",
+	"role_type":         "description.RoleDefinition.Properties.RoleType",
+	"title":             "description.RoleDefinition.Name",
 	"type":              "description.RoleDefinition.Type",
 }
 
@@ -11961,15 +12897,15 @@ func ListRoleDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 var getRoleDefinitionFilters = map[string]string{
 	"akas":              "description.RoleDefinition.ID",
-	"assignable_scopes": "description.RoleDefinition.RoleDefinitionProperties.AssignableScopes",
-	"description":       "description.RoleDefinition.RoleDefinitionProperties.Description",
+	"assignable_scopes": "description.RoleDefinition.Properties.AssignableScopes",
+	"description":       "description.RoleDefinition.Properties.Description",
 	"id":                "description.RoleDefinition.ID",
 	"kaytu_account_id":  "metadata.SourceID",
 	"name":              "description.RoleDefinition.name",
-	"permissions":       "description.RoleDefinition.RoleDefinitionProperties.Permissions",
-	"role_name":         "description.RoleDefinition.RoleDefinitionProperties.RoleName",
-	"role_type":         "description.RoleDefinition.RoleDefinitionProperties.RoleType",
-	"title":             "description.RoleDefinition.RoleDefinitionProperties.RoleName",
+	"permissions":       "description.RoleDefinition.Properties.Permissions",
+	"role_name":         "description.RoleDefinition.Properties.RoleName",
+	"role_type":         "description.RoleDefinition.Properties.RoleType",
+	"title":             "description.RoleDefinition.Name",
 	"type":              "description.RoleDefinition.Type",
 }
 
@@ -12084,18 +13020,18 @@ func (p PolicyDefinitionPaginator) NextPage(ctx context.Context) ([]PolicyDefini
 }
 
 var listPolicyDefinitionFilters = map[string]string{
-	"akas":             "description.TurboData",
-	"description":      "description.Definition.DefinitionProperties.Description",
-	"display_name":     "description.Definition.DefinitionProperties.DisplayName",
+	"akas":             "description.TurboData.Akas",
+	"description":      "description.Definition.Properties.Description",
+	"display_name":     "description.Definition.Properties.DisplayName",
 	"id":               "iD",
 	"kaytu_account_id": "metadata.SourceID",
-	"metadata":         "description.Definition.DefinitionProperties.Metadata",
-	"mode":             "description.Definition.DefinitionProperties.Mode",
+	"metadata":         "description.Definition.Properties.Metadata",
+	"mode":             "description.Definition.Properties.Mode",
 	"name":             "description.Definition.Name",
-	"parameters":       "description.Definition.DefinitionProperties.Parameters",
-	"policy_rule":      "description.Definition.DefinitionProperties.PolicyRule",
-	"policy_type":      "description.Definition.DefinitionProperties.PolicyType",
-	"title":            "description.Definition.DefinitionProperties.DisplayName",
+	"parameters":       "description.Definition.Properties.Parameters",
+	"policy_rule":      "description.Definition.Properties.PolicyRule",
+	"policy_type":      "description.Definition.Properties.PolicyType",
+	"title":            "description.Definition.Properties.DisplayName",
 	"type":             "description.Definition.Type",
 }
 
@@ -12130,18 +13066,18 @@ func ListPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getPolicyDefinitionFilters = map[string]string{
-	"akas":             "description.TurboData",
-	"description":      "description.Definition.DefinitionProperties.Description",
-	"display_name":     "description.Definition.DefinitionProperties.DisplayName",
+	"akas":             "description.TurboData.Akas",
+	"description":      "description.Definition.Properties.Description",
+	"display_name":     "description.Definition.Properties.DisplayName",
 	"id":               "iD",
 	"kaytu_account_id": "metadata.SourceID",
-	"metadata":         "description.Definition.DefinitionProperties.Metadata",
-	"mode":             "description.Definition.DefinitionProperties.Mode",
+	"metadata":         "description.Definition.Properties.Metadata",
+	"mode":             "description.Definition.Properties.Mode",
 	"name":             "description.Definition.Name",
-	"parameters":       "description.Definition.DefinitionProperties.Parameters",
-	"policy_rule":      "description.Definition.DefinitionProperties.PolicyRule",
-	"policy_type":      "description.Definition.DefinitionProperties.PolicyType",
-	"title":            "description.Definition.DefinitionProperties.DisplayName",
+	"parameters":       "description.Definition.Properties.Parameters",
+	"policy_rule":      "description.Definition.Properties.PolicyRule",
+	"policy_type":      "description.Definition.Properties.PolicyType",
+	"title":            "description.Definition.Properties.DisplayName",
 	"type":             "description.Definition.Type",
 }
 
@@ -12257,7 +13193,7 @@ func (p SecurityCenterAutoProvisioningPaginator) NextPage(ctx context.Context) (
 
 var listSecurityCenterAutoProvisioningFilters = map[string]string{
 	"akas":             "description.AutoProvisioningSetting.ID",
-	"auto_provision":   "description.AutoProvisioningSetting.AutoProvisioningSettingProperties.AutoProvision",
+	"auto_provision":   "description.AutoProvisioningSetting.Properties.AutoProvision",
 	"id":               "description.AutoProvisioningSetting.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.AutoProvisioningSetting.Name",
@@ -12297,7 +13233,7 @@ func ListSecurityCenterAutoProvisioning(ctx context.Context, d *plugin.QueryData
 
 var getSecurityCenterAutoProvisioningFilters = map[string]string{
 	"akas":             "description.AutoProvisioningSetting.ID",
-	"auto_provision":   "description.AutoProvisioningSetting.AutoProvisioningSettingProperties.AutoProvision",
+	"auto_provision":   "description.AutoProvisioningSetting.Properties.AutoProvision",
 	"id":               "description.AutoProvisioningSetting.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.AutoProvisioningSetting.name",
@@ -12417,13 +13353,13 @@ func (p SecurityCenterContactPaginator) NextPage(ctx context.Context) ([]Securit
 
 var listSecurityCenterContactFilters = map[string]string{
 	"akas":                "description.Contact.ID",
-	"alert_notifications": "description.Contact.ContactProperties.AlertNotifications",
-	"alerts_to_admins":    "description.Contact.ContactProperties.AlertsToAdmins",
-	"email":               "description.Contact.ContactProperties.Email",
+	"alert_notifications": "description.Contact.Properties.AlertNotifications",
+	"alerts_to_admins":    "description.Contact.Properties.AlertNotifications",
+	"email":               "description.Contact.Properties.Emails",
 	"id":                  "description.Contact.ID",
 	"kaytu_account_id":    "metadata.SourceID",
 	"name":                "description.Contact.Name",
-	"phone":               "description.Contact.ContactProperties.Phone",
+	"phone":               "description.Contact.Properties.Phone",
 	"title":               "description.Contact.Name",
 	"type":                "description.Contact.Type",
 }
@@ -12460,13 +13396,13 @@ func ListSecurityCenterContact(ctx context.Context, d *plugin.QueryData, _ *plug
 
 var getSecurityCenterContactFilters = map[string]string{
 	"akas":                "description.Contact.ID",
-	"alert_notifications": "description.Contact.ContactProperties.AlertNotifications",
-	"alerts_to_admins":    "description.Contact.ContactProperties.AlertsToAdmins",
-	"email":               "description.Contact.ContactProperties.Email",
+	"alert_notifications": "description.Contact.Properties.AlertNotifications",
+	"alerts_to_admins":    "description.Contact.Properties.AlertNotifications",
+	"email":               "description.Contact.Properties.Emails",
 	"id":                  "description.Contact.ID",
 	"kaytu_account_id":    "metadata.SourceID",
 	"name":                "description.Contact.name",
-	"phone":               "description.Contact.ContactProperties.Phone",
+	"phone":               "description.Contact.Properties.Phone",
 	"title":               "description.Contact.Name",
 	"type":                "description.Contact.Type",
 }
@@ -12587,10 +13523,10 @@ var listSecurityCenterJitNetworkAccessPolicyFilters = map[string]string{
 	"kaytu_account_id":   "metadata.SourceID",
 	"kind":               "description.JitNetworkAccessPolicy.Kind",
 	"name":               "description.JitNetworkAccessPolicy.Name",
-	"provisioning_state": "description.JitNetworkAccessPolicy.JitNetworkAccessPolicyProperties.ProvisioningState",
+	"provisioning_state": "description.JitNetworkAccessPolicy.Properties.ProvisioningState",
 	"title":              "description.JitNetworkAccessPolicy.Name",
 	"type":               "description.JitNetworkAccessPolicy.Type",
-	"virtual_machines":   "description.JitNetworkAccessPolicy.JitNetworkAccessPolicyProperties.VirtualMachines",
+	"virtual_machines":   "description.JitNetworkAccessPolicy.Properties.VirtualMachines",
 }
 
 func ListSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -12629,10 +13565,10 @@ var getSecurityCenterJitNetworkAccessPolicyFilters = map[string]string{
 	"kaytu_account_id":   "metadata.SourceID",
 	"kind":               "description.JitNetworkAccessPolicy.Kind",
 	"name":               "description.JitNetworkAccessPolicy.Name",
-	"provisioning_state": "description.JitNetworkAccessPolicy.JitNetworkAccessPolicyProperties.ProvisioningState",
+	"provisioning_state": "description.JitNetworkAccessPolicy.Properties.ProvisioningState",
 	"title":              "description.JitNetworkAccessPolicy.Name",
 	"type":               "description.JitNetworkAccessPolicy.Type",
-	"virtual_machines":   "description.JitNetworkAccessPolicy.JitNetworkAccessPolicyProperties.VirtualMachines",
+	"virtual_machines":   "description.JitNetworkAccessPolicy.Properties.VirtualMachines",
 }
 
 func GetSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -12746,8 +13682,8 @@ func (p SecurityCenterSettingPaginator) NextPage(ctx context.Context) ([]Securit
 }
 
 var listSecurityCenterSettingFilters = map[string]string{
-	"akas":             "description.Setting.ID",
-	"enabled":          "dataExportSettingProperties.Enabled",
+	"akas":             "description.Setting.Kind",
+	"enabled":          "description.Setting.Kind",
 	"id":               "description.Setting.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"kind":             "description.Setting.Kind",
@@ -12787,8 +13723,8 @@ func ListSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getSecurityCenterSettingFilters = map[string]string{
-	"akas":             "description.Setting.ID",
-	"enabled":          "dataExportSettingProperties.Enabled",
+	"akas":             "description.Setting.Kind",
+	"enabled":          "description.Setting.Kind",
 	"id":               "description.Setting.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"kind":             "description.Setting.Kind",
@@ -12909,11 +13845,11 @@ func (p SecurityCenterSubscriptionPricingPaginator) NextPage(ctx context.Context
 
 var listSecurityCenterSubscriptionPricingFilters = map[string]string{
 	"akas":                      "description.Pricing.Name",
-	"free_trial_remaining_time": "description.Pricing.PricingProperties.FreeTrialRemainingTime",
+	"free_trial_remaining_time": "description.Pricing.Properties.FreeTrialRemainingTime",
 	"id":                        "description.Pricing.ID",
 	"kaytu_account_id":          "metadata.SourceID",
 	"name":                      "description.Pricing.Name",
-	"pricing_tier":              "description.Pricing.PricingProperties.PricingTier",
+	"pricing_tier":              "description.Pricing.Properties.PricingTier",
 	"title":                     "description.Pricing.Name",
 	"type":                      "description.Pricing.Type",
 }
@@ -12950,11 +13886,11 @@ func ListSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryD
 
 var getSecurityCenterSubscriptionPricingFilters = map[string]string{
 	"akas":                      "description.Pricing.Name",
-	"free_trial_remaining_time": "description.Pricing.PricingProperties.FreeTrialRemainingTime",
+	"free_trial_remaining_time": "description.Pricing.Properties.FreeTrialRemainingTime",
 	"id":                        "description.Pricing.ID",
 	"kaytu_account_id":          "metadata.SourceID",
 	"name":                      "description.Pricing.name",
-	"pricing_tier":              "description.Pricing.PricingProperties.PricingTier",
+	"pricing_tier":              "description.Pricing.Properties.PricingTier",
 	"title":                     "description.Pricing.Name",
 	"type":                      "description.Pricing.Type",
 }
@@ -13070,19 +14006,19 @@ func (p SecurityCenterAutomationPaginator) NextPage(ctx context.Context) ([]Secu
 }
 
 var listSecurityCenterAutomationFilters = map[string]string{
-	"actions":          "description.Automation.AutomationProperties.Actions",
+	"actions":          "description.Automation.Properties.Actions",
 	"akas":             "description.Automation.ID",
-	"description":      "description.Automation.AutomationProperties.Description",
+	"description":      "description.Automation.Properties.Description",
 	"etag":             "description.Automation.Etag",
 	"id":               "description.Automation.ID",
-	"is_enabled":       "description.Automation.AutomationProperties.IsEnabled",
+	"is_enabled":       "description.Automation.Properties.IsEnabled",
 	"kaytu_account_id": "metadata.SourceID",
 	"kind":             "description.Automation.Kind",
 	"name":             "description.Automation.Name",
 	"region":           "description.Automation.Location",
 	"resource_group":   "description.ResourceGroup",
-	"scopes":           "description.Automation.AutomationProperties.Scopes",
-	"sources":          "description.Automation.AutomationProperties.Sources",
+	"scopes":           "description.Automation.Properties.Scopes",
+	"sources":          "description.Automation.Properties.Sources",
 	"tags":             "description.Automation.Tags",
 	"title":            "description.Automation.Name",
 	"type":             "description.Automation.Type",
@@ -13119,19 +14055,19 @@ func ListSecurityCenterAutomation(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getSecurityCenterAutomationFilters = map[string]string{
-	"actions":          "description.Automation.AutomationProperties.Actions",
+	"actions":          "description.Automation.Properties.Actions",
 	"akas":             "description.Automation.ID",
-	"description":      "description.Automation.AutomationProperties.Description",
+	"description":      "description.Automation.Properties.Description",
 	"etag":             "description.Automation.Etag",
 	"id":               "description.Automation.ID",
-	"is_enabled":       "description.Automation.AutomationProperties.IsEnabled",
+	"is_enabled":       "description.Automation.Properties.IsEnabled",
 	"kaytu_account_id": "metadata.SourceID",
 	"kind":             "description.Automation.Kind",
 	"name":             "description.Automation.name",
 	"region":           "description.Automation.Location",
 	"resource_group":   "description.ResourceGroup",
-	"scopes":           "description.Automation.AutomationProperties.Scopes",
-	"sources":          "description.Automation.AutomationProperties.Sources",
+	"scopes":           "description.Automation.Properties.Scopes",
+	"sources":          "description.Automation.Properties.Sources",
 	"tags":             "description.Automation.Tags",
 	"title":            "description.Automation.Name",
 	"type":             "description.Automation.Type",
@@ -13249,16 +14185,16 @@ func (p SecurityCenterSubAssessmentPaginator) NextPage(ctx context.Context) ([]S
 
 var listSecurityCenterSubAssessmentFilters = map[string]string{
 	"akas":             "description.SubAssessment.ID",
-	"category":         "description.SubAssessment.SubAssessmentProperties.Category",
-	"description":      "description.SubAssessment.SubAssessmentProperties.Description",
-	"display_name":     "description.SubAssessment.SubAssessmentProperties.DisplayName",
+	"category":         "description.SubAssessment.Properties.Category",
+	"description":      "description.SubAssessment.Properties.Description",
+	"display_name":     "description.SubAssessment.Properties.DisplayName",
 	"id":               "description.SubAssessment.ID",
-	"impact":           "description.SubAssessment.SubAssessmentProperties.Impact",
+	"impact":           "description.SubAssessment.Properties.Impact",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.SubAssessment.Name",
-	"remediation":      "description.SubAssessment.SubAssessmentProperties.Remediation",
+	"remediation":      "description.SubAssessment.Properties.Remediation",
 	"resource_group":   "description.ResourceGroup",
-	"time_generated":   "description.SubAssessment.SubAssessmentProperties.TimeGenerated",
+	"time_generated":   "description.SubAssessment.Properties.TimeGenerated",
 	"title":            "description.SubAssessment.Name",
 	"type":             "description.SubAssessment.Type",
 }
@@ -13295,16 +14231,16 @@ func ListSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _
 
 var getSecurityCenterSubAssessmentFilters = map[string]string{
 	"akas":             "description.SubAssessment.ID",
-	"category":         "description.SubAssessment.SubAssessmentProperties.Category",
-	"description":      "description.SubAssessment.SubAssessmentProperties.Description",
-	"display_name":     "description.SubAssessment.SubAssessmentProperties.DisplayName",
+	"category":         "description.SubAssessment.Properties.Category",
+	"description":      "description.SubAssessment.Properties.Description",
+	"display_name":     "description.SubAssessment.Properties.DisplayName",
 	"id":               "description.SubAssessment.ID",
-	"impact":           "description.SubAssessment.SubAssessmentProperties.Impact",
+	"impact":           "description.SubAssessment.Properties.Impact",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.SubAssessment.Name",
-	"remediation":      "description.SubAssessment.SubAssessmentProperties.Remediation",
+	"remediation":      "description.SubAssessment.Properties.Remediation",
 	"resource_group":   "description.ResourceGroup",
-	"time_generated":   "description.SubAssessment.SubAssessmentProperties.TimeGenerated",
+	"time_generated":   "description.SubAssessment.Properties.TimeGenerated",
 	"title":            "description.SubAssessment.Name",
 	"type":             "description.SubAssessment.Type",
 }
@@ -13422,28 +14358,28 @@ func (p StorageContainerPaginator) NextPage(ctx context.Context) ([]StorageConta
 var listStorageContainerFilters = map[string]string{
 	"account_name":                   "description.AccountName",
 	"akas":                           "description.ListContainerItem.ID",
-	"default_encryption_scope":       "description.ListContainerItem.ContainerProperties.DefaultEncryptionScope",
-	"deleted":                        "description.ListContainerItem.ContainerProperties.Deleted",
-	"deleted_time":                   "description.ListContainerItem.ContainerProperties.DeletedTime",
-	"deny_encryption_scope_override": "description.ListContainerItem.ContainerProperties.DenyEncryptionScopeOverride",
-	"has_immutability_policy":        "description.ListContainerItem.ContainerProperties.HasImmutabilityPolicy",
-	"has_legal_hold":                 "description.ListContainerItem.ContainerProperties.HasLegalHold",
+	"default_encryption_scope":       "description.ListContainerItem.Properties.DefaultEncryptionScope",
+	"deleted":                        "description.ListContainerItem.Properties.Deleted",
+	"deleted_time":                   "description.ListContainerItem.Properties.DeletedTime",
+	"deny_encryption_scope_override": "description.ListContainerItem.Properties.DenyEncryptionScopeOverride",
+	"has_immutability_policy":        "description.ListContainerItem.Properties.HasImmutabilityPolicy",
+	"has_legal_hold":                 "description.ListContainerItem.Properties.HasLegalHold",
 	"id":                             "description.ListContainerItem.ID",
 	"immutability_policy":            "description.ImmutabilityPolicy",
 	"kaytu_account_id":               "metadata.SourceID",
-	"last_modified_time":             "description.ListContainerItem.ContainerProperties.LastModifiedTime",
-	"lease_duration":                 "description.ListContainerItem.ContainerProperties.LeaseDuration",
-	"lease_state":                    "description.ListContainerItem.ContainerProperties.LeaseState",
-	"lease_status":                   "description.ListContainerItem.ContainerProperties.LeaseStatus",
-	"legal_hold":                     "description.ListContainerItem.ContainerProperties.LegalHold",
-	"metadata":                       "description.ListContainerItem.ContainerProperties.Metadata",
+	"last_modified_time":             "description.ListContainerItem.Properties.LastModifiedTime",
+	"lease_duration":                 "description.ListContainerItem.Properties.LeaseDuration",
+	"lease_state":                    "description.ListContainerItem.Properties.LeaseState",
+	"lease_status":                   "description.ListContainerItem.Properties.LeaseStatus",
+	"legal_hold":                     "description.ListContainerItem.Properties.LegalHold",
+	"metadata":                       "description.ListContainerItem.Properties.Metadata",
 	"name":                           "description.ListContainerItem.Name",
-	"public_access":                  "description.ListContainerItem.ContainerProperties.PublicAccess",
-	"remaining_retention_days":       "description.ListContainerItem.ContainerProperties.RemainingRetentionDays",
+	"public_access":                  "description.ListContainerItem.Properties.PublicAccess",
+	"remaining_retention_days":       "description.ListContainerItem.Properties.RemainingRetentionDays",
 	"resource_group":                 "description.ResourceGroup",
 	"title":                          "description.ListContainerItem.Name",
 	"type":                           "description.ListContainerItem.Type",
-	"version":                        "description.ListContainerItem.ContainerProperties.Version",
+	"version":                        "description.ListContainerItem.Properties.Version",
 }
 
 func ListStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -13479,28 +14415,28 @@ func ListStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 var getStorageContainerFilters = map[string]string{
 	"account_name":                   "description.AccountName",
 	"akas":                           "description.ListContainerItem.ID",
-	"default_encryption_scope":       "description.ListContainerItem.ContainerProperties.DefaultEncryptionScope",
-	"deleted":                        "description.ListContainerItem.ContainerProperties.Deleted",
-	"deleted_time":                   "description.ListContainerItem.ContainerProperties.DeletedTime",
-	"deny_encryption_scope_override": "description.ListContainerItem.ContainerProperties.DenyEncryptionScopeOverride",
-	"has_immutability_policy":        "description.ListContainerItem.ContainerProperties.HasImmutabilityPolicy",
-	"has_legal_hold":                 "description.ListContainerItem.ContainerProperties.HasLegalHold",
+	"default_encryption_scope":       "description.ListContainerItem.Properties.DefaultEncryptionScope",
+	"deleted":                        "description.ListContainerItem.Properties.Deleted",
+	"deleted_time":                   "description.ListContainerItem.Properties.DeletedTime",
+	"deny_encryption_scope_override": "description.ListContainerItem.Properties.DenyEncryptionScopeOverride",
+	"has_immutability_policy":        "description.ListContainerItem.Properties.HasImmutabilityPolicy",
+	"has_legal_hold":                 "description.ListContainerItem.Properties.HasLegalHold",
 	"id":                             "description.ListContainerItem.ID",
 	"immutability_policy":            "description.ImmutabilityPolicy",
 	"kaytu_account_id":               "metadata.SourceID",
-	"last_modified_time":             "description.ListContainerItem.ContainerProperties.LastModifiedTime",
-	"lease_duration":                 "description.ListContainerItem.ContainerProperties.LeaseDuration",
-	"lease_state":                    "description.ListContainerItem.ContainerProperties.LeaseState",
-	"lease_status":                   "description.ListContainerItem.ContainerProperties.LeaseStatus",
-	"legal_hold":                     "description.ListContainerItem.ContainerProperties.LegalHold",
-	"metadata":                       "description.ListContainerItem.ContainerProperties.Metadata",
+	"last_modified_time":             "description.ListContainerItem.Properties.LastModifiedTime",
+	"lease_duration":                 "description.ListContainerItem.Properties.LeaseDuration",
+	"lease_state":                    "description.ListContainerItem.Properties.LeaseState",
+	"lease_status":                   "description.ListContainerItem.Properties.LeaseStatus",
+	"legal_hold":                     "description.ListContainerItem.Properties.LegalHold",
+	"metadata":                       "description.ListContainerItem.Properties.Metadata",
 	"name":                           "description.ListContainerItem.name",
-	"public_access":                  "description.ListContainerItem.ContainerProperties.PublicAccess",
-	"remaining_retention_days":       "description.ListContainerItem.ContainerProperties.RemainingRetentionDays",
+	"public_access":                  "description.ListContainerItem.Properties.PublicAccess",
+	"remaining_retention_days":       "description.ListContainerItem.Properties.RemainingRetentionDays",
 	"resource_group":                 "description.ResourceGroup",
 	"title":                          "description.ListContainerItem.Name",
 	"type":                           "description.ListContainerItem.Type",
-	"version":                        "description.ListContainerItem.ContainerProperties.Version",
+	"version":                        "description.ListContainerItem.Properties.Version",
 }
 
 func GetStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -13652,7 +14588,7 @@ var listStorageBlobFilters = map[string]string{
 	"lease_status":             "description.Blob.Properties.LeaseStatus",
 	"metadata":                 "description.Blob.Metadata",
 	"name":                     "description.Blob.Name",
-	"region":                   "location",
+	"region":                   "description.Blob.VersionID",
 	"remaining_retention_days": "description.Blob.Properties.RemainingRetentionDays",
 	"resource_group":           "description.ResourceGroup",
 	"server_encrypted":         "description.Blob.Properties.ServerEncrypted",
@@ -13732,7 +14668,7 @@ var getStorageBlobFilters = map[string]string{
 	"lease_status":             "description.Blob.Properties.LeaseStatus",
 	"metadata":                 "description.Blob.Metadata",
 	"name":                     "description.Blob.Name",
-	"region":                   "location",
+	"region":                   "description.Blob.VersionID",
 	"remaining_retention_days": "description.Blob.Properties.RemainingRetentionDays",
 	"resource_group":           "description.ResourceGroup",
 	"server_encrypted":         "description.Blob.Properties.ServerEncrypted",
@@ -13855,21 +14791,21 @@ func (p StorageBlobServicePaginator) NextPage(ctx context.Context) ([]StorageBlo
 
 var listStorageBlobServiceFilters = map[string]string{
 	"akas":                              "description.BlobService.ID",
-	"automatic_snapshot_policy_enabled": "description.BlobService.BlobServicePropertiesProperties.AutomaticSnapshotPolicyEnabled",
-	"change_feed_enabled":               "description.BlobService.BlobServicePropertiesProperties.ChangeFeed.Enabled",
-	"container_delete_retention_policy": "description.BlobService.BlobServicePropertiesProperties.ContainerDeleteRetentionPolicy",
-	"cors_rules":                        "description.BlobService.BlobServicePropertiesProperties.Cors.CorsRules",
-	"default_service_version":           "description.BlobService.BlobServicePropertiesProperties.DefaultServiceVersion",
-	"delete_retention_policy":           "description.BlobService.BlobServicePropertiesProperties.DeleteRetentionPolicy",
+	"automatic_snapshot_policy_enabled": "description.BlobService.BlobServiceProperties.AutomaticSnapshotPolicyEnabled",
+	"change_feed_enabled":               "description.BlobService.BlobServiceProperties.ChangeFeed.Enabled",
+	"container_delete_retention_policy": "description.BlobService.BlobServiceProperties.ContainerDeleteRetentionPolicy",
+	"cors_rules":                        "description.BlobService.BlobServiceProperties.Cors.CorsRules",
+	"default_service_version":           "description.BlobService.BlobServiceProperties.DefaultServiceVersion",
+	"delete_retention_policy":           "description.BlobService.BlobServiceProperties.ContainerDeleteRetentionPolicy",
 	"id":                                "description.BlobService.ID",
-	"is_versioning_enabled":             "description.BlobService.BlobServicePropertiesProperties.IsVersioningEnabled",
+	"is_versioning_enabled":             "description.BlobService.BlobServiceProperties.IsVersioningEnabled",
 	"kaytu_account_id":                  "metadata.SourceID",
 	"name":                              "description.BlobService.Name",
 	"region":                            "description.Location",
 	"resource_group":                    "description.ResourceGroup",
-	"restore_policy":                    "description.BlobService.BlobServicePropertiesProperties.RestorePolicy",
-	"sku_name":                          "description.BlobService.Sku.Name",
-	"sku_tier":                          "description.BlobService.Sku.Tier",
+	"restore_policy":                    "description.BlobService.BlobServiceProperties.RestorePolicy",
+	"sku_name":                          "description.BlobService.SKU.Name",
+	"sku_tier":                          "description.BlobService.SKU.Tier",
 	"storage_account_name":              "description.AccountName",
 	"title":                             "description.BlobService.Name",
 	"type":                              "description.BlobService.Type",
@@ -13907,21 +14843,21 @@ func ListStorageBlobService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 var getStorageBlobServiceFilters = map[string]string{
 	"akas":                              "description.BlobService.ID",
-	"automatic_snapshot_policy_enabled": "description.BlobService.BlobServicePropertiesProperties.AutomaticSnapshotPolicyEnabled",
-	"change_feed_enabled":               "description.BlobService.BlobServicePropertiesProperties.ChangeFeed.Enabled",
-	"container_delete_retention_policy": "description.BlobService.BlobServicePropertiesProperties.ContainerDeleteRetentionPolicy",
-	"cors_rules":                        "description.BlobService.BlobServicePropertiesProperties.Cors.CorsRules",
-	"default_service_version":           "description.BlobService.BlobServicePropertiesProperties.DefaultServiceVersion",
-	"delete_retention_policy":           "description.BlobService.BlobServicePropertiesProperties.DeleteRetentionPolicy",
+	"automatic_snapshot_policy_enabled": "description.BlobService.BlobServiceProperties.AutomaticSnapshotPolicyEnabled",
+	"change_feed_enabled":               "description.BlobService.BlobServiceProperties.ChangeFeed.Enabled",
+	"container_delete_retention_policy": "description.BlobService.BlobServiceProperties.ContainerDeleteRetentionPolicy",
+	"cors_rules":                        "description.BlobService.BlobServiceProperties.Cors.CorsRules",
+	"default_service_version":           "description.BlobService.BlobServiceProperties.DefaultServiceVersion",
+	"delete_retention_policy":           "description.BlobService.BlobServiceProperties.ContainerDeleteRetentionPolicy",
 	"id":                                "description.BlobService.ID",
-	"is_versioning_enabled":             "description.BlobService.BlobServicePropertiesProperties.IsVersioningEnabled",
+	"is_versioning_enabled":             "description.BlobService.BlobServiceProperties.IsVersioningEnabled",
 	"kaytu_account_id":                  "metadata.SourceID",
 	"name":                              "description.BlobService.Name",
 	"region":                            "description.Location",
 	"resource_group":                    "description.ResourceGroup",
-	"restore_policy":                    "description.BlobService.BlobServicePropertiesProperties.RestorePolicy",
-	"sku_name":                          "description.BlobService.Sku.Name",
-	"sku_tier":                          "description.BlobService.Sku.Tier",
+	"restore_policy":                    "description.BlobService.BlobServiceProperties.RestorePolicy",
+	"sku_name":                          "description.BlobService.SKU.Name",
+	"sku_tier":                          "description.BlobService.SKU.Tier",
 	"storage_account_name":              "description.AccountName",
 	"title":                             "description.BlobService.Name",
 	"type":                              "description.BlobService.Type",
@@ -14041,7 +14977,7 @@ var listStorageQueueFilters = map[string]string{
 	"akas":                 "description.Queue.ID",
 	"id":                   "description.Queue.ID",
 	"kaytu_account_id":     "metadata.SourceID",
-	"metadata":             "description.Queue.ListQueueProperties.Metadata",
+	"metadata":             "description.Queue.QueueProperties.Metadata",
 	"name":                 "description.Queue.Name",
 	"region":               "description.Location",
 	"resource_group":       "description.ResourceGroup",
@@ -14084,7 +15020,7 @@ var getStorageQueueFilters = map[string]string{
 	"akas":                 "description.Queue.ID",
 	"id":                   "description.Queue.ID",
 	"kaytu_account_id":     "metadata.SourceID",
-	"metadata":             "description.Queue.ListQueueProperties.Metadata",
+	"metadata":             "description.Queue.QueueProperties.Metadata",
 	"name":                 "description.Queue.Name",
 	"region":               "description.Location",
 	"resource_group":       "description.ResourceGroup",
@@ -14204,27 +15140,27 @@ func (p StorageFileSharePaginator) NextPage(ctx context.Context) ([]StorageFileS
 }
 
 var listStorageFileShareFilters = map[string]string{
-	"access_tier":              "description.FileShare.FileShareProperties.AccessTier",
-	"access_tier_change_time":  "description.FileShare.FileShareProperties.AccessTierChangeTime",
-	"access_tier_status":       "description.FileShare.FileShareProperties.AccessTierStatus",
+	"access_tier":              "description.FileShare.Properties.AccessTier",
+	"access_tier_change_time":  "description.FileShare.Properties.AccessTierChangeTime",
+	"access_tier_status":       "description.FileShare.Properties.AccessTierStatus",
 	"akas":                     "description.FileShare.ID",
-	"deleted":                  "description.FileShare.FileShareProperties.Deleted",
-	"deleted_time":             "description.FileShare.FileShareProperties.DeletedTime",
-	"enabled_protocols":        "description.FileShare.FileShareProperties.EnabledProtocols",
+	"deleted":                  "description.FileShare.Properties.Deleted",
+	"deleted_time":             "description.FileShare.Properties.DeletedTime",
+	"enabled_protocols":        "description.FileShare.Properties.EnabledProtocols",
 	"id":                       "description.FileShare.ID",
 	"kaytu_account_id":         "metadata.SourceID",
-	"last_modified_time":       "description.FileShare.FileShareProperties.LastModifiedTime",
-	"metadata":                 "description.FileShare.FileShareProperties.Metadata",
+	"last_modified_time":       "description.FileShare.Properties.LastModifiedTime",
+	"metadata":                 "description.FileShare.Properties.Metadata",
 	"name":                     "description.FileShare.Name",
-	"remaining_retention_days": "description.FileShare.FileShareProperties.RemainingRetentionDays",
+	"remaining_retention_days": "description.FileShare.Properties.RemainingRetentionDays",
 	"resource_group":           "description.ResourceGroup",
-	"root_squash":              "description.FileShare.FileShareProperties.RootSquash",
-	"share_quota":              "description.FileShare.FileShareProperties.ShareQuota",
-	"share_usage_bytes":        "description.FileShare.FileShareProperties.ShareUsageBytes",
+	"root_squash":              "description.FileShare.Properties.RootSquash",
+	"share_quota":              "description.FileShare.Properties.ShareQuota",
+	"share_usage_bytes":        "description.FileShare.Properties.ShareUsageBytes",
 	"storage_account_name":     "description.AccountName",
 	"title":                    "description.FileShare.Name",
 	"type":                     "description.FileShare.Type",
-	"version":                  "description.FileShare.FileShareProperties.Version",
+	"version":                  "description.FileShare.Properties.Version",
 }
 
 func ListStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -14258,27 +15194,27 @@ func ListStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getStorageFileShareFilters = map[string]string{
-	"access_tier":              "description.FileShare.FileShareProperties.AccessTier",
-	"access_tier_change_time":  "description.FileShare.FileShareProperties.AccessTierChangeTime",
-	"access_tier_status":       "description.FileShare.FileShareProperties.AccessTierStatus",
+	"access_tier":              "description.FileShare.Properties.AccessTier",
+	"access_tier_change_time":  "description.FileShare.Properties.AccessTierChangeTime",
+	"access_tier_status":       "description.FileShare.Properties.AccessTierStatus",
 	"akas":                     "description.FileShare.ID",
-	"deleted":                  "description.FileShare.FileShareProperties.Deleted",
-	"deleted_time":             "description.FileShare.FileShareProperties.DeletedTime",
-	"enabled_protocols":        "description.FileShare.FileShareProperties.EnabledProtocols",
+	"deleted":                  "description.FileShare.Properties.Deleted",
+	"deleted_time":             "description.FileShare.Properties.DeletedTime",
+	"enabled_protocols":        "description.FileShare.Properties.EnabledProtocols",
 	"id":                       "description.FileShare.ID",
 	"kaytu_account_id":         "metadata.SourceID",
-	"last_modified_time":       "description.FileShare.FileShareProperties.LastModifiedTime",
-	"metadata":                 "description.FileShare.FileShareProperties.Metadata",
+	"last_modified_time":       "description.FileShare.Properties.LastModifiedTime",
+	"metadata":                 "description.FileShare.Properties.Metadata",
 	"name":                     "description.FileShare.Name",
-	"remaining_retention_days": "description.FileShare.FileShareProperties.RemainingRetentionDays",
+	"remaining_retention_days": "description.FileShare.Properties.RemainingRetentionDays",
 	"resource_group":           "description.ResourceGroup",
-	"root_squash":              "description.FileShare.FileShareProperties.RootSquash",
-	"share_quota":              "description.FileShare.FileShareProperties.ShareQuota",
-	"share_usage_bytes":        "description.FileShare.FileShareProperties.ShareUsageBytes",
+	"root_squash":              "description.FileShare.Properties.RootSquash",
+	"share_quota":              "description.FileShare.Properties.ShareQuota",
+	"share_usage_bytes":        "description.FileShare.Properties.ShareUsageBytes",
 	"storage_account_name":     "description.AccountName",
 	"title":                    "description.FileShare.Name",
 	"type":                     "description.FileShare.Type",
-	"version":                  "description.FileShare.FileShareProperties.Version",
+	"version":                  "description.FileShare.Properties.Version",
 }
 
 func GetStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -14557,7 +15493,7 @@ func (p StorageTableServicePaginator) NextPage(ctx context.Context) ([]StorageTa
 
 var listStorageTableServiceFilters = map[string]string{
 	"akas":                 "description.TableService.ID",
-	"cors_rules":           "description.TableService.TableServicePropertiesProperties.Cors.CorsRules",
+	"cors_rules":           "description.TableService.TableServiceProperties.Cors.CorsRules",
 	"id":                   "description.TableService.ID",
 	"kaytu_account_id":     "metadata.SourceID",
 	"name":                 "description.TableService.Name",
@@ -14600,7 +15536,7 @@ func ListStorageTableService(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 var getStorageTableServiceFilters = map[string]string{
 	"akas":                 "description.TableService.ID",
-	"cors_rules":           "description.TableService.TableServicePropertiesProperties.Cors.CorsRules",
+	"cors_rules":           "description.TableService.TableServiceProperties.Cors.CorsRules",
 	"id":                   "description.TableService.ID",
 	"kaytu_account_id":     "metadata.SourceID",
 	"name":                 "description.TableService.Name",
@@ -14722,24 +15658,24 @@ func (p SubnetPaginator) NextPage(ctx context.Context) ([]Subnet, error) {
 }
 
 var listSubnetFilters = map[string]string{
-	"address_prefix":                        "description.Subnet.SubnetPropertiesFormat.AddressPrefix",
+	"address_prefix":                        "description.Subnet.Properties.AddressPrefix",
 	"akas":                                  "description.Subnet.ID",
-	"delegations":                           "description.Subnet.SubnetPropertiesFormat.Delegations",
+	"delegations":                           "description.Subnet.Properties.Delegations",
 	"etag":                                  "description.Subnet.Etag",
 	"id":                                    "subnet.ID",
 	"kaytu_account_id":                      "metadata.SourceID",
 	"name":                                  "description.Subnet.Name",
-	"nat_gateway_id":                        "description.Subnet.SubnetPropertiesFormat.NatGateway.ID",
-	"network_security_group_id":             "description.Subnet.SubnetPropertiesFormat.NetworkSecurityGroup.ID",
-	"private_endpoint_network_policies":     "description.Subnet.SubnetPropertiesFormat.PrivateEndpointNetworkPolicies",
-	"private_link_service_network_policies": "description.Subnet.SubnetPropertiesFormat.PrivateLinkServiceNetworkPolicies",
-	"provisioning_state":                    "description.Subnet.SubnetPropertiesFormat.ProvisioningState",
+	"nat_gateway_id":                        "description.Subnet.Properties.NatGateway.ID",
+	"network_security_group_id":             "description.Subnet.Properties.NetworkSecurityGroup.ID",
+	"private_endpoint_network_policies":     "description.Subnet.Properties.PrivateEndpointNetworkPolicies",
+	"private_link_service_network_policies": "description.Subnet.Properties.PrivateLinkServiceNetworkPolicies",
+	"provisioning_state":                    "description.Subnet.Properties.ProvisioningState",
 	"resource_group":                        "description.ResourceGroup",
-	"route_table_id":                        "description.Subnet.SubnetPropertiesFormat.RouteTable.ID",
-	"service_endpoint_policies":             "description.Subnet.SubnetPropertiesFormat.ServiceEndpointPolicies",
-	"service_endpoints":                     "description.Subnet.SubnetPropertiesFormat.ServiceEndpoints",
+	"route_table_id":                        "description.Subnet.Properties.RouteTable.ID",
+	"service_endpoint_policies":             "description.Subnet.Properties.ServiceEndpointPolicies",
+	"service_endpoints":                     "description.Subnet.Properties.ServiceEndpoints",
 	"title":                                 "description.Subnet.Name",
-	"type":                                  "description.Subnet.SubnetPropertiesFormat.RouteTable.Type",
+	"type":                                  "description.Subnet.Properties.RouteTable.Type",
 	"virtual_network_name":                  "description.VirtualNetworkName",
 }
 
@@ -14774,24 +15710,24 @@ func ListSubnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 }
 
 var getSubnetFilters = map[string]string{
-	"address_prefix":                        "description.Subnet.SubnetPropertiesFormat.AddressPrefix",
+	"address_prefix":                        "description.Subnet.Properties.AddressPrefix",
 	"akas":                                  "description.Subnet.ID",
-	"delegations":                           "description.Subnet.SubnetPropertiesFormat.Delegations",
+	"delegations":                           "description.Subnet.Properties.Delegations",
 	"etag":                                  "description.Subnet.Etag",
 	"id":                                    "subnet.ID",
 	"kaytu_account_id":                      "metadata.SourceID",
 	"name":                                  "description.Subnet.name",
-	"nat_gateway_id":                        "description.Subnet.SubnetPropertiesFormat.NatGateway.ID",
-	"network_security_group_id":             "description.Subnet.SubnetPropertiesFormat.NetworkSecurityGroup.ID",
-	"private_endpoint_network_policies":     "description.Subnet.SubnetPropertiesFormat.PrivateEndpointNetworkPolicies",
-	"private_link_service_network_policies": "description.Subnet.SubnetPropertiesFormat.PrivateLinkServiceNetworkPolicies",
-	"provisioning_state":                    "description.Subnet.SubnetPropertiesFormat.ProvisioningState",
+	"nat_gateway_id":                        "description.Subnet.Properties.NatGateway.ID",
+	"network_security_group_id":             "description.Subnet.Properties.NetworkSecurityGroup.ID",
+	"private_endpoint_network_policies":     "description.Subnet.Properties.PrivateEndpointNetworkPolicies",
+	"private_link_service_network_policies": "description.Subnet.Properties.PrivateLinkServiceNetworkPolicies",
+	"provisioning_state":                    "description.Subnet.Properties.ProvisioningState",
 	"resource_group":                        "description.ResourceGroup",
-	"route_table_id":                        "description.Subnet.SubnetPropertiesFormat.RouteTable.ID",
-	"service_endpoint_policies":             "description.Subnet.SubnetPropertiesFormat.ServiceEndpointPolicies",
-	"service_endpoints":                     "description.Subnet.SubnetPropertiesFormat.ServiceEndpoints",
+	"route_table_id":                        "description.Subnet.Properties.RouteTable.ID",
+	"service_endpoint_policies":             "description.Subnet.Properties.ServiceEndpointPolicies",
+	"service_endpoints":                     "description.Subnet.Properties.ServiceEndpoints",
 	"title":                                 "description.Subnet.Name",
-	"type":                                  "description.Subnet.SubnetPropertiesFormat.RouteTable.Type",
+	"type":                                  "description.Subnet.Properties.RouteTable.Type",
 	"virtual_network_name":                  "description.VirtualNetworkName",
 }
 
@@ -14906,20 +15842,20 @@ func (p VirtualNetworkPaginator) NextPage(ctx context.Context) ([]VirtualNetwork
 }
 
 var listVirtualNetworkFilters = map[string]string{
-	"address_prefixes":       "description.VirtualNetwork.VirtualNetworkPropertiesFormat.AddressSpace.AddressPrefixes",
+	"address_prefixes":       "description.VirtualNetwork.Properties.AddressSpace.AddressPrefixes",
 	"akas":                   "description.VirtualNetwork.ID",
-	"enable_ddos_protection": "description.VirtualNetwork.VirtualNetworkPropertiesFormat.EnableDdosProtection",
-	"enable_vm_protection":   "description.VirtualNetwork.VirtualNetworkPropertiesFormat.EnableVMProtection",
+	"enable_ddos_protection": "description.VirtualNetwork.Properties.EnableDdosProtection",
+	"enable_vm_protection":   "description.VirtualNetwork.Properties.EnableVMProtection",
 	"etag":                   "description.VirtualNetwork.Etag",
 	"id":                     "description.VirtualNetwork.ID",
 	"kaytu_account_id":       "metadata.SourceID",
 	"name":                   "description.VirtualNetwork.Name",
-	"network_peerings":       "description.VirtualNetwork.VirtualNetworkPropertiesFormat.VirtualNetworkPeerings",
-	"provisioning_state":     "description.VirtualNetwork.VirtualNetworkPropertiesFormat.ProvisioningState",
+	"network_peerings":       "description.VirtualNetwork.Properties.VirtualNetworkPeerings",
+	"provisioning_state":     "description.VirtualNetwork.Properties.ProvisioningState",
 	"region":                 "description.VirtualNetwork.Location",
 	"resource_group":         "description.ResourceGroup",
-	"resource_guid":          "description.VirtualNetwork.VirtualNetworkPropertiesFormat.ResourceGUID",
-	"subnets":                "description.VirtualNetwork.VirtualNetworkPropertiesFormat.Subnets",
+	"resource_guid":          "description.VirtualNetwork.Properties.ResourceGUID",
+	"subnets":                "description.VirtualNetwork.Properties.Subnets",
 	"tags":                   "description.VirtualNetwork.Tags",
 	"title":                  "description.VirtualNetwork.Name",
 	"type":                   "description.VirtualNetwork.Type",
@@ -14956,20 +15892,20 @@ func ListVirtualNetwork(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getVirtualNetworkFilters = map[string]string{
-	"address_prefixes":       "description.VirtualNetwork.VirtualNetworkPropertiesFormat.AddressSpace.AddressPrefixes",
+	"address_prefixes":       "description.VirtualNetwork.Properties.AddressSpace.AddressPrefixes",
 	"akas":                   "description.VirtualNetwork.ID",
-	"enable_ddos_protection": "description.VirtualNetwork.VirtualNetworkPropertiesFormat.EnableDdosProtection",
-	"enable_vm_protection":   "description.VirtualNetwork.VirtualNetworkPropertiesFormat.EnableVMProtection",
+	"enable_ddos_protection": "description.VirtualNetwork.Properties.EnableDdosProtection",
+	"enable_vm_protection":   "description.VirtualNetwork.Properties.EnableVMProtection",
 	"etag":                   "description.VirtualNetwork.Etag",
 	"id":                     "description.VirtualNetwork.ID",
 	"kaytu_account_id":       "metadata.SourceID",
 	"name":                   "description.VirtualNetwork.name",
-	"network_peerings":       "description.VirtualNetwork.VirtualNetworkPropertiesFormat.VirtualNetworkPeerings",
-	"provisioning_state":     "description.VirtualNetwork.VirtualNetworkPropertiesFormat.ProvisioningState",
+	"network_peerings":       "description.VirtualNetwork.Properties.VirtualNetworkPeerings",
+	"provisioning_state":     "description.VirtualNetwork.Properties.ProvisioningState",
 	"region":                 "description.VirtualNetwork.Location",
 	"resource_group":         "description.ResourceGroup",
-	"resource_guid":          "description.VirtualNetwork.VirtualNetworkPropertiesFormat.ResourceGUID",
-	"subnets":                "description.VirtualNetwork.VirtualNetworkPropertiesFormat.Subnets",
+	"resource_guid":          "description.VirtualNetwork.Properties.ResourceGUID",
+	"subnets":                "description.VirtualNetwork.Properties.Subnets",
 	"tags":                   "description.VirtualNetwork.Tags",
 	"title":                  "description.VirtualNetwork.Name",
 	"type":                   "description.VirtualNetwork.Type",
@@ -15087,14 +16023,13 @@ func (p TenantPaginator) NextPage(ctx context.Context) ([]Tenant, error) {
 
 var listTenantFilters = map[string]string{
 	"akas":             "description.TenantIDDescription.ID",
-	"country":          "description.TenantIDDescription.Country",
-	"country_code":     "description.TenantIDDescription.CountryCode",
-	"display_name":     "description.TenantIDDescription.DisplayName",
-	"domains":          "description.TenantIDDescription.Domains",
+	"display_name":     "description.TenantIDDescription.Name",
 	"id":               "description.TenantIDDescription.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"tenant_category":  "description.TenantIDDescription.TenantCategory",
-	"tenant_id":        "description.TenantIDDescription",
+	"name":             "description.TenantIDDescription.Name",
+	"tenant_category":  "tenantCategory",
+	"tenant_id":        "description.TenantIDDescription.TenantID",
+	"title":            "description.TenantIDDescription.Name",
 }
 
 func ListTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -15129,14 +16064,13 @@ func ListTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 var getTenantFilters = map[string]string{
 	"akas":             "description.TenantIDDescription.ID",
-	"country":          "description.TenantIDDescription.Country",
-	"country_code":     "description.TenantIDDescription.CountryCode",
-	"display_name":     "description.TenantIDDescription.DisplayName",
-	"domains":          "description.TenantIDDescription.Domains",
+	"display_name":     "description.TenantIDDescription.Name",
 	"id":               "description.TenantIDDescription.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"tenant_category":  "description.TenantIDDescription.TenantCategory",
-	"tenant_id":        "description.TenantIDDescription",
+	"name":             "description.TenantIDDescription.Name",
+	"tenant_category":  "tenantCategory",
+	"tenant_id":        "description.TenantIDDescription.TenantID",
+	"title":            "description.TenantIDDescription.Name",
 }
 
 func GetTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -15252,16 +16186,15 @@ func (p SubscriptionPaginator) NextPage(ctx context.Context) ([]Subscription, er
 var listSubscriptionFilters = map[string]string{
 	"akas":                  "description.Subscription.ID",
 	"authorization_source":  "description.Subscription.AuthorizationSource",
-	"cloud_environment":     "description.Subscription.TenantID",
+	"cloud_environment":     "description.Subscription.SubscriptionPolicies",
 	"display_name":          "description.Subscription.DisplayName",
 	"id":                    "description.Subscription.ID",
 	"kaytu_account_id":      "metadata.SourceID",
-	"keibi_metadata":        "metadata",
-	"managed_by_tenants":    "description.Subscription.ManagedByTenants",
+	"keibi_metadata":        "description.Subscription.State",
 	"state":                 "description.Subscription.State",
 	"subscription_id":       "description.Subscription.SubscriptionID",
 	"subscription_policies": "description.Subscription.SubscriptionPolicies",
-	"tenant_id":             "description.Subscription.TenantID",
+	"tenant_id":             "tenantID",
 	"title":                 "description.Subscription.DisplayName",
 }
 
@@ -15298,16 +16231,15 @@ func ListSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 var getSubscriptionFilters = map[string]string{
 	"akas":                  "description.Subscription.ID",
 	"authorization_source":  "description.Subscription.AuthorizationSource",
-	"cloud_environment":     "description.Subscription.TenantID",
+	"cloud_environment":     "description.Subscription.SubscriptionPolicies",
 	"display_name":          "description.Subscription.DisplayName",
 	"id":                    "description.Subscription.ID",
 	"kaytu_account_id":      "metadata.SourceID",
-	"keibi_metadata":        "metadata",
-	"managed_by_tenants":    "description.Subscription.ManagedByTenants",
+	"keibi_metadata":        "description.Subscription.State",
 	"state":                 "description.Subscription.State",
 	"subscription_id":       "description.Subscription.SubscriptionID",
 	"subscription_policies": "description.Subscription.SubscriptionPolicies",
-	"tenant_id":             "description.Subscription.TenantID",
+	"tenant_id":             "tenantID",
 	"title":                 "description.Subscription.DisplayName",
 }
 
@@ -15423,30 +16355,30 @@ func (p ApplicationGatewayPaginator) NextPage(ctx context.Context) ([]Applicatio
 
 var listApplicationGatewayFilters = map[string]string{
 	"akas":                                   "description.ApplicationGateway.ID",
-	"autoscale_configuration":                "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.AutoscaleConfiguration",
-	"custom_error_configurations":            "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.CustomErrorConfigurations",
+	"autoscale_configuration":                "description.ApplicationGateway.Properties.AutoscaleConfiguration",
+	"custom_error_configurations":            "description.ApplicationGateway.Properties.CustomErrorConfigurations",
 	"diagnostic_settings":                    "description.DiagnosticSettingsResources",
-	"enable_fips":                            "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.EnableFips",
-	"enable_http2":                           "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.EnableHTTP2",
+	"enable_fips":                            "description.ApplicationGateway.Properties.EnableFips",
+	"enable_http2":                           "description.ApplicationGateway.Properties.EnableHTTP2",
 	"etag":                                   "description.ApplicationGateway.Etag",
-	"firewall_policy":                        "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.FirewallPolicy",
-	"force_firewall_policy_association":      "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.ForceFirewallPolicyAssociation",
+	"firewall_policy":                        "description.ApplicationGateway.Properties.FirewallPolicy",
+	"force_firewall_policy_association":      "description.ApplicationGateway.Properties.ForceFirewallPolicyAssociation",
 	"id":                                     "description.ApplicationGateway.ID",
 	"identity":                               "description.ApplicationGateway.Identity",
 	"kaytu_account_id":                       "metadata.SourceID",
 	"name":                                   "description.ApplicationGateway.Name",
-	"operational_state":                      "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.OperationalState",
-	"provisioning_state":                     "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.ProvisioningState",
-	"redirect_configurations":                "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.RedirectConfigurations",
+	"operational_state":                      "description.ApplicationGateway.Properties.OperationalState",
+	"provisioning_state":                     "description.ApplicationGateway.Properties.ProvisioningState",
+	"redirect_configurations":                "description.ApplicationGateway.Properties.RedirectConfigurations",
 	"region":                                 "description.ApplicationGateway.Location",
 	"resource_group":                         "description.ResourceGroup",
-	"resource_guid":                          "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.ResourceGUID",
-	"sku":                                    "applicationGatewayPropertiesFormat.Sku",
-	"ssl_policy":                             "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.SslPolicy",
+	"resource_guid":                          "description.ApplicationGateway.Properties.ResourceGUID",
+	"sku":                                    "description.ApplicationGateway.Properties.SKU",
+	"ssl_policy":                             "description.ApplicationGateway.Properties.SSLPolicy",
 	"tags":                                   "description.ApplicationGateway.Tags",
 	"title":                                  "description.ApplicationGateway.Name",
 	"type":                                   "description.ApplicationGateway.Type",
-	"web_application_firewall_configuration": "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.WebApplicationFirewallConfiguration",
+	"web_application_firewall_configuration": "description.ApplicationGateway.Properties.WebApplicationFirewallConfiguration",
 	"zones":                                  "description.ApplicationGateway.Zones",
 }
 
@@ -15482,30 +16414,30 @@ func ListApplicationGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 var getApplicationGatewayFilters = map[string]string{
 	"akas":                                   "description.ApplicationGateway.ID",
-	"autoscale_configuration":                "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.AutoscaleConfiguration",
-	"custom_error_configurations":            "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.CustomErrorConfigurations",
+	"autoscale_configuration":                "description.ApplicationGateway.Properties.AutoscaleConfiguration",
+	"custom_error_configurations":            "description.ApplicationGateway.Properties.CustomErrorConfigurations",
 	"diagnostic_settings":                    "description.DiagnosticSettingsResources",
-	"enable_fips":                            "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.EnableFips",
-	"enable_http2":                           "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.EnableHTTP2",
+	"enable_fips":                            "description.ApplicationGateway.Properties.EnableFips",
+	"enable_http2":                           "description.ApplicationGateway.Properties.EnableHTTP2",
 	"etag":                                   "description.ApplicationGateway.Etag",
-	"firewall_policy":                        "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.FirewallPolicy",
-	"force_firewall_policy_association":      "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.ForceFirewallPolicyAssociation",
+	"firewall_policy":                        "description.ApplicationGateway.Properties.FirewallPolicy",
+	"force_firewall_policy_association":      "description.ApplicationGateway.Properties.ForceFirewallPolicyAssociation",
 	"id":                                     "description.ApplicationGateway.ID",
 	"identity":                               "description.ApplicationGateway.Identity",
 	"kaytu_account_id":                       "metadata.SourceID",
 	"name":                                   "description.ApplicationGateway.name",
-	"operational_state":                      "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.OperationalState",
-	"provisioning_state":                     "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.ProvisioningState",
-	"redirect_configurations":                "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.RedirectConfigurations",
+	"operational_state":                      "description.ApplicationGateway.Properties.OperationalState",
+	"provisioning_state":                     "description.ApplicationGateway.Properties.ProvisioningState",
+	"redirect_configurations":                "description.ApplicationGateway.Properties.RedirectConfigurations",
 	"region":                                 "description.ApplicationGateway.Location",
 	"resource_group":                         "description.ResourceGroup",
-	"resource_guid":                          "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.ResourceGUID",
-	"sku":                                    "applicationGatewayPropertiesFormat.Sku",
-	"ssl_policy":                             "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.SslPolicy",
+	"resource_guid":                          "description.ApplicationGateway.Properties.ResourceGUID",
+	"sku":                                    "description.ApplicationGateway.Properties.SKU",
+	"ssl_policy":                             "description.ApplicationGateway.Properties.SSLPolicy",
 	"tags":                                   "description.ApplicationGateway.Tags",
 	"title":                                  "description.ApplicationGateway.Name",
 	"type":                                   "description.ApplicationGateway.Type",
-	"web_application_firewall_configuration": "description.ApplicationGateway.ApplicationGatewayPropertiesFormat.WebApplicationFirewallConfiguration",
+	"web_application_firewall_configuration": "description.ApplicationGateway.Properties.WebApplicationFirewallConfiguration",
 	"zones":                                  "description.ApplicationGateway.Zones",
 }
 
@@ -15620,26 +16552,26 @@ func (p BatchAccountPaginator) NextPage(ctx context.Context) ([]BatchAccount, er
 }
 
 var listBatchAccountFilters = map[string]string{
-	"account_endpoint":                            "description.Account.AccountProperties.AccountEndpoint",
-	"active_job_and_job_schedule_quota":           "description.Account.AccountProperties.ActiveJobAndJobScheduleQuota",
+	"account_endpoint":                            "description.Account.Properties.AccountEndpoint",
+	"active_job_and_job_schedule_quota":           "description.Account.Properties.ActiveJobAndJobScheduleQuota",
 	"akas":                                        "description.Account.ID",
-	"auto_storage":                                "description.Account.AccountProperties.AutoStorage",
-	"dedicated_core_quota":                        "description.Account.AccountProperties.DedicatedCoreQuota",
-	"dedicated_core_quota_per_vm_family":          "description.Account.AccountProperties.DedicatedCoreQuotaPerVMFamily",
-	"dedicated_core_quota_per_vm_family_enforced": "description.Account.AccountProperties.DedicatedCoreQuotaPerVMFamilyEnforced",
+	"auto_storage":                                "description.Account.Properties.AutoStorage",
+	"dedicated_core_quota":                        "description.Account.Properties.DedicatedCoreQuota",
+	"dedicated_core_quota_per_vm_family":          "description.Account.Properties.DedicatedCoreQuotaPerVMFamily",
+	"dedicated_core_quota_per_vm_family_enforced": "description.Account.Properties.DedicatedCoreQuotaPerVMFamilyEnforced",
 	"diagnostic_settings":                         "description.DiagnosticSettingsResources",
-	"encryption":                                  "description.Account.AccountProperties.Encryption",
+	"encryption":                                  "description.Account.Properties.Encryption",
 	"id":                                          "description.Account.ID",
 	"identity":                                    "description.Account.Identity",
 	"kaytu_account_id":                            "metadata.SourceID",
-	"key_vault_reference":                         "description.Account.AccountProperties.KeyVaultReference",
-	"low_priority_core_quota":                     "description.Account.AccountProperties.LowPriorityCoreQuota",
+	"key_vault_reference":                         "description.Account.Properties.KeyVaultReference",
+	"low_priority_core_quota":                     "description.Account.Properties.LowPriorityCoreQuota",
 	"name":                                        "description.Account.Name",
-	"pool_allocation_mode":                        "description.Account.AccountProperties.PoolAllocationMode",
-	"pool_quota":                                  "description.Account.AccountProperties.PoolQuota",
-	"private_endpoint_connections":                "description.Account.AccountProperties.PrivateEndpointConnections",
-	"provisioning_state":                          "description.Account.AccountProperties.ProvisioningState",
-	"public_network_access":                       "description.Account.AccountProperties.PublicNetworkAccess",
+	"pool_allocation_mode":                        "description.Account.Properties.PoolAllocationMode",
+	"pool_quota":                                  "description.Account.Properties.PoolQuota",
+	"private_endpoint_connections":                "description.Account.Properties.PrivateEndpointConnections",
+	"provisioning_state":                          "description.Account.Properties.ProvisioningState",
+	"public_network_access":                       "description.Account.Properties.PublicNetworkAccess",
 	"region":                                      "description.Account.Location",
 	"resource_group":                              "description.ResourceGroup",
 	"tags":                                        "description.Account.Tags",
@@ -15678,26 +16610,26 @@ func ListBatchAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 var getBatchAccountFilters = map[string]string{
-	"account_endpoint":                            "description.Account.AccountProperties.AccountEndpoint",
-	"active_job_and_job_schedule_quota":           "description.Account.AccountProperties.ActiveJobAndJobScheduleQuota",
+	"account_endpoint":                            "description.Account.Properties.AccountEndpoint",
+	"active_job_and_job_schedule_quota":           "description.Account.Properties.ActiveJobAndJobScheduleQuota",
 	"akas":                                        "description.Account.ID",
-	"auto_storage":                                "description.Account.AccountProperties.AutoStorage",
-	"dedicated_core_quota":                        "description.Account.AccountProperties.DedicatedCoreQuota",
-	"dedicated_core_quota_per_vm_family":          "description.Account.AccountProperties.DedicatedCoreQuotaPerVMFamily",
-	"dedicated_core_quota_per_vm_family_enforced": "description.Account.AccountProperties.DedicatedCoreQuotaPerVMFamilyEnforced",
+	"auto_storage":                                "description.Account.Properties.AutoStorage",
+	"dedicated_core_quota":                        "description.Account.Properties.DedicatedCoreQuota",
+	"dedicated_core_quota_per_vm_family":          "description.Account.Properties.DedicatedCoreQuotaPerVMFamily",
+	"dedicated_core_quota_per_vm_family_enforced": "description.Account.Properties.DedicatedCoreQuotaPerVMFamilyEnforced",
 	"diagnostic_settings":                         "description.DiagnosticSettingsResources",
-	"encryption":                                  "description.Account.AccountProperties.Encryption",
+	"encryption":                                  "description.Account.Properties.Encryption",
 	"id":                                          "description.Account.ID",
 	"identity":                                    "description.Account.Identity",
 	"kaytu_account_id":                            "metadata.SourceID",
-	"key_vault_reference":                         "description.Account.AccountProperties.KeyVaultReference",
-	"low_priority_core_quota":                     "description.Account.AccountProperties.LowPriorityCoreQuota",
+	"key_vault_reference":                         "description.Account.Properties.KeyVaultReference",
+	"low_priority_core_quota":                     "description.Account.Properties.LowPriorityCoreQuota",
 	"name":                                        "description.Account.name",
-	"pool_allocation_mode":                        "description.Account.AccountProperties.PoolAllocationMode",
-	"pool_quota":                                  "description.Account.AccountProperties.PoolQuota",
-	"private_endpoint_connections":                "description.Account.AccountProperties.PrivateEndpointConnections",
-	"provisioning_state":                          "description.Account.AccountProperties.ProvisioningState",
-	"public_network_access":                       "description.Account.AccountProperties.PublicNetworkAccess",
+	"pool_allocation_mode":                        "description.Account.Properties.PoolAllocationMode",
+	"pool_quota":                                  "description.Account.Properties.PoolQuota",
+	"private_endpoint_connections":                "description.Account.Properties.PrivateEndpointConnections",
+	"provisioning_state":                          "description.Account.Properties.ProvisioningState",
+	"public_network_access":                       "description.Account.Properties.PublicNetworkAccess",
 	"region":                                      "description.Account.Location",
 	"resource_group":                              "description.ResourceGroup",
 	"tags":                                        "description.Account.Tags",
@@ -15816,7 +16748,7 @@ func (p CognitiveAccountPaginator) NextPage(ctx context.Context) ([]CognitiveAcc
 }
 
 var listCognitiveAccountFilters = map[string]string{
-	"akas":                             "description.Account.ID",
+	"akas":                             "description.Account.Kind",
 	"allowed_fqdn_list":                "description.Account.Properties.AllowedFqdnList",
 	"api_properties":                   "description.Account.Properties.APIProperties",
 	"call_rate_limit":                  "description.Account.Properties.CallRateLimit",
@@ -15836,7 +16768,7 @@ var listCognitiveAccountFilters = map[string]string{
 	"kind":                             "description.Account.Kind",
 	"migration_token":                  "description.Account.Properties.MigrationToken",
 	"name":                             "description.Account.Name",
-	"network_acls":                     "description.Account.Properties.NetworkAcls",
+	"network_acls":                     "description.Account.Properties.NetworkACLs",
 	"provisioning_state":               "description.Account.Properties.ProvisioningState",
 	"public_network_access":            "description.Account.Properties.PublicNetworkAccess",
 	"quota_limit":                      "description.Account.Properties.QuotaLimit",
@@ -15844,8 +16776,8 @@ var listCognitiveAccountFilters = map[string]string{
 	"resource_group":                   "description.ResourceGroup",
 	"restore":                          "description.Account.Properties.Restore",
 	"restrict_outbound_network_access": "description.Account.Properties.RestrictOutboundNetworkAccess",
-	"sku":                              "description.Account.Sku",
-	"sku_change_info":                  "description.Account.Properties.SkuChangeInfo",
+	"sku":                              "description.Account.SKU",
+	"sku_change_info":                  "description.Account.Properties.SKUChangeInfo",
 	"system_data":                      "description.Account.SystemData",
 	"tags":                             "description.Account.Tags",
 	"title":                            "description.Account.Name",
@@ -15884,7 +16816,7 @@ func ListCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getCognitiveAccountFilters = map[string]string{
-	"akas":                             "description.Account.ID",
+	"akas":                             "description.Account.Kind",
 	"allowed_fqdn_list":                "description.Account.Properties.AllowedFqdnList",
 	"api_properties":                   "description.Account.Properties.APIProperties",
 	"call_rate_limit":                  "description.Account.Properties.CallRateLimit",
@@ -15904,7 +16836,7 @@ var getCognitiveAccountFilters = map[string]string{
 	"kind":                             "description.Account.Kind",
 	"migration_token":                  "description.Account.Properties.MigrationToken",
 	"name":                             "description.Account.name",
-	"network_acls":                     "description.Account.Properties.NetworkAcls",
+	"network_acls":                     "description.Account.Properties.NetworkACLs",
 	"provisioning_state":               "description.Account.Properties.ProvisioningState",
 	"public_network_access":            "description.Account.Properties.PublicNetworkAccess",
 	"quota_limit":                      "description.Account.Properties.QuotaLimit",
@@ -15912,8 +16844,8 @@ var getCognitiveAccountFilters = map[string]string{
 	"resource_group":                   "description.ResourceGroup",
 	"restore":                          "description.Account.Properties.Restore",
 	"restrict_outbound_network_access": "description.Account.Properties.RestrictOutboundNetworkAccess",
-	"sku":                              "description.Account.Sku",
-	"sku_change_info":                  "description.Account.Properties.SkuChangeInfo",
+	"sku":                              "description.Account.SKU",
+	"sku_change_info":                  "description.Account.Properties.SKUChangeInfo",
 	"system_data":                      "description.Account.SystemData",
 	"tags":                             "description.Account.Tags",
 	"title":                            "description.Account.Name",
@@ -16032,63 +16964,63 @@ func (p ComputeVirtualMachinePaginator) NextPage(ctx context.Context) ([]Compute
 }
 
 var listComputeVirtualMachineFilters = map[string]string{
-	"additional_unattend_content":         "description.VirtualMachine.VirtualMachineProperties.OsProfile.WindowsConfiguration.AdditionalUnattendContent",
-	"admin_user_name":                     "description.VirtualMachine.VirtualMachineProperties.OsProfile.AdminUsername",
+	"additional_unattend_content":         "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.AdditionalUnattendContent",
+	"admin_user_name":                     "description.VirtualMachine.Properties.OSProfile.AdminUsername",
 	"akas":                                "description.VirtualMachine.ID",
-	"allow_extension_operations":          "description.VirtualMachine.VirtualMachineProperties.OsProfile.AllowExtensionOperations",
-	"availability_set_id":                 "description.VirtualMachine.VirtualMachineProperties.AvailabilitySet.ID",
-	"billing_profile_max_price":           "description.VirtualMachine.VirtualMachineProperties.BillingProfile.MaxPrice",
-	"boot_diagnostics_enabled":            "description.VirtualMachine.VirtualMachineProperties.DiagnosticsProfile.BootDiagnostics.Enabled",
-	"boot_diagnostics_storage_uri":        "description.VirtualMachine.VirtualMachineProperties.DiagnosticsProfile.BootDiagnostics.StorageURI",
-	"computer_name":                       "description.VirtualMachine.VirtualMachineProperties.OsProfile.ComputerName",
-	"data_disks":                          "description.VirtualMachine.VirtualMachineProperties.StorageProfile.DataDisks",
-	"disable_password_authentication":     "description.VirtualMachine.VirtualMachineProperties.OsProfile.LinuxConfiguration.DisablePasswordAuthentication",
-	"enable_automatic_updates":            "description.VirtualMachine.VirtualMachineProperties.OsProfile.WindowsConfiguration.EnableAutomaticUpdates",
-	"eviction_policy":                     "description.VirtualMachine.VirtualMachineProperties.EvictionPolicy",
+	"allow_extension_operations":          "description.VirtualMachine.Properties.OSProfile.AllowExtensionOperations",
+	"availability_set_id":                 "description.VirtualMachine.Properties.AvailabilitySet.ID",
+	"billing_profile_max_price":           "description.VirtualMachine.Properties.BillingProfile.MaxPrice",
+	"boot_diagnostics_enabled":            "description.VirtualMachine.Properties.DiagnosticsProfile.BootDiagnostics.Enabled",
+	"boot_diagnostics_storage_uri":        "description.VirtualMachine.Properties.DiagnosticsProfile.BootDiagnostics.StorageURI",
+	"computer_name":                       "description.VirtualMachine.Properties.OSProfile.ComputerName",
+	"data_disks":                          "description.VirtualMachine.Properties.StorageProfile.DataDisks",
+	"disable_password_authentication":     "description.VirtualMachine.Properties.OSProfile.LinuxConfiguration.DisablePasswordAuthentication",
+	"enable_automatic_updates":            "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.EnableAutomaticUpdates",
+	"eviction_policy":                     "description.VirtualMachine.Properties.EvictionPolicy",
 	"extensions":                          "description.VirtualMachineInstanceView.Extensions",
 	"guest_configuration_assignments":     "description.Assignments",
 	"id":                                  "description.VirtualMachine.ID",
 	"identity":                            "description.VirtualMachine.Identity",
-	"image_exact_version":                 "description.VirtualMachine.VirtualMachineProperties.StorageProfile.ImageReference.ExactVersion",
-	"image_id":                            "description.VirtualMachine.VirtualMachineProperties.StorageProfile.ImageReference.ID",
-	"image_offer":                         "description.VirtualMachine.VirtualMachineProperties.StorageProfile.ImageReference.Offer",
-	"image_publisher":                     "description.VirtualMachine.VirtualMachineProperties.StorageProfile.ImageReference.Publisher",
-	"image_sku":                           "description.VirtualMachine.VirtualMachineProperties.StorageProfile.ImageReference.Sku",
-	"image_version":                       "description.VirtualMachine.VirtualMachineProperties.StorageProfile.ImageReference.Version",
+	"image_exact_version":                 "description.VirtualMachine.Properties.StorageProfile.ImageReference.ExactVersion",
+	"image_id":                            "description.VirtualMachine.Properties.StorageProfile.ImageReference.ID",
+	"image_offer":                         "description.VirtualMachine.Properties.StorageProfile.ImageReference.Offer",
+	"image_publisher":                     "description.VirtualMachine.Properties.StorageProfile.ImageReference.Publisher",
+	"image_sku":                           "description.VirtualMachine.Properties.StorageProfile.ImageReference.SKU",
+	"image_version":                       "description.VirtualMachine.Properties.StorageProfile.ImageReference.Version",
 	"kaytu_account_id":                    "metadata.SourceID",
-	"linux_configuration_ssh_public_keys": "description.VirtualMachine.VirtualMachineProperties.OsProfile.LinuxConfiguration.SSH.PublicKeys",
-	"managed_disk_id":                     "description.VirtualMachine.VirtualMachineProperties.StorageProfile.OsDisk.ManagedDisk.ID",
+	"linux_configuration_ssh_public_keys": "description.VirtualMachine.Properties.OSProfile.LinuxConfiguration.SSH.PublicKeys",
+	"managed_disk_id":                     "description.VirtualMachine.Properties.StorageProfile.OSDisk.ManagedDisk.ID",
 	"name":                                "description.VirtualMachine.Name",
-	"network_interfaces":                  "description.VirtualMachine.VirtualMachineProperties.NetworkProfile.NetworkInterfaces",
-	"os_disk_caching":                     "description.VirtualMachine.VirtualMachineProperties.StorageProfile.OsDisk.Caching",
-	"os_disk_create_option":               "description.VirtualMachine.VirtualMachineProperties.StorageProfile.OsDisk.CreateOption",
-	"os_disk_name":                        "description.VirtualMachine.VirtualMachineProperties.StorageProfile.OsDisk.Name",
-	"os_disk_vhd_uri":                     "description.VirtualMachine.VirtualMachineProperties.StorageProfile.OsDisk.Vhd.URI",
-	"os_name":                             "description.VirtualMachineInstanceView.OsName",
-	"os_type":                             "description.VirtualMachine.VirtualMachineProperties.StorageProfile.OsDisk.OsType",
-	"os_version":                          "description.VirtualMachineInstanceView.OsVersion",
-	"patch_settings":                      "description.VirtualMachine.VirtualMachineProperties.OsProfile.WindowsConfiguration.PatchSettings",
+	"network_interfaces":                  "description.VirtualMachine.Properties.NetworkProfile.NetworkInterfaces",
+	"os_disk_caching":                     "description.VirtualMachine.Properties.StorageProfile.OSDisk.Caching",
+	"os_disk_create_option":               "description.VirtualMachine.Properties.StorageProfile.OSDisk.CreateOption",
+	"os_disk_name":                        "description.VirtualMachine.Properties.StorageProfile.OSDisk.Name",
+	"os_disk_vhd_uri":                     "description.VirtualMachine.Properties.StorageProfile.OSDisk.Vhd.URI",
+	"os_name":                             "description.VirtualMachineInstanceView.OSName",
+	"os_type":                             "description.VirtualMachine.Properties.StorageProfile.OSDisk.OSType",
+	"os_version":                          "description.VirtualMachineInstanceView.OSVersion",
+	"patch_settings":                      "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.PatchSettings",
 	"power_state":                         "description.VirtualMachineInstanceView.Statuses",
-	"priority":                            "description.VirtualMachine.VirtualMachineProperties.Priority",
+	"priority":                            "description.VirtualMachine.Properties.Priority",
 	"private_ips":                         "description.InterfaceIPConfigurations",
-	"provision_vm_agent":                  "description.VirtualMachine.VirtualMachineProperties.OsProfile.LinuxConfiguration.ProvisionVMAgent",
-	"provision_vm_agent_windows":          "description.VirtualMachine.VirtualMachineProperties.OsProfile.WindowsConfiguration.ProvisionVMAgent",
-	"provisioning_state":                  "description.VirtualMachine.VirtualMachineProperties.ProvisioningState",
+	"provision_vm_agent":                  "description.VirtualMachine.Properties.OSProfile.LinuxConfiguration.ProvisionVMAgent",
+	"provision_vm_agent_windows":          "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.ProvisionVMAgent",
+	"provisioning_state":                  "description.VirtualMachine.Properties.ProvisioningState",
 	"public_ips":                          "description.PublicIPs",
 	"region":                              "description.VirtualMachine.Location",
-	"require_guest_provision_signal":      "description.VirtualMachine.VirtualMachineProperties.OsProfile.RequireGuestProvisionSignal",
+	"require_guest_provision_signal":      "description.VirtualMachine.Properties.OSProfile.RequireGuestProvisionSignal",
 	"resource_group":                      "description.ResourceGroup",
-	"secrets":                             "description.VirtualMachine.VirtualMachineProperties.OsProfile.Secrets",
-	"security_profile":                    "description.VirtualMachine.VirtualMachineProperties.SecurityProfile",
-	"size":                                "description.VirtualMachine.VirtualMachineProperties.HardwareProfile.VMSize",
+	"secrets":                             "description.VirtualMachine.Properties.OSProfile.Secrets",
+	"security_profile":                    "description.VirtualMachine.Properties.SecurityProfile",
+	"size":                                "description.VirtualMachine.Properties.HardwareProfile.VMSize",
 	"statuses":                            "description.VirtualMachineInstanceView.Statuses",
 	"tags":                                "description.VirtualMachine.Tags",
-	"time_zone":                           "description.VirtualMachine.VirtualMachineProperties.OsProfile.WindowsConfiguration.TimeZone",
+	"time_zone":                           "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.TimeZone",
 	"title":                               "description.VirtualMachine.Name",
 	"type":                                "description.VirtualMachine.Type",
-	"ultra_ssd_enabled":                   "description.VirtualMachine.VirtualMachineProperties.AdditionalCapabilities.UltraSSDEnabled",
-	"vm_id":                               "description.VirtualMachine.VirtualMachineProperties.VMID",
-	"win_rm":                              "description.VirtualMachine.VirtualMachineProperties.OsProfile.WindowsConfiguration.WinRM",
+	"ultra_ssd_enabled":                   "description.VirtualMachine.Properties.AdditionalCapabilities.UltraSSDEnabled",
+	"vm_id":                               "description.VirtualMachine.Properties.VMID",
+	"win_rm":                              "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.WinRM",
 	"zones":                               "description.VirtualMachine.Zones",
 }
 
@@ -16123,63 +17055,63 @@ func ListComputeVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getComputeVirtualMachineFilters = map[string]string{
-	"additional_unattend_content":         "description.VirtualMachine.VirtualMachineProperties.OsProfile.WindowsConfiguration.AdditionalUnattendContent",
-	"admin_user_name":                     "description.VirtualMachine.VirtualMachineProperties.OsProfile.AdminUsername",
+	"additional_unattend_content":         "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.AdditionalUnattendContent",
+	"admin_user_name":                     "description.VirtualMachine.Properties.OSProfile.AdminUsername",
 	"akas":                                "description.VirtualMachine.ID",
-	"allow_extension_operations":          "description.VirtualMachine.VirtualMachineProperties.OsProfile.AllowExtensionOperations",
-	"availability_set_id":                 "description.VirtualMachine.VirtualMachineProperties.AvailabilitySet.ID",
-	"billing_profile_max_price":           "description.VirtualMachine.VirtualMachineProperties.BillingProfile.MaxPrice",
-	"boot_diagnostics_enabled":            "description.VirtualMachine.VirtualMachineProperties.DiagnosticsProfile.BootDiagnostics.Enabled",
-	"boot_diagnostics_storage_uri":        "description.VirtualMachine.VirtualMachineProperties.DiagnosticsProfile.BootDiagnostics.StorageURI",
-	"computer_name":                       "description.VirtualMachine.VirtualMachineProperties.OsProfile.ComputerName",
-	"data_disks":                          "description.VirtualMachine.VirtualMachineProperties.StorageProfile.DataDisks",
-	"disable_password_authentication":     "description.VirtualMachine.VirtualMachineProperties.OsProfile.LinuxConfiguration.DisablePasswordAuthentication",
-	"enable_automatic_updates":            "description.VirtualMachine.VirtualMachineProperties.OsProfile.WindowsConfiguration.EnableAutomaticUpdates",
-	"eviction_policy":                     "description.VirtualMachine.VirtualMachineProperties.EvictionPolicy",
+	"allow_extension_operations":          "description.VirtualMachine.Properties.OSProfile.AllowExtensionOperations",
+	"availability_set_id":                 "description.VirtualMachine.Properties.AvailabilitySet.ID",
+	"billing_profile_max_price":           "description.VirtualMachine.Properties.BillingProfile.MaxPrice",
+	"boot_diagnostics_enabled":            "description.VirtualMachine.Properties.DiagnosticsProfile.BootDiagnostics.Enabled",
+	"boot_diagnostics_storage_uri":        "description.VirtualMachine.Properties.DiagnosticsProfile.BootDiagnostics.StorageURI",
+	"computer_name":                       "description.VirtualMachine.Properties.OSProfile.ComputerName",
+	"data_disks":                          "description.VirtualMachine.Properties.StorageProfile.DataDisks",
+	"disable_password_authentication":     "description.VirtualMachine.Properties.OSProfile.LinuxConfiguration.DisablePasswordAuthentication",
+	"enable_automatic_updates":            "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.EnableAutomaticUpdates",
+	"eviction_policy":                     "description.VirtualMachine.Properties.EvictionPolicy",
 	"extensions":                          "description.VirtualMachineInstanceView.Extensions",
 	"guest_configuration_assignments":     "description.Assignments",
 	"id":                                  "description.VirtualMachine.ID",
 	"identity":                            "description.VirtualMachine.Identity",
-	"image_exact_version":                 "description.VirtualMachine.VirtualMachineProperties.StorageProfile.ImageReference.ExactVersion",
-	"image_id":                            "description.VirtualMachine.VirtualMachineProperties.StorageProfile.ImageReference.ID",
-	"image_offer":                         "description.VirtualMachine.VirtualMachineProperties.StorageProfile.ImageReference.Offer",
-	"image_publisher":                     "description.VirtualMachine.VirtualMachineProperties.StorageProfile.ImageReference.Publisher",
-	"image_sku":                           "description.VirtualMachine.VirtualMachineProperties.StorageProfile.ImageReference.Sku",
-	"image_version":                       "description.VirtualMachine.VirtualMachineProperties.StorageProfile.ImageReference.Version",
+	"image_exact_version":                 "description.VirtualMachine.Properties.StorageProfile.ImageReference.ExactVersion",
+	"image_id":                            "description.VirtualMachine.Properties.StorageProfile.ImageReference.ID",
+	"image_offer":                         "description.VirtualMachine.Properties.StorageProfile.ImageReference.Offer",
+	"image_publisher":                     "description.VirtualMachine.Properties.StorageProfile.ImageReference.Publisher",
+	"image_sku":                           "description.VirtualMachine.Properties.StorageProfile.ImageReference.SKU",
+	"image_version":                       "description.VirtualMachine.Properties.StorageProfile.ImageReference.Version",
 	"kaytu_account_id":                    "metadata.SourceID",
-	"linux_configuration_ssh_public_keys": "description.VirtualMachine.VirtualMachineProperties.OsProfile.LinuxConfiguration.SSH.PublicKeys",
-	"managed_disk_id":                     "description.VirtualMachine.VirtualMachineProperties.StorageProfile.OsDisk.ManagedDisk.ID",
+	"linux_configuration_ssh_public_keys": "description.VirtualMachine.Properties.OSProfile.LinuxConfiguration.SSH.PublicKeys",
+	"managed_disk_id":                     "description.VirtualMachine.Properties.StorageProfile.OSDisk.ManagedDisk.ID",
 	"name":                                "description.VirtualMachine.name",
-	"network_interfaces":                  "description.VirtualMachine.VirtualMachineProperties.NetworkProfile.NetworkInterfaces",
-	"os_disk_caching":                     "description.VirtualMachine.VirtualMachineProperties.StorageProfile.OsDisk.Caching",
-	"os_disk_create_option":               "description.VirtualMachine.VirtualMachineProperties.StorageProfile.OsDisk.CreateOption",
-	"os_disk_name":                        "description.VirtualMachine.VirtualMachineProperties.StorageProfile.OsDisk.Name",
-	"os_disk_vhd_uri":                     "description.VirtualMachine.VirtualMachineProperties.StorageProfile.OsDisk.Vhd.URI",
-	"os_name":                             "description.VirtualMachineInstanceView.OsName",
-	"os_type":                             "description.VirtualMachine.VirtualMachineProperties.StorageProfile.OsDisk.OsType",
-	"os_version":                          "description.VirtualMachineInstanceView.OsVersion",
-	"patch_settings":                      "description.VirtualMachine.VirtualMachineProperties.OsProfile.WindowsConfiguration.PatchSettings",
+	"network_interfaces":                  "description.VirtualMachine.Properties.NetworkProfile.NetworkInterfaces",
+	"os_disk_caching":                     "description.VirtualMachine.Properties.StorageProfile.OSDisk.Caching",
+	"os_disk_create_option":               "description.VirtualMachine.Properties.StorageProfile.OSDisk.CreateOption",
+	"os_disk_name":                        "description.VirtualMachine.Properties.StorageProfile.OSDisk.Name",
+	"os_disk_vhd_uri":                     "description.VirtualMachine.Properties.StorageProfile.OSDisk.Vhd.URI",
+	"os_name":                             "description.VirtualMachineInstanceView.OSName",
+	"os_type":                             "description.VirtualMachine.Properties.StorageProfile.OSDisk.OSType",
+	"os_version":                          "description.VirtualMachineInstanceView.OSVersion",
+	"patch_settings":                      "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.PatchSettings",
 	"power_state":                         "description.VirtualMachineInstanceView.Statuses",
-	"priority":                            "description.VirtualMachine.VirtualMachineProperties.Priority",
+	"priority":                            "description.VirtualMachine.Properties.Priority",
 	"private_ips":                         "description.InterfaceIPConfigurations",
-	"provision_vm_agent":                  "description.VirtualMachine.VirtualMachineProperties.OsProfile.LinuxConfiguration.ProvisionVMAgent",
-	"provision_vm_agent_windows":          "description.VirtualMachine.VirtualMachineProperties.OsProfile.WindowsConfiguration.ProvisionVMAgent",
-	"provisioning_state":                  "description.VirtualMachine.VirtualMachineProperties.ProvisioningState",
+	"provision_vm_agent":                  "description.VirtualMachine.Properties.OSProfile.LinuxConfiguration.ProvisionVMAgent",
+	"provision_vm_agent_windows":          "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.ProvisionVMAgent",
+	"provisioning_state":                  "description.VirtualMachine.Properties.ProvisioningState",
 	"public_ips":                          "description.PublicIPs",
 	"region":                              "description.VirtualMachine.Location",
-	"require_guest_provision_signal":      "description.VirtualMachine.VirtualMachineProperties.OsProfile.RequireGuestProvisionSignal",
+	"require_guest_provision_signal":      "description.VirtualMachine.Properties.OSProfile.RequireGuestProvisionSignal",
 	"resource_group":                      "description.ResourceGroup",
-	"secrets":                             "description.VirtualMachine.VirtualMachineProperties.OsProfile.Secrets",
-	"security_profile":                    "description.VirtualMachine.VirtualMachineProperties.SecurityProfile",
-	"size":                                "description.VirtualMachine.VirtualMachineProperties.HardwareProfile.VMSize",
+	"secrets":                             "description.VirtualMachine.Properties.OSProfile.Secrets",
+	"security_profile":                    "description.VirtualMachine.Properties.SecurityProfile",
+	"size":                                "description.VirtualMachine.Properties.HardwareProfile.VMSize",
 	"statuses":                            "description.VirtualMachineInstanceView.Statuses",
 	"tags":                                "description.VirtualMachine.Tags",
-	"time_zone":                           "description.VirtualMachine.VirtualMachineProperties.OsProfile.WindowsConfiguration.TimeZone",
+	"time_zone":                           "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.TimeZone",
 	"title":                               "description.VirtualMachine.Name",
 	"type":                                "description.VirtualMachine.Type",
-	"ultra_ssd_enabled":                   "description.VirtualMachine.VirtualMachineProperties.AdditionalCapabilities.UltraSSDEnabled",
-	"vm_id":                               "description.VirtualMachine.VirtualMachineProperties.VMID",
-	"win_rm":                              "description.VirtualMachine.VirtualMachineProperties.OsProfile.WindowsConfiguration.WinRM",
+	"ultra_ssd_enabled":                   "description.VirtualMachine.Properties.AdditionalCapabilities.UltraSSDEnabled",
+	"vm_id":                               "description.VirtualMachine.Properties.VMID",
+	"win_rm":                              "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.WinRM",
 	"zones":                               "description.VirtualMachine.Zones",
 }
 
@@ -16918,12 +17850,12 @@ func (p ComputeCloudServicePaginator) NextPage(ctx context.Context) ([]ComputeCl
 }
 
 var listComputeCloudServiceFilters = map[string]string{
-	"akas":             "description.CloudServices.ID",
-	"id":               "description.CloudServices.Id",
+	"akas":             "description.CloudService.ID",
+	"id":               "description.CloudServices.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.CloudServices.Name",
-	"tags":             "description.CloudServices.Tags",
-	"title":            "description.CloudServices.Name",
+	"name":             "description.CloudService.Name",
+	"tags":             "description.CloudService.Tags",
+	"title":            "description.CloudService.Name",
 }
 
 func ListComputeCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -16957,12 +17889,12 @@ func ListComputeCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getComputeCloudServiceFilters = map[string]string{
-	"akas":             "description.CloudServices.ID",
-	"id":               "description.CloudServices.Id",
+	"akas":             "description.CloudService.ID",
+	"id":               "description.CloudServices.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.CloudServices.Name",
-	"tags":             "description.CloudServices.Tags",
-	"title":            "description.CloudServices.Name",
+	"name":             "description.CloudService.Name",
+	"tags":             "description.CloudService.Tags",
+	"title":            "description.CloudService.Name",
 }
 
 func GetComputeCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -17076,38 +18008,38 @@ func (p ContainerRegistryPaginator) NextPage(ctx context.Context) ([]ContainerRe
 }
 
 var listContainerRegistryFilters = map[string]string{
-	"admin_user_enabled":           "description.Registry.RegistryProperties.AdminUserEnabled",
+	"admin_user_enabled":           "description.Registry.Properties.AdminUserEnabled",
 	"akas":                         "description.Registry.ID",
-	"creation_date":                "description.Registry.RegistryProperties.CreationDate",
-	"data_endpoint_enabled":        "description.Registry.RegistryProperties.DataEndpointEnabled",
-	"data_endpoint_host_names":     "description.Registry.RegistryProperties.DataEndpointHostNames",
-	"encryption":                   "description.Registry.RegistryProperties.Encryption",
+	"creation_date":                "description.Registry.Properties.CreationDate",
+	"data_endpoint_enabled":        "description.Registry.Properties.DataEndpointEnabled",
+	"data_endpoint_host_names":     "description.Registry.Properties.DataEndpointHostNames",
+	"encryption":                   "description.Registry.Properties.Encryption",
 	"id":                           "description.Registry.ID",
 	"identity":                     "description.Registry.Identity",
 	"kaytu_account_id":             "metadata.SourceID",
 	"login_credentials":            "description.RegistryListCredentialsResult",
-	"login_server":                 "description.Registry.RegistryProperties.LoginServer",
+	"login_server":                 "description.Registry.Properties.LoginServer",
 	"name":                         "description.Registry.Name",
-	"network_rule_bypass_options":  "description.Registry.RegistryProperties.NetworkRuleBypassOptions",
-	"network_rule_set":             "description.Registry.RegistryProperties.NetworkRuleSet",
-	"policies":                     "description.Registry.RegistryProperties.Policies",
-	"private_endpoint_connections": "description.Registry.RegistryProperties.PrivateEndpointConnections",
-	"provisioning_state":           "description.Registry.RegistryProperties.ProvisioningState",
-	"public_network_access":        "description.Registry.RegistryProperties.PublicNetworkAccess",
+	"network_rule_bypass_options":  "description.Registry.Properties.NetworkRuleBypassOptions",
+	"network_rule_set":             "description.Registry.Properties.NetworkRuleSet",
+	"policies":                     "description.Registry.Properties.Policies",
+	"private_endpoint_connections": "description.Registry.Properties.PrivateEndpointConnections",
+	"provisioning_state":           "description.Registry.Properties.ProvisioningState",
+	"public_network_access":        "description.Registry.Properties.PublicNetworkAccess",
 	"region":                       "description.Registry.Location",
 	"resource_group":               "description.ResourceGroup",
-	"sku_name":                     "description.Registry.Sku.Name",
-	"sku_tier":                     "description.Registry.Sku.Tier",
-	"status":                       "description.Registry.RegistryProperties.Status.DisplayStatus",
-	"status_message":               "description.Registry.RegistryProperties.Status.Message",
-	"status_timestamp":             "description.Registry.RegistryProperties.Status.Timestamp",
-	"storage_account_id":           "description.Registry.RegistryProperties.StorageAccount.ID",
+	"sku_name":                     "description.Registry.SKU.Name",
+	"sku_tier":                     "description.Registry.SKU.Tier",
+	"status":                       "description.Registry.Properties.Status.DisplayStatus",
+	"status_message":               "description.Registry.Properties.Status.Message",
+	"status_timestamp":             "description.Registry.Properties.Status.Timestamp",
+	"storage_account_id":           "registryProperties.StorageAccount.ID",
 	"system_data":                  "description.Registry.SystemData",
 	"tags":                         "description.Registry.Tags",
 	"title":                        "description.Registry.Name",
 	"type":                         "description.Registry.Type",
 	"usages":                       "description.RegistryUsages",
-	"zone_redundancy":              "description.Registry.RegistryProperties.ZoneRedundancy",
+	"zone_redundancy":              "description.Registry.Properties.ZoneRedundancy",
 }
 
 func ListContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -17141,38 +18073,38 @@ func ListContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getContainerRegistryFilters = map[string]string{
-	"admin_user_enabled":           "description.Registry.RegistryProperties.AdminUserEnabled",
+	"admin_user_enabled":           "description.Registry.Properties.AdminUserEnabled",
 	"akas":                         "description.Registry.ID",
-	"creation_date":                "description.Registry.RegistryProperties.CreationDate",
-	"data_endpoint_enabled":        "description.Registry.RegistryProperties.DataEndpointEnabled",
-	"data_endpoint_host_names":     "description.Registry.RegistryProperties.DataEndpointHostNames",
-	"encryption":                   "description.Registry.RegistryProperties.Encryption",
+	"creation_date":                "description.Registry.Properties.CreationDate",
+	"data_endpoint_enabled":        "description.Registry.Properties.DataEndpointEnabled",
+	"data_endpoint_host_names":     "description.Registry.Properties.DataEndpointHostNames",
+	"encryption":                   "description.Registry.Properties.Encryption",
 	"id":                           "description.Registry.ID",
 	"identity":                     "description.Registry.Identity",
 	"kaytu_account_id":             "metadata.SourceID",
 	"login_credentials":            "description.RegistryListCredentialsResult",
-	"login_server":                 "description.Registry.RegistryProperties.LoginServer",
+	"login_server":                 "description.Registry.Properties.LoginServer",
 	"name":                         "description.Registry.name",
-	"network_rule_bypass_options":  "description.Registry.RegistryProperties.NetworkRuleBypassOptions",
-	"network_rule_set":             "description.Registry.RegistryProperties.NetworkRuleSet",
-	"policies":                     "description.Registry.RegistryProperties.Policies",
-	"private_endpoint_connections": "description.Registry.RegistryProperties.PrivateEndpointConnections",
-	"provisioning_state":           "description.Registry.RegistryProperties.ProvisioningState",
-	"public_network_access":        "description.Registry.RegistryProperties.PublicNetworkAccess",
+	"network_rule_bypass_options":  "description.Registry.Properties.NetworkRuleBypassOptions",
+	"network_rule_set":             "description.Registry.Properties.NetworkRuleSet",
+	"policies":                     "description.Registry.Properties.Policies",
+	"private_endpoint_connections": "description.Registry.Properties.PrivateEndpointConnections",
+	"provisioning_state":           "description.Registry.Properties.ProvisioningState",
+	"public_network_access":        "description.Registry.Properties.PublicNetworkAccess",
 	"region":                       "description.Registry.Location",
 	"resource_group":               "description.ResourceGroup",
-	"sku_name":                     "description.Registry.Sku.Name",
-	"sku_tier":                     "description.Registry.Sku.Tier",
-	"status":                       "description.Registry.RegistryProperties.Status.DisplayStatus",
-	"status_message":               "description.Registry.RegistryProperties.Status.Message",
-	"status_timestamp":             "description.Registry.RegistryProperties.Status.Timestamp",
-	"storage_account_id":           "description.Registry.RegistryProperties.StorageAccount.ID",
+	"sku_name":                     "description.Registry.SKU.Name",
+	"sku_tier":                     "description.Registry.SKU.Tier",
+	"status":                       "description.Registry.Properties.Status.DisplayStatus",
+	"status_message":               "description.Registry.Properties.Status.Message",
+	"status_timestamp":             "description.Registry.Properties.Status.Timestamp",
+	"storage_account_id":           "registryProperties.StorageAccount.ID",
 	"system_data":                  "description.Registry.SystemData",
 	"tags":                         "description.Registry.Tags",
 	"title":                        "description.Registry.Name",
 	"type":                         "description.Registry.Type",
 	"usages":                       "description.RegistryUsages",
-	"zone_redundancy":              "description.Registry.RegistryProperties.ZoneRedundancy",
+	"zone_redundancy":              "description.Registry.Properties.ZoneRedundancy",
 }
 
 func GetContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -17287,41 +18219,41 @@ func (p CosmosdbAccountPaginator) NextPage(ctx context.Context) ([]CosmosdbAccou
 
 var listCosmosdbAccountFilters = map[string]string{
 	"akas":                            "description.DatabaseAccountGetResults.ID",
-	"capabilities":                    "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.Capabilities",
-	"connector_offer":                 "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.ConnectorOffer",
-	"consistency_policy_max_interval": "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.ConsistencyPolicy.MaxIntervalInSeconds",
-	"consistency_policy_max_staleness_prefix": "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.ConsistencyPolicy.MaxStalenessPrefix",
-	"cors":                                    "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.Cors",
-	"database_account_offer_type":             "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.DatabaseAccountOfferType",
-	"default_consistency_level":               "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.ConsistencyPolicy.DefaultConsistencyLevel",
-	"disable_key_based_metadata_write_access": "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.DisableKeyBasedMetadataWriteAccess",
-	"document_endpoint":                       "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.DocumentEndpoint",
-	"enable_analytical_storage":               "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.EnableAnalyticalStorage",
-	"enable_automatic_failover":               "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.EnableAutomaticFailover",
-	"enable_cassandra_connector":              "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.EnableCassandraConnector",
-	"enable_free_tier":                        "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.EnableFreeTier",
-	"enable_multiple_write_locations":         "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.EnableMultipleWriteLocations",
-	"failover_policies":                       "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.FailoverPolicies",
-	"id":                                      "databaseAccount.ID",
-	"ip_rules":                                "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.IPRules",
-	"is_virtual_network_filter_enabled":       "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.IsVirtualNetworkFilterEnabled",
+	"capabilities":                    "description.DatabaseAccountGetResults.Properties.Capabilities",
+	"connector_offer":                 "description.DatabaseAccountGetResults.Properties.ConnectorOffer",
+	"consistency_policy_max_interval": "description.DatabaseAccountGetResults.Properties.ConsistencyPolicy.MaxIntervalInSeconds",
+	"consistency_policy_max_staleness_prefix": "description.DatabaseAccountGetResults.Properties.ConsistencyPolicy.MaxStalenessPrefix",
+	"cors":                                    "description.DatabaseAccountGetResults.Properties.Cors",
+	"database_account_offer_type":             "description.DatabaseAccountGetResults.Properties.DatabaseAccountOfferType",
+	"default_consistency_level":               "description.DatabaseAccountGetResults.Properties.ConsistencyPolicy.DefaultConsistencyLevel",
+	"disable_key_based_metadata_write_access": "description.DatabaseAccountGetResults.Properties.DisableKeyBasedMetadataWriteAccess",
+	"document_endpoint":                       "description.DatabaseAccountGetResults.Properties.DocumentEndpoint",
+	"enable_analytical_storage":               "description.DatabaseAccountGetResults.Properties.EnableAnalyticalStorage",
+	"enable_automatic_failover":               "description.DatabaseAccountGetResults.Properties.EnableAutomaticFailover",
+	"enable_cassandra_connector":              "description.DatabaseAccountGetResults.Properties.EnableCassandraConnector",
+	"enable_free_tier":                        "description.DatabaseAccountGetResults.Properties.EnableFreeTier",
+	"enable_multiple_write_locations":         "description.DatabaseAccountGetResults.Properties.EnableMultipleWriteLocations",
+	"failover_policies":                       "description.DatabaseAccountGetResults.Properties.FailoverPolicies",
+	"id":                                      "description.DatabaseAccountGetResults.ID",
+	"ip_rules":                                "description.DatabaseAccountGetResults.Properties.IPRules",
+	"is_virtual_network_filter_enabled":       "description.DatabaseAccountGetResults.Properties.IsVirtualNetworkFilterEnabled",
 	"kaytu_account_id":                        "metadata.SourceID",
-	"key_vault_key_uri":                       "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.KeyVaultKeyURI",
+	"key_vault_key_uri":                       "description.DatabaseAccountGetResults.Properties.KeyVaultKeyURI",
 	"kind":                                    "description.DatabaseAccountGetResults.Kind",
-	"locations":                               "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.Locations",
+	"locations":                               "description.DatabaseAccountGetResults.Properties.Locations",
 	"name":                                    "description.DatabaseAccountGetResults.Name",
-	"private_endpoint_connections":            "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.PrivateEndpointConnections",
-	"provisioning_state":                      "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.ProvisioningState",
-	"public_network_access":                   "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.PublicNetworkAccess",
-	"read_locations":                          "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.ReadLocations",
+	"private_endpoint_connections":            "description.DatabaseAccountGetResults.Properties.PrivateEndpointConnections",
+	"provisioning_state":                      "description.DatabaseAccountGetResults.Properties.ProvisioningState",
+	"public_network_access":                   "description.DatabaseAccountGetResults.Properties.PublicNetworkAccess",
+	"read_locations":                          "description.DatabaseAccountGetResults.Properties.ReadLocations",
 	"region":                                  "description.DatabaseAccountGetResults.Location",
 	"resource_group":                          "description.ResourceGroup",
-	"server_version":                          "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.APIProperties.ServerVersion",
+	"server_version":                          "description.DatabaseAccountGetResults.Properties.APIProperties.ServerVersion",
 	"tags":                                    "description.DatabaseAccountGetResults.Tags",
 	"title":                                   "description.DatabaseAccountGetResults.Name",
 	"type":                                    "description.DatabaseAccountGetResults.Type",
-	"virtual_network_rules":                   "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.VirtualNetworkRules",
-	"write_locations":                         "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.WriteLocations",
+	"virtual_network_rules":                   "description.DatabaseAccountGetResults.Properties.VirtualNetworkRules",
+	"write_locations":                         "description.DatabaseAccountGetResults.Properties.WriteLocations",
 }
 
 func ListCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -17356,41 +18288,41 @@ func ListCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 var getCosmosdbAccountFilters = map[string]string{
 	"akas":                            "description.DatabaseAccountGetResults.ID",
-	"capabilities":                    "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.Capabilities",
-	"connector_offer":                 "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.ConnectorOffer",
-	"consistency_policy_max_interval": "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.ConsistencyPolicy.MaxIntervalInSeconds",
-	"consistency_policy_max_staleness_prefix": "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.ConsistencyPolicy.MaxStalenessPrefix",
-	"cors":                                    "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.Cors",
-	"database_account_offer_type":             "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.DatabaseAccountOfferType",
-	"default_consistency_level":               "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.ConsistencyPolicy.DefaultConsistencyLevel",
-	"disable_key_based_metadata_write_access": "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.DisableKeyBasedMetadataWriteAccess",
-	"document_endpoint":                       "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.DocumentEndpoint",
-	"enable_analytical_storage":               "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.EnableAnalyticalStorage",
-	"enable_automatic_failover":               "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.EnableAutomaticFailover",
-	"enable_cassandra_connector":              "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.EnableCassandraConnector",
-	"enable_free_tier":                        "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.EnableFreeTier",
-	"enable_multiple_write_locations":         "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.EnableMultipleWriteLocations",
-	"failover_policies":                       "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.FailoverPolicies",
-	"id":                                      "databaseAccount.ID",
-	"ip_rules":                                "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.IPRules",
-	"is_virtual_network_filter_enabled":       "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.IsVirtualNetworkFilterEnabled",
+	"capabilities":                    "description.DatabaseAccountGetResults.Properties.Capabilities",
+	"connector_offer":                 "description.DatabaseAccountGetResults.Properties.ConnectorOffer",
+	"consistency_policy_max_interval": "description.DatabaseAccountGetResults.Properties.ConsistencyPolicy.MaxIntervalInSeconds",
+	"consistency_policy_max_staleness_prefix": "description.DatabaseAccountGetResults.Properties.ConsistencyPolicy.MaxStalenessPrefix",
+	"cors":                                    "description.DatabaseAccountGetResults.Properties.Cors",
+	"database_account_offer_type":             "description.DatabaseAccountGetResults.Properties.DatabaseAccountOfferType",
+	"default_consistency_level":               "description.DatabaseAccountGetResults.Properties.ConsistencyPolicy.DefaultConsistencyLevel",
+	"disable_key_based_metadata_write_access": "description.DatabaseAccountGetResults.Properties.DisableKeyBasedMetadataWriteAccess",
+	"document_endpoint":                       "description.DatabaseAccountGetResults.Properties.DocumentEndpoint",
+	"enable_analytical_storage":               "description.DatabaseAccountGetResults.Properties.EnableAnalyticalStorage",
+	"enable_automatic_failover":               "description.DatabaseAccountGetResults.Properties.EnableAutomaticFailover",
+	"enable_cassandra_connector":              "description.DatabaseAccountGetResults.Properties.EnableCassandraConnector",
+	"enable_free_tier":                        "description.DatabaseAccountGetResults.Properties.EnableFreeTier",
+	"enable_multiple_write_locations":         "description.DatabaseAccountGetResults.Properties.EnableMultipleWriteLocations",
+	"failover_policies":                       "description.DatabaseAccountGetResults.Properties.FailoverPolicies",
+	"id":                                      "description.DatabaseAccountGetResults.ID",
+	"ip_rules":                                "description.DatabaseAccountGetResults.Properties.IPRules",
+	"is_virtual_network_filter_enabled":       "description.DatabaseAccountGetResults.Properties.IsVirtualNetworkFilterEnabled",
 	"kaytu_account_id":                        "metadata.SourceID",
-	"key_vault_key_uri":                       "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.KeyVaultKeyURI",
+	"key_vault_key_uri":                       "description.DatabaseAccountGetResults.Properties.KeyVaultKeyURI",
 	"kind":                                    "description.DatabaseAccountGetResults.Kind",
-	"locations":                               "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.Locations",
+	"locations":                               "description.DatabaseAccountGetResults.Properties.Locations",
 	"name":                                    "description.DatabaseAccountGetResults.name",
-	"private_endpoint_connections":            "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.PrivateEndpointConnections",
-	"provisioning_state":                      "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.ProvisioningState",
-	"public_network_access":                   "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.PublicNetworkAccess",
-	"read_locations":                          "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.ReadLocations",
+	"private_endpoint_connections":            "description.DatabaseAccountGetResults.Properties.PrivateEndpointConnections",
+	"provisioning_state":                      "description.DatabaseAccountGetResults.Properties.ProvisioningState",
+	"public_network_access":                   "description.DatabaseAccountGetResults.Properties.PublicNetworkAccess",
+	"read_locations":                          "description.DatabaseAccountGetResults.Properties.ReadLocations",
 	"region":                                  "description.DatabaseAccountGetResults.Location",
 	"resource_group":                          "description.ResourceGroup",
-	"server_version":                          "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.APIProperties.ServerVersion",
+	"server_version":                          "description.DatabaseAccountGetResults.Properties.APIProperties.ServerVersion",
 	"tags":                                    "description.DatabaseAccountGetResults.Tags",
 	"title":                                   "description.DatabaseAccountGetResults.Name",
 	"type":                                    "description.DatabaseAccountGetResults.Type",
-	"virtual_network_rules":                   "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.VirtualNetworkRules",
-	"write_locations":                         "description.DatabaseAccountGetResults.DatabaseAccountGetProperties.WriteLocations",
+	"virtual_network_rules":                   "description.DatabaseAccountGetResults.Properties.VirtualNetworkRules",
+	"write_locations":                         "description.DatabaseAccountGetResults.Properties.WriteLocations",
 }
 
 func GetCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -17425,6 +18357,178 @@ func GetCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 // ==========================  END: CosmosdbAccount =============================
+
+// ==========================  START: CosmosdbRestorableDatabaseAccount =============================
+
+type CosmosdbRestorableDatabaseAccount struct {
+	Description   azure.CosmosdbRestorableDatabaseAccountDescription `json:"description"`
+	Metadata      azure.Metadata                                     `json:"metadata"`
+	ResourceJobID int                                                `json:"resource_job_id"`
+	SourceJobID   int                                                `json:"source_job_id"`
+	ResourceType  string                                             `json:"resource_type"`
+	SourceType    string                                             `json:"source_type"`
+	ID            string                                             `json:"id"`
+	ARN           string                                             `json:"arn"`
+	SourceID      string                                             `json:"source_id"`
+}
+
+type CosmosdbRestorableDatabaseAccountHit struct {
+	ID      string                            `json:"_id"`
+	Score   float64                           `json:"_score"`
+	Index   string                            `json:"_index"`
+	Type    string                            `json:"_type"`
+	Version int64                             `json:"_version,omitempty"`
+	Source  CosmosdbRestorableDatabaseAccount `json:"_source"`
+	Sort    []interface{}                     `json:"sort"`
+}
+
+type CosmosdbRestorableDatabaseAccountHits struct {
+	Total essdk.SearchTotal                      `json:"total"`
+	Hits  []CosmosdbRestorableDatabaseAccountHit `json:"hits"`
+}
+
+type CosmosdbRestorableDatabaseAccountSearchResponse struct {
+	PitID string                                `json:"pit_id"`
+	Hits  CosmosdbRestorableDatabaseAccountHits `json:"hits"`
+}
+
+type CosmosdbRestorableDatabaseAccountPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewCosmosdbRestorableDatabaseAccountPaginator(filters []essdk.BoolFilter, limit *int64) (CosmosdbRestorableDatabaseAccountPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_restorabledatabaseaccounts", filters, limit)
+	if err != nil {
+		return CosmosdbRestorableDatabaseAccountPaginator{}, err
+	}
+
+	p := CosmosdbRestorableDatabaseAccountPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p CosmosdbRestorableDatabaseAccountPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p CosmosdbRestorableDatabaseAccountPaginator) NextPage(ctx context.Context) ([]CosmosdbRestorableDatabaseAccount, error) {
+	var response CosmosdbRestorableDatabaseAccountSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []CosmosdbRestorableDatabaseAccount
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listCosmosdbRestorableDatabaseAccountFilters = map[string]string{
+	"account_name":         "description.Account.Properties.AccountName",
+	"akas":                 "description.Account.ID",
+	"api_type":             "description.Account.Properties.APIType",
+	"creation_time":        "description.Account.Properties.CreationTime",
+	"deletion_time":        "description.Account.Properties.DeletionTime",
+	"id":                   "description.Account.ID",
+	"kaytu_account_id":     "metadata.SourceID",
+	"name":                 "description.Account.Name",
+	"region":               "description.Account.Location",
+	"resource_group":       "description.ResourceGroup",
+	"restorable_locations": "description.Account.Properties.RestorableLocations",
+	"title":                "description.Account.Name",
+	"type":                 "description.Account.Type",
+}
+
+func ListCosmosdbRestorableDatabaseAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListCosmosdbRestorableDatabaseAccount")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewCosmosdbRestorableDatabaseAccountPaginator(essdk.BuildFilter(d.EqualsQuals, listCosmosdbRestorableDatabaseAccountFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getCosmosdbRestorableDatabaseAccountFilters = map[string]string{
+	"account_name":         "description.Account.Properties.AccountName",
+	"akas":                 "description.Account.ID",
+	"api_type":             "description.Account.Properties.APIType",
+	"creation_time":        "description.Account.Properties.CreationTime",
+	"deletion_time":        "description.Account.Properties.DeletionTime",
+	"id":                   "description.Account.ID",
+	"kaytu_account_id":     "metadata.SourceID",
+	"name":                 "description.Account.Name",
+	"region":               "description.Account.Location",
+	"resource_group":       "description.ResourceGroup",
+	"restorable_locations": "description.Account.Properties.RestorableLocations",
+	"title":                "description.Account.Name",
+	"type":                 "description.Account.Type",
+}
+
+func GetCosmosdbRestorableDatabaseAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetCosmosdbRestorableDatabaseAccount")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewCosmosdbRestorableDatabaseAccountPaginator(essdk.BuildFilter(d.EqualsQuals, getCosmosdbRestorableDatabaseAccountFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: CosmosdbRestorableDatabaseAccount =============================
 
 // ==========================  START: CosmosdbMongoDatabase =============================
 
@@ -17506,18 +18610,18 @@ func (p CosmosdbMongoDatabasePaginator) NextPage(ctx context.Context) ([]Cosmosd
 var listCosmosdbMongoDatabaseFilters = map[string]string{
 	"account_name":                      "description.Account.Name",
 	"akas":                              "description.MongoDatabase.ID",
-	"autoscale_settings_max_throughput": "description.MongoDatabase.MongoDBDatabaseGetProperties.Options.AutoscaleSettings.MaxThroughput",
-	"database_etag":                     "description.MongoDatabase.MongoDBDatabaseGetProperties.Resource.Etag",
-	"database_id":                       "description.MongoDatabase.MongoDBDatabaseGetProperties.Resource.ID",
-	"database_rid":                      "description.MongoDatabase.MongoDBDatabaseGetProperties.Resource.Rid",
-	"database_ts":                       "description.MongoDatabase.MongoDBDatabaseGetProperties.Resource.Ts",
+	"autoscale_settings_max_throughput": "description.MongoDatabase.Properties.Options.AutoscaleSettings.MaxThroughput",
+	"database_etag":                     "description.MongoDatabase.Properties.Resource.Etag",
+	"database_id":                       "description.MongoDatabase.Properties.Resource.ID",
+	"database_rid":                      "description.MongoDatabase.Properties.Resource.Rid",
+	"database_ts":                       "description.MongoDatabase.Properties.Resource.Ts",
 	"id":                                "description.MongoDatabase.ID",
 	"kaytu_account_id":                  "metadata.SourceID",
 	"name":                              "description.MongoDatabase.Name",
 	"region":                            "description.MongoDatabase.Location",
 	"resource_group":                    "description.ResourceGroup",
 	"tags":                              "description.MongoDatabase.Tags",
-	"throughput":                        "description.MongoDatabase.MongoDBDatabaseGetProperties.Options.Throughput",
+	"throughput":                        "description.MongoDatabase.Properties.Options.Throughput",
 	"title":                             "description.MongoDatabase.Name",
 	"type":                              "description.MongoDatabase.Type",
 }
@@ -17555,18 +18659,18 @@ func ListCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plug
 var getCosmosdbMongoDatabaseFilters = map[string]string{
 	"account_name":                      "description.Account.name",
 	"akas":                              "description.MongoDatabase.ID",
-	"autoscale_settings_max_throughput": "description.MongoDatabase.MongoDBDatabaseGetProperties.Options.AutoscaleSettings.MaxThroughput",
-	"database_etag":                     "description.MongoDatabase.MongoDBDatabaseGetProperties.Resource.Etag",
-	"database_id":                       "description.MongoDatabase.MongoDBDatabaseGetProperties.Resource.ID",
-	"database_rid":                      "description.MongoDatabase.MongoDBDatabaseGetProperties.Resource.Rid",
-	"database_ts":                       "description.MongoDatabase.MongoDBDatabaseGetProperties.Resource.Ts",
+	"autoscale_settings_max_throughput": "description.MongoDatabase.Properties.Options.AutoscaleSettings.MaxThroughput",
+	"database_etag":                     "description.MongoDatabase.Properties.Resource.Etag",
+	"database_id":                       "description.MongoDatabase.Properties.Resource.ID",
+	"database_rid":                      "description.MongoDatabase.Properties.Resource.Rid",
+	"database_ts":                       "description.MongoDatabase.Properties.Resource.Ts",
 	"id":                                "description.MongoDatabase.ID",
 	"kaytu_account_id":                  "metadata.SourceID",
 	"name":                              "description.MongoDatabase.name",
 	"region":                            "description.MongoDatabase.Location",
 	"resource_group":                    "description.ResourceGroup",
 	"tags":                              "description.MongoDatabase.Tags",
-	"throughput":                        "description.MongoDatabase.MongoDBDatabaseGetProperties.Options.Throughput",
+	"throughput":                        "description.MongoDatabase.Properties.Options.Throughput",
 	"title":                             "description.MongoDatabase.Name",
 	"type":                              "description.MongoDatabase.Type",
 }
@@ -17603,6 +18707,192 @@ func GetCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 // ==========================  END: CosmosdbMongoDatabase =============================
+
+// ==========================  START: CosmosdbMongoCollection =============================
+
+type CosmosdbMongoCollection struct {
+	Description   azure.CosmosdbMongoCollectionDescription `json:"description"`
+	Metadata      azure.Metadata                           `json:"metadata"`
+	ResourceJobID int                                      `json:"resource_job_id"`
+	SourceJobID   int                                      `json:"source_job_id"`
+	ResourceType  string                                   `json:"resource_type"`
+	SourceType    string                                   `json:"source_type"`
+	ID            string                                   `json:"id"`
+	ARN           string                                   `json:"arn"`
+	SourceID      string                                   `json:"source_id"`
+}
+
+type CosmosdbMongoCollectionHit struct {
+	ID      string                  `json:"_id"`
+	Score   float64                 `json:"_score"`
+	Index   string                  `json:"_index"`
+	Type    string                  `json:"_type"`
+	Version int64                   `json:"_version,omitempty"`
+	Source  CosmosdbMongoCollection `json:"_source"`
+	Sort    []interface{}           `json:"sort"`
+}
+
+type CosmosdbMongoCollectionHits struct {
+	Total essdk.SearchTotal            `json:"total"`
+	Hits  []CosmosdbMongoCollectionHit `json:"hits"`
+}
+
+type CosmosdbMongoCollectionSearchResponse struct {
+	PitID string                      `json:"pit_id"`
+	Hits  CosmosdbMongoCollectionHits `json:"hits"`
+}
+
+type CosmosdbMongoCollectionPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewCosmosdbMongoCollectionPaginator(filters []essdk.BoolFilter, limit *int64) (CosmosdbMongoCollectionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_mongocollection", filters, limit)
+	if err != nil {
+		return CosmosdbMongoCollectionPaginator{}, err
+	}
+
+	p := CosmosdbMongoCollectionPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p CosmosdbMongoCollectionPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p CosmosdbMongoCollectionPaginator) NextPage(ctx context.Context) ([]CosmosdbMongoCollection, error) {
+	var response CosmosdbMongoCollectionSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []CosmosdbMongoCollection
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listCosmosdbMongoCollectionFilters = map[string]string{
+	"account_name":                      "description.Account.Name",
+	"akas":                              "description.MongoCollection.ID",
+	"analytical_storage_ttl":            "description.MongoCollection.Properties.Resource.AnalyticalStorageTTL",
+	"autoscale_settings_max_throughput": "description.MongoCollection.Properties.AutoscaleSettings.MaxThroughput",
+	"collection_etag":                   "description.MongoCollection.Properties.Resource.Etag",
+	"collection_id":                     "description.MongoCollection.Properties.Resource.ID",
+	"collection_rid":                    "description.MongoCollection.Properties.Resource.Rid",
+	"collection_ts":                     "description.MongoCollection.Properties.Resource.Ts",
+	"database_name":                     "description.MongoDatabase.Name",
+	"id":                                "description.MongoCollection.ID",
+	"indexes":                           "description.MongoCollection.Properties.Resource.Indexes",
+	"kaytu_account_id":                  "metadata.SourceID",
+	"name":                              "description.MongoCollection.Name",
+	"region":                            "description.MongoCollection.Location",
+	"resource_group":                    "description.ResourceGroup",
+	"shard_key":                         "description.MongoCollection.Properties.Resource.ShardKey",
+	"tags":                              "description.MongoCollection.Tags",
+	"throughput":                        "description.MongoCollection.Properties.Options.Throughput",
+	"title":                             "description.MongoCollection.Name",
+	"type":                              "description.MongoCollection.Type",
+}
+
+func ListCosmosdbMongoCollection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListCosmosdbMongoCollection")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewCosmosdbMongoCollectionPaginator(essdk.BuildFilter(d.EqualsQuals, listCosmosdbMongoCollectionFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getCosmosdbMongoCollectionFilters = map[string]string{
+	"account_name":                      "description.Account.name",
+	"akas":                              "description.MongoCollection.ID",
+	"analytical_storage_ttl":            "description.MongoCollection.Properties.Resource.AnalyticalStorageTTL",
+	"autoscale_settings_max_throughput": "description.MongoCollection.Properties.AutoscaleSettings.MaxThroughput",
+	"collection_etag":                   "description.MongoCollection.Properties.Resource.Etag",
+	"collection_id":                     "description.MongoCollection.Properties.Resource.ID",
+	"collection_rid":                    "description.MongoCollection.Properties.Resource.Rid",
+	"collection_ts":                     "description.MongoCollection.Properties.Resource.Ts",
+	"database_name":                     "description.MongoDatabase.Name",
+	"id":                                "description.MongoCollection.ID",
+	"indexes":                           "description.MongoCollection.Properties.Resource.Indexes",
+	"kaytu_account_id":                  "metadata.SourceID",
+	"name":                              "description.MongoCollection.name",
+	"region":                            "description.MongoCollection.Location",
+	"resource_group":                    "description.ResourceGroup",
+	"shard_key":                         "description.MongoCollection.Properties.Resource.ShardKey",
+	"tags":                              "description.MongoCollection.Tags",
+	"throughput":                        "description.MongoCollection.Properties.Options.Throughput",
+	"title":                             "description.MongoCollection.Name",
+	"type":                              "description.MongoCollection.Type",
+}
+
+func GetCosmosdbMongoCollection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetCosmosdbMongoCollection")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewCosmosdbMongoCollectionPaginator(essdk.BuildFilter(d.EqualsQuals, getCosmosdbMongoCollectionFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: CosmosdbMongoCollection =============================
 
 // ==========================  START: CosmosdbSqlDatabase =============================
 
@@ -17684,20 +18974,20 @@ func (p CosmosdbSqlDatabasePaginator) NextPage(ctx context.Context) ([]CosmosdbS
 var listCosmosdbSqlDatabaseFilters = map[string]string{
 	"account_name":                      "description.Account.Name",
 	"akas":                              "description.SqlDatabase.ID",
-	"autoscale_settings_max_throughput": "description.SqlDatabase.SQLDatabaseGetProperties.Options.AutoscaleSettings.MaxThroughput",
-	"database_colls":                    "description.SqlDatabase.SQLDatabaseGetProperties.Resource.Colls",
-	"database_etag":                     "description.SqlDatabase.SQLDatabaseGetProperties.Resource.Etag",
-	"database_id":                       "description.SqlDatabase.SQLDatabaseGetProperties.Resource.ID",
-	"database_rid":                      "description.SqlDatabase.SQLDatabaseGetProperties.Resource.Rid",
-	"database_ts":                       "description.SqlDatabase.SQLDatabaseGetProperties.Resource.Ts",
-	"database_users":                    "description.SqlDatabase.SQLDatabaseGetProperties.Resource.Users",
+	"autoscale_settings_max_throughput": "description.SqlDatabase.Properties.Options.AutoscaleSettings.MaxThroughput",
+	"database_colls":                    "description.SqlDatabase.Properties.Resource.Colls",
+	"database_etag":                     "description.SqlDatabase.Properties.Resource.Etag",
+	"database_id":                       "description.SqlDatabase.Properties.Resource.ID",
+	"database_rid":                      "description.SqlDatabase.Properties.Resource.Rid",
+	"database_ts":                       "description.SqlDatabase.Properties.Resource.Ts",
+	"database_users":                    "description.SqlDatabase.Properties.Resource.Users",
 	"id":                                "description.SqlDatabase.ID",
 	"kaytu_account_id":                  "metadata.SourceID",
 	"name":                              "description.SqlDatabase.Name",
 	"region":                            "description.SqlDatabase.Location",
 	"resource_group":                    "description.ResourceGroup",
 	"tags":                              "description.SqlDatabase.Tags",
-	"throughput":                        "description.SqlDatabase.SQLDatabaseGetProperties.Options.Throughput",
+	"throughput":                        "description.SqlDatabase.Properties.Options.Throughput",
 	"title":                             "description.SqlDatabase.Name",
 	"type":                              "description.SqlDatabase.Type",
 }
@@ -17735,20 +19025,20 @@ func ListCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin
 var getCosmosdbSqlDatabaseFilters = map[string]string{
 	"account_name":                      "description.Account.name",
 	"akas":                              "description.SqlDatabase.ID",
-	"autoscale_settings_max_throughput": "description.SqlDatabase.SQLDatabaseGetProperties.Options.AutoscaleSettings.MaxThroughput",
-	"database_colls":                    "description.SqlDatabase.SQLDatabaseGetProperties.Resource.Colls",
-	"database_etag":                     "description.SqlDatabase.SQLDatabaseGetProperties.Resource.Etag",
-	"database_id":                       "description.SqlDatabase.SQLDatabaseGetProperties.Resource.ID",
-	"database_rid":                      "description.SqlDatabase.SQLDatabaseGetProperties.Resource.Rid",
-	"database_ts":                       "description.SqlDatabase.SQLDatabaseGetProperties.Resource.Ts",
-	"database_users":                    "description.SqlDatabase.SQLDatabaseGetProperties.Resource.Users",
+	"autoscale_settings_max_throughput": "description.SqlDatabase.Properties.Options.AutoscaleSettings.MaxThroughput",
+	"database_colls":                    "description.SqlDatabase.Properties.Resource.Colls",
+	"database_etag":                     "description.SqlDatabase.Properties.Resource.Etag",
+	"database_id":                       "description.SqlDatabase.Properties.Resource.ID",
+	"database_rid":                      "description.SqlDatabase.Properties.Resource.Rid",
+	"database_ts":                       "description.SqlDatabase.Properties.Resource.Ts",
+	"database_users":                    "description.SqlDatabase.Properties.Resource.Users",
 	"id":                                "description.SqlDatabase.ID",
 	"kaytu_account_id":                  "metadata.SourceID",
 	"name":                              "description.SqlDatabase.name",
 	"region":                            "description.SqlDatabase.Location",
 	"resource_group":                    "description.ResourceGroup",
 	"tags":                              "description.SqlDatabase.Tags",
-	"throughput":                        "description.SqlDatabase.SQLDatabaseGetProperties.Options.Throughput",
+	"throughput":                        "description.SqlDatabase.Properties.Options.Throughput",
 	"title":                             "description.SqlDatabase.Name",
 	"type":                              "description.SqlDatabase.Type",
 }
@@ -17865,7 +19155,7 @@ func (p CosmosdbCassandraClusterPaginator) NextPage(ctx context.Context) ([]Cosm
 
 var listCosmosdbCassandraClusterFilters = map[string]string{
 	"akas":  "description.CassandraCluster.ID",
-	"id":    "description.CassandraCluster.Id",
+	"id":    "description.CassandraCluster.ID",
 	"name":  "description.CassandraCluster.Name",
 	"tags":  "description.CassandraCluster.Tags",
 	"title": "description.CassandraCluster.Name",
@@ -17903,7 +19193,7 @@ func ListCosmosdbCassandraCluster(ctx context.Context, d *plugin.QueryData, _ *p
 
 var getCosmosdbCassandraClusterFilters = map[string]string{
 	"akas":  "description.CassandraCluster.ID",
-	"id":    "description.CassandraCluster.Id",
+	"id":    "description.CassandraCluster.ID",
 	"name":  "description.CassandraCluster.Name",
 	"tags":  "description.CassandraCluster.Tags",
 	"title": "description.CassandraCluster.Name",
@@ -18020,12 +19310,12 @@ func (p DatabricksWorkspacePaginator) NextPage(ctx context.Context) ([]Databrick
 }
 
 var listDatabricksWorkspaceFilters = map[string]string{
-	"akas":             "description.Workspaces.ID",
-	"id":               "description.Workspaces.Id",
+	"akas":             "description.Workspace.ID",
+	"id":               "description.Workspace.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Workspaces.Name",
-	"tags":             "description.Workspaces.Tags",
-	"title":            "description.Workspaces.Name",
+	"name":             "description.Workspace.Name",
+	"tags":             "description.Workspace.Tags",
+	"title":            "description.Workspace.Name",
 }
 
 func ListDatabricksWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -18059,12 +19349,12 @@ func ListDatabricksWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getDatabricksWorkspaceFilters = map[string]string{
-	"akas":             "description.Workspaces.ID",
-	"id":               "description.Workspaces.Id",
+	"akas":             "description.Workspace.ID",
+	"id":               "description.Workspace.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Workspaces.Name",
-	"tags":             "description.Workspaces.Tags",
-	"title":            "description.Workspaces.Name",
+	"name":             "description.Workspace.Name",
+	"tags":             "description.Workspace.Tags",
+	"title":            "description.Workspace.Name",
 }
 
 func GetDatabricksWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -18178,12 +19468,12 @@ func (p DataMigrationServicePaginator) NextPage(ctx context.Context) ([]DataMigr
 }
 
 var listDataMigrationServiceFilters = map[string]string{
-	"akas":             "description.Services.ID",
-	"id":               "description.Services.Id",
+	"akas":             "description.Service.ID",
+	"id":               "description.Service.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Services.Name",
-	"tags":             "description.Services.Tags",
-	"title":            "description.Services.Name",
+	"name":             "description.Service.Name",
+	"tags":             "description.Service.Tags",
+	"title":            "description.Service.Name",
 }
 
 func ListDataMigrationService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -18217,12 +19507,12 @@ func ListDataMigrationService(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 var getDataMigrationServiceFilters = map[string]string{
-	"akas":             "description.Services.ID",
-	"id":               "description.Services.Id",
+	"akas":             "description.Service.ID",
+	"id":               "description.Service.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Services.Name",
-	"tags":             "description.Services.Tags",
-	"title":            "description.Services.Name",
+	"name":             "description.Service.Name",
+	"tags":             "description.Service.Tags",
+	"title":            "description.Service.Name",
 }
 
 func GetDataMigrationService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -18337,7 +19627,7 @@ func (p DataProtectionBackupVaultsPaginator) NextPage(ctx context.Context) ([]Da
 
 var listDataProtectionBackupVaultsFilters = map[string]string{
 	"akas":             "description.BackupVaults.ID",
-	"id":               "description.BackupVaults.Id",
+	"id":               "description.BackupVaults.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.BackupVaults.Name",
 	"tags":             "description.BackupVaults.Tags",
@@ -18376,7 +19666,7 @@ func ListDataProtectionBackupVaults(ctx context.Context, d *plugin.QueryData, _ 
 
 var getDataProtectionBackupVaultsFilters = map[string]string{
 	"akas":             "description.BackupVaults.ID",
-	"id":               "description.BackupVaults.Id",
+	"id":               "description.BackupVaults.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.BackupVaults.Name",
 	"tags":             "description.BackupVaults.Tags",
@@ -18495,10 +19785,10 @@ func (p DataProtectionBackupVaultsBackupPoliciesPaginator) NextPage(ctx context.
 
 var listDataProtectionBackupVaultsBackupPoliciesFilters = map[string]string{
 	"akas":             "description.BackupPolicies.ID",
-	"id":               "description.BackupPolicies.Id",
+	"id":               "description.BackupPolicies.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.BackupPolicies.Name",
-	"tags":             "description.BackupPolicies.Tags",
+	"tags":             "description.BackupPolicies.Name",
 	"title":            "description.BackupPolicies.Name",
 }
 
@@ -18534,10 +19824,10 @@ func ListDataProtectionBackupVaultsBackupPolicies(ctx context.Context, d *plugin
 
 var getDataProtectionBackupVaultsBackupPoliciesFilters = map[string]string{
 	"akas":             "description.BackupPolicies.ID",
-	"id":               "description.BackupPolicies.Id",
+	"id":               "description.BackupPolicies.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.BackupPolicies.Name",
-	"tags":             "description.BackupPolicies.Tags",
+	"tags":             "description.BackupPolicies.Name",
 	"title":            "description.BackupPolicies.Name",
 }
 
@@ -18654,24 +19944,24 @@ func (p DataFactoryPaginator) NextPage(ctx context.Context) ([]DataFactory, erro
 var listDataFactoryFilters = map[string]string{
 	"additional_properties":        "description.Factory.AdditionalProperties",
 	"akas":                         "description.Factory.ID",
-	"create_time":                  "description.Factory.FactoryProperties.CreateTime",
-	"encryption":                   "description.Factory.FactoryProperties.Encryption.KeyVersion",
+	"create_time":                  "description.Factory.Properties.CreateTime",
+	"encryption":                   "description.Factory.Properties.Encryption",
 	"etag":                         "description.Factory.ETag",
-	"global_parameters":            "description.Factory.FactoryProperties.GlobalParameters",
+	"global_parameters":            "description.Factory.Properties.GlobalParameters",
 	"id":                           "description.Factory.ID",
 	"identity":                     "description.Factory.Identity",
 	"kaytu_account_id":             "metadata.SourceID",
 	"name":                         "description.Factory.Name",
 	"private_endpoint_connections": "description.PrivateEndPointConnections",
-	"provisioning_state":           "description.Factory.FactoryProperties.ProvisioningState",
-	"public_network_access":        "description.Factory.FactoryProperties.PublicNetworkAccess",
+	"provisioning_state":           "description.Factory.Properties.ProvisioningState",
+	"public_network_access":        "description.Factory.Properties.PublicNetworkAccess",
 	"region":                       "description.Factory.Location",
-	"repo_configuration":           "description.Factory.FactoryProperties.RepoConfiguration",
+	"repo_configuration":           "description.Factory.Properties.RepoConfiguration",
 	"resource_group":               "description.ResourceGroup",
 	"tags":                         "description.Factory.Tags",
 	"title":                        "description.Factory.Name",
 	"type":                         "description.Factory.Type",
-	"version":                      "description.Factory.FactoryProperties.Version",
+	"version":                      "description.Factory.Properties.Version",
 }
 
 func ListDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -18707,24 +19997,24 @@ func ListDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 var getDataFactoryFilters = map[string]string{
 	"additional_properties":        "description.Factory.AdditionalProperties",
 	"akas":                         "description.Factory.ID",
-	"create_time":                  "description.Factory.FactoryProperties.CreateTime",
-	"encryption":                   "description.Factory.FactoryProperties.Encryption.KeyVersion",
+	"create_time":                  "description.Factory.Properties.CreateTime",
+	"encryption":                   "description.Factory.Properties.Encryption",
 	"etag":                         "description.Factory.ETag",
-	"global_parameters":            "description.Factory.FactoryProperties.GlobalParameters",
+	"global_parameters":            "description.Factory.Properties.GlobalParameters",
 	"id":                           "description.Factory.ID",
 	"identity":                     "description.Factory.Identity",
 	"kaytu_account_id":             "metadata.SourceID",
 	"name":                         "description.Factory.name",
 	"private_endpoint_connections": "description.PrivateEndPointConnections",
-	"provisioning_state":           "description.Factory.FactoryProperties.ProvisioningState",
-	"public_network_access":        "description.Factory.FactoryProperties.PublicNetworkAccess",
+	"provisioning_state":           "description.Factory.Properties.ProvisioningState",
+	"public_network_access":        "description.Factory.Properties.PublicNetworkAccess",
 	"region":                       "description.Factory.Location",
-	"repo_configuration":           "description.Factory.FactoryProperties.RepoConfiguration",
+	"repo_configuration":           "description.Factory.Properties.RepoConfiguration",
 	"resource_group":               "description.ResourceGroup",
 	"tags":                         "description.Factory.Tags",
 	"title":                        "description.Factory.Name",
 	"type":                         "description.Factory.Type",
-	"version":                      "description.Factory.FactoryProperties.Version",
+	"version":                      "description.Factory.Properties.Version",
 }
 
 func GetDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -19004,24 +20294,24 @@ func (p DataFactoryPipelinePaginator) NextPage(ctx context.Context) ([]DataFacto
 }
 
 var listDataFactoryPipelineFilters = map[string]string{
-	"activities":       "description.Pipeline.Pipeline.Activities",
-	"akas":             "description.Factory.Tags",
-	"annotations":      "description.Pipeline.Pipeline.Annotations",
-	"concurrency":      "description.Pipeline.Pipeline.Concurrency",
-	"description":      "description.Pipeline.Pipeline.Description",
-	"etag":             "description.Pipeline.ETag",
+	"activities":       "description.Pipeline.Properties.Activities",
+	"akas":             "description.Pipeline.ID",
+	"annotations":      "description.Pipeline.Properties.Annotations",
+	"concurrency":      "description.Pipeline.Properties.Concurrency",
+	"description":      "description.Pipeline.Properties.Description",
+	"etag":             "description.Pipeline.Etag",
 	"factory_name":     "description.Factory.Name",
 	"id":               "description.Pipeline.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Factory.Name",
-	"parameters":       "description.Pipeline.Pipeline.Parameters",
-	"pipeline_folder":  "description.Pipeline.Pipeline.Folder",
-	"pipeline_policy":  "description.Pipeline.Pipeline.Policy",
+	"name":             "description.Pipeline.Name",
+	"parameters":       "description.Pipeline.Properties.Parameters",
+	"pipeline_folder":  "description.Pipeline.Properties.Folder.Name",
+	"pipeline_policy":  "description.Pipeline.Properties.Policy",
 	"resource_group":   "description.ResourceGroup",
-	"run_dimensions":   "description.Pipeline.Pipeline.RunDimensions",
-	"title":            "description.Factory.Name",
+	"run_dimensions":   "description.Pipeline.Properties.RunDimensions",
+	"title":            "description.Pipeline.Name",
 	"type":             "description.Pipeline.Type",
-	"variables":        "description.Pipeline.Pipeline.Variables",
+	"variables":        "description.Pipeline.Properties.Variables",
 }
 
 func ListDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -19055,24 +20345,24 @@ func ListDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getDataFactoryPipelineFilters = map[string]string{
-	"activities":       "description.Pipeline.Pipeline.Activities",
-	"akas":             "description.Factory.Tags",
-	"annotations":      "description.Pipeline.Pipeline.Annotations",
-	"concurrency":      "description.Pipeline.Pipeline.Concurrency",
-	"description":      "description.Pipeline.Pipeline.Description",
-	"etag":             "description.Pipeline.ETag",
+	"activities":       "description.Pipeline.Properties.Activities",
+	"akas":             "description.Pipeline.ID",
+	"annotations":      "description.Pipeline.Properties.Annotations",
+	"concurrency":      "description.Pipeline.Properties.Concurrency",
+	"description":      "description.Pipeline.Properties.Description",
+	"etag":             "description.Pipeline.Etag",
 	"factory_name":     "description.Factory.name",
 	"id":               "description.Pipeline.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Pipeline.name",
-	"parameters":       "description.Pipeline.Pipeline.Parameters",
-	"pipeline_folder":  "description.Pipeline.Pipeline.Folder",
-	"pipeline_policy":  "description.Pipeline.Pipeline.Policy",
+	"parameters":       "description.Pipeline.Properties.Parameters",
+	"pipeline_folder":  "description.Pipeline.Properties.Folder.Name",
+	"pipeline_policy":  "description.Pipeline.Properties.Policy",
 	"resource_group":   "description.ResourceGroup",
-	"run_dimensions":   "description.Pipeline.Pipeline.RunDimensions",
-	"title":            "description.Factory.Name",
+	"run_dimensions":   "description.Pipeline.Properties.RunDimensions",
+	"title":            "description.Pipeline.Name",
 	"type":             "description.Pipeline.Type",
-	"variables":        "description.Pipeline.Pipeline.Variables",
+	"variables":        "description.Pipeline.Properties.Variables",
 }
 
 func GetDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -19186,35 +20476,35 @@ func (p DataLakeAnalyticsAccountPaginator) NextPage(ctx context.Context) ([]Data
 }
 
 var listDataLakeAnalyticsAccountFilters = map[string]string{
-	"account_id":                        "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.AccountID",
+	"account_id":                        "description.DataLakeAnalyticsAccount.Properties.AccountID",
 	"akas":                              "description.DataLakeAnalyticsAccount.ID",
-	"compute_policies":                  "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.ComputePolicies",
-	"creation_time":                     "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.CreationTime",
-	"current_tier":                      "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.CurrentTier",
-	"data_lake_store_accounts":          "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.DataLakeStoreAccounts",
-	"default_data_lake_store_account":   "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.DefaultDataLakeStoreAccount",
+	"compute_policies":                  "description.DataLakeAnalyticsAccount.Properties.ComputePolicies",
+	"creation_time":                     "description.DataLakeAnalyticsAccount.Properties.CreationTime",
+	"current_tier":                      "description.DataLakeAnalyticsAccount.Properties.CurrentTier",
+	"data_lake_store_accounts":          "description.DataLakeAnalyticsAccount.Properties.DataLakeStoreAccounts",
+	"default_data_lake_store_account":   "description.DataLakeAnalyticsAccount.Properties.DefaultDataLakeStoreAccount",
 	"diagnostic_settings":               "description.DiagnosticSettingsResource",
-	"endpoint":                          "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.Endpoint",
-	"firewall_allow_azure_ips":          "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.FirewallAllowAzureIps",
-	"firewall_rules":                    "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.FirewallRules",
-	"firewall_state":                    "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.FirewallState",
+	"endpoint":                          "description.DataLakeAnalyticsAccount.Properties.Endpoint",
+	"firewall_allow_azure_ips":          "description.DataLakeAnalyticsAccount.Properties.FirewallAllowAzureIPs",
+	"firewall_rules":                    "description.DataLakeAnalyticsAccount.Properties.FirewallRules",
+	"firewall_state":                    "description.DataLakeAnalyticsAccount.Properties.FirewallState",
 	"id":                                "description.DataLakeAnalyticsAccount.ID",
 	"kaytu_account_id":                  "metadata.SourceID",
-	"last_modified_time":                "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.LastModifiedTime",
-	"max_degree_of_parallelism":         "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.MaxDegreeOfParallelism",
-	"max_degree_of_parallelism_per_job": "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.MaxDegreeOfParallelismPerJob",
-	"max_job_count":                     "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.MaxJobCount",
-	"min_priority_per_job":              "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.MinPriorityPerJob",
+	"last_modified_time":                "description.DataLakeAnalyticsAccount.Properties.LastModifiedTime",
+	"max_degree_of_parallelism":         "description.DataLakeAnalyticsAccount.Properties.MaxDegreeOfParallelism",
+	"max_degree_of_parallelism_per_job": "description.DataLakeAnalyticsAccount.Properties.MaxDegreeOfParallelismPerJob",
+	"max_job_count":                     "description.DataLakeAnalyticsAccount.Properties.MaxJobCount",
+	"min_priority_per_job":              "description.DataLakeAnalyticsAccount.Properties.MinPriorityPerJob",
 	"name":                              "description.DataLakeAnalyticsAccount.Name",
-	"new_tier":                          "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.NewTier",
-	"provisioning_state":                "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.ProvisioningState",
-	"query_store_retention":             "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.QueryStoreRetention",
+	"new_tier":                          "description.DataLakeAnalyticsAccount.Properties.NewTier",
+	"provisioning_state":                "description.DataLakeAnalyticsAccount.Properties.ProvisioningState",
+	"query_store_retention":             "description.DataLakeAnalyticsAccount.Properties.QueryStoreRetention",
 	"region":                            "description.DataLakeAnalyticsAccount.Location",
 	"resource_group":                    "description.ResourceGroup",
-	"state":                             "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.State",
-	"storage_accounts":                  "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.StorageAccounts",
-	"system_max_degree_of_parallelism":  "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.SystemMaxDegreeOfParallelism",
-	"system_max_job_count":              "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.SystemMaxJobCount",
+	"state":                             "description.DataLakeAnalyticsAccount.Properties.State",
+	"storage_accounts":                  "description.DataLakeAnalyticsAccount.Properties.StorageAccounts",
+	"system_max_degree_of_parallelism":  "description.DataLakeAnalyticsAccount.Properties.SystemMaxDegreeOfParallelism",
+	"system_max_job_count":              "description.DataLakeAnalyticsAccount.Properties.SystemMaxJobCount",
 	"tags":                              "description.DataLakeAnalyticsAccount.Tags",
 	"title":                             "description.DataLakeAnalyticsAccount.Name",
 	"type":                              "description.DataLakeAnalyticsAccount.Type",
@@ -19251,35 +20541,35 @@ func ListDataLakeAnalyticsAccount(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getDataLakeAnalyticsAccountFilters = map[string]string{
-	"account_id":                        "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.AccountID",
+	"account_id":                        "description.DataLakeAnalyticsAccount.Properties.AccountID",
 	"akas":                              "description.DataLakeAnalyticsAccount.ID",
-	"compute_policies":                  "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.ComputePolicies",
-	"creation_time":                     "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.CreationTime",
-	"current_tier":                      "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.CurrentTier",
-	"data_lake_store_accounts":          "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.DataLakeStoreAccounts",
-	"default_data_lake_store_account":   "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.DefaultDataLakeStoreAccount",
+	"compute_policies":                  "description.DataLakeAnalyticsAccount.Properties.ComputePolicies",
+	"creation_time":                     "description.DataLakeAnalyticsAccount.Properties.CreationTime",
+	"current_tier":                      "description.DataLakeAnalyticsAccount.Properties.CurrentTier",
+	"data_lake_store_accounts":          "description.DataLakeAnalyticsAccount.Properties.DataLakeStoreAccounts",
+	"default_data_lake_store_account":   "description.DataLakeAnalyticsAccount.Properties.DefaultDataLakeStoreAccount",
 	"diagnostic_settings":               "description.DiagnosticSettingsResource",
-	"endpoint":                          "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.Endpoint",
-	"firewall_allow_azure_ips":          "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.FirewallAllowAzureIps",
-	"firewall_rules":                    "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.FirewallRules",
-	"firewall_state":                    "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.FirewallState",
+	"endpoint":                          "description.DataLakeAnalyticsAccount.Properties.Endpoint",
+	"firewall_allow_azure_ips":          "description.DataLakeAnalyticsAccount.Properties.FirewallAllowAzureIPs",
+	"firewall_rules":                    "description.DataLakeAnalyticsAccount.Properties.FirewallRules",
+	"firewall_state":                    "description.DataLakeAnalyticsAccount.Properties.FirewallState",
 	"id":                                "description.DataLakeAnalyticsAccount.ID",
 	"kaytu_account_id":                  "metadata.SourceID",
-	"last_modified_time":                "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.LastModifiedTime",
-	"max_degree_of_parallelism":         "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.MaxDegreeOfParallelism",
-	"max_degree_of_parallelism_per_job": "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.MaxDegreeOfParallelismPerJob",
-	"max_job_count":                     "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.MaxJobCount",
-	"min_priority_per_job":              "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.MinPriorityPerJob",
+	"last_modified_time":                "description.DataLakeAnalyticsAccount.Properties.LastModifiedTime",
+	"max_degree_of_parallelism":         "description.DataLakeAnalyticsAccount.Properties.MaxDegreeOfParallelism",
+	"max_degree_of_parallelism_per_job": "description.DataLakeAnalyticsAccount.Properties.MaxDegreeOfParallelismPerJob",
+	"max_job_count":                     "description.DataLakeAnalyticsAccount.Properties.MaxJobCount",
+	"min_priority_per_job":              "description.DataLakeAnalyticsAccount.Properties.MinPriorityPerJob",
 	"name":                              "description.DataLakeAnalyticsAccount.name",
-	"new_tier":                          "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.NewTier",
-	"provisioning_state":                "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.ProvisioningState",
-	"query_store_retention":             "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.QueryStoreRetention",
+	"new_tier":                          "description.DataLakeAnalyticsAccount.Properties.NewTier",
+	"provisioning_state":                "description.DataLakeAnalyticsAccount.Properties.ProvisioningState",
+	"query_store_retention":             "description.DataLakeAnalyticsAccount.Properties.QueryStoreRetention",
 	"region":                            "description.DataLakeAnalyticsAccount.Location",
 	"resource_group":                    "description.ResourceGroup",
-	"state":                             "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.State",
-	"storage_accounts":                  "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.StorageAccounts",
-	"system_max_degree_of_parallelism":  "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.SystemMaxDegreeOfParallelism",
-	"system_max_job_count":              "description.DataLakeAnalyticsAccount.DataLakeAnalyticsAccountProperties.SystemMaxJobCount",
+	"state":                             "description.DataLakeAnalyticsAccount.Properties.State",
+	"storage_accounts":                  "description.DataLakeAnalyticsAccount.Properties.StorageAccounts",
+	"system_max_degree_of_parallelism":  "description.DataLakeAnalyticsAccount.Properties.SystemMaxDegreeOfParallelism",
+	"system_max_job_count":              "description.DataLakeAnalyticsAccount.Properties.SystemMaxJobCount",
 	"tags":                              "description.DataLakeAnalyticsAccount.Tags",
 	"title":                             "description.DataLakeAnalyticsAccount.Name",
 	"type":                              "description.DataLakeAnalyticsAccount.Type",
@@ -19396,35 +20686,35 @@ func (p DataLakeStorePaginator) NextPage(ctx context.Context) ([]DataLakeStore, 
 }
 
 var listDataLakeStoreFilters = map[string]string{
-	"account_id":                    "description.DataLakeStoreAccount.Identity.TenantID",
+	"account_id":                    "description.DataLakeStoreAccount.Properties.AccountID",
 	"akas":                          "description.DataLakeStoreAccount.ID",
-	"creation_time":                 "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.CreationTime",
-	"current_tier":                  "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.CurrentTier",
-	"default_group":                 "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.DefaultGroup",
+	"creation_time":                 "description.DataLakeStoreAccount.Properties.CreationTime",
+	"current_tier":                  "description.DataLakeStoreAccount.Properties.CurrentTier",
+	"default_group":                 "description.DataLakeStoreAccount.Properties.DefaultGroup",
 	"diagnostic_settings":           "description.DiagnosticSettingsResource",
-	"encryption_config":             "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.EncryptionConfig",
-	"encryption_provisioning_state": "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.EncryptionProvisioningState",
-	"encryption_state":              "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.EncryptionState",
-	"endpoint":                      "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.Endpoint",
-	"firewall_allow_azure_ips":      "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.FirewallAllowAzureIps",
-	"firewall_rules":                "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.FirewallRules",
-	"firewall_state":                "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.FirewallState",
+	"encryption_config":             "description.DataLakeStoreAccount.Properties.EncryptionConfig",
+	"encryption_provisioning_state": "description.DataLakeStoreAccount.Properties.EncryptionProvisioningState",
+	"encryption_state":              "description.DataLakeStoreAccount.Properties.EncryptionState",
+	"endpoint":                      "description.DataLakeStoreAccount.Properties.Endpoint",
+	"firewall_allow_azure_ips":      "description.DataLakeStoreAccount.Properties.FirewallAllowAzureIPs",
+	"firewall_rules":                "description.DataLakeStoreAccount.Properties.FirewallRules",
+	"firewall_state":                "description.DataLakeStoreAccount.Properties.FirewallState",
 	"id":                            "description.DataLakeStoreAccount.ID",
 	"identity":                      "description.DataLakeStoreAccount.Identity",
 	"kaytu_account_id":              "metadata.SourceID",
-	"last_modified_time":            "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.LastModifiedTime",
+	"last_modified_time":            "description.DataLakeStoreAccount.Properties.LastModifiedTime",
 	"name":                          "description.DataLakeStoreAccount.Name",
-	"new_tier":                      "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.NewTier",
-	"provisioning_state":            "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.ProvisioningState",
+	"new_tier":                      "description.DataLakeStoreAccount.Properties.NewTier",
+	"provisioning_state":            "description.DataLakeStoreAccount.Properties.ProvisioningState",
 	"region":                        "description.DataLakeStoreAccount.Location",
 	"resource_group":                "description.ResourceGroup",
-	"state":                         "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.State",
+	"state":                         "description.DataLakeStoreAccount.Properties.State",
 	"tags":                          "description.DataLakeStoreAccount.Tags",
 	"title":                         "description.DataLakeStoreAccount.Name",
-	"trusted_id_provider_state":     "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.TrustedIDProviderState",
-	"trusted_id_providers":          "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.TrustedIDProviders",
+	"trusted_id_provider_state":     "description.DataLakeStoreAccount.Properties.TrustedIDProviderState",
+	"trusted_id_providers":          "description.DataLakeStoreAccount.Properties.TrustedIDProviders",
 	"type":                          "description.DataLakeStoreAccount.Type",
-	"virtual_network_rules":         "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.VirtualNetworkRules",
+	"virtual_network_rules":         "description.DataLakeStoreAccount.Properties.VirtualNetworkRules",
 }
 
 func ListDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -19458,35 +20748,35 @@ func ListDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 }
 
 var getDataLakeStoreFilters = map[string]string{
-	"account_id":                    "description.DataLakeStoreAccount.Identity.TenantID",
+	"account_id":                    "description.DataLakeStoreAccount.Properties.AccountID",
 	"akas":                          "description.DataLakeStoreAccount.ID",
-	"creation_time":                 "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.CreationTime",
-	"current_tier":                  "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.CurrentTier",
-	"default_group":                 "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.DefaultGroup",
+	"creation_time":                 "description.DataLakeStoreAccount.Properties.CreationTime",
+	"current_tier":                  "description.DataLakeStoreAccount.Properties.CurrentTier",
+	"default_group":                 "description.DataLakeStoreAccount.Properties.DefaultGroup",
 	"diagnostic_settings":           "description.DiagnosticSettingsResource",
-	"encryption_config":             "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.EncryptionConfig",
-	"encryption_provisioning_state": "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.EncryptionProvisioningState",
-	"encryption_state":              "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.EncryptionState",
-	"endpoint":                      "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.Endpoint",
-	"firewall_allow_azure_ips":      "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.FirewallAllowAzureIps",
-	"firewall_rules":                "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.FirewallRules",
-	"firewall_state":                "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.FirewallState",
+	"encryption_config":             "description.DataLakeStoreAccount.Properties.EncryptionConfig",
+	"encryption_provisioning_state": "description.DataLakeStoreAccount.Properties.EncryptionProvisioningState",
+	"encryption_state":              "description.DataLakeStoreAccount.Properties.EncryptionState",
+	"endpoint":                      "description.DataLakeStoreAccount.Properties.Endpoint",
+	"firewall_allow_azure_ips":      "description.DataLakeStoreAccount.Properties.FirewallAllowAzureIPs",
+	"firewall_rules":                "description.DataLakeStoreAccount.Properties.FirewallRules",
+	"firewall_state":                "description.DataLakeStoreAccount.Properties.FirewallState",
 	"id":                            "description.DataLakeStoreAccount.ID",
 	"identity":                      "description.DataLakeStoreAccount.Identity",
 	"kaytu_account_id":              "metadata.SourceID",
-	"last_modified_time":            "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.LastModifiedTime",
+	"last_modified_time":            "description.DataLakeStoreAccount.Properties.LastModifiedTime",
 	"name":                          "description.DataLakeStoreAccount.name",
-	"new_tier":                      "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.NewTier",
-	"provisioning_state":            "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.ProvisioningState",
+	"new_tier":                      "description.DataLakeStoreAccount.Properties.NewTier",
+	"provisioning_state":            "description.DataLakeStoreAccount.Properties.ProvisioningState",
 	"region":                        "description.DataLakeStoreAccount.Location",
 	"resource_group":                "description.ResourceGroup",
-	"state":                         "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.State",
+	"state":                         "description.DataLakeStoreAccount.Properties.State",
 	"tags":                          "description.DataLakeStoreAccount.Tags",
 	"title":                         "description.DataLakeStoreAccount.Name",
-	"trusted_id_provider_state":     "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.TrustedIDProviderState",
-	"trusted_id_providers":          "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.TrustedIDProviders",
+	"trusted_id_provider_state":     "description.DataLakeStoreAccount.Properties.TrustedIDProviderState",
+	"trusted_id_providers":          "description.DataLakeStoreAccount.Properties.TrustedIDProviders",
 	"type":                          "description.DataLakeStoreAccount.Type",
-	"virtual_network_rules":         "description.DataLakeStoreAccount.DataLakeStoreAccountProperties.VirtualNetworkRules",
+	"virtual_network_rules":         "description.DataLakeStoreAccount.Properties.VirtualNetworkRules",
 }
 
 func GetDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -19601,19 +20891,20 @@ func (p DiagnosticSettingPaginator) NextPage(ctx context.Context) ([]DiagnosticS
 
 var listDiagnosticSettingFilters = map[string]string{
 	"akas":                            "description.DiagnosticSettingsResource.ID",
-	"event_hub_authorization_rule_id": "description.DiagnosticSettingsResource.DiagnosticSettings.EventHubAuthorizationRuleID",
-	"event_hub_name":                  "description.DiagnosticSettingsResource.DiagnosticSettings.EventHubName",
+	"event_hub_authorization_rule_id": "description.DiagnosticSettingsResource.Properties.EventHubAuthorizationRuleID",
+	"event_hub_name":                  "description.DiagnosticSettingsResource.Properties.EventHubName",
 	"id":                              "description.DiagnosticSettingsResource.ID",
 	"kaytu_account_id":                "metadata.SourceID",
-	"log_analytics_destination_type":  "description.DiagnosticSettingsResource.DiagnosticSettings.LogAnalyticsDestinationType",
-	"logs":                            "description.DiagnosticSettingsResource.DiagnosticSettings.Logs",
-	"metrics":                         "description.DiagnosticSettingsResource.DiagnosticSettings.Metrics",
+	"log_analytics_destination_type":  "description.DiagnosticSettingsResource.Properties.LogAnalyticsDestinationType",
+	"logs":                            "description.DiagnosticSettingsResource.Properties.Logs",
+	"metrics":                         "description.DiagnosticSettingsResource.Properties.Metrics",
 	"name":                            "description.DiagnosticSettingsResource.Name",
-	"service_bus_rule_id":             "description.DiagnosticSettingsResource.DiagnosticSettings.ServiceBusRuleID",
-	"storage_account_id":              "description.DiagnosticSettingsResource.DiagnosticSettings.StorageAccountID",
+	"resource_group":                  "description.ResourceGroup",
+	"service_bus_rule_id":             "description.DiagnosticSettingsResource.Properties.ServiceBusRuleID",
+	"storage_account_id":              "description.DiagnosticSettingsResource.Properties.StorageAccountID",
 	"title":                           "description.DiagnosticSettingsResource.Name",
 	"type":                            "description.DiagnosticSettingsResource.Type",
-	"workspace_id":                    "description.DiagnosticSettingsResource.DiagnosticSettings.WorkspaceID",
+	"workspace_id":                    "description.DiagnosticSettingsResource.Properties.WorkspaceID",
 }
 
 func ListDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -19648,20 +20939,20 @@ func ListDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 var getDiagnosticSettingFilters = map[string]string{
 	"akas":                            "description.DiagnosticSettingsResource.ID",
-	"event_hub_authorization_rule_id": "description.DiagnosticSettingsResource.DiagnosticSettings.EventHubAuthorizationRuleID",
-	"event_hub_name":                  "description.DiagnosticSettingsResource.DiagnosticSettings.EventHubName",
+	"event_hub_authorization_rule_id": "description.DiagnosticSettingsResource.Properties.EventHubAuthorizationRuleID",
+	"event_hub_name":                  "description.DiagnosticSettingsResource.Properties.EventHubName",
 	"id":                              "description.DiagnosticSettingsResource.ID",
 	"kaytu_account_id":                "metadata.SourceID",
-	"log_analytics_destination_type":  "description.DiagnosticSettingsResource.DiagnosticSettings.LogAnalyticsDestinationType",
-	"logs":                            "description.DiagnosticSettingsResource.DiagnosticSettings.Logs",
-	"metrics":                         "description.DiagnosticSettingsResource.DiagnosticSettings.Metrics",
+	"log_analytics_destination_type":  "description.DiagnosticSettingsResource.Properties.LogAnalyticsDestinationType",
+	"logs":                            "description.DiagnosticSettingsResource.Properties.Logs",
+	"metrics":                         "description.DiagnosticSettingsResource.Properties.Metrics",
 	"name":                            "description.DiagnosticSettingsResource.name",
 	"resource_group":                  "description.ResourceGroup",
-	"service_bus_rule_id":             "description.DiagnosticSettingsResource.DiagnosticSettings.ServiceBusRuleID",
-	"storage_account_id":              "description.DiagnosticSettingsResource.DiagnosticSettings.StorageAccountID",
+	"service_bus_rule_id":             "description.DiagnosticSettingsResource.Properties.ServiceBusRuleID",
+	"storage_account_id":              "description.DiagnosticSettingsResource.Properties.StorageAccountID",
 	"title":                           "description.DiagnosticSettingsResource.Name",
 	"type":                            "description.DiagnosticSettingsResource.Type",
-	"workspace_id":                    "description.DiagnosticSettingsResource.DiagnosticSettings.WorkspaceID",
+	"workspace_id":                    "description.DiagnosticSettingsResource.Properties.WorkspaceID",
 }
 
 func GetDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -19776,19 +21067,19 @@ func (p EventGridDomainPaginator) NextPage(ctx context.Context) ([]EventGridDoma
 
 var listEventGridDomainFilters = map[string]string{
 	"akas": "description.Domain.ID",
-	"auto_create_topic_with_first_subscription": "description.Domain.DomainProperties.AutoCreateTopicWithFirstSubscription",
-	"auto_delete_topic_with_last_subscription":  "description.Domain.DomainProperties.AutoDeleteTopicWithLastSubscription",
+	"auto_create_topic_with_first_subscription": "description.Domain.Properties.AutoCreateTopicWithFirstSubscription",
+	"auto_delete_topic_with_last_subscription":  "description.Domain.Properties.AutoDeleteTopicWithLastSubscription",
 	"created_at":               "description.Domain.SystemData.CreatedAt",
 	"created_by":               "description.Domain.SystemData.CreatedBy",
 	"created_by_type":          "description.Domain.SystemData.CreatedByType",
 	"diagnostic_settings":      "description.DiagnosticSettingsResources",
-	"disable_local_auth":       "description.Domain.DomainProperties.DisableLocalAuth",
-	"endpoint":                 "description.Domain.DomainProperties.Endpoint",
+	"disable_local_auth":       "description.Domain.Properties.DisableLocalAuth",
+	"endpoint":                 "description.Domain.Properties.Endpoint",
 	"id":                       "description.Domain.ID",
 	"identity_type":            "description.Domain.Identity.Type",
-	"inbound_ip_rules":         "description.Domain.DomainProperties.InboundIPRules",
-	"input_schema":             "description.Domain.DomainProperties.InputSchema",
-	"input_schema_mapping":     "description.Domain.DomainProperties.InputSchemaMapping",
+	"inbound_ip_rules":         "description.Domain.Properties.InboundIPRules",
+	"input_schema":             "description.Domain.Properties.InputSchema",
+	"input_schema_mapping":     "description.Domain.Properties.InputSchemaMapping",
 	"kaytu_account_id":         "metadata.SourceID",
 	"last_modified_at":         "description.Domain.SystemData.LastModifiedAt",
 	"last_modified_by":         "description.Domain.SystemData.LastModifiedBy",
@@ -19796,11 +21087,11 @@ var listEventGridDomainFilters = map[string]string{
 	"location":                 "description.Domain.Location",
 	"name":                     "description.Domain.Name",
 	"principal_id":             "description.Domain.Identity.PrincipalID",
-	"provisioning_state":       "description.Domain.DomainProperties.ProvisioningState",
-	"public_network_access":    "description.Domain.DomainProperties.PublicNetworkAccess",
+	"provisioning_state":       "description.Domain.Properties.ProvisioningState",
+	"public_network_access":    "description.Domain.Properties.PublicNetworkAccess",
 	"region":                   "description.Domain.Location",
 	"resource_group":           "description.ResourceGroup",
-	"sku_name":                 "description.Domain.Sku.Name",
+	"sku_name":                 "description.Domain.Name",
 	"tags":                     "description.Domain.Tags",
 	"title":                    "description.Domain.Name",
 	"type":                     "description.Domain.Type",
@@ -19839,19 +21130,19 @@ func ListEventGridDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 var getEventGridDomainFilters = map[string]string{
 	"akas": "description.Domain.ID",
-	"auto_create_topic_with_first_subscription": "description.Domain.DomainProperties.AutoCreateTopicWithFirstSubscription",
-	"auto_delete_topic_with_last_subscription":  "description.Domain.DomainProperties.AutoDeleteTopicWithLastSubscription",
+	"auto_create_topic_with_first_subscription": "description.Domain.Properties.AutoCreateTopicWithFirstSubscription",
+	"auto_delete_topic_with_last_subscription":  "description.Domain.Properties.AutoDeleteTopicWithLastSubscription",
 	"created_at":               "description.Domain.SystemData.CreatedAt",
 	"created_by":               "description.Domain.SystemData.CreatedBy",
 	"created_by_type":          "description.Domain.SystemData.CreatedByType",
 	"diagnostic_settings":      "description.DiagnosticSettingsResources",
-	"disable_local_auth":       "description.Domain.DomainProperties.DisableLocalAuth",
-	"endpoint":                 "description.Domain.DomainProperties.Endpoint",
+	"disable_local_auth":       "description.Domain.Properties.DisableLocalAuth",
+	"endpoint":                 "description.Domain.Properties.Endpoint",
 	"id":                       "description.Domain.ID",
 	"identity_type":            "description.Domain.Identity.Type",
-	"inbound_ip_rules":         "description.Domain.DomainProperties.InboundIPRules",
-	"input_schema":             "description.Domain.DomainProperties.InputSchema",
-	"input_schema_mapping":     "description.Domain.DomainProperties.InputSchemaMapping",
+	"inbound_ip_rules":         "description.Domain.Properties.InboundIPRules",
+	"input_schema":             "description.Domain.Properties.InputSchema",
+	"input_schema_mapping":     "description.Domain.Properties.InputSchemaMapping",
 	"kaytu_account_id":         "metadata.SourceID",
 	"last_modified_at":         "description.Domain.SystemData.LastModifiedAt",
 	"last_modified_by":         "description.Domain.SystemData.LastModifiedBy",
@@ -19859,11 +21150,11 @@ var getEventGridDomainFilters = map[string]string{
 	"location":                 "description.Domain.Location",
 	"name":                     "description.Domain.name",
 	"principal_id":             "description.Domain.Identity.PrincipalID",
-	"provisioning_state":       "description.Domain.DomainProperties.ProvisioningState",
-	"public_network_access":    "description.Domain.DomainProperties.PublicNetworkAccess",
+	"provisioning_state":       "description.Domain.Properties.ProvisioningState",
+	"public_network_access":    "description.Domain.Properties.PublicNetworkAccess",
 	"region":                   "description.Domain.Location",
 	"resource_group":           "description.ResourceGroup",
-	"sku_name":                 "description.Domain.Sku.Name",
+	"sku_name":                 "description.Domain.Name",
 	"tags":                     "description.Domain.Tags",
 	"title":                    "description.Domain.Name",
 	"type":                     "description.Domain.Type",
@@ -19986,26 +21277,26 @@ var listEventGridTopicFilters = map[string]string{
 	"created_by":            "description.Topic.SystemData.CreatedBy",
 	"created_by_type":       "description.Topic.SystemData.CreatedByType",
 	"diagnostic_settings":   "description.DiagnosticSettingsResources",
-	"disable_local_auth":    "description.Topic.TopicProperties.DisableLocalAuth",
-	"endpoint":              "description.Topic.TopicProperties.Endpoint",
-	"extended_location":     "description.Topic.ExtendedLocation",
+	"disable_local_auth":    "description.Topic.Properties.DisableLocalAuth",
+	"endpoint":              "description.Topic.Properties.Endpoint",
+	"extended_location":     "description.Topic.Location",
 	"id":                    "description.Topic.ID",
 	"identity":              "description.Topic.Identity",
-	"inbound_ip_rules":      "description.Topic.TopicProperties.InboundIPRules",
-	"input_schema":          "description.Topic.TopicProperties.InputSchema",
-	"input_schema_mapping":  "description.Topic.TopicProperties.InputSchemaMapping",
+	"inbound_ip_rules":      "description.Topic.Properties.InboundIPRules",
+	"input_schema":          "description.Topic.Properties.InputSchema",
+	"input_schema_mapping":  "description.Topic.Properties.InputSchemaMapping",
 	"kaytu_account_id":      "metadata.SourceID",
-	"kind":                  "description.Topic.Kind",
+	"kind":                  "description.Topic.Type",
 	"last_modified_at":      "description.Topic.SystemData.LastModifiedAt",
 	"last_modified_by":      "description.Topic.SystemData.LastModifiedBy",
 	"last_modified_by_type": "description.Topic.SystemData.LastModifiedByType",
 	"location":              "description.Topic.Location",
 	"name":                  "description.Topic.Name",
-	"provisioning_state":    "description.Topic.TopicProperties.ProvisioningState",
-	"public_network_access": "description.Topic.TopicProperties.PublicNetworkAccess",
+	"provisioning_state":    "description.Topic.Properties.ProvisioningState",
+	"public_network_access": "description.Topic.Properties.PublicNetworkAccess",
 	"region":                "description.Topic.Location",
 	"resource_group":        "description.ResourceGroup",
-	"sku_name":              "description.Topic.Sku.Name",
+	"sku_name":              "description.Topic.Name",
 	"tags":                  "description.Topic.Tags",
 	"title":                 "description.Topic.Name",
 	"type":                  "description.Topic.Type",
@@ -20047,26 +21338,26 @@ var getEventGridTopicFilters = map[string]string{
 	"created_by":            "description.Topic.SystemData.CreatedBy",
 	"created_by_type":       "description.Topic.SystemData.CreatedByType",
 	"diagnostic_settings":   "description.DiagnosticSettingsResources",
-	"disable_local_auth":    "description.Topic.TopicProperties.DisableLocalAuth",
-	"endpoint":              "description.Topic.TopicProperties.Endpoint",
-	"extended_location":     "description.Topic.ExtendedLocation",
+	"disable_local_auth":    "description.Topic.Properties.DisableLocalAuth",
+	"endpoint":              "description.Topic.Properties.Endpoint",
+	"extended_location":     "description.Topic.Location",
 	"id":                    "description.Topic.ID",
 	"identity":              "description.Topic.Identity",
-	"inbound_ip_rules":      "description.Topic.TopicProperties.InboundIPRules",
-	"input_schema":          "description.Topic.TopicProperties.InputSchema",
-	"input_schema_mapping":  "description.Topic.TopicProperties.InputSchemaMapping",
+	"inbound_ip_rules":      "description.Topic.Properties.InboundIPRules",
+	"input_schema":          "description.Topic.Properties.InputSchema",
+	"input_schema_mapping":  "description.Topic.Properties.InputSchemaMapping",
 	"kaytu_account_id":      "metadata.SourceID",
-	"kind":                  "description.Topic.Kind",
+	"kind":                  "description.Topic.Type",
 	"last_modified_at":      "description.Topic.SystemData.LastModifiedAt",
 	"last_modified_by":      "description.Topic.SystemData.LastModifiedBy",
 	"last_modified_by_type": "description.Topic.SystemData.LastModifiedByType",
 	"location":              "description.Topic.Location",
 	"name":                  "description.Topic.name",
-	"provisioning_state":    "description.Topic.TopicProperties.ProvisioningState",
-	"public_network_access": "description.Topic.TopicProperties.PublicNetworkAccess",
+	"provisioning_state":    "description.Topic.Properties.ProvisioningState",
+	"public_network_access": "description.Topic.Properties.PublicNetworkAccess",
 	"region":                "description.Topic.Location",
 	"resource_group":        "description.ResourceGroup",
-	"sku_name":              "description.Topic.Sku.Name",
+	"sku_name":              "description.Topic.Name",
 	"tags":                  "description.Topic.Tags",
 	"title":                 "description.Topic.Name",
 	"type":                  "description.Topic.Type",
@@ -20184,32 +21475,32 @@ func (p EventhubNamespacePaginator) NextPage(ctx context.Context) ([]EventhubNam
 
 var listEventhubNamespaceFilters = map[string]string{
 	"akas":                         "description.EHNamespace.ID",
-	"cluster_arm_id":               "description.EHNamespace.EHNamespaceProperties.ClusterArmID",
-	"created_at":                   "description.EHNamespace.EHNamespaceProperties.CreatedAt",
+	"cluster_arm_id":               "description.EHNamespace.Properties.ClusterArmID",
+	"created_at":                   "description.EHNamespace.Properties.CreatedAt",
 	"diagnostic_settings":          "description.DiagnosticSettingsResources",
-	"encryption":                   "description.EHNamespace.EHNamespaceProperties.Encryption",
+	"encryption":                   "description.EHNamespace.Properties.Encryption",
 	"id":                           "description.EHNamespace.ID",
-	"identity":                     "description.EHNamespace.EHNamespaceProperties.Encryption",
-	"is_auto_inflate_enabled":      "description.EHNamespace.EHNamespaceProperties.IsAutoInflateEnabled",
-	"kafka_enabled":                "description.EHNamespace.EHNamespaceProperties.KafkaEnabled",
+	"identity":                     "description.EHNamespace.Properties.Encryption",
+	"is_auto_inflate_enabled":      "description.EHNamespace.Properties.IsAutoInflateEnabled",
+	"kafka_enabled":                "description.EHNamespace.Properties.KafkaEnabled",
 	"kaytu_account_id":             "metadata.SourceID",
-	"maximum_throughput_units":     "description.EHNamespace.EHNamespaceProperties.MaximumThroughputUnits",
-	"metric_id":                    "description.EHNamespace.EHNamespaceProperties.MetricID",
+	"maximum_throughput_units":     "description.EHNamespace.Properties.MaximumThroughputUnits",
+	"metric_id":                    "description.EHNamespace.Properties.MetricID",
 	"name":                         "description.EHNamespace.Name",
 	"network_rule_set":             "description.NetworkRuleSet",
-	"private_endpoint_connections": "description.PrivateEndpointConnection",
-	"provisioning_state":           "description.EHNamespace.EHNamespaceProperties.ProvisioningState",
+	"private_endpoint_connections": "description.EHNamespace.Properties.PrivateEndpointConnections",
+	"provisioning_state":           "description.EHNamespace.Properties.ProvisioningState",
 	"region":                       "description.EHNamespace.Location",
 	"resource_group":               "description.ResourceGroup",
-	"service_bus_endpoint":         "description.EHNamespace.EHNamespaceProperties.ServiceBusEndpoint",
-	"sku_capacity":                 "description.EHNamespace.Sku.Capacity",
-	"sku_name":                     "description.EHNamespace.Sku.Name",
-	"sku_tier":                     "description.EHNamespace.Sku.Tier",
+	"service_bus_endpoint":         "description.EHNamespace.Properties.ServiceBusEndpoint",
+	"sku_capacity":                 "description.EHNamespace.SKU.Capacity",
+	"sku_name":                     "description.EHNamespace.SKU.Name",
+	"sku_tier":                     "description.EHNamespace.SKU.Tier",
 	"tags":                         "description.EHNamespace.Tags",
-	"title":                        "description.EHNamespace",
+	"title":                        "description.EHNamespace.Name",
 	"type":                         "description.EHNamespace.Type",
-	"updated_at":                   "description.EHNamespace.EHNamespaceProperties.UpdatedAt",
-	"zone_redundant":               "description.EHNamespace.EHNamespaceProperties.ZoneRedundant",
+	"updated_at":                   "description.EHNamespace.Properties.UpdatedAt",
+	"zone_redundant":               "description.EHNamespace.Properties.ZoneRedundant",
 }
 
 func ListEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20244,32 +21535,32 @@ func ListEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 var getEventhubNamespaceFilters = map[string]string{
 	"akas":                         "description.EHNamespace.ID",
-	"cluster_arm_id":               "description.EHNamespace.EHNamespaceProperties.ClusterArmID",
-	"created_at":                   "description.EHNamespace.EHNamespaceProperties.CreatedAt",
+	"cluster_arm_id":               "description.EHNamespace.Properties.ClusterArmID",
+	"created_at":                   "description.EHNamespace.Properties.CreatedAt",
 	"diagnostic_settings":          "description.DiagnosticSettingsResources",
-	"encryption":                   "description.EHNamespace.EHNamespaceProperties.Encryption",
+	"encryption":                   "description.EHNamespace.Properties.Encryption",
 	"id":                           "description.EHNamespace.ID",
-	"identity":                     "description.EHNamespace.EHNamespaceProperties.Encryption",
-	"is_auto_inflate_enabled":      "description.EHNamespace.EHNamespaceProperties.IsAutoInflateEnabled",
-	"kafka_enabled":                "description.EHNamespace.EHNamespaceProperties.KafkaEnabled",
+	"identity":                     "description.EHNamespace.Properties.Encryption",
+	"is_auto_inflate_enabled":      "description.EHNamespace.Properties.IsAutoInflateEnabled",
+	"kafka_enabled":                "description.EHNamespace.Properties.KafkaEnabled",
 	"kaytu_account_id":             "metadata.SourceID",
-	"maximum_throughput_units":     "description.EHNamespace.EHNamespaceProperties.MaximumThroughputUnits",
-	"metric_id":                    "description.EHNamespace.EHNamespaceProperties.MetricID",
+	"maximum_throughput_units":     "description.EHNamespace.Properties.MaximumThroughputUnits",
+	"metric_id":                    "description.EHNamespace.Properties.MetricID",
 	"name":                         "description.EHNamespace.name",
 	"network_rule_set":             "description.NetworkRuleSet",
-	"private_endpoint_connections": "description.PrivateEndpointConnection",
-	"provisioning_state":           "description.EHNamespace.EHNamespaceProperties.ProvisioningState",
+	"private_endpoint_connections": "description.EHNamespace.Properties.PrivateEndpointConnections",
+	"provisioning_state":           "description.EHNamespace.Properties.ProvisioningState",
 	"region":                       "description.EHNamespace.Location",
 	"resource_group":               "description.ResourceGroup",
-	"service_bus_endpoint":         "description.EHNamespace.EHNamespaceProperties.ServiceBusEndpoint",
-	"sku_capacity":                 "description.EHNamespace.Sku.Capacity",
-	"sku_name":                     "description.EHNamespace.Sku.Name",
-	"sku_tier":                     "description.EHNamespace.Sku.Tier",
+	"service_bus_endpoint":         "description.EHNamespace.Properties.ServiceBusEndpoint",
+	"sku_capacity":                 "description.EHNamespace.SKU.Capacity",
+	"sku_name":                     "description.EHNamespace.SKU.Name",
+	"sku_tier":                     "description.EHNamespace.SKU.Tier",
 	"tags":                         "description.EHNamespace.Tags",
-	"title":                        "description.EHNamespace",
+	"title":                        "description.EHNamespace.Name",
 	"type":                         "description.EHNamespace.Type",
-	"updated_at":                   "description.EHNamespace.EHNamespaceProperties.UpdatedAt",
-	"zone_redundant":               "description.EHNamespace.EHNamespaceProperties.ZoneRedundant",
+	"updated_at":                   "description.EHNamespace.Properties.UpdatedAt",
+	"zone_redundant":               "description.EHNamespace.Properties.ZoneRedundant",
 }
 
 func GetEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20383,12 +21674,12 @@ func (p EventhubNamespaceEventhubPaginator) NextPage(ctx context.Context) ([]Eve
 }
 
 var listEventhubNamespaceEventhubFilters = map[string]string{
-	"akas":             "description.NamespaceEventhubs.ID",
-	"id":               "description.NamespaceEventhubs.Id",
+	"akas":             "description.EHNamespace.Identity",
+	"id":               "description.EventHub.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.NamespaceEventhubs.Name",
-	"tags":             "description.NamespaceEventhubs.Tags",
-	"title":            "description.NamespaceEventhubs.Name",
+	"name":             "description.EHNamespace.Name",
+	"tags":             "description.EHNamespace.Tags",
+	"title":            "description.EHNamespace.Identity.Type",
 }
 
 func ListEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20422,12 +21713,12 @@ func ListEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *
 }
 
 var getEventhubNamespaceEventhubFilters = map[string]string{
-	"akas":             "description.NamespaceEventhubs.ID",
-	"id":               "description.NamespaceEventhubs.Id",
+	"akas":             "description.EHNamespace.Identity",
+	"id":               "description.EventHub.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.NamespaceEventhubs.Name",
-	"tags":             "description.NamespaceEventhubs.Tags",
-	"title":            "description.NamespaceEventhubs.Name",
+	"name":             "description.EHNamespace.Name",
+	"tags":             "description.EHNamespace.Tags",
+	"title":            "description.EHNamespace.Identity.Type",
 }
 
 func GetEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20756,7 +22047,7 @@ var listHdinsightClusterFilters = map[string]string{
 	"min_supported_tls_version":        "description.Cluster.Properties.MinSupportedTLSVersion",
 	"name":                             "description.Cluster.Name",
 	"network_properties":               "description.Cluster.Properties.NetworkProperties",
-	"os_type":                          "description.Cluster.Properties.OsType",
+	"os_type":                          "description.Cluster.Properties.OSType",
 	"provisioning_state":               "description.Cluster.Properties.ProvisioningState",
 	"quota_info":                       "description.Cluster.Properties.QuotaInfo",
 	"region":                           "description.Cluster.Location",
@@ -20766,7 +22057,6 @@ var listHdinsightClusterFilters = map[string]string{
 	"tags":                             "description.Cluster.Tags",
 	"tier":                             "description.Cluster.Properties.Tier",
 	"title":                            "description.Cluster.Name",
-	"type":                             "description.Cluster.Type",
 }
 
 func ListHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20823,7 +22113,7 @@ var getHdinsightClusterFilters = map[string]string{
 	"min_supported_tls_version":        "description.Cluster.Properties.MinSupportedTLSVersion",
 	"name":                             "description.Cluster.name",
 	"network_properties":               "description.Cluster.Properties.NetworkProperties",
-	"os_type":                          "description.Cluster.Properties.OsType",
+	"os_type":                          "description.Cluster.Properties.OSType",
 	"provisioning_state":               "description.Cluster.Properties.ProvisioningState",
 	"quota_info":                       "description.Cluster.Properties.QuotaInfo",
 	"region":                           "description.Cluster.Location",
@@ -20833,7 +22123,6 @@ var getHdinsightClusterFilters = map[string]string{
 	"tags":                             "description.Cluster.Tags",
 	"tier":                             "description.Cluster.Properties.Tier",
 	"title":                            "description.Cluster.Name",
-	"type":                             "description.Cluster.Type",
 }
 
 func GetHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20947,36 +22236,36 @@ func (p HybridComputeMachinePaginator) NextPage(ctx context.Context) ([]HybridCo
 }
 
 var listHybridComputeMachineFilters = map[string]string{
-	"ad_fqdn":                       "description.Machine.MachinePropertiesModel.AdFqdn",
-	"agent_version":                 "description.Machine.MachinePropertiesModel.AgentVersion",
+	"ad_fqdn":                       "description.Machine.Properties.AdFqdn",
+	"agent_version":                 "description.Machine.Properties.AgentVersion",
 	"akas":                          "description.Machine.ID",
-	"client_public_key":             "description.Machine.MachinePropertiesModel.ClientPublicKey",
-	"display_name":                  "description.Machine.MachinePropertiesModel.DisplayName",
-	"dns_fqdn":                      "description.Machine.MachinePropertiesModel.DNSFqdn",
-	"domain_name":                   "description.Machine.MachinePropertiesModel.DomainName",
-	"error_details":                 "description.Machine.MachinePropertiesModel.ErrorDetails",
+	"client_public_key":             "description.Machine.Properties.ClientPublicKey",
+	"display_name":                  "description.Machine.Properties.DisplayName",
+	"dns_fqdn":                      "description.Machine.Properties.DNSFqdn",
+	"domain_name":                   "description.Machine.Properties.DomainName",
+	"error_details":                 "description.Machine.Properties.ErrorDetails",
 	"extensions":                    "description.MachineExtensions",
 	"id":                            "description.Machine.ID",
 	"identity":                      "description.Machine.Identity",
 	"kaytu_account_id":              "metadata.SourceID",
-	"last_status_change":            "description.Machine.MachinePropertiesModel.LastStatusChange",
-	"location_data":                 "description.Machine.MachinePropertiesModel.LocationData",
-	"machine_fqdn":                  "description.Machine.MachinePropertiesModel.MachineFqdn",
-	"machine_properties_extensions": "description.Machine.MachinePropertiesModel.Extensions",
+	"last_status_change":            "description.Machine.Properties.LastStatusChange",
+	"location_data":                 "description.Machine.Properties.LocationData",
+	"machine_fqdn":                  "description.Machine.Properties.MachineFqdn",
+	"machine_properties_extensions": "description.Machine.Properties.Extensions",
 	"name":                          "description.Machine.Name",
-	"os_name":                       "description.Machine.MachinePropertiesModel.OsName",
-	"os_profile":                    "description.Machine.MachinePropertiesModel.OsProfile",
-	"os_sku":                        "description.Machine.MachinePropertiesModel.OsSku",
-	"os_version":                    "description.Machine.MachinePropertiesModel.OsVersion",
-	"provisioning_state":            "description.Machine.MachinePropertiesModel.ProvisioningState",
+	"os_name":                       "description.Machine.Properties.OSName",
+	"os_profile":                    "description.Machine.Properties.OSProfile",
+	"os_sku":                        "description.Machine.Properties.OSSKU",
+	"os_version":                    "description.Machine.Properties.OSVersion",
+	"provisioning_state":            "description.Machine.Properties.ProvisioningState",
 	"region":                        "description.Machine.Location",
 	"resource_group":                "description.ResourceGroup",
-	"status":                        "description.Machine.MachinePropertiesModel.Status",
+	"status":                        "description.Machine.Properties.Status",
 	"tags":                          "description.Machine.Tags",
 	"title":                         "description.Machine.Name",
 	"type":                          "description.Machine.Type",
-	"vm_id":                         "description.Machine.MachinePropertiesModel.VMID",
-	"vm_uuid":                       "description.Machine.MachinePropertiesModel.VMUUID",
+	"vm_id":                         "description.Machine.Properties.VMID",
+	"vm_uuid":                       "description.Machine.Properties.VMUUID",
 }
 
 func ListHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -21010,36 +22299,36 @@ func ListHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 var getHybridComputeMachineFilters = map[string]string{
-	"ad_fqdn":                       "description.Machine.MachinePropertiesModel.AdFqdn",
-	"agent_version":                 "description.Machine.MachinePropertiesModel.AgentVersion",
+	"ad_fqdn":                       "description.Machine.Properties.AdFqdn",
+	"agent_version":                 "description.Machine.Properties.AgentVersion",
 	"akas":                          "description.Machine.ID",
-	"client_public_key":             "description.Machine.MachinePropertiesModel.ClientPublicKey",
-	"display_name":                  "description.Machine.MachinePropertiesModel.DisplayName",
-	"dns_fqdn":                      "description.Machine.MachinePropertiesModel.DNSFqdn",
-	"domain_name":                   "description.Machine.MachinePropertiesModel.DomainName",
-	"error_details":                 "description.Machine.MachinePropertiesModel.ErrorDetails",
+	"client_public_key":             "description.Machine.Properties.ClientPublicKey",
+	"display_name":                  "description.Machine.Properties.DisplayName",
+	"dns_fqdn":                      "description.Machine.Properties.DNSFqdn",
+	"domain_name":                   "description.Machine.Properties.DomainName",
+	"error_details":                 "description.Machine.Properties.ErrorDetails",
 	"extensions":                    "description.MachineExtensions",
 	"id":                            "description.Machine.ID",
 	"identity":                      "description.Machine.Identity",
 	"kaytu_account_id":              "metadata.SourceID",
-	"last_status_change":            "description.Machine.MachinePropertiesModel.LastStatusChange",
-	"location_data":                 "description.Machine.MachinePropertiesModel.LocationData",
-	"machine_fqdn":                  "description.Machine.MachinePropertiesModel.MachineFqdn",
-	"machine_properties_extensions": "description.Machine.MachinePropertiesModel.Extensions",
+	"last_status_change":            "description.Machine.Properties.LastStatusChange",
+	"location_data":                 "description.Machine.Properties.LocationData",
+	"machine_fqdn":                  "description.Machine.Properties.MachineFqdn",
+	"machine_properties_extensions": "description.Machine.Properties.Extensions",
 	"name":                          "description.Machine.name",
-	"os_name":                       "description.Machine.MachinePropertiesModel.OsName",
-	"os_profile":                    "description.Machine.MachinePropertiesModel.OsProfile",
-	"os_sku":                        "description.Machine.MachinePropertiesModel.OsSku",
-	"os_version":                    "description.Machine.MachinePropertiesModel.OsVersion",
-	"provisioning_state":            "description.Machine.MachinePropertiesModel.ProvisioningState",
+	"os_name":                       "description.Machine.Properties.OSName",
+	"os_profile":                    "description.Machine.Properties.OSProfile",
+	"os_sku":                        "description.Machine.Properties.OSSKU",
+	"os_version":                    "description.Machine.Properties.OSVersion",
+	"provisioning_state":            "description.Machine.Properties.ProvisioningState",
 	"region":                        "description.Machine.Location",
 	"resource_group":                "description.ResourceGroup",
-	"status":                        "description.Machine.MachinePropertiesModel.Status",
+	"status":                        "description.Machine.Properties.Status",
 	"tags":                          "description.Machine.Tags",
 	"title":                         "description.Machine.Name",
 	"type":                          "description.Machine.Type",
-	"vm_id":                         "description.Machine.MachinePropertiesModel.VMID",
-	"vm_uuid":                       "description.Machine.MachinePropertiesModel.VMUUID",
+	"vm_id":                         "description.Machine.Properties.VMID",
+	"vm_uuid":                       "description.Machine.Properties.VMUUID",
 }
 
 func GetHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -21176,9 +22465,9 @@ var listIOTHubFilters = map[string]string{
 	"region":                           "description.IotHubDescription.Location",
 	"resource_group":                   "description.ResourceGroup",
 	"routing":                          "description.IotHubDescription.Properties.Routing",
-	"sku_capacity":                     "description.IotHubDescription.Sku.Capacity",
-	"sku_name":                         "description.IotHubDescription.Sku.Name",
-	"sku_tier":                         "description.IotHubDescription.Sku.Tier",
+	"sku_capacity":                     "description.IotHubDescription.SKU.Capacity",
+	"sku_name":                         "description.IotHubDescription.SKU.Name",
+	"sku_tier":                         "description.IotHubDescription.SKU.Tier",
 	"state":                            "description.IotHubDescription.Properties.State",
 	"storage_endpoints":                "description.IotHubDescription.Properties.StorageEndpoints",
 	"tags":                             "description.IotHubDescription.Tags",
@@ -21240,9 +22529,9 @@ var getIOTHubFilters = map[string]string{
 	"region":                           "description.IotHubDescription.Location",
 	"resource_group":                   "description.ResourceGroup",
 	"routing":                          "description.IotHubDescription.Properties.Routing",
-	"sku_capacity":                     "description.IotHubDescription.Sku.Capacity",
-	"sku_name":                         "description.IotHubDescription.Sku.Name",
-	"sku_tier":                         "description.IotHubDescription.Sku.Tier",
+	"sku_capacity":                     "description.IotHubDescription.SKU.Capacity",
+	"sku_name":                         "description.IotHubDescription.SKU.Name",
+	"sku_tier":                         "description.IotHubDescription.SKU.Tier",
 	"state":                            "description.IotHubDescription.Properties.State",
 	"storage_endpoints":                "description.IotHubDescription.Properties.StorageEndpoints",
 	"tags":                             "description.IotHubDescription.Tags",
@@ -21376,9 +22665,9 @@ var listIOTHubDpsFilters = map[string]string{
 	"region":                        "description.IotHubDps.Location",
 	"resource_group":                "description.ResourceGroup",
 	"service_operations_host_name":  "description.IotHubDps.Properties.ServiceOperationsHostName",
-	"sku_capacity":                  "description.IotHubDps.Sku.Capacity",
-	"sku_name":                      "description.IotHubDps.Sku.Name",
-	"sku_tier":                      "description.IotHubDps.Sku.Tier",
+	"sku_capacity":                  "description.IotHubDps.SKU.Capacity",
+	"sku_name":                      "description.IotHubDps.SKU.Name",
+	"sku_tier":                      "description.IotHubDps.SKU.Tier",
 	"state":                         "description.IotHubDps.Properties.State",
 	"tags":                          "description.IotHubDps.Tags",
 	"title":                         "description.IotHubDps.Name",
@@ -21431,9 +22720,9 @@ var getIOTHubDpsFilters = map[string]string{
 	"region":                        "description.IotHubDps.Location",
 	"resource_group":                "description.ResourceGroup",
 	"service_operations_host_name":  "description.IotHubDps.Properties.ServiceOperationsHostName",
-	"sku_capacity":                  "description.IotHubDps.Sku.Capacity",
-	"sku_name":                      "description.IotHubDps.Sku.Name",
-	"sku_tier":                      "description.IotHubDps.Sku.Tier",
+	"sku_capacity":                  "description.IotHubDps.SKU.Capacity",
+	"sku_name":                      "description.IotHubDps.SKU.Name",
+	"sku_tier":                      "description.IotHubDps.SKU.Tier",
 	"state":                         "description.IotHubDps.Properties.State",
 	"tags":                          "description.IotHubDps.Tags",
 	"title":                         "description.IotHubDps.Name",
@@ -21561,12 +22850,12 @@ var listKeyVaultFilters = map[string]string{
 	"id":                              "description.Vault.ID",
 	"kaytu_account_id":                "metadata.SourceID",
 	"name":                            "description.Vault.Name",
-	"network_acls":                    "description.Vault.Properties.NetworkAcls",
+	"network_acls":                    "description.Vault.Properties.NetworkACLs",
 	"purge_protection_enabled":        "description.Vault.Properties.EnablePurgeProtection",
 	"region":                          "description.Vault.Location",
 	"resource_group":                  "description.ResourceGroup",
-	"sku_family":                      "description.Vault.Properties.Sku.Family",
-	"sku_name":                        "description.Vault.Properties.Sku.Name",
+	"sku_family":                      "description.Vault.Properties.SKU.Family",
+	"sku_name":                        "description.Vault.Properties.SKU.Name",
 	"soft_delete_enabled":             "description.Vault.Properties.EnableSoftDelete",
 	"soft_delete_retention_in_days":   "description.Vault.Properties.SoftDeleteRetentionInDays",
 	"tags":                            "description.Vault.Tags",
@@ -21617,12 +22906,12 @@ var getKeyVaultFilters = map[string]string{
 	"id":                              "description.Vault.ID",
 	"kaytu_account_id":                "metadata.SourceID",
 	"name":                            "description.Resource.name",
-	"network_acls":                    "description.Vault.Properties.NetworkAcls",
+	"network_acls":                    "description.Vault.Properties.NetworkACLs",
 	"purge_protection_enabled":        "description.Vault.Properties.EnablePurgeProtection",
 	"region":                          "description.Vault.Location",
 	"resource_group":                  "description.ResourceGroup",
-	"sku_family":                      "description.Vault.Properties.Sku.Family",
-	"sku_name":                        "description.Vault.Properties.Sku.Name",
+	"sku_family":                      "description.Vault.Properties.SKU.Family",
+	"sku_name":                        "description.Vault.Properties.SKU.Name",
 	"soft_delete_enabled":             "description.Vault.Properties.EnableSoftDelete",
 	"soft_delete_retention_in_days":   "description.Vault.Properties.SoftDeleteRetentionInDays",
 	"tags":                            "description.Vault.Tags",
@@ -21925,8 +23214,8 @@ var listKeyVaultManagedHardwareSecurityModuleFilters = map[string]string{
 	"provisioning_state":            "description.ManagedHsm.Properties.ProvisioningState",
 	"region":                        "description.ManagedHsm.Location",
 	"resource_group":                "description.ResourceGroup",
-	"sku_family":                    "description.ManagedHsm.Sku.Family",
-	"sku_name":                      "description.ManagedHsm.Sku.Name",
+	"sku_family":                    "description.ManagedHsm.SKU.Family",
+	"sku_name":                      "description.ManagedHsm.SKU.Name",
 	"soft_delete_retention_in_days": "description.ManagedHsm.Properties.SoftDeleteRetentionInDays",
 	"status_message":                "description.ManagedHsm.Properties.StatusMessage",
 	"tags":                          "description.ManagedHsm.Tags",
@@ -21978,8 +23267,8 @@ var getKeyVaultManagedHardwareSecurityModuleFilters = map[string]string{
 	"provisioning_state":            "description.ManagedHsm.Properties.ProvisioningState",
 	"region":                        "description.ManagedHsm.Location",
 	"resource_group":                "description.ResourceGroup",
-	"sku_family":                    "description.ManagedHsm.Sku.Family",
-	"sku_name":                      "description.ManagedHsm.Sku.Name",
+	"sku_family":                    "description.ManagedHsm.SKU.Family",
+	"sku_name":                      "description.ManagedHsm.SKU.Name",
 	"soft_delete_retention_in_days": "description.ManagedHsm.Properties.SoftDeleteRetentionInDays",
 	"status_message":                "description.ManagedHsm.Properties.StatusMessage",
 	"tags":                          "description.ManagedHsm.Tags",
@@ -22099,22 +23388,22 @@ func (p KeyVaultSecretPaginator) NextPage(ctx context.Context) ([]KeyVaultSecret
 }
 
 var listKeyVaultSecretFilters = map[string]string{
-	"akas":             "description.SecretItem.ID",
-	"content_type":     "description.SecretItem.ContentType",
-	"created_at":       "description.SecretItem.Attributes.Created",
-	"enabled":          "description.SecretItem.Attributes.Enabled",
-	"expires_at":       "description.SecretItem.Attributes.Expires",
+	"akas":             "description.TurboData.Akas",
+	"content_type":     "description.SecretItem.Properties.ContentType",
+	"created_at":       "description.SecretItem.Properties.Attributes.Created",
+	"enabled":          "description.SecretItem.Properties.Attributes.Enabled",
+	"expires_at":       "description.SecretItem.Properties.Attributes.Expires",
+	"id":               "description.SecretItem.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"kid":              "description.SecretBundle.Kid",
-	"managed":          "description.SecretItem.Managed",
-	"not_before":       "description.SecretItem.Attributes.NotBefore",
-	"recoverable_days": "description.SecretItem.Attributes.RecoverableDays",
-	"recovery_level":   "description.SecretItem.Attributes.RecoveryLevel",
-	"region":           "description.SecretBundle",
-	"resource_group":   "description.ResourceGroup",
+	"name":             "description.SecretItem.Name",
+	"not_before":       "description.SecretItem.Properties.Attributes.NotBefore",
+	"recoverable_days": "description.Vault.Properties.SoftDeleteRetentionInDays",
+	"region":           "description.TurboData.Location",
+	"resource_group":   "description.TurboData.ResourceGroup",
 	"tags":             "description.SecretItem.Tags",
-	"updated_at":       "description.SecretItem.Attributes.Updated",
-	"value":            "description.SecretBundle.Value",
+	"updated_at":       "description.SecretItem.Properties.Attributes.Updated",
+	"value":            "description.SecretItem.Properties.Value",
 }
 
 func ListKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -22148,23 +23437,22 @@ func ListKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getKeyVaultSecretFilters = map[string]string{
-	"akas":             "description.SecretItem.ID",
-	"content_type":     "description.SecretItem.ContentType",
-	"created_at":       "description.SecretItem.Attributes.Created",
-	"enabled":          "description.SecretItem.Attributes.Enabled",
-	"expires_at":       "description.SecretItem.Attributes.Expires",
+	"akas":             "description.TurboData.Akas",
+	"content_type":     "description.SecretItem.Properties.ContentType",
+	"created_at":       "description.SecretItem.Properties.Attributes.Created",
+	"enabled":          "description.SecretItem.Properties.Attributes.Enabled",
+	"expires_at":       "description.SecretItem.Properties.Attributes.Expires",
+	"id":               "description.SecretItem.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"kid":              "description.SecretBundle.Kid",
-	"managed":          "description.SecretItem.Managed",
 	"name":             "description.SecretItem.name",
-	"not_before":       "description.SecretItem.Attributes.NotBefore",
-	"recoverable_days": "description.SecretItem.Attributes.RecoverableDays",
-	"recovery_level":   "description.SecretItem.Attributes.RecoveryLevel",
-	"region":           "description.SecretBundle",
+	"not_before":       "description.SecretItem.Properties.Attributes.NotBefore",
+	"recoverable_days": "description.Vault.Properties.SoftDeleteRetentionInDays",
+	"region":           "description.TurboData.Location",
 	"resource_group":   "description.ResourceGroup",
 	"tags":             "description.SecretItem.Tags",
-	"updated_at":       "description.SecretItem.Attributes.Updated",
-	"value":            "description.SecretBundle.Value",
+	"updated_at":       "description.SecretItem.Properties.Attributes.Updated",
+	"value":            "description.SecretItem.Properties.Value",
 }
 
 func GetKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -22279,34 +23567,34 @@ func (p KustoClusterPaginator) NextPage(ctx context.Context) ([]KustoCluster, er
 
 var listKustoClusterFilters = map[string]string{
 	"akas":                          "description.Cluster.ID",
-	"data_ingestion_uri":            "description.Cluster.ClusterProperties.DataIngestionURI",
-	"enable_disk_encryption":        "description.Cluster.ClusterProperties.EnableDiskEncryption",
-	"enable_double_encryption":      "description.Cluster.ClusterProperties.EnableDoubleEncryption",
-	"enable_purge":                  "description.Cluster.ClusterProperties.EnablePurge",
-	"enable_streaming_ingest":       "description.Cluster.ClusterProperties.EnableStreamingIngest",
-	"engine_type":                   "description.Cluster.ClusterProperties.EngineType",
+	"data_ingestion_uri":            "description.Cluster.Properties.DataIngestionURI",
+	"enable_disk_encryption":        "description.Cluster.Properties.EnableDiskEncryption",
+	"enable_double_encryption":      "description.Cluster.Properties.EnableDoubleEncryption",
+	"enable_purge":                  "description.Cluster.Properties.EnablePurge",
+	"enable_streaming_ingest":       "description.Cluster.Properties.EnableStreamingIngest",
+	"engine_type":                   "description.Cluster.Properties.EngineType",
 	"etag":                          "description.Cluster.Etag",
 	"id":                            "description.Cluster.ID",
 	"kaytu_account_id":              "metadata.SourceID",
-	"key_vault_properties":          "description.Cluster.ClusterProperties.KeyVaultProperties",
-	"language_extensions":           "description.Cluster.ClusterProperties.LanguageExtensions",
+	"key_vault_properties":          "description.Cluster.Properties.KeyVaultProperties",
+	"language_extensions":           "description.Cluster.Properties.LanguageExtensions",
 	"location":                      "description.Cluster.Location",
 	"name":                          "description.Cluster.Name",
-	"optimized_autoscale":           "description.Cluster.ClusterProperties.OptimizedAutoscale",
-	"provisioning_state":            "description.Cluster.ClusterProperties.ProvisioningState",
+	"optimized_autoscale":           "description.Cluster.Properties.OptimizedAutoscale",
+	"provisioning_state":            "description.Cluster.Properties.ProvisioningState",
 	"region":                        "description.Cluster.Location",
 	"resource_group":                "description.ResourceGroup",
-	"sku_capacity":                  "description.Cluster.Sku.Capacity",
-	"sku_name":                      "description.Cluster.Sku.Name",
-	"sku_tier":                      "description.Cluster.Sku.Tier",
-	"state":                         "description.Cluster.ClusterProperties.State",
-	"state_reason":                  "description.Cluster.ClusterProperties.StateReason",
+	"sku_capacity":                  "description.Cluster.SKU.Capacity",
+	"sku_name":                      "description.Cluster.SKU.Name",
+	"sku_tier":                      "description.Cluster.SKU.Tier",
+	"state":                         "description.Cluster.Properties.State",
+	"state_reason":                  "description.Cluster.Properties.StateReason",
 	"tags":                          "description.Cluster.Tags",
 	"title":                         "description.Cluster.Name",
-	"trusted_external_tenants":      "description.Cluster.ClusterProperties.TrustedExternalTenants",
+	"trusted_external_tenants":      "description.Cluster.Properties.TrustedExternalTenants",
 	"type":                          "description.Cluster.Type",
 	"uri":                           "clusterProperties.URI",
-	"virtual_network_configuration": "description.Cluster.ClusterProperties.VirtualNetworkConfiguration",
+	"virtual_network_configuration": "description.Cluster.Properties.VirtualNetworkConfiguration",
 }
 
 func ListKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -22341,34 +23629,34 @@ func ListKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 var getKustoClusterFilters = map[string]string{
 	"akas":                          "description.Cluster.ID",
-	"data_ingestion_uri":            "description.Cluster.ClusterProperties.DataIngestionURI",
-	"enable_disk_encryption":        "description.Cluster.ClusterProperties.EnableDiskEncryption",
-	"enable_double_encryption":      "description.Cluster.ClusterProperties.EnableDoubleEncryption",
-	"enable_purge":                  "description.Cluster.ClusterProperties.EnablePurge",
-	"enable_streaming_ingest":       "description.Cluster.ClusterProperties.EnableStreamingIngest",
-	"engine_type":                   "description.Cluster.ClusterProperties.EngineType",
+	"data_ingestion_uri":            "description.Cluster.Properties.DataIngestionURI",
+	"enable_disk_encryption":        "description.Cluster.Properties.EnableDiskEncryption",
+	"enable_double_encryption":      "description.Cluster.Properties.EnableDoubleEncryption",
+	"enable_purge":                  "description.Cluster.Properties.EnablePurge",
+	"enable_streaming_ingest":       "description.Cluster.Properties.EnableStreamingIngest",
+	"engine_type":                   "description.Cluster.Properties.EngineType",
 	"etag":                          "description.Cluster.Etag",
 	"id":                            "description.Cluster.ID",
 	"kaytu_account_id":              "metadata.SourceID",
-	"key_vault_properties":          "description.Cluster.ClusterProperties.KeyVaultProperties",
-	"language_extensions":           "description.Cluster.ClusterProperties.LanguageExtensions",
+	"key_vault_properties":          "description.Cluster.Properties.KeyVaultProperties",
+	"language_extensions":           "description.Cluster.Properties.LanguageExtensions",
 	"location":                      "description.Cluster.Location",
 	"name":                          "description.Cluster.name",
-	"optimized_autoscale":           "description.Cluster.ClusterProperties.OptimizedAutoscale",
-	"provisioning_state":            "description.Cluster.ClusterProperties.ProvisioningState",
+	"optimized_autoscale":           "description.Cluster.Properties.OptimizedAutoscale",
+	"provisioning_state":            "description.Cluster.Properties.ProvisioningState",
 	"region":                        "description.Cluster.Location",
 	"resource_group":                "description.ResourceGroup",
-	"sku_capacity":                  "description.Cluster.Sku.Capacity",
-	"sku_name":                      "description.Cluster.Sku.Name",
-	"sku_tier":                      "description.Cluster.Sku.Tier",
-	"state":                         "description.Cluster.ClusterProperties.State",
-	"state_reason":                  "description.Cluster.ClusterProperties.StateReason",
+	"sku_capacity":                  "description.Cluster.SKU.Capacity",
+	"sku_name":                      "description.Cluster.SKU.Name",
+	"sku_tier":                      "description.Cluster.SKU.Tier",
+	"state":                         "description.Cluster.Properties.State",
+	"state_reason":                  "description.Cluster.Properties.StateReason",
 	"tags":                          "description.Cluster.Tags",
 	"title":                         "description.Cluster.Name",
-	"trusted_external_tenants":      "description.Cluster.ClusterProperties.TrustedExternalTenants",
+	"trusted_external_tenants":      "description.Cluster.Properties.TrustedExternalTenants",
 	"type":                          "description.Cluster.Type",
 	"uri":                           "clusterProperties.URI",
-	"virtual_network_configuration": "description.Cluster.ClusterProperties.VirtualNetworkConfiguration",
+	"virtual_network_configuration": "description.Cluster.Properties.VirtualNetworkConfiguration",
 }
 
 func GetKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -22482,18 +23770,18 @@ func (p LogAlertPaginator) NextPage(ctx context.Context) ([]LogAlert, error) {
 }
 
 var listLogAlertFilters = map[string]string{
-	"actions":          "description.ActivityLogAlertResource.ActivityLogAlert.Actions",
+	"actions":          "description.ActivityLogAlertResource.Properties.Actions",
 	"akas":             "description.ActivityLogAlertResource.ID",
-	"condition":        "description.ActivityLogAlertResource.ActivityLogAlert.Condition",
-	"description":      "description.ActivityLogAlertResource.ActivityLogAlert.Description",
-	"enabled":          "description.ActivityLogAlertResource.ActivityLogAlert.Enabled",
+	"condition":        "description.ActivityLogAlertResource.Properties.Condition",
+	"description":      "description.ActivityLogAlertResource.Properties.Description",
+	"enabled":          "description.ActivityLogAlertResource.Properties.Enabled",
 	"id":               "description.ActivityLogAlertResource.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"location":         "description.ActivityLogAlertResource.Location",
 	"name":             "description.ActivityLogAlertResource.Name",
 	"region":           "description.ActivityLogAlertResource.Location",
 	"resource_group":   "description.ResourceGroup",
-	"scopes":           "description.ActivityLogAlertResource.ActivityLogAlert.Scopes",
+	"scopes":           "description.ActivityLogAlertResource.Properties.Scopes",
 	"tags":             "description.ActivityLogAlertResource.Tags",
 	"title":            "description.ActivityLogAlertResource.Name",
 	"type":             "description.ActivityLogAlertResource.Type",
@@ -22530,18 +23818,18 @@ func ListLogAlert(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 }
 
 var getLogAlertFilters = map[string]string{
-	"actions":          "description.ActivityLogAlertResource.ActivityLogAlert.Actions",
+	"actions":          "description.ActivityLogAlertResource.Properties.Actions",
 	"akas":             "description.ActivityLogAlertResource.ID",
-	"condition":        "description.ActivityLogAlertResource.ActivityLogAlert.Condition",
-	"description":      "description.ActivityLogAlertResource.ActivityLogAlert.Description",
-	"enabled":          "description.ActivityLogAlertResource.ActivityLogAlert.Enabled",
+	"condition":        "description.ActivityLogAlertResource.Properties.Condition",
+	"description":      "description.ActivityLogAlertResource.Properties.Description",
+	"enabled":          "description.ActivityLogAlertResource.Properties.Enabled",
 	"id":               "description.ActivityLogAlertResource.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"location":         "description.ActivityLogAlertResource.Location",
 	"name":             "description.ActivityLogAlertResource.name",
 	"region":           "description.ActivityLogAlertResource.Location",
 	"resource_group":   "description.ResourceGroup",
-	"scopes":           "description.ActivityLogAlertResource.ActivityLogAlert.Scopes",
+	"scopes":           "description.ActivityLogAlertResource.Properties.Scopes",
 	"tags":             "description.ActivityLogAlertResource.Tags",
 	"title":            "description.ActivityLogAlertResource.Name",
 	"type":             "description.ActivityLogAlertResource.Type",
@@ -22659,17 +23947,17 @@ func (p LogProfilePaginator) NextPage(ctx context.Context) ([]LogProfile, error)
 
 var listLogProfileFilters = map[string]string{
 	"akas":                "description.LogProfileResource.ID",
-	"categories":          "description.LogProfileResource.LogProfileProperties.Categories",
+	"categories":          "description.LogProfileResource.Properties.Categories",
 	"id":                  "description.LogProfileResource.ID",
 	"kaytu_account_id":    "metadata.SourceID",
 	"location":            "description.LogProfileResource.Location",
-	"log_event_location":  "description.LogProfileResource.LogProfileProperties.Locations",
+	"log_event_location":  "description.LogProfileResource.Properties.Locations",
 	"name":                "description.LogProfileResource.Name",
 	"region":              "description.LogProfileResource.Location",
 	"resource_group":      "description.ResourceGroup",
-	"retention_policy":    "description.LogProfileResource.LogProfileProperties.RetentionPolicy",
-	"service_bus_rule_id": "description.LogProfileResource.LogProfileProperties.ServiceBusRuleID",
-	"storage_account_id":  "description.LogProfileResource.LogProfileProperties.StorageAccountID",
+	"retention_policy":    "description.LogProfileResource.Properties.RetentionPolicy",
+	"service_bus_rule_id": "description.LogProfileResource.Properties.ServiceBusRuleID",
+	"storage_account_id":  "description.LogProfileResource.Properties.StorageAccountID",
 	"tags":                "description.LogProfileResource.Tags",
 	"title":               "description.LogProfileResource.Name",
 	"type":                "description.LogProfileResource.Type",
@@ -22707,17 +23995,17 @@ func ListLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 var getLogProfileFilters = map[string]string{
 	"akas":                "description.LogProfileResource.ID",
-	"categories":          "description.LogProfileResource.LogProfileProperties.Categories",
+	"categories":          "description.LogProfileResource.Properties.Categories",
 	"id":                  "description.LogProfileResource.ID",
 	"kaytu_account_id":    "metadata.SourceID",
 	"location":            "description.LogProfileResource.Location",
-	"log_event_location":  "description.LogProfileResource.LogProfileProperties.Locations",
+	"log_event_location":  "description.LogProfileResource.Properties.Locations",
 	"name":                "description.LogProfileResource.name",
 	"region":              "description.LogProfileResource.Location",
 	"resource_group":      "description.ResourceGroup",
-	"retention_policy":    "description.LogProfileResource.LogProfileProperties.RetentionPolicy",
-	"service_bus_rule_id": "description.LogProfileResource.LogProfileProperties.ServiceBusRuleID",
-	"storage_account_id":  "description.LogProfileResource.LogProfileProperties.StorageAccountID",
+	"retention_policy":    "description.LogProfileResource.Properties.RetentionPolicy",
+	"service_bus_rule_id": "description.LogProfileResource.Properties.ServiceBusRuleID",
+	"storage_account_id":  "description.LogProfileResource.Properties.StorageAccountID",
 	"tags":                "description.LogProfileResource.Tags",
 	"title":               "description.LogProfileResource.Name",
 	"type":                "description.LogProfileResource.Type",
@@ -22834,30 +24122,30 @@ func (p LogicAppWorkflowPaginator) NextPage(ctx context.Context) ([]LogicAppWork
 }
 
 var listLogicAppWorkflowFilters = map[string]string{
-	"access_control":                  "description.Workflow.WorkflowProperties.AccessControl",
-	"access_endpoint":                 "description.Workflow.WorkflowProperties.AccessEndpoint",
+	"access_control":                  "description.Workflow.Properties.AccessControl",
+	"access_endpoint":                 "description.Workflow.Properties.AccessEndpoint",
 	"akas":                            "description.Workflow.ID",
-	"changed_time":                    "description.Workflow.WorkflowProperties.ChangedTime",
-	"created_time":                    "description.Workflow.WorkflowProperties.CreatedTime",
-	"definition":                      "description.Workflow.WorkflowProperties.Definition",
+	"changed_time":                    "description.Workflow.Properties.ChangedTime",
+	"created_time":                    "description.Workflow.Properties.CreatedTime",
+	"definition":                      "description.Workflow.Properties.Definition",
 	"diagnostic_settings":             "description.DiagnosticSettingsResources",
-	"endpoints_configuration":         "description.Workflow.WorkflowProperties.EndpointsConfiguration",
+	"endpoints_configuration":         "description.Workflow.Properties.EndpointsConfiguration",
 	"id":                              "description.Workflow.ID",
-	"integration_account":             "description.Workflow.WorkflowProperties.IntegrationAccount",
-	"integration_service_environment": "description.Workflow.WorkflowProperties.IntegrationServiceEnvironment",
+	"integration_account":             "description.Workflow.Properties.IntegrationAccount",
+	"integration_service_environment": "description.Workflow.Properties.IntegrationServiceEnvironment",
 	"kaytu_account_id":                "metadata.SourceID",
 	"name":                            "description.Workflow.Name",
-	"parameters":                      "description.Workflow.WorkflowProperties.Parameters",
-	"provisioning_state":              "description.Workflow.WorkflowProperties.ProvisioningState",
+	"parameters":                      "description.Workflow.Properties.Parameters",
+	"provisioning_state":              "description.Workflow.Properties.ProvisioningState",
 	"region":                          "description.Workflow.Location",
 	"resource_group":                  "description.ResourceGroup",
-	"sku_name":                        "description.Workflow.WorkflowProperties.Sku.Name",
-	"sku_plan":                        "description.Workflow.WorkflowProperties.Sku.Plan",
-	"state":                           "description.Workflow.WorkflowProperties.State",
+	"sku_name":                        "description.Workflow.Properties.SKU.Name",
+	"sku_plan":                        "description.Workflow.Properties.SKU.Plan",
+	"state":                           "description.Workflow.Properties.State",
 	"tags":                            "description.Workflow.Tags",
 	"title":                           "description.Workflow.Name",
 	"type":                            "description.Workflow.Type",
-	"version":                         "description.Workflow.WorkflowProperties.Version",
+	"version":                         "description.Workflow.Properties.Version",
 }
 
 func ListLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -22891,30 +24179,30 @@ func ListLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getLogicAppWorkflowFilters = map[string]string{
-	"access_control":                  "description.Workflow.WorkflowProperties.AccessControl",
-	"access_endpoint":                 "description.Workflow.WorkflowProperties.AccessEndpoint",
+	"access_control":                  "description.Workflow.Properties.AccessControl",
+	"access_endpoint":                 "description.Workflow.Properties.AccessEndpoint",
 	"akas":                            "description.Workflow.ID",
-	"changed_time":                    "description.Workflow.WorkflowProperties.ChangedTime",
-	"created_time":                    "description.Workflow.WorkflowProperties.CreatedTime",
-	"definition":                      "description.Workflow.WorkflowProperties.Definition",
+	"changed_time":                    "description.Workflow.Properties.ChangedTime",
+	"created_time":                    "description.Workflow.Properties.CreatedTime",
+	"definition":                      "description.Workflow.Properties.Definition",
 	"diagnostic_settings":             "description.DiagnosticSettingsResources",
-	"endpoints_configuration":         "description.Workflow.WorkflowProperties.EndpointsConfiguration",
+	"endpoints_configuration":         "description.Workflow.Properties.EndpointsConfiguration",
 	"id":                              "description.Workflow.ID",
-	"integration_account":             "description.Workflow.WorkflowProperties.IntegrationAccount",
-	"integration_service_environment": "description.Workflow.WorkflowProperties.IntegrationServiceEnvironment",
+	"integration_account":             "description.Workflow.Properties.IntegrationAccount",
+	"integration_service_environment": "description.Workflow.Properties.IntegrationServiceEnvironment",
 	"kaytu_account_id":                "metadata.SourceID",
 	"name":                            "description.Workflow.name",
-	"parameters":                      "description.Workflow.WorkflowProperties.Parameters",
-	"provisioning_state":              "description.Workflow.WorkflowProperties.ProvisioningState",
+	"parameters":                      "description.Workflow.Properties.Parameters",
+	"provisioning_state":              "description.Workflow.Properties.ProvisioningState",
 	"region":                          "description.Workflow.Location",
 	"resource_group":                  "description.ResourceGroup",
-	"sku_name":                        "description.Workflow.WorkflowProperties.Sku.Name",
-	"sku_plan":                        "description.Workflow.WorkflowProperties.Sku.Plan",
-	"state":                           "description.Workflow.WorkflowProperties.State",
+	"sku_name":                        "description.Workflow.Properties.SKU.Name",
+	"sku_plan":                        "description.Workflow.Properties.SKU.Plan",
+	"state":                           "description.Workflow.Properties.State",
 	"tags":                            "description.Workflow.Tags",
 	"title":                           "description.Workflow.Name",
 	"type":                            "description.Workflow.Type",
-	"version":                         "description.Workflow.WorkflowProperties.Version",
+	"version":                         "description.Workflow.Properties.Version",
 }
 
 func GetLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -23028,12 +24316,12 @@ func (p LogicIntegrationAccountsPaginator) NextPage(ctx context.Context) ([]Logi
 }
 
 var listLogicIntegrationAccountsFilters = map[string]string{
-	"akas":             "description.IntegrationAccounts.ID",
-	"id":               "description.IntegrationAccounts.Id",
+	"akas":             "description.Account.ID",
+	"id":               "description.IntegrationAccounts.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.IntegrationAccounts.Name",
-	"tags":             "description.IntegrationAccounts.Tags",
-	"title":            "description.IntegrationAccounts.Name",
+	"name":             "description.Account.Properties.IntegrationServiceEnvironment.Name",
+	"tags":             "description.Account.Properties.IntegrationServiceEnvironment.Name",
+	"title":            "description.Account.Properties.IntegrationServiceEnvironment.Name",
 }
 
 func ListLogicIntegrationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -23067,12 +24355,12 @@ func ListLogicIntegrationAccounts(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getLogicIntegrationAccountsFilters = map[string]string{
-	"akas":             "description.IntegrationAccounts.ID",
-	"id":               "description.IntegrationAccounts.Id",
+	"akas":             "description.Account.ID",
+	"id":               "description.IntegrationAccounts.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.IntegrationAccounts.Name",
-	"tags":             "description.IntegrationAccounts.Tags",
-	"title":            "description.IntegrationAccounts.Name",
+	"name":             "description.Account.Properties.IntegrationServiceEnvironment.Name",
+	"tags":             "description.Account.Properties.IntegrationServiceEnvironment.Name",
+	"title":            "description.Account.Properties.IntegrationServiceEnvironment.Name",
 }
 
 func GetLogicIntegrationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -23186,33 +24474,33 @@ func (p MachineLearningWorkspacePaginator) NextPage(ctx context.Context) ([]Mach
 }
 
 var listMachineLearningWorkspaceFilters = map[string]string{
-	"akas":                               "description.Workspace.ID",
-	"application_insights":               "description.Workspace.WorkspaceProperties.ApplicationInsights",
-	"container_registry":                 "description.Workspace.WorkspaceProperties.ContainerRegistry",
-	"creation_time":                      "description.Workspace.WorkspaceProperties.CreationTime",
-	"description":                        "description.Workspace.WorkspaceProperties.Description",
+	"akas":                               "description.Workspace.Properties.WorkspaceID",
+	"application_insights":               "description.Workspace.Properties.ApplicationInsights",
+	"container_registry":                 "description.Workspace.Properties.ContainerRegistry",
+	"creation_time":                      "workspaceProperties.CreationTime",
+	"description":                        "description.Workspace.Properties.Description",
 	"diagnostic_settings":                "description.DiagnosticSettingsResources",
-	"discovery_url":                      "description.Workspace.WorkspaceProperties.DiscoveryURL",
-	"encryption":                         "description.Workspace.WorkspaceProperties.Encryption",
-	"friendly_name":                      "description.Workspace.WorkspaceProperties.FriendlyName",
-	"hbi_workspace":                      "description.Workspace.WorkspaceProperties.HbiWorkspace",
+	"discovery_url":                      "description.Workspace.Properties.DiscoveryURL",
+	"encryption":                         "description.Workspace.Properties.Encryption",
+	"friendly_name":                      "description.Workspace.Properties.FriendlyName",
+	"hbi_workspace":                      "description.Workspace.Properties.HbiWorkspace",
 	"id":                                 "description.Workspace.ID",
 	"identity":                           "description.Workspace.Identity",
 	"kaytu_account_id":                   "metadata.SourceID",
-	"key_vault":                          "description.Workspace.WorkspaceProperties.KeyVault",
+	"key_vault":                          "description.Workspace.Properties.KeyVault",
 	"location":                           "description.Workspace.Location",
 	"name":                               "description.Workspace.Name",
-	"provisioning_state":                 "description.Workspace.WorkspaceProperties.ProvisioningState",
+	"provisioning_state":                 "description.Workspace.Properties.ProvisioningState",
 	"region":                             "description.Workspace.Location",
 	"resource_group":                     "description.ResourceGroup",
-	"service_provisioned_resource_group": "description.Workspace.WorkspaceProperties.ServiceProvisionedResourceGroup",
-	"sku_name":                           "description.Workspace.Sku.Name",
-	"sku_tier":                           "description.Workspace.Sku.Tier",
-	"storage_account":                    "description.Workspace.WorkspaceProperties.StorageAccount",
+	"service_provisioned_resource_group": "description.Workspace.Properties.ServiceProvisionedResourceGroup",
+	"sku_name":                           "description.Workspace.SKU.Name",
+	"sku_tier":                           "description.Workspace.SKU.Tier",
+	"storage_account":                    "description.Workspace.Properties.StorageAccount",
 	"tags":                               "description.Workspace.Tags",
 	"title":                              "description.Workspace.Name",
 	"type":                               "description.Workspace.Type",
-	"workspace_id":                       "description.Workspace.WorkspaceProperties.WorkspaceID",
+	"workspace_id":                       "description.Workspace.Properties.WorkspaceID",
 }
 
 func ListMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -23246,33 +24534,33 @@ func ListMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getMachineLearningWorkspaceFilters = map[string]string{
-	"akas":                               "description.Workspace.ID",
-	"application_insights":               "description.Workspace.WorkspaceProperties.ApplicationInsights",
-	"container_registry":                 "description.Workspace.WorkspaceProperties.ContainerRegistry",
-	"creation_time":                      "description.Workspace.WorkspaceProperties.CreationTime",
-	"description":                        "description.Workspace.WorkspaceProperties.Description",
+	"akas":                               "description.Workspace.Properties.WorkspaceID",
+	"application_insights":               "description.Workspace.Properties.ApplicationInsights",
+	"container_registry":                 "description.Workspace.Properties.ContainerRegistry",
+	"creation_time":                      "workspaceProperties.CreationTime",
+	"description":                        "description.Workspace.Properties.Description",
 	"diagnostic_settings":                "description.DiagnosticSettingsResources",
-	"discovery_url":                      "description.Workspace.WorkspaceProperties.DiscoveryURL",
-	"encryption":                         "description.Workspace.WorkspaceProperties.Encryption",
-	"friendly_name":                      "description.Workspace.WorkspaceProperties.FriendlyName",
-	"hbi_workspace":                      "description.Workspace.WorkspaceProperties.HbiWorkspace",
+	"discovery_url":                      "description.Workspace.Properties.DiscoveryURL",
+	"encryption":                         "description.Workspace.Properties.Encryption",
+	"friendly_name":                      "description.Workspace.Properties.FriendlyName",
+	"hbi_workspace":                      "description.Workspace.Properties.HbiWorkspace",
 	"id":                                 "description.Workspace.ID",
 	"identity":                           "description.Workspace.Identity",
 	"kaytu_account_id":                   "metadata.SourceID",
-	"key_vault":                          "description.Workspace.WorkspaceProperties.KeyVault",
+	"key_vault":                          "description.Workspace.Properties.KeyVault",
 	"location":                           "description.Workspace.Location",
 	"name":                               "description.Workspace.name",
-	"provisioning_state":                 "description.Workspace.WorkspaceProperties.ProvisioningState",
+	"provisioning_state":                 "description.Workspace.Properties.ProvisioningState",
 	"region":                             "description.Workspace.Location",
 	"resource_group":                     "description.ResourceGroup",
-	"service_provisioned_resource_group": "description.Workspace.WorkspaceProperties.ServiceProvisionedResourceGroup",
-	"sku_name":                           "description.Workspace.Sku.Name",
-	"sku_tier":                           "description.Workspace.Sku.Tier",
-	"storage_account":                    "description.Workspace.WorkspaceProperties.StorageAccount",
+	"service_provisioned_resource_group": "description.Workspace.Properties.ServiceProvisionedResourceGroup",
+	"sku_name":                           "description.Workspace.SKU.Name",
+	"sku_tier":                           "description.Workspace.SKU.Tier",
+	"storage_account":                    "description.Workspace.Properties.StorageAccount",
 	"tags":                               "description.Workspace.Tags",
 	"title":                              "description.Workspace.Name",
 	"type":                               "description.Workspace.Type",
-	"workspace_id":                       "description.Workspace.WorkspaceProperties.WorkspaceID",
+	"workspace_id":                       "description.Workspace.Properties.WorkspaceID",
 }
 
 func GetMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -23386,35 +24674,35 @@ func (p MariadbServerPaginator) NextPage(ctx context.Context) ([]MariadbServer, 
 }
 
 var listMariadbServerFilters = map[string]string{
-	"administrator_login":          "description.Server.ServerProperties.AdministratorLogin",
+	"administrator_login":          "description.Server.Properties.AdministratorLogin",
 	"akas":                         "description.Server.ID",
-	"auto_grow_enabled":            "description.Server.ServerProperties.StorageProfile.StorageAutogrow",
-	"backup_retention_days":        "description.Server.ServerProperties.StorageProfile.BackupRetentionDays",
-	"earliest_restore_date":        "description.Server.ServerProperties.EarliestRestoreDate",
-	"fully_qualified_domain_name":  "description.Server.ServerProperties.FullyQualifiedDomainName",
-	"geo_redundant_backup_enabled": "description.Server.ServerProperties.StorageProfile.GeoRedundantBackup",
+	"auto_grow_enabled":            "description.Server.Properties.StorageProfile.StorageAutogrow",
+	"backup_retention_days":        "description.Server.Properties.StorageProfile.BackupRetentionDays",
+	"earliest_restore_date":        "description.Server.Properties.EarliestRestoreDate",
+	"fully_qualified_domain_name":  "description.Server.Properties.FullyQualifiedDomainName",
+	"geo_redundant_backup_enabled": "description.Server.Properties.StorageProfile.GeoRedundantBackup",
 	"id":                           "description.Server.ID",
 	"kaytu_account_id":             "metadata.SourceID",
-	"master_service_id":            "description.Server.ServerProperties.MasterServerID",
+	"master_service_id":            "description.Server.Properties.MasterServerID",
 	"name":                         "description.Server.Name",
-	"private_endpoint_connections": "description.Server.ServerProperties.PrivateEndpointConnections",
-	"public_network_access":        "description.Server.ServerProperties.PublicNetworkAccess",
+	"private_endpoint_connections": "description.Server.Properties.PrivateEndpointConnections",
+	"public_network_access":        "description.Server.Properties.PublicNetworkAccess",
 	"region":                       "description.Server.Location",
-	"replica_capacity":             "description.Server.ServerProperties.ReplicaCapacity",
-	"replication_role":             "description.Server.ServerProperties.ReplicationRole",
+	"replica_capacity":             "description.Server.Properties.ReplicaCapacity",
+	"replication_role":             "description.Server.Properties.ReplicationRole",
 	"resource_group":               "description.ResourceGroup",
-	"sku_capacity":                 "description.Server.Sku.Capacity",
-	"sku_family":                   "description.Server.Sku.Family",
-	"sku_name":                     "description.Server.Sku.Name",
-	"sku_size":                     "description.Server.Sku.Size",
-	"sku_tier":                     "description.Server.Sku.Tier",
-	"ssl_enforcement":              "description.Server.ServerProperties.SslEnforcement",
-	"storage_mb":                   "description.Server.ServerProperties.StorageProfile.StorageMB",
+	"sku_capacity":                 "description.Server.SKU.Capacity",
+	"sku_family":                   "description.Server.SKU.Family",
+	"sku_name":                     "description.Server.SKU.Name",
+	"sku_size":                     "description.Server.SKU.Size",
+	"sku_tier":                     "description.Server.SKU.Tier",
+	"ssl_enforcement":              "description.Server.Properties.SSLEnforcement",
+	"storage_mb":                   "description.Server.Properties.StorageProfile.StorageMB",
 	"tags":                         "description.Server.Tags",
 	"title":                        "description.Server.Name",
 	"type":                         "description.Server.Type",
-	"user_visible_state":           "description.Server.ServerProperties.UserVisibleState",
-	"version":                      "description.Server.ServerProperties.Version",
+	"user_visible_state":           "description.Server.Properties.UserVisibleState",
+	"version":                      "description.Server.Properties.Version",
 }
 
 func ListMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -23448,35 +24736,35 @@ func ListMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 }
 
 var getMariadbServerFilters = map[string]string{
-	"administrator_login":          "description.Server.ServerProperties.AdministratorLogin",
+	"administrator_login":          "description.Server.Properties.AdministratorLogin",
 	"akas":                         "description.Server.ID",
-	"auto_grow_enabled":            "description.Server.ServerProperties.StorageProfile.StorageAutogrow",
-	"backup_retention_days":        "description.Server.ServerProperties.StorageProfile.BackupRetentionDays",
-	"earliest_restore_date":        "description.Server.ServerProperties.EarliestRestoreDate",
-	"fully_qualified_domain_name":  "description.Server.ServerProperties.FullyQualifiedDomainName",
-	"geo_redundant_backup_enabled": "description.Server.ServerProperties.StorageProfile.GeoRedundantBackup",
+	"auto_grow_enabled":            "description.Server.Properties.StorageProfile.StorageAutogrow",
+	"backup_retention_days":        "description.Server.Properties.StorageProfile.BackupRetentionDays",
+	"earliest_restore_date":        "description.Server.Properties.EarliestRestoreDate",
+	"fully_qualified_domain_name":  "description.Server.Properties.FullyQualifiedDomainName",
+	"geo_redundant_backup_enabled": "description.Server.Properties.StorageProfile.GeoRedundantBackup",
 	"id":                           "description.Server.ID",
 	"kaytu_account_id":             "metadata.SourceID",
-	"master_service_id":            "description.Server.ServerProperties.MasterServerID",
+	"master_service_id":            "description.Server.Properties.MasterServerID",
 	"name":                         "description.Server.name",
-	"private_endpoint_connections": "description.Server.ServerProperties.PrivateEndpointConnections",
-	"public_network_access":        "description.Server.ServerProperties.PublicNetworkAccess",
+	"private_endpoint_connections": "description.Server.Properties.PrivateEndpointConnections",
+	"public_network_access":        "description.Server.Properties.PublicNetworkAccess",
 	"region":                       "description.Server.Location",
-	"replica_capacity":             "description.Server.ServerProperties.ReplicaCapacity",
-	"replication_role":             "description.Server.ServerProperties.ReplicationRole",
+	"replica_capacity":             "description.Server.Properties.ReplicaCapacity",
+	"replication_role":             "description.Server.Properties.ReplicationRole",
 	"resource_group":               "description.ResourceGroup",
-	"sku_capacity":                 "description.Server.Sku.Capacity",
-	"sku_family":                   "description.Server.Sku.Family",
-	"sku_name":                     "description.Server.Sku.Name",
-	"sku_size":                     "description.Server.Sku.Size",
-	"sku_tier":                     "description.Server.Sku.Tier",
-	"ssl_enforcement":              "description.Server.ServerProperties.SslEnforcement",
-	"storage_mb":                   "description.Server.ServerProperties.StorageProfile.StorageMB",
+	"sku_capacity":                 "description.Server.SKU.Capacity",
+	"sku_family":                   "description.Server.SKU.Family",
+	"sku_name":                     "description.Server.SKU.Name",
+	"sku_size":                     "description.Server.SKU.Size",
+	"sku_tier":                     "description.Server.SKU.Tier",
+	"ssl_enforcement":              "description.Server.Properties.SSLEnforcement",
+	"storage_mb":                   "description.Server.Properties.StorageProfile.StorageMB",
 	"tags":                         "description.Server.Tags",
 	"title":                        "description.Server.Name",
 	"type":                         "description.Server.Type",
-	"user_visible_state":           "description.Server.ServerProperties.UserVisibleState",
-	"version":                      "description.Server.ServerProperties.Version",
+	"user_visible_state":           "description.Server.Properties.UserVisibleState",
+	"version":                      "description.Server.Properties.Version",
 }
 
 func GetMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -23590,12 +24878,12 @@ func (p MariadbDatabasePaginator) NextPage(ctx context.Context) ([]MariadbDataba
 }
 
 var listMariadbDatabaseFilters = map[string]string{
-	"akas":             "description.Databases.ID",
-	"id":               "description.Databases.Id",
+	"akas":             "description.Database.ID",
+	"id":               "description.Databases.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Databases.Name",
-	"tags":             "description.Databases.Tags",
-	"title":            "description.Databases.Name",
+	"name":             "description.Database.Name",
+	"tags":             "description.Database.Name",
+	"title":            "description.Database.Name",
 }
 
 func ListMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -23629,12 +24917,12 @@ func ListMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getMariadbDatabaseFilters = map[string]string{
-	"akas":             "description.Databases.ID",
-	"id":               "description.Databases.Id",
+	"akas":             "description.Database.ID",
+	"id":               "description.Databases.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Databases.Name",
-	"tags":             "description.Databases.Tags",
-	"title":            "description.Databases.Name",
+	"name":             "description.Database.Name",
+	"tags":             "description.Database.Name",
+	"title":            "description.Database.Name",
 }
 
 func GetMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -23748,41 +25036,41 @@ func (p MysqlServerPaginator) NextPage(ctx context.Context) ([]MysqlServer, erro
 }
 
 var listMysqlServerFilters = map[string]string{
-	"administrator_login":         "description.Server.ServerProperties.AdministratorLogin",
+	"administrator_login":         "description.Server.Properties.AdministratorLogin",
 	"akas":                        "description.Server.ID",
-	"backup_retention_days":       "description.Server.ServerProperties.StorageProfile.BackupRetentionDays",
-	"byok_enforcement":            "description.Server.ServerProperties.ByokEnforcement",
-	"earliest_restore_date":       "description.Server.ServerProperties.EarliestRestoreDate",
-	"fully_qualified_domain_name": "description.Server.ServerProperties.FullyQualifiedDomainName",
-	"geo_redundant_backup":        "description.Server.ServerProperties.StorageProfile.GeoRedundantBackup",
+	"backup_retention_days":       "description.Server.Properties.StorageProfile.BackupRetentionDays",
+	"byok_enforcement":            "description.Server.Properties.ByokEnforcement",
+	"earliest_restore_date":       "description.Server.Properties.EarliestRestoreDate",
+	"fully_qualified_domain_name": "description.Server.Properties.FullyQualifiedDomainName",
+	"geo_redundant_backup":        "description.Server.Properties.StorageProfile.GeoRedundantBackup",
 	"id":                          "description.Server.ID",
-	"infrastructure_encryption":   "description.Server.ServerProperties.InfrastructureEncryption",
+	"infrastructure_encryption":   "description.Server.Properties.InfrastructureEncryption",
 	"kaytu_account_id":            "metadata.SourceID",
 	"location":                    "description.Server.Location",
-	"master_server_id":            "description.Server.ServerProperties.MasterServerID",
-	"minimal_tls_version":         "description.Server.ServerProperties.MinimalTLSVersion",
+	"master_server_id":            "description.Server.Properties.MasterServerID",
+	"minimal_tls_version":         "description.Server.Properties.MinimalTLSVersion",
 	"name":                        "description.Server.Name",
-	"public_network_access":       "description.Server.ServerProperties.PublicNetworkAccess",
+	"public_network_access":       "description.Server.Properties.PublicNetworkAccess",
 	"region":                      "description.Server.Location",
-	"replica_capacity":            "description.Server.ServerProperties.ReplicaCapacity",
-	"replication_role":            "description.Server.ServerProperties.ReplicationRole",
+	"replica_capacity":            "description.Server.Properties.ReplicaCapacity",
+	"replication_role":            "description.Server.Properties.ReplicationRole",
 	"resource_group":              "description.ResourceGroup",
 	"server_configurations":       "description.Configurations",
 	"server_keys":                 "description.ServerKeys",
-	"sku_capacity":                "description.Server.Sku.Capacity",
-	"sku_family":                  "description.Server.Sku.Family",
-	"sku_name":                    "description.Server.Sku.Name",
-	"sku_size":                    "description.Server.Sku.Size",
-	"sku_tier":                    "description.Server.Sku.Tier",
-	"ssl_enforcement":             "description.Server.ServerProperties.SslEnforcement",
-	"state":                       "description.Server.ServerProperties.UserVisibleState",
-	"storage_auto_grow":           "description.Server.ServerProperties.StorageProfile.StorageAutogrow",
-	"storage_mb":                  "description.Server.ServerProperties.StorageProfile.StorageMB",
+	"sku_capacity":                "description.Server.SKU.Capacity",
+	"sku_family":                  "description.Server.SKU.Family",
+	"sku_name":                    "description.Server.SKU.Name",
+	"sku_size":                    "description.Server.SKU.Size",
+	"sku_tier":                    "description.Server.SKU.Tier",
+	"ssl_enforcement":             "description.Server.Properties.SSLEnforcement",
+	"state":                       "description.Server.Properties.UserVisibleState",
+	"storage_auto_grow":           "description.Server.Properties.StorageProfile.StorageAutogrow",
+	"storage_mb":                  "description.Server.Properties.StorageProfile.StorageMB",
 	"tags":                        "description.Server.Tags",
 	"title":                       "description.Server.Name",
 	"type":                        "description.Server.Type",
-	"user_visible_state":          "description.Server.ServerProperties.UserVisibleState",
-	"version":                     "description.Server.ServerProperties.Version",
+	"user_visible_state":          "description.Server.Properties.UserVisibleState",
+	"version":                     "description.Server.Properties.Version",
 }
 
 func ListMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -23816,41 +25104,41 @@ func ListMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getMysqlServerFilters = map[string]string{
-	"administrator_login":         "description.Server.ServerProperties.AdministratorLogin",
+	"administrator_login":         "description.Server.Properties.AdministratorLogin",
 	"akas":                        "description.Server.ID",
-	"backup_retention_days":       "description.Server.ServerProperties.StorageProfile.BackupRetentionDays",
-	"byok_enforcement":            "description.Server.ServerProperties.ByokEnforcement",
-	"earliest_restore_date":       "description.Server.ServerProperties.EarliestRestoreDate",
-	"fully_qualified_domain_name": "description.Server.ServerProperties.FullyQualifiedDomainName",
-	"geo_redundant_backup":        "description.Server.ServerProperties.StorageProfile.GeoRedundantBackup",
+	"backup_retention_days":       "description.Server.Properties.StorageProfile.BackupRetentionDays",
+	"byok_enforcement":            "description.Server.Properties.ByokEnforcement",
+	"earliest_restore_date":       "description.Server.Properties.EarliestRestoreDate",
+	"fully_qualified_domain_name": "description.Server.Properties.FullyQualifiedDomainName",
+	"geo_redundant_backup":        "description.Server.Properties.StorageProfile.GeoRedundantBackup",
 	"id":                          "description.Server.ID",
-	"infrastructure_encryption":   "description.Server.ServerProperties.InfrastructureEncryption",
+	"infrastructure_encryption":   "description.Server.Properties.InfrastructureEncryption",
 	"kaytu_account_id":            "metadata.SourceID",
 	"location":                    "description.Server.Location",
-	"master_server_id":            "description.Server.ServerProperties.MasterServerID",
-	"minimal_tls_version":         "description.Server.ServerProperties.MinimalTLSVersion",
+	"master_server_id":            "description.Server.Properties.MasterServerID",
+	"minimal_tls_version":         "description.Server.Properties.MinimalTLSVersion",
 	"name":                        "description.Server.name",
-	"public_network_access":       "description.Server.ServerProperties.PublicNetworkAccess",
+	"public_network_access":       "description.Server.Properties.PublicNetworkAccess",
 	"region":                      "description.Server.Location",
-	"replica_capacity":            "description.Server.ServerProperties.ReplicaCapacity",
-	"replication_role":            "description.Server.ServerProperties.ReplicationRole",
+	"replica_capacity":            "description.Server.Properties.ReplicaCapacity",
+	"replication_role":            "description.Server.Properties.ReplicationRole",
 	"resource_group":              "description.ResourceGroup",
 	"server_configurations":       "description.Configurations",
 	"server_keys":                 "description.ServerKeys",
-	"sku_capacity":                "description.Server.Sku.Capacity",
-	"sku_family":                  "description.Server.Sku.Family",
-	"sku_name":                    "description.Server.Sku.Name",
-	"sku_size":                    "description.Server.Sku.Size",
-	"sku_tier":                    "description.Server.Sku.Tier",
-	"ssl_enforcement":             "description.Server.ServerProperties.SslEnforcement",
-	"state":                       "description.Server.ServerProperties.UserVisibleState",
-	"storage_auto_grow":           "description.Server.ServerProperties.StorageProfile.StorageAutogrow",
-	"storage_mb":                  "description.Server.ServerProperties.StorageProfile.StorageMB",
+	"sku_capacity":                "description.Server.SKU.Capacity",
+	"sku_family":                  "description.Server.SKU.Family",
+	"sku_name":                    "description.Server.SKU.Name",
+	"sku_size":                    "description.Server.SKU.Size",
+	"sku_tier":                    "description.Server.SKU.Tier",
+	"ssl_enforcement":             "description.Server.Properties.SSLEnforcement",
+	"state":                       "description.Server.Properties.UserVisibleState",
+	"storage_auto_grow":           "description.Server.Properties.StorageProfile.StorageAutogrow",
+	"storage_mb":                  "description.Server.Properties.StorageProfile.StorageMB",
 	"tags":                        "description.Server.Tags",
 	"title":                       "description.Server.Name",
 	"type":                        "description.Server.Type",
-	"user_visible_state":          "description.Server.ServerProperties.UserVisibleState",
-	"version":                     "description.Server.ServerProperties.Version",
+	"user_visible_state":          "description.Server.Properties.UserVisibleState",
+	"version":                     "description.Server.Properties.Version",
 }
 
 func GetMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -23964,12 +25252,12 @@ func (p MysqlFlexibleserverPaginator) NextPage(ctx context.Context) ([]MysqlFlex
 }
 
 var listMysqlFlexibleserverFilters = map[string]string{
-	"akas":             "description.FlexibleServers.ID",
-	"id":               "description.FlexibleServers.Id",
+	"akas":             "description.Server.ID",
+	"id":               "description.Server.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.FlexibleServers.Name",
-	"tags":             "description.FlexibleServers.Tags",
-	"title":            "description.FlexibleServers.Name",
+	"name":             "description.Server.Name",
+	"tags":             "description.Server.Tags",
+	"title":            "description.Server.Name",
 }
 
 func ListMysqlFlexibleserver(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -24003,12 +25291,12 @@ func ListMysqlFlexibleserver(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getMysqlFlexibleserverFilters = map[string]string{
-	"akas":             "description.FlexibleServers.ID",
-	"id":               "description.FlexibleServers.Id",
+	"akas":             "description.Server.ID",
+	"id":               "description.Server.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.FlexibleServers.Name",
-	"tags":             "description.FlexibleServers.Tags",
-	"title":            "description.FlexibleServers.Name",
+	"name":             "description.Server.Name",
+	"tags":             "description.Server.Tags",
+	"title":            "description.Server.Name",
 }
 
 func GetMysqlFlexibleserver(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -24123,20 +25411,20 @@ func (p NetworkSecurityGroupPaginator) NextPage(ctx context.Context) ([]NetworkS
 
 var listNetworkSecurityGroupFilters = map[string]string{
 	"akas":                   "description.SecurityGroup.ID",
-	"default_security_rules": "description.SecurityGroup.SecurityGroupPropertiesFormat.DefaultSecurityRules",
+	"default_security_rules": "description.SecurityGroup.Properties.DefaultSecurityRules",
 	"diagnostic_settings":    "description.DiagnosticSettingsResources",
 	"etag":                   "description.SecurityGroup.Etag",
-	"flow_logs":              "description.SecurityGroup.SecurityGroupPropertiesFormat.FlowLogs",
+	"flow_logs":              "description.SecurityGroup.Properties.FlowLogs",
 	"id":                     "description.SecurityGroup.ID",
 	"kaytu_account_id":       "metadata.SourceID",
 	"name":                   "description.SecurityGroup.Name",
-	"network_interfaces":     "description.SecurityGroup.SecurityGroupPropertiesFormat.NetworkInterfaces",
-	"provisioning_state":     "description.SecurityGroup.SecurityGroupPropertiesFormat.ProvisioningState",
+	"network_interfaces":     "description.SecurityGroup.Properties.NetworkInterfaces",
+	"provisioning_state":     "description.SecurityGroup.Properties.ProvisioningState",
 	"region":                 "description.SecurityGroup.Location",
 	"resource_group":         "description.ResourceGroup",
-	"resource_guid":          "description.SecurityGroup.SecurityGroupPropertiesFormat.ResourceGUID",
-	"security_rules":         "description.SecurityGroup.SecurityGroupPropertiesFormat.SecurityRules",
-	"subnets":                "description.SecurityGroup.SecurityGroupPropertiesFormat.Subnets",
+	"resource_guid":          "description.SecurityGroup.Properties.ResourceGUID",
+	"security_rules":         "description.SecurityGroup.Properties.SecurityRules",
+	"subnets":                "description.SecurityGroup.Properties.Subnets",
 	"tags":                   "description.SecurityGroup.Tags",
 	"title":                  "description.SecurityGroup.Name",
 	"type":                   "description.SecurityGroup.Type",
@@ -24174,20 +25462,20 @@ func ListNetworkSecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 var getNetworkSecurityGroupFilters = map[string]string{
 	"akas":                   "description.SecurityGroup.ID",
-	"default_security_rules": "description.SecurityGroup.SecurityGroupPropertiesFormat.DefaultSecurityRules",
+	"default_security_rules": "description.SecurityGroup.Properties.DefaultSecurityRules",
 	"diagnostic_settings":    "description.DiagnosticSettingsResources",
 	"etag":                   "description.SecurityGroup.Etag",
-	"flow_logs":              "description.SecurityGroup.SecurityGroupPropertiesFormat.FlowLogs",
+	"flow_logs":              "description.SecurityGroup.Properties.FlowLogs",
 	"id":                     "description.SecurityGroup.ID",
 	"kaytu_account_id":       "metadata.SourceID",
 	"name":                   "description.SecurityGroup.name",
-	"network_interfaces":     "description.SecurityGroup.SecurityGroupPropertiesFormat.NetworkInterfaces",
-	"provisioning_state":     "description.SecurityGroup.SecurityGroupPropertiesFormat.ProvisioningState",
+	"network_interfaces":     "description.SecurityGroup.Properties.NetworkInterfaces",
+	"provisioning_state":     "description.SecurityGroup.Properties.ProvisioningState",
 	"region":                 "description.SecurityGroup.Location",
 	"resource_group":         "description.ResourceGroup",
-	"resource_guid":          "description.SecurityGroup.SecurityGroupPropertiesFormat.ResourceGUID",
-	"security_rules":         "description.SecurityGroup.SecurityGroupPropertiesFormat.SecurityRules",
-	"subnets":                "description.SecurityGroup.SecurityGroupPropertiesFormat.Subnets",
+	"resource_guid":          "description.SecurityGroup.Properties.ResourceGUID",
+	"security_rules":         "description.SecurityGroup.Properties.SecurityRules",
+	"subnets":                "description.SecurityGroup.Properties.Subnets",
 	"tags":                   "description.SecurityGroup.Tags",
 	"title":                  "description.SecurityGroup.Name",
 	"type":                   "description.SecurityGroup.Type",
@@ -24309,7 +25597,7 @@ var listNetworkWatcherFilters = map[string]string{
 	"id":                 "description.Watcher.ID",
 	"kaytu_account_id":   "metadata.SourceID",
 	"name":               "description.Watcher.Name",
-	"provisioning_state": "description.Watcher.WatcherPropertiesFormat.ProvisioningState",
+	"provisioning_state": "description.Watcher.Properties.ProvisioningState",
 	"region":             "description.Watcher.Location",
 	"resource_group":     "description.ResourceGroup",
 	"tags":               "description.Watcher.Tags",
@@ -24353,7 +25641,7 @@ var getNetworkWatcherFilters = map[string]string{
 	"id":                 "description.Watcher.ID",
 	"kaytu_account_id":   "metadata.SourceID",
 	"name":               "description.Watcher.name",
-	"provisioning_state": "description.Watcher.WatcherPropertiesFormat.ProvisioningState",
+	"provisioning_state": "description.Watcher.Properties.ProvisioningState",
 	"region":             "description.Watcher.Location",
 	"resource_group":     "description.ResourceGroup",
 	"tags":               "description.Watcher.Tags",
@@ -24474,23 +25762,23 @@ func (p SearchServicePaginator) NextPage(ctx context.Context) ([]SearchService, 
 var listSearchServiceFilters = map[string]string{
 	"akas":                          "description.Service.ID",
 	"diagnostic_settings":           "description.DiagnosticSettingsResources",
-	"hosting_mode":                  "description.Service.ServiceProperties.HostingMode",
+	"hosting_mode":                  "description.Service.Properties.HostingMode",
 	"id":                            "description.Service.ID",
 	"identity":                      "description.Service.Identity",
 	"kaytu_account_id":              "metadata.SourceID",
 	"name":                          "description.Service.Name",
-	"network_rule_set":              "description.Service.ServiceProperties.NetworkRuleSet",
-	"partition_count":               "description.Service.ServiceProperties.PartitionCount",
-	"private_endpoint_connections":  "description.Service.ServiceProperties.PrivateEndpointConnections",
-	"provisioning_state":            "description.Service.ServiceProperties.ProvisioningState",
-	"public_network_access":         "description.Service.ServiceProperties.PublicNetworkAccess",
+	"network_rule_set":              "description.Service.Properties.NetworkRuleSet",
+	"partition_count":               "description.Service.Properties.PartitionCount",
+	"private_endpoint_connections":  "description.Service.Properties.PrivateEndpointConnections",
+	"provisioning_state":            "description.Service.Properties.ProvisioningState",
+	"public_network_access":         "description.Service.Properties.PublicNetworkAccess",
 	"region":                        "description.Service.Location",
-	"replica_count":                 "description.Service.ServiceProperties.ReplicaCount",
+	"replica_count":                 "description.Service.Properties.ReplicaCount",
 	"resource_group":                "description.ResourceGroup",
-	"shared_private_link_resources": "description.Service.ServiceProperties.SharedPrivateLinkResources",
-	"sku_name":                      "description.Service.Sku.Name",
-	"status":                        "description.Service.ServiceProperties.Status",
-	"status_details":                "description.Service.ServiceProperties.StatusDetails",
+	"shared_private_link_resources": "description.Service.Properties.SharedPrivateLinkResources",
+	"sku_name":                      "description.Service.SKU.Name",
+	"status":                        "description.Service.Properties.Status",
+	"status_details":                "description.Service.Properties.StatusDetails",
 	"tags":                          "description.Service.Tags",
 	"title":                         "description.Service.Name",
 	"type":                          "description.Service.Type",
@@ -24529,23 +25817,23 @@ func ListSearchService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 var getSearchServiceFilters = map[string]string{
 	"akas":                          "description.Service.ID",
 	"diagnostic_settings":           "description.DiagnosticSettingsResources",
-	"hosting_mode":                  "description.Service.ServiceProperties.HostingMode",
+	"hosting_mode":                  "description.Service.Properties.HostingMode",
 	"id":                            "description.Service.ID",
 	"identity":                      "description.Service.Identity",
 	"kaytu_account_id":              "metadata.SourceID",
 	"name":                          "description.Service.name",
-	"network_rule_set":              "description.Service.ServiceProperties.NetworkRuleSet",
-	"partition_count":               "description.Service.ServiceProperties.PartitionCount",
-	"private_endpoint_connections":  "description.Service.ServiceProperties.PrivateEndpointConnections",
-	"provisioning_state":            "description.Service.ServiceProperties.ProvisioningState",
-	"public_network_access":         "description.Service.ServiceProperties.PublicNetworkAccess",
+	"network_rule_set":              "description.Service.Properties.NetworkRuleSet",
+	"partition_count":               "description.Service.Properties.PartitionCount",
+	"private_endpoint_connections":  "description.Service.Properties.PrivateEndpointConnections",
+	"provisioning_state":            "description.Service.Properties.ProvisioningState",
+	"public_network_access":         "description.Service.Properties.PublicNetworkAccess",
 	"region":                        "description.Service.Location",
-	"replica_count":                 "description.Service.ServiceProperties.ReplicaCount",
+	"replica_count":                 "description.Service.Properties.ReplicaCount",
 	"resource_group":                "description.ResourceGroup",
-	"shared_private_link_resources": "description.Service.ServiceProperties.SharedPrivateLinkResources",
-	"sku_name":                      "description.Service.Sku.Name",
-	"status":                        "description.Service.ServiceProperties.Status",
-	"status_details":                "description.Service.ServiceProperties.StatusDetails",
+	"shared_private_link_resources": "description.Service.Properties.SharedPrivateLinkResources",
+	"sku_name":                      "description.Service.SKU.Name",
+	"status":                        "description.Service.Properties.Status",
+	"status_details":                "description.Service.Properties.StatusDetails",
 	"tags":                          "description.Service.Tags",
 	"title":                         "description.Service.Name",
 	"type":                          "description.Service.Type",
@@ -24662,39 +25950,39 @@ func (p ServiceFabricClusterPaginator) NextPage(ctx context.Context) ([]ServiceF
 }
 
 var listServiceFabricClusterFilters = map[string]string{
-	"add_on_features":                        "description.Cluster.ClusterProperties.AddOnFeatures",
+	"add_on_features":                        "description.Cluster.Properties.AddOnFeatures",
 	"akas":                                   "description.Cluster.ID",
-	"available_cluster_versions":             "description.Cluster.ClusterProperties.AvailableClusterVersions",
-	"azure_active_directory":                 "description.Cluster.ClusterProperties.AzureActiveDirectory",
-	"certificate":                            "description.Cluster.ClusterProperties.Certificate",
-	"certificate_common_names":               "description.Cluster.ClusterProperties.CertificateCommonNames",
-	"client_certificate_common_names":        "description.Cluster.ClusterProperties.ClientCertificateCommonNames",
-	"client_certificate_thumbprints":         "description.Cluster.ClusterProperties.ClientCertificateThumbprints",
-	"cluster_code_version":                   "description.Cluster.ClusterProperties.ClusterCodeVersion",
-	"cluster_endpoint":                       "description.Cluster.ClusterProperties.ClusterEndpoint",
-	"cluster_id":                             "description.Cluster.ClusterProperties.ClusterID",
-	"cluster_state":                          "description.Cluster.ClusterProperties.ClusterState",
-	"diagnostics_storage_account_config":     "description.Cluster.ClusterProperties.DiagnosticsStorageAccountConfig",
+	"available_cluster_versions":             "description.Cluster.Properties.AvailableClusterVersions",
+	"azure_active_directory":                 "description.Cluster.Properties.AzureActiveDirectory",
+	"certificate":                            "description.Cluster.Properties.Certificate",
+	"certificate_common_names":               "description.Cluster.Properties.CertificateCommonNames",
+	"client_certificate_common_names":        "description.Cluster.Properties.ClientCertificateCommonNames",
+	"client_certificate_thumbprints":         "description.Cluster.Properties.ClientCertificateThumbprints",
+	"cluster_code_version":                   "description.Cluster.Properties.ClusterCodeVersion",
+	"cluster_endpoint":                       "description.Cluster.Properties.ClusterEndpoint",
+	"cluster_id":                             "description.Cluster.Properties.ClusterID",
+	"cluster_state":                          "description.Cluster.Properties.ClusterState",
+	"diagnostics_storage_account_config":     "description.Cluster.Properties.DiagnosticsStorageAccountConfig",
 	"etag":                                   "description.Cluster.Etag",
-	"event_store_service_enabled":            "description.Cluster.ClusterProperties.EventStoreServiceEnabled",
-	"fabric_settings":                        "description.Cluster.ClusterProperties.FabricSettings",
+	"event_store_service_enabled":            "description.Cluster.Properties.EventStoreServiceEnabled",
+	"fabric_settings":                        "description.Cluster.Properties.FabricSettings",
 	"id":                                     "description.Cluster.ID",
 	"kaytu_account_id":                       "metadata.SourceID",
-	"management_endpoint":                    "description.Cluster.ClusterProperties.ManagementEndpoint",
+	"management_endpoint":                    "description.Cluster.Properties.ManagementEndpoint",
 	"name":                                   "description.Cluster.Name",
-	"node_types":                             "description.Cluster.ClusterProperties.NodeTypes",
-	"provisioning_state":                     "description.Cluster.ClusterProperties.ProvisioningState",
+	"node_types":                             "description.Cluster.Properties.NodeTypes",
+	"provisioning_state":                     "description.Cluster.Properties.ProvisioningState",
 	"region":                                 "description.Cluster.Location",
-	"reliability_level":                      "description.Cluster.ClusterProperties.ReliabilityLevel",
+	"reliability_level":                      "description.Cluster.Properties.ReliabilityLevel",
 	"resource_group":                         "description.ResourceGroup",
-	"reverse_proxy_certificate":              "description.Cluster.ClusterProperties.ReverseProxyCertificate",
-	"reverse_proxy_certificate_common_names": "description.Cluster.ClusterProperties.ReverseProxyCertificateCommonNames",
+	"reverse_proxy_certificate":              "description.Cluster.Properties.ReverseProxyCertificate",
+	"reverse_proxy_certificate_common_names": "description.Cluster.Properties.ReverseProxyCertificateCommonNames",
 	"tags":                                   "description.Cluster.Tags",
 	"title":                                  "description.Cluster.Name",
 	"type":                                   "description.Cluster.Type",
-	"upgrade_description":                    "description.Cluster.ClusterProperties.UpgradeDescription",
-	"upgrade_mode":                           "description.Cluster.ClusterProperties.UpgradeMode",
-	"vm_image":                               "description.Cluster.ClusterProperties.VMImage",
+	"upgrade_description":                    "description.Cluster.Properties.UpgradeDescription",
+	"upgrade_mode":                           "description.Cluster.Properties.UpgradeMode",
+	"vm_image":                               "description.Cluster.Properties.VMImage",
 }
 
 func ListServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -24728,39 +26016,39 @@ func ListServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 var getServiceFabricClusterFilters = map[string]string{
-	"add_on_features":                        "description.Cluster.ClusterProperties.AddOnFeatures",
+	"add_on_features":                        "description.Cluster.Properties.AddOnFeatures",
 	"akas":                                   "description.Cluster.ID",
-	"available_cluster_versions":             "description.Cluster.ClusterProperties.AvailableClusterVersions",
-	"azure_active_directory":                 "description.Cluster.ClusterProperties.AzureActiveDirectory",
-	"certificate":                            "description.Cluster.ClusterProperties.Certificate",
-	"certificate_common_names":               "description.Cluster.ClusterProperties.CertificateCommonNames",
-	"client_certificate_common_names":        "description.Cluster.ClusterProperties.ClientCertificateCommonNames",
-	"client_certificate_thumbprints":         "description.Cluster.ClusterProperties.ClientCertificateThumbprints",
-	"cluster_code_version":                   "description.Cluster.ClusterProperties.ClusterCodeVersion",
-	"cluster_endpoint":                       "description.Cluster.ClusterProperties.ClusterEndpoint",
-	"cluster_id":                             "description.Cluster.ClusterProperties.ClusterID",
-	"cluster_state":                          "description.Cluster.ClusterProperties.ClusterState",
-	"diagnostics_storage_account_config":     "description.Cluster.ClusterProperties.DiagnosticsStorageAccountConfig",
+	"available_cluster_versions":             "description.Cluster.Properties.AvailableClusterVersions",
+	"azure_active_directory":                 "description.Cluster.Properties.AzureActiveDirectory",
+	"certificate":                            "description.Cluster.Properties.Certificate",
+	"certificate_common_names":               "description.Cluster.Properties.CertificateCommonNames",
+	"client_certificate_common_names":        "description.Cluster.Properties.ClientCertificateCommonNames",
+	"client_certificate_thumbprints":         "description.Cluster.Properties.ClientCertificateThumbprints",
+	"cluster_code_version":                   "description.Cluster.Properties.ClusterCodeVersion",
+	"cluster_endpoint":                       "description.Cluster.Properties.ClusterEndpoint",
+	"cluster_id":                             "description.Cluster.Properties.ClusterID",
+	"cluster_state":                          "description.Cluster.Properties.ClusterState",
+	"diagnostics_storage_account_config":     "description.Cluster.Properties.DiagnosticsStorageAccountConfig",
 	"etag":                                   "description.Cluster.Etag",
-	"event_store_service_enabled":            "description.Cluster.ClusterProperties.EventStoreServiceEnabled",
-	"fabric_settings":                        "description.Cluster.ClusterProperties.FabricSettings",
+	"event_store_service_enabled":            "description.Cluster.Properties.EventStoreServiceEnabled",
+	"fabric_settings":                        "description.Cluster.Properties.FabricSettings",
 	"id":                                     "description.Cluster.ID",
 	"kaytu_account_id":                       "metadata.SourceID",
-	"management_endpoint":                    "description.Cluster.ClusterProperties.ManagementEndpoint",
+	"management_endpoint":                    "description.Cluster.Properties.ManagementEndpoint",
 	"name":                                   "description.Cluster.name",
-	"node_types":                             "description.Cluster.ClusterProperties.NodeTypes",
-	"provisioning_state":                     "description.Cluster.ClusterProperties.ProvisioningState",
+	"node_types":                             "description.Cluster.Properties.NodeTypes",
+	"provisioning_state":                     "description.Cluster.Properties.ProvisioningState",
 	"region":                                 "description.Cluster.Location",
-	"reliability_level":                      "description.Cluster.ClusterProperties.ReliabilityLevel",
+	"reliability_level":                      "description.Cluster.Properties.ReliabilityLevel",
 	"resource_group":                         "description.ResourceGroup",
-	"reverse_proxy_certificate":              "description.Cluster.ClusterProperties.ReverseProxyCertificate",
-	"reverse_proxy_certificate_common_names": "description.Cluster.ClusterProperties.ReverseProxyCertificateCommonNames",
+	"reverse_proxy_certificate":              "description.Cluster.Properties.ReverseProxyCertificate",
+	"reverse_proxy_certificate_common_names": "description.Cluster.Properties.ReverseProxyCertificateCommonNames",
 	"tags":                                   "description.Cluster.Tags",
 	"title":                                  "description.Cluster.Name",
 	"type":                                   "description.Cluster.Type",
-	"upgrade_description":                    "description.Cluster.ClusterProperties.UpgradeDescription",
-	"upgrade_mode":                           "description.Cluster.ClusterProperties.UpgradeMode",
-	"vm_image":                               "description.Cluster.ClusterProperties.VMImage",
+	"upgrade_description":                    "description.Cluster.Properties.UpgradeDescription",
+	"upgrade_mode":                           "description.Cluster.Properties.UpgradeMode",
+	"vm_image":                               "description.Cluster.Properties.VMImage",
 }
 
 func GetServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -24875,27 +26163,27 @@ func (p ServicebusNamespacePaginator) NextPage(ctx context.Context) ([]Servicebu
 
 var listServicebusNamespaceFilters = map[string]string{
 	"akas":                         "description.SBNamespace.ID",
-	"created_at":                   "description.SBNamespace.SBNamespaceProperties.CreatedAt",
+	"created_at":                   "description.SBNamespace.Properties.CreatedAt",
 	"diagnostic_settings":          "description.DiagnosticSettingsResources",
-	"encryption":                   "description.SBNamespace.SBNamespaceProperties.Encryption",
+	"encryption":                   "description.SBNamespace.Properties.Encryption",
 	"id":                           "description.SBNamespace.ID",
 	"kaytu_account_id":             "metadata.SourceID",
-	"metric_id":                    "description.SBNamespace.SBNamespaceProperties.MetricID",
+	"metric_id":                    "description.SBNamespace.Properties.MetricID",
 	"name":                         "description.SBNamespace.Name",
 	"network_rule_set":             "description.NetworkRuleSet",
-	"private_endpoint_connections": "description.PrivateEndpointConnections",
-	"provisioning_state":           "description.SBNamespace.SBNamespaceProperties.ProvisioningState",
+	"private_endpoint_connections": "description.SBNamespace.Properties.PrivateEndpointConnections",
+	"provisioning_state":           "description.SBNamespace.Properties.ProvisioningState",
 	"region":                       "description.SBNamespace.Location",
 	"resource_group":               "description.ResourceGroup",
-	"servicebus_endpoint":          "description.SBNamespace.SBNamespaceProperties.ServiceBusEndpoint",
-	"sku_capacity":                 "description.SBNamespace.Sku.Capacity",
-	"sku_name":                     "description.SBNamespace.Sku.Name",
-	"sku_tier":                     "description.SBNamespace.Sku.Tier",
+	"servicebus_endpoint":          "description.SBNamespace.Properties.ServiceBusEndpoint",
+	"sku_capacity":                 "description.SBNamespace.SKU.Capacity",
+	"sku_name":                     "description.SBNamespace.SKU.Name",
+	"sku_tier":                     "description.SBNamespace.SKU.Tier",
 	"tags":                         "description.SBNamespace.Tags",
-	"title":                        "description.SBNamespace",
+	"title":                        "description.SBNamespace.Name",
 	"type":                         "description.SBNamespace.Type",
-	"updated_at":                   "description.SBNamespace.SBNamespaceProperties.UpdatedAt",
-	"zone_redundant":               "description.SBNamespace.SBNamespaceProperties.ZoneRedundant",
+	"updated_at":                   "description.SBNamespace.Properties.UpdatedAt",
+	"zone_redundant":               "description.SBNamespace.Properties.ZoneRedundant",
 }
 
 func ListServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -24930,27 +26218,27 @@ func ListServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 var getServicebusNamespaceFilters = map[string]string{
 	"akas":                         "description.SBNamespace.ID",
-	"created_at":                   "description.SBNamespace.SBNamespaceProperties.CreatedAt",
+	"created_at":                   "description.SBNamespace.Properties.CreatedAt",
 	"diagnostic_settings":          "description.DiagnosticSettingsResources",
-	"encryption":                   "description.SBNamespace.SBNamespaceProperties.Encryption",
+	"encryption":                   "description.SBNamespace.Properties.Encryption",
 	"id":                           "description.SBNamespace.ID",
 	"kaytu_account_id":             "metadata.SourceID",
-	"metric_id":                    "description.SBNamespace.SBNamespaceProperties.MetricID",
+	"metric_id":                    "description.SBNamespace.Properties.MetricID",
 	"name":                         "description.SBNamespace.name",
 	"network_rule_set":             "description.NetworkRuleSet",
-	"private_endpoint_connections": "description.PrivateEndpointConnections",
-	"provisioning_state":           "description.SBNamespace.SBNamespaceProperties.ProvisioningState",
+	"private_endpoint_connections": "description.SBNamespace.Properties.PrivateEndpointConnections",
+	"provisioning_state":           "description.SBNamespace.Properties.ProvisioningState",
 	"region":                       "description.SBNamespace.Location",
 	"resource_group":               "description.ResourceGroup",
-	"servicebus_endpoint":          "description.SBNamespace.SBNamespaceProperties.ServiceBusEndpoint",
-	"sku_capacity":                 "description.SBNamespace.Sku.Capacity",
-	"sku_name":                     "description.SBNamespace.Sku.Name",
-	"sku_tier":                     "description.SBNamespace.Sku.Tier",
+	"servicebus_endpoint":          "description.SBNamespace.Properties.ServiceBusEndpoint",
+	"sku_capacity":                 "description.SBNamespace.SKU.Capacity",
+	"sku_name":                     "description.SBNamespace.SKU.Name",
+	"sku_tier":                     "description.SBNamespace.SKU.Tier",
 	"tags":                         "description.SBNamespace.Tags",
-	"title":                        "description.SBNamespace",
+	"title":                        "description.SBNamespace.Name",
 	"type":                         "description.SBNamespace.Type",
-	"updated_at":                   "description.SBNamespace.SBNamespaceProperties.UpdatedAt",
-	"zone_redundant":               "description.SBNamespace.SBNamespaceProperties.ZoneRedundant",
+	"updated_at":                   "description.SBNamespace.Properties.UpdatedAt",
+	"zone_redundant":               "description.SBNamespace.Properties.ZoneRedundant",
 }
 
 func GetServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -25064,29 +26352,29 @@ func (p SignalrServicePaginator) NextPage(ctx context.Context) ([]SignalrService
 }
 
 var listSignalrServiceFilters = map[string]string{
-	"akas":                "description.ResourceType.ID",
-	"cors":                "description.ResourceType.Properties.Cors",
+	"akas":                "description.ResourceInfo.ID",
+	"cors":                "description.ResourceInfo.Properties.Cors",
 	"diagnostic_settings": "description.DiagnosticSettingsResources",
-	"external_ip":         "description.ResourceType.Properties.ExternalIP",
-	"features":            "description.ResourceType.Properties.Features",
-	"host_name":           "description.ResourceType.Properties.HostName",
-	"host_name_prefix":    "description.ResourceType.Properties.HostNamePrefix",
+	"external_ip":         "description.ResourceInfo.Properties.ExternalIP",
+	"features":            "description.ResourceInfo.Properties.Features",
+	"host_name":           "description.ResourceInfo.Properties.HostName",
+	"host_name_prefix":    "description.ResourceInfo.Properties.HostNamePrefix",
 	"id":                  "description.ResourceType.ID",
 	"kaytu_account_id":    "metadata.SourceID",
-	"kind":                "description.ResourceType.Kind",
-	"name":                "description.ResourceType.Name",
-	"network_acls":        "description.ResourceType.Properties.NetworkACLs",
-	"provisioning_state":  "description.ResourceType.Properties.ProvisioningState",
-	"public_port":         "description.ResourceType.Properties.PublicPort",
-	"region":              "description.ResourceType.Location",
+	"kind":                "description.ResourceInfo.Kind",
+	"name":                "description.ResourceInfo.Name",
+	"network_acls":        "description.ResourceInfo.Properties.NetworkACLs",
+	"provisioning_state":  "description.ResourceInfo.Properties.ProvisioningState",
+	"public_port":         "description.ResourceInfo.Properties.PublicPort",
+	"region":              "description.ResourceInfo.Location",
 	"resource_group":      "description.ResourceGroup",
-	"server_port":         "description.ResourceType.Properties.ServerPort",
-	"sku":                 "description.ResourceType.Sku",
-	"tags":                "description.ResourceType.Tags",
-	"title":               "description.ResourceType.Name",
-	"type":                "description.ResourceType",
-	"upstream":            "description.ResourceType.Properties.Upstream",
-	"version":             "description.ResourceType.Properties.Version",
+	"server_port":         "description.ResourceInfo.Properties.ServerPort",
+	"sku":                 "description.ResourceInfo.SKU",
+	"tags":                "description.ResourceInfo.Tags",
+	"title":               "description.ResourceInfo.Name",
+	"type":                "description.ResourceType.Type",
+	"upstream":            "description.ResourceInfo.Properties.Upstream",
+	"version":             "description.ResourceInfo.Properties.Version",
 }
 
 func ListSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -25120,29 +26408,29 @@ func ListSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getSignalrServiceFilters = map[string]string{
-	"akas":                "description.ResourceType.ID",
-	"cors":                "description.ResourceType.Properties.Cors",
+	"akas":                "description.ResourceInfo.ID",
+	"cors":                "description.ResourceInfo.Properties.Cors",
 	"diagnostic_settings": "description.DiagnosticSettingsResources",
-	"external_ip":         "description.ResourceType.Properties.ExternalIP",
-	"features":            "description.ResourceType.Properties.Features",
-	"host_name":           "description.ResourceType.Properties.HostName",
-	"host_name_prefix":    "description.ResourceType.Properties.HostNamePrefix",
+	"external_ip":         "description.ResourceInfo.Properties.ExternalIP",
+	"features":            "description.ResourceInfo.Properties.Features",
+	"host_name":           "description.ResourceInfo.Properties.HostName",
+	"host_name_prefix":    "description.ResourceInfo.Properties.HostNamePrefix",
 	"id":                  "description.ResourceType.ID",
 	"kaytu_account_id":    "metadata.SourceID",
-	"kind":                "description.ResourceType.Kind",
+	"kind":                "description.ResourceInfo.Kind",
 	"name":                "description.ResourceType.name",
-	"network_acls":        "description.ResourceType.Properties.NetworkACLs",
-	"provisioning_state":  "description.ResourceType.Properties.ProvisioningState",
-	"public_port":         "description.ResourceType.Properties.PublicPort",
-	"region":              "description.ResourceType.Location",
+	"network_acls":        "description.ResourceInfo.Properties.NetworkACLs",
+	"provisioning_state":  "description.ResourceInfo.Properties.ProvisioningState",
+	"public_port":         "description.ResourceInfo.Properties.PublicPort",
+	"region":              "description.ResourceInfo.Location",
 	"resource_group":      "description.ResourceGroup",
-	"server_port":         "description.ResourceType.Properties.ServerPort",
-	"sku":                 "description.ResourceType.Sku",
-	"tags":                "description.ResourceType.Tags",
-	"title":               "description.ResourceType.Name",
-	"type":                "description.ResourceType",
-	"upstream":            "description.ResourceType.Properties.Upstream",
-	"version":             "description.ResourceType.Properties.Version",
+	"server_port":         "description.ResourceInfo.Properties.ServerPort",
+	"sku":                 "description.ResourceInfo.SKU",
+	"tags":                "description.ResourceInfo.Tags",
+	"title":               "description.ResourceInfo.Name",
+	"type":                "description.ResourceType.Type",
+	"upstream":            "description.ResourceInfo.Properties.Upstream",
+	"version":             "description.ResourceInfo.Properties.Version",
 }
 
 func GetSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -25261,17 +26549,17 @@ var listSpringCloudServiceFilters = map[string]string{
 	"id":                  "description.ServiceResource.ID",
 	"kaytu_account_id":    "metadata.SourceID",
 	"name":                "description.ServiceResource.Name",
-	"provisioning_state":  "description.ServiceResource.Properties.ProvisioningState",
+	"provisioning_state":  "description.ServiceResource.ProvisioningState",
 	"region":              "description.ServiceResource.Location",
 	"resource_group":      "description.ResourceGroup",
-	"service_id":          "description.ServiceResource.Properties.ServiceID",
-	"sku_capacity":        "description.ServiceResource.Sku.Capacity",
-	"sku_name":            "description.ServiceResource.Sku.Name",
-	"sku_tier":            "description.ServiceResource.Sku.Tier",
+	"service_id":          "description.ServiceResource.ID",
+	"sku_capacity":        "description.ServiceResource.SKU.Capacity",
+	"sku_name":            "description.ServiceResource.SKU.Name",
+	"sku_tier":            "description.ServiceResource.SKU.Tier",
 	"tags":                "description.ServiceResource.Tags",
 	"title":               "description.ServiceResource.Name",
 	"type":                "description.ServiceResource.Type",
-	"version":             "description.ServiceResource.Properties.Version",
+	"version":             "description.ServiceResource.Plan.Version",
 }
 
 func ListSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -25310,17 +26598,17 @@ var getSpringCloudServiceFilters = map[string]string{
 	"id":                  "description.ServiceResource.ID",
 	"kaytu_account_id":    "metadata.SourceID",
 	"name":                "description.ServiceResource.name",
-	"provisioning_state":  "description.ServiceResource.Properties.ProvisioningState",
+	"provisioning_state":  "description.ServiceResource.ProvisioningState",
 	"region":              "description.ServiceResource.Location",
 	"resource_group":      "description.ResourceGroup",
-	"service_id":          "description.ServiceResource.Properties.ServiceID",
-	"sku_capacity":        "description.ServiceResource.Sku.Capacity",
-	"sku_name":            "description.ServiceResource.Sku.Name",
-	"sku_tier":            "description.ServiceResource.Sku.Tier",
+	"service_id":          "description.ServiceResource.ID",
+	"sku_capacity":        "description.ServiceResource.SKU.Capacity",
+	"sku_name":            "description.ServiceResource.SKU.Name",
+	"sku_tier":            "description.ServiceResource.SKU.Tier",
 	"tags":                "description.ServiceResource.Tags",
 	"title":               "description.ServiceResource.Name",
 	"type":                "description.ServiceResource.Type",
-	"version":             "description.ServiceResource.Properties.Version",
+	"version":             "description.ServiceResource.Plan.Version",
 }
 
 func GetSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -25435,33 +26723,33 @@ func (p StreamAnalyticsJobPaginator) NextPage(ctx context.Context) ([]StreamAnal
 
 var listStreamAnalyticsJobFilters = map[string]string{
 	"akas":                "description.StreamingJob.ID",
-	"compatibility_level": "description.StreamingJob.StreamingJobProperties.CompatibilityLevel",
-	"created_date":        "description.StreamingJob.StreamingJobProperties.CreatedDate",
-	"data_locale":         "description.StreamingJob.StreamingJobProperties.DataLocale",
+	"compatibility_level": "description.StreamingJob.Properties.CompatibilityLevel",
+	"created_date":        "description.StreamingJob.Properties.CreatedDate",
+	"data_locale":         "description.StreamingJob.Properties.DataLocale",
 	"diagnostic_settings": "description.DiagnosticSettingsResources",
-	"etag":                "description.StreamingJob.StreamingJobProperties.Etag",
-	"events_late_arrival_max_delay_in_seconds": "description.StreamingJob.StreamingJobProperties.EventsLateArrivalMaxDelayInSeconds",
-	"events_out_of_order_max_delay_in_seconds": "description.StreamingJob.StreamingJobProperties.EventsOutOfOrderMaxDelayInSeconds",
-	"events_out_of_order_policy":               "description.StreamingJob.StreamingJobProperties.EventsOutOfOrderPolicy",
-	"functions":                                "description.StreamingJob.StreamingJobProperties.Functions",
+	"etag":                "description.StreamingJob.Properties.Etag",
+	"events_late_arrival_max_delay_in_seconds": "description.StreamingJob.Properties.EventsLateArrivalMaxDelayInSeconds",
+	"events_out_of_order_max_delay_in_seconds": "description.StreamingJob.Properties.EventsOutOfOrderMaxDelayInSeconds",
+	"events_out_of_order_policy":               "description.StreamingJob.Properties.EventsOutOfOrderPolicy",
+	"functions":                                "description.StreamingJob.Properties.Functions",
 	"id":                                       "description.StreamingJob.ID",
-	"inputs":                                   "description.StreamingJob.StreamingJobProperties.Inputs",
-	"job_id":                                   "description.StreamingJob.StreamingJobProperties.JobID",
-	"job_state":                                "description.StreamingJob.StreamingJobProperties.JobState",
+	"inputs":                                   "description.StreamingJob.Properties.Inputs",
+	"job_id":                                   "description.StreamingJob.Properties.JobID",
+	"job_state":                                "description.StreamingJob.Properties.JobState",
 	"kaytu_account_id":                         "metadata.SourceID",
-	"last_output_event_time":                   "description.StreamingJob.StreamingJobProperties.LastOutputEventTime",
+	"last_output_event_time":                   "description.StreamingJob.Properties.LastOutputEventTime",
 	"name":                                     "description.StreamingJob.Name",
-	"output_error_policy":                      "description.StreamingJob.StreamingJobProperties.OutputErrorPolicy",
-	"output_start_mode":                        "description.StreamingJob.StreamingJobProperties.OutputStartMode",
-	"output_start_time":                        "description.StreamingJob.StreamingJobProperties.OutputStartTime",
-	"outputs":                                  "description.StreamingJob.StreamingJobProperties.Outputs",
-	"provisioning_state":                       "description.StreamingJob.StreamingJobProperties.ProvisioningState",
+	"output_error_policy":                      "description.StreamingJob.Properties.OutputErrorPolicy",
+	"output_start_mode":                        "description.StreamingJob.Properties.OutputStartMode",
+	"output_start_time":                        "description.StreamingJob.Properties.OutputStartTime",
+	"outputs":                                  "description.StreamingJob.Properties.Outputs",
+	"provisioning_state":                       "description.StreamingJob.Properties.ProvisioningState",
 	"region":                                   "description.StreamingJob.Location",
 	"resource_group":                           "description.ResourceGroup",
-	"sku_name":                                 "description.StreamingJob.StreamingJobProperties.Sku.Name",
+	"sku_name":                                 "description.StreamingJob.Properties.SKU.Name",
 	"tags":                                     "description.StreamingJob.Tags",
 	"title":                                    "description.StreamingJob.Name",
-	"transformation":                           "description.StreamingJob.StreamingJobProperties.Transformation",
+	"transformation":                           "description.StreamingJob.Properties.Transformation",
 	"type":                                     "description.StreamingJob.Type",
 }
 
@@ -25497,33 +26785,33 @@ func ListStreamAnalyticsJob(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 var getStreamAnalyticsJobFilters = map[string]string{
 	"akas":                "description.StreamingJob.ID",
-	"compatibility_level": "description.StreamingJob.StreamingJobProperties.CompatibilityLevel",
-	"created_date":        "description.StreamingJob.StreamingJobProperties.CreatedDate",
-	"data_locale":         "description.StreamingJob.StreamingJobProperties.DataLocale",
+	"compatibility_level": "description.StreamingJob.Properties.CompatibilityLevel",
+	"created_date":        "description.StreamingJob.Properties.CreatedDate",
+	"data_locale":         "description.StreamingJob.Properties.DataLocale",
 	"diagnostic_settings": "description.DiagnosticSettingsResources",
-	"etag":                "description.StreamingJob.StreamingJobProperties.Etag",
-	"events_late_arrival_max_delay_in_seconds": "description.StreamingJob.StreamingJobProperties.EventsLateArrivalMaxDelayInSeconds",
-	"events_out_of_order_max_delay_in_seconds": "description.StreamingJob.StreamingJobProperties.EventsOutOfOrderMaxDelayInSeconds",
-	"events_out_of_order_policy":               "description.StreamingJob.StreamingJobProperties.EventsOutOfOrderPolicy",
-	"functions":                                "description.StreamingJob.StreamingJobProperties.Functions",
+	"etag":                "description.StreamingJob.Properties.Etag",
+	"events_late_arrival_max_delay_in_seconds": "description.StreamingJob.Properties.EventsLateArrivalMaxDelayInSeconds",
+	"events_out_of_order_max_delay_in_seconds": "description.StreamingJob.Properties.EventsOutOfOrderMaxDelayInSeconds",
+	"events_out_of_order_policy":               "description.StreamingJob.Properties.EventsOutOfOrderPolicy",
+	"functions":                                "description.StreamingJob.Properties.Functions",
 	"id":                                       "description.StreamingJob.ID",
-	"inputs":                                   "description.StreamingJob.StreamingJobProperties.Inputs",
-	"job_id":                                   "description.StreamingJob.StreamingJobProperties.JobID",
-	"job_state":                                "description.StreamingJob.StreamingJobProperties.JobState",
+	"inputs":                                   "description.StreamingJob.Properties.Inputs",
+	"job_id":                                   "description.StreamingJob.Properties.JobID",
+	"job_state":                                "description.StreamingJob.Properties.JobState",
 	"kaytu_account_id":                         "metadata.SourceID",
-	"last_output_event_time":                   "description.StreamingJob.StreamingJobProperties.LastOutputEventTime",
+	"last_output_event_time":                   "description.StreamingJob.Properties.LastOutputEventTime",
 	"name":                                     "description.StreamingJob.name",
-	"output_error_policy":                      "description.StreamingJob.StreamingJobProperties.OutputErrorPolicy",
-	"output_start_mode":                        "description.StreamingJob.StreamingJobProperties.OutputStartMode",
-	"output_start_time":                        "description.StreamingJob.StreamingJobProperties.OutputStartTime",
-	"outputs":                                  "description.StreamingJob.StreamingJobProperties.Outputs",
-	"provisioning_state":                       "description.StreamingJob.StreamingJobProperties.ProvisioningState",
+	"output_error_policy":                      "description.StreamingJob.Properties.OutputErrorPolicy",
+	"output_start_mode":                        "description.StreamingJob.Properties.OutputStartMode",
+	"output_start_time":                        "description.StreamingJob.Properties.OutputStartTime",
+	"outputs":                                  "description.StreamingJob.Properties.Outputs",
+	"provisioning_state":                       "description.StreamingJob.Properties.ProvisioningState",
 	"region":                                   "description.StreamingJob.Location",
 	"resource_group":                           "description.ResourceGroup",
-	"sku_name":                                 "description.StreamingJob.StreamingJobProperties.Sku.Name",
+	"sku_name":                                 "description.StreamingJob.Properties.SKU.Name",
 	"tags":                                     "description.StreamingJob.Tags",
 	"title":                                    "description.StreamingJob.Name",
-	"transformation":                           "description.StreamingJob.StreamingJobProperties.Transformation",
+	"transformation":                           "description.StreamingJob.Properties.Transformation",
 	"type":                                     "description.StreamingJob.Type",
 }
 
@@ -25638,12 +26926,12 @@ func (p StreamAnalyticsClusterPaginator) NextPage(ctx context.Context) ([]Stream
 }
 
 var listStreamAnalyticsClusterFilters = map[string]string{
-	"akas":             "description.Cluster.ID",
-	"id":               "description.Cluster.Id",
+	"akas":             "description.StreamingJob.Properties.ClusterID",
+	"id":               "description.Cluster.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Cluster.Name",
-	"tags":             "description.Cluster.Tags",
-	"title":            "description.Cluster.Name",
+	"name":             "description.StreamingJob.SKU.Name",
+	"tags":             "description.StreamingJob.Tags",
+	"title":            "description.StreamingJob.SKU.Name",
 }
 
 func ListStreamAnalyticsCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -25677,12 +26965,12 @@ func ListStreamAnalyticsCluster(ctx context.Context, d *plugin.QueryData, _ *plu
 }
 
 var getStreamAnalyticsClusterFilters = map[string]string{
-	"akas":             "description.Cluster.ID",
-	"id":               "description.Cluster.Id",
+	"akas":             "description.StreamingJob.Properties.ClusterID",
+	"id":               "description.Cluster.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Cluster.Name",
-	"tags":             "description.Cluster.Tags",
-	"title":            "description.Cluster.Name",
+	"name":             "description.StreamingJob.SKU.Name",
+	"tags":             "description.StreamingJob.Tags",
+	"title":            "description.StreamingJob.SKU.Name",
 }
 
 func GetStreamAnalyticsCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -25796,12 +27084,12 @@ func (p VirtualMachineImagesImageTemplatesPaginator) NextPage(ctx context.Contex
 }
 
 var listVirtualMachineImagesImageTemplatesFilters = map[string]string{
-	"akas":             "description.ImageTemplates.ID",
-	"id":               "description.ImageTemplates.Id",
+	"akas":             "description.ImageTemplate.ID",
+	"id":               "description.ImageTemplates.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ImageTemplates.Name",
-	"tags":             "description.ImageTemplates.Tags",
-	"title":            "description.ImageTemplates.Name",
+	"name":             "description.ImageTemplate.Name",
+	"tags":             "description.ImageTemplate.Tags",
+	"title":            "description.ImageTemplate.Name",
 }
 
 func ListVirtualMachineImagesImageTemplates(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -25835,12 +27123,12 @@ func ListVirtualMachineImagesImageTemplates(ctx context.Context, d *plugin.Query
 }
 
 var getVirtualMachineImagesImageTemplatesFilters = map[string]string{
-	"akas":             "description.ImageTemplates.ID",
-	"id":               "description.ImageTemplates.Id",
+	"akas":             "description.ImageTemplate.ID",
+	"id":               "description.ImageTemplates.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ImageTemplates.Name",
-	"tags":             "description.ImageTemplates.Tags",
-	"title":            "description.ImageTemplates.Name",
+	"name":             "description.ImageTemplate.Name",
+	"tags":             "description.ImageTemplate.Tags",
+	"title":            "description.ImageTemplate.Name",
 }
 
 func GetVirtualMachineImagesImageTemplates(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -25954,12 +27242,12 @@ func (p OperationalInsightsWorkspacesPaginator) NextPage(ctx context.Context) ([
 }
 
 var listOperationalInsightsWorkspacesFilters = map[string]string{
-	"akas":             "description.Workspaces.ID",
-	"id":               "description.Workspaces.Id",
+	"akas":             "description.Workspace.Properties.WorkspaceCapping",
+	"id":               "description.Workspaces.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Workspaces.Name",
-	"tags":             "description.Workspaces.Tags",
-	"title":            "description.Workspaces.Name",
+	"name":             "description.Workspace.Name",
+	"tags":             "description.Workspace.Tags",
+	"title":            "description.Workspace.Name",
 }
 
 func ListOperationalInsightsWorkspaces(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -25993,12 +27281,12 @@ func ListOperationalInsightsWorkspaces(ctx context.Context, d *plugin.QueryData,
 }
 
 var getOperationalInsightsWorkspacesFilters = map[string]string{
-	"akas":             "description.Workspaces.ID",
-	"id":               "description.Workspaces.Id",
+	"akas":             "description.Workspace.Properties.WorkspaceCapping",
+	"id":               "description.Workspaces.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Workspaces.Name",
-	"tags":             "description.Workspaces.Tags",
-	"title":            "description.Workspaces.Name",
+	"name":             "description.Workspace.Name",
+	"tags":             "description.Workspace.Tags",
+	"title":            "description.Workspace.Name",
 }
 
 func GetOperationalInsightsWorkspaces(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -26112,12 +27400,12 @@ func (p TimeSeriesInsightsEnvironmentsPaginator) NextPage(ctx context.Context) (
 }
 
 var listTimeSeriesInsightsEnvironmentsFilters = map[string]string{
-	"akas":             "description.Environments.ID",
-	"id":               "description.Environments.Id",
+	"akas":             "description.Environment.Kind",
+	"id":               "description.Environments.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Environments.Name",
-	"tags":             "description.Environments.Tags",
-	"title":            "description.Environments.Name",
+	"name":             "description.Environment.Name",
+	"tags":             "description.Environment.Tags",
+	"title":            "description.Environment.Name",
 }
 
 func ListTimeSeriesInsightsEnvironments(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -26151,12 +27439,12 @@ func ListTimeSeriesInsightsEnvironments(ctx context.Context, d *plugin.QueryData
 }
 
 var getTimeSeriesInsightsEnvironmentsFilters = map[string]string{
-	"akas":             "description.Environments.ID",
-	"id":               "description.Environments.Id",
+	"akas":             "description.Environment.Kind",
+	"id":               "description.Environments.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Environments.Name",
-	"tags":             "description.Environments.Tags",
-	"title":            "description.Environments.Name",
+	"name":             "description.Environment.Name",
+	"tags":             "description.Environment.Tags",
+	"title":            "description.Environment.Name",
 }
 
 func GetTimeSeriesInsightsEnvironments(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -26270,33 +27558,33 @@ func (p SynapseWorkspacePaginator) NextPage(ctx context.Context) ([]SynapseWorks
 }
 
 var listSynapseWorkspaceFilters = map[string]string{
-	"adla_resource_id":                 "description.Workspace.WorkspaceProperties.AdlaResourceID",
-	"akas":                             "description.Workspace.ID",
-	"connectivity_endpoints":           "description.Workspace.WorkspaceProperties.ConnectivityEndpoints",
-	"default_data_lake_storage":        "description.Workspace.WorkspaceProperties.DefaultDataLakeStorage",
+	"adla_resource_id":                 "description.Workspace.Properties.AdlaResourceID",
+	"akas":                             "iD",
+	"connectivity_endpoints":           "description.Workspace.Properties.ConnectivityEndpoints",
+	"default_data_lake_storage":        "description.Workspace.Properties.DefaultDataLakeStorage",
 	"diagnostic_settings":              "description.DiagnosticSettingsResources",
-	"extra_properties":                 "description.Workspace.WorkspaceProperties.ExtraProperties",
+	"extra_properties":                 "description.Workspace.Properties.ExtraProperties",
 	"id":                               "description.Workspace.ID",
 	"identity":                         "description.Workspace.Identity",
 	"kaytu_account_id":                 "metadata.SourceID",
-	"managed_resource_group_name":      "description.Workspace.WorkspaceProperties.ManagedResourceGroupName",
-	"managed_virtual_network":          "description.Workspace.WorkspaceProperties.ManagedVirtualNetwork",
-	"managed_virtual_network_settings": "description.Workspace.WorkspaceProperties.ManagedVirtualNetworkSettings",
+	"managed_resource_group_name":      "description.Workspace.Properties.ManagedResourceGroupName",
+	"managed_virtual_network":          "description.Workspace.Properties.ManagedVirtualNetwork",
+	"managed_virtual_network_settings": "description.Workspace.Properties.ManagedVirtualNetworkSettings",
 	"name":                             "description.Workspace.Name",
-	"provisioning_state":               "description.Workspace.WorkspaceProperties.ProvisioningState",
-	"public_network_access":            "description.Workspace.WorkspaceProperties.PublicNetworkAccess",
-	"purview_configuration":            "description.Workspace.WorkspaceProperties.PurviewConfiguration",
+	"provisioning_state":               "description.Workspace.Properties.ProvisioningState",
+	"public_network_access":            "description.Workspace.Properties.PublicNetworkAccess",
+	"purview_configuration":            "description.Workspace.Properties.PurviewConfiguration",
 	"region":                           "description.Workspace.Location",
 	"resource_group":                   "description.ResourceGroup",
-	"sql_administrator_login":          "description.Workspace.WorkspaceProperties.SQLAdministratorLogin",
-	"sql_administrator_login_password": "description.Workspace.WorkspaceProperties.SQLAdministratorLoginPassword",
+	"sql_administrator_login":          "description.Workspace.Properties.SQLAdministratorLogin",
+	"sql_administrator_login_password": "description.Workspace.Properties.SQLAdministratorLoginPassword",
 	"tags":                             "description.Workspace.Tags",
 	"title":                            "description.Workspace.Name",
 	"type":                             "description.Workspace.Type",
-	"virtual_network_profile":          "description.Workspace.WorkspaceProperties.VirtualNetworkProfile",
+	"virtual_network_profile":          "description.Workspace.Properties.VirtualNetworkProfile",
 	"workspace_managed_sql_server_vulnerability_assessments": "description.ServerVulnerabilityAssessments",
-	"workspace_repository_configuration":                     "description.Workspace.WorkspaceProperties.WorkspaceRepositoryConfiguration",
-	"workspace_uid":                                          "description.Workspace.WorkspaceProperties.WorkspaceUID",
+	"workspace_repository_configuration":                     "description.Workspace.Properties.WorkspaceRepositoryConfiguration",
+	"workspace_uid":                                          "description.Workspace.Properties.WorkspaceUID",
 }
 
 func ListSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -26330,33 +27618,33 @@ func ListSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getSynapseWorkspaceFilters = map[string]string{
-	"adla_resource_id":                 "description.Workspace.WorkspaceProperties.AdlaResourceID",
-	"akas":                             "description.Workspace.ID",
-	"connectivity_endpoints":           "description.Workspace.WorkspaceProperties.ConnectivityEndpoints",
-	"default_data_lake_storage":        "description.Workspace.WorkspaceProperties.DefaultDataLakeStorage",
+	"adla_resource_id":                 "description.Workspace.Properties.AdlaResourceID",
+	"akas":                             "iD",
+	"connectivity_endpoints":           "description.Workspace.Properties.ConnectivityEndpoints",
+	"default_data_lake_storage":        "description.Workspace.Properties.DefaultDataLakeStorage",
 	"diagnostic_settings":              "description.DiagnosticSettingsResources",
-	"extra_properties":                 "description.Workspace.WorkspaceProperties.ExtraProperties",
+	"extra_properties":                 "description.Workspace.Properties.ExtraProperties",
 	"id":                               "description.Workspace.ID",
 	"identity":                         "description.Workspace.Identity",
 	"kaytu_account_id":                 "metadata.SourceID",
-	"managed_resource_group_name":      "description.Workspace.WorkspaceProperties.ManagedResourceGroupName",
-	"managed_virtual_network":          "description.Workspace.WorkspaceProperties.ManagedVirtualNetwork",
-	"managed_virtual_network_settings": "description.Workspace.WorkspaceProperties.ManagedVirtualNetworkSettings",
+	"managed_resource_group_name":      "description.Workspace.Properties.ManagedResourceGroupName",
+	"managed_virtual_network":          "description.Workspace.Properties.ManagedVirtualNetwork",
+	"managed_virtual_network_settings": "description.Workspace.Properties.ManagedVirtualNetworkSettings",
 	"name":                             "description.Workspace.name",
-	"provisioning_state":               "description.Workspace.WorkspaceProperties.ProvisioningState",
-	"public_network_access":            "description.Workspace.WorkspaceProperties.PublicNetworkAccess",
-	"purview_configuration":            "description.Workspace.WorkspaceProperties.PurviewConfiguration",
+	"provisioning_state":               "description.Workspace.Properties.ProvisioningState",
+	"public_network_access":            "description.Workspace.Properties.PublicNetworkAccess",
+	"purview_configuration":            "description.Workspace.Properties.PurviewConfiguration",
 	"region":                           "description.Workspace.Location",
 	"resource_group":                   "description.ResourceGroup",
-	"sql_administrator_login":          "description.Workspace.WorkspaceProperties.SQLAdministratorLogin",
-	"sql_administrator_login_password": "description.Workspace.WorkspaceProperties.SQLAdministratorLoginPassword",
+	"sql_administrator_login":          "description.Workspace.Properties.SQLAdministratorLogin",
+	"sql_administrator_login_password": "description.Workspace.Properties.SQLAdministratorLoginPassword",
 	"tags":                             "description.Workspace.Tags",
 	"title":                            "description.Workspace.Name",
 	"type":                             "description.Workspace.Type",
-	"virtual_network_profile":          "description.Workspace.WorkspaceProperties.VirtualNetworkProfile",
+	"virtual_network_profile":          "description.Workspace.Properties.VirtualNetworkProfile",
 	"workspace_managed_sql_server_vulnerability_assessments": "description.ServerVulnerabilityAssessments",
-	"workspace_repository_configuration":                     "description.Workspace.WorkspaceProperties.WorkspaceRepositoryConfiguration",
-	"workspace_uid":                                          "description.Workspace.WorkspaceProperties.WorkspaceUID",
+	"workspace_repository_configuration":                     "description.Workspace.Properties.WorkspaceRepositoryConfiguration",
+	"workspace_uid":                                          "description.Workspace.Properties.WorkspaceUID",
 }
 
 func GetSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -26470,12 +27758,12 @@ func (p SynapseWorkspaceBigdatapoolsPaginator) NextPage(ctx context.Context) ([]
 }
 
 var listSynapseWorkspaceBigdatapoolsFilters = map[string]string{
-	"akas":             "description.WorkspacesBigDataPools.ID",
-	"id":               "description.WorkspacesBigDataPools.Id",
+	"akas":             "description.BigDataPool.ID",
+	"id":               "description.BigDataPool.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.WorkspacesBigDataPools.Name",
-	"tags":             "description.WorkspacesBigDataPools.Tags",
-	"title":            "description.WorkspacesBigDataPools.Name",
+	"name":             "description.BigDataPool.Name",
+	"tags":             "description.BigDataPool.Tags",
+	"title":            "description.BigDataPool.Name",
 }
 
 func ListSynapseWorkspaceBigdatapools(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -26509,12 +27797,12 @@ func ListSynapseWorkspaceBigdatapools(ctx context.Context, d *plugin.QueryData, 
 }
 
 var getSynapseWorkspaceBigdatapoolsFilters = map[string]string{
-	"akas":             "description.WorkspacesBigDataPools.ID",
-	"id":               "description.WorkspacesBigDataPools.Id",
+	"akas":             "description.BigDataPool.ID",
+	"id":               "description.BigDataPool.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.WorkspacesBigDataPools.Name",
-	"tags":             "description.WorkspacesBigDataPools.Tags",
-	"title":            "description.WorkspacesBigDataPools.Name",
+	"name":             "description.BigDataPool.Name",
+	"tags":             "description.BigDataPool.Tags",
+	"title":            "description.BigDataPool.Name",
 }
 
 func GetSynapseWorkspaceBigdatapools(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -26628,12 +27916,12 @@ func (p SynapseWorkspaceSqlpoolsPaginator) NextPage(ctx context.Context) ([]Syna
 }
 
 var listSynapseWorkspaceSqlpoolsFilters = map[string]string{
-	"akas":             "description.WorkspacesSqlPools.ID",
-	"id":               "description.WorkspacesSqlPools.Id",
+	"akas":             "description.SqlPool.ID",
+	"id":               "description.SqlPool.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.WorkspacesSqlPools.Name",
-	"tags":             "description.WorkspacesSqlPools.Tags",
-	"title":            "description.WorkspacesSqlPools.Name",
+	"name":             "description.SqlPool.Name",
+	"tags":             "description.SqlPool.Tags",
+	"title":            "description.SqlPool.Name",
 }
 
 func ListSynapseWorkspaceSqlpools(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -26667,12 +27955,12 @@ func ListSynapseWorkspaceSqlpools(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getSynapseWorkspaceSqlpoolsFilters = map[string]string{
-	"akas":             "description.WorkspacesSqlPools.ID",
-	"id":               "description.WorkspacesSqlPools.Id",
+	"akas":             "description.SqlPool.ID",
+	"id":               "description.SqlPool.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.WorkspacesSqlPools.Name",
-	"tags":             "description.WorkspacesSqlPools.Tags",
-	"title":            "description.WorkspacesSqlPools.Name",
+	"name":             "description.SqlPool.Name",
+	"tags":             "description.SqlPool.Tags",
+	"title":            "description.SqlPool.Name",
 }
 
 func GetSynapseWorkspaceSqlpools(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -26949,32 +28237,14 @@ func (p AdUsersPaginator) NextPage(ctx context.Context) ([]AdUsers, error) {
 }
 
 var listAdUsersFilters = map[string]string{
-	"account_enabled":                       "description.AdUsers.accountEnabled",
-	"additional_properties":                 "description.AdUsers.AdditionalProperties",
-	"created_date_time":                     "description.AdUsers.CreatedDateTime",
-	"display_name":                          "description.AdUsers.displayName",
-	"filter":                                "description.AdUsers.filter",
-	"given_name":                            "description.AdUsers.GivenName",
-	"id":                                    "description.AdUsers.DirectoryObject.id",
-	"im_addresses":                          "description.AdUsers.ImAddresses",
-	"kaytu_account_id":                      "metadata.SourceID",
-	"kaytu_resource_id":                     "iD",
-	"mail":                                  "description.AdUsers.Mail",
-	"mail_nickname":                         "description.AdUsers.MailNickname",
-	"member_of":                             "description.AdUsers.MemberOf",
-	"metadata":                              "metadata",
-	"on_premises_immutable_id":              "description.AdUsers.OnPremisesImmutableId",
-	"other_mails":                           "description.AdUsers.OtherMails",
-	"password_policies":                     "description.AdUsers.PasswordPolicies",
-	"password_profile":                      "description.AdUsers.PasswordProfile",
-	"refresh_tokens_valid_from_date_time":   "description.AdUsers.RefreshTokensValidFromDateTime",
-	"sign_in_sessions_valid_from_date_time": "description.AdUsers.SignInSessionsValidFromDateTime",
-	"surname":                               "description.AdUsers.surname",
-	"tenant_id":                             "description.TenantID",
-	"title":                                 "description.AdUsers.DisplayName",
-	"usage_location":                        "description.AdUsers.UsageLocation",
-	"user_principal_name":                   "description.AdUsers.userPrincipalName",
-	"user_type":                             "description.AdUsers.userType",
+	"account_enabled":     "description.AdUsers.accountEnabled",
+	"display_name":        "description.AdUsers.displayName",
+	"filter":              "description.AdUsers.filter",
+	"id":                  "description.AdUsers.DirectoryObject.id",
+	"kaytu_account_id":    "metadata.SourceID",
+	"surname":             "description.AdUsers.surname",
+	"user_principal_name": "description.AdUsers.userPrincipalName",
+	"user_type":           "description.AdUsers.userType",
 }
 
 func ListAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -27008,31 +28278,8 @@ func ListAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 var getAdUsersFilters = map[string]string{
-	"account_enabled":                       "description.AdUsers.AccountEnabled",
-	"additional_properties":                 "description.AdUsers.AdditionalProperties",
-	"created_date_time":                     "description.AdUsers.CreatedDateTime",
-	"display_name":                          "description.AdUsers.DisplayName",
-	"given_name":                            "description.AdUsers.GivenName",
-	"id":                                    "description.AdUsers.DirectoryObject.id",
-	"im_addresses":                          "description.AdUsers.ImAddresses",
-	"kaytu_account_id":                      "metadata.SourceID",
-	"kaytu_resource_id":                     "iD",
-	"mail":                                  "description.AdUsers.Mail",
-	"mail_nickname":                         "description.AdUsers.MailNickname",
-	"member_of":                             "description.AdUsers.MemberOf",
-	"metadata":                              "metadata",
-	"on_premises_immutable_id":              "description.AdUsers.OnPremisesImmutableId",
-	"other_mails":                           "description.AdUsers.OtherMails",
-	"password_policies":                     "description.AdUsers.PasswordPolicies",
-	"password_profile":                      "description.AdUsers.PasswordProfile",
-	"refresh_tokens_valid_from_date_time":   "description.AdUsers.RefreshTokensValidFromDateTime",
-	"sign_in_sessions_valid_from_date_time": "description.AdUsers.SignInSessionsValidFromDateTime",
-	"surname":                               "description.AdUsers.Surname",
-	"tenant_id":                             "description.TenantID",
-	"title":                                 "description.AdUsers.DisplayName",
-	"usage_location":                        "description.AdUsers.UsageLocation",
-	"user_principal_name":                   "description.AdUsers.UserPrincipalName",
-	"user_type":                             "description.AdUsers.UserType",
+	"id":               "description.AdUsers.DirectoryObject.id",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -27146,38 +28393,12 @@ func (p AdGroupPaginator) NextPage(ctx context.Context) ([]AdGroup, error) {
 }
 
 var listAdGroupFilters = map[string]string{
-	"assigned_labels":                  "description.AdGroup.GroupAssignedLabel",
-	"classification":                   "description.AdGroup.Classification",
-	"created_date_time":                "description.AdGroup.CreatedDateTime",
-	"description":                      "description.AdGroup.Description",
-	"display_name":                     "description.AdGroup.DisplayName",
-	"expiration_date_time":             "description.AdGroup.ExpirationDateTime",
-	"group_types":                      "description.AdGroup.GroupTypes",
-	"id":                               "description.AdGroup.DirectoryObject.ID",
-	"is_assignable_to_role":            "description.AdGroup.Classification",
-	"is_subscribed_by_mail":            "description.AdGroup.IsAssignableToRole",
-	"kaytu_account_id":                 "metadata.SourceID",
-	"mail":                             "description.AdGroup.Mail",
-	"mail_enabled":                     "description.AdGroup.MailEnabled",
-	"mail_nickname":                    "description.AdGroup.MailNickname",
-	"member_ids":                       "description.AdGroup.Members",
-	"membership_rule":                  "description.AdGroup.MembershipRule",
-	"membership_rule_processing_state": "description.AdGroup.MembershipRuleProcessingState",
-	"on_premises_domain_name":          "description.AdGroup.OnPremisesDomainName",
-	"on_premises_last_sync_date_time":  "description.AdGroup.OnPremisesLastSyncDateTime",
-	"on_premises_net_bios_name":        "description.AdGroup.OnPremisesNetBiosName",
-	"on_premises_sam_account_name":     "description.AdGroup.OnPremisesSamAccountName",
-	"on_premises_security_identifier":  "description.AdGroup.OnPremisesSecurityIdentifier",
-	"on_premises_sync_enabled":         "description.AdGroup.OnPremisesSyncEnabled",
-	"owner_ids":                        "description.AdGroup.Owners",
-	"proxy_addresses":                  "description.AdGroup.ProxyAddresses",
-	"renewed_date_time":                "description.AdGroup.RenewedDateTime",
-	"resource_behavior_options":        "description.AdGroup.ResourceBehaviorOptions",
-	"resource_provisioning_options":    "description.AdGroup.ResourceProvisioningOptions",
-	"security_enabled":                 "description.AdGroup.SecurityEnabled",
-	"security_identifier":              "description.AdGroup.SecurityIdentifier",
-	"tenant_id":                        "description.TenantID",
-	"visibility":                       "description.AdGroup.Visibility",
+	"display_name":             "description.AdGroup.DisplayName",
+	"kaytu_account_id":         "metadata.SourceID",
+	"mail":                     "description.AdGroup.Mail",
+	"mail_enabled":             "description.AdGroup.MailEnabled",
+	"on_premises_sync_enabled": "description.AdGroup.OnPremisesSyncEnabled",
+	"security_enabled":         "description.AdGroup.SecurityEnabled",
 }
 
 func ListAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -27211,38 +28432,8 @@ func ListAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 var getAdGroupFilters = map[string]string{
-	"assigned_labels":                  "description.AdGroup.GroupAssignedLabel",
-	"classification":                   "description.AdGroup.Classification",
-	"created_date_time":                "description.AdGroup.CreatedDateTime",
-	"description":                      "description.AdGroup.Description",
-	"display_name":                     "description.AdGroup.DisplayName",
-	"expiration_date_time":             "description.AdGroup.ExpirationDateTime",
-	"group_types":                      "description.AdGroup.GroupTypes",
-	"id":                               "description.AdGroup.DirectoryObject.ID",
-	"is_assignable_to_role":            "description.AdGroup.Classification",
-	"is_subscribed_by_mail":            "description.AdGroup.IsAssignableToRole",
-	"kaytu_account_id":                 "metadata.SourceID",
-	"mail":                             "description.AdGroup.Mail",
-	"mail_enabled":                     "description.AdGroup.MailEnabled",
-	"mail_nickname":                    "description.AdGroup.MailNickname",
-	"member_ids":                       "description.AdGroup.Members",
-	"membership_rule":                  "description.AdGroup.MembershipRule",
-	"membership_rule_processing_state": "description.AdGroup.MembershipRuleProcessingState",
-	"on_premises_domain_name":          "description.AdGroup.OnPremisesDomainName",
-	"on_premises_last_sync_date_time":  "description.AdGroup.OnPremisesLastSyncDateTime",
-	"on_premises_net_bios_name":        "description.AdGroup.OnPremisesNetBiosName",
-	"on_premises_sam_account_name":     "description.AdGroup.OnPremisesSamAccountName",
-	"on_premises_security_identifier":  "description.AdGroup.OnPremisesSecurityIdentifier",
-	"on_premises_sync_enabled":         "description.AdGroup.OnPremisesSyncEnabled",
-	"owner_ids":                        "description.AdGroup.Owners",
-	"proxy_addresses":                  "description.AdGroup.ProxyAddresses",
-	"renewed_date_time":                "description.AdGroup.RenewedDateTime",
-	"resource_behavior_options":        "description.AdGroup.ResourceBehaviorOptions",
-	"resource_provisioning_options":    "description.AdGroup.ResourceProvisioningOptions",
-	"security_enabled":                 "description.AdGroup.SecurityEnabled",
-	"security_identifier":              "description.AdGroup.SecurityIdentifier",
-	"tenant_id":                        "description.TenantID",
-	"visibility":                       "description.AdGroup.Visibility",
+	"id":               "description.AdGroup.DirectoryObject.ID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -27356,33 +28547,10 @@ func (p AdServicePrincipalPaginator) NextPage(ctx context.Context) ([]AdServiceP
 }
 
 var listAdServicePrincipalFilters = map[string]string{
-	"account_enabled":              "description.AdServicePrincipal.AccountEnabled",
-	"add_ins":                      "description.AdServicePrincipal.AddIns",
-	"alternative_names":            "description.AdServicePrincipal.AlternativeNames",
-	"app_description":              "description.AdServicePrincipal.Description",
-	"app_display_name":             "description.AdServicePrincipal.AppDisplayName",
-	"app_id":                       "description.AdServicePrincipal.AppId",
-	"app_owner_organization_id":    "description.AdServicePrincipal.AppOwnerOrganizationId",
-	"app_role_assignment_required": "description.AdServicePrincipal.AppRoleAssignmentRequired",
-	"app_roles":                    "description.AdServicePrincipal.AppRoles",
-	"description":                  "description.AdServicePrincipal.Description",
-	"display_name":                 "description.AdServicePrincipal.DisplayName",
-	"id":                           "description.AdServicePrincipal.DirectoryObject.ID",
-	"info":                         "description.AdServicePrincipal.Info",
-	"kaytu_account_id":             "metadata.SourceID",
-	"key_credentials":              "description.AdServicePrincipal.KeyCredentials",
-	"login_url":                    "description.AdServicePrincipal.LoginUrl",
-	"logout_url":                   "description.AdServicePrincipal.LogoutUrl",
-	"notification_email_addresses": "description.AdServicePrincipal.NotificationEmailAddresses",
-	"oauth2_permission_scopes":     "description.AdServicePrincipal.PublishedPermissionScopes",
-	"owner_ids":                    "description.AdServicePrincipal.Owners",
-	"password_credentials":         "description.AdServicePrincipal.PasswordCredentials",
-	"reply_urls":                   "description.AdServicePrincipal.ReplyUrls",
-	"service_principal_names":      "description.AdServicePrincipal.ServicePrincipalNames",
-	"service_principal_type":       "description.AdServicePrincipal.ServicePrincipalType",
-	"sign_in_audience":             "description.AdServicePrincipal.SignInAudience",
-	"tags_src":                     "description.AdServicePrincipal.Tags",
-	"tenant_id":                    "description.TenantID",
+	"account_enabled":        "description.AdServicePrincipal.AccountEnabled",
+	"display_name":           "description.AdServicePrincipal.DisplayName",
+	"kaytu_account_id":       "metadata.SourceID",
+	"service_principal_type": "description.AdServicePrincipal.ServicePrincipalType",
 }
 
 func ListAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -27416,33 +28584,8 @@ func ListAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.
 }
 
 var getAdServicePrincipalFilters = map[string]string{
-	"account_enabled":              "description.AdServicePrincipal.AccountEnabled",
-	"add_ins":                      "description.AdServicePrincipal.AddIns",
-	"alternative_names":            "description.AdServicePrincipal.AlternativeNames",
-	"app_description":              "description.AdServicePrincipal.Description",
-	"app_display_name":             "description.AdServicePrincipal.AppDisplayName",
-	"app_id":                       "description.AdServicePrincipal.AppId",
-	"app_owner_organization_id":    "description.AdServicePrincipal.AppOwnerOrganizationId",
-	"app_role_assignment_required": "description.AdServicePrincipal.AppRoleAssignmentRequired",
-	"app_roles":                    "description.AdServicePrincipal.AppRoles",
-	"description":                  "description.AdServicePrincipal.Description",
-	"display_name":                 "description.AdServicePrincipal.DisplayName",
-	"id":                           "description.AdServicePrincipal.DirectoryObject.ID",
-	"info":                         "description.AdServicePrincipal.Info",
-	"kaytu_account_id":             "metadata.SourceID",
-	"key_credentials":              "description.AdServicePrincipal.KeyCredentials",
-	"login_url":                    "description.AdServicePrincipal.LoginUrl",
-	"logout_url":                   "description.AdServicePrincipal.LogoutUrl",
-	"notification_email_addresses": "description.AdServicePrincipal.NotificationEmailAddresses",
-	"oauth2_permission_scopes":     "description.AdServicePrincipal.PublishedPermissionScopes",
-	"owner_ids":                    "description.AdServicePrincipal.Owners",
-	"password_credentials":         "description.AdServicePrincipal.PasswordCredentials",
-	"reply_urls":                   "description.AdServicePrincipal.ReplyUrls",
-	"service_principal_names":      "description.AdServicePrincipal.ServicePrincipalNames",
-	"service_principal_type":       "description.AdServicePrincipal.ServicePrincipalType",
-	"sign_in_audience":             "description.AdServicePrincipal.SignInAudience",
-	"tags_src":                     "description.AdServicePrincipal.Tags",
-	"tenant_id":                    "description.TenantID",
+	"id":               "description.AdServicePrincipal.DirectoryObject.ID",
+	"kaytu_account_id": "metadata.SourceID",
 }
 
 func GetAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -27556,12 +28699,12 @@ func (p AnalysisServiceServerPaginator) NextPage(ctx context.Context) ([]Analysi
 }
 
 var listAnalysisServiceServerFilters = map[string]string{
-	"akas":             "description.Servers.ID",
-	"id":               "description.Servers.Id",
+	"akas":             "description.Server.ID",
+	"id":               "description.Servers.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Servers.Name",
-	"tags":             "description.Servers.Tags",
-	"title":            "description.Servers.Name",
+	"name":             "description.Server.Properties.ServerFullName",
+	"tags":             "description.Server.Tags",
+	"title":            "description.Server.Properties.ServerFullName",
 }
 
 func ListAnalysisServiceServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -27595,13 +28738,13 @@ func ListAnalysisServiceServer(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getAnalysisServiceServerFilters = map[string]string{
-	"akas":             "description.Servers.ID",
-	"id":               "description.Servers.Id",
+	"akas":             "description.Server.ID",
+	"id":               "description.Servers.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Server.name",
 	"resource_group":   "description.ResourceGroup",
-	"tags":             "description.Servers.Tags",
-	"title":            "description.Servers.Name",
+	"tags":             "description.Server.Tags",
+	"title":            "description.Server.Properties.ServerFullName",
 }
 
 func GetAnalysisServiceServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -27715,42 +28858,42 @@ func (p PostgresqlServerPaginator) NextPage(ctx context.Context) ([]PostgresqlSe
 }
 
 var listPostgresqlServerFilters = map[string]string{
-	"administrator_login":         "description.Server.ServerProperties.AdministratorLogin",
-	"akas":                        "description.Server.ID",
-	"backup_retention_days":       "description.Server.ServerProperties.StorageProfile.BackupRetentionDays",
-	"byok_enforcement":            "description.Server.ServerProperties.ByokEnforcement",
-	"earliest_restore_date":       "description.Server.ServerProperties.EarliestRestoreDate",
+	"administrator_login":         "description.Server.Properties.AdministratorLogin",
+	"akas":                        "description.Server.Properties.MasterServerID",
+	"backup_retention_days":       "description.Server.Properties.StorageProfile.BackupRetentionDays",
+	"byok_enforcement":            "description.Server.Properties.ByokEnforcement",
+	"earliest_restore_date":       "description.Server.Properties.EarliestRestoreDate",
 	"firewall_rules":              "description.FirewallRules",
-	"fully_qualified_domain_name": "description.Server.ServerProperties.FullyQualifiedDomainName",
-	"geo_redundant_backup":        "description.Server.ServerProperties.StorageProfile.GeoRedundantBackup",
+	"fully_qualified_domain_name": "description.Server.Properties.FullyQualifiedDomainName",
+	"geo_redundant_backup":        "description.Server.Properties.StorageProfile.GeoRedundantBackup",
 	"id":                          "description.Server.ID",
-	"infrastructure_encryption":   "description.Server.ServerProperties.InfrastructureEncryption",
+	"infrastructure_encryption":   "description.Server.Properties.InfrastructureEncryption",
 	"kaytu_account_id":            "metadata.SourceID",
 	"location":                    "description.Server.Location",
-	"master_server_id":            "description.Server.ServerProperties.MasterServerID",
-	"minimal_tls_version":         "description.Server.ServerProperties.MinimalTLSVersion",
+	"master_server_id":            "description.Server.Properties.MasterServerID",
+	"minimal_tls_version":         "description.Server.Properties.MinimalTLSVersion",
 	"name":                        "description.Server.Name",
-	"public_network_access":       "description.Server.ServerProperties.PublicNetworkAccess",
+	"public_network_access":       "description.Server.Properties.PublicNetworkAccess",
 	"region":                      "description.Server.Location",
-	"replica_capacity":            "description.Server.ServerProperties.ReplicaCapacity",
-	"replication_role":            "description.Server.ServerProperties.ReplicationRole",
+	"replica_capacity":            "description.Server.Properties.ReplicaCapacity",
+	"replication_role":            "description.Server.Properties.ReplicationRole",
 	"resource_group":              "description.ResourceGroup",
 	"server_administrators":       "description.ServerAdministratorResources",
 	"server_configurations":       "description.Configurations",
 	"server_keys":                 "description.ServerKeys",
-	"sku_capacity":                "description.Server.Sku.Capacity",
-	"sku_family":                  "description.Server.Sku.Family",
-	"sku_name":                    "description.Server.Sku.Name",
-	"sku_size":                    "description.Server.Sku.Size",
-	"sku_tier":                    "description.Server.Sku.Tier",
-	"ssl_enforcement":             "description.Server.ServerProperties.SslEnforcement",
-	"storage_auto_grow":           "description.Server.ServerProperties.StorageProfile.StorageAutogrow",
-	"storage_mb":                  "description.Server.ServerProperties.StorageProfile.StorageMB",
+	"sku_capacity":                "description.Server.SKU.Capacity",
+	"sku_family":                  "description.Server.SKU.Family",
+	"sku_name":                    "description.Server.SKU.Name",
+	"sku_size":                    "description.Server.SKU.Size",
+	"sku_tier":                    "description.Server.SKU.Tier",
+	"ssl_enforcement":             "description.Server.Properties.SSLEnforcement",
+	"storage_auto_grow":           "description.Server.Properties.StorageProfile.StorageAutogrow",
+	"storage_mb":                  "description.Server.Properties.StorageProfile.StorageMB",
 	"tags":                        "description.Server.Tags",
 	"title":                       "description.Server.Name",
 	"type":                        "description.Server.Type",
-	"user_visible_state":          "description.Server.ServerProperties.UserVisibleState",
-	"version":                     "description.Server.ServerProperties.Version",
+	"user_visible_state":          "description.Server.Properties.UserVisibleState",
+	"version":                     "description.Server.Properties.Version",
 }
 
 func ListPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -27784,42 +28927,42 @@ func ListPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getPostgresqlServerFilters = map[string]string{
-	"administrator_login":         "description.Server.ServerProperties.AdministratorLogin",
-	"akas":                        "description.Server.ID",
-	"backup_retention_days":       "description.Server.ServerProperties.StorageProfile.BackupRetentionDays",
-	"byok_enforcement":            "description.Server.ServerProperties.ByokEnforcement",
-	"earliest_restore_date":       "description.Server.ServerProperties.EarliestRestoreDate",
+	"administrator_login":         "description.Server.Properties.AdministratorLogin",
+	"akas":                        "description.Server.Properties.MasterServerID",
+	"backup_retention_days":       "description.Server.Properties.StorageProfile.BackupRetentionDays",
+	"byok_enforcement":            "description.Server.Properties.ByokEnforcement",
+	"earliest_restore_date":       "description.Server.Properties.EarliestRestoreDate",
 	"firewall_rules":              "description.FirewallRules",
-	"fully_qualified_domain_name": "description.Server.ServerProperties.FullyQualifiedDomainName",
-	"geo_redundant_backup":        "description.Server.ServerProperties.StorageProfile.GeoRedundantBackup",
+	"fully_qualified_domain_name": "description.Server.Properties.FullyQualifiedDomainName",
+	"geo_redundant_backup":        "description.Server.Properties.StorageProfile.GeoRedundantBackup",
 	"id":                          "description.Server.ID",
-	"infrastructure_encryption":   "description.Server.ServerProperties.InfrastructureEncryption",
+	"infrastructure_encryption":   "description.Server.Properties.InfrastructureEncryption",
 	"kaytu_account_id":            "metadata.SourceID",
 	"location":                    "description.Server.Location",
-	"master_server_id":            "description.Server.ServerProperties.MasterServerID",
-	"minimal_tls_version":         "description.Server.ServerProperties.MinimalTLSVersion",
+	"master_server_id":            "description.Server.Properties.MasterServerID",
+	"minimal_tls_version":         "description.Server.Properties.MinimalTLSVersion",
 	"name":                        "description.Server.name",
-	"public_network_access":       "description.Server.ServerProperties.PublicNetworkAccess",
+	"public_network_access":       "description.Server.Properties.PublicNetworkAccess",
 	"region":                      "description.Server.Location",
-	"replica_capacity":            "description.Server.ServerProperties.ReplicaCapacity",
-	"replication_role":            "description.Server.ServerProperties.ReplicationRole",
+	"replica_capacity":            "description.Server.Properties.ReplicaCapacity",
+	"replication_role":            "description.Server.Properties.ReplicationRole",
 	"resource_group":              "description.ResourceGroup",
 	"server_administrators":       "description.ServerAdministratorResources",
 	"server_configurations":       "description.Configurations",
 	"server_keys":                 "description.ServerKeys",
-	"sku_capacity":                "description.Server.Sku.Capacity",
-	"sku_family":                  "description.Server.Sku.Family",
-	"sku_name":                    "description.Server.Sku.Name",
-	"sku_size":                    "description.Server.Sku.Size",
-	"sku_tier":                    "description.Server.Sku.Tier",
-	"ssl_enforcement":             "description.Server.ServerProperties.SslEnforcement",
-	"storage_auto_grow":           "description.Server.ServerProperties.StorageProfile.StorageAutogrow",
-	"storage_mb":                  "description.Server.ServerProperties.StorageProfile.StorageMB",
+	"sku_capacity":                "description.Server.SKU.Capacity",
+	"sku_family":                  "description.Server.SKU.Family",
+	"sku_name":                    "description.Server.SKU.Name",
+	"sku_size":                    "description.Server.SKU.Size",
+	"sku_tier":                    "description.Server.SKU.Tier",
+	"ssl_enforcement":             "description.Server.Properties.SSLEnforcement",
+	"storage_auto_grow":           "description.Server.Properties.StorageProfile.StorageAutogrow",
+	"storage_mb":                  "description.Server.Properties.StorageProfile.StorageMB",
 	"tags":                        "description.Server.Tags",
 	"title":                       "description.Server.Name",
 	"type":                        "description.Server.Type",
-	"user_visible_state":          "description.Server.ServerProperties.UserVisibleState",
-	"version":                     "description.Server.ServerProperties.Version",
+	"user_visible_state":          "description.Server.Properties.UserVisibleState",
+	"version":                     "description.Server.Properties.Version",
 }
 
 func GetPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -27933,12 +29076,12 @@ func (p PostgresqlFlexibleServerPaginator) NextPage(ctx context.Context) ([]Post
 }
 
 var listPostgresqlFlexibleServerFilters = map[string]string{
-	"akas":             "description.FlexibleServers.ID",
-	"id":               "description.FlexibleServers.Id",
+	"akas":             "description.Server.ID",
+	"id":               "description.Server.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.FlexibleServers.Name",
-	"tags":             "description.FlexibleServers.Tags",
-	"title":            "description.FlexibleServers.Name",
+	"name":             "description.Server.Name",
+	"tags":             "description.Server.Tags",
+	"title":            "description.Server.Name",
 }
 
 func ListPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -27972,12 +29115,12 @@ func ListPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getPostgresqlFlexibleServerFilters = map[string]string{
-	"akas":             "description.FlexibleServers.ID",
-	"id":               "description.FlexibleServers.Id",
+	"akas":             "description.Server.ID",
+	"id":               "description.Server.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.FlexibleServers.Name",
-	"tags":             "description.FlexibleServers.Tags",
-	"title":            "description.FlexibleServers.Name",
+	"name":             "description.Server.Name",
+	"tags":             "description.Server.Tags",
+	"title":            "description.Server.Name",
 }
 
 func GetPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -28093,16 +29236,16 @@ func (p StorageSyncPaginator) NextPage(ctx context.Context) ([]StorageSync, erro
 var listStorageSyncFilters = map[string]string{
 	"akas":                        "description.Service.ID",
 	"id":                          "description.Service.ID",
-	"incoming_traffic_policy":     "description.Service.ServiceProperties.IncomingTrafficPolicy",
+	"incoming_traffic_policy":     "description.Service.Properties.IncomingTrafficPolicy",
 	"kaytu_account_id":            "metadata.SourceID",
-	"last_operation_name":         "description.Service.ServiceProperties.LastOperationName",
-	"last_workflow_id":            "description.Service.ServiceProperties.LastWorkflowID",
+	"last_operation_name":         "description.Service.Properties.LastOperationName",
+	"last_workflow_id":            "description.Service.Properties.LastWorkflowID",
 	"name":                        "description.Service.Name",
-	"provisioning_state":          "description.Service.ServiceProperties.ProvisioningState",
+	"provisioning_state":          "description.Service.Properties.ProvisioningState",
 	"region":                      "description.Service.Location",
 	"resource_group":              "description.ResourceGroup",
-	"storage_sync_service_status": "description.Service.ServiceProperties.StorageSyncServiceStatus",
-	"storage_sync_service_uid":    "description.Service.ServiceProperties.StorageSyncServiceUID",
+	"storage_sync_service_status": "description.Service.Properties.StorageSyncServiceStatus",
+	"storage_sync_service_uid":    "description.Service.Properties.StorageSyncServiceUID",
 	"tags":                        "description.Service.Tags",
 	"title":                       "description.Service.Name",
 	"type":                        "description.Service.Type",
@@ -28141,16 +29284,16 @@ func ListStorageSync(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 var getStorageSyncFilters = map[string]string{
 	"akas":                        "description.Service.ID",
 	"id":                          "description.Service.ID",
-	"incoming_traffic_policy":     "description.Service.ServiceProperties.IncomingTrafficPolicy",
+	"incoming_traffic_policy":     "description.Service.Properties.IncomingTrafficPolicy",
 	"kaytu_account_id":            "metadata.SourceID",
-	"last_operation_name":         "description.Service.ServiceProperties.LastOperationName",
-	"last_workflow_id":            "description.Service.ServiceProperties.LastWorkflowID",
+	"last_operation_name":         "description.Service.Properties.LastOperationName",
+	"last_workflow_id":            "description.Service.Properties.LastWorkflowID",
 	"name":                        "description.Service.name",
-	"provisioning_state":          "description.Service.ServiceProperties.ProvisioningState",
+	"provisioning_state":          "description.Service.Properties.ProvisioningState",
 	"region":                      "description.Service.Location",
 	"resource_group":              "description.ResourceGroup",
-	"storage_sync_service_status": "description.Service.ServiceProperties.StorageSyncServiceStatus",
-	"storage_sync_service_uid":    "description.Service.ServiceProperties.StorageSyncServiceUID",
+	"storage_sync_service_status": "description.Service.Properties.StorageSyncServiceStatus",
+	"storage_sync_service_uid":    "description.Service.Properties.StorageSyncServiceUID",
 	"tags":                        "description.Service.Tags",
 	"title":                       "description.Service.Name",
 	"type":                        "description.Service.Type",
@@ -28267,39 +29410,39 @@ func (p MssqlManagedInstancePaginator) NextPage(ctx context.Context) ([]MssqlMan
 }
 
 var listMssqlManagedInstanceFilters = map[string]string{
-	"administrator_login":          "description.ManagedInstance.ManagedInstanceProperties.AdministratorLogin",
-	"administrator_login_password": "description.ManagedInstance.ManagedInstanceProperties.AdministratorLoginPassword",
+	"administrator_login":          "description.ManagedInstance.Properties.AdministratorLogin",
+	"administrator_login_password": "description.ManagedInstance.Properties.AdministratorLoginPassword",
 	"akas":                         "description.ManagedInstance.ID",
-	"collation":                    "description.ManagedInstance.ManagedInstanceProperties.Collation",
-	"dns_zone":                     "description.ManagedInstance.ManagedInstanceProperties.DNSZone",
-	"dns_zone_partner":             "description.ManagedInstance.ManagedInstanceProperties.DNSZonePartner",
+	"collation":                    "description.ManagedInstance.Properties.Collation",
+	"dns_zone":                     "description.ManagedInstance.Properties.DNSZone",
+	"dns_zone_partner":             "description.ManagedInstance.Properties.DNSZonePartner",
 	"encryption_protectors":        "description.ManagedInstanceEncryptionProtectors",
-	"fully_qualified_domain_name":  "description.ManagedInstance.ManagedInstanceProperties.FullyQualifiedDomainName",
+	"fully_qualified_domain_name":  "description.ManagedInstance.Properties.FullyQualifiedDomainName",
 	"id":                           "description.ManagedInstance.ID",
 	"identity":                     "description.ManagedInstance.Identity",
-	"instance_pool_id":             "description.ManagedInstance.ManagedInstanceProperties.InstancePoolID",
+	"instance_pool_id":             "description.ManagedInstance.Properties.InstancePoolID",
 	"kaytu_account_id":             "metadata.SourceID",
-	"license_type":                 "description.ManagedInstance.ManagedInstanceProperties.LicenseType",
-	"maintenance_configuration_id": "description.ManagedInstance.ManagedInstanceProperties.MaintenanceConfigurationID",
-	"managed_instance_create_mode": "description.ManagedInstance.ManagedInstanceProperties.ManagedInstanceCreateMode",
-	"minimal_tls_version":          "description.ManagedInstance.ManagedInstanceProperties.MinimalTLSVersion",
+	"license_type":                 "description.ManagedInstance.Properties.LicenseType",
+	"maintenance_configuration_id": "description.ManagedInstance.Properties.MaintenanceConfigurationID",
+	"managed_instance_create_mode": "description.ManagedInstance.Properties.ManagedInstanceCreateMode",
+	"minimal_tls_version":          "description.ManagedInstance.Properties.MinimalTLSVersion",
 	"name":                         "description.ManagedInstance.Name",
-	"proxy_override":               "description.ManagedInstance.ManagedInstanceProperties.ProxyOverride",
-	"public_data_endpoint_enabled": "description.ManagedInstance.ManagedInstanceProperties.PublicDataEndpointEnabled",
+	"proxy_override":               "description.ManagedInstance.Properties.ProxyOverride",
+	"public_data_endpoint_enabled": "description.ManagedInstance.Properties.PublicDataEndpointEnabled",
 	"region":                       "description.ManagedInstance.Location",
 	"resource_group":               "description.ResourceGroup",
-	"restore_point_in_time":        "description.ManagedInstance.ManagedInstanceProperties.RestorePointInTime",
+	"restore_point_in_time":        "description.ManagedInstance.Properties.RestorePointInTime",
 	"security_alert_policies":      "description.ManagedDatabaseSecurityAlertPolicies",
-	"sku":                          "description.ManagedInstance.Sku",
-	"source_managed_instance_id":   "description.ManagedInstance.ManagedInstanceProperties.SourceManagedInstanceID",
-	"state":                        "description.ManagedInstance.ManagedInstanceProperties.State",
-	"storage_size_in_gb":           "description.ManagedInstance.ManagedInstanceProperties.StorageSizeInGB",
-	"subnet_id":                    "description.ManagedInstance.ManagedInstanceProperties.SubnetID",
+	"sku":                          "description.ManagedInstance.SKU",
+	"source_managed_instance_id":   "description.ManagedInstance.Properties.SourceManagedInstanceID",
+	"state":                        "description.ManagedInstance.Properties.State",
+	"storage_size_in_gb":           "description.ManagedInstance.Properties.StorageSizeInGB",
+	"subnet_id":                    "description.ManagedInstance.Properties.SubnetID",
 	"tags":                         "description.ManagedInstance.Tags",
-	"timezone_id":                  "description.ManagedInstance.ManagedInstanceProperties.TimezoneID",
+	"timezone_id":                  "description.ManagedInstance.Properties.TimezoneID",
 	"title":                        "description.ManagedInstance.Name",
 	"type":                         "description.ManagedInstance.Type",
-	"v_cores":                      "description.ManagedInstance.ManagedInstanceProperties.VCores",
+	"v_cores":                      "description.ManagedInstance.Properties.VCores",
 	"vulnerability_assessments":    "description.ManagedInstanceVulnerabilityAssessments",
 }
 
@@ -28334,39 +29477,39 @@ func ListMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 var getMssqlManagedInstanceFilters = map[string]string{
-	"administrator_login":          "description.ManagedInstance.ManagedInstanceProperties.AdministratorLogin",
-	"administrator_login_password": "description.ManagedInstance.ManagedInstanceProperties.AdministratorLoginPassword",
+	"administrator_login":          "description.ManagedInstance.Properties.AdministratorLogin",
+	"administrator_login_password": "description.ManagedInstance.Properties.AdministratorLoginPassword",
 	"akas":                         "description.ManagedInstance.ID",
-	"collation":                    "description.ManagedInstance.ManagedInstanceProperties.Collation",
-	"dns_zone":                     "description.ManagedInstance.ManagedInstanceProperties.DNSZone",
-	"dns_zone_partner":             "description.ManagedInstance.ManagedInstanceProperties.DNSZonePartner",
+	"collation":                    "description.ManagedInstance.Properties.Collation",
+	"dns_zone":                     "description.ManagedInstance.Properties.DNSZone",
+	"dns_zone_partner":             "description.ManagedInstance.Properties.DNSZonePartner",
 	"encryption_protectors":        "description.ManagedInstanceEncryptionProtectors",
-	"fully_qualified_domain_name":  "description.ManagedInstance.ManagedInstanceProperties.FullyQualifiedDomainName",
+	"fully_qualified_domain_name":  "description.ManagedInstance.Properties.FullyQualifiedDomainName",
 	"id":                           "description.ManagedInstance.ID",
 	"identity":                     "description.ManagedInstance.Identity",
-	"instance_pool_id":             "description.ManagedInstance.ManagedInstanceProperties.InstancePoolID",
+	"instance_pool_id":             "description.ManagedInstance.Properties.InstancePoolID",
 	"kaytu_account_id":             "metadata.SourceID",
-	"license_type":                 "description.ManagedInstance.ManagedInstanceProperties.LicenseType",
-	"maintenance_configuration_id": "description.ManagedInstance.ManagedInstanceProperties.MaintenanceConfigurationID",
-	"managed_instance_create_mode": "description.ManagedInstance.ManagedInstanceProperties.ManagedInstanceCreateMode",
-	"minimal_tls_version":          "description.ManagedInstance.ManagedInstanceProperties.MinimalTLSVersion",
+	"license_type":                 "description.ManagedInstance.Properties.LicenseType",
+	"maintenance_configuration_id": "description.ManagedInstance.Properties.MaintenanceConfigurationID",
+	"managed_instance_create_mode": "description.ManagedInstance.Properties.ManagedInstanceCreateMode",
+	"minimal_tls_version":          "description.ManagedInstance.Properties.MinimalTLSVersion",
 	"name":                         "description.ManagedInstance.name",
-	"proxy_override":               "description.ManagedInstance.ManagedInstanceProperties.ProxyOverride",
-	"public_data_endpoint_enabled": "description.ManagedInstance.ManagedInstanceProperties.PublicDataEndpointEnabled",
+	"proxy_override":               "description.ManagedInstance.Properties.ProxyOverride",
+	"public_data_endpoint_enabled": "description.ManagedInstance.Properties.PublicDataEndpointEnabled",
 	"region":                       "description.ManagedInstance.Location",
 	"resource_group":               "description.ResourceGroup",
-	"restore_point_in_time":        "description.ManagedInstance.ManagedInstanceProperties.RestorePointInTime",
+	"restore_point_in_time":        "description.ManagedInstance.Properties.RestorePointInTime",
 	"security_alert_policies":      "description.ManagedDatabaseSecurityAlertPolicies",
-	"sku":                          "description.ManagedInstance.Sku",
-	"source_managed_instance_id":   "description.ManagedInstance.ManagedInstanceProperties.SourceManagedInstanceID",
-	"state":                        "description.ManagedInstance.ManagedInstanceProperties.State",
-	"storage_size_in_gb":           "description.ManagedInstance.ManagedInstanceProperties.StorageSizeInGB",
-	"subnet_id":                    "description.ManagedInstance.ManagedInstanceProperties.SubnetID",
+	"sku":                          "description.ManagedInstance.SKU",
+	"source_managed_instance_id":   "description.ManagedInstance.Properties.SourceManagedInstanceID",
+	"state":                        "description.ManagedInstance.Properties.State",
+	"storage_size_in_gb":           "description.ManagedInstance.Properties.StorageSizeInGB",
+	"subnet_id":                    "description.ManagedInstance.Properties.SubnetID",
 	"tags":                         "description.ManagedInstance.Tags",
-	"timezone_id":                  "description.ManagedInstance.ManagedInstanceProperties.TimezoneID",
+	"timezone_id":                  "description.ManagedInstance.Properties.TimezoneID",
 	"title":                        "description.ManagedInstance.Name",
 	"type":                         "description.ManagedInstance.Type",
-	"v_cores":                      "description.ManagedInstance.ManagedInstanceProperties.VCores",
+	"v_cores":                      "description.ManagedInstance.Properties.VCores",
 	"vulnerability_assessments":    "description.ManagedInstanceVulnerabilityAssessments",
 }
 
@@ -28481,12 +29624,12 @@ func (p MssqlManagedInstanceDatabasesPaginator) NextPage(ctx context.Context) ([
 }
 
 var listMssqlManagedInstanceDatabasesFilters = map[string]string{
-	"akas":             "description.ManagedInstancesDatabases.ID",
-	"id":               "description.ManagedInstancesDatabases.Id",
+	"akas":             "description.ManagedInstance.ID",
+	"id":               "description.ManagedInstance.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ManagedInstancesDatabases.Name",
-	"tags":             "description.ManagedInstancesDatabases.Tags",
-	"title":            "description.ManagedInstancesDatabases.Name",
+	"name":             "description.ManagedInstance.SKU.Name",
+	"tags":             "description.ManagedInstance.Tags",
+	"title":            "description.ManagedInstance.SKU.Name",
 }
 
 func ListMssqlManagedInstanceDatabases(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -28520,12 +29663,12 @@ func ListMssqlManagedInstanceDatabases(ctx context.Context, d *plugin.QueryData,
 }
 
 var getMssqlManagedInstanceDatabasesFilters = map[string]string{
-	"akas":             "description.ManagedInstancesDatabases.ID",
-	"id":               "description.ManagedInstancesDatabases.Id",
+	"akas":             "description.ManagedInstance.ID",
+	"id":               "description.ManagedInstance.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ManagedInstancesDatabases.Name",
-	"tags":             "description.ManagedInstancesDatabases.Tags",
-	"title":            "description.ManagedInstancesDatabases.Name",
+	"name":             "description.ManagedInstance.SKU.Name",
+	"tags":             "description.ManagedInstance.Tags",
+	"title":            "description.ManagedInstance.SKU.Name",
 }
 
 func GetMssqlManagedInstanceDatabases(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -28640,48 +29783,48 @@ func (p SqlDatabasePaginator) NextPage(ctx context.Context) ([]SqlDatabase, erro
 
 var listSqlDatabaseFilters = map[string]string{
 	"akas":                         "description.Database.ID",
-	"collation":                    "description.Database.DatabaseProperties.Collation",
-	"containment_state":            "description.Database.DatabaseProperties.ContainmentState",
-	"create_mode":                  "description.Database.DatabaseProperties.CreateMode",
-	"creation_date":                "description.Database.DatabaseProperties.CreationDate",
-	"current_service_objective_id": "description.Database.DatabaseProperties.CurrentServiceObjectiveID",
-	"database_id":                  "description.Database.DatabaseProperties.DatabaseID",
-	"default_secondary_location":   "description.Database.DatabaseProperties.DefaultSecondaryLocation",
-	"earliest_restore_date":        "description.Database.DatabaseProperties.EarliestRestoreDate",
-	"edition":                      "description.Database.DatabaseProperties.Edition",
-	"elastic_pool_name":            "description.Database.DatabaseProperties.ElasticPoolName",
-	"failover_group_id":            "description.Database.DatabaseProperties.FailoverGroupID",
+	"collation":                    "description.Database.Properties.Collation",
+	"containment_state":            "description.Database.Properties.CreationDate",
+	"create_mode":                  "description.Database.Properties.CreateMode",
+	"creation_date":                "description.Database.Properties.CreationDate",
+	"current_service_objective_id": "description.Database.Properties.CurrentServiceObjectiveName",
+	"database_id":                  "description.Database.Properties.DatabaseID",
+	"default_secondary_location":   "description.Database.Properties.DefaultSecondaryLocation",
+	"earliest_restore_date":        "description.Database.Properties.EarliestRestoreDate",
+	"edition":                      "databaseProperties.Edition",
+	"elastic_pool_name":            "description.Database.Properties.ElasticPoolID",
+	"failover_group_id":            "description.Database.Properties.FailoverGroupID",
 	"id":                           "description.Database.ID",
 	"kaytu_account_id":             "metadata.SourceID",
 	"kind":                         "description.Database.Kind",
 	"location":                     "description.Database.Location",
-	"max_size_bytes":               "description.Database.DatabaseProperties.MaxSizeBytes",
+	"max_size_bytes":               "description.Database.Properties.MaxSizeBytes",
 	"name":                         "description.Database.Name",
-	"read_scale":                   "description.Database.DatabaseProperties.ReadScale",
-	"recommended_index":            "description.Database.DatabaseProperties.RecommendedIndex",
-	"recovery_services_recovery_point_resource_id": "description.Database.DatabaseProperties.RecoveryServicesRecoveryPointResourceID",
+	"read_scale":                   "description.Database.Properties.ReadScale",
+	"recommended_index":            "databaseProperties.RecommendedIndex",
+	"recovery_services_recovery_point_resource_id": "description.Database.Properties.RecoveryServicesRecoveryPointID",
 	"region":                                "description.Database.Location",
-	"requested_service_objective_id":        "description.Database.DatabaseProperties.RequestedServiceObjectiveID",
-	"requested_service_objective_name":      "description.Database.DatabaseProperties.RequestedServiceObjectiveName",
+	"requested_service_objective_id":        "description.Database.Properties.RequestedServiceObjectiveName",
+	"requested_service_objective_name":      "description.Database.Properties.RequestedServiceObjectiveName",
 	"resource_group":                        "description.ResourceGroup",
-	"restore_point_in_time":                 "description.Database.DatabaseProperties.RestorePointInTime",
+	"restore_point_in_time":                 "description.Database.Properties.RestorePointInTime",
 	"retention_policy_id":                   "description.LongTermRetentionPolicy.ID",
 	"retention_policy_name":                 "description.LongTermRetentionPolicy.Name",
 	"retention_policy_property":             "description.LongTermRetentionPolicy",
 	"retention_policy_type":                 "description.LongTermRetentionPolicy.Type",
-	"sample_name":                           "description.Database.DatabaseProperties.SampleName",
-	"service_level_objective":               "description.Database.DatabaseProperties.ServiceLevelObjective",
-	"service_tier_advisors":                 "description.Database.DatabaseProperties.ServiceTierAdvisors",
-	"source_database_deletion_date":         "description.Database.DatabaseProperties.SourceDatabaseDeletionDate",
-	"source_database_id":                    "description.Database.DatabaseProperties.SourceDatabaseID",
-	"status":                                "description.Database.DatabaseProperties.Status",
+	"sample_name":                           "description.Database.Properties.SampleName",
+	"service_level_objective":               "databaseProperties.ServiceLevelObjective",
+	"service_tier_advisors":                 "databaseProperties.ServiceTierAdvisors",
+	"source_database_deletion_date":         "description.Database.Properties.SourceDatabaseDeletionDate",
+	"source_database_id":                    "description.Database.Properties.SourceDatabaseID",
+	"status":                                "description.Database.Properties.Status",
 	"tags":                                  "description.Database.Tags",
 	"title":                                 "description.Database.Name",
-	"transparent_data_encryption":           "description.TransparentDataEncryption.TransparentDataEncryptionProperties",
+	"transparent_data_encryption":           "description.TransparentDataEncryption",
 	"type":                                  "description.Database.Type",
 	"vulnerability_assessment_scan_records": "description.VulnerabilityAssessmentScanRecords",
 	"vulnerability_assessments":             "description.DatabaseVulnerabilityAssessments",
-	"zone_redundant":                        "description.Database.DatabaseProperties.ZoneRedundant",
+	"zone_redundant":                        "description.Database.Properties.ZoneRedundant",
 }
 
 func ListSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -28716,48 +29859,48 @@ func ListSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 var getSqlDatabaseFilters = map[string]string{
 	"akas":                         "description.Database.ID",
-	"collation":                    "description.Database.DatabaseProperties.Collation",
-	"containment_state":            "description.Database.DatabaseProperties.ContainmentState",
-	"create_mode":                  "description.Database.DatabaseProperties.CreateMode",
-	"creation_date":                "description.Database.DatabaseProperties.CreationDate",
-	"current_service_objective_id": "description.Database.DatabaseProperties.CurrentServiceObjectiveID",
-	"database_id":                  "description.Database.DatabaseProperties.DatabaseID",
-	"default_secondary_location":   "description.Database.DatabaseProperties.DefaultSecondaryLocation",
-	"earliest_restore_date":        "description.Database.DatabaseProperties.EarliestRestoreDate",
-	"edition":                      "description.Database.DatabaseProperties.Edition",
-	"elastic_pool_name":            "description.Database.DatabaseProperties.ElasticPoolName",
-	"failover_group_id":            "description.Database.DatabaseProperties.FailoverGroupID",
+	"collation":                    "description.Database.Properties.Collation",
+	"containment_state":            "description.Database.Properties.CreationDate",
+	"create_mode":                  "description.Database.Properties.CreateMode",
+	"creation_date":                "description.Database.Properties.CreationDate",
+	"current_service_objective_id": "description.Database.Properties.CurrentServiceObjectiveName",
+	"database_id":                  "description.Database.Properties.DatabaseID",
+	"default_secondary_location":   "description.Database.Properties.DefaultSecondaryLocation",
+	"earliest_restore_date":        "description.Database.Properties.EarliestRestoreDate",
+	"edition":                      "databaseProperties.Edition",
+	"elastic_pool_name":            "description.Database.Properties.ElasticPoolID",
+	"failover_group_id":            "description.Database.Properties.FailoverGroupID",
 	"id":                           "description.Database.ID",
 	"kaytu_account_id":             "metadata.SourceID",
 	"kind":                         "description.Database.Kind",
 	"location":                     "description.Database.Location",
-	"max_size_bytes":               "description.Database.DatabaseProperties.MaxSizeBytes",
+	"max_size_bytes":               "description.Database.Properties.MaxSizeBytes",
 	"name":                         "description.Database.name",
-	"read_scale":                   "description.Database.DatabaseProperties.ReadScale",
-	"recommended_index":            "description.Database.DatabaseProperties.RecommendedIndex",
-	"recovery_services_recovery_point_resource_id": "description.Database.DatabaseProperties.RecoveryServicesRecoveryPointResourceID",
+	"read_scale":                   "description.Database.Properties.ReadScale",
+	"recommended_index":            "databaseProperties.RecommendedIndex",
+	"recovery_services_recovery_point_resource_id": "description.Database.Properties.RecoveryServicesRecoveryPointID",
 	"region":                                "description.Database.Location",
-	"requested_service_objective_id":        "description.Database.DatabaseProperties.RequestedServiceObjectiveID",
-	"requested_service_objective_name":      "description.Database.DatabaseProperties.RequestedServiceObjectiveName",
+	"requested_service_objective_id":        "description.Database.Properties.RequestedServiceObjectiveName",
+	"requested_service_objective_name":      "description.Database.Properties.RequestedServiceObjectiveName",
 	"resource_group":                        "description.ResourceGroup",
-	"restore_point_in_time":                 "description.Database.DatabaseProperties.RestorePointInTime",
+	"restore_point_in_time":                 "description.Database.Properties.RestorePointInTime",
 	"retention_policy_id":                   "description.LongTermRetentionPolicy.ID",
 	"retention_policy_name":                 "description.LongTermRetentionPolicy.Name",
 	"retention_policy_property":             "description.LongTermRetentionPolicy",
 	"retention_policy_type":                 "description.LongTermRetentionPolicy.Type",
-	"sample_name":                           "description.Database.DatabaseProperties.SampleName",
-	"service_level_objective":               "description.Database.DatabaseProperties.ServiceLevelObjective",
-	"service_tier_advisors":                 "description.Database.DatabaseProperties.ServiceTierAdvisors",
-	"source_database_deletion_date":         "description.Database.DatabaseProperties.SourceDatabaseDeletionDate",
-	"source_database_id":                    "description.Database.DatabaseProperties.SourceDatabaseID",
-	"status":                                "description.Database.DatabaseProperties.Status",
+	"sample_name":                           "description.Database.Properties.SampleName",
+	"service_level_objective":               "databaseProperties.ServiceLevelObjective",
+	"service_tier_advisors":                 "databaseProperties.ServiceTierAdvisors",
+	"source_database_deletion_date":         "description.Database.Properties.SourceDatabaseDeletionDate",
+	"source_database_id":                    "description.Database.Properties.SourceDatabaseID",
+	"status":                                "description.Database.Properties.Status",
 	"tags":                                  "description.Database.Tags",
 	"title":                                 "description.Database.Name",
-	"transparent_data_encryption":           "description.TransparentDataEncryption.TransparentDataEncryptionProperties",
+	"transparent_data_encryption":           "description.TransparentDataEncryption",
 	"type":                                  "description.Database.Type",
 	"vulnerability_assessment_scan_records": "description.VulnerabilityAssessmentScanRecords",
 	"vulnerability_assessments":             "description.DatabaseVulnerabilityAssessments",
-	"zone_redundant":                        "description.Database.DatabaseProperties.ZoneRedundant",
+	"zone_redundant":                        "description.Database.Properties.ZoneRedundant",
 }
 
 func GetSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -28872,7 +30015,7 @@ func (p SqlInstancePoolPaginator) NextPage(ctx context.Context) ([]SqlInstancePo
 
 var listSqlInstancePoolFilters = map[string]string{
 	"akas":  "description.InstancePool.ID",
-	"id":    "description.InstancePool.Id",
+	"id":    "description.InstancePool.ID",
 	"name":  "description.InstancePool.Name",
 	"tags":  "description.InstancePool.Tags",
 	"title": "description.InstancePool.Name",
@@ -28910,7 +30053,7 @@ func ListSqlInstancePool(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 var getSqlInstancePoolFilters = map[string]string{
 	"akas":  "description.InstancePool.ID",
-	"id":    "description.InstancePool.Id",
+	"id":    "description.InstancePool.ID",
 	"name":  "description.InstancePool.Name",
 	"tags":  "description.InstancePool.Tags",
 	"title": "description.InstancePool.Name",
@@ -29027,32 +30170,32 @@ func (p SqlServerPaginator) NextPage(ctx context.Context) ([]SqlServer, error) {
 }
 
 var listSqlServerFilters = map[string]string{
-	"administrator_login":             "description.Server.ServerProperties.AdministratorLogin",
-	"administrator_login_password":    "description.Server.ServerProperties.AdministratorLoginPassword",
+	"administrator_login":             "description.Server.Properties.AdministratorLogin",
+	"administrator_login_password":    "description.Server.Properties.AdministratorLoginPassword",
 	"akas":                            "description.Server.ID",
 	"encryption_protector":            "description.EncryptionProtectors",
 	"firewall_rules":                  "description.FirewallRules",
-	"fully_qualified_domain_name":     "description.Server.ServerProperties.FullyQualifiedDomainName",
+	"fully_qualified_domain_name":     "description.Server.Properties.FullyQualifiedDomainName",
 	"id":                              "description.Server.ID",
 	"kaytu_account_id":                "metadata.SourceID",
 	"kind":                            "description.Server.Kind",
 	"location":                        "description.Server.Location",
-	"minimal_tls_version":             "description.Server.ServerProperties.MinimalTLSVersion",
+	"minimal_tls_version":             "description.Server.Properties.MinimalTLSVersion",
 	"name":                            "description.Server.Name",
-	"private_endpoint_connections":    "description.PrivateEndpointConnections",
-	"public_network_access":           "description.Server.ServerProperties.PublicNetworkAccess",
+	"private_endpoint_connections":    "description.Server.Properties.PrivateEndpointConnections",
+	"public_network_access":           "description.Server.Properties.PublicNetworkAccess",
 	"region":                          "description.Server.Location",
 	"resource_group":                  "description.ResourceGroup",
 	"server_audit_policy":             "description.ServerBlobAuditingPolicies",
 	"server_azure_ad_administrator":   "description.ServerAzureADAdministrators",
 	"server_security_alert_policy":    "description.ServerSecurityAlertPolicies",
 	"server_vulnerability_assessment": "description.ServerVulnerabilityAssessments",
-	"state":                           "description.Server.ServerProperties.State",
+	"state":                           "description.Server.Properties.State",
 	"tags":                            "description.Server.Tags",
 	"tags_src":                        "description.Server.Tags",
 	"title":                           "description.Server.Name",
 	"type":                            "description.Server.Type",
-	"version":                         "description.Server.ServerProperties.Version",
+	"version":                         "description.Server.Properties.Version",
 	"virtual_network_rules":           "description.VirtualNetworkRules",
 }
 
@@ -29087,32 +30230,32 @@ func ListSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 }
 
 var getSqlServerFilters = map[string]string{
-	"administrator_login":             "description.Server.ServerProperties.AdministratorLogin",
-	"administrator_login_password":    "description.Server.ServerProperties.AdministratorLoginPassword",
+	"administrator_login":             "description.Server.Properties.AdministratorLogin",
+	"administrator_login_password":    "description.Server.Properties.AdministratorLoginPassword",
 	"akas":                            "description.Server.ID",
 	"encryption_protector":            "description.EncryptionProtectors",
 	"firewall_rules":                  "description.FirewallRules",
-	"fully_qualified_domain_name":     "description.Server.ServerProperties.FullyQualifiedDomainName",
+	"fully_qualified_domain_name":     "description.Server.Properties.FullyQualifiedDomainName",
 	"id":                              "description.Server.ID",
 	"kaytu_account_id":                "metadata.SourceID",
 	"kind":                            "description.Server.Kind",
 	"location":                        "description.Server.Location",
-	"minimal_tls_version":             "description.Server.ServerProperties.MinimalTLSVersion",
+	"minimal_tls_version":             "description.Server.Properties.MinimalTLSVersion",
 	"name":                            "description.Server.name",
-	"private_endpoint_connections":    "description.PrivateEndpointConnections",
-	"public_network_access":           "description.Server.ServerProperties.PublicNetworkAccess",
+	"private_endpoint_connections":    "description.Server.Properties.PrivateEndpointConnections",
+	"public_network_access":           "description.Server.Properties.PublicNetworkAccess",
 	"region":                          "description.Server.Location",
 	"resource_group":                  "description.ResourceGroup",
 	"server_audit_policy":             "description.ServerBlobAuditingPolicies",
 	"server_azure_ad_administrator":   "description.ServerAzureADAdministrators",
 	"server_security_alert_policy":    "description.ServerSecurityAlertPolicies",
 	"server_vulnerability_assessment": "description.ServerVulnerabilityAssessments",
-	"state":                           "description.Server.ServerProperties.State",
+	"state":                           "description.Server.Properties.State",
 	"tags":                            "description.Server.Tags",
 	"tags_src":                        "description.Server.Tags",
 	"title":                           "description.Server.Name",
 	"type":                            "description.Server.Type",
-	"version":                         "description.Server.ServerProperties.Version",
+	"version":                         "description.Server.Properties.Version",
 	"virtual_network_rules":           "description.VirtualNetworkRules",
 }
 
@@ -29227,12 +30370,12 @@ func (p SqlServerJobAgentPaginator) NextPage(ctx context.Context) ([]SqlServerJo
 }
 
 var listSqlServerJobAgentFilters = map[string]string{
-	"akas":             "description.ServersJobAgents.ID",
-	"id":               "description.ServersJobAgents.Id",
+	"akas":             "description.JobAgent.ID",
+	"id":               "description.JobAgent.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ServersJobAgents.Name",
-	"tags":             "description.ServersJobAgents.Tags",
-	"title":            "description.ServersJobAgents.Name",
+	"name":             "description.JobAgent.Name",
+	"tags":             "description.JobAgent.Tags",
+	"title":            "description.JobAgent.Name",
 }
 
 func ListSqlServerJobAgent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -29266,12 +30409,12 @@ func ListSqlServerJobAgent(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getSqlServerJobAgentFilters = map[string]string{
-	"akas":             "description.ServersJobAgents.ID",
-	"id":               "description.ServersJobAgents.Id",
+	"akas":             "description.JobAgent.ID",
+	"id":               "description.JobAgent.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.ServersJobAgents.Name",
-	"tags":             "description.ServersJobAgents.Tags",
-	"title":            "description.ServersJobAgents.Name",
+	"name":             "description.JobAgent.Name",
+	"tags":             "description.JobAgent.Tags",
+	"title":            "description.JobAgent.Name",
 }
 
 func GetSqlServerJobAgent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -29386,7 +30529,7 @@ func (p SqlVirtualClustersPaginator) NextPage(ctx context.Context) ([]SqlVirtual
 
 var listSqlVirtualClustersFilters = map[string]string{
 	"akas":             "description.VirtualClusters.ID",
-	"id":               "description.VirtualClusters.Id",
+	"id":               "description.VirtualClusters.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.VirtualClusters.Name",
 	"tags":             "description.VirtualClusters.Tags",
@@ -29425,7 +30568,7 @@ func ListSqlVirtualClusters(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 var getSqlVirtualClustersFilters = map[string]string{
 	"akas":             "description.VirtualClusters.ID",
-	"id":               "description.VirtualClusters.Id",
+	"id":               "description.VirtualClusters.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.VirtualClusters.Name",
 	"tags":             "description.VirtualClusters.Tags",
@@ -29544,11 +30687,11 @@ func (p SqlServerElasticPoolPaginator) NextPage(ctx context.Context) ([]SqlServe
 
 var listSqlServerElasticPoolFilters = map[string]string{
 	"akas":             "description.Pool.ID",
-	"creation_date":    "description.Pool.ElasticPoolProperties.CreationDate",
-	"database_dtu_max": "description.Pool.ElasticPoolProperties.DatabaseDtuMax",
-	"database_dtu_min": "description.Pool.ElasticPoolProperties.DatabaseDtuMin",
+	"creation_date":    "description.Pool.Properties.CreationDate",
+	"database_dtu_max": "description.Pool.Properties.PerDatabaseSettings.MaxCapacity",
+	"database_dtu_min": "description.Pool.Properties.PerDatabaseSettings.MinCapacity",
 	"dtu":              "elasticPoolProperties.Dtu",
-	"edition":          "description.Pool.ElasticPoolProperties.Edition",
+	"edition":          "elasticPoolProperties.Edition",
 	"id":               "description.Pool.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"kind":             "description.Pool.Kind",
@@ -29556,12 +30699,12 @@ var listSqlServerElasticPoolFilters = map[string]string{
 	"region":           "description.Pool.Location",
 	"resource_group":   "description.ResourceGroup",
 	"server_name":      "description.ServerName",
-	"state":            "description.Pool.ElasticPoolProperties.State",
-	"storage_mb":       "description.Pool.ElasticPoolProperties.StorageMB",
+	"state":            "description.Pool.Properties.State",
+	"storage_mb":       "description.Pool.Properties.MaxSizeBytes",
 	"tags":             "description.Pool.Tags",
 	"title":            "description.Pool.Name",
 	"type":             "description.Pool.Type",
-	"zone_redundant":   "description.Pool.ElasticPoolProperties.ZoneRedundant",
+	"zone_redundant":   "description.Pool.Properties.ZoneRedundant",
 }
 
 func ListSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -29596,11 +30739,11 @@ func ListSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 var getSqlServerElasticPoolFilters = map[string]string{
 	"akas":             "description.Pool.ID",
-	"creation_date":    "description.Pool.ElasticPoolProperties.CreationDate",
-	"database_dtu_max": "description.Pool.ElasticPoolProperties.DatabaseDtuMax",
-	"database_dtu_min": "description.Pool.ElasticPoolProperties.DatabaseDtuMin",
+	"creation_date":    "description.Pool.Properties.CreationDate",
+	"database_dtu_max": "description.Pool.Properties.PerDatabaseSettings.MaxCapacity",
+	"database_dtu_min": "description.Pool.Properties.PerDatabaseSettings.MinCapacity",
 	"dtu":              "elasticPoolProperties.Dtu",
-	"edition":          "description.Pool.ElasticPoolProperties.Edition",
+	"edition":          "elasticPoolProperties.Edition",
 	"id":               "description.Pool.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"kind":             "description.Pool.Kind",
@@ -29608,12 +30751,12 @@ var getSqlServerElasticPoolFilters = map[string]string{
 	"region":           "description.Pool.Location",
 	"resource_group":   "description.ResourceGroup",
 	"server_name":      "description.ServerName",
-	"state":            "description.Pool.ElasticPoolProperties.State",
-	"storage_mb":       "description.Pool.ElasticPoolProperties.StorageMB",
+	"state":            "description.Pool.Properties.State",
+	"storage_mb":       "description.Pool.Properties.MaxSizeBytes",
 	"tags":             "description.Pool.Tags",
 	"title":            "description.Pool.Name",
 	"type":             "description.Pool.Type",
-	"zone_redundant":   "description.Pool.ElasticPoolProperties.ZoneRedundant",
+	"zone_redundant":   "description.Pool.Properties.ZoneRedundant",
 }
 
 func GetSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -29740,7 +30883,7 @@ var listSqlServerVirtualMachineFilters = map[string]string{
 	"resource_group":                "description.ResourceGroup",
 	"server_configurations_management_settings": "description.VirtualMachine.Properties.ServerConfigurationsManagementSettings",
 	"sql_image_offer":                       "description.VirtualMachine.Properties.SQLImageOffer",
-	"sql_image_sku":                         "description.VirtualMachine.Properties.SQLImageSku",
+	"sql_image_sku":                         "description.VirtualMachine.Properties.SQLImageSKU",
 	"sql_management":                        "description.VirtualMachine.Properties.SQLManagement",
 	"sql_server_license_type":               "description.VirtualMachine.Properties.SQLServerLicenseType",
 	"sql_virtual_machine_group_resource_id": "description.VirtualMachine.Properties.SQLVirtualMachineGroupResourceID",
@@ -29796,7 +30939,7 @@ var getSqlServerVirtualMachineFilters = map[string]string{
 	"resource_group":                "description.ResourceGroup",
 	"server_configurations_management_settings": "description.VirtualMachine.Properties.ServerConfigurationsManagementSettings",
 	"sql_image_offer":                       "description.VirtualMachine.Properties.SQLImageOffer",
-	"sql_image_sku":                         "description.VirtualMachine.Properties.SQLImageSku",
+	"sql_image_sku":                         "description.VirtualMachine.Properties.SQLImageSKU",
 	"sql_management":                        "description.VirtualMachine.Properties.SQLManagement",
 	"sql_server_license_type":               "description.VirtualMachine.Properties.SQLServerLicenseType",
 	"sql_virtual_machine_group_resource_id": "description.VirtualMachine.Properties.SQLVirtualMachineGroupResourceID",
@@ -29919,12 +31062,12 @@ func (p SqlServerVirtualMachineGroupPaginator) NextPage(ctx context.Context) ([]
 }
 
 var listSqlServerVirtualMachineGroupFilters = map[string]string{
-	"akas":             "description.VirtualMachineGroups.ID",
-	"id":               "description.VirtualMachineGroups.Id",
+	"akas":             "description.Group.ID",
+	"id":               "description.Group.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.VirtualMachineGroups.Name",
-	"tags":             "description.VirtualMachineGroups.Tags",
-	"title":            "description.VirtualMachineGroups.Name",
+	"name":             "description.Group.Name",
+	"tags":             "description.Group.Tags",
+	"title":            "description.Group.Name",
 }
 
 func ListSqlServerVirtualMachineGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -29958,12 +31101,12 @@ func ListSqlServerVirtualMachineGroup(ctx context.Context, d *plugin.QueryData, 
 }
 
 var getSqlServerVirtualMachineGroupFilters = map[string]string{
-	"akas":             "description.VirtualMachineGroups.ID",
-	"id":               "description.VirtualMachineGroups.Id",
+	"akas":             "description.Group.ID",
+	"id":               "description.Group.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.VirtualMachineGroups.Name",
-	"tags":             "description.VirtualMachineGroups.Tags",
-	"title":            "description.VirtualMachineGroups.Name",
+	"name":             "description.Group.Name",
+	"tags":             "description.Group.Tags",
+	"title":            "description.Group.Name",
 }
 
 func GetSqlServerVirtualMachineGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -30077,41 +31220,41 @@ func (p SqlServerFlexibleServerPaginator) NextPage(ctx context.Context) ([]SqlSe
 }
 
 var listSqlServerFlexibleServerFilters = map[string]string{
-	"administrator_login":            "description.FlexibleServer.ServerProperties.AdministratorLogin",
+	"administrator_login":            "description.FlexibleServer.Properties.AdministratorLogin",
 	"akas":                           "description.FlexibleServer.ID",
-	"availability_zone":              "description.FlexibleServer.ServerProperties.AvailabilityZone",
-	"backup_retention_days":          "description.FlexibleServer.ServerProperties.Backup.BackupRetentionDays",
-	"create_mode":                    "description.FlexibleServer.ServerProperties.CreateMode",
-	"earliest_restore_date":          "description.FlexibleServer.ServerProperties.Backup.EarliestRestoreDate",
+	"availability_zone":              "description.FlexibleServer.Properties.AvailabilityZone",
+	"backup_retention_days":          "description.FlexibleServer.Properties.Backup.BackupRetentionDays",
+	"create_mode":                    "description.FlexibleServer.Properties.CreateMode",
+	"earliest_restore_date":          "description.FlexibleServer.Properties.Backup.EarliestRestoreDate",
 	"flexible_server_configurations": "description.FlexibleServer.Location",
-	"fully_qualified_domain_name":    "description.FlexibleServer.ServerProperties.FullyQualifiedDomainName",
-	"geo_redundant_backup":           "description.FlexibleServer.ServerProperties.Backup.GeoRedundantBackup",
-	"high_availability":              "description.FlexibleServer.ServerProperties.HighAvailability",
+	"fully_qualified_domain_name":    "description.FlexibleServer.Properties.FullyQualifiedDomainName",
+	"geo_redundant_backup":           "description.FlexibleServer.Properties.Backup.GeoRedundantBackup",
+	"high_availability":              "description.FlexibleServer.Properties.HighAvailability",
 	"id":                             "description.FlexibleServer.ID",
 	"kaytu_account_id":               "metadata.SourceID",
 	"location":                       "description.FlexibleServer.Location",
-	"maintenance_window":             "description.FlexibleServer.ServerProperties.MaintenanceWindow",
+	"maintenance_window":             "description.FlexibleServer.Properties.MaintenanceWindow",
 	"name":                           "description.FlexibleServer.Name",
-	"network":                        "description.FlexibleServer.ServerProperties.Network",
-	"public_network_access":          "description.FlexibleServer.ServerProperties.Network.PublicNetworkAccess",
+	"network":                        "description.FlexibleServer.Properties.Network",
+	"public_network_access":          "description.FlexibleServer.Properties.Network.PublicNetworkAccess",
 	"region":                         "description.FlexibleServer.Location",
-	"replica_capacity":               "description.FlexibleServer.ServerProperties.ReplicaCapacity",
-	"replication_role":               "description.FlexibleServer.ServerProperties.ReplicationRole",
+	"replica_capacity":               "description.FlexibleServer.Properties.ReplicaCapacity",
+	"replication_role":               "description.FlexibleServer.Properties.ReplicationRole",
 	"resource_group":                 "description.ResourceGroup",
-	"restore_point_in_time":          "description.FlexibleServer.ServerProperties.RestorePointInTime",
-	"sku_name":                       "description.FlexibleServer.Sku.Name",
-	"sku_tier":                       "description.FlexibleServer.Sku.Tier",
-	"source_server_resource_id":      "description.FlexibleServer.ServerProperties.SourceServerResourceID",
-	"state":                          "description.FlexibleServer.ServerProperties.State",
-	"storage_auto_grow":              "description.FlexibleServer.ServerProperties.Storage.AutoGrow",
-	"storage_iops":                   "description.FlexibleServer.ServerProperties.Storage.Iops",
-	"storage_size_gb":                "description.FlexibleServer.ServerProperties.Storage.StorageSizeGB",
-	"storage_sku":                    "description.FlexibleServer.ServerProperties.Storage.StorageSku",
+	"restore_point_in_time":          "description.FlexibleServer.Properties.RestorePointInTime",
+	"sku_name":                       "description.FlexibleServer.SKU.Name",
+	"sku_tier":                       "description.FlexibleServer.SKU.Tier",
+	"source_server_resource_id":      "description.FlexibleServer.Properties.SourceServerResourceID",
+	"state":                          "description.FlexibleServer.Properties.State",
+	"storage_auto_grow":              "description.FlexibleServer.Properties.Storage.AutoGrow",
+	"storage_iops":                   "description.FlexibleServer.Properties.Storage.Iops",
+	"storage_size_gb":                "description.FlexibleServer.Properties.Storage.StorageSizeGB",
+	"storage_sku":                    "description.FlexibleServer.Properties.Storage.StorageSKU",
 	"system_data":                    "description.FlexibleServer.SystemData",
 	"tags":                           "description.FlexibleServer.Tags",
 	"title":                          "description.FlexibleServer.Name",
 	"type":                           "description.FlexibleServer.Type",
-	"version":                        "description.FlexibleServer.ServerProperties.Version",
+	"version":                        "description.FlexibleServer.Properties.Version",
 }
 
 func ListSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -30145,41 +31288,41 @@ func ListSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *pl
 }
 
 var getSqlServerFlexibleServerFilters = map[string]string{
-	"administrator_login":            "description.FlexibleServer.ServerProperties.AdministratorLogin",
+	"administrator_login":            "description.FlexibleServer.Properties.AdministratorLogin",
 	"akas":                           "description.FlexibleServer.ID",
-	"availability_zone":              "description.FlexibleServer.ServerProperties.AvailabilityZone",
-	"backup_retention_days":          "description.FlexibleServer.ServerProperties.Backup.BackupRetentionDays",
-	"create_mode":                    "description.FlexibleServer.ServerProperties.CreateMode",
-	"earliest_restore_date":          "description.FlexibleServer.ServerProperties.Backup.EarliestRestoreDate",
+	"availability_zone":              "description.FlexibleServer.Properties.AvailabilityZone",
+	"backup_retention_days":          "description.FlexibleServer.Properties.Backup.BackupRetentionDays",
+	"create_mode":                    "description.FlexibleServer.Properties.CreateMode",
+	"earliest_restore_date":          "description.FlexibleServer.Properties.Backup.EarliestRestoreDate",
 	"flexible_server_configurations": "description.FlexibleServer.Location",
-	"fully_qualified_domain_name":    "description.FlexibleServer.ServerProperties.FullyQualifiedDomainName",
-	"geo_redundant_backup":           "description.FlexibleServer.ServerProperties.Backup.GeoRedundantBackup",
-	"high_availability":              "description.FlexibleServer.ServerProperties.HighAvailability",
+	"fully_qualified_domain_name":    "description.FlexibleServer.Properties.FullyQualifiedDomainName",
+	"geo_redundant_backup":           "description.FlexibleServer.Properties.Backup.GeoRedundantBackup",
+	"high_availability":              "description.FlexibleServer.Properties.HighAvailability",
 	"id":                             "description.FlexibleServer.ID",
 	"kaytu_account_id":               "metadata.SourceID",
 	"location":                       "description.FlexibleServer.Location",
-	"maintenance_window":             "description.FlexibleServer.ServerProperties.MaintenanceWindow",
+	"maintenance_window":             "description.FlexibleServer.Properties.MaintenanceWindow",
 	"name":                           "description.FlexibleServer.Name",
-	"network":                        "description.FlexibleServer.ServerProperties.Network",
-	"public_network_access":          "description.FlexibleServer.ServerProperties.Network.PublicNetworkAccess",
+	"network":                        "description.FlexibleServer.Properties.Network",
+	"public_network_access":          "description.FlexibleServer.Properties.Network.PublicNetworkAccess",
 	"region":                         "description.FlexibleServer.Location",
-	"replica_capacity":               "description.FlexibleServer.ServerProperties.ReplicaCapacity",
-	"replication_role":               "description.FlexibleServer.ServerProperties.ReplicationRole",
+	"replica_capacity":               "description.FlexibleServer.Properties.ReplicaCapacity",
+	"replication_role":               "description.FlexibleServer.Properties.ReplicationRole",
 	"resource_group":                 "description.ResourceGroup",
-	"restore_point_in_time":          "description.FlexibleServer.ServerProperties.RestorePointInTime",
-	"sku_name":                       "description.FlexibleServer.Sku.Name",
-	"sku_tier":                       "description.FlexibleServer.Sku.Tier",
-	"source_server_resource_id":      "description.FlexibleServer.ServerProperties.SourceServerResourceID",
-	"state":                          "description.FlexibleServer.ServerProperties.State",
-	"storage_auto_grow":              "description.FlexibleServer.ServerProperties.Storage.AutoGrow",
-	"storage_iops":                   "description.FlexibleServer.ServerProperties.Storage.Iops",
-	"storage_size_gb":                "description.FlexibleServer.ServerProperties.Storage.StorageSizeGB",
-	"storage_sku":                    "description.FlexibleServer.ServerProperties.Storage.StorageSku",
+	"restore_point_in_time":          "description.FlexibleServer.Properties.RestorePointInTime",
+	"sku_name":                       "description.FlexibleServer.SKU.Name",
+	"sku_tier":                       "description.FlexibleServer.SKU.Tier",
+	"source_server_resource_id":      "description.FlexibleServer.Properties.SourceServerResourceID",
+	"state":                          "description.FlexibleServer.Properties.State",
+	"storage_auto_grow":              "description.FlexibleServer.Properties.Storage.AutoGrow",
+	"storage_iops":                   "description.FlexibleServer.Properties.Storage.Iops",
+	"storage_size_gb":                "description.FlexibleServer.Properties.Storage.StorageSizeGB",
+	"storage_sku":                    "description.FlexibleServer.Properties.Storage.StorageSKU",
 	"system_data":                    "description.FlexibleServer.SystemData",
 	"tags":                           "description.FlexibleServer.Tags",
 	"title":                          "description.FlexibleServer.Name",
 	"type":                           "description.FlexibleServer.Type",
-	"version":                        "description.FlexibleServer.ServerProperties.Version",
+	"version":                        "description.FlexibleServer.Properties.Version",
 }
 
 func GetSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -30293,64 +31436,64 @@ func (p StorageAccountPaginator) NextPage(ctx context.Context) ([]StorageAccount
 }
 
 var listStorageAccountFilters = map[string]string{
-	"access_tier":                                            "description.Account.AccountProperties.AccessTier",
+	"access_tier":                                            "description.Account.Properties.AccessTier",
 	"akas":                                                   "description.Account.ID",
-	"allow_blob_public_access":                               "description.Account.AccountProperties.AllowBlobPublicAccess",
-	"blob_change_feed_enabled":                               "description.BlobServiceProperties.BlobServicePropertiesProperties.ChangeFeed.Enabled",
-	"blob_container_soft_delete_enabled":                     "description.BlobServiceProperties.BlobServicePropertiesProperties.ContainerDeleteRetentionPolicy.Enabled",
-	"blob_container_soft_delete_retention_days":              "description.BlobServiceProperties.BlobServicePropertiesProperties.ContainerDeleteRetentionPolicy.Days",
-	"blob_restore_policy_days":                               "description.BlobServiceProperties.BlobServicePropertiesProperties.RestorePolicy.Days",
-	"blob_restore_policy_enabled":                            "description.BlobServiceProperties.BlobServicePropertiesProperties.RestorePolicy.Enabled",
+	"allow_blob_public_access":                               "description.Account.Properties.AllowBlobPublicAccess",
+	"blob_change_feed_enabled":                               "description.BlobServiceProperties.BlobServiceProperties.ChangeFeed.Enabled",
+	"blob_container_soft_delete_enabled":                     "description.BlobServiceProperties.BlobServiceProperties.ContainerDeleteRetentionPolicy.Enabled",
+	"blob_container_soft_delete_retention_days":              "description.BlobServiceProperties.BlobServiceProperties.ContainerDeleteRetentionPolicy.Days",
+	"blob_restore_policy_days":                               "description.BlobServiceProperties.BlobServiceProperties.RestorePolicy.Days",
+	"blob_restore_policy_enabled":                            "description.BlobServiceProperties.BlobServiceProperties.RestorePolicy.Enabled",
 	"blob_service_logging":                                   "description.Logging",
-	"blob_soft_delete_enabled":                               "description.BlobServiceProperties.BlobServicePropertiesProperties.DeleteRetentionPolicy.Enabled",
-	"blob_soft_delete_retention_days":                        "description.BlobServiceProperties.BlobServicePropertiesProperties.DeleteRetentionPolicy.Days",
-	"blob_versioning_enabled":                                "description.BlobServiceProperties.BlobServicePropertiesProperties.IsVersioningEnabled",
-	"creation_time":                                          "description.Account.AccountProperties.CreationTime",
-	"enable_https_traffic_only":                              "description.Account.AccountProperties.EnableHTTPSTrafficOnly",
-	"encryption_key_source":                                  "description.Account.AccountProperties.Encryption.KeySource",
-	"encryption_key_vault_properties_key_current_version_id": "description.Account.AccountProperties.Encryption.KeyVaultProperties.CurrentVersionedKeyIdentifier",
-	"encryption_key_vault_properties_key_name":               "description.Account.AccountProperties.Encryption.KeyVaultProperties.KeyName",
-	"encryption_key_vault_properties_key_vault_uri":          "description.Account.AccountProperties.Encryption.KeyVaultProperties.KeyVaultURI",
-	"encryption_key_vault_properties_key_version":            "description.Account.AccountProperties.Encryption.KeyVaultProperties.KeyVersion",
-	"encryption_key_vault_properties_last_rotation_time":     "description.Account.AccountProperties.Encryption.KeyVaultProperties.LastKeyRotationTimestamp",
-	"encryption_services":                                    "description.Account.AccountProperties.Encryption.Services",
-	"failover_in_progress":                                   "description.Account.AccountProperties.FailoverInProgress",
-	"file_soft_delete_enabled":                               "description.FileServiceProperties.FileServicePropertiesProperties.ShareDeleteRetentionPolicy.Enabled",
-	"file_soft_delete_retention_days":                        "description.FileServiceProperties.FileServicePropertiesProperties.ShareDeleteRetentionPolicy.Days",
+	"blob_soft_delete_enabled":                               "description.BlobServiceProperties.BlobServiceProperties.ContainerDeleteRetentionPolicy.Enabled",
+	"blob_soft_delete_retention_days":                        "description.BlobServiceProperties.BlobServiceProperties.ContainerDeleteRetentionPolicy.Days",
+	"blob_versioning_enabled":                                "description.BlobServiceProperties.BlobServiceProperties.IsVersioningEnabled",
+	"creation_time":                                          "description.Account.Properties.CreationTime",
+	"enable_https_traffic_only":                              "description.Account.Properties.EnableHTTPSTrafficOnly",
+	"encryption_key_source":                                  "description.Account.Properties.Encryption.KeySource",
+	"encryption_key_vault_properties_key_current_version_id": "description.Account.Properties.Encryption.KeyVaultProperties.CurrentVersionedKeyIdentifier",
+	"encryption_key_vault_properties_key_name":               "description.Account.Properties.Encryption.KeyVaultProperties.KeyName",
+	"encryption_key_vault_properties_key_vault_uri":          "description.Account.Properties.Encryption.KeyVaultProperties.KeyVaultURI",
+	"encryption_key_vault_properties_key_version":            "description.Account.Properties.Encryption.KeyVaultProperties.KeyVersion",
+	"encryption_key_vault_properties_last_rotation_time":     "description.Account.Properties.Encryption.KeyVaultProperties.LastKeyRotationTimestamp",
+	"encryption_services":                                    "description.Account.Properties.Encryption.Services",
+	"failover_in_progress":                                   "description.Account.Properties.FailoverInProgress",
+	"file_soft_delete_enabled":                               "description.FileServiceProperties.FileServiceProperties.ShareDeleteRetentionPolicy.Enabled",
+	"file_soft_delete_retention_days":                        "description.FileServiceProperties.FileServiceProperties.ShareDeleteRetentionPolicy.Days",
 	"id":                                                     "description.Account.ID",
-	"is_hns_enabled":                                         "description.Account.AccountProperties.IsHnsEnabled",
+	"is_hns_enabled":                                         "description.Account.Properties.IsHnsEnabled",
 	"kaytu_account_id":                                       "metadata.SourceID",
 	"kind":                                                   "description.Account.Kind",
-	"minimum_tls_version":                                    "description.Account.AccountProperties.MinimumTLSVersion",
+	"minimum_tls_version":                                    "description.Account.Properties.MinimumTLSVersion",
 	"name":                                                   "description.Account.Name",
-	"network_ip_rules":                                       "description.Account.AccountProperties.NetworkRuleSet.IPRules",
-	"network_rule_bypass":                                    "description.Account.AccountProperties.NetworkRuleSet.Bypass",
-	"network_rule_default_action":                            "description.Account.AccountProperties.NetworkRuleSet.DefaultAction",
-	"primary_blob_endpoint":                                  "description.Account.AccountProperties.PrimaryEndpoints.Blob",
-	"primary_dfs_endpoint":                                   "description.Account.AccountProperties.PrimaryEndpoints.Dfs",
-	"primary_file_endpoint":                                  "description.Account.AccountProperties.PrimaryEndpoints.File",
-	"primary_location":                                       "description.Account.AccountProperties.PrimaryLocation",
-	"primary_queue_endpoint":                                 "description.Account.AccountProperties.PrimaryEndpoints.Queue",
-	"primary_table_endpoint":                                 "description.Account.AccountProperties.PrimaryEndpoints.Table",
-	"primary_web_endpoint":                                   "description.Account.AccountProperties.PrimaryEndpoints.Web",
-	"private_endpoint_connections":                           "description.Account.AccountProperties.PrivateEndpointConnections",
-	"provisioning_state":                                     "description.Account.AccountProperties.ProvisioningState",
-	"queue_logging_delete":                                   "description.Logging.Delete",
-	"queue_logging_read":                                     "description.Logging.Read",
+	"network_ip_rules":                                       "description.Account.Properties.NetworkRuleSet.IPRules",
+	"network_rule_bypass":                                    "description.Account.Properties.NetworkRuleSet.Bypass",
+	"network_rule_default_action":                            "description.Account.Properties.NetworkRuleSet.DefaultAction",
+	"primary_blob_endpoint":                                  "description.Account.Properties.PrimaryEndpoints.Blob",
+	"primary_dfs_endpoint":                                   "description.Account.Properties.PrimaryEndpoints.Dfs",
+	"primary_file_endpoint":                                  "description.Account.Properties.PrimaryEndpoints.File",
+	"primary_location":                                       "description.Account.Properties.PrimaryLocation",
+	"primary_queue_endpoint":                                 "description.Account.Properties.PrimaryEndpoints.Queue",
+	"primary_table_endpoint":                                 "description.Account.Properties.PrimaryEndpoints.Table",
+	"primary_web_endpoint":                                   "description.Account.Properties.PrimaryEndpoints.Web",
+	"private_endpoint_connections":                           "description.Account.Properties.PrivateEndpointConnections",
+	"provisioning_state":                                     "description.Account.Properties.ProvisioningState",
+	"queue_logging_delete":                                   "description.StorageServiceProperties.Logging.Delete",
+	"queue_logging_read":                                     "description.StorageServiceProperties.Logging.Read",
 	"queue_logging_retention_days":                           "description.Logging.RetentionPolicy.Days",
 	"queue_logging_retention_enabled":                        "description.Logging.RetentionPolicy.Enabled",
-	"queue_logging_version":                                  "description.Logging.Version",
-	"queue_logging_write":                                    "description.Logging.Write",
+	"queue_logging_version":                                  "description.StorageServiceProperties.Logging.Version",
+	"queue_logging_write":                                    "description.StorageServiceProperties.Logging.Write",
 	"region":                                                 "description.Account.Location",
-	"require_infrastructure_encryption":                      "description.Account.AccountProperties.Encryption.RequireInfrastructureEncryption",
+	"require_infrastructure_encryption":                      "description.Account.Properties.Encryption.RequireInfrastructureEncryption",
 	"resource_group":                                         "description.ResourceGroup",
-	"secondary_location":                                     "description.Account.AccountProperties.SecondaryLocation",
-	"sku_name":                                               "description.Account.Sku.Name",
-	"sku_tier":                                               "description.Account.Sku.Tier",
+	"secondary_location":                                     "description.Account.Properties.SecondaryLocation",
+	"sku_name":                                               "description.Account.SKU.Name",
+	"sku_tier":                                               "description.Account.SKU.Tier",
 	"tags":                                                   "description.Account.Tags",
 	"title":                                                  "description.Account.Name",
 	"type":                                                   "description.Account.Type",
-	"virtual_network_rules":                                  "description.Account.AccountProperties.NetworkRuleSet.VirtualNetworkRules",
+	"virtual_network_rules":                                  "description.Account.Properties.NetworkRuleSet.VirtualNetworkRules",
 }
 
 func ListStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -30384,64 +31527,64 @@ func ListStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getStorageAccountFilters = map[string]string{
-	"access_tier":                                            "description.Account.AccountProperties.AccessTier",
+	"access_tier":                                            "description.Account.Properties.AccessTier",
 	"akas":                                                   "description.Account.ID",
-	"allow_blob_public_access":                               "description.Account.AccountProperties.AllowBlobPublicAccess",
-	"blob_change_feed_enabled":                               "description.BlobServiceProperties.BlobServicePropertiesProperties.ChangeFeed.Enabled",
-	"blob_container_soft_delete_enabled":                     "description.BlobServiceProperties.BlobServicePropertiesProperties.ContainerDeleteRetentionPolicy.Enabled",
-	"blob_container_soft_delete_retention_days":              "description.BlobServiceProperties.BlobServicePropertiesProperties.ContainerDeleteRetentionPolicy.Days",
-	"blob_restore_policy_days":                               "description.BlobServiceProperties.BlobServicePropertiesProperties.RestorePolicy.Days",
-	"blob_restore_policy_enabled":                            "description.BlobServiceProperties.BlobServicePropertiesProperties.RestorePolicy.Enabled",
+	"allow_blob_public_access":                               "description.Account.Properties.AllowBlobPublicAccess",
+	"blob_change_feed_enabled":                               "description.BlobServiceProperties.BlobServiceProperties.ChangeFeed.Enabled",
+	"blob_container_soft_delete_enabled":                     "description.BlobServiceProperties.BlobServiceProperties.ContainerDeleteRetentionPolicy.Enabled",
+	"blob_container_soft_delete_retention_days":              "description.BlobServiceProperties.BlobServiceProperties.ContainerDeleteRetentionPolicy.Days",
+	"blob_restore_policy_days":                               "description.BlobServiceProperties.BlobServiceProperties.RestorePolicy.Days",
+	"blob_restore_policy_enabled":                            "description.BlobServiceProperties.BlobServiceProperties.RestorePolicy.Enabled",
 	"blob_service_logging":                                   "description.Logging",
-	"blob_soft_delete_enabled":                               "description.BlobServiceProperties.BlobServicePropertiesProperties.DeleteRetentionPolicy.Enabled",
-	"blob_soft_delete_retention_days":                        "description.BlobServiceProperties.BlobServicePropertiesProperties.DeleteRetentionPolicy.Days",
-	"blob_versioning_enabled":                                "description.BlobServiceProperties.BlobServicePropertiesProperties.IsVersioningEnabled",
-	"creation_time":                                          "description.Account.AccountProperties.CreationTime",
-	"enable_https_traffic_only":                              "description.Account.AccountProperties.EnableHTTPSTrafficOnly",
-	"encryption_key_source":                                  "description.Account.AccountProperties.Encryption.KeySource",
-	"encryption_key_vault_properties_key_current_version_id": "description.Account.AccountProperties.Encryption.KeyVaultProperties.CurrentVersionedKeyIdentifier",
-	"encryption_key_vault_properties_key_name":               "description.Account.AccountProperties.Encryption.KeyVaultProperties.KeyName",
-	"encryption_key_vault_properties_key_vault_uri":          "description.Account.AccountProperties.Encryption.KeyVaultProperties.KeyVaultURI",
-	"encryption_key_vault_properties_key_version":            "description.Account.AccountProperties.Encryption.KeyVaultProperties.KeyVersion",
-	"encryption_key_vault_properties_last_rotation_time":     "description.Account.AccountProperties.Encryption.KeyVaultProperties.LastKeyRotationTimestamp",
-	"encryption_services":                                    "description.Account.AccountProperties.Encryption.Services",
-	"failover_in_progress":                                   "description.Account.AccountProperties.FailoverInProgress",
-	"file_soft_delete_enabled":                               "description.FileServiceProperties.FileServicePropertiesProperties.ShareDeleteRetentionPolicy.Enabled",
-	"file_soft_delete_retention_days":                        "description.FileServiceProperties.FileServicePropertiesProperties.ShareDeleteRetentionPolicy.Days",
+	"blob_soft_delete_enabled":                               "description.BlobServiceProperties.BlobServiceProperties.ContainerDeleteRetentionPolicy.Enabled",
+	"blob_soft_delete_retention_days":                        "description.BlobServiceProperties.BlobServiceProperties.ContainerDeleteRetentionPolicy.Days",
+	"blob_versioning_enabled":                                "description.BlobServiceProperties.BlobServiceProperties.IsVersioningEnabled",
+	"creation_time":                                          "description.Account.Properties.CreationTime",
+	"enable_https_traffic_only":                              "description.Account.Properties.EnableHTTPSTrafficOnly",
+	"encryption_key_source":                                  "description.Account.Properties.Encryption.KeySource",
+	"encryption_key_vault_properties_key_current_version_id": "description.Account.Properties.Encryption.KeyVaultProperties.CurrentVersionedKeyIdentifier",
+	"encryption_key_vault_properties_key_name":               "description.Account.Properties.Encryption.KeyVaultProperties.KeyName",
+	"encryption_key_vault_properties_key_vault_uri":          "description.Account.Properties.Encryption.KeyVaultProperties.KeyVaultURI",
+	"encryption_key_vault_properties_key_version":            "description.Account.Properties.Encryption.KeyVaultProperties.KeyVersion",
+	"encryption_key_vault_properties_last_rotation_time":     "description.Account.Properties.Encryption.KeyVaultProperties.LastKeyRotationTimestamp",
+	"encryption_services":                                    "description.Account.Properties.Encryption.Services",
+	"failover_in_progress":                                   "description.Account.Properties.FailoverInProgress",
+	"file_soft_delete_enabled":                               "description.FileServiceProperties.FileServiceProperties.ShareDeleteRetentionPolicy.Enabled",
+	"file_soft_delete_retention_days":                        "description.FileServiceProperties.FileServiceProperties.ShareDeleteRetentionPolicy.Days",
 	"id":                                                     "description.Account.ID",
-	"is_hns_enabled":                                         "description.Account.AccountProperties.IsHnsEnabled",
+	"is_hns_enabled":                                         "description.Account.Properties.IsHnsEnabled",
 	"kaytu_account_id":                                       "metadata.SourceID",
 	"kind":                                                   "description.Account.Kind",
-	"minimum_tls_version":                                    "description.Account.AccountProperties.MinimumTLSVersion",
+	"minimum_tls_version":                                    "description.Account.Properties.MinimumTLSVersion",
 	"name":                                                   "description.Account.name",
-	"network_ip_rules":                                       "description.Account.AccountProperties.NetworkRuleSet.IPRules",
-	"network_rule_bypass":                                    "description.Account.AccountProperties.NetworkRuleSet.Bypass",
-	"network_rule_default_action":                            "description.Account.AccountProperties.NetworkRuleSet.DefaultAction",
-	"primary_blob_endpoint":                                  "description.Account.AccountProperties.PrimaryEndpoints.Blob",
-	"primary_dfs_endpoint":                                   "description.Account.AccountProperties.PrimaryEndpoints.Dfs",
-	"primary_file_endpoint":                                  "description.Account.AccountProperties.PrimaryEndpoints.File",
-	"primary_location":                                       "description.Account.AccountProperties.PrimaryLocation",
-	"primary_queue_endpoint":                                 "description.Account.AccountProperties.PrimaryEndpoints.Queue",
-	"primary_table_endpoint":                                 "description.Account.AccountProperties.PrimaryEndpoints.Table",
-	"primary_web_endpoint":                                   "description.Account.AccountProperties.PrimaryEndpoints.Web",
-	"private_endpoint_connections":                           "description.Account.AccountProperties.PrivateEndpointConnections",
-	"provisioning_state":                                     "description.Account.AccountProperties.ProvisioningState",
-	"queue_logging_delete":                                   "description.Logging.Delete",
-	"queue_logging_read":                                     "description.Logging.Read",
+	"network_ip_rules":                                       "description.Account.Properties.NetworkRuleSet.IPRules",
+	"network_rule_bypass":                                    "description.Account.Properties.NetworkRuleSet.Bypass",
+	"network_rule_default_action":                            "description.Account.Properties.NetworkRuleSet.DefaultAction",
+	"primary_blob_endpoint":                                  "description.Account.Properties.PrimaryEndpoints.Blob",
+	"primary_dfs_endpoint":                                   "description.Account.Properties.PrimaryEndpoints.Dfs",
+	"primary_file_endpoint":                                  "description.Account.Properties.PrimaryEndpoints.File",
+	"primary_location":                                       "description.Account.Properties.PrimaryLocation",
+	"primary_queue_endpoint":                                 "description.Account.Properties.PrimaryEndpoints.Queue",
+	"primary_table_endpoint":                                 "description.Account.Properties.PrimaryEndpoints.Table",
+	"primary_web_endpoint":                                   "description.Account.Properties.PrimaryEndpoints.Web",
+	"private_endpoint_connections":                           "description.Account.Properties.PrivateEndpointConnections",
+	"provisioning_state":                                     "description.Account.Properties.ProvisioningState",
+	"queue_logging_delete":                                   "description.StorageServiceProperties.Logging.Delete",
+	"queue_logging_read":                                     "description.StorageServiceProperties.Logging.Read",
 	"queue_logging_retention_days":                           "description.Logging.RetentionPolicy.Days",
 	"queue_logging_retention_enabled":                        "description.Logging.RetentionPolicy.Enabled",
-	"queue_logging_version":                                  "description.Logging.Version",
-	"queue_logging_write":                                    "description.Logging.Write",
+	"queue_logging_version":                                  "description.StorageServiceProperties.Logging.Version",
+	"queue_logging_write":                                    "description.StorageServiceProperties.Logging.Write",
 	"region":                                                 "description.Account.Location",
-	"require_infrastructure_encryption":                      "description.Account.AccountProperties.Encryption.RequireInfrastructureEncryption",
+	"require_infrastructure_encryption":                      "description.Account.Properties.Encryption.RequireInfrastructureEncryption",
 	"resource_group":                                         "description.ResourceGroup",
-	"secondary_location":                                     "description.Account.AccountProperties.SecondaryLocation",
-	"sku_name":                                               "description.Account.Sku.Name",
-	"sku_tier":                                               "description.Account.Sku.Tier",
+	"secondary_location":                                     "description.Account.Properties.SecondaryLocation",
+	"sku_name":                                               "description.Account.SKU.Name",
+	"sku_tier":                                               "description.Account.SKU.Tier",
 	"tags":                                                   "description.Account.Tags",
 	"title":                                                  "description.Account.Name",
 	"type":                                                   "description.Account.Type",
-	"virtual_network_rules":                                  "description.Account.AccountProperties.NetworkRuleSet.VirtualNetworkRules",
+	"virtual_network_rules":                                  "description.Account.Properties.NetworkRuleSet.VirtualNetworkRules",
 }
 
 func GetStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -30555,9 +31698,10 @@ func (p RecoveryServicesVaultPaginator) NextPage(ctx context.Context) ([]Recover
 }
 
 var listRecoveryServicesVaultFilters = map[string]string{
-	"akas":                              "description.Vault.ID",
-	"diagnostic_settings":               "description.Vault.Identity",
+	"akas":                              "description.Vault.Properties.Encryption.KeyVaultProperties",
+	"diagnostic_settings":               "description.DiagnosticSettingsResource",
 	"etag":                              "description.Vault.Etag",
+	"id":                                "description.Vault.ID",
 	"identity":                          "description.Vault.Identity",
 	"kaytu_account_id":                  "metadata.SourceID",
 	"name":                              "description.Vault.Name",
@@ -30567,7 +31711,7 @@ var listRecoveryServicesVaultFilters = map[string]string{
 	"provisioning_state":                       "description.Vault.Properties.ProvisioningState",
 	"region":                                   "description.Vault.Location",
 	"resource_group":                           "description.ResourceGroup",
-	"sku_name":                                 "description.Vault.Sku.Name",
+	"sku_name":                                 "description.Vault.SKU.Name",
 	"tags":                                     "description.Vault.Tags",
 	"title":                                    "description.Vault.Name",
 	"type":                                     "description.Vault.Type",
@@ -30605,9 +31749,10 @@ func ListRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getRecoveryServicesVaultFilters = map[string]string{
-	"akas":                              "description.Vault.ID",
-	"diagnostic_settings":               "description.Vault.Identity",
+	"akas":                              "description.Vault.Properties.Encryption.KeyVaultProperties",
+	"diagnostic_settings":               "description.DiagnosticSettingsResource",
 	"etag":                              "description.Vault.Etag",
+	"id":                                "description.Vault.ID",
 	"identity":                          "description.Vault.Identity",
 	"kaytu_account_id":                  "metadata.SourceID",
 	"name":                              "description.Vault.Name",
@@ -30617,7 +31762,7 @@ var getRecoveryServicesVaultFilters = map[string]string{
 	"provisioning_state":                       "description.Vault.Properties.ProvisioningState",
 	"region":                                   "description.Vault.Location",
 	"resource_group":                           "description.ResourceGroup",
-	"sku_name":                                 "description.Vault.Sku.Name",
+	"sku_name":                                 "description.Vault.SKU.Name",
 	"tags":                                     "description.Vault.Tags",
 	"title":                                    "description.Vault.Name",
 	"type":                                     "description.Vault.Type",
@@ -30735,34 +31880,34 @@ func (p HybridKubernetesConnectedClusterPaginator) NextPage(ctx context.Context)
 }
 
 var listHybridKubernetesConnectedClusterFilters = map[string]string{
-	"agent_public_key_certificate": "description.ConnectedCluster.ConnectedClusterProperties.AgentPublicKeyCertificate",
-	"agent_version":                "description.ConnectedCluster.ConnectedClusterProperties.AgentVersion",
+	"agent_public_key_certificate": "description.ConnectedCluster.Properties.AgentPublicKeyCertificate",
+	"agent_version":                "description.ConnectedCluster.Properties.AgentVersion",
 	"akas":                         "description.ConnectedCluster.ID",
-	"connectivity_status":          "description.ConnectedCluster.ConnectedClusterProperties.ConnectivityStatus",
+	"connectivity_status":          "description.ConnectedCluster.Properties.ConnectivityStatus",
 	"created_at":                   "description.ConnectedCluster.SystemData.CreatedAt",
 	"created_by":                   "description.ConnectedCluster.SystemData.CreatedBy",
 	"created_by_type":              "description.ConnectedCluster.SystemData.CreatedByType",
-	"distribution":                 "description.ConnectedCluster.ConnectedClusterProperties.Distribution",
-	"extensions":                   "description.ConnectedCluster.Identity",
+	"distribution":                 "description.ConnectedCluster.Properties.Distribution",
+	"extensions":                   "description.ConnectedClusterExtensions",
 	"identity":                     "description.ConnectedCluster.Identity",
-	"infrastructure":               "description.ConnectedCluster.ConnectedClusterProperties.Infrastructure",
+	"infrastructure":               "description.ConnectedCluster.Properties.Infrastructure",
 	"kaytu_account_id":             "metadata.SourceID",
-	"kubernetes_version":           "description.ConnectedCluster.ConnectedClusterProperties.KubernetesVersion",
-	"last_connectivity_time":       "description.ConnectedCluster.ConnectedClusterProperties.LastConnectivityTime",
+	"kubernetes_version":           "description.ConnectedCluster.Properties.KubernetesVersion",
+	"last_connectivity_time":       "description.ConnectedCluster.Properties.LastConnectivityTime",
 	"last_modified_at":             "description.ConnectedCluster.SystemData.LastModifiedAt",
 	"last_modified_by":             "description.ConnectedCluster.SystemData.LastModifiedBy",
 	"last_modified_by_type":        "description.ConnectedCluster.SystemData.LastModifiedByType",
 	"location":                     "description.ConnectedCluster.Location",
-	"managed_identity_certificate_expiration_time": "description.ConnectedCluster.ConnectedClusterProperties.ManagedIdentityCertificateExpirationTime",
+	"managed_identity_certificate_expiration_time": "description.ConnectedCluster.Properties.ManagedIdentityCertificateExpirationTime",
 	"name":               "description.ConnectedCluster.Name",
-	"offering":           "description.ConnectedCluster.ConnectedClusterProperties.Offering",
-	"provisioning_state": "description.ConnectedCluster.ConnectedClusterProperties.ProvisioningState",
+	"offering":           "description.ConnectedCluster.Properties.Offering",
+	"provisioning_state": "description.ConnectedCluster.Properties.ProvisioningState",
 	"region":             "description.ConnectedCluster.Location",
 	"resource_group":     "description.ResourceGroup",
 	"tags":               "description.ConnectedCluster.Tags",
 	"title":              "description.ConnectedCluster.Name",
-	"total_core_count":   "description.ConnectedCluster.ConnectedClusterProperties.TotalCoreCount",
-	"total_node_count":   "description.ConnectedCluster.ConnectedClusterProperties.TotalNodeCount",
+	"total_core_count":   "description.ConnectedCluster.Properties.TotalCoreCount",
+	"total_node_count":   "description.ConnectedCluster.Properties.TotalNodeCount",
 	"type":               "description.ConnectedCluster.Type",
 }
 
@@ -30797,34 +31942,34 @@ func ListHybridKubernetesConnectedCluster(ctx context.Context, d *plugin.QueryDa
 }
 
 var getHybridKubernetesConnectedClusterFilters = map[string]string{
-	"agent_public_key_certificate": "description.ConnectedCluster.ConnectedClusterProperties.AgentPublicKeyCertificate",
-	"agent_version":                "description.ConnectedCluster.ConnectedClusterProperties.AgentVersion",
+	"agent_public_key_certificate": "description.ConnectedCluster.Properties.AgentPublicKeyCertificate",
+	"agent_version":                "description.ConnectedCluster.Properties.AgentVersion",
 	"akas":                         "description.ConnectedCluster.ID",
-	"connectivity_status":          "description.ConnectedCluster.ConnectedClusterProperties.ConnectivityStatus",
+	"connectivity_status":          "description.ConnectedCluster.Properties.ConnectivityStatus",
 	"created_at":                   "description.ConnectedCluster.SystemData.CreatedAt",
 	"created_by":                   "description.ConnectedCluster.SystemData.CreatedBy",
 	"created_by_type":              "description.ConnectedCluster.SystemData.CreatedByType",
-	"distribution":                 "description.ConnectedCluster.ConnectedClusterProperties.Distribution",
-	"extensions":                   "description.ConnectedCluster.Identity",
+	"distribution":                 "description.ConnectedCluster.Properties.Distribution",
+	"extensions":                   "description.ConnectedClusterExtensions",
 	"identity":                     "description.ConnectedCluster.Identity",
-	"infrastructure":               "description.ConnectedCluster.ConnectedClusterProperties.Infrastructure",
+	"infrastructure":               "description.ConnectedCluster.Properties.Infrastructure",
 	"kaytu_account_id":             "metadata.SourceID",
-	"kubernetes_version":           "description.ConnectedCluster.ConnectedClusterProperties.KubernetesVersion",
-	"last_connectivity_time":       "description.ConnectedCluster.ConnectedClusterProperties.LastConnectivityTime",
+	"kubernetes_version":           "description.ConnectedCluster.Properties.KubernetesVersion",
+	"last_connectivity_time":       "description.ConnectedCluster.Properties.LastConnectivityTime",
 	"last_modified_at":             "description.ConnectedCluster.SystemData.LastModifiedAt",
 	"last_modified_by":             "description.ConnectedCluster.SystemData.LastModifiedBy",
 	"last_modified_by_type":        "description.ConnectedCluster.SystemData.LastModifiedByType",
 	"location":                     "description.ConnectedCluster.Location",
-	"managed_identity_certificate_expiration_time": "description.ConnectedCluster.ConnectedClusterProperties.ManagedIdentityCertificateExpirationTime",
+	"managed_identity_certificate_expiration_time": "description.ConnectedCluster.Properties.ManagedIdentityCertificateExpirationTime",
 	"name":               "description.ConnectedCluster.Name",
-	"offering":           "description.ConnectedCluster.ConnectedClusterProperties.Offering",
-	"provisioning_state": "description.ConnectedCluster.ConnectedClusterProperties.ProvisioningState",
+	"offering":           "description.ConnectedCluster.Properties.Offering",
+	"provisioning_state": "description.ConnectedCluster.Properties.ProvisioningState",
 	"region":             "description.ConnectedCluster.Location",
 	"resource_group":     "description.ResourceGroup",
 	"tags":               "description.ConnectedCluster.Tags",
 	"title":              "description.ConnectedCluster.Name",
-	"total_core_count":   "description.ConnectedCluster.ConnectedClusterProperties.TotalCoreCount",
-	"total_node_count":   "description.ConnectedCluster.ConnectedClusterProperties.TotalNodeCount",
+	"total_core_count":   "description.ConnectedCluster.Properties.TotalCoreCount",
+	"total_node_count":   "description.ConnectedCluster.Properties.TotalNodeCount",
 	"type":               "description.ConnectedCluster.Type",
 }
 
@@ -30939,10 +32084,10 @@ func (p CostManagementCostByResourceTypePaginator) NextPage(ctx context.Context)
 }
 
 var listCostManagementCostByResourceTypeFilters = map[string]string{
-	"akas":             "iD",
+	"akas":             "description.CostManagementCostByResourceType",
 	"id":               "iD",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "iD",
+	"name":             "description.CostManagementCostByResourceType",
 }
 
 func ListCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -30976,10 +32121,10 @@ func ListCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryDa
 }
 
 var getCostManagementCostByResourceTypeFilters = map[string]string{
-	"akas":             "iD",
+	"akas":             "description.CostManagementCostByResourceType",
 	"id":               "iD",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "iD",
+	"name":             "description.CostManagementCostByResourceType",
 }
 
 func GetCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -31093,10 +32238,10 @@ func (p CostManagementCostBySubscriptionPaginator) NextPage(ctx context.Context)
 }
 
 var listCostManagementCostBySubscriptionFilters = map[string]string{
-	"akas":             "iD",
+	"akas":             "description.CostManagementCostBySubscription",
 	"id":               "iD",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "iD",
+	"name":             "description.CostManagementCostBySubscription",
 }
 
 func ListCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -31130,10 +32275,10 @@ func ListCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryDa
 }
 
 var getCostManagementCostBySubscriptionFilters = map[string]string{
-	"akas":             "iD",
+	"akas":             "description.CostManagementCostBySubscription",
 	"id":               "iD",
 	"kaytu_account_id": "metadata.SourceID",
-	"name":             "iD",
+	"name":             "description.CostManagementCostBySubscription",
 }
 
 func GetCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -31248,26 +32393,26 @@ func (p LoadBalancerPaginator) NextPage(ctx context.Context) ([]LoadBalancer, er
 
 var listLoadBalancerFilters = map[string]string{
 	"akas":                       "description.LoadBalancer.ID",
-	"backend_address_pools":      "description.LoadBalancer.LoadBalancerPropertiesFormat.BackendAddressPools",
+	"backend_address_pools":      "description.LoadBalancer.Properties.BackendAddressPools",
 	"diagnostic_settings":        "description.DiagnosticSetting",
 	"etag":                       "description.LoadBalancer.Etag",
 	"extended_location_name":     "description.LoadBalancer.ExtendedLocation.Name",
 	"extended_location_type":     "description.LoadBalancer.ExtendedLocation.Type",
-	"frontend_ip_configurations": "description.LoadBalancer.LoadBalancerPropertiesFormat.FrontendIPConfigurations",
+	"frontend_ip_configurations": "description.LoadBalancer.Properties.FrontendIPConfigurations",
 	"id":                         "description.LoadBalancer.ID",
-	"inbound_nat_pools":          "description.LoadBalancer.LoadBalancerPropertiesFormat.InboundNatPools",
-	"inbound_nat_rules":          "description.LoadBalancer.LoadBalancerPropertiesFormat.InboundNatRules",
+	"inbound_nat_pools":          "description.LoadBalancer.Properties.InboundNatPools",
+	"inbound_nat_rules":          "description.LoadBalancer.Properties.InboundNatRules",
 	"kaytu_account_id":           "metadata.SourceID",
-	"load_balancing_rules":       "description.LoadBalancer.LoadBalancerPropertiesFormat.LoadBalancingRules",
+	"load_balancing_rules":       "description.LoadBalancer.Properties.LoadBalancingRules",
 	"name":                       "description.LoadBalancer.Name",
-	"outbound_rules":             "description.LoadBalancer.LoadBalancerPropertiesFormat.OutboundRules",
-	"probes":                     "description.LoadBalancer.LoadBalancerPropertiesFormat.Probes",
-	"provisioning_state":         "description.LoadBalancer.LoadBalancerPropertiesFormat.ProvisioningState",
+	"outbound_rules":             "description.LoadBalancer.Properties.OutboundRules",
+	"probes":                     "description.LoadBalancer.Properties.Probes",
+	"provisioning_state":         "description.LoadBalancer.Properties.ProvisioningState",
 	"region":                     "description.LoadBalancer.Location",
 	"resource_group":             "description.ResourceGroup",
-	"resource_guid":              "description.LoadBalancer.LoadBalancerPropertiesFormat.ResourceGUID",
-	"sku_name":                   "description.LoadBalancer.Sku.Name",
-	"sku_tier":                   "description.LoadBalancer.Sku.Tier",
+	"resource_guid":              "description.LoadBalancer.Properties.ResourceGUID",
+	"sku_name":                   "description.LoadBalancer.SKU.Name",
+	"sku_tier":                   "description.LoadBalancer.SKU.Tier",
 	"tags":                       "description.LoadBalancer.Tags",
 	"title":                      "description.LoadBalancer.Name",
 	"type":                       "description.LoadBalancer.Type",
@@ -31305,26 +32450,26 @@ func ListLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 var getLoadBalancerFilters = map[string]string{
 	"akas":                       "description.LoadBalancer.ID",
-	"backend_address_pools":      "description.LoadBalancer.LoadBalancerPropertiesFormat.BackendAddressPools",
+	"backend_address_pools":      "description.LoadBalancer.Properties.BackendAddressPools",
 	"diagnostic_settings":        "description.DiagnosticSetting",
 	"etag":                       "description.LoadBalancer.Etag",
 	"extended_location_name":     "description.LoadBalancer.ExtendedLocation.Name",
 	"extended_location_type":     "description.LoadBalancer.ExtendedLocation.Type",
-	"frontend_ip_configurations": "description.LoadBalancer.LoadBalancerPropertiesFormat.FrontendIPConfigurations",
+	"frontend_ip_configurations": "description.LoadBalancer.Properties.FrontendIPConfigurations",
 	"id":                         "description.LoadBalancer.ID",
-	"inbound_nat_pools":          "description.LoadBalancer.LoadBalancerPropertiesFormat.InboundNatPools",
-	"inbound_nat_rules":          "description.LoadBalancer.LoadBalancerPropertiesFormat.InboundNatRules",
+	"inbound_nat_pools":          "description.LoadBalancer.Properties.InboundNatPools",
+	"inbound_nat_rules":          "description.LoadBalancer.Properties.InboundNatRules",
 	"kaytu_account_id":           "metadata.SourceID",
-	"load_balancing_rules":       "description.LoadBalancer.LoadBalancerPropertiesFormat.LoadBalancingRules",
+	"load_balancing_rules":       "description.LoadBalancer.Properties.LoadBalancingRules",
 	"name":                       "description.LoadBalancer.Name",
-	"outbound_rules":             "description.LoadBalancer.LoadBalancerPropertiesFormat.OutboundRules",
-	"probes":                     "description.LoadBalancer.LoadBalancerPropertiesFormat.Probes",
-	"provisioning_state":         "description.LoadBalancer.LoadBalancerPropertiesFormat.ProvisioningState",
+	"outbound_rules":             "description.LoadBalancer.Properties.OutboundRules",
+	"probes":                     "description.LoadBalancer.Properties.Probes",
+	"provisioning_state":         "description.LoadBalancer.Properties.ProvisioningState",
 	"region":                     "description.LoadBalancer.Location",
 	"resource_group":             "description.ResourceGroup",
-	"resource_guid":              "description.LoadBalancer.LoadBalancerPropertiesFormat.ResourceGUID",
-	"sku_name":                   "description.LoadBalancer.Sku.Name",
-	"sku_tier":                   "description.LoadBalancer.Sku.Tier",
+	"resource_guid":              "description.LoadBalancer.Properties.ResourceGUID",
+	"sku_name":                   "description.LoadBalancer.SKU.Name",
+	"sku_tier":                   "description.LoadBalancer.SKU.Tier",
 	"tags":                       "description.LoadBalancer.Tags",
 	"title":                      "description.LoadBalancer.Name",
 	"type":                       "description.LoadBalancer.Type",
@@ -31442,18 +32587,18 @@ func (p LoadBalancerBackendAddressPoolPaginator) NextPage(ctx context.Context) (
 
 var listLoadBalancerBackendAddressPoolFilters = map[string]string{
 	"akas":                                   "description.Pool.ID",
-	"backend_ip_configurations":              "description.Pool.BackendAddressPoolPropertiesFormat.BackendIPConfigurations",
+	"backend_ip_configurations":              "description.Pool.Properties.BackendIPConfigurations",
 	"etag":                                   "description.Pool.Etag",
-	"gateway_load_balancer_tunnel_interface": "description.Pool.BackendAddressPoolPropertiesFormat.TunnelInterfaces",
+	"gateway_load_balancer_tunnel_interface": "description.Pool.Properties.TunnelInterfaces",
 	"id":                                     "description.Pool.ID",
 	"kaytu_account_id":                       "metadata.SourceID",
-	"load_balancer_backend_addresses":        "description.Pool.BackendAddressPoolPropertiesFormat.LoadBalancerBackendAddresses",
-	"load_balancer_name":                     "description.LoadBalancerName",
-	"load_balancing_rules":                   "description.Pool.BackendAddressPoolPropertiesFormat.LoadBalancingRules",
+	"load_balancer_backend_addresses":        "description.Pool.Properties.LoadBalancerBackendAddresses",
+	"load_balancer_name":                     "description.LoadBalancer.Name",
+	"load_balancing_rules":                   "description.LoadBalancer.Properties.LoadBalancingRules",
 	"name":                                   "description.Pool.Name",
-	"outbound_rule_id":                       "description.Pool.BackendAddressPoolPropertiesFormat.OutboundRule.ID",
-	"outbound_rules":                         "description.Pool.BackendAddressPoolPropertiesFormat.OutboundRules",
-	"provisioning_state":                     "description.Pool.BackendAddressPoolPropertiesFormat.ProvisioningState",
+	"outbound_rule_id":                       "description.Pool.Properties.OutboundRule.ID",
+	"outbound_rules":                         "description.LoadBalancer.Properties.OutboundRules",
+	"provisioning_state":                     "description.LoadBalancer.Properties.ProvisioningState",
 	"resource_group":                         "description.ResourceGroup",
 	"title":                                  "description.Pool.Name",
 	"type":                                   "description.Pool.Type",
@@ -31491,18 +32636,18 @@ func ListLoadBalancerBackendAddressPool(ctx context.Context, d *plugin.QueryData
 
 var getLoadBalancerBackendAddressPoolFilters = map[string]string{
 	"akas":                                   "description.Pool.ID",
-	"backend_ip_configurations":              "description.Pool.BackendAddressPoolPropertiesFormat.BackendIPConfigurations",
+	"backend_ip_configurations":              "description.Pool.Properties.BackendIPConfigurations",
 	"etag":                                   "description.Pool.Etag",
-	"gateway_load_balancer_tunnel_interface": "description.Pool.BackendAddressPoolPropertiesFormat.TunnelInterfaces",
+	"gateway_load_balancer_tunnel_interface": "description.Pool.Properties.TunnelInterfaces",
 	"id":                                     "description.Pool.ID",
 	"kaytu_account_id":                       "metadata.SourceID",
-	"load_balancer_backend_addresses":        "description.Pool.BackendAddressPoolPropertiesFormat.LoadBalancerBackendAddresses",
+	"load_balancer_backend_addresses":        "description.Pool.Properties.LoadBalancerBackendAddresses",
 	"load_balancer_name":                     "description.LoadBalancer.Name",
-	"load_balancing_rules":                   "description.Pool.BackendAddressPoolPropertiesFormat.LoadBalancingRules",
+	"load_balancing_rules":                   "description.LoadBalancer.Properties.LoadBalancingRules",
 	"name":                                   "description.Pool.Name",
-	"outbound_rule_id":                       "description.Pool.BackendAddressPoolPropertiesFormat.OutboundRule.ID",
-	"outbound_rules":                         "description.Pool.BackendAddressPoolPropertiesFormat.OutboundRules",
-	"provisioning_state":                     "description.Pool.BackendAddressPoolPropertiesFormat.ProvisioningState",
+	"outbound_rule_id":                       "description.Pool.Properties.OutboundRule.ID",
+	"outbound_rules":                         "description.LoadBalancer.Properties.OutboundRules",
+	"provisioning_state":                     "description.LoadBalancer.Properties.ProvisioningState",
 	"resource_group":                         "description.ResourceGroup",
 	"title":                                  "description.Pool.Name",
 	"type":                                   "description.Pool.Type",
@@ -31620,20 +32765,20 @@ func (p LoadBalancerNatRulePaginator) NextPage(ctx context.Context) ([]LoadBalan
 
 var listLoadBalancerNatRuleFilters = map[string]string{
 	"akas":                      "description.Rule.ID",
-	"backend_ip_configuration":  "description.Rule.InboundNatRulePropertiesFormat.BackendIPConfiguration",
-	"backend_port":              "description.Rule.InboundNatRulePropertiesFormat.BackendPort",
-	"enable_floating_ip":        "description.Rule.InboundNatRulePropertiesFormat.EnableFloatingIP",
-	"enable_tcp_reset":          "description.Rule.InboundNatRulePropertiesFormat.EnableTCPReset",
+	"backend_ip_configuration":  "description.Rule.Properties.BackendIPConfiguration",
+	"backend_port":              "description.Rule.Properties.BackendPort",
+	"enable_floating_ip":        "description.Rule.Properties.EnableFloatingIP",
+	"enable_tcp_reset":          "description.Rule.Properties.EnableTCPReset",
 	"etag":                      "description.Rule.Etag",
-	"frontend_ip_configuration": "description.Rule.InboundNatRulePropertiesFormat.FrontendIPConfiguration",
-	"frontend_port":             "description.Rule.InboundNatRulePropertiesFormat.FrontendPort",
+	"frontend_ip_configuration": "description.Rule.Properties.FrontendIPConfiguration",
+	"frontend_port":             "description.Rule.Properties.FrontendPort",
 	"id":                        "description.Rule.ID",
-	"idle_timeout_in_minutes":   "description.Rule.InboundNatRulePropertiesFormat.IdleTimeoutInMinutes",
+	"idle_timeout_in_minutes":   "description.Rule.Properties.IdleTimeoutInMinutes",
 	"kaytu_account_id":          "metadata.SourceID",
 	"load_balancer_name":        "description.LoadBalancerName",
 	"name":                      "description.Rule.Name",
-	"protocol":                  "description.Rule.InboundNatRulePropertiesFormat.Protocol",
-	"provisioning_state":        "description.Rule.InboundNatRulePropertiesFormat.ProvisioningState",
+	"protocol":                  "description.Rule.Properties.Protocol",
+	"provisioning_state":        "description.Rule.Properties.ProvisioningState",
 	"resource_group":            "description.ResourceGroup",
 	"title":                     "description.Rule.Name",
 	"type":                      "description.Rule.Type",
@@ -31671,20 +32816,20 @@ func ListLoadBalancerNatRule(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 var getLoadBalancerNatRuleFilters = map[string]string{
 	"akas":                      "description.Rule.ID",
-	"backend_ip_configuration":  "description.Rule.InboundNatRulePropertiesFormat.BackendIPConfiguration",
-	"backend_port":              "description.Rule.InboundNatRulePropertiesFormat.BackendPort",
-	"enable_floating_ip":        "description.Rule.InboundNatRulePropertiesFormat.EnableFloatingIP",
-	"enable_tcp_reset":          "description.Rule.InboundNatRulePropertiesFormat.EnableTCPReset",
+	"backend_ip_configuration":  "description.Rule.Properties.BackendIPConfiguration",
+	"backend_port":              "description.Rule.Properties.BackendPort",
+	"enable_floating_ip":        "description.Rule.Properties.EnableFloatingIP",
+	"enable_tcp_reset":          "description.Rule.Properties.EnableTCPReset",
 	"etag":                      "description.Rule.Etag",
-	"frontend_ip_configuration": "description.Rule.InboundNatRulePropertiesFormat.FrontendIPConfiguration",
-	"frontend_port":             "description.Rule.InboundNatRulePropertiesFormat.FrontendPort",
+	"frontend_ip_configuration": "description.Rule.Properties.FrontendIPConfiguration",
+	"frontend_port":             "description.Rule.Properties.FrontendPort",
 	"id":                        "description.Rule.ID",
-	"idle_timeout_in_minutes":   "description.Rule.InboundNatRulePropertiesFormat.IdleTimeoutInMinutes",
+	"idle_timeout_in_minutes":   "description.Rule.Properties.IdleTimeoutInMinutes",
 	"kaytu_account_id":          "metadata.SourceID",
 	"load_balancer_name":        "description.LoadBalancerName",
 	"name":                      "description.Rule.Name",
-	"protocol":                  "description.Rule.InboundNatRulePropertiesFormat.Protocol",
-	"provisioning_state":        "description.Rule.InboundNatRulePropertiesFormat.ProvisioningState",
+	"protocol":                  "description.Rule.Properties.Protocol",
+	"provisioning_state":        "description.Rule.Properties.ProvisioningState",
 	"resource_group":            "description.ResourceGroup",
 	"title":                     "description.Rule.Name",
 	"type":                      "description.Rule.Type",
@@ -31802,18 +32947,18 @@ func (p LoadBalancerOutboundRulePaginator) NextPage(ctx context.Context) ([]Load
 
 var listLoadBalancerOutboundRuleFilters = map[string]string{
 	"akas":                       "description.Rule.ID",
-	"allocated_outbound_ports":   "description.Rule.OutboundRulePropertiesFormat.AllocatedOutboundPorts",
-	"backend_address_pools":      "description.Rule.OutboundRulePropertiesFormat.BackendAddressPool",
-	"enable_tcp_reset":           "description.Rule.OutboundRulePropertiesFormat.EnableTCPReset",
+	"allocated_outbound_ports":   "description.Rule.Properties.AllocatedOutboundPorts",
+	"backend_address_pools":      "description.Rule.Properties.BackendAddressPool",
+	"enable_tcp_reset":           "description.Rule.Properties.EnableTCPReset",
 	"etag":                       "description.Rule.Etag",
-	"frontend_ip_configurations": "description.Rule.OutboundRulePropertiesFormat.FrontendIPConfigurations",
+	"frontend_ip_configurations": "description.Rule.Properties.FrontendIPConfigurations",
 	"id":                         "description.Rule.ID",
-	"idle_timeout_in_minutes":    "description.Rule.OutboundRulePropertiesFormat.IdleTimeoutInMinutes",
+	"idle_timeout_in_minutes":    "description.Rule.Properties.IdleTimeoutInMinutes",
 	"kaytu_account_id":           "metadata.SourceID",
 	"load_balancer_name":         "description.LoadBalancerName",
 	"name":                       "description.Rule.Name",
-	"protocol":                   "description.Rule.OutboundRulePropertiesFormat.Protocol",
-	"provisioning_state":         "description.Rule.OutboundRulePropertiesFormat.ProvisioningState",
+	"protocol":                   "description.Rule.Properties.Protocol",
+	"provisioning_state":         "description.Rule.Properties.ProvisioningState",
 	"resource_group":             "description.ResourceGroup",
 	"title":                      "description.Rule.Name",
 	"type":                       "description.Rule.Type",
@@ -31851,18 +32996,18 @@ func ListLoadBalancerOutboundRule(ctx context.Context, d *plugin.QueryData, _ *p
 
 var getLoadBalancerOutboundRuleFilters = map[string]string{
 	"akas":                       "description.Rule.ID",
-	"allocated_outbound_ports":   "description.Rule.OutboundRulePropertiesFormat.AllocatedOutboundPorts",
-	"backend_address_pools":      "description.Rule.OutboundRulePropertiesFormat.BackendAddressPool",
-	"enable_tcp_reset":           "description.Rule.OutboundRulePropertiesFormat.EnableTCPReset",
+	"allocated_outbound_ports":   "description.Rule.Properties.AllocatedOutboundPorts",
+	"backend_address_pools":      "description.Rule.Properties.BackendAddressPool",
+	"enable_tcp_reset":           "description.Rule.Properties.EnableTCPReset",
 	"etag":                       "description.Rule.Etag",
-	"frontend_ip_configurations": "description.Rule.OutboundRulePropertiesFormat.FrontendIPConfigurations",
+	"frontend_ip_configurations": "description.Rule.Properties.FrontendIPConfigurations",
 	"id":                         "description.Rule.ID",
-	"idle_timeout_in_minutes":    "description.Rule.OutboundRulePropertiesFormat.IdleTimeoutInMinutes",
+	"idle_timeout_in_minutes":    "description.Rule.Properties.IdleTimeoutInMinutes",
 	"kaytu_account_id":           "metadata.SourceID",
 	"load_balancer_name":         "description.LoadBalancerName",
 	"name":                       "description.Rule.Name",
-	"protocol":                   "description.Rule.OutboundRulePropertiesFormat.Protocol",
-	"provisioning_state":         "description.Rule.OutboundRulePropertiesFormat.ProvisioningState",
+	"protocol":                   "description.Rule.Properties.Protocol",
+	"provisioning_state":         "description.Rule.Properties.ProvisioningState",
 	"resource_group":             "description.ResourceGroup",
 	"title":                      "description.Rule.Name",
 	"type":                       "description.Rule.Type",
@@ -31982,16 +33127,16 @@ var listLoadBalancerProbeFilters = map[string]string{
 	"akas":                 "description.Probe.ID",
 	"etag":                 "description.Probe.Etag",
 	"id":                   "description.Probe.ID",
-	"interval_in_seconds":  "description.Probe.ProbePropertiesFormat.IntervalInSeconds",
+	"interval_in_seconds":  "description.Probe.Properties.IntervalInSeconds",
 	"kaytu_account_id":     "metadata.SourceID",
 	"load_balancer_name":   "description.LoadBalancerName",
-	"load_balancing_rules": "description.Probe.ProbePropertiesFormat.LoadBalancingRules",
+	"load_balancing_rules": "description.Probe.Properties.LoadBalancingRules",
 	"name":                 "description.Probe.Name",
-	"number_of_probes":     "description.Probe.ProbePropertiesFormat.NumberOfProbes",
-	"port":                 "description.Probe.ProbePropertiesFormat.Port",
-	"protocol":             "description.Probe.ProbePropertiesFormat.Protocol",
-	"provisioning_state":   "description.Probe.ProbePropertiesFormat.ProvisioningState",
-	"request_path":         "description.Probe.ProbePropertiesFormat.RequestPath",
+	"number_of_probes":     "description.Probe.Properties.NumberOfProbes",
+	"port":                 "description.Probe.Properties.Port",
+	"protocol":             "description.Probe.Properties.Protocol",
+	"provisioning_state":   "description.Probe.Properties.ProvisioningState",
+	"request_path":         "description.Probe.Properties.RequestPath",
 	"resource_group":       "description.ResourceGroup",
 	"title":                "description.Probe.Name",
 	"type":                 "description.Probe.Type",
@@ -32031,16 +33176,16 @@ var getLoadBalancerProbeFilters = map[string]string{
 	"akas":                 "description.Probe.ID",
 	"etag":                 "description.Probe.Etag",
 	"id":                   "description.Probe.ID",
-	"interval_in_seconds":  "description.Probe.ProbePropertiesFormat.IntervalInSeconds",
+	"interval_in_seconds":  "description.Probe.Properties.IntervalInSeconds",
 	"kaytu_account_id":     "metadata.SourceID",
 	"load_balancer_name":   "description.LoadBalancerName",
-	"load_balancing_rules": "description.Probe.ProbePropertiesFormat.LoadBalancingRules",
+	"load_balancing_rules": "description.Probe.Properties.LoadBalancingRules",
 	"name":                 "description.Probe.Name",
-	"number_of_probes":     "description.Probe.ProbePropertiesFormat.NumberOfProbes",
-	"port":                 "description.Probe.ProbePropertiesFormat.Port",
-	"protocol":             "description.Probe.ProbePropertiesFormat.Protocol",
-	"provisioning_state":   "description.Probe.ProbePropertiesFormat.ProvisioningState",
-	"request_path":         "description.Probe.ProbePropertiesFormat.RequestPath",
+	"number_of_probes":     "description.Probe.Properties.NumberOfProbes",
+	"port":                 "description.Probe.Properties.Port",
+	"protocol":             "description.Probe.Properties.Protocol",
+	"provisioning_state":   "description.Probe.Properties.ProvisioningState",
+	"request_path":         "description.Probe.Properties.RequestPath",
 	"resource_group":       "description.ResourceGroup",
 	"title":                "description.Probe.Name",
 	"type":                 "description.Probe.Type",
@@ -32158,24 +33303,24 @@ func (p LoadBalancerRulePaginator) NextPage(ctx context.Context) ([]LoadBalancer
 
 var listLoadBalancerRuleFilters = map[string]string{
 	"akas":                         "description.Rule.ID",
-	"backend_address_pool_id":      "description.Rule.LoadBalancingRulePropertiesFormat.BackendAddressPool.ID",
-	"backend_address_pools":        "description.Rule.LoadBalancingRulePropertiesFormat.BackendAddressPools",
-	"backend_port":                 "description.Rule.LoadBalancingRulePropertiesFormat.BackendPort",
-	"disable_outbound_snat":        "description.Rule.LoadBalancingRulePropertiesFormat.DisableOutboundSnat",
-	"enable_floating_ip":           "description.Rule.LoadBalancingRulePropertiesFormat.EnableFloatingIP",
-	"enable_tcp_reset":             "description.Rule.LoadBalancingRulePropertiesFormat.EnableTCPReset",
+	"backend_address_pool_id":      "description.Rule.Properties.BackendAddressPool.ID",
+	"backend_address_pools":        "description.Rule.Properties.BackendAddressPools",
+	"backend_port":                 "description.Rule.Properties.BackendPort",
+	"disable_outbound_snat":        "description.Rule.Properties.DisableOutboundSnat",
+	"enable_floating_ip":           "description.Rule.Properties.EnableFloatingIP",
+	"enable_tcp_reset":             "description.Rule.Properties.EnableTCPReset",
 	"etag":                         "description.Rule.Etag",
-	"frontend_ip_configuration_id": "description.Rule.LoadBalancingRulePropertiesFormat.FrontendIPConfiguration.ID",
-	"frontend_port":                "description.Rule.LoadBalancingRulePropertiesFormat.FrontendPort",
+	"frontend_ip_configuration_id": "description.Rule.Properties.FrontendIPConfiguration.ID",
+	"frontend_port":                "description.Rule.Properties.FrontendPort",
 	"id":                           "description.Rule.ID",
-	"idle_timeout_in_minutes":      "description.Rule.LoadBalancingRulePropertiesFormat.IdleTimeoutInMinutes",
+	"idle_timeout_in_minutes":      "description.Rule.Properties.IdleTimeoutInMinutes",
 	"kaytu_account_id":             "metadata.SourceID",
 	"load_balancer_name":           "description.LoadBalancerName",
-	"load_distribution":            "description.Rule.LoadBalancingRulePropertiesFormat.LoadDistribution",
+	"load_distribution":            "description.Rule.Properties.LoadDistribution",
 	"name":                         "description.Rule.Name",
-	"probe_id":                     "description.Rule.LoadBalancingRulePropertiesFormat.Probe.ID",
-	"protocol":                     "description.Rule.LoadBalancingRulePropertiesFormat.Protocol",
-	"provisioning_state":           "description.Rule.LoadBalancingRulePropertiesFormat.ProvisioningState",
+	"probe_id":                     "description.Rule.Properties.Probe.ID",
+	"protocol":                     "description.Rule.Properties.Protocol",
+	"provisioning_state":           "description.Rule.Properties.ProvisioningState",
 	"resource_group":               "description.ResourceGroup",
 	"title":                        "description.Rule.Name",
 	"type":                         "description.Rule.Type",
@@ -32213,24 +33358,24 @@ func ListLoadBalancerRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 var getLoadBalancerRuleFilters = map[string]string{
 	"akas":                         "description.Rule.ID",
-	"backend_address_pool_id":      "description.Rule.LoadBalancingRulePropertiesFormat.BackendAddressPool.ID",
-	"backend_address_pools":        "description.Rule.LoadBalancingRulePropertiesFormat.BackendAddressPools",
-	"backend_port":                 "description.Rule.LoadBalancingRulePropertiesFormat.BackendPort",
-	"disable_outbound_snat":        "description.Rule.LoadBalancingRulePropertiesFormat.DisableOutboundSnat",
-	"enable_floating_ip":           "description.Rule.LoadBalancingRulePropertiesFormat.EnableFloatingIP",
-	"enable_tcp_reset":             "description.Rule.LoadBalancingRulePropertiesFormat.EnableTCPReset",
+	"backend_address_pool_id":      "description.Rule.Properties.BackendAddressPool.ID",
+	"backend_address_pools":        "description.Rule.Properties.BackendAddressPools",
+	"backend_port":                 "description.Rule.Properties.BackendPort",
+	"disable_outbound_snat":        "description.Rule.Properties.DisableOutboundSnat",
+	"enable_floating_ip":           "description.Rule.Properties.EnableFloatingIP",
+	"enable_tcp_reset":             "description.Rule.Properties.EnableTCPReset",
 	"etag":                         "description.Rule.Etag",
-	"frontend_ip_configuration_id": "description.Rule.LoadBalancingRulePropertiesFormat.FrontendIPConfiguration.ID",
-	"frontend_port":                "description.Rule.LoadBalancingRulePropertiesFormat.FrontendPort",
+	"frontend_ip_configuration_id": "description.Rule.Properties.FrontendIPConfiguration.ID",
+	"frontend_port":                "description.Rule.Properties.FrontendPort",
 	"id":                           "description.Rule.ID",
-	"idle_timeout_in_minutes":      "description.Rule.LoadBalancingRulePropertiesFormat.IdleTimeoutInMinutes",
+	"idle_timeout_in_minutes":      "description.Rule.Properties.IdleTimeoutInMinutes",
 	"kaytu_account_id":             "metadata.SourceID",
 	"load_balancer_name":           "description.LoadBalancerName",
-	"load_distribution":            "description.Rule.LoadBalancingRulePropertiesFormat.LoadDistribution",
+	"load_distribution":            "description.Rule.Properties.LoadDistribution",
 	"name":                         "description.Rule.Name",
-	"probe_id":                     "description.Rule.LoadBalancingRulePropertiesFormat.Probe.ID",
-	"protocol":                     "description.Rule.LoadBalancingRulePropertiesFormat.Protocol",
-	"provisioning_state":           "description.Rule.LoadBalancingRulePropertiesFormat.ProvisioningState",
+	"probe_id":                     "description.Rule.Properties.Probe.ID",
+	"protocol":                     "description.Rule.Properties.Protocol",
+	"provisioning_state":           "description.Rule.Properties.ProvisioningState",
 	"resource_group":               "description.ResourceGroup",
 	"title":                        "description.Rule.Name",
 	"type":                         "description.Rule.Type",
@@ -32348,7 +33493,6 @@ func (p ManagementGroupPaginator) NextPage(ctx context.Context) ([]ManagementGro
 
 var listManagementGroupFilters = map[string]string{
 	"akas":             "description.Group.ID",
-	"children":         "description.Group.Properties.Children",
 	"display_name":     "description.Group.Properties.DisplayName",
 	"id":               "description.Group.ID",
 	"kaytu_account_id": "metadata.SourceID",
@@ -32357,9 +33501,6 @@ var listManagementGroupFilters = map[string]string{
 	"tenant_id":        "description.Group.Properties.TenantID",
 	"title":            "description.Group.Name",
 	"type":             "description.Group.Type",
-	"updated_by":       "description.Group.Properties.Details.UpdatedBy",
-	"updated_time":     "description.Group.Properties.Details.UpdatedTime.Time",
-	"version":          "description.Group.Properties.Details.Version",
 }
 
 func ListManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -32394,7 +33535,6 @@ func ListManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 var getManagementGroupFilters = map[string]string{
 	"akas":             "description.Group.ID",
-	"children":         "description.Group.Properties.Children",
 	"display_name":     "description.Group.Properties.DisplayName",
 	"id":               "description.Group.ID",
 	"kaytu_account_id": "metadata.SourceID",
@@ -32403,9 +33543,6 @@ var getManagementGroupFilters = map[string]string{
 	"tenant_id":        "description.Group.Properties.TenantID",
 	"title":            "description.Group.Name",
 	"type":             "description.Group.Type",
-	"updated_by":       "description.Group.Properties.Details.UpdatedBy",
-	"updated_time":     "description.Group.Properties.Details.UpdatedTime.Time",
-	"version":          "description.Group.Properties.Details.Version",
 }
 
 func GetManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -32522,13 +33659,13 @@ var listManagementLockFilters = map[string]string{
 	"akas":             "description.Lock.ID",
 	"id":               "description.Lock.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"lock_level":       "description.Lock.ManagementLockProperties.Level",
+	"lock_level":       "description.Lock.Properties.Level",
 	"name":             "description.Lock.Name",
-	"notes":            "description.Lock.ManagementLockProperties.Notes",
-	"owners":           "description.Lock.ManagementLockProperties.Owners",
+	"notes":            "description.Lock.Properties.Notes",
+	"owners":           "description.Lock.Properties.Owners",
 	"resource_group":   "description.ResourceGroup",
 	"title":            "description.Lock.Name",
-	"type":             "description.Lock.ManagementLockProperties.Level",
+	"type":             "description.Lock.Type",
 }
 
 func ListManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -32565,13 +33702,13 @@ var getManagementLockFilters = map[string]string{
 	"akas":             "description.Lock.ID",
 	"id":               "description.Lock.ID",
 	"kaytu_account_id": "metadata.SourceID",
-	"lock_level":       "description.Lock.ManagementLockProperties.Level",
+	"lock_level":       "description.Lock.Properties.Level",
 	"name":             "description.Lock.Name",
-	"notes":            "description.Lock.ManagementLockProperties.Notes",
-	"owners":           "description.Lock.ManagementLockProperties.Owners",
+	"notes":            "description.Lock.Properties.Notes",
+	"owners":           "description.Lock.Properties.Owners",
 	"resource_group":   "description.ResourceGroup",
 	"title":            "description.Lock.Name",
-	"type":             "description.Lock.ManagementLockProperties.Level",
+	"type":             "description.Lock.Type",
 }
 
 func GetManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -33012,10 +34149,10 @@ func (p BotServiceBotPaginator) NextPage(ctx context.Context) ([]BotServiceBot, 
 
 var listBotServiceBotFilters = map[string]string{
 	"akas":  "description.Bot.ID",
-	"id":    "description.Bot.Id",
+	"id":    "description.Bot.ID",
 	"name":  "description.Bot.Name",
 	"tags":  "description.Bot.Tags",
-	"title": "description.Bot.Name",
+	"title": "description.Bot.Properties.DisplayName",
 }
 
 func ListBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -33050,10 +34187,10 @@ func ListBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 var getBotServiceBotFilters = map[string]string{
 	"akas":  "description.Bot.ID",
-	"id":    "description.Bot.Id",
+	"id":    "description.Bot.ID",
 	"name":  "description.Bot.Name",
 	"tags":  "description.Bot.Tags",
-	"title": "description.Bot.Name",
+	"title": "description.Bot.Properties.DisplayName",
 }
 
 func GetBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -33168,7 +34305,7 @@ func (p NetAppAccountPaginator) NextPage(ctx context.Context) ([]NetAppAccount, 
 
 var listNetAppAccountFilters = map[string]string{
 	"akas":  "description.Account.ID",
-	"id":    "description.Account.Id",
+	"id":    "description.Account.ID",
 	"name":  "description.Account.Name",
 	"tags":  "description.Account.Tags",
 	"title": "description.Account.Name",
@@ -33206,7 +34343,7 @@ func ListNetAppAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 var getNetAppAccountFilters = map[string]string{
 	"akas":  "description.Account.ID",
-	"id":    "description.Account.Id",
+	"id":    "description.Account.ID",
 	"name":  "description.Account.Name",
 	"tags":  "description.Account.Tags",
 	"title": "description.Account.Name",
@@ -33324,7 +34461,7 @@ func (p NetAppCapacityPoolPaginator) NextPage(ctx context.Context) ([]NetAppCapa
 
 var listNetAppCapacityPoolFilters = map[string]string{
 	"akas":  "description.CapacityPool.ID",
-	"id":    "description.CapacityPool.Id",
+	"id":    "description.CapacityPool.ID",
 	"name":  "description.CapacityPool.Name",
 	"tags":  "description.CapacityPool.Tags",
 	"title": "description.CapacityPool.Name",
@@ -33362,7 +34499,7 @@ func ListNetAppCapacityPool(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 var getNetAppCapacityPoolFilters = map[string]string{
 	"akas":  "description.CapacityPool.ID",
-	"id":    "description.CapacityPool.Id",
+	"id":    "description.CapacityPool.ID",
 	"name":  "description.CapacityPool.Name",
 	"tags":  "description.CapacityPool.Tags",
 	"title": "description.CapacityPool.Name",
@@ -33480,7 +34617,7 @@ func (p DesktopVirtualizationHostPoolPaginator) NextPage(ctx context.Context) ([
 
 var listDesktopVirtualizationHostPoolFilters = map[string]string{
 	"akas":  "description.HostPool.ID",
-	"id":    "description.HostPool.Id",
+	"id":    "description.HostPool.ID",
 	"name":  "description.HostPool.Name",
 	"tags":  "description.HostPool.Tags",
 	"title": "description.HostPool.Name",
@@ -33518,7 +34655,7 @@ func ListDesktopVirtualizationHostPool(ctx context.Context, d *plugin.QueryData,
 
 var getDesktopVirtualizationHostPoolFilters = map[string]string{
 	"akas":  "description.HostPool.ID",
-	"id":    "description.HostPool.Id",
+	"id":    "description.HostPool.ID",
 	"name":  "description.HostPool.Name",
 	"tags":  "description.HostPool.Tags",
 	"title": "description.HostPool.Name",
@@ -33636,10 +34773,10 @@ func (p DevTestLabLabPaginator) NextPage(ctx context.Context) ([]DevTestLabLab, 
 
 var listDevTestLabLabFilters = map[string]string{
 	"akas":  "description.Lab.ID",
-	"id":    "description.Lab.Id",
-	"name":  "description.Lab.Name",
-	"tags":  "description.Lab.Tags",
-	"title": "description.Lab.Name",
+	"id":    "description.Lab.ID",
+	"name":  "description.Lab.Properties.VaultName",
+	"tags":  "description.Lab.Properties.LabStorageType",
+	"title": "description.Lab.Properties.VaultName",
 }
 
 func ListDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -33674,10 +34811,10 @@ func ListDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 var getDevTestLabLabFilters = map[string]string{
 	"akas":  "description.Lab.ID",
-	"id":    "description.Lab.Id",
-	"name":  "description.Lab.Name",
-	"tags":  "description.Lab.Tags",
-	"title": "description.Lab.Name",
+	"id":    "description.Lab.ID",
+	"name":  "description.Lab.Properties.VaultName",
+	"tags":  "description.Lab.Properties.LabStorageType",
+	"title": "description.Lab.Properties.VaultName",
 }
 
 func GetDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -33792,7 +34929,7 @@ func (p PurviewAccountPaginator) NextPage(ctx context.Context) ([]PurviewAccount
 
 var listPurviewAccountFilters = map[string]string{
 	"akas":  "description.Account.ID",
-	"id":    "description.Account.Id",
+	"id":    "description.Account.ID",
 	"name":  "description.Account.Name",
 	"tags":  "description.Account.Tags",
 	"title": "description.Account.Name",
@@ -33830,7 +34967,7 @@ func ListPurviewAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 var getPurviewAccountFilters = map[string]string{
 	"akas":  "description.Account.ID",
-	"id":    "description.Account.Id",
+	"id":    "description.Account.ID",
 	"name":  "description.Account.Name",
 	"tags":  "description.Account.Tags",
 	"title": "description.Account.Name",
@@ -33947,8 +35084,8 @@ func (p PowerBIDedicatedCapacityPaginator) NextPage(ctx context.Context) ([]Powe
 }
 
 var listPowerBIDedicatedCapacityFilters = map[string]string{
-	"akas":  "description.Capacity.ID",
-	"id":    "description.Capacity.Id",
+	"akas":  "description.Capacity.SKU.Capacity",
+	"id":    "description.Capacity.ID",
 	"name":  "description.Capacity.Name",
 	"tags":  "description.Capacity.Tags",
 	"title": "description.Capacity.Name",
@@ -33985,8 +35122,8 @@ func ListPowerBIDedicatedCapacity(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getPowerBIDedicatedCapacityFilters = map[string]string{
-	"akas":  "description.Capacity.ID",
-	"id":    "description.Capacity.Id",
+	"akas":  "description.Capacity.SKU.Capacity",
+	"id":    "description.Capacity.ID",
 	"name":  "description.Capacity.Name",
 	"tags":  "description.Capacity.Tags",
 	"title": "description.Capacity.Name",
@@ -34024,3 +35161,209 @@ func GetPowerBIDedicatedCapacity(ctx context.Context, d *plugin.QueryData, _ *pl
 }
 
 // ==========================  END: PowerBIDedicatedCapacity =============================
+
+// ==========================  START: ApplicationInsightsComponent =============================
+
+type ApplicationInsightsComponent struct {
+	Description   azure.ApplicationInsightsComponentDescription `json:"description"`
+	Metadata      azure.Metadata                                `json:"metadata"`
+	ResourceJobID int                                           `json:"resource_job_id"`
+	SourceJobID   int                                           `json:"source_job_id"`
+	ResourceType  string                                        `json:"resource_type"`
+	SourceType    string                                        `json:"source_type"`
+	ID            string                                        `json:"id"`
+	ARN           string                                        `json:"arn"`
+	SourceID      string                                        `json:"source_id"`
+}
+
+type ApplicationInsightsComponentHit struct {
+	ID      string                       `json:"_id"`
+	Score   float64                      `json:"_score"`
+	Index   string                       `json:"_index"`
+	Type    string                       `json:"_type"`
+	Version int64                        `json:"_version,omitempty"`
+	Source  ApplicationInsightsComponent `json:"_source"`
+	Sort    []interface{}                `json:"sort"`
+}
+
+type ApplicationInsightsComponentHits struct {
+	Total essdk.SearchTotal                 `json:"total"`
+	Hits  []ApplicationInsightsComponentHit `json:"hits"`
+}
+
+type ApplicationInsightsComponentSearchResponse struct {
+	PitID string                           `json:"pit_id"`
+	Hits  ApplicationInsightsComponentHits `json:"hits"`
+}
+
+type ApplicationInsightsComponentPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewApplicationInsightsComponentPaginator(filters []essdk.BoolFilter, limit *int64) (ApplicationInsightsComponentPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_applicationinsights_components", filters, limit)
+	if err != nil {
+		return ApplicationInsightsComponentPaginator{}, err
+	}
+
+	p := ApplicationInsightsComponentPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ApplicationInsightsComponentPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ApplicationInsightsComponentPaginator) NextPage(ctx context.Context) ([]ApplicationInsightsComponent, error) {
+	var response ApplicationInsightsComponentSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ApplicationInsightsComponent
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listApplicationInsightsComponentFilters = map[string]string{
+	"akas":                                "description.Component.ID",
+	"app_id":                              "description.Component.Properties.AppID",
+	"application_type":                    "description.Component.Properties.ApplicationType",
+	"connection_string":                   "description.Component.Properties.ConnectionString",
+	"creation_date":                       "description.Component.Properties.CreationDate",
+	"disable_ip_masking":                  "description.Component.Properties.DisableIPMasking",
+	"disable_local_auth":                  "description.Component.Properties.DisableLocalAuth",
+	"etag":                                "description.Component.Etag",
+	"flow_type":                           "description.Component.Properties.FlowType",
+	"force_customer_storage_for_profiler": "description.Component.Properties.ForceCustomerStorageForProfiler",
+	"id":                                  "description.Component.ID",
+	"immediate_purge_data_on_30_days":     "description.Component.Properties.ImmediatePurgeDataOn30Days",
+	"ingestion_mode":                      "description.Component.Properties.IngestionMode",
+	"instrumentation_key":                 "description.Component.Properties.InstrumentationKey",
+	"kind":                                "description.Component.Kind",
+	"name":                                "description.Component.Name",
+	"private_link_scoped_resources":       "description.Component.Properties.PrivateLinkScopedResources",
+	"provisioning_state":                  "description.Component.Properties.ProvisioningState",
+	"public_network_access_for_ingestion": "description.Component.Properties.PublicNetworkAccessForIngestion",
+	"public_network_access_for_query":     "description.Component.Properties.PublicNetworkAccessForQuery",
+	"region":                              "description.Component.Location",
+	"request_source":                      "description.Component.Properties.RequestSource",
+	"resource_group":                      "description.ResourceGroup",
+	"retention_in_days":                   "description.Component.Properties.RetentionInDays",
+	"sampling_percentage":                 "description.Component.Properties.SamplingPercentage",
+	"tags":                                "description.Component.Tags",
+	"tenant_id":                           "description.Component.Properties.TenantID",
+	"title":                               "description.Component.Name",
+	"type":                                "description.Component.Type",
+	"workspace_resource_id":               "description.Component.Properties.WorkspaceResourceID",
+}
+
+func ListApplicationInsightsComponent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListApplicationInsightsComponent")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewApplicationInsightsComponentPaginator(essdk.BuildFilter(d.EqualsQuals, listApplicationInsightsComponentFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getApplicationInsightsComponentFilters = map[string]string{
+	"akas":                                "description.Component.ID",
+	"app_id":                              "description.Component.Properties.AppID",
+	"application_type":                    "description.Component.Properties.ApplicationType",
+	"connection_string":                   "description.Component.Properties.ConnectionString",
+	"creation_date":                       "description.Component.Properties.CreationDate",
+	"disable_ip_masking":                  "description.Component.Properties.DisableIPMasking",
+	"disable_local_auth":                  "description.Component.Properties.DisableLocalAuth",
+	"etag":                                "description.Component.Etag",
+	"flow_type":                           "description.Component.Properties.FlowType",
+	"force_customer_storage_for_profiler": "description.Component.Properties.ForceCustomerStorageForProfiler",
+	"id":                                  "description.Component.ID",
+	"immediate_purge_data_on_30_days":     "description.Component.Properties.ImmediatePurgeDataOn30Days",
+	"ingestion_mode":                      "description.Component.Properties.IngestionMode",
+	"instrumentation_key":                 "description.Component.Properties.InstrumentationKey",
+	"kind":                                "description.Component.Kind",
+	"name":                                "description.Component.Name",
+	"private_link_scoped_resources":       "description.Component.Properties.PrivateLinkScopedResources",
+	"provisioning_state":                  "description.Component.Properties.ProvisioningState",
+	"public_network_access_for_ingestion": "description.Component.Properties.PublicNetworkAccessForIngestion",
+	"public_network_access_for_query":     "description.Component.Properties.PublicNetworkAccessForQuery",
+	"region":                              "description.Component.Location",
+	"request_source":                      "description.Component.Properties.RequestSource",
+	"resource_group":                      "description.ResourceGroup",
+	"retention_in_days":                   "description.Component.Properties.RetentionInDays",
+	"sampling_percentage":                 "description.Component.Properties.SamplingPercentage",
+	"tags":                                "description.Component.Tags",
+	"tenant_id":                           "description.Component.Properties.TenantID",
+	"title":                               "description.Component.Name",
+	"type":                                "description.Component.Type",
+	"workspace_resource_id":               "description.Component.Properties.WorkspaceResourceID",
+}
+
+func GetApplicationInsightsComponent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetApplicationInsightsComponent")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewApplicationInsightsComponentPaginator(essdk.BuildFilter(d.EqualsQuals, getApplicationInsightsComponentFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ApplicationInsightsComponent =============================

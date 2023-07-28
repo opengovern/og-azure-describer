@@ -6,7 +6,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/privatedns/armprivatedns"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"strings"
@@ -15,11 +15,10 @@ import (
 )
 
 func NetworkInterface(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewInterfacesClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewInterfacesClient()
 
 	pager := client.NewListAllPager(nil)
 	var values []Resource
@@ -60,12 +59,14 @@ func getNetworkInterface(ctx context.Context, v *armnetwork.Interface) *Resource
 }
 
 func NetworkWatcherFlowLog(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	logsClient, err := armnetwork.NewFlowLogsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	logsClient := clientFactory.NewFlowLogsClient()
-	watcherClient := clientFactory.NewWatchersClient()
+	watcherClient, err := armnetwork.NewWatchersClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
 
 	pager := watcherClient.NewListAllPager(nil)
 	var values []Resource
@@ -130,12 +131,14 @@ func getWatcherFlowLog(ctx context.Context, watcher *armnetwork.Watcher, v *armn
 }
 
 func Subnet(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	subnetsClient, err := armnetwork.NewSubnetsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	subnetsClient := clientFactory.NewSubnetsClient()
-	virtualnetworkClient := clientFactory.NewVirtualNetworksClient()
+	virtualnetworkClient, err := armnetwork.NewVirtualNetworksClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
 
 	pager := virtualnetworkClient.NewListAllPager(nil)
 	var values []Resource
@@ -200,11 +203,10 @@ func getVirtualNetworkSubnet(ctx context.Context, virtualnetwork *armnetwork.Vir
 }
 
 func VirtualNetwork(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewVirtualNetworksClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewVirtualNetworksClient()
 
 	pager := client.NewListAllPager(nil)
 	var values []Resource
@@ -246,11 +248,10 @@ func getVirtualNetwork(ctx context.Context, v *armnetwork.VirtualNetwork) *Resou
 }
 
 func ApplicationGateway(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewApplicationGatewaysClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewApplicationGatewaysClient()
 
 	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
@@ -311,11 +312,10 @@ func getApplicationGateway(ctx context.Context, diagnosticClient *armmonitor.Dia
 }
 
 func NetworkSecurityGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewSecurityGroupsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewSecurityGroupsClient()
 
 	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
@@ -382,11 +382,10 @@ func getNetworkSecurityGroup(ctx context.Context, diagnosticClient *armmonitor.D
 }
 
 func NetworkWatcher(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewWatchersClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewWatchersClient()
 
 	pager := client.NewListAllPager(nil)
 	var values []Resource
@@ -428,11 +427,10 @@ func getNetworkWatcher(ctx context.Context, networkWatcher *armnetwork.Watcher) 
 }
 
 func RouteTables(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewRouteTablesClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewRouteTablesClient()
 
 	pager := client.NewListAllPager(nil)
 	var values []Resource
@@ -473,11 +471,10 @@ func getRouteTable(ctx context.Context, routeTable *armnetwork.RouteTable) *Reso
 }
 
 func NetworkApplicationSecurityGroups(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewApplicationSecurityGroupsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewApplicationSecurityGroupsClient()
 
 	pager := client.NewListAllPager(nil)
 	var values []Resource
@@ -519,11 +516,10 @@ func getApplicationSecurityGroup(ctx context.Context, applicationSecurityGroup *
 }
 
 func NetworkAzureFirewall(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewAzureFirewallsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewAzureFirewallsClient()
 
 	pager := client.NewListAllPager(nil)
 	var values []Resource
@@ -565,11 +561,10 @@ func getAzureFirewall(ctx context.Context, azureFirewall *armnetwork.AzureFirewa
 }
 
 func ExpressRouteCircuit(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewExpressRouteCircuitsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewExpressRouteCircuitsClient()
 
 	pager := client.NewListAllPager(nil)
 	var values []Resource
@@ -610,11 +605,10 @@ func getExpressRouteCircuit(ctx context.Context, expressRouteCircuit *armnetwork
 }
 
 func VirtualNetworkGateway(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewVirtualNetworkGatewaysClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewVirtualNetworkGatewaysClient()
 
 	rgs, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
@@ -689,11 +683,10 @@ func getVirtualNetworkGateway(ctx context.Context, client *armnetwork.VirtualNet
 }
 
 func FirewallPolicy(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewFirewallPoliciesClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewFirewallPoliciesClient()
 
 	pager := client.NewListAllPager(nil)
 	var values []Resource
@@ -735,11 +728,10 @@ func getFirewallPolicy(ctx context.Context, firewallPolicy *armnetwork.FirewallP
 }
 
 func LocalNetworkGateway(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewLocalNetworkGatewaysClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewLocalNetworkGatewaysClient()
 
 	rgs, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
@@ -800,11 +792,10 @@ func getLocalNetworkGateway(ctx context.Context, localNetworkGateway *armnetwork
 }
 
 func NatGateway(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewNatGatewaysClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewNatGatewaysClient()
 
 	rgs, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
@@ -865,11 +856,10 @@ func getNatGateway(ctx context.Context, natGateway *armnetwork.NatGateway) *Reso
 }
 
 func PrivateLinkService(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewPrivateLinkServicesClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewPrivateLinkServicesClient()
 
 	rgs, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
@@ -930,11 +920,10 @@ func getPrivateLinkService(ctx context.Context, privateLinkService *armnetwork.P
 }
 
 func RouteFilter(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewRouteFiltersClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewRouteFiltersClient()
 
 	var values []Resource
 	pager := client.NewListPager(nil)
@@ -976,11 +965,10 @@ func getRouteFilter(ctx context.Context, routeFilter *armnetwork.RouteFilter) *R
 }
 
 func VpnGateway(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewVPNGatewaysClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewVPNGatewaysClient()
 
 	var values []Resource
 	pager := client.NewListPager(nil)
@@ -1022,12 +1010,14 @@ func getVpnGateway(ctx context.Context, vpnGateway *armnetwork.VPNGateway) *Reso
 }
 
 func NetworkVpnGatewaysVpnConnections(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewVPNGatewaysClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewVPNGatewaysClient()
-	connClient := clientFactory.NewVPNConnectionsClient()
+	connClient, err := armnetwork.NewVPNConnectionsClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
 
 	var values []Resource
 	pager := client.NewListPager(nil)
@@ -1093,11 +1083,10 @@ func getNetworkVpnGatewaysVpnConnections(ctx context.Context, vpnGateway *armnet
 }
 
 func NetworkVpnGatewaysVpnSites(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewVPNSitesClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewVPNSitesClient()
 
 	var values []Resource
 	pager := client.NewListPager(nil)
@@ -1133,11 +1122,10 @@ func getNetworkVpnGatewaysVpnSites(ctx context.Context, v *armnetwork.VPNSite) *
 }
 
 func PublicIPAddress(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewPublicIPAddressesClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewPublicIPAddressesClient()
 
 	resourceGroups, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
@@ -1195,11 +1183,10 @@ func getPublicIPAddress(ctx context.Context, resourceGroup armresources.Resource
 }
 
 func PublicIPPrefix(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewPublicIPPrefixesClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewPublicIPPrefixesClient()
 
 	resourceGroups, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
@@ -1353,11 +1340,10 @@ func GetPrivateDnsZone(ctx context.Context, privateZone *armprivatedns.PrivateZo
 }
 
 func PrivateEndpoints(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewPrivateEndpointsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewPrivateEndpointsClient()
 
 	resourceGroups, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
@@ -1416,11 +1402,10 @@ func GetPrivateEndpoint(ctx context.Context, resourceGroup armresources.Resource
 }
 
 func NetworkBastionHosts(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewBastionHostsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewBastionHostsClient()
 
 	var values []Resource
 	pager := client.NewListPager(nil)
@@ -1461,11 +1446,10 @@ func GetBastionHost(ctx context.Context, v *armnetwork.BastionHost) *Resource {
 }
 
 func NetworkConnections(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewVirtualNetworkGatewayConnectionsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewVirtualNetworkGatewayConnectionsClient()
 
 	resourceGroups, err := listResourceGroups(ctx, cred, subscription)
 	if err != nil {
@@ -1525,11 +1509,10 @@ func GetNetworkConnection(ctx context.Context, resourceGroup armresources.Resour
 }
 
 func NetworkVirtualHubs(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewVirtualHubsClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewVirtualHubsClient()
 
 	pager := client.NewListPager(nil)
 	var values []Resource
@@ -1570,11 +1553,10 @@ func GetNetworkVirtualHub(ctx context.Context, v *armnetwork.VirtualHub) *Resour
 }
 
 func NetworkVirtualWans(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewVirtualWansClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewVirtualWansClient()
 
 	pager := client.NewListPager(nil)
 	var values []Resource
@@ -1614,11 +1596,10 @@ func GetNetworkVirtualWan(ctx context.Context, v *armnetwork.VirtualWAN) *Resour
 }
 
 func NetworkDDoSProtectionPlan(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewDdosProtectionPlansClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewDdosProtectionPlansClient()
 
 	pager := client.NewListPager(nil)
 	var values []Resource

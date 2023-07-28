@@ -61,6 +61,14 @@ func KeyVaultSecret(ctx context.Context, cred *azidentity.ClientSecretCredential
 							"Akas":           akas,
 						}
 
+						name := *vault.Name
+						resourceGroup := strings.Split(*vault.ID, "/")[4]
+
+						keyVaultGetOp, err := vaultsClient.Get(ctx, resourceGroup, name, nil)
+						if err != nil {
+							return nil, err
+						}
+
 						resource := Resource{
 							ID:       *sc.ID,
 							Name:     *sc.ID,
@@ -68,6 +76,7 @@ func KeyVaultSecret(ctx context.Context, cred *azidentity.ClientSecretCredential
 							Description: JSONAllFieldsMarshaller{
 								model.KeyVaultSecretDescription{
 									SecretItem:    *sc,
+									Vault:         keyVaultGetOp.Vault,
 									TurboData:     turbotData,
 									ResourceGroup: *rg.Name,
 								},
