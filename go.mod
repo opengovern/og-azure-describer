@@ -274,9 +274,3 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/apimachinery v0.25.3 // indirect
 )
-
-replace github.com/kaytu-io/kaytu-util => /home/arta/data/codes/Work/Kaytu/kaytu-util
-
-replace github.com/kaytu-io/steampipe-plugin-azure => /home/arta/data/codes/Work/Kaytu/steampipe-plugin-compare/steampipe-plugin-azure-kaytu
-
-replace github.com/kaytu-io/steampipe-plugin-azuread => /home/arta/data/codes/Work/Kaytu/steampipe-plugin-compare/steampipe-plugin-azuread-kaytu

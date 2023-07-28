@@ -371,9 +371,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"Microsoft.Automation/automationVariables": {
+	"Microsoft.Automation/AutomationVariables": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Automation/automationVariables",
+		ResourceName:         "Microsoft.Automation/AutomationVariables",
 		ResourceLabel:        "Automation Variables",
 		Tags:                 map[string][]string{"category": {"Management & Governance"}},
 		ServiceName:          "Automation",
@@ -381,8 +381,8 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_automation_variable_string", "azurerm_automation_variable_int", "azurerm_automation_variable_datetime", "azurerm_automation_variable_bool"},
 		TerraformServiceName: "automation",
-		FastDiscovery:        true,
-		Summarize:            true,
+		FastDiscovery:        false,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/dnsZones": {
@@ -471,7 +471,7 @@ var resourceTypes = map[string]ResourceType{
 
 	"Microsoft.Web/staticSitesSlot": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Web/staticSites",
+		ResourceName:         "Microsoft.Web/staticSitesSlot",
 		ResourceLabel:        "Static Web App Slots",
 		Tags:                 map[string][]string{"category": {"PaaS"}},
 		ServiceName:          "Web",
@@ -861,9 +861,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"microsoft.hybridcontainerservice/customLocations/orchestrators": {
+	"Microsoft.HybridContainerService/CustomLocations/Orchestrators": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "microsoft.hybridcontainerservice/customLocations/orchestrators",
+		ResourceName:         "Microsoft.HybridContainerService/CustomLocations/Orchestrators",
 		ResourceLabel:        "Kubernetes Service Version",
 		Tags:                 map[string][]string{"category": {"Container"}},
 		ServiceName:          "ContainerService",
@@ -871,8 +871,8 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "containers",
-		FastDiscovery:        true,
-		Summarize:            true,
+		FastDiscovery:        false,
+		Summarize:            false,
 	},
 
 	"Microsoft.DataFactory/factories": {
@@ -1935,8 +1935,8 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_cosmosdb_restorable_database_accounts"},
 		TerraformServiceName: "cosmos",
-		FastDiscovery:        true,
-		Summarize:            true,
+		FastDiscovery:        false,
+		Summarize:            false,
 	},
 
 	"Microsoft.Network/applicationGateways": {
