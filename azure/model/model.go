@@ -6,6 +6,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/analysisservices/armanalysisservices"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/applicationinsights/armapplicationinsights"
 	appservice "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation"
@@ -17,7 +18,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerinstance/armcontainerinstance"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerregistry/armcontainerregistry"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/databoxedge/armdataboxedge"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/databricks/armdatabricks"
@@ -37,9 +38,11 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hdinsight/armhdinsight"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/healthcareapis/armhealthcareapis"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridcompute/armhybridcompute"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridcontainerservice/armhybridcontainerservice"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridkubernetes/armhybridkubernetes"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kubernetesconfiguration/armkubernetesconfiguration"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/logic/armlogic"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearningservices/armmachinelearningservices"
@@ -49,7 +52,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysql"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysqlflexibleservers"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/netapp/armnetapp/v2"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresql"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresqlflexibleservers"
@@ -78,8 +81,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/synapse/armsynapse"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/timeseriesinsights/armtimeseriesinsights"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/virtualmachineimagebuilder/armvirtualmachineimagebuilder"
-	"github.com/Azure/azure-sdk-for-go/services/frontdoor/mgmt/2020-05-01/frontdoor"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/mgmt/2022-10-01-preview/insights"
 	"github.com/Azure/azure-sdk-for-go/services/preview/web/mgmt/2015-08-01-preview/web"
 	azblobOld "github.com/Azure/azure-storage-blob-go/azblob"
 	"github.com/manicminer/hamilton/msgraph"
@@ -113,6 +114,13 @@ type APIManagementDescription struct {
 //index:microsoft_automation_automationAccounts
 type AutomationAccountsDescription struct {
 	Automation    armautomation.Account
+	ResourceGroup string
+}
+
+//index:microsoft_automation_automationVariables
+type AutomationVariablesDescription struct {
+	Automation    armautomation.Variable
+	AccountName   string
 	ResourceGroup string
 }
 
@@ -154,8 +162,15 @@ type AppServiceWebAppDescription struct {
 	Site               appservice.Site
 	SiteAuthSettings   appservice.SiteAuthSettings
 	SiteConfigResource appservice.SiteConfigResource
+	SiteLogConfig      appservice.SiteLogsConfig
 	VnetInfo           appservice.VnetInfoResource
 	ResourceGroup      string
+}
+
+type AppServiceWebAppSlotDescription struct {
+	Site          appservice.Site
+	AppName       string
+	ResourceGroup string
 }
 
 //index:microsoft_web_plan
@@ -371,6 +386,17 @@ type KeyVaultKeyDescription struct {
 	ResourceGroup string
 }
 
+//index:microsoft_keyvault_vaults_keys_versions
+//getfilter:vault_name=description.Vault.name
+//getfilter:name=description.Version.name
+//getfilter:resource_group=description.ResourceGroup
+type KeyVaultKeyVersionDescription struct {
+	Vault         armkeyvault.Resource
+	Key           armkeyvault.Key
+	Version       armkeyvault.Key
+	ResourceGroup string
+}
+
 //  =================== containerservice ==================
 
 //index:microsoft_containerservice_managedclusters
@@ -379,6 +405,14 @@ type KeyVaultKeyDescription struct {
 type KubernetesClusterDescription struct {
 	ManagedCluster armcontainerservice.ManagedCluster
 	ResourceGroup  string
+}
+
+//index:microsoft_containerservice_serviceversion
+//getfilter:name=description.Orchestrator.name
+//getfilter:resource_group=description.ResourceGroup
+type KubernetesServiceVersionDescription struct {
+	Orchestrator  armhybridcontainerservice.OrchestratorVersionProfile
+	ResourceGroup string
 }
 
 //  =================== containerinstance ==================
@@ -483,7 +517,7 @@ type FirewallPolicyDescription struct {
 //getfilter:name=description.WebApplicationFirewallPolicy.Name
 //getfilter:resource_group=description.ResourceGroup
 type FrontdoorWebApplicationFirewallPolicyDescription struct { // TODO: Implement describer func
-	WebApplicationFirewallPolicy frontdoor.WebApplicationFirewallPolicy
+	WebApplicationFirewallPolicy armfrontdoor.WebApplicationFirewallPolicy
 	ResourceGroup                string
 }
 
@@ -612,6 +646,7 @@ type NetworkDDoSProtectionPlanDescription struct {
 //getfilter:name=description.Assignment.name
 type PolicyAssignmentDescription struct {
 	Assignment armpolicy.Assignment
+	Resource   armresources.GenericResource
 }
 
 //  =================== redis ==================
@@ -843,7 +878,7 @@ type BatchAccountDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type CognitiveAccountDescription struct {
 	Account                     armcognitiveservices.Account
-	DiagnosticSettingsResources *[]insights.DiagnosticSettingsResource
+	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
 
@@ -909,6 +944,14 @@ type CosmosdbAccountDescription struct {
 	ResourceGroup             string
 }
 
+//index:microsoft_documentdb_restorabledatabaseaccounts
+//getfilter:name=description.Account.Name
+//getfilter:resource_group=description.ResourceGroup
+type CosmosdbRestorableDatabaseAccountDescription struct {
+	Account       armcosmos.RestorableDatabaseAccountGetResult
+	ResourceGroup string
+}
+
 //index:microsoft_documentdb_mongodatabases
 //getfilter:account_name=description.Account.name
 //getfilter:name=description.MongoDatabase.name
@@ -917,6 +960,18 @@ type CosmosdbMongoDatabaseDescription struct {
 	Account       armcosmos.DatabaseAccountGetResults
 	MongoDatabase armcosmos.MongoDBDatabaseGetResults
 	ResourceGroup string
+}
+
+//index:microsoft_documentdb_mongocollections
+//getfilter:account_name=description.Account.name
+//getfilter:name=description.MongoCollection.name
+//getfilter:resource_group=description.ResourceGroup
+type CosmosdbMongoCollectionDescription struct {
+	Account         armcosmos.DatabaseAccountGetResults
+	MongoDatabase   armcosmos.MongoDBDatabaseGetResults
+	MongoCollection armcosmos.MongoDBCollectionGetResults
+	Throughput      armcosmos.ThroughputSettingsGetResults
+	ResourceGroup   string
 }
 
 //index:microsoft_documentdb_sqldatabases
@@ -1183,6 +1238,7 @@ type KeyVaultManagedHardwareSecurityModuleDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type KeyVaultSecretDescription struct {
 	SecretItem    armkeyvault.Secret
+	Vault         armkeyvault.Vault
 	TurboData     map[string]interface{}
 	ResourceGroup string
 }
@@ -1631,8 +1687,9 @@ type StorageAccountDescription struct {
 //getfilter:name=description.Vault.Name
 //getfilter:resource_group=description.ResourceGroup
 type RecoveryServicesVaultDescription struct {
-	Vault         armrecoveryservices.Vault
-	ResourceGroup string
+	Vault                      armrecoveryservices.Vault
+	DiagnosticSettingsResource []*armmonitor.DiagnosticSettingsResource
+	ResourceGroup              string
 }
 
 //  =================== kubernetes ==================
@@ -1641,8 +1698,9 @@ type RecoveryServicesVaultDescription struct {
 //getfilter:name=description.ConnectedCluster.Name
 //getfilter:resource_group=description.ResourceGroup
 type HybridKubernetesConnectedClusterDescription struct {
-	ConnectedCluster armhybridkubernetes.ConnectedCluster
-	ResourceGroup    string
+	ConnectedCluster           armhybridkubernetes.ConnectedCluster
+	ConnectedClusterExtensions []*armkubernetesconfiguration.Extension
+	ResourceGroup              string
 }
 
 //  =================== Cost ==================
@@ -1731,7 +1789,7 @@ type LoadBalancerRuleDescription struct {
 //index:microsoft_management_groups
 //getfilter:name=description.Group.Name
 type ManagementGroupDescription struct {
-	Group armmanagementgroups.ManagementGroupInfo
+	Group armmanagementgroups.ManagementGroup
 }
 
 //index:microsoft_management_locks
@@ -1800,5 +1858,12 @@ type PurviewAccountDescription struct {
 
 type PowerBIDedicatedCapacityDescription struct {
 	Capacity      armpowerbidedicated.DedicatedCapacity
+	ResourceGroup string
+}
+
+// =================== applicationInsights =================
+
+type ApplicationInsightsComponentDescription struct {
+	Component     armapplicationinsights.Component
 	ResourceGroup string
 }

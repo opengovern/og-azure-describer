@@ -154,7 +154,7 @@ func List{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(d.KeyColumnQuals, list{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(d.EqualsQuals, list{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -191,7 +191,7 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(d.KeyColumnQuals, get{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID), &limit)
+	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(d.EqualsQuals, get{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -347,7 +347,7 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		import (
 			"context"
 			essdk "github.com/kaytu-io/kaytu-util/pkg/keibi-es-sdk"
-			"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+			"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 			`+*sourceType+` "github.com/kaytu-io/kaytu-`+*sourceType+`-describer/`+*sourceType+`/model"
 		)
 
