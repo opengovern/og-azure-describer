@@ -45,7 +45,7 @@ type ResourceType struct {
 }
 
 func main() {
-	rt := "../../../../kaytu-deploy/keibi/inventory-data/azure-resource-types.json"
+	rt := "../../../kaytu-deploy/keibi/inventory-data/azure-resource-types.json"
 	b, err := os.ReadFile(rt)
 	if err != nil {
 		panic(err)
@@ -273,11 +273,11 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 					index = strings.ToLower(index)
 					s.Index = index
 
-					plugin := "steampipe-plugin-azure-kaytu/azure"
+					plugin := "steampipe-plugin-azure/azure"
 					if strings.HasPrefix(resourceType.SteampipeTable, "azuread") {
-						plugin = "steampipe-plugin-azuread-kaytu/azuread"
+						plugin = "steampipe-plugin-azuread/azuread"
 					}
-					fileName := "../../../../steampipe-plugin-compare/" + plugin + "/table_" + resourceType.SteampipeTable + ".go"
+					fileName := "../../../" + plugin + "/table_" + resourceType.SteampipeTable + ".go"
 					tableFileSet := token.NewFileSet()
 					tableNode, err := parser.ParseFile(tableFileSet, fileName, nil, parser.ParseComments)
 					if err != nil {
