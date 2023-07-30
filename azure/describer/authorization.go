@@ -3,7 +3,7 @@ package describer
 import (
 	"context"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armpolicy"
 	"strings"
 
@@ -15,7 +15,7 @@ func RoleAssignment(ctx context.Context, cred *azidentity.ClientSecretCredential
 	if err != nil {
 		return nil, err
 	}
-	pager := client.NewListPager(nil)
+	pager := client.NewListForSubscriptionPager(nil)
 	var values []Resource
 	for pager.More() {
 		page, err := pager.NextPage(ctx)

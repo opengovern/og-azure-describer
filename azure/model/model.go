@@ -8,7 +8,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/applicationinsights/armapplicationinsights"
 	appservice "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/batch/armbatch"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/blueprint/armblueprint"
@@ -929,7 +929,7 @@ type ComputeCloudServiceDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type ContainerRegistryDescription struct {
 	Registry                      armcontainerregistry.Registry
-	RegistryListCredentialsResult armcontainerregistry.RegistryListCredentialsResult
+	RegistryListCredentialsResult *armcontainerregistry.RegistryListCredentialsResult
 	RegistryUsages                []*armcontainerregistry.RegistryUsage
 	ResourceGroup                 string
 }
@@ -1593,6 +1593,7 @@ type SqlDatabaseDescription struct {
 	TransparentDataEncryption          []*armsql.LogicalDatabaseTransparentDataEncryption
 	DatabaseVulnerabilityAssessments   []*armsql.DatabaseVulnerabilityAssessment
 	VulnerabilityAssessmentScanRecords []*armsql.VulnerabilityAssessmentScanRecord
+	Advisors                           []*armsql.Advisor
 	ResourceGroup                      string
 }
 
@@ -1638,6 +1639,7 @@ type SqlVirtualClustersDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type SqlServerElasticPoolDescription struct {
 	Pool          armsql.ElasticPool
+	TotalDTU      int32
 	ServerName    string
 	ResourceGroup string
 }

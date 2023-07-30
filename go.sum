@@ -208,8 +208,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/applicationinsights/armapp
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/applicationinsights/armapplicationinsights v1.1.1/go.mod h1:uxknLoFj+nBXpfGngz0B4ciNur04Y0EX4AREpy2GIvk=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice v1.0.0 h1:kRX8I0dWAcpW6Vq0m90CgV+qw4O1vXodgwrhoPr1RWs=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice v1.0.0/go.mod h1:avvc5/7qR4taCvAhOM7KFXuEHhAU0Wek9YX7sh9H3EM=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization v1.0.0 h1:qtRcg5Y7jNJ4jEzPq4GpWLfTspHdNe2ZK6LjwGcjgmU=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization v1.0.0/go.mod h1:lPneRe3TwsoDRKY4O6YDLXHhEWrD+TIRa8XrV/3/fqw=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2 v2.1.1 h1:6A4M8smF+y8nM/DYsLNQz9n7n2ZGaEVqfz8ZWQirQkI=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2 v2.1.1/go.mod h1:WqyxV5S0VtXD2+2d6oPqOvyhGubCvzLCKSAKgQ004Uk=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation v0.8.1 h1:X8ju/dwzy4fNFXpjvTId9Z2zDnWl8QqhZ2OdTOMucVI=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation v0.8.1/go.mod h1:89x2rv5BldGtKBj8vjprGdkABDwAaHhvZb2KO+pbkHI=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/batch/armbatch v1.2.1 h1:IdXgoDe3cTMEGXpaW1Y9sLNRhY4iy0Ul2rXGRfMlWLI=
@@ -345,6 +345,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr v1.1.1 
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr v1.1.1/go.mod h1:ZwgPLPucO/eU8bqKMrPFeuRoErGQhsrv+kqE2I0qpYM=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql v1.1.0 h1:G2MvNS98bjXD7Vks+psbTU/uBiBH7gicij12Xc8q6lM=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql v1.1.0/go.mod h1:f/IvRlQ/eFP31UXVUwh3BzTOOC2cEo6/u+7g9+KTzPk=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql/v2 v2.0.0-beta.1 h1:HMcfPh2XJgerxabXmq7LwPvxvO9t5KjdWClCVbIMymI=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql/v2 v2.0.0-beta.1/go.mod h1:tanHh56D2YnncSErUli2HiDnQb4/7qNgAA2FBepR6kc=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sqlvirtualmachine/armsqlvirtualmachine v0.9.0 h1:eqDvuH51BlAL5NqTV/aD+u/kCU55upDf8ptwD9NyC68=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sqlvirtualmachine/armsqlvirtualmachine v0.9.0/go.mod h1:nFd39XVeurZf/5UDBV2dzP/sKL84xBKFJq1fMw6u+fI=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage v1.3.0 h1:LcJtQjCXJUm1s7JpUHZvu+bpgURhCatxVNbGADXniX0=
@@ -805,10 +807,10 @@ github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/X
 github.com/jtolds/gls v4.20.0+incompatible h1:xdiiI2gbIgH/gLH7ADydsJ1uDOEzR8yvV7C0MuV77Wo=
 github.com/kaytu-io/kaytu-util v0.0.0-20230730070339-96d3af2ad17d h1:FLpn7bltotPnJydMdh8uUijXt2mFzRTURRnoDaBNyzk=
 github.com/kaytu-io/kaytu-util v0.0.0-20230730070339-96d3af2ad17d/go.mod h1:8nqEFGMSX/jTQNn2MmURj9RRaWlyNWDEeHUKYxf4uK8=
-github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230723115422-00dc0c0cb060 h1:bEx8DMwvMvB2/3matxAbIl/hClXq9vKwNUzKhC2K7oY=
-github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230723115422-00dc0c0cb060/go.mod h1:nrcQREBusJS80xIU27gQTQe6GqDyKH9zDqE53yUkZgs=
-github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230718082348-6a343a735488 h1:gURJ7KAqROZRQ/h5sEbOBPqoiAeeo52/PaEMZSUV+Kw=
-github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230718082348-6a343a735488/go.mod h1:3Qi56gRCA69UY+WcUWjPQeDeKMynBpCFfjN7/qHwYtQ=
+github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230730080940-69744a43099f h1:pKdmBwu/P2Iom1FHr75NRvHabdOljv88u0YrF6izdqk=
+github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230730080940-69744a43099f/go.mod h1:WDj0Zu6i3jQYnLk0jkTQDlEyUnrgs6vbH2a1maZLAnk=
+github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230730082837-568395d9ee17 h1:pzURJidkRO/87uhnESp/hq5TMnQfdiXuKOoSi3PYA1w=
+github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230730082837-568395d9ee17/go.mod h1:FeU74ae7DYXP7ay72OwE1cPpFVPAEzT4OOnd/XyxE3Y=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/klauspost/compress v1.15.11 h1:Lcadnb3RKGin4FYM/orgq0qde+nc15E5Cbqg4B9Sx9c=
@@ -986,8 +988,6 @@ github.com/tombuildsstuff/giovanni v0.18.0 h1:AiSnRtD+yUBS9STKjOsi1pmkBHnNRsLCsp
 github.com/tombuildsstuff/giovanni v0.18.0/go.mod h1:66KVLYma2whJhEdxPSPL3GQHkulhK+C5CluKfHGfPF4=
 github.com/turbot/go-kit v0.6.0 h1:X+dzxuGmlOhayJ9OE8K9m1MpJ3zlSWK8s/J9rsgmc94=
 github.com/turbot/go-kit v0.6.0/go.mod h1:QIOX91BIxQ/1JEtM4rIHWDito3c3GUP2Z+dUT5F6z94=
-github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13 h1:Kd/mWD2klqCnwCDwlQ4sTHuRrud28TAac6buM1uo86o=
-github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13/go.mod h1:t1uwq6KylUr2CzIinxeTafoktJvX8yWmhaoWCJJc4YI=
 github.com/turbot/steampipe-plugin-sdk/v5 v5.5.0 h1:a6sgeHUcATGJJ6rDn4S27WCr5DHrVH7dlattLW4h+ek=
 github.com/turbot/steampipe-plugin-sdk/v5 v5.5.0/go.mod h1:HH2yeMCo0nOajYnH3Oh+alEH/8iSji5m5t+o1ezfrRs=
 github.com/ulikunitz/xz v0.5.10 h1:t92gobL9l3HE202wg3rlk19F6X+JOxl9BBrCCMYEYd8=

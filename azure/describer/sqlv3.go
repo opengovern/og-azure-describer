@@ -281,6 +281,7 @@ func SqlServerElasticPool(ctx context.Context, cred *azidentity.ClientSecretCred
 
 	client := clientFactory.NewServersClient()
 	elasticPoolClient := clientFactory.NewElasticPoolsClient()
+	activityClient := clientFactory.NewElasticPoolActivitiesClient()
 
 	var values []Resource
 	pager := client.NewListPager(nil)
@@ -290,7 +291,7 @@ func SqlServerElasticPool(ctx context.Context, cred *azidentity.ClientSecretCred
 			return nil, err
 		}
 		for _, server := range page.Value {
-			resources, err := ListSqlServerElasticPools(ctx, elasticPoolClient, server)
+			resources, err := ListSqlServerElasticPools(ctx, elasticPoolClient, activityClient, server)
 			if err != nil {
 				return nil, err
 			}
@@ -308,7 +309,7 @@ func SqlServerElasticPool(ctx context.Context, cred *azidentity.ClientSecretCred
 	return values, nil
 }
 
-func ListSqlServerElasticPools(ctx context.Context, elasticPoolClient *armsql.ElasticPoolsClient, server *armsql.Server) ([]Resource, error) {
+func ListSqlServerElasticPools(ctx context.Context, elasticPoolClient *armsql.ElasticPoolsClient, activityClient *armsql.ElasticPoolActivitiesClient, server *armsql.Server) ([]Resource, error) {
 	serverResourceGroup := strings.Split(string(*server.ID), "/")[4]
 
 	var values []Resource
@@ -319,28 +320,44 @@ func ListSqlServerElasticPools(ctx context.Context, elasticPoolClient *armsql.El
 			return nil, err
 		}
 		for _, v := range page.Value {
-			resource := GetSqlServerElasticPool(ctx, server, v)
+			resource, err := GetSqlServerElasticPool(ctx, server, activityClient, v)
+			if err != nil {
+				return nil, err
+			}
 			values = append(values, *resource)
 		}
 	}
 	return values, nil
 }
 
-func GetSqlServerElasticPool(ctx context.Context, server *armsql.Server, elasticPool *armsql.ElasticPool) *Resource {
+func GetSqlServerElasticPool(ctx context.Context, server *armsql.Server, activityClient *armsql.ElasticPoolActivitiesClient, elasticPool *armsql.ElasticPool) (*Resource, error) {
 	resourceGroup := strings.Split(string(*elasticPool.ID), "/")[4]
+
+	var totalDTU int32
+	pager := activityClient.NewListByElasticPoolPager(resourceGroup, *server.Name, *elasticPool.Name, nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			totalDTU = totalDTU + *v.Properties.RequestedDtu
+		}
+	}
 	resource := Resource{
 		ID:       *elasticPool.ID,
 		Name:     *elasticPool.Name,
 		Location: *elasticPool.Location,
 		Description: JSONAllFieldsMarshaller{
 			model.SqlServerElasticPoolDescription{
+				TotalDTU:      totalDTU,
 				Pool:          *elasticPool,
 				ServerName:    *server.Name,
 				ResourceGroup: resourceGroup,
 			},
 		},
 	}
-	return &resource
+	return &resource, nil
 }
 
 func SqlServerVirtualMachine(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
