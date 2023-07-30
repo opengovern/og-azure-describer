@@ -285,8 +285,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto v1.3.1 h1:i
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto v1.3.1/go.mod h1:st4TFPle8b16a2B9MEN+ofQT6iJjWBPAD9F5rfMQtZg=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/logic/armlogic v1.1.1 h1:YqPDzajLbEGiIr1wbj0AINMj54q3LtWzfwASAMGklAQ=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/logic/armlogic v1.1.1/go.mod h1:DwT51rZDyLryjioY2lt18MlJ8risPJlt8HaKdciJlMI=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearningservices/armmachinelearningservices v1.0.1 h1:+1gdz3WAp3YlbHxNMqoyrewNHsF+CR85y18HH2y/bEo=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearningservices/armmachinelearningservices v1.0.1/go.mod h1:md0mgc1e9fNERM9AWcna8jctaYqbnUBQrNUtNrq1Ysk=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearning/armmachinelearning v1.0.0 h1:KWvCVjnOTKCZAlqED5KPNoN9AfcK2BhUeveLdiwy33Q=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearning/armmachinelearning v1.0.0/go.mod h1:qNN4I5AKYbXMLriS9XKebBw8EVIQkX6tJzrdtjOoJ4I=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/managementgroups/armmanagementgroups v1.1.0 h1:9pEy859umhY74QlSRXGb4ln4vjAcuqC5FuZfl2s2Plo=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/managementgroups/armmanagementgroups v1.1.0/go.mod h1:xJQkWMSbOQ4W+B3OHpKfqyrOakAW1lOtJm9Mvd2ZHoY=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mariadb/armmariadb v1.1.1 h1:enm1l0hL9NXwetMOl2s9fIZrHDNQqAKUJafgCz+X1Pw=

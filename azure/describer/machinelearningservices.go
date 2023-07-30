@@ -3,7 +3,7 @@ package describer
 import (
 	"context"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearningservices/armmachinelearningservices"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearning/armmachinelearning"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"strings"
 
@@ -11,7 +11,7 @@ import (
 )
 
 func MachineLearningWorkspace(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	client, err := armmachinelearningservices.NewWorkspacesClient(subscription, cred, nil)
+	client, err := armmachinelearning.NewWorkspacesClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func MachineLearningWorkspace(ctx context.Context, cred *azidentity.ClientSecret
 	return values, nil
 }
 
-func getMachineLearningWorkspace(ctx context.Context, diagnosticClient *armmonitor.DiagnosticSettingsClient, workspace *armmachinelearningservices.Workspace) (*Resource, error) {
+func getMachineLearningWorkspace(ctx context.Context, diagnosticClient *armmonitor.DiagnosticSettingsClient, workspace *armmachinelearning.Workspace) (*Resource, error) {
 	resourceGroup := strings.Split(*workspace.ID, "/")[4]
 
 	var machineLearningServicesListOp []*armmonitor.DiagnosticSettingsResource
