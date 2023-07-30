@@ -179,6 +179,8 @@ func SqlDatabase(ctx context.Context, cred *azidentity.ClientSecretCredential, s
 	longTermClient := clientFactory.NewLongTermRetentionPoliciesClient()
 	databasesClientClient := clientFactory.NewDatabasesClient()
 	client := clientFactory.NewDatabasesClient()
+	advisorsClient := clientFactory.NewDatabaseAdvisorsClient()
+	recoverableClient := clientFactory.NewRecoverableDatabasesClient()
 
 	pager := parentClient.NewListPager(nil)
 	var values []Resource
@@ -188,7 +190,7 @@ func SqlDatabase(ctx context.Context, cred *azidentity.ClientSecretCredential, s
 			return nil, err
 		}
 		for _, server := range page.Value {
-			resources, err := ListServerSqlDatabases(ctx, databaseVulnerabilityScanClient, databaseVulnerabilityClient, transparentDataClient, longTermClient, databasesClientClient, client, server)
+			resources, err := ListServerSqlDatabases(ctx, recoverableClient, advisorsClient, databaseVulnerabilityScanClient, databaseVulnerabilityClient, transparentDataClient, longTermClient, databasesClientClient, client, server)
 			if err != nil {
 				return nil, err
 			}
@@ -206,7 +208,7 @@ func SqlDatabase(ctx context.Context, cred *azidentity.ClientSecretCredential, s
 	return values, nil
 }
 
-func ListServerSqlDatabases(ctx context.Context, databaseVulnerabilityScanClient *armsql.DatabaseVulnerabilityAssessmentScansClient, databaseVulnerabilityClient *armsql.DatabaseVulnerabilityAssessmentsClient, transparentDataClient *armsql.TransparentDataEncryptionsClient, longTermClient *armsql.LongTermRetentionPoliciesClient, databasesClientClient *armsql.DatabasesClient, client *armsql.DatabasesClient, server *armsql.Server) ([]Resource, error) {
+func ListServerSqlDatabases(ctx context.Context, recoverableClient *armsql.RecoverableDatabasesClient, advisorsClient *armsql.DatabaseAdvisorsClient, databaseVulnerabilityScanClient *armsql.DatabaseVulnerabilityAssessmentScansClient, databaseVulnerabilityClient *armsql.DatabaseVulnerabilityAssessmentsClient, transparentDataClient *armsql.TransparentDataEncryptionsClient, longTermClient *armsql.LongTermRetentionPoliciesClient, databasesClientClient *armsql.DatabasesClient, client *armsql.DatabasesClient, server *armsql.Server) ([]Resource, error) {
 	resourceGroupName := strings.Split(string(*server.ID), "/")[4]
 	pager := client.NewListByServerPager(resourceGroupName, *server.Name, nil)
 	var values []Resource
@@ -216,7 +218,7 @@ func ListServerSqlDatabases(ctx context.Context, databaseVulnerabilityScanClient
 			return nil, err
 		}
 		for _, database := range page.Value {
-			resource, err := GetSqlDatabase(ctx, databaseVulnerabilityScanClient, databaseVulnerabilityClient, transparentDataClient, longTermClient, databasesClientClient, server, database)
+			resource, err := GetSqlDatabase(ctx, recoverableClient, advisorsClient, databaseVulnerabilityScanClient, databaseVulnerabilityClient, transparentDataClient, longTermClient, databasesClientClient, server, database)
 			if err != nil {
 				return nil, err
 			}
@@ -226,7 +228,7 @@ func ListServerSqlDatabases(ctx context.Context, databaseVulnerabilityScanClient
 	return values, nil
 }
 
-func GetSqlDatabase(ctx context.Context, databaseVulnerabilityScanClient *armsql.DatabaseVulnerabilityAssessmentScansClient, databaseVulnerabilityClient *armsql.DatabaseVulnerabilityAssessmentsClient, transparentDataClient *armsql.TransparentDataEncryptionsClient, longTermClient *armsql.LongTermRetentionPoliciesClient, databasesClientClient *armsql.DatabasesClient, server *armsql.Server, database *armsql.Database) (*Resource, error) {
+func GetSqlDatabase(ctx context.Context, recoverableClient *armsql.RecoverableDatabasesClient, advisorsClient *armsql.DatabaseAdvisorsClient, databaseVulnerabilityScanClient *armsql.DatabaseVulnerabilityAssessmentScansClient, databaseVulnerabilityClient *armsql.DatabaseVulnerabilityAssessmentsClient, transparentDataClient *armsql.TransparentDataEncryptionsClient, longTermClient *armsql.LongTermRetentionPoliciesClient, databasesClientClient *armsql.DatabasesClient, server *armsql.Server, database *armsql.Database) (*Resource, error) {
 	serverName := strings.Split(*database.ID, "/")[8]
 	databaseName := *database.Name
 	resourceGroupName := strings.Split(string(*database.ID), "/")[4]
@@ -256,25 +258,32 @@ func GetSqlDatabase(ctx context.Context, databaseVulnerabilityScanClient *armsql
 	}
 
 	var c []*armsql.DatabaseVulnerabilityAssessment
+	var v []*armsql.VulnerabilityAssessmentScanRecord
 	pager3 := databaseVulnerabilityClient.NewListByDatabasePager(resourceGroupName, serverName, databaseName, nil)
 	for pager3.More() {
 		page3, err := pager3.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			if !strings.Contains(err.Error(), "VulnerabilityAssessmentInvalidPolicy") {
+				return nil, err
+			}
+		} else {
+			for _, assessment := range c {
+				pager4 := databaseVulnerabilityScanClient.NewListByDatabasePager(resourceGroupName, serverName, databaseName, armsql.VulnerabilityAssessmentName(*assessment.Name), nil)
+				for pager4.More() {
+					page4, err := pager4.NextPage(ctx)
+					if err != nil {
+						return nil, err
+					}
+					v = append(v, page4.Value...)
+				}
+			}
 		}
 		c = append(c, page3.Value...)
 	}
 
-	var v []*armsql.VulnerabilityAssessmentScanRecord
-	for _, assessment := range c {
-		pager4 := databaseVulnerabilityScanClient.NewListByDatabasePager(resourceGroupName, serverName, databaseName, armsql.VulnerabilityAssessmentName(*assessment.Name), nil)
-		for pager4.More() {
-			page4, err := pager4.NextPage(ctx)
-			if err != nil {
-				return nil, err
-			}
-			v = append(v, page4.Value...)
-		}
+	advisors, err := advisorsClient.ListByDatabase(ctx, resourceGroupName, serverName, databaseName, nil)
+	if err != nil {
+		return nil, err
 	}
 
 	getOp, err := databasesClientClient.Get(ctx, resourceGroupName, serverName, databaseName, nil)
@@ -293,6 +302,7 @@ func GetSqlDatabase(ctx context.Context, databaseVulnerabilityScanClient *armsql
 				TransparentDataEncryption:          transparentDataOp,
 				DatabaseVulnerabilityAssessments:   c,
 				VulnerabilityAssessmentScanRecords: v,
+				Advisors:                           advisors.AdvisorArray,
 				ResourceGroup:                      resourceGroupName,
 			},
 		},

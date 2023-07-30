@@ -41,13 +41,15 @@ func ContainerRegistry(ctx context.Context, cred *azidentity.ClientSecretCredent
 
 func getContainerRegistry(ctx context.Context, client *armcontainerregistry.RegistriesClient, registry *armcontainerregistry.Registry) (*Resource, error) {
 	resourceGroup := strings.Split(*registry.ID, "/")[4]
-	containerRegistryListCredentialsOp, err := client.ListCredentials(ctx, resourceGroup, *registry.Name, nil)
+	var containerRegistryListCredentialsOp *armcontainerregistry.RegistryListCredentialsResult
+	containerRegistryListCredentialsOpTemp, err := client.ListCredentials(ctx, resourceGroup, *registry.Name, nil)
 	if err != nil {
 		if !strings.Contains(err.Error(), "AuthorizationFailed") {
 			return nil, err
 		}
+	} else {
+		containerRegistryListCredentialsOp = &containerRegistryListCredentialsOpTemp.RegistryListCredentialsResult
 	}
-
 	containerRegistryListUsagesOp, err := client.ListUsages(ctx, resourceGroup, *registry.Name, nil)
 	if err != nil {
 		return nil, err
@@ -59,7 +61,7 @@ func getContainerRegistry(ctx context.Context, client *armcontainerregistry.Regi
 		Description: JSONAllFieldsMarshaller{
 			model.ContainerRegistryDescription{
 				Registry:                      *registry,
-				RegistryListCredentialsResult: containerRegistryListCredentialsOp.RegistryListCredentialsResult,
+				RegistryListCredentialsResult: containerRegistryListCredentialsOp,
 				RegistryUsages:                containerRegistryListUsagesOp.Value,
 				ResourceGroup:                 resourceGroup,
 			},

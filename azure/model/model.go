@@ -929,7 +929,7 @@ type ComputeCloudServiceDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type ContainerRegistryDescription struct {
 	Registry                      armcontainerregistry.Registry
-	RegistryListCredentialsResult armcontainerregistry.RegistryListCredentialsResult
+	RegistryListCredentialsResult *armcontainerregistry.RegistryListCredentialsResult
 	RegistryUsages                []*armcontainerregistry.RegistryUsage
 	ResourceGroup                 string
 }
@@ -1593,6 +1593,7 @@ type SqlDatabaseDescription struct {
 	TransparentDataEncryption          []*armsql.LogicalDatabaseTransparentDataEncryption
 	DatabaseVulnerabilityAssessments   []*armsql.DatabaseVulnerabilityAssessment
 	VulnerabilityAssessmentScanRecords []*armsql.VulnerabilityAssessmentScanRecord
+	Advisors                           []*armsql.Advisor
 	ResourceGroup                      string
 }
 
@@ -1638,6 +1639,7 @@ type SqlVirtualClustersDescription struct {
 //getfilter:resource_group=description.ResourceGroup
 type SqlServerElasticPoolDescription struct {
 	Pool          armsql.ElasticPool
+	TotalDTU      int32
 	ServerName    string
 	ResourceGroup string
 }
