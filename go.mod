@@ -98,8 +98,8 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.4.0
 	github.com/kaytu-io/kaytu-util v0.0.0-20230730070339-96d3af2ad17d
-	github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230723115422-00dc0c0cb060
-	github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230718082348-6a343a735488
+	github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230730080940-69744a43099f
+	github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230730082837-568395d9ee17
 	github.com/manicminer/hamilton v0.43.0
 	github.com/manicminer/hamilton-autorest v0.3.0
 	github.com/spf13/cobra v1.7.0
@@ -239,7 +239,6 @@ require (
 	github.com/stretchr/testify v1.8.3 // indirect
 	github.com/tkrajina/go-reflector v0.5.6 // indirect
 	github.com/turbot/go-kit v0.6.0 // indirect
-	github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13 // indirect
 	github.com/ulikunitz/xz v0.5.10 // indirect
 	github.com/yosida95/uritemplate/v3 v3.0.2 // indirect
 	github.com/zclconf/go-cty v1.12.1 // indirect

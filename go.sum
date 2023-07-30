@@ -805,10 +805,10 @@ github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/X
 github.com/jtolds/gls v4.20.0+incompatible h1:xdiiI2gbIgH/gLH7ADydsJ1uDOEzR8yvV7C0MuV77Wo=
 github.com/kaytu-io/kaytu-util v0.0.0-20230730070339-96d3af2ad17d h1:FLpn7bltotPnJydMdh8uUijXt2mFzRTURRnoDaBNyzk=
 github.com/kaytu-io/kaytu-util v0.0.0-20230730070339-96d3af2ad17d/go.mod h1:8nqEFGMSX/jTQNn2MmURj9RRaWlyNWDEeHUKYxf4uK8=
-github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230723115422-00dc0c0cb060 h1:bEx8DMwvMvB2/3matxAbIl/hClXq9vKwNUzKhC2K7oY=
-github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230723115422-00dc0c0cb060/go.mod h1:nrcQREBusJS80xIU27gQTQe6GqDyKH9zDqE53yUkZgs=
-github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230718082348-6a343a735488 h1:gURJ7KAqROZRQ/h5sEbOBPqoiAeeo52/PaEMZSUV+Kw=
-github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230718082348-6a343a735488/go.mod h1:3Qi56gRCA69UY+WcUWjPQeDeKMynBpCFfjN7/qHwYtQ=
+github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230730080940-69744a43099f h1:pKdmBwu/P2Iom1FHr75NRvHabdOljv88u0YrF6izdqk=
+github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230730080940-69744a43099f/go.mod h1:WDj0Zu6i3jQYnLk0jkTQDlEyUnrgs6vbH2a1maZLAnk=
+github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230730082837-568395d9ee17 h1:pzURJidkRO/87uhnESp/hq5TMnQfdiXuKOoSi3PYA1w=
+github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230730082837-568395d9ee17/go.mod h1:FeU74ae7DYXP7ay72OwE1cPpFVPAEzT4OOnd/XyxE3Y=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/klauspost/compress v1.15.11 h1:Lcadnb3RKGin4FYM/orgq0qde+nc15E5Cbqg4B9Sx9c=
@@ -986,8 +986,6 @@ github.com/tombuildsstuff/giovanni v0.18.0 h1:AiSnRtD+yUBS9STKjOsi1pmkBHnNRsLCsp
 github.com/tombuildsstuff/giovanni v0.18.0/go.mod h1:66KVLYma2whJhEdxPSPL3GQHkulhK+C5CluKfHGfPF4=
 github.com/turbot/go-kit v0.6.0 h1:X+dzxuGmlOhayJ9OE8K9m1MpJ3zlSWK8s/J9rsgmc94=
 github.com/turbot/go-kit v0.6.0/go.mod h1:QIOX91BIxQ/1JEtM4rIHWDito3c3GUP2Z+dUT5F6z94=
-github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13 h1:Kd/mWD2klqCnwCDwlQ4sTHuRrud28TAac6buM1uo86o=
-github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13/go.mod h1:t1uwq6KylUr2CzIinxeTafoktJvX8yWmhaoWCJJc4YI=
 github.com/turbot/steampipe-plugin-sdk/v5 v5.5.0 h1:a6sgeHUcATGJJ6rDn4S27WCr5DHrVH7dlattLW4h+ek=
 github.com/turbot/steampipe-plugin-sdk/v5 v5.5.0/go.mod h1:HH2yeMCo0nOajYnH3Oh+alEH/8iSji5m5t+o1ezfrRs=
 github.com/ulikunitz/xz v0.5.10 h1:t92gobL9l3HE202wg3rlk19F6X+JOxl9BBrCCMYEYd8=
