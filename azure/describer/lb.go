@@ -4,18 +4,17 @@ import (
 	"context"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
 	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
 func LoadBalancer(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewLoadBalancersClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewLoadBalancersClient()
 
 	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
 	if err != nil {
@@ -77,12 +76,15 @@ func getLoadBalancer(ctx context.Context, diagnosticClient *armmonitor.Diagnosti
 }
 
 func LoadBalancerBackendAddressPool(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewLoadBalancersClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewLoadBalancersClient()
-	addressClient := clientFactory.NewLoadBalancerBackendAddressPoolsClient()
+
+	addressClient, err := armnetwork.NewLoadBalancerBackendAddressPoolsClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
 
 	pager := client.NewListAllPager(nil)
 	var values []Resource
@@ -150,12 +152,14 @@ func getLoadBalancerBackendAddressPools(ctx context.Context, loadBalancer *armne
 }
 
 func LoadBalancerNatRule(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewLoadBalancersClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewLoadBalancersClient()
-	natRulesClient := clientFactory.NewInboundNatRulesClient()
+	natRulesClient, err := armnetwork.NewInboundNatRulesClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
 
 	pager := client.NewListAllPager(nil)
 	var values []Resource
@@ -220,12 +224,14 @@ func getLoadBalancerNatRule(ctx context.Context, loadBalancer *armnetwork.LoadBa
 }
 
 func LoadBalancerOutboundRule(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewLoadBalancersClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewLoadBalancersClient()
-	outboundRulesClient := clientFactory.NewLoadBalancerOutboundRulesClient()
+	outboundRulesClient, err := armnetwork.NewLoadBalancerOutboundRulesClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
 
 	pager := client.NewListAllPager(nil)
 	var values []Resource
@@ -290,12 +296,14 @@ func getLoadBalancerOutboundRule(ctx context.Context, loadBalancer *armnetwork.L
 }
 
 func LoadBalancerProbe(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewLoadBalancersClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewLoadBalancersClient()
-	probesClient := clientFactory.NewLoadBalancerProbesClient()
+	probesClient, err := armnetwork.NewLoadBalancerProbesClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
 
 	pager := client.NewListAllPager(nil)
 	var values []Resource
@@ -360,12 +368,14 @@ func getLoadBalancerProbe(ctx context.Context, loadBalancer *armnetwork.LoadBala
 }
 
 func LoadBalancerRule(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	client, err := armnetwork.NewLoadBalancersClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewLoadBalancersClient()
-	rulesClient := clientFactory.NewLoadBalancerLoadBalancingRulesClient()
+	rulesClient, err := armnetwork.NewLoadBalancerLoadBalancingRulesClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
 
 	pager := client.NewListAllPager(nil)
 	var values []Resource

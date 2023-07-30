@@ -230,8 +230,6 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerregistry/armconta
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerregistry/armcontainerregistry v1.0.0/go.mod h1:tOckqrJq0CXsb/AlUYCdD7DqpULgOaexk+5rz+isAjM=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice v1.0.0 h1:figxyQZXzZQIcP3njhC68bYUiTw45J8/SsHaLW8Ax0M=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice v1.0.0/go.mod h1:TmlMW4W5OvXOmOyKNnor8nlMMiO1ctIyzmHme/VHsrA=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice/v2 v2.4.0 h1:1u/K2BFv0MwkG6he8RYuUcbbeK22rkoZbg4lKa/msZU=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice/v2 v2.4.0/go.mod h1:U5gpsREQZE6SLk1t/cFfc1eMhYAlYpEzvaYXuDfefy8=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2 v2.5.0 h1:FTNvxTFH/08JBmhcbL5lmLaGYVXokZM6Ni92Mqr+gSg=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2 v2.5.0/go.mod h1:T0ryqIz5h5qg4HOBni+VeRn24alSqOx1Se1IAwUByOk=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/costmanagement/armcostmanagement v1.1.1 h1:ehSLdbLah6kk6HTVc6e/lrbmbz7MMbpNxkOd3OYlhB0=
@@ -302,6 +300,7 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysqlflexibleserv
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/netapp/armnetapp/v2 v2.1.0 h1:c0FNjNcLZiPXel0atVpe8mhcFEWslkAjhcMxp55AuXU=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/netapp/armnetapp/v2 v2.1.0/go.mod h1:5L2jOYfMVXvq+wrHZyOj8qYJG26dvIBAcCIGjRuqSYo=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork v1.0.0 h1:nBy98uKOIfun5z6wx6jwWLrULcM0+cjBalBFZlEZ7CA=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork v1.0.0/go.mod h1:243D9iHbcQXoFUtgHJwL7gl2zx1aDuDMjvBZVGr2uW0=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2 v2.2.1 h1:bWh0Z2rOEDfB/ywv/l0iHN1JgyazE6kW/aIA89+CEK0=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2 v2.2.1/go.mod h1:Bzf34hhAE9NSxailk8xVeLEZbUjOXcC+GnU1mMKdhLw=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2 v2.0.0-beta.3 h1:M1crtD5xLQdt1WFoO4g9onH2Bs23TprcK5JD4E4ttAM=
@@ -804,6 +803,8 @@ github.com/json-iterator/go v1.1.8/go.mod h1:KdQUCv79m/52Kvf8AW2vK1V8akMuk1QjK/u
 github.com/jstemmer/go-junit-report v0.0.0-20190106144839-af01ea7f8024/go.mod h1:6v2b51hI/fHJwM22ozAgKL4VKDeJcHhJFhtBdhmNjmU=
 github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/XSXhF0NWZEnDohbsk=
 github.com/jtolds/gls v4.20.0+incompatible h1:xdiiI2gbIgH/gLH7ADydsJ1uDOEzR8yvV7C0MuV77Wo=
+github.com/kaytu-io/kaytu-util v0.0.0-20230730070339-96d3af2ad17d h1:FLpn7bltotPnJydMdh8uUijXt2mFzRTURRnoDaBNyzk=
+github.com/kaytu-io/kaytu-util v0.0.0-20230730070339-96d3af2ad17d/go.mod h1:8nqEFGMSX/jTQNn2MmURj9RRaWlyNWDEeHUKYxf4uK8=
 github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230723115422-00dc0c0cb060 h1:bEx8DMwvMvB2/3matxAbIl/hClXq9vKwNUzKhC2K7oY=
 github.com/kaytu-io/steampipe-plugin-azure v0.0.0-20230723115422-00dc0c0cb060/go.mod h1:nrcQREBusJS80xIU27gQTQe6GqDyKH9zDqE53yUkZgs=
 github.com/kaytu-io/steampipe-plugin-azuread v0.0.0-20230718082348-6a343a735488 h1:gURJ7KAqROZRQ/h5sEbOBPqoiAeeo52/PaEMZSUV+Kw=
@@ -905,6 +906,8 @@ github.com/ory/dockertest/v3 v3.10.0 h1:4K3z2VMe8Woe++invjaTB7VRyQXQy5UY+loujO4a
 github.com/patrickmn/go-cache v2.1.0+incompatible h1:HRMgzkcYKYpi3C8ajMPV8OFXaaRUnok+kx1WdO15EQc=
 github.com/pegasus-kv/thrift v0.13.0 h1:4ESwaNoHImfbHa9RUGJiJZ4hrxorihZHk5aarYwY8d4=
 github.com/pegasus-kv/thrift v0.13.0/go.mod h1:Gl9NT/WHG6ABm6NsrbfE8LiJN0sAyneCrvB4qN4NPqQ=
+github.com/pganalyze/pg_query_go/v4 v4.2.1 h1:id/vuyIQccb9f6Yx3pzH5l4QYrxE3v6/m8RPlgMrprc=
+github.com/pganalyze/pg_query_go/v4 v4.2.1/go.mod h1:aEkDNOXNM5j0YGzaAapwJ7LB3dLNj+bvbWcLv1hOVqA=
 github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 h1:KoWmjvw+nsYOo29YJK9vDA65RGE3NrOnUtO7a+RF9HU=
 github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8/go.mod h1:HKlIX3XHQyzLZPlr7++PzdhaXEj94dEiJgZDTsxEqUI=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
