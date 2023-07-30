@@ -6,7 +6,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
 	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
@@ -169,11 +169,10 @@ func ComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, cred *az
 	}
 	client := clientFactory.NewVirtualMachineScaleSetsClient()
 
-	networkClientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	networkClient, err := armnetwork.NewInterfacesClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	networkClient := networkClientFactory.NewInterfacesClient()
 
 	pager := client.NewListAllPager(nil)
 	var values []Resource
@@ -292,13 +291,18 @@ func ComputeVirtualMachine(ctx context.Context, cred *azidentity.ClientSecretCre
 	vmClient := clientFactory.NewVirtualMachinesClient()
 	vmExtensionsClient := clientFactory.NewVirtualMachineExtensionsClient()
 
-	networkClientFactory, err := armnetwork.NewClientFactory(subscription, cred, nil)
+	networkInterfaceClient, err := armnetwork.NewInterfacesClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	networkInterfaceClient := networkClientFactory.NewInterfacesClient()
-	networkPublicIPClient := networkClientFactory.NewPublicIPAddressesClient()
-	ipConfigClient := networkClientFactory.NewInterfaceIPConfigurationsClient()
+	networkPublicIPClient, err := armnetwork.NewPublicIPAddressesClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	ipConfigClient, err := armnetwork.NewInterfaceIPConfigurationsClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
 
 	guestConfigurationClientFactory, err := armguestconfiguration.NewClientFactory(subscription, cred, nil)
 	if err != nil {
