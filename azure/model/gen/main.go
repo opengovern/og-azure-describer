@@ -148,7 +148,7 @@ func List{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -184,7 +184,7 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
