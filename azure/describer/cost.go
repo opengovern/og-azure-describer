@@ -4,9 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"time"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/costmanagement/armcostmanagement"
-	"time"
 
 	"github.com/cenkalti/backoff"
 	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
@@ -14,7 +15,7 @@ import (
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
-const resourceTypeDimension = "resourceType"
+const serviceNameDimension = "ServiceName"
 const subscriptionDimension = "SubscriptionId"
 
 func cost(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, from time.Time, to time.Time, dimension string) ([]model.CostManagementQueryRow, *string, error) {
@@ -103,7 +104,7 @@ func DailyCostByResourceType(ctx context.Context, cred *azidentity.ClientSecretC
 		from = time.Now().AddDate(0, -3, -7)
 	}
 
-	costResult, locationPtr, err := cost(ctx, cred, subscription, from, time.Now(), resourceTypeDimension)
+	costResult, locationPtr, err := cost(ctx, cred, subscription, from, time.Now(), serviceNameDimension)
 	if err != nil {
 		return nil, err
 	}
