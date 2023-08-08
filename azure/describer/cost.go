@@ -103,8 +103,9 @@ func DailyCostByResourceType(ctx context.Context, cred *azidentity.ClientSecretC
 	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
 		from = time.Now().AddDate(0, -3, -7)
 	}
+	to := time.Now()
 
-	costResult, locationPtr, err := cost(ctx, cred, subscription, from, time.Now(), serviceNameDimension)
+	costResult, locationPtr, err := cost(ctx, cred, subscription, from, to, serviceNameDimension)
 	if err != nil {
 		return nil, err
 	}
@@ -141,8 +142,9 @@ func DailyCostBySubscription(ctx context.Context, cred *azidentity.ClientSecretC
 	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
 		from = time.Now().AddDate(0, -3, -7)
 	}
+	to := time.Now()
 
-	costResult, locationPtr, err := cost(ctx, cred, subscription, from, time.Now(), subscriptionDimension)
+	costResult, locationPtr, err := cost(ctx, cred, subscription, from, to, subscriptionDimension)
 	if err != nil {
 		return nil, err
 	}
