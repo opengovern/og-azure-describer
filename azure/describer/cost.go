@@ -115,7 +115,7 @@ func DailyCostByResourceType(ctx context.Context, cred *azidentity.ClientSecretC
 	var values []Resource
 	for _, row := range costResult {
 		resource := Resource{
-			ID:       fmt.Sprintf("resource-cost-%s/%s-%d", subscription, *row.ResourceType, row.UsageDate),
+			ID:       fmt.Sprintf("resource-cost-%s/%s-%d", subscription, *row.ServiceName, row.UsageDate),
 			Location: location,
 			Description: JSONAllFieldsMarshaller{
 				model.CostManagementCostByResourceTypeDescription{
