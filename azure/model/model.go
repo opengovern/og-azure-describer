@@ -1712,6 +1712,7 @@ type CostManagementQueryRow struct {
 	Cost           float64 `json:"Cost"`
 	Currency       string  `json:"Currency"`
 	ServiceName    *string `json:"ServiceName,omitempty"`
+	PublisherType  *string `json:"PublisherType,omitempty"`
 	SubscriptionID *string `json:"SubscriptionId,omitempty"`
 }
 

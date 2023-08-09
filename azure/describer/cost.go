@@ -16,6 +16,7 @@ import (
 )
 
 const serviceNameDimension = "ServiceName"
+const publisherTypeDimension = "PublisherType"
 const subscriptionDimension = "SubscriptionId"
 
 func cost(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, from time.Time, to time.Time, dimension string) ([]model.CostManagementQueryRow, *string, error) {
@@ -33,6 +34,13 @@ func cost(ctx context.Context, cred *azidentity.ClientSecretCredential, subscrip
 			Type: &groupingType,
 			Name: &dimension,
 		},
+	}
+	if dimension == serviceNameDimension {
+		d := publisherTypeDimension
+		groupings = append(groupings, &armcostmanagement.QueryGrouping{
+			Type: &groupingType,
+			Name: &d,
+		})
 	}
 
 	costAggregationString := "Cost"
