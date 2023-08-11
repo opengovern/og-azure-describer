@@ -1,14 +1,15 @@
-//go:generate go run ../../keibi-deploy/keibi/inventory-data/resource_types_generator.go --provider azure --output resource_types.go --index-map ../pkg/steampipe/table_index_map.go && gofmt -w -s resource_types.go  && goimports -w resource_types.go
+//go:generate go run ../../kaytu-deploy/keibi/inventory-data/resource_types_generator.go --provider azure --output resource_types.go --index-map ../pkg/steampipe/table_index_map.go && gofmt -w -s resource_types.go  && goimports -w resource_types.go
 
 package azure
 
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"os"
 	"sort"
 	"strings"
+
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 
 	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
