@@ -4,7 +4,7 @@ package keibi
 import (
 	"context"
 	azure "github.com/kaytu-io/kaytu-azure-describer/azure/model"
-	essdk "github.com/kaytu-io/kaytu-util/pkg/keibi-es-sdk"
+	essdk "github.com/kaytu-io/kaytu-util/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 

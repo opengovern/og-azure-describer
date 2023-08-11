@@ -346,7 +346,7 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		fmt.Fprintln(&buf, `
 		import (
 			"context"
-			essdk "github.com/kaytu-io/kaytu-util/pkg/keibi-es-sdk"
+			essdk "github.com/kaytu-io/kaytu-util/pkg/kaytu-es-sdk"
 			"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 			`+*sourceType+` "github.com/kaytu-io/kaytu-`+*sourceType+`-describer/`+*sourceType+`/model"
 		)
