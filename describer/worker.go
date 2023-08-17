@@ -84,6 +84,8 @@ func doDescribeAzure(
 			return fmt.Errorf("failed to trim json: %w", err)
 		}
 		resource.Location = fixAzureLocation(resource.Location)
+		resource.SubscriptionID = subscriptionId
+		resource.Type = strings.ToLower(job.ResourceType)
 		azureMetadata := azuremodel.Metadata{
 			ID:               resource.ID,
 			Name:             resource.Name,
