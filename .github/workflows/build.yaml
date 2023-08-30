@@ -105,7 +105,7 @@ jobs:
             ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-azure:0.0.1
             ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-azure:0.0.1-${{ github.run_id }}
           file: steampipe-plugin-azure/docker/Dockerfile
-          context: steampipe-plugin-azure
+          context: .
   deploy-azuread-plugin:
     needs:
       - build
@@ -142,4 +142,4 @@ jobs:
             ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-azuread:0.0.1
             ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-azuread:0.0.1-${{ github.run_id }}
           file: steampipe-plugin-azuread/docker/Dockerfile
-          context: steampipe-plugin-azuread
+          context: .
