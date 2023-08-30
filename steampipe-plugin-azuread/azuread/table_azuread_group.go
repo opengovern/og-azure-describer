@@ -79,10 +79,7 @@ func tableAzureAdGroup(_ context.Context) *plugin.Table {
 
 			{Name: "tags", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTags, Transform: transform.From(adGroupTags)},
 			{Name: "title", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTitle, Transform: transform.From(adGroupTitle)},
-			{Name: "tenant_id", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTenant, Transform: transform.
-
-				//// TRANSFORM FUNCTIONS
-				FromField("Description.AdGroup.ResourceProvisioningOptions")},
+			{Name: "tenant_id", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTenant, Transform: transform.FromField("Description.TenantID")},
 		},
 	}
 }

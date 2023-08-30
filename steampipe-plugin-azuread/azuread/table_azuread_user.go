@@ -157,8 +157,7 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 				Name:        "additional_properties",
 				Type:        proto.ColumnType_JSON,
 				Description: "A list of unmatched properties from the message are deserialized this collection.",
-
-				Transform: transform.FromField("Description.AdUsers.CreationType")},
+				Transform:   transform.FromField("Description.AdUsers.CreationType")},
 			{
 				Name:        "im_addresses",
 				Type:        proto.ColumnType_JSON,
@@ -190,30 +189,23 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 				Name:        "tenant_id",
 				Type:        proto.ColumnType_STRING,
 				Description: ColumnDescriptionTenant,
-
-				Transform: transform.FromField("Description.AdUsers.AccountEnabled")},
+				Transform:   transform.FromField("Description.TenantID")},
 			{
 				Name:        "metadata",
 				Description: "Metadata of the Azure resource",
 				Type:        proto.ColumnType_STRING,
-
-				Transform: transform.FromField("Description.TenantID").Transform(marshalJSON),
+				Transform:   transform.FromField("Metadata").Transform(marshalJSON),
 			},
 			{
 				Name:        "kaytu_account_id",
 				Type:        proto.ColumnType_STRING,
 				Description: "The Kaytu Account ID in which the resource is located.",
-
-				Transform: transform.FromField("Description.AdUsers.IsResourceAccount")},
+				Transform:   transform.FromField("Metadata.SourceID")},
 			{
 				Name:        "kaytu_resource_id",
 				Type:        proto.ColumnType_STRING,
 				Description: "The unique ID of the resource in Kaytu.",
-
-				Transform: transform.
-
-					//// TRANSFORM FUNCTIONS
-					FromField("Description.AdUsers.IsResourceAccount")},
+				Transform:   transform.FromField("ID")},
 		},
 	}
 }
