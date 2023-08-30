@@ -110,6 +110,8 @@ func DailyCostByResourceType(ctx context.Context, cred *azidentity.ClientSecretC
 	from := time.Now().AddDate(0, 0, -7)
 	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
 		from = time.Now().AddDate(0, -3, -7)
+	} else if triggerType == enums.DescribeTriggerTypeCostFullDiscovery {
+		from = time.Date(2022, 12, 1, 0, 0, 0, 0, time.UTC)
 	}
 	to := time.Now()
 
