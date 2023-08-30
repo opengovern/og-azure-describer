@@ -28242,7 +28242,7 @@ func (p AdUsersPaginator) NextPage(ctx context.Context) ([]AdUsers, error) {
 
 var listAdUsersFilters = map[string]string{
 	"account_enabled":                       "description.AdUsers.accountEnabled",
-	"additional_properties":                 "description.AdUsers.AdditionalProperties",
+	"additional_properties":                 "description.AdUsers.CreationType",
 	"created_date_time":                     "description.AdUsers.CreatedDateTime",
 	"display_name":                          "description.AdUsers.displayName",
 	"filter":                                "description.AdUsers.filter",
@@ -28301,7 +28301,7 @@ func ListAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 var getAdUsersFilters = map[string]string{
 	"account_enabled":                       "description.AdUsers.AccountEnabled",
-	"additional_properties":                 "description.AdUsers.AdditionalProperties",
+	"additional_properties":                 "description.AdUsers.CreationType",
 	"created_date_time":                     "description.AdUsers.CreatedDateTime",
 	"display_name":                          "description.AdUsers.DisplayName",
 	"given_name":                            "description.AdUsers.GivenName",
@@ -28438,7 +28438,7 @@ func (p AdGroupPaginator) NextPage(ctx context.Context) ([]AdGroup, error) {
 }
 
 var listAdGroupFilters = map[string]string{
-	"assigned_labels":                  "description.AdGroup.GroupAssignedLabel",
+	"assigned_labels":                  "description.AdGroup.AssignedLabels",
 	"classification":                   "description.AdGroup.Classification",
 	"created_date_time":                "description.AdGroup.CreatedDateTime",
 	"description":                      "description.AdGroup.Description",
@@ -28503,7 +28503,7 @@ func ListAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 var getAdGroupFilters = map[string]string{
-	"assigned_labels":                  "description.AdGroup.GroupAssignedLabel",
+	"assigned_labels":                  "description.AdGroup.AssignedLabels",
 	"classification":                   "description.AdGroup.Classification",
 	"created_date_time":                "description.AdGroup.CreatedDateTime",
 	"description":                      "description.AdGroup.Description",

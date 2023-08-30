@@ -1,0 +1,12 @@
+[
+  {
+    "client_affinity_enabled": false,
+    "enabled": true,
+    "https_only": false,
+    "id": "{{ output.resource_id.value }}",
+    "kind": "app",
+    "name": "{{ resourceName }}",
+    "region": "east us",
+    "resource_group": "{{ resourceName }}"
+  }
+]
