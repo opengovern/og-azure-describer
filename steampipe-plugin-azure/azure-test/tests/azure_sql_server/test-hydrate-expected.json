@@ -1,0 +1,72 @@
+[
+	{
+		"encryption_protector": [
+			{
+				"id": "/subscriptions/{{ output.subscription_id.value }}/resourceGroups/{{ resourceName }}/providers/Microsoft.Sql/servers/{{ resourceName }}/encryptionProtector/current",
+				"kind": "servicemanaged",
+				"name": "current",
+				"serverKeyName": "ServiceManaged",
+        		"serverKeyType": "ServiceManaged",
+				"type": "Microsoft.Sql/servers/encryptionProtector"
+			}
+		],
+		"firewall_rules": [
+			{
+				"id": "{{ output.firewall_rule_id.value }}",
+				"name": "{{ resourceName }}",
+				"properties":{
+					"endIpAddress":"10.0.17.62",
+					"startIpAddress":"10.0.17.62"
+				},
+				"type": "Microsoft.Sql/servers/firewallRules"
+			}
+		],
+		"name": "{{ resourceName }}",
+		"server_audit_policy": [
+			{
+				"id": "/subscriptions/{{ output.subscription_id.value }}/resourceGroups/{{ resourceName }}/providers/Microsoft.Sql/servers/{{ resourceName }}/auditingSettings/Default",
+				"name": "Default",
+				"properties": {
+					"auditActionsAndGroups": [],
+					"isAzureMonitorTargetEnabled": false,
+					"isStorageSecondaryKeyInUse": false,
+					"retentionDays": 0,
+					"state": "Disabled",
+					"storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000",
+					"storageEndpoint": ""
+				},
+				"type": "Microsoft.Sql/servers/auditingSettings"
+			}
+		],
+		"server_azure_ad_administrator": null,
+		"server_security_alert_policy": [
+			{
+				"id": "/subscriptions/{{ output.subscription_id.value }}/resourceGroups/{{ resourceName }}/providers/Microsoft.Sql/servers/{{ resourceName }}/securityAlertPolicies/Default",
+				"name": "Default",
+				"properties": {
+					"disabledAlerts": [""],
+					"emailAccountAdmins": false,
+					"emailAddresses": [""],
+					"retentionDays": 0,
+					"state": "Disabled",
+					"storageAccountAccessKey": "",
+					"storageEndpoint": ""
+				},
+				"type": "Microsoft.Sql/servers/securityAlertPolicies"
+			}
+		],
+		"server_vulnerability_assessment": [
+			{
+				"id": "/subscriptions/{{ output.subscription_id.value }}/resourceGroups/{{ resourceName }}/providers/Microsoft.Sql/servers/{{ resourceName }}/vulnerabilityAssessments/Default",
+				"name": "Default",
+				"properties": {
+					"recurringScans": {
+						"emailSubscriptionAdmins": true,
+						"isEnabled": false
+					}
+				},
+				"type": "Microsoft.Sql/servers/vulnerabilityAssessments"
+			}
+		]
+	}
+]

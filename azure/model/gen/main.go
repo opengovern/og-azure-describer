@@ -277,7 +277,7 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 					if strings.HasPrefix(resourceType.SteampipeTable, "azuread") {
 						plugin = "steampipe-plugin-azuread/azuread"
 					}
-					fileName := "../../../" + plugin + "/table_" + resourceType.SteampipeTable + ".go"
+					fileName := "../../" + plugin + "/table_" + resourceType.SteampipeTable + ".go"
 					tableFileSet := token.NewFileSet()
 					tableNode, err := parser.ParseFile(tableFileSet, fileName, nil, parser.ParseComments)
 					if err != nil {

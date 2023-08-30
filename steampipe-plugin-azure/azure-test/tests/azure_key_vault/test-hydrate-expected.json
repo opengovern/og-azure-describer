@@ -1,0 +1,27 @@
+[
+  {
+    "access_policies": [
+      {
+        "objectId": "{{ output.object_id.value }}",
+        "permissionsCertificates": [],
+        "permissionsKeys": [
+          "get"
+        ],
+        "permissionsSecrets": [
+          "get"
+        ],
+        "permissionsStorage": [],
+        "tenantId": "{{ output.tenant_id.value }}"
+      }
+    ],
+    "akas": [
+      "{{ output.resource_aka.value }}",
+      "{{ output.resource_aka_lower.value }}"
+    ],
+    "name": "{{resourceName}}",
+    "tags": {
+      "name": "{{resourceName}}"
+    },
+    "title": "{{resourceName}}"
+  }
+]
