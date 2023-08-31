@@ -102,7 +102,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.4.0
 	github.com/iancoleman/strcase v0.2.0
-	github.com/kaytu-io/kaytu-util v0.0.0-20230829090249-4ee7beb1c407
+	github.com/kaytu-io/kaytu-util v0.0.0-20230831155002-b93e753534c3
 	github.com/manicminer/hamilton v0.44.0
 	github.com/manicminer/hamilton-autorest v0.3.0
 	github.com/microsoft/kiota-authentication-azure-go v0.4.1
