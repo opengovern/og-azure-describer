@@ -115,10 +115,34 @@ func DailyCostByResourceType(ctx context.Context, cred *azidentity.ClientSecretC
 	}
 	to := time.Now()
 
-	costResult, locationPtr, err := cost(ctx, cred, subscription, from, to, serviceNameDimension)
-	if err != nil {
-		return nil, err
+	var costResult []model.CostManagementQueryRow
+	var locationPtr *string
+	pageFrom := from
+	pageTo := to
+	for {
+		if pageFrom.Add(4 * 30 * 24 * time.Hour).Before(to) {
+			pageTo = pageFrom.Add(4 * 30 * 24 * time.Hour)
+		} else {
+			pageTo = to
+		}
+
+		pageCostResult, pageLocationPtr, err := cost(ctx, cred, subscription, pageFrom, pageTo, serviceNameDimension)
+		if err != nil {
+			return nil, err
+		}
+
+		if pageLocationPtr != nil {
+			locationPtr = pageLocationPtr
+		}
+		costResult = append(costResult, pageCostResult...)
+
+		pageFrom = pageTo
+
+		if pageFrom == to {
+			break
+		}
 	}
+
 	location := "global"
 	if locationPtr != nil {
 		location = *locationPtr
