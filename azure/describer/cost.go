@@ -51,7 +51,7 @@ func cost(ctx context.Context, cred *azidentity.ClientSecretCredential, subscrip
 		queryFunction := armcostmanagement.FunctionTypeSum
 		queryGranularity := armcostmanagement.GranularityTypeDaily
 		queryTimeFrame := armcostmanagement.TimeframeTypeCustom
-		queryType := armcostmanagement.ExportTypeActualCost
+		queryType := armcostmanagement.ExportTypeAmortizedCost
 		queryDefinition := armcostmanagement.QueryDefinition{
 			Dataset: &armcostmanagement.QueryDataset{
 				Aggregation: map[string]*armcostmanagement.QueryAggregation{
