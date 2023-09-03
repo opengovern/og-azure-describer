@@ -59,9 +59,8 @@ func (x azStructMarshaller) MarshalJSON() ([]byte, error) {
 		jsonField := jsonFields[0]
 		if jsonField == "-" {
 			continue
-		} else if jsonField == "" {
-			jsonField = field.Name
 		}
+		jsonField = field.Name
 
 		jsonOmitEmpty := false
 		for _, field := range jsonFields {
