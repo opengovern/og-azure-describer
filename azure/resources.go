@@ -48,6 +48,7 @@ type ResourceType struct {
 	TerraformServiceName string
 
 	FastDiscovery bool
+	CostDiscovery bool
 	Summarize     bool
 }
 
