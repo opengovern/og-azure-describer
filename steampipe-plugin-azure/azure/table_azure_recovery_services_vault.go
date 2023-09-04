@@ -112,7 +112,7 @@ func tableAzureRecoveryServicesVault(_ context.Context) *plugin.Table {
 				Description: ColumnDescriptionAkas,
 				Type:        proto.ColumnType_JSON,
 
-				Transform: transform.FromField("Description.Vault.Properties.Encryption.KeyVaultProperties").Transform(idToAkas),
+				Transform: transform.FromField("Description.Vault.ID").Transform(idToAkas),
 			},
 
 			{
