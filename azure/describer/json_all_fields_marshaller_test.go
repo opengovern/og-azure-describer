@@ -1,6 +1,7 @@
 package describer
 
 import (
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation"
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2020-06-01/compute"
 	"github.com/Azure/azure-sdk-for-go/services/synapse/mgmt/2021-03-01/synapse"
 	"github.com/gdexlab/go-render/render"
@@ -79,6 +80,23 @@ func TestJSONAllFieldsMarshaller(t *testing.T) {
 			},
 			want: `{"ID":"MyWorkspace","Tags":null,"WorkspaceProperties":{"ConnectivityEndpoints":null,"ExtraProperties":null,"WorkspaceUID":"7eae5af9-b353-4d53-89b6-15a1a664b2c2"}}`,
 		},
+		{
+			name: "Enum",
+			value: armautomation.Account{
+				Etag: nil,
+				Identity: &armautomation.Identity{
+					Type: PTR(armautomation.ResourceIdentityTypeSystemAssigned),
+				},
+				Location:   nil,
+				Properties: nil,
+				Tags:       nil,
+				ID:         nil,
+				Name:       nil,
+				SystemData: nil,
+				Type:       nil,
+			},
+			want: `{"Etag":null,"ID":null,"Identity":{"PrincipalID":null,"TenantID":null,"Type":"SystemAssigned","UserAssignedIdentities":null},"Location":null,"Name":null,"Properties":null,"SystemData":null,"Tags":null,"Type":null}`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -116,4 +134,8 @@ func String(s string) *string {
 
 func UUID(u uuid.UUID) *uuid.UUID {
 	return &u
+}
+
+func PTR[T any](t T) *T {
+	return &t
 }

@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/gofrs/uuid"
 	"reflect"
 	"strings"
 )
@@ -52,39 +51,53 @@ func (x *JSONAllFieldsMarshaller) UnmarshalJSON(data []byte) error {
 			if err != nil {
 				return err
 			}
-			x.Value = val.Value.Interface()
+			newVal := reflect.New(v.Type())
+			newVal.Elem().Set(val.Value)
+			x.Value = newVal.Elem().Interface()
 		case reflect.Struct:
 			val := &azStructMarshaller{Value: v}
 			err := json.Unmarshal(data, val)
 			if err != nil {
 				return err
 			}
-			x.Value = val.Value.Interface()
+			newVal := reflect.New(v.Type())
+			newVal.Elem().Set(val.Value)
+			x.Value = newVal.Elem().Interface()
 		case reflect.Ptr:
 			val := &azPtrMarshaller{Value: v}
 			err := json.Unmarshal(data, val)
 			if err != nil {
 				return err
 			}
-			x.Value = val.Value.Interface()
+
+			newVal := reflect.New(v.Type())
+			newVal.Elem().Set(val.Value)
+			x.Value = newVal.Elem().Interface()
 		default:
-			err := json.Unmarshal(data, &x.Value)
+			val := reflect.New(v.Type())
+			err := json.Unmarshal(data, val.Interface())
 			if err != nil {
 				return err
 			}
+
+			newVal := reflect.New(v.Type())
+			newVal.Elem().Set(val.Elem())
+			x.Value = newVal.Elem().Interface()
 		}
-		return nil
-	} else if v.Type().PkgPath() == "github.com/gofrs/uuid" && v.Type().String() == "uuid.UUID" {
-		var val uuid.UUID
-		err := json.Unmarshal(data, &val)
-		if err != nil {
-			return err
-		}
-		x.Value = val
 		return nil
 	}
 
-	return json.Unmarshal(data, &x.Value)
+	val := reflect.New(v.Type())
+	err := json.Unmarshal(data, val.Interface())
+	if err != nil {
+		return err
+	}
+
+	newVal := reflect.New(v.Type())
+	newVal.Elem().Set(val.Elem())
+	x.Value = newVal.Elem().Interface()
+
+	return nil
 }
 
 type azStructMarshaller struct {
@@ -149,13 +162,14 @@ func (x *azStructMarshaller) UnmarshalJSON(data []byte) error {
 			continue
 		}
 		var err error
-		k := reflect.New(field.Type).Elem().Interface()
-		v := JSONAllFieldsMarshaller{Value: k}
+		v := JSONAllFieldsMarshaller{Value: reflect.New(field.Type).Elem().Interface()}
+		k := reflect.New(field.Type)
 		err = json.Unmarshal(rawMsg[jsonField], &v)
 		if err != nil {
 			return fmt.Errorf("unmarshalling field %s: %v", jsonField, err)
 		}
-		x.Value.Field(i).Set(reflect.ValueOf(v.Value))
+		k.Elem().Set(reflect.ValueOf(v.Value))
+		x.Value.Field(i).Set(k.Elem())
 	}
 
 	return nil
