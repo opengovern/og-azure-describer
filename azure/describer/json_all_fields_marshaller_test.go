@@ -3,7 +3,9 @@ package describer
 import (
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2020-06-01/compute"
 	"github.com/Azure/azure-sdk-for-go/services/synapse/mgmt/2021-03-01/synapse"
+	"github.com/gdexlab/go-render/render"
 	"github.com/gofrs/uuid"
+	"reflect"
 	"testing"
 )
 
@@ -19,7 +21,7 @@ func TestJSONAllFieldsMarshaller(t *testing.T) {
 				ID:   String("MyVirtualMachine"),
 				Type: String("MyVirtualMachineType"),
 			},
-			want: `{"id":"MyVirtualMachine","tags":null,"type":"MyVirtualMachineType"}`,
+			want: `{"ID":"MyVirtualMachine","Tags":null,"Type":"MyVirtualMachineType"}`,
 		},
 		{
 			name: "Struct/Pointer 2",
@@ -31,7 +33,7 @@ func TestJSONAllFieldsMarshaller(t *testing.T) {
 					Publisher: String("MyPublisher"),
 				},
 			},
-			want: `{"id":"MyVirtualMachine","plan":{"name":"MyPlan","publisher":"MyPublisher"},"tags":null,"type":"MyVirtualMachineType"}`,
+			want: `{"ID":"MyVirtualMachine","Plan":{"Name":"MyPlan","Publisher":"MyPublisher"},"Tags":null,"Type":"MyVirtualMachineType"}`,
 		},
 		{
 			name: "Struct/Pointer/Slice",
@@ -48,7 +50,7 @@ func TestJSONAllFieldsMarshaller(t *testing.T) {
 					},
 				},
 			},
-			want: `{"id":"MyVirtualMachine","plan":{"name":"MyPlan","publisher":"MyPublisher"},"resources":[{"id":"MyVirtualMachineExtension","tags":null}],"tags":null,"type":"MyVirtualMachineType"}`,
+			want: `{"ID":"MyVirtualMachine","Plan":{"Name":"MyPlan","Publisher":"MyPublisher"},"Resources":[{"ID":"MyVirtualMachineExtension","Tags":null}],"Tags":null,"Type":"MyVirtualMachineType"}`,
 		},
 		{
 			name: "Array/Slice",
@@ -65,7 +67,7 @@ func TestJSONAllFieldsMarshaller(t *testing.T) {
 					},
 				},
 			},
-			want: `{"id":"MyVirtualMachine","resources":[{"id":"MyVirtualMachineExtension","name":"MyVirtualMachineExtensionName","properties":{"publisher":"MyPublisher"},"tags":null}],"tags":null,"type":"MyVirtualMachineType"}`,
+			want: `{"ID":"MyVirtualMachine","Resources":[{"ID":"MyVirtualMachineExtension","Name":"MyVirtualMachineExtensionName","Tags":null,"VirtualMachineExtensionProperties":{"Publisher":"MyPublisher"}}],"Tags":null,"Type":"MyVirtualMachineType"}`,
 		},
 		{
 			name: "UUID",
@@ -75,7 +77,7 @@ func TestJSONAllFieldsMarshaller(t *testing.T) {
 					WorkspaceUID: UUID(uuid.Must(uuid.FromString("7eae5af9-b353-4d53-89b6-15a1a664b2c2"))),
 				},
 			},
-			want: `{"id":"MyWorkspace","properties":{"connectivityEndpoints":null,"extraProperties":null,"workspaceUID":"7eae5af9-b353-4d53-89b6-15a1a664b2c2"},"tags":null}`,
+			want: `{"ID":"MyWorkspace","Tags":null,"WorkspaceProperties":{"ConnectivityEndpoints":null,"ExtraProperties":null,"WorkspaceUID":"7eae5af9-b353-4d53-89b6-15a1a664b2c2"}}`,
 		},
 	}
 	for _, tt := range tests {
@@ -90,6 +92,19 @@ func TestJSONAllFieldsMarshaller(t *testing.T) {
 			}
 			if string(got) != tt.want {
 				t.Errorf("JSONAllFieldsMarshaller.MarshalJSON() = %v, want %v", string(got), tt.want)
+			}
+		})
+		t.Run(tt.name, func(t *testing.T) {
+			x := JSONAllFieldsMarshaller{
+				Value: reflect.New(reflect.TypeOf(tt.value)).Elem().Interface(),
+			}
+			err := x.UnmarshalJSON([]byte(tt.want))
+			if err != nil {
+				t.Errorf("JSONAllFieldsMarshaller.MarshalJSON() error = %v", err)
+				return
+			}
+			if render.AsCode(x.Value) != render.AsCode(tt.value) {
+				t.Errorf("JSONAllFieldsMarshaller.UnmarshalJSON() = %v\nwant %v\noriginal: %s", render.AsCode(x.Value), render.AsCode(tt.value), tt.want)
 			}
 		})
 	}

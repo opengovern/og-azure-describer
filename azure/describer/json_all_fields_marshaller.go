@@ -3,6 +3,8 @@ package describer
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"github.com/gofrs/uuid"
 	"reflect"
 	"strings"
 )
@@ -38,6 +40,51 @@ func (x JSONAllFieldsMarshaller) MarshalJSON() ([]byte, error) {
 	}
 
 	return json.Marshal(val)
+}
+
+func (x *JSONAllFieldsMarshaller) UnmarshalJSON(data []byte) error {
+	v := reflect.ValueOf(x.Value)
+	if _, ok := exclusionTypeSet[v.Type().PkgPath()]; !ok {
+		switch v.Kind() {
+		case reflect.Slice, reflect.Array:
+			val := &azSliceMarshaller{Value: v}
+			err := json.Unmarshal(data, val)
+			if err != nil {
+				return err
+			}
+			x.Value = val.Value.Interface()
+		case reflect.Struct:
+			val := &azStructMarshaller{Value: v}
+			err := json.Unmarshal(data, val)
+			if err != nil {
+				return err
+			}
+			x.Value = val.Value.Interface()
+		case reflect.Ptr:
+			val := &azPtrMarshaller{Value: v}
+			err := json.Unmarshal(data, val)
+			if err != nil {
+				return err
+			}
+			x.Value = val.Value.Interface()
+		default:
+			err := json.Unmarshal(data, &x.Value)
+			if err != nil {
+				return err
+			}
+		}
+		return nil
+	} else if v.Type().PkgPath() == "github.com/gofrs/uuid" && v.Type().String() == "uuid.UUID" {
+		var val uuid.UUID
+		err := json.Unmarshal(data, &val)
+		if err != nil {
+			return err
+		}
+		x.Value = val
+		return nil
+	}
+
+	return json.Unmarshal(data, &x.Value)
 }
 
 type azStructMarshaller struct {
@@ -78,6 +125,42 @@ func (x azStructMarshaller) MarshalJSON() ([]byte, error) {
 	return json.Marshal(m)
 }
 
+func (x *azStructMarshaller) UnmarshalJSON(data []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(data, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", x.Value, err)
+	}
+
+	x.Value = reflect.New(x.Value.Type()).Elem()
+	for i := 0; i < x.Value.Type().NumField(); i++ {
+		field := x.Value.Type().Field(i)
+		if !field.IsExported() {
+			continue
+		}
+
+		jsonTag := field.Tag.Get("json")
+		jsonFields := strings.Split(jsonTag, ",")
+		jsonField := jsonFields[0]
+		if jsonField == "-" {
+			continue
+		}
+		jsonField = field.Name
+		if msg, ok := rawMsg[jsonField]; !ok || string(msg) == "null" {
+			continue
+		}
+		var err error
+		k := reflect.New(field.Type).Elem().Interface()
+		v := JSONAllFieldsMarshaller{Value: k}
+		err = json.Unmarshal(rawMsg[jsonField], &v)
+		if err != nil {
+			return fmt.Errorf("unmarshalling field %s: %v", jsonField, err)
+		}
+		x.Value.Field(i).Set(reflect.ValueOf(v.Value))
+	}
+
+	return nil
+}
+
 type azPtrMarshaller struct {
 	reflect.Value
 }
@@ -98,6 +181,21 @@ func (x azPtrMarshaller) MarshalJSON() ([]byte, error) {
 	return JSONAllFieldsMarshaller{Value: val.Interface()}.MarshalJSON()
 }
 
+func (x *azPtrMarshaller) UnmarshalJSON(data []byte) error {
+	v := reflect.New(x.Value.Type().Elem())
+	k := JSONAllFieldsMarshaller{Value: v.Elem().Interface()}
+	if err := json.Unmarshal(data, &k); err != nil {
+		return err
+	}
+
+	p := reflect.New(reflect.TypeOf(k.Value))
+	p.Elem().Set(reflect.ValueOf(k.Value))
+
+	x.Value = p
+
+	return nil
+}
+
 type azSliceMarshaller struct {
 	reflect.Value
 }
@@ -114,6 +212,26 @@ func (x azSliceMarshaller) MarshalJSON() ([]byte, error) {
 	}
 
 	return json.Marshal(list)
+}
+
+func (x *azSliceMarshaller) UnmarshalJSON(data []byte) error {
+	var list []json.RawMessage
+	if err := json.Unmarshal(data, &list); err != nil {
+		return err
+	}
+
+	num := len(list)
+	x.Value = reflect.MakeSlice(x.Value.Type(), num, num)
+	for i := 0; i < num; i++ {
+		v := reflect.New(x.Value.Type().Elem())
+		k := JSONAllFieldsMarshaller{Value: v.Interface()}
+		if err := json.Unmarshal(list[i], &k); err != nil {
+			return err
+		}
+		x.Value.Index(i).Set(reflect.ValueOf(k.Value).Elem())
+	}
+
+	return nil
 }
 
 func isEmptyValue(v reflect.Value) bool {
