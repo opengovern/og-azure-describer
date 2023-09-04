@@ -96,7 +96,7 @@ func tableAzureApAutomationAccount(_ context.Context) *plugin.Table {
 				Name:        "tags",
 				Description: ColumnDescriptionTags,
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Automation.Tag")},
+				Transform:   transform.FromField("Description.Automation.Tags")},
 			{
 				Name:        "akas",
 				Description: ColumnDescriptionAkas,
