@@ -81,7 +81,6 @@ func (r *APIManagement) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -373,7 +372,6 @@ func (r *AutomationAccounts) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -613,7 +611,6 @@ func (r *AutomationVariables) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -843,7 +840,6 @@ func (r *AppConfiguration) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -1081,7 +1077,6 @@ func (r *AppServiceEnvironment) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -1329,7 +1324,6 @@ func (r *AppServiceFunctionApp) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -1581,7 +1575,6 @@ func (r *AppServiceWebApp) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -1837,7 +1830,6 @@ func (r *AppServiceWebAppSlot) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -2127,7 +2119,6 @@ func (r *AppServicePlan) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -2381,7 +2372,6 @@ func (r *ContainerApp) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -2597,7 +2587,6 @@ func (r *AppManagedEnvironment) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -2813,7 +2802,6 @@ func (r *WebServerFarms) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -3029,7 +3017,6 @@ func (r *Blueprint) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -3245,7 +3232,6 @@ func (r *ComputeDisk) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -3537,7 +3523,6 @@ func (r *ComputeDiskReadOps) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -3745,7 +3730,6 @@ func (r *ComputeDiskReadOpsDaily) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -3953,7 +3937,6 @@ func (r *ComputeDiskReadOpsHourly) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -4161,7 +4144,6 @@ func (r *ComputeDiskWriteOps) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -4369,7 +4351,6 @@ func (r *ComputeDiskWriteOpsDaily) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -4577,7 +4558,6 @@ func (r *ComputeDiskWriteOpsHourly) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -4785,7 +4765,6 @@ func (r *ComputeDiskAccess) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -5011,7 +4990,6 @@ func (r *ComputeVirtualMachineScaleSet) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -5279,7 +5257,6 @@ func (r *ComputeVirtualMachineScaleSetNetworkInterface) UnmarshalJSON(b []byte) 
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -5505,7 +5482,6 @@ func (r *ComputeVirtualMachineScaleSetVm) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -5779,7 +5755,6 @@ func (r *ComputeSnapshots) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -6055,7 +6030,6 @@ func (r *ComputeAvailabilitySet) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -6293,7 +6267,6 @@ func (r *ComputeDiskEncryptionSet) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -6531,7 +6504,6 @@ func (r *ComputeImageGallery) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -6748,7 +6720,6 @@ func (r *ComputeImage) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -6998,7 +6969,6 @@ func (r *ComputeHostGroup) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -7212,7 +7182,6 @@ func (r *ComputeHostGroupHost) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -7426,7 +7395,6 @@ func (r *ComputeRestorePointCollection) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -7640,7 +7608,6 @@ func (r *ComputeSSHPublicKey) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -7862,7 +7829,6 @@ func (r *DataboxEdgeDevice) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -8120,7 +8086,6 @@ func (r *HealthcareService) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -8374,7 +8339,6 @@ func (r *HpcCache) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -8618,7 +8582,6 @@ func (r *KeyVaultKey) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -8867,7 +8830,6 @@ func (r *KeyVaultKeyVersion) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -9121,7 +9083,6 @@ func (r *KubernetesCluster) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -9399,7 +9360,6 @@ func (r *KubernetesServiceVersion) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -9626,7 +9586,6 @@ func (r *ContainerInstanceContainerGroup) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -9878,7 +9837,6 @@ func (r *CDNProfile) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -10094,7 +10052,6 @@ func (r *CDNEndpoint) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -10308,7 +10265,6 @@ func (r *NetworkInterface) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -10564,7 +10520,6 @@ func (r *NetworkWatcherFlowLog) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -10810,7 +10765,6 @@ func (r *RouteTables) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -11040,7 +10994,6 @@ func (r *NetworkApplicationSecurityGroups) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -11266,7 +11219,6 @@ func (r *NetworkAzureFirewall) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -11520,7 +11472,6 @@ func (r *ExpressRouteCircuit) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -11772,7 +11723,6 @@ func (r *VirtualNetworkGateway) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -12034,7 +11984,6 @@ func (r *FirewallPolicy) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -12286,7 +12235,6 @@ func (r *LocalNetworkGateway) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -12503,7 +12451,6 @@ func (r *NatGateway) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -12731,7 +12678,6 @@ func (r *PrivateLinkService) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -12948,7 +12894,6 @@ func (r *VpnGateway) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -13165,7 +13110,6 @@ func (r *VpnGatewayVpnConnection) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -13381,7 +13325,6 @@ func (r *VpnSite) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -13597,7 +13540,6 @@ func (r *PublicIPAddress) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -13855,7 +13797,6 @@ func (r *PublicIPPrefix) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -14071,7 +14012,6 @@ func (r *DNSZones) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -14309,7 +14249,6 @@ func (r *BastionHosts) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -14537,7 +14476,6 @@ func (r *Connection) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -14753,7 +14691,6 @@ func (r *VirtualHubs) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -14969,7 +14906,6 @@ func (r *VirtualWans) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -15185,7 +15121,6 @@ func (r *PrivateDNSZones) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -15423,7 +15358,6 @@ func (r *PrivateEndpoint) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -15639,7 +15573,6 @@ func (r *NetworkDDoSProtectionPlan) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -15853,7 +15786,6 @@ func (r *PolicyAssignment) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -16091,7 +16023,6 @@ func (r *RedisCache) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -16357,7 +16288,6 @@ func (r *RedisEnterpriseCache) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -16573,7 +16503,6 @@ func (r *ResourceLink) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -16797,7 +16726,6 @@ func (r *RoleAssignment) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -17021,7 +16949,6 @@ func (r *RoleDefinition) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -17247,7 +17174,6 @@ func (r *PolicyDefinition) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -17477,7 +17403,6 @@ func (r *SecurityCenterAutoProvisioning) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -17695,7 +17620,6 @@ func (r *SecurityCenterContact) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -17919,7 +17843,6 @@ func (r *SecurityCenterJitNetworkAccessPolicy) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -18141,7 +18064,6 @@ func (r *SecurityCenterSetting) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -18361,7 +18283,6 @@ func (r *SecurityCenterSubscriptionPricing) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -18581,7 +18502,6 @@ func (r *SecurityCenterAutomation) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -18817,7 +18737,6 @@ func (r *SecurityCenterSubAssessment) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -19047,7 +18966,6 @@ func (r *StorageContainer) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -19299,7 +19217,6 @@ func (r *StorageBlob) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -19597,7 +19514,6 @@ func (r *StorageBlobService) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -19839,7 +19755,6 @@ func (r *StorageQueue) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -20063,7 +19978,6 @@ func (r *StorageFileShare) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -20309,7 +20223,6 @@ func (r *StorageTable) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -20531,7 +20444,6 @@ func (r *StorageTableService) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -20755,7 +20667,6 @@ func (r *Subnet) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -20997,7 +20908,6 @@ func (r *VirtualNetwork) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -21235,7 +21145,6 @@ func (r *Tenant) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -21455,7 +21364,6 @@ func (r *Subscription) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -21683,7 +21591,6 @@ func (r *ApplicationGateway) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -21939,7 +21846,6 @@ func (r *BatchAccount) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -22193,7 +22099,6 @@ func (r *CognitiveAccount) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -22467,7 +22372,6 @@ func (r *ComputeVirtualMachine) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -22787,7 +22691,6 @@ func (r *ComputeResourceSKU) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -23019,7 +22922,6 @@ func (r *ComputeVirtualMachineCpuUtilization) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -23227,7 +23129,6 @@ func (r *ComputeVirtualMachineCpuUtilizationDaily) UnmarshalJSON(b []byte) error
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -23435,7 +23336,6 @@ func (r *ComputeVirtualMachineCpuUtilizationHourly) UnmarshalJSON(b []byte) erro
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -23643,7 +23543,6 @@ func (r *ComputeCloudService) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -23859,7 +23758,6 @@ func (r *ContainerRegistry) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -24127,7 +24025,6 @@ func (r *CosmosdbAccount) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -24403,7 +24300,6 @@ func (r *CosmosdbRestorableDatabaseAccount) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -24633,7 +24529,6 @@ func (r *CosmosdbMongoDatabase) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -24869,7 +24764,6 @@ func (r *CosmosdbMongoCollection) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -25115,7 +25009,6 @@ func (r *CosmosdbSqlDatabase) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -25355,7 +25248,6 @@ func (r *CosmosdbCassandraCluster) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -25569,7 +25461,6 @@ func (r *DatabricksWorkspace) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -25785,7 +25676,6 @@ func (r *DataMigrationService) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -26001,7 +25891,6 @@ func (r *DataProtectionBackupVaults) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -26217,7 +26106,6 @@ func (r *DataProtectionBackupVaultsBackupPolicies) UnmarshalJSON(b []byte) error
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -26433,7 +26321,6 @@ func (r *DataFactory) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -26677,7 +26564,6 @@ func (r *DataFactoryDataset) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -26901,7 +26787,6 @@ func (r *DataFactoryPipeline) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -27141,7 +27026,6 @@ func (r *DataLakeAnalyticsAccount) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -27409,7 +27293,6 @@ func (r *DataLakeStore) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -27671,7 +27554,6 @@ func (r *DiagnosticSetting) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -27905,7 +27787,6 @@ func (r *EventGridDomain) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -28169,7 +28050,6 @@ func (r *EventGridTopic) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -28429,7 +28309,6 @@ func (r *EventhubNamespace) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -28687,7 +28566,6 @@ func (r *EventhubNamespaceEventhub) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -28903,7 +28781,6 @@ func (r *Frontdoor) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -29153,7 +29030,6 @@ func (r *HdinsightCluster) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -29423,7 +29299,6 @@ func (r *HybridComputeMachine) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -29687,7 +29562,6 @@ func (r *IOTHub) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -29953,7 +29827,6 @@ func (r *IOTHubDps) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -30201,7 +30074,6 @@ func (r *KeyVault) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -30451,7 +30323,6 @@ func (r *KeyVaultDeletedVault) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -30679,7 +30550,6 @@ func (r *KeyVaultManagedHardwareSecurityModule) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -30923,7 +30793,6 @@ func (r *KeyVaultSecret) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -31159,7 +31028,6 @@ func (r *KustoCluster) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -31421,7 +31289,6 @@ func (r *LogAlert) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -31655,7 +31522,6 @@ func (r *LogProfile) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -31889,7 +31755,6 @@ func (r *LogicAppWorkflow) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -32141,7 +32006,6 @@ func (r *LogicIntegrationAccounts) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -32357,7 +32221,6 @@ func (r *MachineLearningWorkspace) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -32615,7 +32478,6 @@ func (r *MariadbServer) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -32877,7 +32739,6 @@ func (r *MariadbDatabase) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -33093,7 +32954,6 @@ func (r *MysqlServer) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -33367,7 +33227,6 @@ func (r *MysqlFlexibleserver) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -33583,7 +33442,6 @@ func (r *NetworkSecurityGroup) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -33823,7 +33681,6 @@ func (r *NetworkWatcher) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -34049,7 +33906,6 @@ func (r *SearchService) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -34297,7 +34153,6 @@ func (r *ServiceFabricCluster) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -34567,7 +34422,6 @@ func (r *ServicebusNamespace) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -34815,7 +34669,6 @@ func (r *SignalrService) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -35065,7 +34918,6 @@ func (r *SpringCloudService) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -35301,7 +35153,6 @@ func (r *StreamAnalyticsJob) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -35563,7 +35414,6 @@ func (r *StreamAnalyticsCluster) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -35779,7 +35629,6 @@ func (r *VirtualMachineImagesImageTemplates) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -35995,7 +35844,6 @@ func (r *OperationalInsightsWorkspaces) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -36211,7 +36059,6 @@ func (r *TimeSeriesInsightsEnvironments) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -36427,7 +36274,6 @@ func (r *SynapseWorkspace) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -36685,7 +36531,6 @@ func (r *SynapseWorkspaceBigdatapools) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -36901,7 +36746,6 @@ func (r *SynapseWorkspaceSqlpools) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -37117,7 +36961,6 @@ func (r *Location) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -37338,7 +37181,6 @@ func (r *AdUsers) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -37593,7 +37435,6 @@ func (r *AdGroup) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -37861,7 +37702,6 @@ func (r *AdServicePrincipal) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -38119,7 +37959,6 @@ func (r *AnalysisServiceServer) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -38336,7 +38175,6 @@ func (r *PostgresqlServer) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -38612,7 +38450,6 @@ func (r *PostgresqlFlexibleServer) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -38828,7 +38665,6 @@ func (r *StorageSync) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -39062,7 +38898,6 @@ func (r *MssqlManagedInstance) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -39334,7 +39169,6 @@ func (r *MssqlManagedInstanceDatabases) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -39550,7 +39384,6 @@ func (r *SqlDatabase) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -39840,7 +39673,6 @@ func (r *SqlInstancePool) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -40054,7 +39886,6 @@ func (r *SqlServer) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -40312,7 +40143,6 @@ func (r *SqlServerJobAgent) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -40528,7 +40358,6 @@ func (r *SqlVirtualClusters) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -40744,7 +40573,6 @@ func (r *SqlServerElasticPool) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -40986,7 +40814,6 @@ func (r *SqlServerVirtualMachine) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -41236,7 +41063,6 @@ func (r *SqlServerVirtualMachineGroup) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -41452,7 +41278,6 @@ func (r *SqlServerFlexibleServer) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -41726,7 +41551,6 @@ func (r *StorageAccount) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -42046,7 +41870,6 @@ func (r *RecoveryServicesVault) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -42286,7 +42109,6 @@ func (r *HybridKubernetesConnectedCluster) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -42548,7 +42370,6 @@ func (r *CostManagementCostByResourceType) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -42768,7 +42589,6 @@ func (r *CostManagementCostBySubscription) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -42980,7 +42800,6 @@ func (r *LoadBalancer) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -43232,7 +43051,6 @@ func (r *LoadBalancerBackendAddressPool) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -43468,7 +43286,6 @@ func (r *LoadBalancerNatRule) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -43708,7 +43525,6 @@ func (r *LoadBalancerOutboundRule) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -43944,7 +43760,6 @@ func (r *LoadBalancerProbe) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -44180,7 +43995,6 @@ func (r *LoadBalancerRule) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -44428,7 +44242,6 @@ func (r *ManagementGroup) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -44650,7 +44463,6 @@ func (r *ManagementLock) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -44874,7 +44686,6 @@ func (r *ResourceProvider) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -45092,7 +44903,6 @@ func (r *ResourceGroup) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -45316,7 +45126,6 @@ func (r *BotServiceBot) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -45530,7 +45339,6 @@ func (r *NetAppAccount) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -45744,7 +45552,6 @@ func (r *NetAppCapacityPool) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -45958,7 +45765,6 @@ func (r *DesktopVirtualizationHostPool) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -46172,7 +45978,6 @@ func (r *DevTestLabLab) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -46386,7 +46191,6 @@ func (r *PurviewAccount) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -46600,7 +46404,6 @@ func (r *PowerBIDedicatedCapacity) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
@@ -46814,7 +46617,6 @@ func (r *ApplicationInsightsComponent) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil

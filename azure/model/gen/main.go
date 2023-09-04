@@ -127,7 +127,6 @@ func (r *{{ .Name }}) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 		default:
-			return fmt.Errorf("unknown field %q for type %T", k, r)
 		}
 	}
 	return nil
