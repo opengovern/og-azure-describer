@@ -138,7 +138,7 @@ func GetSqlServer(ctx context.Context, virtualNetworkClient *armsql.VirtualNetwo
 		Name:     *server.Name,
 		Location: *server.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SqlServerDescription{
+			Value: model.SqlServerDescription{
 				Server:                         *server,
 				ServerBlobAuditingPolicies:     bop,
 				ServerSecurityAlertPolicies:    sop,
@@ -216,7 +216,7 @@ func GetSqlServerJobAgent(ctx context.Context, server *armsql.Server, job *armsq
 		Name:     *job.Name,
 		Location: *job.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SqlServerJobAgentDescription{
+			Value: model.SqlServerJobAgentDescription{
 				Server:        *server,
 				JobAgent:      *job,
 				ResourceGroup: jobResourceGroupName,
@@ -263,7 +263,7 @@ func GetSqlVirtualCluster(ctx context.Context, v *armsql.VirtualCluster) *Resour
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SqlVirtualClustersDescription{
+			Value: model.SqlVirtualClustersDescription{
 				VirtualClusters: *v,
 				ResourceGroup:   resourceGroupName,
 			},
@@ -349,7 +349,7 @@ func GetSqlServerElasticPool(ctx context.Context, server *armsql.Server, activit
 		Name:     *elasticPool.Name,
 		Location: *elasticPool.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SqlServerElasticPoolDescription{
+			Value: model.SqlServerElasticPoolDescription{
 				TotalDTU:      totalDTU,
 				Pool:          *elasticPool,
 				ServerName:    *server.Name,
@@ -395,7 +395,7 @@ func GetSqlServerVirtualMachine(ctx context.Context, vm *armsqlvirtualmachine.SQ
 		Name:     *vm.Name,
 		Location: *vm.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SqlServerVirtualMachineDescription{
+			Value: model.SqlServerVirtualMachineDescription{
 				VirtualMachine: *vm,
 				ResourceGroup:  resourceGroup,
 			},
@@ -440,7 +440,7 @@ func GetSqlServerVirtualMachineGroups(ctx context.Context, vm *armsqlvirtualmach
 		Name:     *vm.Name,
 		Location: *vm.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SqlServerVirtualMachineGroupDescription{
+			Value: model.SqlServerVirtualMachineGroupDescription{
 				Group:         *vm,
 				ResourceGroup: resourceGroup,
 			},
@@ -484,7 +484,7 @@ func GetSqlServerFlexibleServer(ctx context.Context, fs *armmysqlflexibleservers
 		Name:     *fs.Name,
 		Location: *fs.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SqlServerFlexibleServerDescription{
+			Value: model.SqlServerFlexibleServerDescription{
 				FlexibleServer: *fs,
 				ResourceGroup:  resourceGroup,
 			},

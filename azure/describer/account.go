@@ -83,7 +83,7 @@ func getDataLakeAnalyticsAccount(ctx context.Context, account *armdatalakeanalyt
 		Name:     *account.Name,
 		Location: *account.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.DataLakeAnalyticsAccountDescription{
+			Value: model.DataLakeAnalyticsAccountDescription{
 				DataLakeAnalyticsAccount:   accountGetOp.Account,
 				DiagnosticSettingsResource: &accountListOp,
 				ResourceGroup:              resourceGroup,
@@ -162,7 +162,7 @@ func getDataLakeStore(ctx context.Context, account *armdatalakestore.AccountBasi
 		Name:     name,
 		Location: "",
 		Description: JSONAllFieldsMarshaller{
-			model.DataLakeStoreDescription{
+			Value: model.DataLakeStoreDescription{
 				DataLakeStoreAccount:       accountGetOp.Account,
 				DiagnosticSettingsResource: &accountListOp,
 				ResourceGroup:              resourceGroup,

@@ -36,7 +36,7 @@ func AdUsers(ctx context.Context, authorizer auth.Authorizer, tenantId string, s
 			Name:     *user.DisplayName,
 			Location: "global",
 			Description: JSONAllFieldsMarshaller{
-				model.AdUsersDescription{
+				Value: model.AdUsersDescription{
 					TenantID: tenantId,
 					AdUsers:  user,
 				},
@@ -75,7 +75,7 @@ func AdGroup(ctx context.Context, authorizer auth.Authorizer, tenantId string, s
 			Name:     *group.DisplayName,
 			Location: "global",
 			Description: JSONAllFieldsMarshaller{
-				model.AdGroupDescription{
+				Value: model.AdGroupDescription{
 					TenantID: tenantId,
 					AdGroup:  group,
 				},
@@ -114,7 +114,7 @@ func AdServicePrinciple(ctx context.Context, authorizer auth.Authorizer, tenantI
 			Name:     *servicePrincipal.DisplayName,
 			Location: "global",
 			Description: JSONAllFieldsMarshaller{
-				model.AdServicePrincipalDescription{
+				Value: model.AdServicePrincipalDescription{
 					TenantID:           tenantId,
 					AdServicePrincipal: servicePrincipal,
 				},

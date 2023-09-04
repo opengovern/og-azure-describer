@@ -255,7 +255,7 @@ func GetServicebusNamespace(ctx context.Context, namespaceClient *armservicebus.
 		Name:     *namespace.Name,
 		Location: *namespace.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ServicebusNamespaceDescription{
+			Value: model.ServicebusNamespaceDescription{
 				SBNamespace:                 *namespace,
 				DiagnosticSettingsResources: insightsListOp,
 				NetworkRuleSet:              servicebusGetNetworkRuleSetOp,

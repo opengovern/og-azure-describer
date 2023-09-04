@@ -65,7 +65,7 @@ func getAPIMangement(ctx context.Context, diagnosticClient *armmonitor.Diagnosti
 		Name:     *apiManagement.Name,
 		Location: *apiManagement.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.APIManagementDescription{
+			Value: model.APIManagementDescription{
 				APIManagement:               *apiManagement,
 				DiagnosticSettingsResources: &op,
 				ResourceGroup:               resourceGroup,

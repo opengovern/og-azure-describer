@@ -65,7 +65,7 @@ func GetSignalrService(ctx context.Context, diagnosticClient *armmonitor.Diagnos
 		Name:     *service.Name,
 		Location: *service.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SignalrServiceDescription{
+			Value: model.SignalrServiceDescription{
 				ResourceInfo:                *service,
 				DiagnosticSettingsResources: signalrListOp,
 				ResourceGroup:               resourceGroup,

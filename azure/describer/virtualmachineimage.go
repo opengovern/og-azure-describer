@@ -45,7 +45,7 @@ func GetVirtualMachineImagesImageTemplates(ctx context.Context, v *armvirtualmac
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.VirtualMachineImagesImageTemplatesDescription{
+			Value: model.VirtualMachineImagesImageTemplatesDescription{
 				ImageTemplate: *v,
 				ResourceGroup: resourceGroup,
 			},

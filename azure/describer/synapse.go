@@ -86,7 +86,7 @@ func GetSynapseWorkspace(ctx context.Context, synapseClient *armsynapse.Workspac
 		Name:     *config.Name,
 		Location: *config.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SynapseWorkspaceDescription{
+			Value: model.SynapseWorkspaceDescription{
 				Workspace:                      *config,
 				ServerVulnerabilityAssessments: serverVulnerabilityAssessments,
 				DiagnosticSettingsResources:    synapseListOp,
@@ -147,7 +147,7 @@ func GetSynapseWorkspaceBigdataPools(ctx context.Context, resourceGroup string, 
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SynapseWorkspaceBigdatapoolsDescription{
+			Value: model.SynapseWorkspaceBigdatapoolsDescription{
 				Workspace:     *v,
 				BigDataPool:   *bp,
 				ResourceGroup: resourceGroup,
@@ -220,7 +220,7 @@ func GetSynapseWorkspaceSqlpools(ctx context.Context, v *armsynapse.Workspace, b
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SynapseWorkspaceSqlpoolsDescription{
+			Value: model.SynapseWorkspaceSqlpoolsDescription{
 				Workspace:     *v,
 				SqlPool:       *bp,
 				ResourceGroup: resourceGroup,

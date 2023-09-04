@@ -51,7 +51,7 @@ func getManagementGroup(ctx context.Context, client *armmanagementgroups.Client,
 		ID:   *info.ID,
 		Name: *info.Name,
 		Description: JSONAllFieldsMarshaller{
-			model.ManagementGroupDescription{
+			Value: model.ManagementGroupDescription{
 				Group: info.ManagementGroup,
 			},
 		},
@@ -94,7 +94,7 @@ func getManagementLock(ctx context.Context, lockObject *armlocks.ManagementLockO
 		Name:     *lockObject.Name,
 		Location: "global",
 		Description: JSONAllFieldsMarshaller{
-			model.ManagementLockDescription{
+			Value: model.ManagementLockDescription{
 				Lock:          *lockObject,
 				ResourceGroup: resourceGroup,
 			},

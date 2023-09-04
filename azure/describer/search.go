@@ -63,7 +63,7 @@ func GetSearchService(ctx context.Context, diagnosticClient *armmonitor.Diagnost
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SearchServiceDescription{
+			Value: model.SearchServiceDescription{
 				Service:                     *v,
 				DiagnosticSettingsResources: searchListOp,
 			},

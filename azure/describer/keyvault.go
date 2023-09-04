@@ -70,7 +70,7 @@ func KeyVaultKey(ctx context.Context, cred *azidentity.ClientSecretCredential, s
 							Name:     *vCopy.Name,
 							Location: *vCopy.Location,
 							Description: JSONAllFieldsMarshaller{
-								model.KeyVaultKeyDescription{
+								Value: model.KeyVaultKeyDescription{
 									Vault:         *vaultCopy,
 									Key:           *vCopy,
 									ResourceGroup: resourceGroupCopy,
@@ -135,7 +135,7 @@ func getKeyVaultKey(ctx context.Context, keysClient *armkeyvault.KeysClient, vCo
 		Name:     *vCopy.Name,
 		Location: *vCopy.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.KeyVaultKeyDescription{
+			Value: model.KeyVaultKeyDescription{
 				Vault:         *vaultCopy,
 				Key:           *vCopy,
 				ResourceGroup: resourceGroupCopy,
@@ -212,7 +212,7 @@ func getKeyVault(ctx context.Context, vault *armkeyvault.Resource, vaultsClient 
 		Name:     *vault.Name,
 		Location: *vault.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.KeyVaultDescription{
+			Value: model.KeyVaultDescription{
 				Resource:                    *vault,
 				Vault:                       keyVaultGetOp.Vault,
 				DiagnosticSettingsResources: insightsListOp,
@@ -259,7 +259,7 @@ func getDeletedVault(ctx context.Context, vault *armkeyvault.DeletedVault) *Reso
 		Name:     *vault.Name,
 		Location: *vault.Properties.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.KeyVaultDeletedVaultDescription{
+			Value: model.KeyVaultDeletedVaultDescription{
 				Vault:         *vault,
 				ResourceGroup: resourceGroup,
 			},
@@ -329,7 +329,7 @@ func getKeyVaultManagedHardwareSecurityModule(ctx context.Context, client *armmo
 		Name:     *vault.Name,
 		Location: *vault.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.KeyVaultManagedHardwareSecurityModuleDescription{
+			Value: model.KeyVaultManagedHardwareSecurityModuleDescription{
 				ManagedHsm:                  *vault,
 				DiagnosticSettingsResources: keyvaultListOp,
 				ResourceGroup:               resourceGroup,
@@ -460,7 +460,7 @@ func GetKeyVaultKeyVersion(ctx context.Context, resourceGroup string, vault *arm
 		Name:     *version.Name,
 		Location: *version.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.KeyVaultKeyVersionDescription{
+			Value: model.KeyVaultKeyVersionDescription{
 				Vault:         *vault,
 				Key:           *key,
 				Version:       *version,

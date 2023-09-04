@@ -42,7 +42,7 @@ func GetServiceFabricCluster(ctx context.Context, cluster *armservicefabric.Clus
 		Name:     *cluster.Name,
 		Location: *cluster.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ServiceFabricClusterDescription{Cluster: *cluster, ResourceGroup: resourceGroup},
+			Value: model.ServiceFabricClusterDescription{Cluster: *cluster, ResourceGroup: resourceGroup},
 		}}
 	return &resource
 }

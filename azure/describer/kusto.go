@@ -45,7 +45,7 @@ func getKustoCluster(ctx context.Context, kusto *armkusto.Cluster) *Resource {
 		Name:     *kusto.Name,
 		Location: *kusto.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.KustoClusterDescription{
+			Value: model.KustoClusterDescription{
 				Cluster:       *kusto,
 				ResourceGroup: resourceGroup,
 			},

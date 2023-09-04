@@ -137,7 +137,7 @@ func getEventGridDomain(ctx context.Context, domain *armeventgrid.Domain, client
 		Name:     *domain.Name,
 		Location: *domain.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.EventGridDomainDescription{
+			Value: model.EventGridDomainDescription{
 				Domain:                      *domain,
 				DiagnosticSettingsResources: eventgridListOp,
 				ResourceGroup:               resourceGroup,
@@ -203,7 +203,7 @@ func getEventGridTopic(ctx context.Context, v *armeventgrid.Topic, client *armmo
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.EventGridTopicDescription{
+			Value: model.EventGridTopicDescription{
 				Topic:                       *v,
 				DiagnosticSettingsResources: eventgridListOp,
 				ResourceGroup:               resourceGroup,

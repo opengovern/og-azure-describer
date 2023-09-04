@@ -45,7 +45,7 @@ func getMariadbServer(ctx context.Context, server *armmariadb.Server) *Resource 
 		Name:     *server.Name,
 		Location: *server.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.MariadbServerDescription{
+			Value: model.MariadbServerDescription{
 				Server:        *server,
 				ResourceGroup: resourceGroup,
 			},
@@ -115,7 +115,7 @@ func getMariadbDatabase(ctx context.Context, server *armmariadb.Server, r *armma
 		Name:     *r.Name,
 		Location: *server.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.MariadbDatabaseDescription{
+			Value: model.MariadbDatabaseDescription{
 				Database:      *r,
 				Server:        *server,
 				ResourceGroup: resourceGroup,

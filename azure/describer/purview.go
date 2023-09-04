@@ -44,7 +44,7 @@ func GetPurviewAccount(ctx context.Context, v *armpurview.Account) *Resource {
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.PurviewAccountDescription{
+			Value: model.PurviewAccountDescription{
 				Account:       *v,
 				ResourceGroup: resourceGroupName,
 			},

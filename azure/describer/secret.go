@@ -74,7 +74,7 @@ func KeyVaultSecret(ctx context.Context, cred *azidentity.ClientSecretCredential
 							Name:     *sc.ID,
 							Location: "global",
 							Description: JSONAllFieldsMarshaller{
-								model.KeyVaultSecretDescription{
+								Value: model.KeyVaultSecretDescription{
 									SecretItem:    *sc,
 									Vault:         keyVaultGetOp.Vault,
 									TurboData:     turbotData,

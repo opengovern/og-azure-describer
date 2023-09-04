@@ -74,7 +74,7 @@ func getSpringCloudService(ctx context.Context, diagnosticClient *armmonitor.Dia
 		Name:     *service.Name,
 		Location: *service.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SpringCloudServiceDescription{
+			Value: model.SpringCloudServiceDescription{
 				ServiceResource:            *service,
 				DiagnosticSettingsResource: &diagnosticList,
 				ResourceGroup:              resourceGroup,

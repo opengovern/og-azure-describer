@@ -45,7 +45,7 @@ func getAnalysisService(ctx context.Context, server *armanalysisservices.Server)
 		Name:     *server.Name,
 		Location: *server.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.AnalysisServiceServerDescription{
+			Value: model.AnalysisServiceServerDescription{
 				Server:        *server,
 				ResourceGroup: resourceGroupName,
 			},

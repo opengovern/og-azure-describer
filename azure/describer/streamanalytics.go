@@ -65,7 +65,7 @@ func GetStreamAnalyticsJob(ctx context.Context, diagnosticClient *armmonitor.Dia
 		Name:     *streamingJob.Name,
 		Location: *streamingJob.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.StreamAnalyticsJobDescription{
+			Value: model.StreamAnalyticsJobDescription{
 				StreamingJob:                *streamingJob,
 				DiagnosticSettingsResources: streamanalyticsListOp,
 				ResourceGroup:               resourceGroup,
@@ -111,7 +111,7 @@ func GetStreamAnalyticsCluster(ctx context.Context, streamingJob *armstreamanaly
 		Name:     *streamingJob.Name,
 		Location: *streamingJob.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.StreamAnalyticsClusterDescription{
+			Value: model.StreamAnalyticsClusterDescription{
 				StreamingJob:  *streamingJob,
 				ResourceGroup: resourceGroup,
 			},

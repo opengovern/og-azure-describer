@@ -45,7 +45,7 @@ func getDataMigrationService(ctx context.Context, v *armdatamigration.Service) *
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.DataMigrationServiceDescription{
+			Value: model.DataMigrationServiceDescription{
 				Service:       *v,
 				ResourceGroup: resourceGroup,
 			},

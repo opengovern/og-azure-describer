@@ -65,7 +65,7 @@ func getLogicAppWorkflow(ctx context.Context, diagnosticClient *armmonitor.Diagn
 		Name:     *workflow.Name,
 		Location: *workflow.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.LogicAppWorkflowDescription{
+			Value: model.LogicAppWorkflowDescription{
 				Workflow:                    *workflow,
 				DiagnosticSettingsResources: logicListOp,
 				ResourceGroup:               resourceGroup,
@@ -111,7 +111,7 @@ func getLogicIntegrationAccounts(ctx context.Context, account *armlogic.Integrat
 		Name:     *account.Name,
 		Location: *account.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.LogicIntegrationAccountsDescription{
+			Value: model.LogicIntegrationAccountsDescription{
 				Account:       *account,
 				ResourceGroup: resourceGroup,
 			},

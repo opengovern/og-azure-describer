@@ -48,7 +48,7 @@ func getComputeDisk(ctx context.Context, v *armcompute.Disk) *Resource {
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeDiskDescription{
+			Value: model.ComputeDiskDescription{
 				Disk:          *v,
 				ResourceGroup: resourceGroup,
 			},
@@ -92,7 +92,7 @@ func getComputeDiskAccess(ctx context.Context, v *armcompute.DiskAccess) *Resour
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeDiskAccessDescription{
+			Value: model.ComputeDiskAccessDescription{
 				DiskAccess:    *v,
 				ResourceGroup: resourceGroup,
 			},
@@ -152,7 +152,7 @@ func getComputeVirtualMachineScaleSet(ctx context.Context, clientExtension *armc
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeVirtualMachineScaleSetDescription{
+			Value: model.ComputeVirtualMachineScaleSetDescription{
 				VirtualMachineScaleSet:           *v,
 				VirtualMachineScaleSetExtensions: op,
 				ResourceGroup:                    resourceGroupName,
@@ -217,7 +217,7 @@ func getComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, vm *a
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeVirtualMachineScaleSetNetworkInterfaceDescription{
+			Value: model.ComputeVirtualMachineScaleSetNetworkInterfaceDescription{
 				VirtualMachineScaleSet: *vm,
 				NetworkInterface:       *v,
 				ResourceGroup:          resourceGroupName,
@@ -273,7 +273,7 @@ func getComputeVirtualMachineScaleSetVm(ctx context.Context, vm *armcompute.Virt
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeVirtualMachineScaleSetVmDescription{
+			Value: model.ComputeVirtualMachineScaleSetVmDescription{
 				VirtualMachineScaleSet: *vm,
 				ScaleSetVM:             *v,
 				ResourceGroup:          resourceGroupName,
@@ -398,7 +398,7 @@ func getComputeVirtualMachine(ctx context.Context, vmClient *armcompute.VirtualM
 		Name:     *virtualMachine.Name,
 		Location: *virtualMachine.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeVirtualMachineDescription{
+			Value: model.ComputeVirtualMachineDescription{
 				VirtualMachine:             *virtualMachine,
 				VirtualMachineInstanceView: computeInstanceViewOp.VirtualMachineInstanceView,
 				InterfaceIPConfigurations:  ipConfigs,
@@ -448,7 +448,7 @@ func getComputeSnapshot(ctx context.Context, snapshot *armcompute.Snapshot) *Res
 		Name:     *snapshot.Name,
 		Location: *snapshot.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeSnapshotsDescription{
+			Value: model.ComputeSnapshotsDescription{
 				ResourceGroup: resourceGroupName,
 				Snapshot:      *snapshot,
 			},
@@ -493,7 +493,7 @@ func getComputeAvailabilitySet(ctx context.Context, availabilitySet *armcompute.
 		Name:     *availabilitySet.Name,
 		Location: *availabilitySet.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeAvailabilitySetDescription{
+			Value: model.ComputeAvailabilitySetDescription{
 				ResourceGroup:   resourceGroupName,
 				AvailabilitySet: *availabilitySet,
 			},
@@ -538,7 +538,7 @@ func getComputeDiskEncryptionSet(ctx context.Context, diskEncryptionSet *armcomp
 		Name:     *diskEncryptionSet.Name,
 		Location: *diskEncryptionSet.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeDiskEncryptionSetDescription{
+			Value: model.ComputeDiskEncryptionSetDescription{
 				ResourceGroup:     resourceGroupName,
 				DiskEncryptionSet: *diskEncryptionSet,
 			},
@@ -583,7 +583,7 @@ func getComputeGallery(ctx context.Context, gallery *armcompute.Gallery) *Resour
 		Name:     *gallery.Name,
 		Location: *gallery.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeImageGalleryDescription{
+			Value: model.ComputeImageGalleryDescription{
 				ResourceGroup: resourceGroupName,
 				ImageGallery:  *gallery,
 			},
@@ -627,7 +627,7 @@ func getComputeImage(ctx context.Context, v *armcompute.Image) *Resource {
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeImageDescription{
+			Value: model.ComputeImageDescription{
 				Image:         *v,
 				ResourceGroup: resourceGroup,
 			},
@@ -671,7 +671,7 @@ func getComputeHostGroup(ctx context.Context, v *armcompute.DedicatedHostGroup) 
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeHostGroupDescription{
+			Value: model.ComputeHostGroupDescription{
 				HostGroup:     *v,
 				ResourceGroup: resourceGroup,
 			},
@@ -730,7 +730,7 @@ func getComputeHostsByGroup(ctx context.Context, hostClient *armcompute.Dedicate
 				Name:     *v.Name,
 				Location: *v.Location,
 				Description: JSONAllFieldsMarshaller{
-					model.ComputeHostGroupHostDescription{
+					Value: model.ComputeHostGroupHostDescription{
 						Host:          *host,
 						ResourceGroup: resourceGroup,
 					},
@@ -777,7 +777,7 @@ func getComputeResourcePointCollection(ctx context.Context, v *armcompute.Restor
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeRestorePointCollectionDescription{
+			Value: model.ComputeRestorePointCollectionDescription{
 				RestorePointCollection: *v,
 				ResourceGroup:          resourceGroup,
 			},
@@ -821,7 +821,7 @@ func getComputeSSHPublicKey(ctx context.Context, v *armcompute.SSHPublicKeyResou
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeSSHPublicKeyDescription{
+			Value: model.ComputeSSHPublicKeyDescription{
 				SSHPublicKey:  *v,
 				ResourceGroup: resourceGroup,
 			},
@@ -882,7 +882,7 @@ func getComputeDiskReadOps(ctx context.Context, cred *azidentity.ClientSecretCre
 			Name:     fmt.Sprintf("%s readops", *disk.Name),
 			Location: *disk.Location,
 			Description: JSONAllFieldsMarshaller{
-				model.ComputeDiskReadOpsDescription{
+				Value: model.ComputeDiskReadOpsDescription{
 					MonitoringMetric: metric,
 				},
 			},
@@ -944,7 +944,7 @@ func getComputeDiskReadOpsDaily(ctx context.Context, cred *azidentity.ClientSecr
 			Name:     fmt.Sprintf("%s readops-daily", *disk.Name),
 			Location: *disk.Location,
 			Description: JSONAllFieldsMarshaller{
-				model.ComputeDiskReadOpsDailyDescription{
+				Value: model.ComputeDiskReadOpsDailyDescription{
 					MonitoringMetric: metric,
 				},
 			},
@@ -1005,7 +1005,7 @@ func getComputeDiskReadOpsHourly(ctx context.Context, cred *azidentity.ClientSec
 			Name:     fmt.Sprintf("%s readops-hourly", *disk.Name),
 			Location: *disk.Location,
 			Description: JSONAllFieldsMarshaller{
-				model.ComputeDiskReadOpsHourlyDescription{
+				Value: model.ComputeDiskReadOpsHourlyDescription{
 					MonitoringMetric: metric,
 				},
 			},
@@ -1067,7 +1067,7 @@ func getComputeDiskWriteOps(ctx context.Context, cred *azidentity.ClientSecretCr
 			Name:     fmt.Sprintf("%s writeops", *disk.Name),
 			Location: *disk.Location,
 			Description: JSONAllFieldsMarshaller{
-				model.ComputeDiskReadOpsDescription{
+				Value: model.ComputeDiskReadOpsDescription{
 					MonitoringMetric: metric,
 				},
 			},
@@ -1129,7 +1129,7 @@ func getComputeDiskWriteOpsDaily(ctx context.Context, cred *azidentity.ClientSec
 			Name:     fmt.Sprintf("%s writeops-daily", *disk.Name),
 			Location: *disk.Location,
 			Description: JSONAllFieldsMarshaller{
-				model.ComputeDiskReadOpsDailyDescription{
+				Value: model.ComputeDiskReadOpsDailyDescription{
 					MonitoringMetric: metric,
 				},
 			},
@@ -1190,7 +1190,7 @@ func getComputeDiskWriteOpsHourly(ctx context.Context, cred *azidentity.ClientSe
 			Name:     fmt.Sprintf("%s writeops-hourly", *disk.Name),
 			Location: *disk.Location,
 			Description: JSONAllFieldsMarshaller{
-				model.ComputeDiskReadOpsHourlyDescription{
+				Value: model.ComputeDiskReadOpsHourlyDescription{
 					MonitoringMetric: metric,
 				},
 			},
@@ -1231,7 +1231,7 @@ func ComputeResourceSKU(ctx context.Context, cred *azidentity.ClientSecretCreden
 func getComputeResourceSKU(ctx context.Context, subscription string, resourceSku *armcompute.ResourceSKU) *Resource {
 	resource := Resource{
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeResourceSKUDescription{
+			Value: model.ComputeResourceSKUDescription{
 				ResourceSKU: *resourceSku,
 			},
 		},
@@ -1300,7 +1300,7 @@ func getComputeVirtualMachineCpuUtilization(ctx context.Context, cred *azidentit
 			Name:     fmt.Sprintf("%s cpu-utilization", *virtualMachine.Name),
 			Location: *virtualMachine.Location,
 			Description: JSONAllFieldsMarshaller{
-				model.ComputeVirtualMachineCpuUtilizationDescription{
+				Value: model.ComputeVirtualMachineCpuUtilizationDescription{
 					MonitoringMetric: metric,
 				},
 			},
@@ -1362,7 +1362,7 @@ func getComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, cred *azid
 			Name:     fmt.Sprintf("%s cpu-utilization-daily", *virtualMachine.Name),
 			Location: *virtualMachine.Location,
 			Description: JSONAllFieldsMarshaller{
-				model.ComputeVirtualMachineCpuUtilizationDescription{
+				Value: model.ComputeVirtualMachineCpuUtilizationDescription{
 					MonitoringMetric: metric,
 				},
 			},
@@ -1424,7 +1424,7 @@ func getComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, cred *azi
 			Name:     fmt.Sprintf("%s cpu-utilization-hourly", *virtualMachine.Name),
 			Location: *virtualMachine.Location,
 			Description: JSONAllFieldsMarshaller{
-				model.ComputeVirtualMachineCpuUtilizationDescription{
+				Value: model.ComputeVirtualMachineCpuUtilizationDescription{
 					MonitoringMetric: metric,
 				},
 			},
@@ -1468,7 +1468,7 @@ func getComputeCloudServices(ctx context.Context, v *armcompute.CloudService) *R
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ComputeCloudServiceDescription{
+			Value: model.ComputeCloudServiceDescription{
 				CloudService: *v,
 			},
 		},

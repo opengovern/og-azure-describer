@@ -41,7 +41,7 @@ func getResourceLink(ctx context.Context, v *armlinks.ResourceLink) *Resource {
 		Name:     *v.Name,
 		Location: "global",
 		Description: JSONAllFieldsMarshaller{
-			model.ResourceLinkDescription{
+			Value: model.ResourceLinkDescription{
 				ResourceLink: *v,
 			},
 		},

@@ -64,7 +64,7 @@ func getMachineLearningWorkspace(ctx context.Context, diagnosticClient *armmonit
 		Name:     *workspace.Name,
 		Location: *workspace.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.MachineLearningWorkspaceDescription{
+			Value: model.MachineLearningWorkspaceDescription{
 				Workspace:                   *workspace,
 				DiagnosticSettingsResources: machineLearningServicesListOp,
 				ResourceGroup:               resourceGroup,

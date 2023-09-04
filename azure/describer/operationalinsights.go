@@ -44,7 +44,7 @@ func getOperationalInsightsWorkspace(ctx context.Context, v *armoperationalinsig
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.OperationalInsightsWorkspacesDescription{
+			Value: model.OperationalInsightsWorkspacesDescription{
 				Workspace:     *v,
 				ResourceGroup: resourceGroup,
 			},

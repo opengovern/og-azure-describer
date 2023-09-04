@@ -65,7 +65,7 @@ func getHybridKubernetesConnectedCluster(ctx context.Context, extClient *armkube
 		Name:     *connectedCluster.Name,
 		Location: *connectedCluster.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.HybridKubernetesConnectedClusterDescription{
+			Value: model.HybridKubernetesConnectedClusterDescription{
 				ConnectedCluster:           *connectedCluster,
 				ConnectedClusterExtensions: extensions,
 				ResourceGroup:              resourceGroup,

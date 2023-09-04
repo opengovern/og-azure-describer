@@ -62,7 +62,7 @@ func getDataFactory(ctx context.Context, connClient *armdatafactory.PrivateEndPo
 		Name:     *factory.Name,
 		Location: *factory.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.DataFactoryDescription{
+			Value: model.DataFactoryDescription{
 				Factory:                    *factory,
 				PrivateEndPointConnections: datafactoryListByFactoryOp,
 				ResourceGroup:              resourceGroup,
@@ -126,7 +126,7 @@ func getDataFactoryDataset(ctx context.Context, client *armdatafactory.DatasetsC
 				Name:     *dataset.Name,
 				Location: *factory.Location,
 				Description: JSONAllFieldsMarshaller{
-					model.DataFactoryDatasetDescription{
+					Value: model.DataFactoryDatasetDescription{
 						Factory:       *factory,
 						Dataset:       *dataset,
 						ResourceGroup: factoryResourceGroup,
@@ -194,7 +194,7 @@ func getDataFactoryPipeline(ctx context.Context, client *armdatafactory.Pipeline
 				Name:     *pipeline.Name,
 				Location: *factory.Location,
 				Description: JSONAllFieldsMarshaller{
-					model.DataFactoryPipelineDescription{
+					Value: model.DataFactoryPipelineDescription{
 						Factory:       *factory,
 						Pipeline:      *pipeline,
 						ResourceGroup: factoryResourceGroup,

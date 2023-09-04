@@ -83,7 +83,7 @@ func GetMssqlManagedInstance(ctx context.Context, managedInstanceClient *armsql.
 		Name:     *managedInstance.Name,
 		Location: *managedInstance.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.MssqlManagedInstanceDescription{
+			Value: model.MssqlManagedInstanceDescription{
 				ManagedInstance:                         *managedInstance,
 				ManagedInstanceVulnerabilityAssessments: viop,
 				ManagedDatabaseSecurityAlertPolicies:    vsop,
@@ -157,7 +157,7 @@ func GetManagedInstanceDatabases(ctx context.Context, managedInstance *armsql.Ma
 		Name:     *db.Name,
 		Location: *db.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.MssqlManagedInstanceDatabasesDescription{
+			Value: model.MssqlManagedInstanceDatabasesDescription{
 				ManagedInstance: *managedInstance,
 				Database:        *db,
 				ResourceGroup:   resourceGroup,
@@ -296,7 +296,7 @@ func GetSqlDatabase(ctx context.Context, recoverableClient *armsql.RecoverableDa
 		Name:     *server.Name,
 		Location: *server.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SqlDatabaseDescription{
+			Value: model.SqlDatabaseDescription{
 				Database:                           getOp.Database,
 				LongTermRetentionPolicy:            longTermRetentionPolicy,
 				TransparentDataEncryption:          transparentDataOp,
@@ -342,7 +342,7 @@ func GetSqlInstancePool(ctx context.Context, clientFactory *armsql.ClientFactory
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.SqlInstancePoolDescription{
+			Value: model.SqlInstancePoolDescription{
 				InstancePool:  *v,
 				ResourceGroup: resourceGroupName,
 			},

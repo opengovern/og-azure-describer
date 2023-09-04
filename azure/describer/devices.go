@@ -150,7 +150,7 @@ func getIOTHub(ctx context.Context, client *armmonitor.DiagnosticSettingsClient,
 		Name:     *iotHubDescription.Name,
 		Location: *iotHubDescription.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.IOTHubDescription{
+			Value: model.IOTHubDescription{
 				IotHubDescription:           *iotHubDescription,
 				DiagnosticSettingsResources: &devicesListOp,
 				ResourceGroup:               resourceGroup,
@@ -220,7 +220,7 @@ func getIOTHubDps(ctx context.Context, client *armmonitor.DiagnosticSettingsClie
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.IOTHubDpsDescription{
+			Value: model.IOTHubDpsDescription{
 				IotHubDps:                   *v,
 				DiagnosticSettingsResources: &devicesListOp,
 				ResourceGroup:               resourceGroup,

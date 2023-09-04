@@ -59,7 +59,7 @@ func getContainerRegistry(ctx context.Context, client *armcontainerregistry.Regi
 		Name:     *registry.Name,
 		Location: *registry.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ContainerRegistryDescription{
+			Value: model.ContainerRegistryDescription{
 				Registry:                      *registry,
 				RegistryListCredentialsResult: containerRegistryListCredentialsOp,
 				RegistryUsages:                containerRegistryListUsagesOp.Value,

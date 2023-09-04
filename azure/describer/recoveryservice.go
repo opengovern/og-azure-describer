@@ -65,7 +65,7 @@ func GetRecoveryServicesVault(ctx context.Context, diagnosticClient *armmonitor.
 		Name:     *vault.Name,
 		Location: *vault.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.RecoveryServicesVaultDescription{
+			Value: model.RecoveryServicesVaultDescription{
 				Vault:                      *vault,
 				DiagnosticSettingsResource: diagnostic,
 				ResourceGroup:              resourceGroup,

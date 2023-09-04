@@ -46,7 +46,7 @@ func GetAppServiceEnvironment(ctx context.Context, v *appservice.EnvironmentReso
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.AppServiceEnvironmentDescription{
+			Value: model.AppServiceEnvironmentDescription{
 				AppServiceEnvironmentResource: *v,
 				ResourceGroup:                 resourceGroup,
 			},
@@ -107,7 +107,7 @@ func GetAppServiceFunctionApp(ctx context.Context, webClient *appservice.WebApps
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.AppServiceFunctionAppDescription{
+			Value: model.AppServiceFunctionAppDescription{
 				Site:               *v,
 				SiteAuthSettings:   authSettings.SiteAuthSettings,
 				SiteConfigResource: configuration.SiteConfigResource,
@@ -183,7 +183,7 @@ func GetAppServiceWebApp(ctx context.Context, webClient *appservice.WebAppsClien
 		Name:     *v.Name,
 		Location: location,
 		Description: JSONAllFieldsMarshaller{
-			model.AppServiceWebAppDescription{
+			Value: model.AppServiceWebAppDescription{
 				Site:               *v,
 				SiteConfigResource: configuration.SiteConfigResource,
 				SiteAuthSettings:   authSettings.SiteAuthSettings,
@@ -253,7 +253,7 @@ func GetAppServiceWebAppSlot(ctx context.Context, app *appservice.Site, v *appse
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.AppServiceWebAppSlotDescription{
+			Value: model.AppServiceWebAppSlotDescription{
 				Site:          *v,
 				AppName:       *app.Name,
 				ResourceGroup: resourceGroup,
@@ -318,7 +318,7 @@ func GetAppServicePlan(ctx context.Context, client *appservice.PlansClient, v *a
 		Name:     *v.Name,
 		Location: location,
 		Description: JSONAllFieldsMarshaller{
-			model.AppServicePlanDescription{
+			Value: model.AppServicePlanDescription{
 				Plan:          *v,
 				Apps:          webApps,
 				ResourceGroup: resourceGroup,
@@ -364,7 +364,7 @@ func GetAppContainerApps(ctx context.Context, server *appservice.ContainerApp) *
 		Name:     *server.Name,
 		Location: *server.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ContainerAppDescription{
+			Value: model.ContainerAppDescription{
 				Server:        *server,
 				ResourceGroup: resourceGroupName,
 			},
@@ -409,7 +409,7 @@ func GetWebServerFarm(ctx context.Context, v *appservice.Plan) *Resource {
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.WebServerFarmsDescription{
+			Value: model.WebServerFarmsDescription{
 				ServerFarm:    *v,
 				ResourceGroup: resourceGroupName,
 			},

@@ -153,7 +153,7 @@ func DailyCostByResourceType(ctx context.Context, cred *azidentity.ClientSecretC
 			ID:       fmt.Sprintf("resource-cost-%s/%s-%d", subscription, *row.ServiceName, row.UsageDate),
 			Location: location,
 			Description: JSONAllFieldsMarshaller{
-				model.CostManagementCostByResourceTypeDescription{
+				Value: model.CostManagementCostByResourceTypeDescription{
 					CostManagementCostByResourceType: row,
 				},
 			},
@@ -192,7 +192,7 @@ func DailyCostBySubscription(ctx context.Context, cred *azidentity.ClientSecretC
 			ID:       fmt.Sprintf("resource-cost-%s/%d", subscription, row.UsageDate),
 			Location: location,
 			Description: JSONAllFieldsMarshaller{
-				model.CostManagementCostBySubscriptionDescription{
+				Value: model.CostManagementCostBySubscriptionDescription{
 					CostManagementCostBySubscription: row,
 				},
 			},

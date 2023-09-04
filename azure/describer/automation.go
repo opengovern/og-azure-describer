@@ -47,7 +47,7 @@ func getAutomationAccount(ctx context.Context, account *armautomation.Account) *
 		Name:     *account.Name,
 		Location: *account.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.AutomationAccountsDescription{
+			Value: model.AutomationAccountsDescription{
 				Automation:    *account,
 				ResourceGroup: resourceGroup,
 			},
@@ -116,7 +116,7 @@ func GetAutomationVariable(ctx context.Context, account *armautomation.Account, 
 		ID:   *v.ID,
 		Name: *v.Name,
 		Description: JSONAllFieldsMarshaller{
-			model.AutomationVariablesDescription{
+			Value: model.AutomationVariablesDescription{
 				Automation:    *v,
 				AccountName:   *account.Name,
 				ResourceGroup: resourceGroup,

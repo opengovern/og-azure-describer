@@ -71,7 +71,7 @@ func getBatchAccount(ctx context.Context, account *armbatch.Account, diagnosticC
 		Name:     *account.Name,
 		Location: *account.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.BatchAccountDescription{
+			Value: model.BatchAccountDescription{
 				Account:                     *account,
 				DiagnosticSettingsResources: &batchListOp,
 				ResourceGroup:               resourceGroup,

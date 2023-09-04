@@ -69,7 +69,7 @@ func getDocumentDBSQLDatabase(ctx context.Context, v *armcosmos.SQLDatabaseGetRe
 		Name:     *v.Name,
 		Location: location,
 		Description: JSONAllFieldsMarshaller{
-			model.CosmosdbSqlDatabaseDescription{
+			Value: model.CosmosdbSqlDatabaseDescription{
 				Account:       *account,
 				SqlDatabase:   *v,
 				ResourceGroup: *rg.Name,
@@ -136,7 +136,7 @@ func getDocumentDBMongoDatabase(ctx context.Context, v *armcosmos.MongoDBDatabas
 		Name:     *v.Name,
 		Location: location,
 		Description: JSONAllFieldsMarshaller{
-			model.CosmosdbMongoDatabaseDescription{
+			Value: model.CosmosdbMongoDatabaseDescription{
 				Account:       *account,
 				MongoDatabase: *v,
 				ResourceGroup: *rg.Name,
@@ -231,7 +231,7 @@ func getDocumentDBMongoCollection(ctx context.Context, client *armcosmos.MongoDB
 		Name:     *v.Name,
 		Location: location,
 		Description: JSONAllFieldsMarshaller{
-			model.CosmosdbMongoCollectionDescription{
+			Value: model.CosmosdbMongoCollectionDescription{
 				Account:         *account,
 				MongoDatabase:   *db,
 				MongoCollection: *v,
@@ -282,7 +282,7 @@ func getDocumentDBCassandraCluster(ctx context.Context, v *armcosmos.ClusterReso
 		Name:     *v.Name,
 		Location: location,
 		Description: JSONAllFieldsMarshaller{
-			model.CosmosdbCassandraClusterDescription{
+			Value: model.CosmosdbCassandraClusterDescription{
 				CassandraCluster: *v,
 				ResourceGroup:    resourceGroup,
 			},
@@ -350,7 +350,7 @@ func getCosmosdbAccount(ctx context.Context, v *armcosmos.DatabaseAccountGetResu
 		Name:     *v.Name,
 		Location: location,
 		Description: JSONAllFieldsMarshaller{
-			model.CosmosdbAccountDescription{
+			Value: model.CosmosdbAccountDescription{
 				DatabaseAccountGetResults: *v,
 				ResourceGroup:             resourceGroup,
 			},
@@ -398,7 +398,7 @@ func getRestorableDatabaseAccount(ctx context.Context, v *armcosmos.RestorableDa
 		Name:     *v.Name,
 		Location: location,
 		Description: JSONAllFieldsMarshaller{
-			model.CosmosdbRestorableDatabaseAccountDescription{
+			Value: model.CosmosdbRestorableDatabaseAccountDescription{
 				Account:       *v,
 				ResourceGroup: resourceGroup,
 			},

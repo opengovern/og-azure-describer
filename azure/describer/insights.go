@@ -46,7 +46,7 @@ func getDiagnosticSetting(ctx context.Context, diagnosticSetting *armmonitor.Dia
 		Name:     *diagnosticSetting.Name,
 		Location: "global",
 		Description: JSONAllFieldsMarshaller{
-			model.DiagnosticSettingDescription{
+			Value: model.DiagnosticSettingDescription{
 				DiagnosticSettingsResource: *diagnosticSetting,
 				ResourceGroup:              resourceGroup,
 			},
@@ -92,7 +92,7 @@ func getLogAlert(ctx context.Context, logAlert *armmonitor.ActivityLogAlertResou
 		Name:     *logAlert.Name,
 		Location: *logAlert.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.LogAlertDescription{
+			Value: model.LogAlertDescription{
 				ActivityLogAlertResource: *logAlert,
 				ResourceGroup:            resourceGroup,
 			},
@@ -141,7 +141,7 @@ func getLogProfile(ctx context.Context, logProfile *armmonitor.LogProfileResourc
 		Name:     *logProfile.Name,
 		Location: location,
 		Description: JSONAllFieldsMarshaller{
-			model.LogProfileDescription{
+			Value: model.LogProfileDescription{
 				LogProfileResource: *logProfile,
 				ResourceGroup:      resourceGroup,
 			},

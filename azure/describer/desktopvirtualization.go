@@ -42,7 +42,7 @@ func getDesktopVirtualizationHostPool(ctx context.Context, v *armdesktopvirtuali
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.DesktopVirtualizationHostPoolDescription{
+			Value: model.DesktopVirtualizationHostPoolDescription{
 				HostPool:      *v,
 				ResourceGroup: resourceGroupName,
 			},

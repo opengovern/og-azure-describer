@@ -65,7 +65,7 @@ func getHdInsightCluster(ctx context.Context, diagnosticClient *armmonitor.Diagn
 		Name:     *cluster.Name,
 		Location: *cluster.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.HdinsightClusterDescription{
+			Value: model.HdinsightClusterDescription{
 				Cluster:                     *cluster,
 				DiagnosticSettingsResources: hdinsightListOp,
 				ResourceGroup:               resourceGroup,

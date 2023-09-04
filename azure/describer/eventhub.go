@@ -84,7 +84,7 @@ func getEventHubNamespace(ctx context.Context, diagnosticClient *armmonitor.Diag
 		Name:     *namespace.Name,
 		Location: *namespace.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.EventhubNamespaceDescription{
+			Value: model.EventhubNamespaceDescription{
 				EHNamespace:                 *namespace,
 				DiagnosticSettingsResources: insightsListOp,
 				NetworkRuleSet:              eventhubGetNetworkRuleSetOp.NetworkRuleSet,
@@ -143,7 +143,7 @@ func getEventhubNamespaceEventhub(ctx context.Context, namespace *armeventhub.EH
 		Name:     *namespace.Name,
 		Location: *namespace.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.EventhubNamespaceEventhubDescription{
+			Value: model.EventhubNamespaceEventhubDescription{
 				EHNamespace:   *namespace,
 				EventHub:      *eh,
 				ResourceGroup: resourceGroupName,

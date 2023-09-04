@@ -93,7 +93,7 @@ func GetPostgresqlServer(ctx context.Context, firewallClient *armpostgresql.Fire
 		Name:     *server.Name,
 		Location: *server.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.PostgresqlServerDescription{
+			Value: model.PostgresqlServerDescription{
 				Server:                       *server,
 				ServerAdministratorResources: adminListOp,
 				Configurations:               confListByServerOp,
@@ -145,7 +145,7 @@ func GetPostgresqlFlexibleserver(ctx context.Context, server *armpostgresqlflexi
 		Name:     *server.Name,
 		Location: *server.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.PostgresqlFlexibleServerDescription{
+			Value: model.PostgresqlFlexibleServerDescription{
 				Server:        *server,
 				ResourceGroup: resourceGroupName,
 			},

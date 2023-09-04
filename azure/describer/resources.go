@@ -61,7 +61,7 @@ func GetResourceProvider(ctx context.Context, provider *armresources.Provider) *
 		ID:       *provider.ID,
 		Location: "global",
 		Description: JSONAllFieldsMarshaller{
-			model.ResourceProviderDescription{
+			Value: model.ResourceProviderDescription{
 				Provider: *provider,
 			},
 		},
@@ -104,7 +104,7 @@ func GetResourceGroup(ctx context.Context, group *armresources.ResourceGroup) *R
 		Name:     *group.Name,
 		Location: *group.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ResourceGroupDescription{
+			Value: model.ResourceGroupDescription{
 				Group: *group,
 			},
 		},

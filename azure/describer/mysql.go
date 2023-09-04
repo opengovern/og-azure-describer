@@ -72,7 +72,7 @@ func getMysqlServer(ctx context.Context, keysClient *armmysql.ServerKeysClient, 
 		Name:     *server.Name,
 		Location: *server.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.MysqlServerDescription{
+			Value: model.MysqlServerDescription{
 				Server:         *server,
 				Configurations: configurations,
 				ServerKeys:     keys,
@@ -119,7 +119,7 @@ func getMysqlFlexibleservers(ctx context.Context, server *armmysqlflexibleserver
 		Name:     *server.Name,
 		Location: *server.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.MysqlFlexibleserverDescription{
+			Value: model.MysqlFlexibleserverDescription{
 				Server:        *server,
 				ResourceGroup: resourceGroup,
 			},

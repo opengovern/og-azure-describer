@@ -65,7 +65,7 @@ func getLoadBalancer(ctx context.Context, diagnosticClient *armmonitor.Diagnosti
 		Name:     *loadBalancer.Name,
 		Location: *loadBalancer.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.LoadBalancerDescription{
+			Value: model.LoadBalancerDescription{
 				ResourceGroup:     resourceGroup,
 				DiagnosticSetting: diagnosticSettings,
 				LoadBalancer:      *loadBalancer,
@@ -140,7 +140,7 @@ func getLoadBalancerBackendAddressPools(ctx context.Context, loadBalancer *armne
 		ID:       *pool.ID,
 		Location: location,
 		Description: JSONAllFieldsMarshaller{
-			model.LoadBalancerBackendAddressPoolDescription{
+			Value: model.LoadBalancerBackendAddressPoolDescription{
 				ResourceGroup: resourceGroup,
 				LoadBalancer:  *loadBalancer,
 				Pool:          *pool,
@@ -212,7 +212,7 @@ func getLoadBalancerNatRule(ctx context.Context, loadBalancer *armnetwork.LoadBa
 		Name:     *natRule.Name,
 		Location: *loadBalancer.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.LoadBalancerNatRuleDescription{
+			Value: model.LoadBalancerNatRuleDescription{
 				ResourceGroup:    resourceGroup,
 				LoadBalancerName: *loadBalancer.Name,
 				Rule:             *natRule,
@@ -284,7 +284,7 @@ func getLoadBalancerOutboundRule(ctx context.Context, loadBalancer *armnetwork.L
 		Name:     *outboundRule.Name,
 		Location: *loadBalancer.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.LoadBalancerOutboundRuleDescription{
+			Value: model.LoadBalancerOutboundRuleDescription{
 				ResourceGroup:    resourceGroup,
 				LoadBalancerName: *loadBalancer.Name,
 				Rule:             *outboundRule,
@@ -356,7 +356,7 @@ func getLoadBalancerProbe(ctx context.Context, loadBalancer *armnetwork.LoadBala
 		Name:     *probe.Name,
 		Location: *loadBalancer.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.LoadBalancerProbeDescription{
+			Value: model.LoadBalancerProbeDescription{
 				ResourceGroup:    resourceGroup,
 				LoadBalancerName: *loadBalancer.Name,
 				Probe:            *probe,
@@ -428,7 +428,7 @@ func getLoadBalancerRule(ctx context.Context, loadBalancer *armnetwork.LoadBalan
 		Name:     *rule.Name,
 		Location: *loadBalancer.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.LoadBalancerRuleDescription{
+			Value: model.LoadBalancerRuleDescription{
 				ResourceGroup:    resourceGroup,
 				LoadBalancerName: *loadBalancer.Name,
 				Rule:             *rule,

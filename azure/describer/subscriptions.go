@@ -44,7 +44,7 @@ func GetTenand(ctx context.Context, v *armsubscription.TenantIDDescription) *Res
 		Name:     name,
 		Location: "global",
 		Description: JSONAllFieldsMarshaller{
-			model.TenantDescription{
+			Value: model.TenantDescription{
 				TenantIDDescription: *v, // TODO has much less values
 			},
 		},
@@ -71,7 +71,7 @@ func Subscription(ctx context.Context, cred *azidentity.ClientSecretCredential, 
 		Name:     *op.DisplayName,
 		Location: "global",
 		Description: JSONAllFieldsMarshaller{
-			model.SubscriptionDescription{
+			Value: model.SubscriptionDescription{
 				Subscription: op.Subscription,
 			},
 		},

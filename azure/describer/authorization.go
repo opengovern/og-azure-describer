@@ -42,7 +42,7 @@ func getRoleAssignment(ctx context.Context, v *armauthorization.RoleAssignment) 
 		Name:     *v.Name,
 		Location: "global",
 		Description: JSONAllFieldsMarshaller{
-			model.RoleAssignmentDescription{
+			Value: model.RoleAssignmentDescription{
 				RoleAssignment: *v,
 			},
 		},
@@ -82,7 +82,7 @@ func getRoleDefinition(ctx context.Context, v *armauthorization.RoleDefinition) 
 		Name:     *v.Name,
 		Location: "global",
 		Description: JSONAllFieldsMarshaller{
-			model.RoleDefinitionDescription{
+			Value: model.RoleDefinitionDescription{
 				RoleDefinition: *v,
 			},
 		},
@@ -128,7 +128,7 @@ func getPolicyDefinition(ctx context.Context, subscription string, definition *a
 		Name:     *definition.Name,
 		Location: "global",
 		Description: JSONAllFieldsMarshaller{
-			model.PolicyDefinitionDescription{
+			Value: model.PolicyDefinitionDescription{
 				Definition: *definition,
 				TurboData:  turbotData,
 			},

@@ -45,7 +45,7 @@ func getCdnProfiles(ctx context.Context, v *armcdn.Profile) *Resource {
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.CDNProfileDescription{
+			Value: model.CDNProfileDescription{
 				Profile:       *v,
 				ResourceGroup: resourceGroup,
 			},
@@ -114,7 +114,7 @@ func getCdnEndpoint(ctx context.Context, v *armcdn.Profile, endpoint *armcdn.End
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.CDNEndpointDescription{
+			Value: model.CDNEndpointDescription{
 				Endpoint:      *endpoint,
 				ResourceGroup: resourceGroup,
 			},

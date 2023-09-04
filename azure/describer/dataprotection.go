@@ -43,7 +43,7 @@ func getDataProtectionBackupVaults(ctx context.Context, v *armdataprotection.Bac
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.DataProtectionBackupVaultsDescription{
+			Value: model.DataProtectionBackupVaultsDescription{
 				BackupVaults:  *v,
 				ResourceGroup: resourceGroup,
 			},
@@ -105,7 +105,7 @@ func getDataProtectionBackupVaultsBackupPolicies(ctx context.Context, client *ar
 				Name:     *p.Name,
 				Location: *v.Location,
 				Description: JSONAllFieldsMarshaller{
-					model.DataProtectionBackupVaultsBackupPoliciesDescription{
+					Value: model.DataProtectionBackupVaultsBackupPoliciesDescription{
 						BackupPolicies: *p,
 						ResourceGroup:  resourceGroup,
 					},

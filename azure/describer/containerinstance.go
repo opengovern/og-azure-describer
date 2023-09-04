@@ -44,7 +44,7 @@ func getContainerInstanceContainerGrou(ctx context.Context, v *armcontainerinsta
 		Name:     *v.Name,
 		Location: *v.Location,
 		Description: JSONAllFieldsMarshaller{
-			model.ContainerInstanceContainerGroupDescription{
+			Value: model.ContainerInstanceContainerGroupDescription{
 				ContainerGroup: *v,
 				ResourceGroup:  resourceGroup,
 			},
