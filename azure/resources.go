@@ -5,6 +5,7 @@ package azure
 import (
 	"context"
 	"fmt"
+	"go.uber.org/zap"
 	"os"
 	"sort"
 	"strings"
@@ -20,6 +21,16 @@ import (
 	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
 	hamiltonAuthAutoRest "github.com/manicminer/hamilton-autorest/auth"
 	hamiltonAuth "github.com/manicminer/hamilton/auth"
+)
+
+const AzureAuthLocation = "AZURE_AUTH_LOCATION"
+
+type AuthType string
+
+const (
+	AuthEnv  AuthType = "ENV"
+	AuthFile AuthType = "FILE"
+	AuthCLI  AuthType = "CLI"
 )
 
 type ResourceDescriber interface {
@@ -111,6 +122,7 @@ type Resources struct {
 
 func GetResources(
 	ctx context.Context,
+	logger *zap.Logger,
 	resourceType string,
 	triggerType enums.DescribeTriggerType,
 	subscriptions []string,
@@ -153,7 +165,7 @@ func GetResources(
 		return nil, err
 	}
 
-	resources, err := describe(ctx, cred, hamiltonAuthorizer, resourceType, subscriptions, cfg.TenantID, triggerType, stream)
+	resources, err := describe(ctx, logger, cred, hamiltonAuthorizer, resourceType, subscriptions, cfg.TenantID, triggerType, stream)
 	if err != nil {
 		return nil, err
 	}
@@ -189,7 +201,7 @@ func setEnvIfNotEmpty(env, s string) {
 	}
 }
 
-func describe(ctx context.Context, cred *azidentity.ClientSecretCredential, hamiltonAuth hamiltonAuth.Authorizer, resourceType string, subscriptions []string, tenantId string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) ([]describer.Resource, error) {
+func describe(ctx context.Context, logger *zap.Logger, cred *azidentity.ClientSecretCredential, hamiltonAuth hamiltonAuth.Authorizer, resourceType string, subscriptions []string, tenantId string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) ([]describer.Resource, error) {
 	resourceTypeObject, ok := resourceTypes[resourceType]
 	if !ok {
 		return nil, fmt.Errorf("unsupported resource type: %s", resourceType)
@@ -199,6 +211,7 @@ func describe(ctx context.Context, cred *azidentity.ClientSecretCredential, hami
 	if listDescriber == nil {
 		listDescriber = describer.GenericResourceGraph{Table: "Resources", Type: resourceType}
 	}
+	ctx = describer.WithLogger(ctx, logger)
 
 	return listDescriber.DescribeResources(ctx, cred, hamiltonAuth, subscriptions, tenantId, triggerType, stream)
 }

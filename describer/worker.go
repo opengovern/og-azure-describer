@@ -167,6 +167,7 @@ func doDescribeAzure(
 
 	_, err = azure.GetResources(
 		ctx,
+		logger,
 		job.ResourceType,
 		job.TriggerType,
 		[]string{subscriptionId},

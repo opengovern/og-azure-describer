@@ -13,6 +13,10 @@ var exclusionTypeSet = map[string]struct{}{
 	"github.com/Azure/go-autorest/autorest/date": {},
 }
 
+func isGoPackage(path string) bool {
+	return path != "" && !strings.Contains(path, "/")
+}
+
 // JSONAllFieldsMarshaller is a hack around the issue described here
 // https://githubmemory.com/repo/Azure/azure-sdk-for-go/issues/12227
 // Azure sdk overrides all the MarshalJSON methods for the struct fields
@@ -27,7 +31,10 @@ func (x JSONAllFieldsMarshaller) MarshalJSON() ([]byte, error) {
 	var val = x.Value
 
 	v := reflect.ValueOf(x.Value)
-	if _, ok := exclusionTypeSet[v.Type().PkgPath()]; !ok {
+	//if v.Type().PkgPath() != "" {
+	//	fmt.Printf("In pkg path: %v\n", v.Type().PkgPath())
+	//}
+	if _, ok := exclusionTypeSet[v.Type().PkgPath()]; !ok && !isGoPackage(v.Type().PkgPath()) {
 		switch v.Kind() {
 		case reflect.Slice, reflect.Array:
 			val = azSliceMarshaller{Value: v}
@@ -43,7 +50,7 @@ func (x JSONAllFieldsMarshaller) MarshalJSON() ([]byte, error) {
 
 func (x *JSONAllFieldsMarshaller) UnmarshalJSON(data []byte) error {
 	v := reflect.ValueOf(x.Value)
-	if _, ok := exclusionTypeSet[v.Type().PkgPath()]; !ok {
+	if _, ok := exclusionTypeSet[v.Type().PkgPath()]; !ok && !isGoPackage(v.Type().PkgPath()) {
 		switch v.Kind() {
 		case reflect.Slice, reflect.Array:
 			val := &azSliceMarshaller{Value: v}
@@ -216,6 +223,9 @@ type azSliceMarshaller struct {
 
 func (x azSliceMarshaller) MarshalJSON() ([]byte, error) {
 	num := x.Value.Len()
+	if num == 0 {
+		return []byte("null"), nil
+	}
 	list := make([]JSONAllFieldsMarshaller, 0, num)
 	for i := 0; i < num; i++ {
 		if !x.Value.Index(i).CanInterface() {

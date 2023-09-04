@@ -10,6 +10,7 @@ import (
 	"github.com/kaytu-io/kaytu-azure-describer/azure"
 	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 	"github.com/spf13/cobra"
+	"go.uber.org/zap"
 	"os"
 )
 
@@ -22,8 +23,10 @@ var rootCmd = &cobra.Command{
 	Use:   "kaytu-azure-describer",
 	Short: "kaytu azure describer manual",
 	RunE: func(cmd *cobra.Command, args []string) error {
+		logger, _ := zap.NewProduction()
 		output, err := azure.GetResources(
 			context.Background(),
+			logger,
 			resourceType,
 			enums.DescribeTriggerTypeManual,
 			[]string{subscriptionID},

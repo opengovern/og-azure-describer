@@ -8,6 +8,7 @@ import (
 	"github.com/gofrs/uuid"
 	"reflect"
 	"testing"
+	"time"
 )
 
 func TestJSONAllFieldsMarshaller(t *testing.T) {
@@ -97,6 +98,49 @@ func TestJSONAllFieldsMarshaller(t *testing.T) {
 			},
 			want: `{"Etag":null,"ID":null,"Identity":{"PrincipalID":null,"TenantID":null,"Type":"SystemAssigned","UserAssignedIdentities":null},"Location":null,"Name":null,"Properties":null,"SystemData":null,"Tags":null,"Type":null}`,
 		},
+		{
+			name: "Nested Struct",
+			value: &armautomation.Account{
+				Etag: nil,
+				Identity: &armautomation.Identity{
+					Type: PTR((armautomation.ResourceIdentityType)("UserAssigned")),
+					UserAssignedIdentities: map[string]*armautomation.ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties{
+						"/subscriptions/xyx/resourcegroups/yyy/providers/Microsoft.ManagedIdentity/userAssignedIdentities/yyz": &armautomation.ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties{
+							ClientID:    nil,
+							PrincipalID: nil,
+						},
+					},
+					PrincipalID: nil,
+					TenantID:    nil,
+				},
+				Location: PTR("westeurope"),
+				Properties: &armautomation.AccountProperties{
+					AutomationHybridServiceURL: nil,
+					Description:                nil,
+					DisableLocalAuth:           PTR(false),
+					Encryption:                 nil,
+					LastModifiedBy:             nil,
+					PrivateEndpointConnections: nil,
+					PublicNetworkAccess:        PTR(true),
+					SKU:                        nil,
+					CreationTime:               PTR(time.Date(2022, 12, 1, 0, 0, 0, 0, time.UTC)),
+					LastModifiedTime:           PTR(time.Date(2023, 2, 15, 0, 0, 0, 0, time.UTC)),
+					State:                      nil,
+				},
+				Tags: map[string]*string{
+					"app_support_group":   PTR("1"),
+					"application_bit_id":  PTR("2"),
+					"application_name":    PTR("3"),
+					"bu_code":             PTR("4"),
+					"business_owner":      PTR("5"),
+					"data_classification": PTR("6"),
+				},
+				ID:         PTR("/subscriptions/xxx/resourceGroups/yyy/providers/Microsoft.Automation/automationAccounts/zzz"),
+				Name:       PTR("zzz"),
+				SystemData: nil,
+				Type:       PTR("Microsoft.Automation/AutomationAccounts")},
+			want: "{\"Etag\":null,\"ID\":\"/subscriptions/xxx/resourceGroups/yyy/providers/Microsoft.Automation/automationAccounts/zzz\",\"Identity\":{\"PrincipalID\":null,\"TenantID\":null,\"Type\":\"UserAssigned\",\"UserAssignedIdentities\":{\"/subscriptions/xyx/resourcegroups/yyy/providers/Microsoft.ManagedIdentity/userAssignedIdentities/yyz\":{}}},\"Location\":\"westeurope\",\"Name\":\"zzz\",\"Properties\":{\"AutomationHybridServiceURL\":null,\"CreationTime\":\"2022-12-01T00:00:00Z\",\"Description\":null,\"DisableLocalAuth\":false,\"Encryption\":null,\"LastModifiedBy\":null,\"LastModifiedTime\":\"2023-02-15T00:00:00Z\",\"PrivateEndpointConnections\":null,\"PublicNetworkAccess\":true,\"SKU\":null,\"State\":null},\"SystemData\":null,\"Tags\":{\"app_support_group\":\"1\",\"application_bit_id\":\"2\",\"application_name\":\"3\",\"bu_code\":\"4\",\"business_owner\":\"5\",\"data_classification\":\"6\"},\"Type\":\"Microsoft.Automation/AutomationAccounts\"}",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -109,7 +153,7 @@ func TestJSONAllFieldsMarshaller(t *testing.T) {
 				return
 			}
 			if string(got) != tt.want {
-				t.Errorf("JSONAllFieldsMarshaller.MarshalJSON() = %v, want %v", string(got), tt.want)
+				t.Errorf("JSONAllFieldsMarshaller.MarshalJSON() = %v\n want %v", string(got), tt.want)
 			}
 		})
 		t.Run(tt.name, func(t *testing.T) {

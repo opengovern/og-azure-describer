@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
+	"go.uber.org/zap"
 )
 
 var (
@@ -19,4 +20,16 @@ func GetTriggerTypeFromContext(ctx context.Context) enums.DescribeTriggerType {
 		return ""
 	}
 	return tt
+}
+
+func WithLogger(ctx context.Context, logger *zap.Logger) context.Context {
+	return context.WithValue(ctx, "logger", logger)
+}
+
+func GetLoggerFromContext(ctx context.Context) *zap.Logger {
+	logger, ok := ctx.Value("logger").(*zap.Logger)
+	if !ok {
+		return zap.NewNop()
+	}
+	return logger
 }
