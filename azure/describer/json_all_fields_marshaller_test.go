@@ -141,6 +141,19 @@ func TestJSONAllFieldsMarshaller(t *testing.T) {
 				Type:       PTR("Microsoft.Automation/AutomationAccounts")},
 			want: "{\"Etag\":null,\"ID\":\"/subscriptions/xxx/resourceGroups/yyy/providers/Microsoft.Automation/automationAccounts/zzz\",\"Identity\":{\"PrincipalID\":null,\"TenantID\":null,\"Type\":\"UserAssigned\",\"UserAssignedIdentities\":{\"/subscriptions/xyx/resourcegroups/yyy/providers/Microsoft.ManagedIdentity/userAssignedIdentities/yyz\":{}}},\"Location\":\"westeurope\",\"Name\":\"zzz\",\"Properties\":{\"AutomationHybridServiceURL\":null,\"CreationTime\":\"2022-12-01T00:00:00Z\",\"Description\":null,\"DisableLocalAuth\":false,\"Encryption\":null,\"LastModifiedBy\":null,\"LastModifiedTime\":\"2023-02-15T00:00:00Z\",\"PrivateEndpointConnections\":null,\"PublicNetworkAccess\":true,\"SKU\":null,\"State\":null},\"SystemData\":null,\"Tags\":{\"app_support_group\":\"1\",\"application_bit_id\":\"2\",\"application_name\":\"3\",\"bu_code\":\"4\",\"business_owner\":\"5\",\"data_classification\":\"6\"},\"Type\":\"Microsoft.Automation/AutomationAccounts\"}",
 		},
+		// The unmarshaller does not work for interfaces
+		//{
+		//	name: "Interface struct",
+		//	value: armcosmos.DatabaseAccountGetResults{
+		//		Properties: &armcosmos.DatabaseAccountGetProperties{
+		//			BackupPolicy: &armcosmos.BackupPolicy{
+		//				Type:           PTR(armcosmos.BackupPolicyTypePeriodic),
+		//				MigrationState: nil,
+		//			},
+		//		},
+		//	},
+		//	want: "{\"ID\":null,\"Identity\":null,\"Kind\":null,\"Location\":null,\"Name\":null,\"Properties\":{\"APIProperties\":null,\"AnalyticalStorageConfiguration\":null,\"BackupPolicy\":{\"MigrationState\":null,\"Type\":\"Periodic\"},\"Capabilities\":null,\"Capacity\":null,\"ConnectorOffer\":null,\"ConsistencyPolicy\":null,\"Cors\":null,\"CreateMode\":null,\"DatabaseAccountOfferType\":null,\"DefaultIdentity\":null,\"DisableKeyBasedMetadataWriteAccess\":null,\"DisableLocalAuth\":null,\"DocumentEndpoint\":null,\"EnableAnalyticalStorage\":null,\"EnableAutomaticFailover\":null,\"EnableCassandraConnector\":null,\"EnableFreeTier\":null,\"EnableMultipleWriteLocations\":null,\"EnablePartitionMerge\":null,\"FailoverPolicies\":null,\"IPRules\":null,\"InstanceID\":null,\"IsVirtualNetworkFilterEnabled\":null,\"KeyVaultKeyURI\":null,\"KeysMetadata\":null,\"Locations\":null,\"MinimalTLSVersion\":null,\"NetworkACLBypass\":null,\"NetworkACLBypassResourceIDs\":null,\"PrivateEndpointConnections\":null,\"ProvisioningState\":null,\"PublicNetworkAccess\":null,\"ReadLocations\":null,\"RestoreParameters\":null,\"VirtualNetworkRules\":null,\"WriteLocations\":null},\"SystemData\":null,\"Tags\":null,\"Type\":null}",
+		//},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

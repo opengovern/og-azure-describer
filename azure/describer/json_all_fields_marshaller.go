@@ -27,7 +27,13 @@ type JSONAllFieldsMarshaller struct {
 	Value interface{}
 }
 
-func (x JSONAllFieldsMarshaller) MarshalJSON() ([]byte, error) {
+func (x JSONAllFieldsMarshaller) MarshalJSON() (res []byte, err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			res, err = json.Marshal(x.Value)
+		}
+	}()
+
 	var val = x.Value
 
 	v := reflect.ValueOf(x.Value)
@@ -48,7 +54,24 @@ func (x JSONAllFieldsMarshaller) MarshalJSON() ([]byte, error) {
 	return json.Marshal(val)
 }
 
-func (x *JSONAllFieldsMarshaller) UnmarshalJSON(data []byte) error {
+func (x *JSONAllFieldsMarshaller) UnmarshalJSON(data []byte) (err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			v := reflect.ValueOf(x.Value)
+			if !v.IsValid() {
+				panic("invalid value")
+			}
+			val := reflect.New(v.Type())
+			err = json.Unmarshal(data, val.Interface())
+			if err != nil {
+				return
+			}
+			newVal := reflect.New(v.Type())
+			newVal.Elem().Set(val.Elem())
+			x.Value = newVal.Elem().Interface()
+		}
+	}()
+
 	v := reflect.ValueOf(x.Value)
 	if _, ok := exclusionTypeSet[v.Type().PkgPath()]; !ok && !isGoPackage(v.Type().PkgPath()) {
 		switch v.Kind() {
@@ -95,7 +118,7 @@ func (x *JSONAllFieldsMarshaller) UnmarshalJSON(data []byte) error {
 	}
 
 	val := reflect.New(v.Type())
-	err := json.Unmarshal(data, val.Interface())
+	err = json.Unmarshal(data, val.Interface())
 	if err != nil {
 		return err
 	}
@@ -170,11 +193,13 @@ func (x *azStructMarshaller) UnmarshalJSON(data []byte) error {
 		}
 		var err error
 		v := JSONAllFieldsMarshaller{Value: reflect.New(field.Type).Elem().Interface()}
-		k := reflect.New(field.Type)
 		err = json.Unmarshal(rawMsg[jsonField], &v)
 		if err != nil {
 			return fmt.Errorf("unmarshalling field %s: %v", jsonField, err)
 		}
+
+		k := reflect.New(field.Type)
+		fmt.Printf("%T, %v, %T, %v, %s, %s\n", v.Value, v.Value, k, k, field.Type.String(), field.Name)
 		k.Elem().Set(reflect.ValueOf(v.Value))
 		x.Value.Field(i).Set(k.Elem())
 	}
