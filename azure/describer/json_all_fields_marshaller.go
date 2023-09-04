@@ -24,13 +24,18 @@ func isGoPackage(path string) bool {
 // By simply wrapping the original struct by JSONAllFieldsMarshaller, all
 // the fields will appear in the json output.
 type JSONAllFieldsMarshaller struct {
-	Value interface{}
+	Value          interface{}
+	isNotFirstCall bool
 }
 
 func (x JSONAllFieldsMarshaller) MarshalJSON() (res []byte, err error) {
+	fc := x.isNotFirstCall
+	x.isNotFirstCall = true
 	defer func() {
-		if r := recover(); r != nil {
-			res, err = json.Marshal(x.Value)
+		if !fc {
+			if r := recover(); r != nil {
+				res, err = json.Marshal(x.Value)
+			}
 		}
 	}()
 
@@ -55,21 +60,29 @@ func (x JSONAllFieldsMarshaller) MarshalJSON() (res []byte, err error) {
 }
 
 func (x *JSONAllFieldsMarshaller) UnmarshalJSON(data []byte) (err error) {
+	fc := x.isNotFirstCall
+	x.isNotFirstCall = true
 	defer func() {
-		if r := recover(); r != nil {
-			v := reflect.ValueOf(x.Value)
-			if !v.IsValid() {
-				panic("invalid value")
+		if !fc {
+			if r := recover(); r != nil {
+				v := reflect.ValueOf(x.Value)
+				if !v.IsValid() {
+					err = errors.New("invalid value")
+					return
+				}
+				val := reflect.New(v.Type())
+				err = json.Unmarshal(data, val.Interface())
+				if err != nil {
+					return
+				}
+				newVal := reflect.New(v.Type())
+				newVal.Elem().Set(val.Elem())
+				x.Value = newVal.Elem().Interface()
 			}
-			val := reflect.New(v.Type())
-			err = json.Unmarshal(data, val.Interface())
-			if err != nil {
-				return
-			}
-			newVal := reflect.New(v.Type())
-			newVal.Elem().Set(val.Elem())
-			x.Value = newVal.Elem().Interface()
 		}
+	}()
+	defer func() {
+
 	}()
 
 	v := reflect.ValueOf(x.Value)
