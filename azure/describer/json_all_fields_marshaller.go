@@ -24,21 +24,10 @@ func isGoPackage(path string) bool {
 // By simply wrapping the original struct by JSONAllFieldsMarshaller, all
 // the fields will appear in the json output.
 type JSONAllFieldsMarshaller struct {
-	Value          interface{}
-	isNotFirstCall bool
+	Value interface{}
 }
 
 func (x JSONAllFieldsMarshaller) MarshalJSON() (res []byte, err error) {
-	fc := x.isNotFirstCall
-	x.isNotFirstCall = true
-	defer func() {
-		if !fc {
-			if r := recover(); r != nil {
-				res, err = json.Marshal(x.Value)
-			}
-		}
-	}()
-
 	var val = x.Value
 
 	v := reflect.ValueOf(x.Value)
@@ -60,32 +49,10 @@ func (x JSONAllFieldsMarshaller) MarshalJSON() (res []byte, err error) {
 }
 
 func (x *JSONAllFieldsMarshaller) UnmarshalJSON(data []byte) (err error) {
-	fc := x.isNotFirstCall
-	x.isNotFirstCall = true
-	defer func() {
-		if !fc {
-			if r := recover(); r != nil {
-				v := reflect.ValueOf(x.Value)
-				if !v.IsValid() {
-					err = errors.New("invalid value")
-					return
-				}
-				val := reflect.New(v.Type())
-				err = json.Unmarshal(data, val.Interface())
-				if err != nil {
-					return
-				}
-				newVal := reflect.New(v.Type())
-				newVal.Elem().Set(val.Elem())
-				x.Value = newVal.Elem().Interface()
-			}
-		}
-	}()
-	defer func() {
-
-	}()
-
 	v := reflect.ValueOf(x.Value)
+	if !v.IsValid() {
+		return nil
+	}
 	if _, ok := exclusionTypeSet[v.Type().PkgPath()]; !ok && !isGoPackage(v.Type().PkgPath()) {
 		switch v.Kind() {
 		case reflect.Slice, reflect.Array:
@@ -205,14 +172,16 @@ func (x *azStructMarshaller) UnmarshalJSON(data []byte) error {
 			continue
 		}
 		var err error
+		k := reflect.New(field.Type)
+		if k.Elem().Kind() == reflect.Interface {
+			continue
+		}
 		v := JSONAllFieldsMarshaller{Value: reflect.New(field.Type).Elem().Interface()}
 		err = json.Unmarshal(rawMsg[jsonField], &v)
 		if err != nil {
 			return fmt.Errorf("unmarshalling field %s: %v", jsonField, err)
 		}
 
-		k := reflect.New(field.Type)
-		fmt.Printf("%T, %v, %T, %v, %s, %s\n", v.Value, v.Value, k, k, field.Type.String(), field.Name)
 		k.Elem().Set(reflect.ValueOf(v.Value))
 		x.Value.Field(i).Set(k.Elem())
 	}
@@ -286,6 +255,9 @@ func (x *azSliceMarshaller) UnmarshalJSON(data []byte) error {
 	x.Value = reflect.MakeSlice(x.Value.Type(), num, num)
 	for i := 0; i < num; i++ {
 		v := reflect.New(x.Value.Type().Elem())
+		if v.Elem().Kind() == reflect.Interface {
+			continue
+		}
 		k := JSONAllFieldsMarshaller{Value: v.Interface()}
 		if err := json.Unmarshal(list[i], &k); err != nil {
 			return err
