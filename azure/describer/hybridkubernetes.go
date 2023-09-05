@@ -27,7 +27,7 @@ func HybridKubernetesConnectedCluster(ctx context.Context, cred *azidentity.Clie
 
 	var values []Resource
 	for pager.More() {
-		page, err := pager.NextPage(nil)
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
