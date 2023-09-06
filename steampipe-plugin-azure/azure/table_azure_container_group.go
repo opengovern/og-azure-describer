@@ -22,7 +22,7 @@ func tableAzureContainerGroup(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListContainerInstanceContainerGroup,
 		},
-		Columns: azureColumns([]*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "The name of the resource.",

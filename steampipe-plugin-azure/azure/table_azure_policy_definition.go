@@ -22,7 +22,7 @@ func tableAzurePolicyDefinition(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListPolicyDefinition,
 		},
-		Columns: azureColumns([]*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "id",
 				Type:        proto.ColumnType_STRING,

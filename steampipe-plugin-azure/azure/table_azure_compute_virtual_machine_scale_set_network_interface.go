@@ -17,7 +17,7 @@ func tableAzureComputeVirtualMachineScaleSetNetworkInterface(_ context.Context) 
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListComputeVirtualMachineScaleSetNetworkInterface,
 		},
-		Columns: azureColumns([]*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "Name of the scale set network interface.",

@@ -22,7 +22,7 @@ func tableAzureSecurityCenterSubAssessment(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListSecurityCenterSubAssessment,
 		},
-		Columns: azureColumns([]*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "id",
 				Type:        proto.ColumnType_STRING,

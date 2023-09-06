@@ -26,7 +26,7 @@ func tableAzureLoadBalancerNatRule(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListLoadBalancerNatRule,
 		},
-		Columns: azureColumns([]*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "The name of the resource that is unique within the set of inbound NAT rules used by the load balancer. This name can be used to access the resource.",

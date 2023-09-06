@@ -25,7 +25,7 @@ func tableAzurePublicIP(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListPublicIPAddress,
 		},
-		Columns: azureColumns([]*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Type:        proto.ColumnType_STRING,

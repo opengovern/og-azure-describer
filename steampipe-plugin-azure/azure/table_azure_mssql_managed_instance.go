@@ -24,7 +24,7 @@ func tableAzureMSSQLManagedInstance(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListMssqlManagedInstance,
 		},
-		Columns: azureColumns([]*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "The friendly name that identifies the managed instance.",

@@ -21,7 +21,7 @@ func tableAzureResourceSku(_ context.Context) *plugin.Table {
 			Hydrate: kaytu.ListComputeResourceSKU,
 		},
 
-		Columns: azureColumns([]*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "The name of SKU",
