@@ -454,6 +454,20 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Resources/resourceGroups": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/resourceGroups",
+		ResourceLabel:        "",
+		Tags:                 map[string][]string{},
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.ResourceGroup),
+		GetDescriber:         nil,
+		TerraformName:        []string{"azurerm_resource_group"},
+		TerraformServiceName: "resource",
+		FastDiscovery:        true,
+		Summarize:            false,
+	},
+
 	"Microsoft.Web/staticSites": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Web/staticSites",
