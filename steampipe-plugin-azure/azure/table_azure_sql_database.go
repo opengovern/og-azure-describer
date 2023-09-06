@@ -60,7 +60,7 @@ func tableAzureSqlDatabase(_ context.Context) *plugin.Table {
 				Name:        "containment_state",
 				Description: "The containment state of the database.",
 				Type:        proto.ColumnType_INT,
-				Transform:   transform.FromField("Description.Database.Properties.CreationDate")},
+				Transform:   transform.FromField("Description.Database.Properties.ContainmentState")},
 			{
 				Name:        "creation_date",
 				Description: "The creation date of the database.",
