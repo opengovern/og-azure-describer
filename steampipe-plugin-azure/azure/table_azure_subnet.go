@@ -36,7 +36,7 @@ func tableAzureSubnet(_ context.Context) *plugin.Table {
 				Name:        "id",
 				Description: "Contains ID to identify a subnet uniquely.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Subnet.ID"),
+				Transform:   transform.FromField("Description.Subnet.ID"),
 			},
 			{
 				Name:        "virtual_network_name",
