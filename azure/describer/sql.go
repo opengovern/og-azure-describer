@@ -238,7 +238,7 @@ func GetSqlDatabase(ctx context.Context, recoverableClient *armsql.RecoverableDa
 	for pager1.More() {
 		page1, err := pager1.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			break
 		}
 		longTermRetentionPolicies = append(longTermRetentionPolicies, page1.Value...)
 	}
@@ -252,7 +252,7 @@ func GetSqlDatabase(ctx context.Context, recoverableClient *armsql.RecoverableDa
 	for pager2.More() {
 		page2, err := pager2.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			break
 		}
 		transparentDataOp = append(transparentDataOp, page2.Value...)
 	}
@@ -272,7 +272,7 @@ func GetSqlDatabase(ctx context.Context, recoverableClient *armsql.RecoverableDa
 				for pager4.More() {
 					page4, err := pager4.NextPage(ctx)
 					if err != nil {
-						return nil, err
+						break
 					}
 					v = append(v, page4.Value...)
 				}
@@ -283,7 +283,7 @@ func GetSqlDatabase(ctx context.Context, recoverableClient *armsql.RecoverableDa
 
 	advisors, err := advisorsClient.ListByDatabase(ctx, resourceGroupName, serverName, databaseName, nil)
 	if err != nil {
-		return nil, err
+		//IGNORE ERROR
 	}
 
 	getOp, err := databasesClientClient.Get(ctx, resourceGroupName, serverName, databaseName, nil)

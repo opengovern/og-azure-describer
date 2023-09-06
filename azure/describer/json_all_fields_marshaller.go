@@ -31,9 +31,9 @@ func (x JSONAllFieldsMarshaller) MarshalJSON() (res []byte, err error) {
 	var val = x.Value
 
 	v := reflect.ValueOf(x.Value)
-	//if v.Type().PkgPath() != "" {
-	//	fmt.Printf("In pkg path: %v\n", v.Type().PkgPath())
-	//}
+	if !v.IsValid() {
+		return json.Marshal(val)
+	}
 	if _, ok := exclusionTypeSet[v.Type().PkgPath()]; !ok && !isGoPackage(v.Type().PkgPath()) {
 		switch v.Kind() {
 		case reflect.Slice, reflect.Array:

@@ -53,7 +53,7 @@ func GetPostgresqlServer(ctx context.Context, firewallClient *armpostgresql.Fire
 	for pager.More() {
 		page, err := pager.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			break
 		}
 		adminListOp = append(adminListOp, page.Value...)
 	}
@@ -63,7 +63,7 @@ func GetPostgresqlServer(ctx context.Context, firewallClient *armpostgresql.Fire
 	for pager2.More() {
 		page, err := pager2.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			break
 		}
 		confListByServerOp = append(confListByServerOp, page.Value...)
 	}
@@ -73,7 +73,7 @@ func GetPostgresqlServer(ctx context.Context, firewallClient *armpostgresql.Fire
 	for pager3.More() {
 		page, err := pager3.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			break
 		}
 		kop = append(kop, page.Value...)
 	}
@@ -83,7 +83,7 @@ func GetPostgresqlServer(ctx context.Context, firewallClient *armpostgresql.Fire
 	for pager4.More() {
 		page, err := pager4.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			break
 		}
 		firewallListByServerOp = append(firewallListByServerOp, page.Value...)
 	}

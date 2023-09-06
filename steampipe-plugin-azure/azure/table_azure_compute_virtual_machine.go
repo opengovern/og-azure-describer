@@ -2,9 +2,7 @@ package azure
 
 import (
 	"context"
-	"fmt"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
 	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
@@ -40,8 +38,7 @@ func tableAzureComputeVirtualMachine(_ context.Context) *plugin.Table {
 				Name:        "power_state",
 				Description: "Specifies the power state of the vm.",
 				Type:        proto.ColumnType_STRING,
-
-				Transform: transform.FromField("Description.VirtualMachineInstanceView.Statuses").Transform(getPowerState),
+				Transform:   transform.From(getPowerState),
 			},
 			{
 				Name:        "id",
@@ -262,8 +259,7 @@ func tableAzureComputeVirtualMachine(_ context.Context) *plugin.Table {
 				Name:        "private_ips",
 				Description: "An array of private ip addesses associated with the vm.",
 				Type:        proto.ColumnType_JSON,
-
-				Transform: transform.FromField("Description.InterfaceIPConfigurations").Transform(getPrivateIpsFromIpconfig),
+				Transform:   transform.From(getPrivateIpsFromIpconfig),
 			},
 			{
 				Name:        "public_ips",
@@ -358,30 +354,23 @@ func tableAzureComputeVirtualMachine(_ context.Context) *plugin.Table {
 
 func getPowerState(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("getPowerState", "d.Value", d.Value)
-
 	if d.Value == nil {
 		return nil, nil
 	}
-	statuses, ok := d.Value.(*[]armcompute.InstanceViewStatus)
-	if !ok {
-		return nil, fmt.Errorf("Conversion failed for virtual machine statuses")
-	}
-
+	vm := d.HydrateItem.(kaytu.ComputeVirtualMachine).Description
+	statuses := vm.VirtualMachineInstanceView.Statuses
 	return getStatusFromCode(statuses, "PowerState"), nil
 }
 
 func getPrivateIpsFromIpconfig(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("getPrivateIpsFromIpconfig", "d.Value", d.Value)
 	if d.Value == nil {
 		return nil, nil
 	}
 
+	vm := d.HydrateItem.(kaytu.ComputeVirtualMachine).Description
+
 	var ips []string
-	ipConfigs, ok := d.Value.([]armnetwork.InterfaceIPConfiguration)
-	if !ok {
-		return nil, fmt.Errorf("Conversion failed for virtual machine ip configs")
-	}
-	for _, ipConfig := range ipConfigs {
+	for _, ipConfig := range vm.InterfaceIPConfigurations {
 		ips = append(ips, *ipConfig.Properties.PrivateIPAddress)
 	}
 
@@ -389,8 +378,8 @@ func getPrivateIpsFromIpconfig(ctx context.Context, d *transform.TransformData) 
 }
 
 // UTILITY FUNCTIONS
-func getStatusFromCode(statuses *[]armcompute.InstanceViewStatus, codeType string) string {
-	for _, status := range *statuses {
+func getStatusFromCode(statuses []*armcompute.InstanceViewStatus, codeType string) string {
+	for _, status := range statuses {
 		statusCode := types.SafeString(status.Code)
 
 		if strings.HasPrefix(statusCode, codeType+"/") {

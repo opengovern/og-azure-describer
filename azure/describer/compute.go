@@ -338,22 +338,25 @@ func getComputeVirtualMachine(ctx context.Context, vmClient *armcompute.VirtualM
 	resourceGroupName := strings.Split(*virtualMachine.ID, "/")[4]
 	computeInstanceViewOp, err := vmClient.InstanceView(ctx, resourceGroupName, *virtualMachine.Name, nil)
 
-	pager := networkInterfaceClient.NewListVirtualMachineScaleSetNetworkInterfacesPager(resourceGroupName, *virtualMachine.Properties.VirtualMachineScaleSet.ID, nil)
-	var ipConfigs []armnetwork.InterfaceIPConfiguration // IP Configs done
-	for pager.More() {
-		page, err := pager.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-		for _, n := range page.Value {
-			ipPager := ipConfigClient.NewListPager(resourceGroupName, *n.Name, nil)
-			for ipPager.More() {
-				ipPage, err := ipPager.NextPage(ctx)
-				if err != nil {
-					return nil, err
-				}
-				for _, ip := range ipPage.Value {
-					ipConfigs = append(ipConfigs, *ip)
+	var ipConfigs = make([]armnetwork.InterfaceIPConfiguration, 0, 0)
+	if virtualMachine.Properties.VirtualMachineScaleSet != nil && virtualMachine.Properties.VirtualMachineScaleSet.ID != nil {
+		pager := networkInterfaceClient.NewListVirtualMachineScaleSetNetworkInterfacesPager(
+			resourceGroupName, *virtualMachine.Properties.VirtualMachineScaleSet.ID, nil)
+		for pager.More() {
+			page, err := pager.NextPage(ctx)
+			if err != nil {
+				return nil, err
+			}
+			for _, n := range page.Value {
+				ipPager := ipConfigClient.NewListPager(resourceGroupName, *n.Name, nil)
+				for ipPager.More() {
+					ipPage, err := ipPager.NextPage(ctx)
+					if err != nil {
+						return nil, err
+					}
+					for _, ip := range ipPage.Value {
+						ipConfigs = append(ipConfigs, *ip)
+					}
 				}
 			}
 		}
