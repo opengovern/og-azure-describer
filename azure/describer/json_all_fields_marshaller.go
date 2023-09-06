@@ -182,6 +182,10 @@ func (x *azStructMarshaller) UnmarshalJSON(data []byte) error {
 			return fmt.Errorf("unmarshalling field %s: %v", jsonField, err)
 		}
 
+		// check if the type is assignable
+		if !reflect.ValueOf(v.Value).Type().AssignableTo(k.Elem().Type()) {
+			continue
+		}
 		k.Elem().Set(reflect.ValueOf(v.Value))
 		x.Value.Field(i).Set(k.Elem())
 	}
