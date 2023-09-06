@@ -9,7 +9,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/costmanagement/armcostmanagement"
 
-	"github.com/cenkalti/backoff"
 	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
@@ -45,43 +44,33 @@ func cost(ctx context.Context, cred *azidentity.ClientSecretCredential, subscrip
 
 	costAggregationString := "Cost"
 	var costs armcostmanagement.QueryResult
-
-	getCostWithBackOff := func() error {
-		var err error
-		queryFunction := armcostmanagement.FunctionTypeSum
-		queryGranularity := armcostmanagement.GranularityTypeDaily
-		queryTimeFrame := armcostmanagement.TimeframeTypeCustom
-		queryType := armcostmanagement.ExportTypeAmortizedCost
-		queryDefinition := armcostmanagement.QueryDefinition{
-			Dataset: &armcostmanagement.QueryDataset{
-				Aggregation: map[string]*armcostmanagement.QueryAggregation{
-					"Cost": {
-						Name:     &costAggregationString,
-						Function: &queryFunction,
-					},
+	queryFunction := armcostmanagement.FunctionTypeSum
+	queryGranularity := armcostmanagement.GranularityTypeDaily
+	queryTimeFrame := armcostmanagement.TimeframeTypeCustom
+	queryType := armcostmanagement.ExportTypeAmortizedCost
+	queryDefinition := armcostmanagement.QueryDefinition{
+		Dataset: &armcostmanagement.QueryDataset{
+			Aggregation: map[string]*armcostmanagement.QueryAggregation{
+				"Cost": {
+					Name:     &costAggregationString,
+					Function: &queryFunction,
 				},
-				Granularity: &queryGranularity,
-				Grouping:    groupings,
 			},
-			Timeframe: &queryTimeFrame,
-			Type:      &queryType,
-			TimePeriod: &armcostmanagement.QueryTimePeriod{
-				From: &from,
-				To:   &to,
-			},
-		}
-		costsResponse, err := client.Usage(ctx, scope, queryDefinition, nil)
-		costs = costsResponse.QueryResult
-		return err
+			Granularity: &queryGranularity,
+			Grouping:    groupings,
+		},
+		Timeframe: &queryTimeFrame,
+		Type:      &queryType,
+		TimePeriod: &armcostmanagement.QueryTimePeriod{
+			From: &from,
+			To:   &to,
+		},
 	}
-	expoBackoff := backoff.NewExponentialBackOff()
-	expoBackoff.InitialInterval = 10 * time.Second
-	expoBackoff.MaxElapsedTime = 5 * time.Minute
-	expoBackoff.MaxInterval = 1 * time.Minute
-	err = backoff.Retry(getCostWithBackOff, expoBackoff)
+	costsResponse, err := client.Usage(ctx, scope, queryDefinition, nil)
 	if err != nil {
 		return nil, nil, err
 	}
+	costs = costsResponse.QueryResult
 
 	mapResult := make([]map[string]any, 0)
 	for _, row := range costs.Properties.Rows {
