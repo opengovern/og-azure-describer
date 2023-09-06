@@ -62,6 +62,9 @@ func (x *JSONAllFieldsMarshaller) UnmarshalJSON(data []byte) (err error) {
 				return err
 			}
 			newVal := reflect.New(v.Type())
+			if !val.Value.Type().AssignableTo(newVal.Elem().Type()) {
+				return nil
+			}
 			newVal.Elem().Set(val.Value)
 			x.Value = newVal.Elem().Interface()
 		case reflect.Struct:
@@ -71,6 +74,9 @@ func (x *JSONAllFieldsMarshaller) UnmarshalJSON(data []byte) (err error) {
 				return err
 			}
 			newVal := reflect.New(v.Type())
+			if !val.Value.Type().AssignableTo(newVal.Elem().Type()) {
+				return nil
+			}
 			newVal.Elem().Set(val.Value)
 			x.Value = newVal.Elem().Interface()
 		case reflect.Ptr:
@@ -81,6 +87,9 @@ func (x *JSONAllFieldsMarshaller) UnmarshalJSON(data []byte) (err error) {
 			}
 
 			newVal := reflect.New(v.Type())
+			if !val.Value.Type().AssignableTo(newVal.Elem().Type()) {
+				return nil
+			}
 			newVal.Elem().Set(val.Value)
 			x.Value = newVal.Elem().Interface()
 		default:
@@ -91,6 +100,9 @@ func (x *JSONAllFieldsMarshaller) UnmarshalJSON(data []byte) (err error) {
 			}
 
 			newVal := reflect.New(v.Type())
+			if !val.Elem().Type().AssignableTo(newVal.Elem().Type()) {
+				return nil
+			}
 			newVal.Elem().Set(val.Elem())
 			x.Value = newVal.Elem().Interface()
 		}
@@ -104,6 +116,9 @@ func (x *JSONAllFieldsMarshaller) UnmarshalJSON(data []byte) (err error) {
 	}
 
 	newVal := reflect.New(v.Type())
+	if !val.Elem().Type().AssignableTo(newVal.Elem().Type()) {
+		return nil
+	}
 	newVal.Elem().Set(val.Elem())
 	x.Value = newVal.Elem().Interface()
 
@@ -187,6 +202,9 @@ func (x *azStructMarshaller) UnmarshalJSON(data []byte) error {
 			continue
 		}
 		k.Elem().Set(reflect.ValueOf(v.Value))
+		if !k.Elem().Type().AssignableTo(x.Value.Type().Field(i).Type) {
+			continue
+		}
 		x.Value.Field(i).Set(k.Elem())
 	}
 
@@ -221,6 +239,9 @@ func (x *azPtrMarshaller) UnmarshalJSON(data []byte) error {
 	}
 
 	p := reflect.New(reflect.TypeOf(k.Value))
+	if !reflect.ValueOf(k.Value).Type().AssignableTo(p.Elem().Type()) {
+		return nil
+	}
 	p.Elem().Set(reflect.ValueOf(k.Value))
 
 	x.Value = p
@@ -265,6 +286,9 @@ func (x *azSliceMarshaller) UnmarshalJSON(data []byte) error {
 		k := JSONAllFieldsMarshaller{Value: v.Interface()}
 		if err := json.Unmarshal(list[i], &k); err != nil {
 			return err
+		}
+		if !reflect.ValueOf(k.Value).Elem().Type().AssignableTo(x.Value.Type().Elem()) {
+			continue
 		}
 		x.Value.Index(i).Set(reflect.ValueOf(k.Value).Elem())
 	}
