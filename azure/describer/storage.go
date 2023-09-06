@@ -160,7 +160,7 @@ func StorageAccount(ctx context.Context, cred *azidentity.ClientSecretCredential
 		for _, account := range page.Value {
 			resource, err := GetStorageAccount(ctx, storageClient, encryptionScopesStorageClient, diagnosticClient, fileServicesStorageClient, blobServicesStorageClient, managementPoliciesStorageClient, account)
 			if err != nil {
-				return nil, err
+				continue
 			}
 			if stream != nil {
 				if err := (*stream)(*resource); err != nil {
@@ -203,7 +203,7 @@ func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsCl
 	if *account.Kind != "FileStorage" {
 		v, err := storageClient.ListKeys(ctx, *resourceGroup, *account.Name, nil)
 		if err != nil {
-			if !strings.Contains(err.Error(), "ScopeLocked") {
+			if !strings.Contains(err.Error(), "ScopeLocked") && !strings.Contains(err.Error(), "ReadOnlyDisabledSubscription") {
 				return nil, err
 			}
 		} else {
@@ -235,7 +235,7 @@ func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsCl
 	if *account.Kind != "BlobStorage" {
 		v, err := fileServicesStorageClient.GetServiceProperties(ctx, *resourceGroup, *account.Name, nil)
 		if err != nil {
-			if !strings.Contains(err.Error(), "AuthorizationFailed") {
+			if !strings.Contains(err.Error(), "AuthorizationFailed") && !strings.Contains(err.Error(), "AccountIsDisabled") {
 				return nil, err
 			}
 		}
@@ -247,7 +247,7 @@ func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsCl
 	for pager1.More() {
 		page1, err := pager1.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			break
 		}
 		diagSettingsOp = append(diagSettingsOp, page1.Value...)
 	}
@@ -257,7 +257,7 @@ func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsCl
 	for pager2.More() {
 		page2, err := pager2.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			break
 		}
 		vsop = append(vsop, page2.Value...)
 	}
@@ -266,7 +266,7 @@ func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsCl
 	if *account.SKU.Tier == "Standard" && (*account.Kind == "Storage" || *account.Kind == "StorageV2") {
 		accountKeys, err := storageClient.ListKeys(ctx, *resourceGroup, *account.Name, nil)
 		if err != nil {
-			if !strings.Contains(err.Error(), "AuthorizationFailed") {
+			if !strings.Contains(err.Error(), "AuthorizationFailed") && !strings.Contains(err.Error(), "ReadOnlyDisabledSubscription") {
 				return nil, err
 			}
 		} else {
@@ -284,7 +284,7 @@ func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsCl
 				resp, err := queuesClient.GetServiceProperties(ctx, *account.Name)
 
 				if err != nil {
-					if !strings.Contains(err.Error(), "AuthorizationFailed") {
+					if !strings.Contains(err.Error(), "AuthorizationFailed") && !strings.Contains(err.Error(), "ReadOnlyDisabledSubscription") {
 						return nil, err
 					}
 				} else {
