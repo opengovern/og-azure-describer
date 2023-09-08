@@ -2,13 +2,14 @@ package describer
 
 import (
 	"context"
-	"errors"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dnsresolver/armdnsresolver"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/privatedns/armprivatedns"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/trafficmanager/armtrafficmanager"
 	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
@@ -1290,8 +1291,92 @@ func GetDNSZone(ctx context.Context, dnsZone *armdns.Zone) *Resource {
 }
 
 func DNSResolvers(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	//clientFactory, err := armdnsresolver.NewDNSResolversClient(subscription, cred, nil)
-	return nil, errors.New("unimplemented")
+	clientFactory, err := armdnsresolver.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewDNSResolversClient()
+
+	pager := client.NewListPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, dnsResolver := range page.Value {
+			resource := GetDNSResolver(ctx, dnsResolver)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+func GetDNSResolver(ctx context.Context, dnsResolver *armdnsresolver.DNSResolver) *Resource {
+	resourceGroup := strings.Split(*dnsResolver.ID, "/")[4]
+	resource := Resource{
+		ID:       *dnsResolver.ID,
+		Name:     *dnsResolver.Name,
+		Location: *dnsResolver.Location,
+		Description: JSONAllFieldsMarshaller{
+			Value: model.DNSResolverDescription{
+				DNSResolver:   *dnsResolver,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+
+	return &resource
+}
+
+func TrafficManagerProfile(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armtrafficmanager.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewProfilesClient()
+
+	pager := client.NewListBySubscriptionPager(&armtrafficmanager.ProfilesClientListBySubscriptionOptions{})
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, profile := range page.Value {
+			resource := GetTrafficManagerProfile(ctx, profile)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func GetTrafficManagerProfile(ctx context.Context, profile *armtrafficmanager.Profile) *Resource {
+	resourceGroup := strings.Split(*profile.ID, "/")[4]
+	resource := Resource{
+		ID:       *profile.ID,
+		Name:     *profile.Name,
+		Location: *profile.Location,
+		Description: JSONAllFieldsMarshaller{
+			Value: model.TrafficManagerProfileDescription{
+				Profile:       *profile,
+				ResourceGroup: resourceGroup,
+			},
+		},
+	}
+
+	return &resource
 }
 
 func PrivateDnsZones(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {

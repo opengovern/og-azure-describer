@@ -10,8 +10,8 @@ import (
 )
 
 var table = Table{
-	Service: "PowerBIDedicated",
-	Name:    "Capacity",
+	Service: "TrafficManager",
+	Name:    "Profile",
 }
 
 const azureTableServiceTemplate = `

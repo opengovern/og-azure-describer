@@ -20,6 +20,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerregistry/armcontainerregistry"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dashboard/armdashboard"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/databoxedge/armdataboxedge"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/databricks/armdatabricks"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datafactory/armdatafactory/v2"
@@ -31,6 +32,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/deviceprovisioningservices/armdeviceprovisioningservices"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devtestlabs/armdevtestlabs"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dnsresolver/armdnsresolver"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventhub/armeventhub"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/frontdoor/armfrontdoor"
@@ -80,6 +82,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/synapse/armsynapse"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/timeseriesinsights/armtimeseriesinsights"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/trafficmanager/armtrafficmanager"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/virtualmachineimagebuilder/armvirtualmachineimagebuilder"
 	"github.com/Azure/azure-sdk-for-go/services/preview/web/mgmt/2015-08-01-preview/web"
 	azblobOld "github.com/Azure/azure-storage-blob-go/azblob"
@@ -621,6 +624,12 @@ type VirtualWansDescription struct {
 //index:microsoft_network_dnsresolvers
 type DNSResolverDescription struct {
 	ResourceGroup string
+	DNSResolver   armdnsresolver.DNSResolver
+}
+
+type TrafficManagerProfileDescription struct {
+	ResourceGroup string
+	Profile       armtrafficmanager.Profile
 }
 
 //index:microsoft_network_privatednszones
@@ -1836,11 +1845,23 @@ type NetAppCapacityPoolDescription struct {
 	ResourceGroup string
 }
 
+// =================== Dashboard ==================
+
+type DashboardGrafanaDescription struct {
+	ResourceGroup string
+	Grafana       armdashboard.ManagedGrafana
+}
+
 // =================== DesktopVirtualization ==================
 
 type DesktopVirtualizationHostPoolDescription struct {
 	HostPool      armdesktopvirtualization.HostPool
 	ResourceGroup string
+}
+
+type DesktopVirtualizationWorkspaceDescription struct {
+	ResourceGroup string
+	Workspace     armdesktopvirtualization.Workspace
 }
 
 // =================== DevTestLab ==================

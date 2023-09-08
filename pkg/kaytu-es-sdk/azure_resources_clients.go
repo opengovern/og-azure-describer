@@ -456,7 +456,7 @@ var listAutomationAccountsFilters = map[string]string{
 	"sku_family":         "description.Automation.Properties.SKU.Family",
 	"sku_name":           "description.Automation.Properties.SKU.Name",
 	"state":              "description.Automation.Properties.State",
-	"tags":               "description.Automation.Etag",
+	"tags":               "description.Automation.Tags",
 	"title":              "description.Automation.Name",
 	"type":               "description.Automation.Type",
 }
@@ -507,7 +507,7 @@ var getAutomationAccountsFilters = map[string]string{
 	"sku_family":         "description.Automation.Properties.SKU.Family",
 	"sku_name":           "description.Automation.Properties.SKU.Name",
 	"state":              "description.Automation.Properties.State",
-	"tags":               "description.Automation.Etag",
+	"tags":               "description.Automation.Tags",
 	"title":              "description.Automation.Name",
 	"type":               "description.Automation.Type",
 }
@@ -15055,6 +15055,434 @@ func GetVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 // ==========================  END: VirtualWans =============================
 
+// ==========================  START: DNSResolver =============================
+
+type DNSResolver struct {
+	Description   azure.DNSResolverDescription `json:"description"`
+	Metadata      azure.Metadata               `json:"metadata"`
+	ResourceJobID int                          `json:"resource_job_id"`
+	SourceJobID   int                          `json:"source_job_id"`
+	ResourceType  string                       `json:"resource_type"`
+	SourceType    string                       `json:"source_type"`
+	ID            string                       `json:"id"`
+	ARN           string                       `json:"arn"`
+	SourceID      string                       `json:"source_id"`
+}
+
+func (r *DNSResolver) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.DNSResolverDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type DNSResolverHit struct {
+	ID      string        `json:"_id"`
+	Score   float64       `json:"_score"`
+	Index   string        `json:"_index"`
+	Type    string        `json:"_type"`
+	Version int64         `json:"_version,omitempty"`
+	Source  DNSResolver   `json:"_source"`
+	Sort    []interface{} `json:"sort"`
+}
+
+type DNSResolverHits struct {
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []DNSResolverHit  `json:"hits"`
+}
+
+type DNSResolverSearchResponse struct {
+	PitID string          `json:"pit_id"`
+	Hits  DNSResolverHits `json:"hits"`
+}
+
+type DNSResolverPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewDNSResolverPaginator(filters []essdk.BoolFilter, limit *int64) (DNSResolverPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_dnsresolvers", filters, limit)
+	if err != nil {
+		return DNSResolverPaginator{}, err
+	}
+
+	p := DNSResolverPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p DNSResolverPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p DNSResolverPaginator) NextPage(ctx context.Context) ([]DNSResolver, error) {
+	var response DNSResolverSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []DNSResolver
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listDNSResolverFilters = map[string]string{
+	"akas":             "description.DNSResolver.ID",
+	"id":               "description.DNSResolver.ID",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.DNSResolver.Name",
+	"tags":             "description.DNSResolver.Tags",
+	"title":            "description.DNSResolver.Name",
+}
+
+func ListDNSResolver(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListDNSResolver")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewDNSResolverPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDNSResolverFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getDNSResolverFilters = map[string]string{
+	"akas":             "description.DNSResolver.ID",
+	"id":               "description.DNSResolver.ID",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.DNSResolver.Name",
+	"tags":             "description.DNSResolver.Tags",
+	"title":            "description.DNSResolver.Name",
+}
+
+func GetDNSResolver(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetDNSResolver")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewDNSResolverPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDNSResolverFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: DNSResolver =============================
+
+// ==========================  START: TrafficManagerProfile =============================
+
+type TrafficManagerProfile struct {
+	Description   azure.TrafficManagerProfileDescription `json:"description"`
+	Metadata      azure.Metadata                         `json:"metadata"`
+	ResourceJobID int                                    `json:"resource_job_id"`
+	SourceJobID   int                                    `json:"source_job_id"`
+	ResourceType  string                                 `json:"resource_type"`
+	SourceType    string                                 `json:"source_type"`
+	ID            string                                 `json:"id"`
+	ARN           string                                 `json:"arn"`
+	SourceID      string                                 `json:"source_id"`
+}
+
+func (r *TrafficManagerProfile) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.TrafficManagerProfileDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type TrafficManagerProfileHit struct {
+	ID      string                `json:"_id"`
+	Score   float64               `json:"_score"`
+	Index   string                `json:"_index"`
+	Type    string                `json:"_type"`
+	Version int64                 `json:"_version,omitempty"`
+	Source  TrafficManagerProfile `json:"_source"`
+	Sort    []interface{}         `json:"sort"`
+}
+
+type TrafficManagerProfileHits struct {
+	Total essdk.SearchTotal          `json:"total"`
+	Hits  []TrafficManagerProfileHit `json:"hits"`
+}
+
+type TrafficManagerProfileSearchResponse struct {
+	PitID string                    `json:"pit_id"`
+	Hits  TrafficManagerProfileHits `json:"hits"`
+}
+
+type TrafficManagerProfilePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewTrafficManagerProfilePaginator(filters []essdk.BoolFilter, limit *int64) (TrafficManagerProfilePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_trafficmanagerprofiles", filters, limit)
+	if err != nil {
+		return TrafficManagerProfilePaginator{}, err
+	}
+
+	p := TrafficManagerProfilePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p TrafficManagerProfilePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p TrafficManagerProfilePaginator) NextPage(ctx context.Context) ([]TrafficManagerProfile, error) {
+	var response TrafficManagerProfileSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []TrafficManagerProfile
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listTrafficManagerProfileFilters = map[string]string{
+	"akas":  "description.Profile.ID",
+	"id":    "description.Profile.ID",
+	"name":  "description.Profile.Name",
+	"tags":  "description.Profile.Tags",
+	"title": "description.Profile.Name",
+}
+
+func ListTrafficManagerProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListTrafficManagerProfile")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewTrafficManagerProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, listTrafficManagerProfileFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getTrafficManagerProfileFilters = map[string]string{
+	"akas":  "description.Profile.ID",
+	"id":    "description.Profile.ID",
+	"name":  "description.Profile.Name",
+	"tags":  "description.Profile.Tags",
+	"title": "description.Profile.Name",
+}
+
+func GetTrafficManagerProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetTrafficManagerProfile")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewTrafficManagerProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, getTrafficManagerProfileFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: TrafficManagerProfile =============================
+
 // ==========================  START: PrivateDNSZones =============================
 
 type PrivateDNSZones struct {
@@ -20740,7 +21168,7 @@ var listSubnetFilters = map[string]string{
 	"akas":                                  "description.Subnet.ID",
 	"delegations":                           "description.Subnet.Properties.Delegations",
 	"etag":                                  "description.Subnet.Etag",
-	"id":                                    "subnet.ID",
+	"id":                                    "description.Subnet.ID",
 	"kaytu_account_id":                      "metadata.SourceID",
 	"name":                                  "description.Subnet.Name",
 	"nat_gateway_id":                        "description.Subnet.Properties.NatGateway.ID",
@@ -20792,7 +21220,7 @@ var getSubnetFilters = map[string]string{
 	"akas":                                  "description.Subnet.ID",
 	"delegations":                           "description.Subnet.Properties.Delegations",
 	"etag":                                  "description.Subnet.Etag",
-	"id":                                    "subnet.ID",
+	"id":                                    "description.Subnet.ID",
 	"kaytu_account_id":                      "metadata.SourceID",
 	"name":                                  "description.Subnet.name",
 	"nat_gateway_id":                        "description.Subnet.Properties.NatGateway.ID",
@@ -22477,9 +22905,7 @@ var listComputeVirtualMachineFilters = map[string]string{
 	"os_type":                             "description.VirtualMachine.Properties.StorageProfile.OSDisk.OSType",
 	"os_version":                          "description.VirtualMachineInstanceView.OSVersion",
 	"patch_settings":                      "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.PatchSettings",
-	"power_state":                         "description.VirtualMachineInstanceView.Statuses",
 	"priority":                            "description.VirtualMachine.Properties.Priority",
-	"private_ips":                         "description.InterfaceIPConfigurations",
 	"provision_vm_agent":                  "description.VirtualMachine.Properties.OSProfile.LinuxConfiguration.ProvisionVMAgent",
 	"provision_vm_agent_windows":          "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.ProvisionVMAgent",
 	"provisioning_state":                  "description.VirtualMachine.Properties.ProvisioningState",
@@ -22568,9 +22994,7 @@ var getComputeVirtualMachineFilters = map[string]string{
 	"os_type":                             "description.VirtualMachine.Properties.StorageProfile.OSDisk.OSType",
 	"os_version":                          "description.VirtualMachineInstanceView.OSVersion",
 	"patch_settings":                      "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.PatchSettings",
-	"power_state":                         "description.VirtualMachineInstanceView.Statuses",
 	"priority":                            "description.VirtualMachine.Properties.Priority",
-	"private_ips":                         "description.InterfaceIPConfigurations",
 	"provision_vm_agent":                  "description.VirtualMachine.Properties.OSProfile.LinuxConfiguration.ProvisionVMAgent",
 	"provision_vm_agent_windows":          "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.ProvisionVMAgent",
 	"provisioning_state":                  "description.VirtualMachine.Properties.ProvisioningState",
@@ -39455,7 +39879,7 @@ func (p SqlDatabasePaginator) NextPage(ctx context.Context) ([]SqlDatabase, erro
 var listSqlDatabaseFilters = map[string]string{
 	"akas":                         "description.Database.ID",
 	"collation":                    "description.Database.Properties.Collation",
-	"containment_state":            "description.Database.Properties.CreationDate",
+	"containment_state":            "description.Database.Properties.ContainmentState",
 	"create_mode":                  "description.Database.Properties.CreateMode",
 	"creation_date":                "description.Database.Properties.CreationDate",
 	"current_service_objective_id": "description.Database.Properties.CurrentServiceObjectiveName",
@@ -39531,7 +39955,7 @@ func ListSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 var getSqlDatabaseFilters = map[string]string{
 	"akas":                         "description.Database.ID",
 	"collation":                    "description.Database.Properties.Collation",
-	"containment_state":            "description.Database.Properties.CreationDate",
+	"containment_state":            "description.Database.Properties.ContainmentState",
 	"create_mode":                  "description.Database.Properties.CreateMode",
 	"creation_date":                "description.Database.Properties.CreationDate",
 	"current_service_objective_id": "description.Database.Properties.CurrentServiceObjectiveName",
@@ -41939,7 +42363,7 @@ func (p RecoveryServicesVaultPaginator) NextPage(ctx context.Context) ([]Recover
 }
 
 var listRecoveryServicesVaultFilters = map[string]string{
-	"akas":                              "description.Vault.Properties.Encryption.KeyVaultProperties",
+	"akas":                              "description.Vault.ID",
 	"diagnostic_settings":               "description.DiagnosticSettingsResource",
 	"etag":                              "description.Vault.Etag",
 	"id":                                "description.Vault.ID",
@@ -41990,7 +42414,7 @@ func ListRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getRecoveryServicesVaultFilters = map[string]string{
-	"akas":                              "description.Vault.Properties.Encryption.KeyVaultProperties",
+	"akas":                              "description.Vault.ID",
 	"diagnostic_settings":               "description.DiagnosticSettingsResource",
 	"etag":                              "description.Vault.Etag",
 	"id":                                "description.Vault.ID",
@@ -45699,6 +46123,217 @@ func GetNetAppCapacityPool(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 // ==========================  END: NetAppCapacityPool =============================
 
+// ==========================  START: DashboardGrafana =============================
+
+type DashboardGrafana struct {
+	Description   azure.DashboardGrafanaDescription `json:"description"`
+	Metadata      azure.Metadata                    `json:"metadata"`
+	ResourceJobID int                               `json:"resource_job_id"`
+	SourceJobID   int                               `json:"source_job_id"`
+	ResourceType  string                            `json:"resource_type"`
+	SourceType    string                            `json:"source_type"`
+	ID            string                            `json:"id"`
+	ARN           string                            `json:"arn"`
+	SourceID      string                            `json:"source_id"`
+}
+
+func (r *DashboardGrafana) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.DashboardGrafanaDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type DashboardGrafanaHit struct {
+	ID      string           `json:"_id"`
+	Score   float64          `json:"_score"`
+	Index   string           `json:"_index"`
+	Type    string           `json:"_type"`
+	Version int64            `json:"_version,omitempty"`
+	Source  DashboardGrafana `json:"_source"`
+	Sort    []interface{}    `json:"sort"`
+}
+
+type DashboardGrafanaHits struct {
+	Total essdk.SearchTotal     `json:"total"`
+	Hits  []DashboardGrafanaHit `json:"hits"`
+}
+
+type DashboardGrafanaSearchResponse struct {
+	PitID string               `json:"pit_id"`
+	Hits  DashboardGrafanaHits `json:"hits"`
+}
+
+type DashboardGrafanaPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewDashboardGrafanaPaginator(filters []essdk.BoolFilter, limit *int64) (DashboardGrafanaPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_dashboard_grafana", filters, limit)
+	if err != nil {
+		return DashboardGrafanaPaginator{}, err
+	}
+
+	p := DashboardGrafanaPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p DashboardGrafanaPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p DashboardGrafanaPaginator) NextPage(ctx context.Context) ([]DashboardGrafana, error) {
+	var response DashboardGrafanaSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []DashboardGrafana
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listDashboardGrafanaFilters = map[string]string{
+	"akas":  "description.Grafana.ID",
+	"id":    "description.Grafana.ID",
+	"name":  "description.Grafana.Name",
+	"title": "description.Grafana.Name",
+}
+
+func ListDashboardGrafana(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListDashboardGrafana")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewDashboardGrafanaPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDashboardGrafanaFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getDashboardGrafanaFilters = map[string]string{
+	"akas":  "description.Grafana.ID",
+	"id":    "description.Grafana.ID",
+	"name":  "description.Grafana.Name",
+	"title": "description.Grafana.Name",
+}
+
+func GetDashboardGrafana(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetDashboardGrafana")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewDashboardGrafanaPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDashboardGrafanaFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: DashboardGrafana =============================
+
 // ==========================  START: DesktopVirtualizationHostPool =============================
 
 type DesktopVirtualizationHostPool struct {
@@ -45911,6 +46546,219 @@ func GetDesktopVirtualizationHostPool(ctx context.Context, d *plugin.QueryData, 
 }
 
 // ==========================  END: DesktopVirtualizationHostPool =============================
+
+// ==========================  START: DesktopVirtualizationWorkspace =============================
+
+type DesktopVirtualizationWorkspace struct {
+	Description   azure.DesktopVirtualizationWorkspaceDescription `json:"description"`
+	Metadata      azure.Metadata                                  `json:"metadata"`
+	ResourceJobID int                                             `json:"resource_job_id"`
+	SourceJobID   int                                             `json:"source_job_id"`
+	ResourceType  string                                          `json:"resource_type"`
+	SourceType    string                                          `json:"source_type"`
+	ID            string                                          `json:"id"`
+	ARN           string                                          `json:"arn"`
+	SourceID      string                                          `json:"source_id"`
+}
+
+func (r *DesktopVirtualizationWorkspace) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.DesktopVirtualizationWorkspaceDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type DesktopVirtualizationWorkspaceHit struct {
+	ID      string                         `json:"_id"`
+	Score   float64                        `json:"_score"`
+	Index   string                         `json:"_index"`
+	Type    string                         `json:"_type"`
+	Version int64                          `json:"_version,omitempty"`
+	Source  DesktopVirtualizationWorkspace `json:"_source"`
+	Sort    []interface{}                  `json:"sort"`
+}
+
+type DesktopVirtualizationWorkspaceHits struct {
+	Total essdk.SearchTotal                   `json:"total"`
+	Hits  []DesktopVirtualizationWorkspaceHit `json:"hits"`
+}
+
+type DesktopVirtualizationWorkspaceSearchResponse struct {
+	PitID string                             `json:"pit_id"`
+	Hits  DesktopVirtualizationWorkspaceHits `json:"hits"`
+}
+
+type DesktopVirtualizationWorkspacePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewDesktopVirtualizationWorkspacePaginator(filters []essdk.BoolFilter, limit *int64) (DesktopVirtualizationWorkspacePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_desktopvirtualization_workspaces", filters, limit)
+	if err != nil {
+		return DesktopVirtualizationWorkspacePaginator{}, err
+	}
+
+	p := DesktopVirtualizationWorkspacePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p DesktopVirtualizationWorkspacePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p DesktopVirtualizationWorkspacePaginator) NextPage(ctx context.Context) ([]DesktopVirtualizationWorkspace, error) {
+	var response DesktopVirtualizationWorkspaceSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []DesktopVirtualizationWorkspace
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listDesktopVirtualizationWorkspaceFilters = map[string]string{
+	"akas":  "description.Workspace.ID",
+	"id":    "description.Workspace.ID",
+	"name":  "description.Workspace.Name",
+	"tags":  "description.Workspace.Tags",
+	"title": "description.Workspace.Name",
+}
+
+func ListDesktopVirtualizationWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListDesktopVirtualizationWorkspace")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewDesktopVirtualizationWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDesktopVirtualizationWorkspaceFilters, "azure", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getDesktopVirtualizationWorkspaceFilters = map[string]string{
+	"akas":  "description.Workspace.ID",
+	"id":    "description.Workspace.ID",
+	"name":  "description.Workspace.Name",
+	"tags":  "description.Workspace.Tags",
+	"title": "description.Workspace.Name",
+}
+
+func GetDesktopVirtualizationWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetDesktopVirtualizationWorkspace")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewDesktopVirtualizationWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDesktopVirtualizationWorkspaceFilters, "azure", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: DesktopVirtualizationWorkspace =============================
 
 // ==========================  START: DevTestLabLab =============================
 

@@ -9,6 +9,43 @@ import (
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
+func DesktopVirtualizationWorkspaces(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	client, err := armdesktopvirtualization.NewWorkspacesClient(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	pager := client.NewListBySubscriptionPager(&armdesktopvirtualization.WorkspacesClientListBySubscriptionOptions{})
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resourceGroupName := strings.Split(string(*v.ID), "/")[4]
+			resource := &Resource{
+				ID:       *v.ID,
+				Name:     *v.Name,
+				Location: *v.Location,
+				Description: JSONAllFieldsMarshaller{
+					Value: model.DesktopVirtualizationWorkspaceDescription{
+						Workspace:     *v,
+						ResourceGroup: resourceGroupName,
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, *resource)
+			}
+		}
+	}
+	return values, nil
+}
+
 func DesktopVirtualizationHostPool(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	client, err := armdesktopvirtualization.NewHostPoolsClient(subscription, cred, nil)
 	if err != nil {

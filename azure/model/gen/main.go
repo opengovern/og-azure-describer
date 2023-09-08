@@ -393,9 +393,10 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 			if s.Index != "" {
 				sources = append(sources, s)
+			} else {
+				fmt.Println("failed to find the index:", s.Name)
 			}
 		}
-
 		return false
 	})
 
