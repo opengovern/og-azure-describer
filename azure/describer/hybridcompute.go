@@ -20,7 +20,7 @@ func HybridComputeMachine(ctx context.Context, cred *azidentity.ClientSecretCred
 	pager := client.NewListBySubscriptionPager(nil)
 	var values []Resource
 	for pager.More() {
-		page, err := pager.NextPage(nil)
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
