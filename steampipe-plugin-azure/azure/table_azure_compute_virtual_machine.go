@@ -354,7 +354,7 @@ func tableAzureComputeVirtualMachine(_ context.Context) *plugin.Table {
 
 func getPowerState(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("getPowerState", "d.Value", d.Value)
-	if d.Value == nil {
+	if d.HydrateItem == nil {
 		return nil, nil
 	}
 	vm := d.HydrateItem.(kaytu.ComputeVirtualMachine).Description
