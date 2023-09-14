@@ -3,7 +3,6 @@ package describer
 import (
 	"context"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"strings"
 
@@ -16,13 +15,6 @@ func SpringCloudService(ctx context.Context, cred *azidentity.ClientSecretCreden
 		return nil, err
 	}
 	client := clientFactory.NewClient()
-
-	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
-	if err != nil {
-		return nil, err
-	}
-	diagnosticClient := monitorClientFactory.NewDiagnosticSettingsClient()
-
 	pager := client.NewListPager(nil)
 	var values []Resource
 	for pager.More() {
@@ -31,7 +23,7 @@ func SpringCloudService(ctx context.Context, cred *azidentity.ClientSecretCreden
 			return nil, err
 		}
 		for _, resource := range result.Value {
-			resource, err := getSpringCloudService(ctx, diagnosticClient, resource)
+			resource, err := getSpringCloudService(ctx, resource)
 			if err != nil {
 				return nil, err
 			}
@@ -50,7 +42,7 @@ func SpringCloudService(ctx context.Context, cred *azidentity.ClientSecretCreden
 	return values, nil
 }
 
-func getSpringCloudService(ctx context.Context, diagnosticClient *armmonitor.DiagnosticSettingsClient, service *armresources.GenericResourceExpanded) (*Resource, error) {
+func getSpringCloudService(ctx context.Context, service *armresources.GenericResourceExpanded) (*Resource, error) {
 	if service.Name == nil {
 		return nil, nil
 	}
@@ -58,17 +50,6 @@ func getSpringCloudService(ctx context.Context, diagnosticClient *armmonitor.Dia
 
 	resourceGroup := splitID[4]
 
-	var diagnosticList []armmonitor.DiagnosticSettingsResource
-	pager := diagnosticClient.NewListPager(*service.ID, nil)
-	for pager.More() {
-		page, err := pager.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-		for _, diagnostic := range page.Value {
-			diagnosticList = append(diagnosticList, *diagnostic)
-		}
-	}
 	resource := Resource{
 		ID:       *service.ID,
 		Name:     *service.Name,
@@ -76,7 +57,7 @@ func getSpringCloudService(ctx context.Context, diagnosticClient *armmonitor.Dia
 		Description: JSONAllFieldsMarshaller{
 			Value: model.SpringCloudServiceDescription{
 				ServiceResource:            *service,
-				DiagnosticSettingsResource: &diagnosticList,
+				DiagnosticSettingsResource: nil, // TODO: Arta fix this =)))
 				ResourceGroup:              resourceGroup,
 			},
 		},
