@@ -18,7 +18,7 @@ func SpringCloudService(ctx context.Context, cred *azidentity.ClientSecretCreden
 	pager := client.NewListPager(nil)
 	var values []Resource
 	for pager.More() {
-		result, err := pager.NextPage(context.Background())
+		result, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
