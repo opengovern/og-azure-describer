@@ -18562,7 +18562,7 @@ func (p SecurityCenterSettingPaginator) NextPage(ctx context.Context) ([]Securit
 
 var listSecurityCenterSettingFilters = map[string]string{
 	"akas":             "description.Setting.Kind",
-	"enabled":          "description.Setting.Kind",
+	"enabled":          "description.ExportSettingStatus",
 	"id":               "description.Setting.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"kind":             "description.Setting.Kind",
@@ -18603,7 +18603,7 @@ func ListSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plug
 
 var getSecurityCenterSettingFilters = map[string]string{
 	"akas":             "description.Setting.Kind",
-	"enabled":          "description.Setting.Kind",
+	"enabled":          "description.ExportSettingStatus",
 	"id":               "description.Setting.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"kind":             "description.Setting.Kind",
