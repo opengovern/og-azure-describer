@@ -66,7 +66,7 @@ func SecurityCenterContact(ctx context.Context, cred *azidentity.ClientSecretCre
 		if err != nil {
 			return nil, err
 		}
-		for _, v := range page.Value {
+		for _, v := range page.ContactList.Value {
 			resource := GetSecurityCenterContact(ctx, v)
 			if stream != nil {
 				if err := (*stream)(*resource); err != nil {
@@ -165,13 +165,20 @@ func SecurityCenterSetting(ctx context.Context, cred *azidentity.ClientSecretCre
 }
 
 func GetSecurityCenterSetting(ctx context.Context, v armsecurity.SettingClassification) *Resource {
+	var settingStatus bool
+	if *v.GetSetting().Kind == armsecurity.SettingKindDataExportSettings {
+		settingStatus = true
+	} else {
+		settingStatus = false
+	}
 	resource := Resource{
 		ID:       *v.GetSetting().ID,
 		Name:     *v.GetSetting().Name,
 		Location: "global",
 		Description: JSONAllFieldsMarshaller{
 			Value: model.SecurityCenterSettingDescription{
-				Setting: *v.GetSetting(),
+				Setting:             *v.GetSetting(),
+				ExportSettingStatus: settingStatus,
 			},
 		},
 	}

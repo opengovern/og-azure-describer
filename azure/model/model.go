@@ -725,7 +725,8 @@ type SecurityCenterJitNetworkAccessPolicyDescription struct {
 //index:microsoft_security_settings
 //getfilter:name=description.Setting.name
 type SecurityCenterSettingDescription struct {
-	Setting armsecurity.Setting
+	Setting             armsecurity.Setting
+	ExportSettingStatus bool
 }
 
 //index:microsoft_security_pricings
@@ -1347,7 +1348,7 @@ type MysqlFlexibleserverDescription struct {
 
 //  =================== network ==================
 
-//index:microsoft_classicnetwork_networksecuritygroups
+//index:microsoft_network_networksecuritygroups
 //getfilter:name=description.SecurityGroup.name
 //getfilter:resource_group=description.ResourceGroup
 type NetworkSecurityGroupDescription struct {
@@ -1589,7 +1590,7 @@ type MssqlManagedInstanceDescription struct {
 //index:microsoft_sql_managedinstancesdatabases
 type MssqlManagedInstanceDatabasesDescription struct {
 	ManagedInstance armsql.ManagedInstance
-	Database        armsql.Database
+	Database        armsql.ManagedDatabase
 	ResourceGroup   string
 }
 

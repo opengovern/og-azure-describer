@@ -30,7 +30,7 @@ func KeyVaultSecret(ctx context.Context, cred *azidentity.ClientSecretCredential
 			return nil, err
 		}
 		for _, vault := range page.Value {
-			vaultURI := "https://" + *vault.Name + ".vault.azure.net/"
+			//vaultURI := "https://" + *vault.Name + ".vault.azure.net/"
 			maxResults := int32(25)
 			rgs, err := listResourceGroups(ctx, cred, subscription)
 			if err != nil {
@@ -40,7 +40,7 @@ func KeyVaultSecret(ctx context.Context, cred *azidentity.ClientSecretCredential
 				options := armkeyvault.SecretsClientListOptions{
 					Top: &maxResults,
 				}
-				pager := secretsClient.NewListPager(*rg.Name, vaultURI, &options)
+				pager := secretsClient.NewListPager(*rg.Name, *vault.Name, &options)
 				for pager.More() {
 					page, err := pager.NextPage(ctx)
 					if err != nil {
