@@ -235,7 +235,7 @@ func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsCl
 	if *account.Kind != "BlobStorage" {
 		v, err := fileServicesStorageClient.GetServiceProperties(ctx, *resourceGroup, *account.Name, nil)
 		if err != nil {
-			if !strings.Contains(err.Error(), "AuthorizationFailed") && !strings.Contains(err.Error(), "AccountIsDisabled") {
+			if !strings.Contains(err.Error(), "AccountIsDisabled") {
 				return nil, err
 			}
 		}
@@ -266,7 +266,7 @@ func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsCl
 	if *account.SKU.Tier == "Standard" && (*account.Kind == "Storage" || *account.Kind == "StorageV2") {
 		accountKeys, err := storageClient.ListKeys(ctx, *resourceGroup, *account.Name, nil)
 		if err != nil {
-			if !strings.Contains(err.Error(), "AuthorizationFailed") && !strings.Contains(err.Error(), "ReadOnlyDisabledSubscription") {
+			if !strings.Contains(err.Error(), "ReadOnlyDisabledSubscription") {
 				return nil, err
 			}
 		} else {
@@ -284,7 +284,7 @@ func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsCl
 				resp, err := queuesClient.GetServiceProperties(ctx, *account.Name)
 
 				if err != nil {
-					if !strings.Contains(err.Error(), "AuthorizationFailed") && !strings.Contains(err.Error(), "ReadOnlyDisabledSubscription") {
+					if !strings.Contains(err.Error(), "ReadOnlyDisabledSubscription") {
 						return nil, err
 					}
 				} else {

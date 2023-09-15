@@ -44,9 +44,7 @@ func getContainerRegistry(ctx context.Context, client *armcontainerregistry.Regi
 	var containerRegistryListCredentialsOp *armcontainerregistry.RegistryListCredentialsResult
 	containerRegistryListCredentialsOpTemp, err := client.ListCredentials(ctx, resourceGroup, *registry.Name, nil)
 	if err != nil {
-		if !strings.Contains(err.Error(), "AuthorizationFailed") {
-			return nil, err
-		}
+		return nil, err
 	} else {
 		containerRegistryListCredentialsOp = &containerRegistryListCredentialsOpTemp.RegistryListCredentialsResult
 	}

@@ -18,7 +18,7 @@ func HpcCache(ctx context.Context, cred *azidentity.ClientSecretCredential, subs
 	var values []Resource
 	pager := client.NewListPager(nil)
 	if pager.More() {
-		page, err := pager.NextPage(nil)
+		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}

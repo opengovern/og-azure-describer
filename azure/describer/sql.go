@@ -102,7 +102,7 @@ func MssqlManagedInstanceDatabases(ctx context.Context, cred *azidentity.ClientS
 		return nil, err
 	}
 	client := clientFactory.NewManagedInstancesClient()
-	dbClient := clientFactory.NewDatabasesClient()
+	dbClient := clientFactory.NewManagedDatabasesClient()
 
 	pager := client.NewListPager(nil)
 	var values []Resource
@@ -130,12 +130,11 @@ func MssqlManagedInstanceDatabases(ctx context.Context, cred *azidentity.ClientS
 	return values, nil
 }
 
-func ListManagedInstanceDatabases(ctx context.Context, dbClient *armsql.DatabasesClient, managedInstance *armsql.ManagedInstance) ([]Resource, error) {
-	resourceGroup := strings.Split(string(*managedInstance.ID), "/")[4]
-	managedInstanceName := *managedInstance.Name
+func ListManagedInstanceDatabases(ctx context.Context, dbClient *armsql.ManagedDatabasesClient, managedInstance *armsql.ManagedInstance) ([]Resource, error) {
+	resourceGroup := strings.Split(*managedInstance.ID, "/")[4]
 
 	var values []Resource
-	pager := dbClient.NewListByServerPager(resourceGroup, managedInstanceName, nil)
+	pager := dbClient.NewListByInstancePager(resourceGroup, *managedInstance.Name, nil)
 	for pager.More() {
 		page, err := pager.NextPage(ctx)
 		if err != nil {
@@ -149,7 +148,7 @@ func ListManagedInstanceDatabases(ctx context.Context, dbClient *armsql.Database
 	return values, nil
 }
 
-func GetManagedInstanceDatabases(ctx context.Context, managedInstance *armsql.ManagedInstance, db *armsql.Database) *Resource {
+func GetManagedInstanceDatabases(ctx context.Context, managedInstance *armsql.ManagedInstance, db *armsql.ManagedDatabase) *Resource {
 	resourceGroup := strings.Split(string(*managedInstance.ID), "/")[4]
 
 	resource := Resource{

@@ -390,6 +390,9 @@ func getComputeVirtualMachine(ctx context.Context, vmClient *armcompute.VirtualM
 	for guestPager.More() {
 		page, err := guestPager.NextPage(ctx)
 		if err != nil {
+			if strings.Contains(err.Error(), "NotFound") {
+				break
+			}
 			return nil, err
 		}
 		for _, v := range page.Value {
