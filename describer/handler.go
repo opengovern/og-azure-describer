@@ -179,6 +179,7 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 			errCode = jsonData["error"].(map[string]interface{})["code"].(string)
 			errMsg = jsonData["error"].(map[string]interface{})["message"].(string)
 		}
+		status = DescribeResourceJobFailed
 	}
 
 	for retry := 0; retry < 5; retry++ {
