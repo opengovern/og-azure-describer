@@ -3,14 +3,9 @@ package describer
 import (
 	"context"
 	"encoding/base64"
-	"errors"
+	"encoding/json"
 	"fmt"
-	"strings"
-
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/validation"
 	"github.com/golang-jwt/jwt/v5"
-
 	"os"
 	"time"
 
@@ -142,21 +137,47 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 	errCode := ""
 	status := DescribeResourceJobSucceeded
 	if err != nil {
-		errMsg = err.Error()
-		var detailedErr autorest.DetailedError
-		if errors.As(err, &detailedErr) {
-			errCode = fmt.Sprintf("%v", detailedErr.StatusCode)
-		}
+		//errMsg = err.Error()
+		//var detailedErr autorest.DetailedError
+		//if errors.As(err, &detailedErr) {
+		//	errCode = fmt.Sprintf("%v", detailedErr.StatusCode)
+		//}
+		//
+		//var validationErr validation.Error
+		//if errors.As(err, &validationErr) {
+		//	errCode = "ValidationError"
+		//}
+		//
+		//if errCode == "" {
+		//	if strings.Contains(err.Error(), "InvalidAuthenticationToken") {
+		//		errCode = "InvalidAuthenticationToken"
+		//	}
+		//}
 
-		var validationErr validation.Error
-		if errors.As(err, &validationErr) {
-			errCode = "ValidationError"
-		}
-
-		if errCode == "" {
-			if strings.Contains(err.Error(), "InvalidAuthenticationToken") {
-				errCode = "InvalidAuthenticationToken"
+		errorString := err.Error()
+		jsonStart := 0
+		jsonEnd := len(errorString) - 1
+		for i := 0; i < len(errorString)-1; i++ {
+			if errorString[i] == '{' {
+				jsonStart = i
+				break
 			}
+		}
+		for i := len(errorString) - 1; i > 0; i-- {
+			if errorString[i] == '}' {
+				jsonEnd = i + 1
+				break
+			}
+		}
+
+		jsonString := errorString[jsonStart:jsonEnd]
+		var jsonData map[string]interface{}
+		err := json.Unmarshal([]byte(jsonString), &jsonData)
+		if err != nil {
+			errMsg = jsonString
+		} else {
+			errCode = jsonData["error"].(map[string]interface{})["code"].(string)
+			errMsg = jsonData["error"].(map[string]interface{})["message"].(string)
 		}
 		status = DescribeResourceJobFailed
 	}
