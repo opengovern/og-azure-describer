@@ -48,6 +48,7 @@ func tableAzureHDInsightCluster(_ context.Context) *plugin.Table {
 				Name:        "type",
 				Description: "The type of the resource.",
 				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Cluster.Type"),
 			},
 			{
 				Name:        "cluster_hdp_version",

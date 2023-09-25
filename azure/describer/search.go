@@ -6,6 +6,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
+	"strings"
 )
 
 func SearchService(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
@@ -58,6 +59,7 @@ func GetSearchService(ctx context.Context, diagnosticClient *armmonitor.Diagnost
 		searchListOp = append(searchListOp, page.Value...)
 	}
 
+	resourceGroupName := strings.Split(string(*v.ID), "/")[4]
 	resource := Resource{
 		ID:       *v.ID,
 		Name:     *v.Name,
@@ -66,6 +68,7 @@ func GetSearchService(ctx context.Context, diagnosticClient *armmonitor.Diagnost
 			Value: model.SearchServiceDescription{
 				Service:                     *v,
 				DiagnosticSettingsResources: searchListOp,
+				ResourceGroup:               resourceGroupName,
 			},
 		},
 	}

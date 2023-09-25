@@ -71,7 +71,7 @@ func tableAzureAppServiceEnvironment(_ context.Context) *plugin.Table {
 				Name:        "dynamic_cache_enabled",
 				Description: "Indicates whether the dynamic cache is enabled or not",
 				Type:        proto.ColumnType_BOOL,
-				Transform:   transform.FromField("Description.AppServiceEnvironmentResource.Properties.Suspended"), // Set this regarding to the last azure sdk version description
+				Transform:   transform.FromField("Description.AppServiceEnvironmentResource.Properties.EnableAcceleratedNetworking"), //TODO-Saleh ? Set this regarding to the last azure sdk version description
 				Default:     false,
 			},
 			{
@@ -98,7 +98,7 @@ func tableAzureAppServiceEnvironment(_ context.Context) *plugin.Table {
 				Description: "Indicates whether the App Service Environment is healthy",
 				Type:        proto.ColumnType_BOOL,
 
-				Transform: transform.FromField("Description.AppServiceEnvironmentResource.Properties.FrontEndScaleFactor"), Default: false,
+				Transform: transform.FromField("Description.AppServiceEnvironmentResource.Properties.EnvironmentIsHealthy"), Default: false, //TODO-Saleh ?
 			},
 			{
 				Name:        "suspended",
@@ -148,7 +148,7 @@ func tableAzureAppServiceEnvironment(_ context.Context) *plugin.Table {
 
 				// Azure standard columns
 
-				Transform: transform.FromField("Description.AppServiceEnvironmentResource.Kind").Transform(idToAkas),
+				Transform: transform.FromField("Description.AppServiceEnvironmentResource.ID").Transform(idToAkas),
 			},
 
 			{

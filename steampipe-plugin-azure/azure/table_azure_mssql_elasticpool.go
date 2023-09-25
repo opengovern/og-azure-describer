@@ -73,13 +73,13 @@ func tableAzureMSSQLElasticPool(_ context.Context) *plugin.Table {
 				Name:        "dtu",
 				Description: "The total shared DTU for the database elastic pool.",
 				Type:        proto.ColumnType_INT,
-				Transform:   transform.FromField("ElasticPoolProperties.Dtu"),
+				Transform:   transform.FromField("Description.TotalDTU"),
 			},
 			{
 				Name:        "edition",
 				Description: "The edition of the elastic pool.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("ElasticPoolProperties.Edition"),
+				Transform:   transform.FromField("Description.Pool.SKU.Tier"),
 			},
 			{
 				Name:        "kind",

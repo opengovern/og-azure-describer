@@ -36,7 +36,7 @@ func tableAzureSignalRService(_ context.Context) *plugin.Table {
 				Name:        "id",
 				Description: "Fully qualified resource ID for the resource.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.ResourceType.ID")},
+				Transform:   transform.FromField("Description.ResourceInfo.ID")},
 			{
 				Name:        "provisioning_state",
 				Description: "Provisioning state of the resource. Possible values include: 'Unknown', 'Succeeded', 'Failed', 'Canceled', 'Running', 'Creating', 'Updating', 'Deleting', 'Moving'.",
@@ -46,7 +46,7 @@ func tableAzureSignalRService(_ context.Context) *plugin.Table {
 				Name:        "type",
 				Description: "The type of the resource.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.ResourceType.Type")},
+				Transform:   transform.FromField("Description.ResourceInfo.Type")},
 			{
 				Name:        "external_ip",
 				Description: "The publicly accessible IP of the SignalR service.",

@@ -53,6 +53,7 @@ func tableAzureBastionHost(_ context.Context) *plugin.Table {
 				Name:        "type",
 				Description: "The resource type of the bastion host.",
 				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.BastianHost.Type"),
 			},
 			{
 				Name:        "ip_configurations",

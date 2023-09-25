@@ -105,10 +105,7 @@ func tableAzureSearchService(_ context.Context) *plugin.Table {
 				Name:        "shared_private_link_resources",
 				Type:        proto.ColumnType_JSON,
 				Description: "The list of shared private link resources managed by the azure cognitive search service.",
-
-				// Steampipe standard columns
-				Transform: transform.FromField("Description.Service.Properties.SharedPrivateLinkResources")},
-
+				Transform:   transform.FromField("Description.Service.Properties.SharedPrivateLinkResources")},
 			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
@@ -123,42 +120,20 @@ func tableAzureSearchService(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: ColumnDescriptionAkas,
 				Type:        proto.ColumnType_JSON,
-
-				// Azure standard columns
-
-				Transform: transform.FromField("Description.Service.ID").Transform(idToAkas),
+				Transform:   transform.FromField("Description.Service.ID").Transform(idToAkas),
 			},
-
 			{
 				Name:        "region",
 				Description: ColumnDescriptionRegion,
 				Type:        proto.ColumnType_STRING,
-
-				Transform: transform.FromField("Description.Service.Location").Transform(toLower),
+				Transform:   transform.FromField("Description.Service.Location").Transform(toLower),
 			},
 			{
 				Name:        "resource_group",
 				Description: ColumnDescriptionResourceGroup,
 				Type:        proto.ColumnType_STRING,
-
-				//// LIST FUNCTION
-
-				Transform: transform.
-
-					// Check if context has been cancelled or if the limit has been hit (if specified)
-					// if there is a limit, it will return the number of rows required to reach this limit
-					FromField("Description.ResourceGroup").Transform(toLower),
+				Transform:   transform.FromField("Description.ResourceGroup").Transform(toLower),
 			},
 		}),
 	}
 }
-
-// Check if context has been cancelled or if the limit has been hit (if specified)
-// if there is a limit, it will return the number of rows required to reach this limit
-
-//// HYDRATE FUNCTIONS
-
-// Create session
-
-// If we return the API response directly, the output only gives
-// the contents of DiagnosticSettings
