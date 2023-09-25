@@ -93,7 +93,7 @@ func tableAzureKeyVaultDeletedVault(_ context.Context) *plugin.Table {
 				Description: ColumnDescriptionResourceGroup,
 				Type:        proto.ColumnType_STRING,
 
-				Transform: transform.FromField("Description.ResourceGroup")},
+				Transform: transform.FromField("Description.Vault.Properties.VaultID").Transform(extractResourceGroupFromID)},
 		}),
 	}
 }
