@@ -127,7 +127,7 @@ func tableAzureEventGridTopic(_ context.Context) *plugin.Table {
 			{
 				Name:        "extended_location",
 				Description: "Extended location of the resource.",
-				Type:        proto.ColumnType_JSON,
+				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Topic.Location")},
 			{
 				Name:        "identity",

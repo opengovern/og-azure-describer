@@ -133,8 +133,7 @@ func tableAzureEventGridDomain(_ context.Context) *plugin.Table {
 				Name:        "sku_name",
 				Description: "Name of this SKU. Possible values include: 'Basic', 'Standard'.",
 				Type:        proto.ColumnType_STRING,
-
-				Transform: transform.FromField("Description.Domain.Name"),
+				Transform:   transform.FromField("Description.Domain.Name"),
 			},
 			{
 				Name:        "user_assigned_identities",

@@ -100,7 +100,7 @@ func tableAzureNetworkWatcherFlowLog(_ context.Context) *plugin.Table {
 				Name:        "target_resource_guid",
 				Description: "The Guid of network security group to which flow log will be applied.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.FlowLog.Properties.TargetResourceID")},
+				Transform:   transform.FromField("Description.FlowLog.Properties.TargetResourceGUID")},
 			{
 				Name:        "traffic_analytics",
 				Description: "Defines the configuration of flow log traffic analytics.",

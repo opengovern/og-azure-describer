@@ -9656,29 +9656,29 @@ func (p ContainerInstanceContainerGroupPaginator) NextPage(ctx context.Context) 
 
 var listContainerInstanceContainerGroupFilters = map[string]string{
 	"akas":                       "description.ContainerGroup.ID",
-	"containers":                 "description.ContainerGroups.Properties.Containers",
-	"diagnostics":                "description.ContainerGroups.Properties.Diagnostics",
-	"dns_config":                 "description.ContainerGroups.Properties.DNSConfig",
-	"encryption_properties":      "description.ContainerGroups.Properties.EncryptionProperties",
-	"id":                         "description.ContainerGroups.ID",
-	"identity":                   "description.ContainerGroups.Identity",
-	"image_registry_credentials": "description.ContainerGroups.Properties.ImageRegistryCredentials",
-	"init_containers":            "description.ContainerGroups.Properties.InitContainers",
-	"instance_view":              "description.ContainerGroups.Properties.InstanceView",
-	"ip_address":                 "description.ContainerGroups.Properties.IPAddress",
+	"containers":                 "description.ContainerGroup.Properties.Containers",
+	"diagnostics":                "description.ContainerGroup.Properties.Diagnostics",
+	"dns_config":                 "description.ContainerGroup.Properties.DNSConfig",
+	"encryption_properties":      "description.ContainerGroup.Properties.EncryptionProperties",
+	"id":                         "description.ContainerGroup.ID",
+	"identity":                   "description.ContainerGroup.Identity",
+	"image_registry_credentials": "description.ContainerGroup.Properties.ImageRegistryCredentials",
+	"init_containers":            "description.ContainerGroup.Properties.InitContainers",
+	"instance_view":              "description.ContainerGroup.Properties.InstanceView",
+	"ip_address":                 "description.ContainerGroup.Properties.IPAddress",
 	"kaytu_account_id":           "metadata.SourceID",
 	"name":                       "description.ContainerGroup.Name",
-	"os_type":                    "description.ContainerGroups.Properties.OSType",
-	"provisioning_state":         "description.ContainerGroups.Properties.ProvisioningState",
+	"os_type":                    "description.ContainerGroup.Properties.OSType",
+	"provisioning_state":         "description.ContainerGroup.Properties.ProvisioningState",
 	"region":                     "description.ContainerGroup.Location",
 	"resource_group":             "description.ResourceGroup",
-	"restart_policy":             "description.ContainerGroups.Properties.RestartPolicy",
-	"sku":                        "description.ContainerGroups.Properties.SKU",
-	"subnet_ids":                 "description.ContainerGroups.Properties.SubnetIDs",
+	"restart_policy":             "description.ContainerGroup.Properties.RestartPolicy",
+	"sku":                        "description.ContainerGroup.Properties.SKU",
+	"subnet_ids":                 "description.ContainerGroup.Properties.SubnetIDs",
 	"tags":                       "description.ContainerGroup.Tags",
 	"title":                      "description.ContainerGroup.Name",
-	"type":                       "description.ContainerGroups.Type",
-	"volumes":                    "description.ContainerGroups.Properties.Volumes",
+	"type":                       "description.ContainerGroup.Type",
+	"volumes":                    "description.ContainerGroup.Properties.Volumes",
 }
 
 func ListContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -9713,29 +9713,29 @@ func ListContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryDat
 
 var getContainerInstanceContainerGroupFilters = map[string]string{
 	"akas":                       "description.ContainerGroup.ID",
-	"containers":                 "description.ContainerGroups.Properties.Containers",
-	"diagnostics":                "description.ContainerGroups.Properties.Diagnostics",
-	"dns_config":                 "description.ContainerGroups.Properties.DNSConfig",
-	"encryption_properties":      "description.ContainerGroups.Properties.EncryptionProperties",
-	"id":                         "description.ContainerGroups.ID",
-	"identity":                   "description.ContainerGroups.Identity",
-	"image_registry_credentials": "description.ContainerGroups.Properties.ImageRegistryCredentials",
-	"init_containers":            "description.ContainerGroups.Properties.InitContainers",
-	"instance_view":              "description.ContainerGroups.Properties.InstanceView",
-	"ip_address":                 "description.ContainerGroups.Properties.IPAddress",
+	"containers":                 "description.ContainerGroup.Properties.Containers",
+	"diagnostics":                "description.ContainerGroup.Properties.Diagnostics",
+	"dns_config":                 "description.ContainerGroup.Properties.DNSConfig",
+	"encryption_properties":      "description.ContainerGroup.Properties.EncryptionProperties",
+	"id":                         "description.ContainerGroup.ID",
+	"identity":                   "description.ContainerGroup.Identity",
+	"image_registry_credentials": "description.ContainerGroup.Properties.ImageRegistryCredentials",
+	"init_containers":            "description.ContainerGroup.Properties.InitContainers",
+	"instance_view":              "description.ContainerGroup.Properties.InstanceView",
+	"ip_address":                 "description.ContainerGroup.Properties.IPAddress",
 	"kaytu_account_id":           "metadata.SourceID",
 	"name":                       "description.ContainerGroup.Name",
-	"os_type":                    "description.ContainerGroups.Properties.OSType",
-	"provisioning_state":         "description.ContainerGroups.Properties.ProvisioningState",
+	"os_type":                    "description.ContainerGroup.Properties.OSType",
+	"provisioning_state":         "description.ContainerGroup.Properties.ProvisioningState",
 	"region":                     "description.ContainerGroup.Location",
 	"resource_group":             "description.ResourceGroup",
-	"restart_policy":             "description.ContainerGroups.Properties.RestartPolicy",
-	"sku":                        "description.ContainerGroups.Properties.SKU",
-	"subnet_ids":                 "description.ContainerGroups.Properties.SubnetIDs",
+	"restart_policy":             "description.ContainerGroup.Properties.RestartPolicy",
+	"sku":                        "description.ContainerGroup.Properties.SKU",
+	"subnet_ids":                 "description.ContainerGroup.Properties.SubnetIDs",
 	"tags":                       "description.ContainerGroup.Tags",
 	"title":                      "description.ContainerGroup.Name",
-	"type":                       "description.ContainerGroups.Type",
-	"volumes":                    "description.ContainerGroups.Properties.Volumes",
+	"type":                       "description.ContainerGroup.Type",
+	"volumes":                    "description.ContainerGroup.Properties.Volumes",
 }
 
 func GetContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -10604,7 +10604,7 @@ var listNetworkWatcherFlowLogFilters = map[string]string{
 	"retention_policy_enabled": "description.FlowLog.Properties.RetentionPolicy.Enabled",
 	"storage_id":               "description.FlowLog.Properties.StorageID",
 	"tags":                     "description.FlowLog.Tags",
-	"target_resource_guid":     "description.FlowLog.Properties.TargetResourceID",
+	"target_resource_guid":     "description.FlowLog.Properties.TargetResourceGUID",
 	"target_resource_id":       "description.FlowLog.Properties.TargetResourceID",
 	"title":                    "description.FlowLog.Name",
 	"traffic_analytics":        "description.FlowLog.Properties.FlowAnalyticsConfiguration.NetworkWatcherFlowAnalyticsConfiguration",
@@ -10658,7 +10658,7 @@ var getNetworkWatcherFlowLogFilters = map[string]string{
 	"retention_policy_enabled": "description.FlowLog.Properties.RetentionPolicy.Enabled",
 	"storage_id":               "description.FlowLog.Properties.StorageID",
 	"tags":                     "description.FlowLog.Tags",
-	"target_resource_guid":     "description.FlowLog.Properties.TargetResourceID",
+	"target_resource_guid":     "description.FlowLog.Properties.TargetResourceGUID",
 	"target_resource_id":       "description.FlowLog.Properties.TargetResourceID",
 	"title":                    "description.FlowLog.Name",
 	"traffic_analytics":        "description.FlowLog.Properties.FlowAnalyticsConfiguration.NetworkWatcherFlowAnalyticsConfiguration",
@@ -13635,7 +13635,7 @@ var listPublicIPAddressFilters = map[string]string{
 	"tags":                              "description.PublicIPAddress.Tags",
 	"title":                             "description.PublicIPAddress.Name",
 	"type":                              "description.PublicIPAddress.Type",
-	"zones":                             "description.PublicIPAddress.Location",
+	"zones":                             "description.PublicIPAddress.Zones",
 }
 
 func ListPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -13695,7 +13695,7 @@ var getPublicIPAddressFilters = map[string]string{
 	"tags":                              "description.PublicIPAddress.Tags",
 	"title":                             "description.PublicIPAddress.Name",
 	"type":                              "description.PublicIPAddress.Type",
-	"zones":                             "description.PublicIPAddress.Location",
+	"zones":                             "description.PublicIPAddress.Zones",
 }
 
 func GetPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -18561,7 +18561,7 @@ func (p SecurityCenterSettingPaginator) NextPage(ctx context.Context) ([]Securit
 }
 
 var listSecurityCenterSettingFilters = map[string]string{
-	"akas":             "description.Setting.Kind",
+	"akas":             "description.Setting.ID",
 	"enabled":          "description.ExportSettingStatus",
 	"id":               "description.Setting.ID",
 	"kaytu_account_id": "metadata.SourceID",
@@ -18602,7 +18602,7 @@ func ListSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getSecurityCenterSettingFilters = map[string]string{
-	"akas":             "description.Setting.Kind",
+	"akas":             "description.Setting.ID",
 	"enabled":          "description.ExportSettingStatus",
 	"id":               "description.Setting.ID",
 	"kaytu_account_id": "metadata.SourceID",
@@ -18780,7 +18780,7 @@ func (p SecurityCenterSubscriptionPricingPaginator) NextPage(ctx context.Context
 }
 
 var listSecurityCenterSubscriptionPricingFilters = map[string]string{
-	"akas":                      "description.Pricing.Name",
+	"akas":                      "description.Pricing.ID",
 	"free_trial_remaining_time": "description.Pricing.Properties.FreeTrialRemainingTime",
 	"id":                        "description.Pricing.ID",
 	"kaytu_account_id":          "metadata.SourceID",
@@ -18821,7 +18821,7 @@ func ListSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryD
 }
 
 var getSecurityCenterSubscriptionPricingFilters = map[string]string{
-	"akas":                      "description.Pricing.Name",
+	"akas":                      "description.Pricing.ID",
 	"free_trial_remaining_time": "description.Pricing.Properties.FreeTrialRemainingTime",
 	"id":                        "description.Pricing.ID",
 	"kaytu_account_id":          "metadata.SourceID",
@@ -22596,7 +22596,7 @@ func (p CognitiveAccountPaginator) NextPage(ctx context.Context) ([]CognitiveAcc
 }
 
 var listCognitiveAccountFilters = map[string]string{
-	"akas":                             "description.Account.Kind",
+	"akas":                             "description.Account.ID",
 	"allowed_fqdn_list":                "description.Account.Properties.AllowedFqdnList",
 	"api_properties":                   "description.Account.Properties.APIProperties",
 	"call_rate_limit":                  "description.Account.Properties.CallRateLimit",
@@ -22664,7 +22664,7 @@ func ListCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getCognitiveAccountFilters = map[string]string{
-	"akas":                             "description.Account.Kind",
+	"akas":                             "description.Account.ID",
 	"allowed_fqdn_list":                "description.Account.Properties.AllowedFqdnList",
 	"api_properties":                   "description.Account.Properties.APIProperties",
 	"call_rate_limit":                  "description.Account.Properties.CallRateLimit",
@@ -25032,7 +25032,7 @@ var listCosmosdbMongoDatabaseFilters = map[string]string{
 	"id":                                "description.MongoDatabase.ID",
 	"kaytu_account_id":                  "metadata.SourceID",
 	"name":                              "description.MongoDatabase.Name",
-	"region":                            "description.MongoDatabase.Location",
+	"region":                            "description.Account.Location",
 	"resource_group":                    "description.ResourceGroup",
 	"tags":                              "description.MongoDatabase.Tags",
 	"throughput":                        "description.MongoDatabase.Properties.Options.Throughput",
@@ -25081,7 +25081,7 @@ var getCosmosdbMongoDatabaseFilters = map[string]string{
 	"id":                                "description.MongoDatabase.ID",
 	"kaytu_account_id":                  "metadata.SourceID",
 	"name":                              "description.MongoDatabase.name",
-	"region":                            "description.MongoDatabase.Location",
+	"region":                            "description.Account.Location",
 	"resource_group":                    "description.ResourceGroup",
 	"tags":                              "description.MongoDatabase.Tags",
 	"throughput":                        "description.MongoDatabase.Properties.Options.Throughput",
@@ -30822,7 +30822,7 @@ var listKeyVaultDeletedVaultFilters = map[string]string{
 	"kaytu_account_id":     "metadata.SourceID",
 	"name":                 "description.Vault.Name",
 	"region":               "description.Vault.Properties.Location",
-	"resource_group":       "description.ResourceGroup",
+	"resource_group":       "description.Vault.Properties.VaultID",
 	"scheduled_purge_date": "description.Vault.Properties.ScheduledPurgeDate",
 	"tags":                 "description.Vault.Properties.Tags",
 	"title":                "description.Vault.Name",
@@ -30867,7 +30867,7 @@ var getKeyVaultDeletedVaultFilters = map[string]string{
 	"kaytu_account_id":     "metadata.SourceID",
 	"name":                 "description.Vault.name",
 	"region":               "description.Vault.Properties.Location",
-	"resource_group":       "description.ResourceGroup",
+	"resource_group":       "description.Vault.Properties.VaultID",
 	"scheduled_purge_date": "description.Vault.Properties.ScheduledPurgeDate",
 	"tags":                 "description.Vault.Properties.Tags",
 	"title":                "description.Vault.Name",
@@ -31548,7 +31548,7 @@ var listKustoClusterFilters = map[string]string{
 	"title":                         "description.Cluster.Name",
 	"trusted_external_tenants":      "description.Cluster.Properties.TrustedExternalTenants",
 	"type":                          "description.Cluster.Type",
-	"uri":                           "clusterProperties.URI",
+	"uri":                           "description.Cluster.Properties.URI",
 	"virtual_network_configuration": "description.Cluster.Properties.VirtualNetworkConfiguration",
 }
 
@@ -31610,7 +31610,7 @@ var getKustoClusterFilters = map[string]string{
 	"title":                         "description.Cluster.Name",
 	"trusted_external_tenants":      "description.Cluster.Properties.TrustedExternalTenants",
 	"type":                          "description.Cluster.Type",
-	"uri":                           "clusterProperties.URI",
+	"uri":                           "description.Cluster.Properties.URI",
 	"virtual_network_configuration": "description.Cluster.Properties.VirtualNetworkConfiguration",
 }
 
@@ -32714,10 +32714,10 @@ func (p MachineLearningWorkspacePaginator) NextPage(ctx context.Context) ([]Mach
 }
 
 var listMachineLearningWorkspaceFilters = map[string]string{
-	"akas":                               "description.Workspace.Properties.WorkspaceID",
+	"akas":                               "description.Workspace.ID",
 	"application_insights":               "description.Workspace.Properties.ApplicationInsights",
 	"container_registry":                 "description.Workspace.Properties.ContainerRegistry",
-	"creation_time":                      "workspaceProperties.CreationTime",
+	"creation_time":                      "description.Workspace.SystemData.CreatedAt",
 	"description":                        "description.Workspace.Properties.Description",
 	"diagnostic_settings":                "description.DiagnosticSettingsResources",
 	"discovery_url":                      "description.Workspace.Properties.DiscoveryURL",
@@ -32774,10 +32774,10 @@ func ListMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getMachineLearningWorkspaceFilters = map[string]string{
-	"akas":                               "description.Workspace.Properties.WorkspaceID",
+	"akas":                               "description.Workspace.ID",
 	"application_insights":               "description.Workspace.Properties.ApplicationInsights",
 	"container_registry":                 "description.Workspace.Properties.ContainerRegistry",
-	"creation_time":                      "workspaceProperties.CreationTime",
+	"creation_time":                      "description.Workspace.SystemData.CreatedAt",
 	"description":                        "description.Workspace.Properties.Description",
 	"diagnostic_settings":                "description.DiagnosticSettingsResources",
 	"discovery_url":                      "description.Workspace.Properties.DiscoveryURL",

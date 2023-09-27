@@ -40,7 +40,14 @@ func KeyVaultSecret(ctx context.Context, cred *azidentity.ClientSecretCredential
 				options := armkeyvault.SecretsClientListOptions{
 					Top: &maxResults,
 				}
-				pager := secretsClient.NewListPager(*rg.Name, *vault.Name, &options)
+				var vaultName string
+				splited := strings.Split(*vault.Name, "/")
+				if len(splited) > 1 {
+					vaultName = splited[8]
+				} else {
+					vaultName = *vault.Name
+				}
+				pager := secretsClient.NewListPager(*rg.Name, vaultName, &options)
 				for pager.More() {
 					page, err := pager.NextPage(ctx)
 					if err != nil {

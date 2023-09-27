@@ -51,7 +51,7 @@ func tableAzureMachineLearningWorkspace(_ context.Context) *plugin.Table {
 				Name:        "creation_time",
 				Description: "The creation time for this workspace resource.",
 				Type:        proto.ColumnType_TIMESTAMP,
-				Transform:   transform.FromField("WorkspaceProperties.CreationTime").Transform(convertDateToTime),
+				Transform:   transform.FromField("Description.Workspace.SystemData.CreatedAt").Transform(convertDateToTime),
 			},
 			{
 				Name:        "workspace_id",
@@ -150,10 +150,7 @@ func tableAzureMachineLearningWorkspace(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: ColumnDescriptionAkas,
 				Type:        proto.ColumnType_JSON,
-
-				// Azure standard columns
-
-				Transform: transform.FromField("Description.Workspace.Properties.WorkspaceID").Transform(idToAkas),
+				Transform:   transform.FromField("Description.Workspace.ID").Transform(idToAkas),
 			},
 
 			{

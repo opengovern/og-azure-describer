@@ -66,7 +66,7 @@ func SecurityCenterContact(ctx context.Context, cred *azidentity.ClientSecretCre
 		if err != nil {
 			return nil, err
 		}
-		for _, v := range page.ContactList.Value {
+		for _, v := range page.Value {
 			resource := GetSecurityCenterContact(ctx, v)
 			if stream != nil {
 				if err := (*stream)(*resource); err != nil {

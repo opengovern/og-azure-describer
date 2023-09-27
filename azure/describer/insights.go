@@ -39,8 +39,14 @@ func DiagnosticSetting(ctx context.Context, cred *azidentity.ClientSecretCredent
 }
 
 func getDiagnosticSetting(ctx context.Context, diagnosticSetting *armmonitor.DiagnosticSettingsResource) *Resource {
-	resourceGroup := strings.Split(*diagnosticSetting.ID, "/")[4]
-
+	var resourceGroup string
+	if diagnosticSetting.Properties.StorageAccountID != nil {
+		resourceGroup = strings.Split(*diagnosticSetting.Properties.StorageAccountID, "/")[4]
+	} else if diagnosticSetting.Properties.EventHubAuthorizationRuleID != nil {
+		resourceGroup = strings.Split(*diagnosticSetting.Properties.EventHubAuthorizationRuleID, "/")[4]
+	} else {
+		resourceGroup = strings.Split(*diagnosticSetting.Properties.WorkspaceID, "/")[4]
+	}
 	resource := Resource{
 		ID:       *diagnosticSetting.ID,
 		Name:     *diagnosticSetting.Name,

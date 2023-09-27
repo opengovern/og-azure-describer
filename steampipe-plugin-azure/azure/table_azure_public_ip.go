@@ -150,7 +150,7 @@ func tableAzurePublicIP(_ context.Context) *plugin.Table {
 				Name:        "zones",
 				Description: "A collection of availability zones denoting the IP allocated for the resource needs to come from",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.PublicIPAddress.Location"),
+				Transform:   transform.FromField("Description.PublicIPAddress.Zones"),
 			},
 
 			// Steampipe standard columns

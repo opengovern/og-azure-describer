@@ -61,20 +61,8 @@ func tableAzureSecurityCenterSetting(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: ColumnDescriptionAkas,
 				Type:        proto.ColumnType_JSON,
-
-				//// LIST FUNCTION
-
-				Transform: transform.
-
-					// Check if context has been cancelled or if the limit has been hit (if specified)
-					// if there is a limit, it will return the number of rows required to reach this limit
-					FromField("Description.Setting.Kind").Transform(idToAkas),
+				Transform:   transform.FromField("Description.Setting.ID").Transform(idToAkas),
 			},
 		}),
 	}
 }
-
-// Check if context has been cancelled or if the limit has been hit (if specified)
-// if there is a limit, it will return the number of rows required to reach this limit
-
-//// HYDRATE FUNCTIONS

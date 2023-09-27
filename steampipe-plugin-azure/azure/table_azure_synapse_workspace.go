@@ -142,7 +142,7 @@ func tableAzureSynapseWorkspace(_ context.Context) *plugin.Table {
 			{
 				Name:        "workspace_uid",
 				Description: "The unique identifier of the workspace.",
-				Type:        proto.ColumnType_JSON,
+				Type:        proto.ColumnType_STRING,
 				Transform:
 				// Steampipe standard columns
 				transform.FromField("Description.Workspace.Properties.WorkspaceUID")},

@@ -202,7 +202,7 @@ func tableAzureCognitiveAccount(_ context.Context) *plugin.Table {
 
 				// Azure standard columns
 
-				Transform: transform.FromField("Description.Account.Kind").Transform(idToAkas),
+				Transform: transform.FromField("Description.Account.ID").Transform(idToAkas),
 			},
 
 			{
