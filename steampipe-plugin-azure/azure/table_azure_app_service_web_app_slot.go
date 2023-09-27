@@ -3,6 +3,7 @@ package azure
 import (
 	"context"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2020-06-01/web"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -32,7 +33,7 @@ func tableAzureAppServiceWebAppSlot(_ context.Context) *plugin.Table {
 				Name:        "name",
 				Description: "Resource Name.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Site.Name")},
+				Transform:   transform.FromField("Description.Site.Name").Transform(extractName)},
 			{
 				Name:        "app_name",
 				Description: "The name of the application.",
@@ -266,4 +267,14 @@ type SlotInfo struct {
 	Location       *string
 	Type           *string
 	Tags           map[string]*string
+}
+
+func extractName(_ context.Context, d *transform.TransformData) (interface{}, error) {
+	name := d.HydrateItem.(kaytu.AppServiceWebAppSlot).Description.Site.Name
+	parts := strings.Split(*name, "/")
+	if len(parts) > 1 {
+		return parts[1], nil
+	} else {
+		return nil, nil
+	}
 }
