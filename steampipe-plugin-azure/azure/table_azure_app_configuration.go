@@ -2,8 +2,10 @@ package azure
 
 import (
 	"context"
+	"fmt"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
+	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -63,7 +65,7 @@ func tableAzureAppConfiguration(_ context.Context) *plugin.Table {
 				Name:        "public_network_access",
 				Description: "Control permission for data plane traffic coming from public networks while private endpoint is enabled. Possible values include: 'Enabled', 'Disabled'.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.ConfigurationStore.Properties.PublicNetworkAccess")},
+				Transform:   transform.From(publicNetworkAccess)},
 			{
 				Name:        "sku_name",
 				Description: "The SKU name of the configuration store.",
@@ -132,6 +134,15 @@ func tableAzureAppConfiguration(_ context.Context) *plugin.Table {
 					//// TRANSFORM FUNCTION
 					FromField("Description.ResourceGroup")},
 		}),
+	}
+}
+
+func publicNetworkAccess(_ context.Context, d *transform.TransformData) (interface{}, error) {
+	server := d.HydrateItem.(kaytu.AppConfiguration).Description.ConfigurationStore
+	if server.Properties.PublicNetworkAccess != nil {
+		return strings.ToLower(fmt.Sprintf("%v", *server.Properties.PublicNetworkAccess)), nil
+	} else {
+		return nil, nil
 	}
 }
 

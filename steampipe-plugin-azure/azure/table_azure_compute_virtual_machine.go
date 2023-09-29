@@ -259,7 +259,7 @@ func tableAzureComputeVirtualMachine(_ context.Context) *plugin.Table {
 				Name:        "private_ips",
 				Description: "An array of private ip addesses associated with the vm.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getPrivateIpsFromIpconfig),
+				Transform:   transform.From(getPrivateIps),
 			},
 			{
 				Name:        "public_ips",
@@ -362,15 +362,15 @@ func getPowerState(ctx context.Context, d *transform.TransformData) (interface{}
 	return getStatusFromCode(statuses, "PowerState"), nil
 }
 
-func getPrivateIpsFromIpconfig(ctx context.Context, d *transform.TransformData) (interface{}, error) {
+func getPrivateIps(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	if d.Value == nil {
 		return nil, nil
 	}
 
-	vm := d.HydrateItem.(kaytu.ComputeVirtualMachine).Description
+	interfaceIPConfigurations := d.HydrateItem.(kaytu.ComputeVirtualMachine).Description.InterfaceIPConfigurations
 
 	var ips []string
-	for _, ipConfig := range vm.InterfaceIPConfigurations {
+	for _, ipConfig := range interfaceIPConfigurations {
 		ips = append(ips, *ipConfig.Properties.PrivateIPAddress)
 	}
 

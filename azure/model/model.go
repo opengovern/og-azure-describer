@@ -1031,7 +1031,7 @@ type DataProtectionBackupVaultsBackupPoliciesDescription struct {
 
 //  =================== datafactory ==================
 
-//index:microsoft_datafactory_datafactories
+//index:microsoft_datafactory_factories
 //getfilter:name=description.Factory.name
 //getfilter:resource_group=description.ResourceGroup
 type DataFactoryDescription struct {
