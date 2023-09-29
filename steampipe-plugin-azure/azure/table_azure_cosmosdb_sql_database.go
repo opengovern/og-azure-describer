@@ -113,7 +113,7 @@ func tableAzureCosmosDBSQLDatabase(_ context.Context) *plugin.Table {
 				Description: ColumnDescriptionRegion,
 				Type:        proto.ColumnType_STRING,
 
-				Transform: transform.FromField("Description.SqlDatabase.Location").Transform(toLower),
+				Transform: transform.FromField("Description.Account.Location").Transform(toLower),
 			},
 			{
 				Name:        "resource_group",

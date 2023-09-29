@@ -111,7 +111,7 @@ func tableAzureAppServiceEnvironment(_ context.Context) *plugin.Table {
 				Name:        "vnet_name",
 				Description: "Name of the Virtual Network for the App Service Environment",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.AppServiceEnvironmentResource.Properties.VirtualNetwork.Name")},
+				Transform:   transform.From(getVNSubnetName)},
 			{
 				Name:        "vnet_resource_group_name",
 				Description: "Name of the resource group where the virtual network is created",
@@ -122,7 +122,7 @@ func tableAzureAppServiceEnvironment(_ context.Context) *plugin.Table {
 				Name:        "vnet_subnet_name",
 				Description: "Name of the subnet of the virtual network",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.AppServiceEnvironmentResource.Properties.VirtualNetwork.Subnet")},
+				Transform:   transform.From(getVNName)},
 			{
 				Name:        "cluster_settings",
 				Description: "Custom settings for changing the behavior of the App Service Environment.",
@@ -175,4 +175,18 @@ func getVNResourceGroupName(ctx context.Context, d *transform.TransformData) (an
 	virtualNetwork := d.HydrateItem.(kaytu.AppServiceEnvironment).Description.AppServiceEnvironmentResource.Properties.VirtualNetwork
 	resourceGroup := strings.Split(*virtualNetwork.ID, "/")[4]
 	return resourceGroup, nil
+}
+
+func getVNName(ctx context.Context, d *transform.TransformData) (any, error) {
+	virtualNetwork := d.HydrateItem.(kaytu.AppServiceEnvironment).Description.AppServiceEnvironmentResource.Properties.VirtualNetwork
+	split := strings.Split(*virtualNetwork.ID, "/")
+	name := split[len(split)-3]
+	return name, nil
+}
+
+func getVNSubnetName(ctx context.Context, d *transform.TransformData) (any, error) {
+	virtualNetwork := d.HydrateItem.(kaytu.AppServiceEnvironment).Description.AppServiceEnvironmentResource.Properties.VirtualNetwork
+	split := strings.Split(*virtualNetwork.ID, "/")
+	subnet := split[len(split)-1]
+	return subnet, nil
 }

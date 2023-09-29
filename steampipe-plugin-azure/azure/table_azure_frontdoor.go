@@ -2,6 +2,7 @@ package azure
 
 import (
 	"context"
+	"strings"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -51,7 +52,7 @@ func tableAzureFrontDoor(_ context.Context) *plugin.Table {
 				Name:        "cname",
 				Description: "The host that each frontendEndpoint must CNAME to.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.FrontDoor.Properties.Cname")},
+				Transform:   transform.From(getCname)},
 			{
 				Name:        "enabled_state",
 				Description: "Operational status of the front door load balancer. Possible values include: 'Enabled', 'Disabled'.",
@@ -165,3 +166,8 @@ func tableAzureFrontDoor(_ context.Context) *plugin.Table {
 
 // If we return the API response directly, the output does not provide
 // all the contents of DiagnosticSettings
+
+func getCname(ctx context.Context, d *transform.TransformData) (interface{}, error) {
+	frontDoor := d.HydrateItem.(kaytu.Frontdoor).Description.FrontDoor
+	return strings.ToLower(*frontDoor.Properties.FrontendEndpoints[0].Properties.HostName), nil
+}

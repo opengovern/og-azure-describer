@@ -39,12 +39,12 @@ func tableAzureComputeDisk(_ context.Context) *plugin.Table {
 				Name:        "type",
 				Description: "The type of the resource in Azure",
 				Type:        proto.ColumnType_STRING,
-			},
+				Transform:   transform.FromField("Description.Disk.Type")},
 			{
 				Name:        "provisioning_state",
 				Description: "The disk provisioning state",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Disk.Type")},
+				Transform:   transform.FromField("Description.Disk.ProvisioningState")},
 			{
 				Name:        "managed_by",
 				Description: "A relative URI containing the ID of the VM that has the disk attached",

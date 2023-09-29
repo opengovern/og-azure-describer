@@ -94,8 +94,7 @@ func tableAzureSqlDatabase(_ context.Context) *plugin.Table {
 				Name:        "edition",
 				Description: "The edition of the database.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("DatabaseProperties.Edition"),
-			},
+				Transform:   transform.FromField("Description.Database.Properties.RequestedServiceObjectiveName")},
 			{
 				Name:        "elastic_pool_name",
 				Description: "The name of the elastic pool the database is in.",
@@ -205,8 +204,7 @@ func tableAzureSqlDatabase(_ context.Context) *plugin.Table {
 				Name:        "service_level_objective",
 				Description: "The current service level objective of the database.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("DatabaseProperties.ServiceLevelObjective"),
-			},
+				Transform:   transform.FromField("Description.Database.Properties.RequestedServiceObjectiveName")},
 			{
 				Name:        "service_tier_advisors",
 				Description: "The list of service tier advisors for this database.",
