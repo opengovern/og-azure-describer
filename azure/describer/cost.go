@@ -97,6 +97,9 @@ func cost(ctx context.Context, cred *azidentity.ClientSecretCredential, subscrip
 func DailyCostByResourceType(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	triggerType := GetTriggerTypeFromContext(ctx)
 	from := time.Now().AddDate(0, 0, -7)
+	if time.Now().Day() == 6 {
+		from = time.Now().AddDate(0, 0, -31)
+	}
 	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
 		from = time.Now().AddDate(0, -3, -7)
 	} else if triggerType == enums.DescribeTriggerTypeCostFullDiscovery {
