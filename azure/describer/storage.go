@@ -414,7 +414,7 @@ func ListAccountStorageBlobs(ctx context.Context, containerClient *armstorage.Bl
 									Snapshot:         *blob.Snapshot,
 									VersionID:        blob.VersionID,
 									IsCurrentVersion: blob.IsCurrentVersion,
-									Properties: azblobOld.BlobProperties{
+									Properties: azblobOld.BlobPropertiesInternal{
 										CreationTime:              blob.Properties.CreationTime,
 										LastModified:              *blob.Properties.LastModified,
 										Etag:                      azblobOld.ETag(*blob.Properties.ETag),
