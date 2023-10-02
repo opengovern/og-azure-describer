@@ -1,13 +1,12 @@
 .PHONY: build
 
 build:
-	export CGO_ENABLED=0
 	export GOOS=linux
 	export GOARCH=amd64
 	CC=/usr/bin/musl-gcc GOPRIVATE="github.com/kaytu-io" GOOS=linux GOARCH=amd64 go build -v -ldflags "-linkmode external -extldflags '-static' -s -w" -tags musl -o ./build/kaytu-azure-describer ./main.go
-	cd build && zip ./kaytu-azure-describer.zip ./kaytu-azure-describer
-	aws s3 cp ./build/kaytu-azure-describer.zip s3://lambda-describe-binary/kaytu-azure-describer.zip
-	aws lambda update-function-code --function-name kaytu-azure-describer --region us-east-2 --s3-bucket lambda-describe-binary --s3-key kaytu-azure-describer.zip --no-cli-pager --no-cli-auto-prompt
+
+docker:
+	docker build -t kaytu-azure-describer:latest .
 
 build-cli:
 	export CGO_ENABLED=0

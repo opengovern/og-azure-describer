@@ -11,8 +11,14 @@ jobs:
     env:
       GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
     runs-on: ubuntu-latest
+    outputs:
+      latest_tag: ${{ steps.set_latest_tag.outputs.latest_tag }}
     steps:
       - uses: actions/checkout@v3
+      - name: Install musl cc
+        uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: musl-tools musl-dev musl
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
@@ -61,6 +67,19 @@ jobs:
           name: steampipe-plugin-azuread
           path: ./steampipe-plugin-azuread/build.tar
           retention-days: 1
+      - name: Build lambda describer app
+        working-directory: .
+        run: make build
+      - name: Pack lambda describer build
+        working-directory: .
+        run: |
+          tar -cvf build.tar build
+      - name: Upload lambda describer artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: kaytu-azure-describer
+          path: ./build.tar
+          retention-days: 1
       - name: Set latest tag output
         id: set_latest_tag
         run: |
@@ -103,7 +122,7 @@ jobs:
           push: true
           tags: |
             ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-azure:0.0.1
-            ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-azure:0.0.1-${{ github.run_id }}
+            ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-azure:${{ needs.build.outputs.latest_tag }}
           file: steampipe-plugin-azure/docker/Dockerfile
           context: .
   deploy-azuread-plugin:
@@ -140,6 +159,41 @@ jobs:
           push: true
           tags: |
             ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-azuread:0.0.1
-            ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-azuread:0.0.1-${{ github.run_id }}
+            ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-azuread:${{ needs.build.outputs.latest_tag }}
           file: steampipe-plugin-azuread/docker/Dockerfile
           context: .
+  deploy-lambda-describer:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment:
+      name: ${{ github.ref_name }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Download lambda describer artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: kaytu-azure-describer
+          path: .
+      - name: Unpack lambda describer artifact
+        run: |
+          tar -xvf build.tar
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      - name: Build and push Docker images for lambda describer
+        uses: docker/build-push-action@v4.1.1
+        with:
+          push: true
+          tags: |
+            ${{ vars.DOCKER_REGISTRY }}/kaytu-azure-describer:latest
+            ${{ vars.DOCKER_REGISTRY }}/kaytu-azure-describer:${{ needs.build.outputs.latest_tag }}
+          file: Dockerfile
+          context: .
+
