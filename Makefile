@@ -3,7 +3,7 @@
 build:
 	export GOOS=linux
 	export GOARCH=amd64
-	CC=/usr/bin/musl-gcc GOPRIVATE="github.com/kaytu-io" GOOS=linux GOARCH=amd64 go build -v -ldflags "-linkmode external -extldflags '-static' -s -w" -tags musl -o ./build/kaytu-azure-describer ./main.go
+	CC=/usr/bin/musl-gcc GOPRIVATE="github.com/kaytu-io" GOOS=linux GOARCH=amd64 go build -v -ldflags "-linkmode external -extldflags '-static' -s -w" -tags musl -tags lambda.norpcgit -o ./build/kaytu-azure-describer ./main.go
 
 docker:
 	docker build -t kaytu-azure-describer:latest .
