@@ -96,7 +96,7 @@ require (
 	github.com/Azure/go-autorest/autorest/azure/auth v0.5.12
 	github.com/Azure/go-autorest/autorest/azure/cli v0.4.6
 	github.com/Azure/go-autorest/autorest/date v0.3.0
-	github.com/aws/aws-lambda-go v1.13.3
+	github.com/aws/aws-lambda-go v1.41.0
 	github.com/gdexlab/go-render v1.0.1
 	github.com/go-errors/errors v1.4.2
 	github.com/gofrs/uuid v4.4.0+incompatible
