@@ -199,4 +199,12 @@ jobs:
             ${{ vars.DOCKER_REGISTRY }}/kaytu-azure-describer:${{ needs.build.outputs.latest_tag }}
           file: Dockerfile
           context: .
+      - name: Configure AWS credentials for uploading lambda
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME_FOR_LAMBDA }}
+      - name: AWS Lambda Deploy
+        run: |
+          aws lambda update-function-code --function-name kaytu-azure-describer --image-uri ${{ vars.DOCKER_REGISTRY }}/kaytu-azure-describer:${{ needs.build.outputs.latest_tag }}
 
