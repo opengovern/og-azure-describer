@@ -6,7 +6,8 @@ build:
 	CC=/usr/bin/musl-gcc GOPRIVATE="github.com/kaytu-io" GOOS=linux GOARCH=amd64 go build -v -ldflags "-linkmode external -extldflags '-static' -s -w" -tags musl -tags lambda.norpc -o ./build/kaytu-azure-describer ./main.go
 
 docker:
-	docker build -t kaytu-azure-describer:latest .
+	docker build -t 435670955331.dkr.ecr.us-east-2.amazonaws.com/kaytu-azure-describer:latest .
+	docker push 435670955331.dkr.ecr.us-east-2.amazonaws.com/kaytu-azure-describer:latest
 
 aws-update:
 	aws lambda update-function-code --function-name kaytu-azure-describer --image-uri 435670955331.dkr.ecr.us-east-2.amazonaws.com/kaytu-azure-describer:latest
