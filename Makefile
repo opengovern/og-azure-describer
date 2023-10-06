@@ -10,7 +10,7 @@ docker:
 	docker push 435670955331.dkr.ecr.us-east-2.amazonaws.com/kaytu-azure-describer:latest
 
 aws-update:
-	aws lambda update-function-code --function-name kaytu-azure-describer --image-uri 435670955331.dkr.ecr.us-east-2.amazonaws.com/kaytu-azure-describer:latest
+	aws lambda update-function-code --function-name kaytu-azure-describer --image-uri 435670955331.dkr.ecr.us-east-2.amazonaws.com/kaytu-azure-describer:latest --region us-east-2
 
 
 build-cli:

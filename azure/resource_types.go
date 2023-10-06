@@ -2178,6 +2178,20 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Resources/subscriptions": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/subscriptions",
+		ResourceLabel:        "",
+		Tags:                 map[string][]string{},
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.Subscription),
+		GetDescriber:         nil,
+		TerraformName:        []string{"azurerm_subscription"},
+		TerraformServiceName: "subscription",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Compute/images": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/images",
