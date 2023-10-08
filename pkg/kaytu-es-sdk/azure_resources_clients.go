@@ -9266,14 +9266,14 @@ func (p KubernetesServiceVersionPaginator) NextPage(ctx context.Context) ([]Kube
 
 var listKubernetesServiceVersionFilters = map[string]string{
 	"default":              "description.Orchestrator.Default",
-	"id":                   "iD",
+	"id":                   "ID",
 	"is_preview":           "description.Orchestrator.IsPreview",
 	"kaytu_account_id":     "metadata.SourceID",
-	"name":                 "name",
+	"name":                 "Name",
 	"orchestrator_type":    "description.Orchestrator.OrchestratorType",
 	"orchestrator_version": "description.Orchestrator.OrchestratorVersion",
-	"title":                "name",
-	"type":                 "type",
+	"title":                "Name",
+	"type":                 "Type",
 	"upgrades":             "description.Orchestrator.Upgrades",
 }
 
@@ -9309,15 +9309,15 @@ func ListKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *p
 
 var getKubernetesServiceVersionFilters = map[string]string{
 	"default":              "description.Orchestrator.Default",
-	"id":                   "iD",
+	"id":                   "ID",
 	"is_preview":           "description.Orchestrator.IsPreview",
 	"kaytu_account_id":     "metadata.SourceID",
 	"name":                 "description.Orchestrator.name",
 	"orchestrator_type":    "description.Orchestrator.OrchestratorType",
 	"orchestrator_version": "description.Orchestrator.OrchestratorVersion",
 	"resource_group":       "description.ResourceGroup",
-	"title":                "name",
-	"type":                 "type",
+	"title":                "Name",
+	"type":                 "Type",
 	"upgrades":             "description.Orchestrator.Upgrades",
 }
 
@@ -17407,7 +17407,7 @@ var listPolicyDefinitionFilters = map[string]string{
 	"akas":             "description.TurboData.Akas",
 	"description":      "description.Definition.Properties.Description",
 	"display_name":     "description.Definition.Properties.DisplayName",
-	"id":               "iD",
+	"id":               "ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"metadata":         "description.Definition.Properties.Metadata",
 	"mode":             "description.Definition.Properties.Mode",
@@ -17453,7 +17453,7 @@ var getPolicyDefinitionFilters = map[string]string{
 	"akas":             "description.TurboData.Akas",
 	"description":      "description.Definition.Properties.Description",
 	"display_name":     "description.Definition.Properties.DisplayName",
-	"id":               "iD",
+	"id":               "ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"metadata":         "description.Definition.Properties.Metadata",
 	"mode":             "description.Definition.Properties.Mode",
@@ -18548,7 +18548,7 @@ var getSecurityCenterSubscriptionPricingFilters = map[string]string{
 	"free_trial_remaining_time": "description.Pricing.Properties.FreeTrialRemainingTime",
 	"id":                        "description.Pricing.ID",
 	"kaytu_account_id":          "metadata.SourceID",
-	"name":                      "description.Pricing.name",
+	"name":                      "description.Pricing.Name",
 	"pricing_tier":              "description.Pricing.Properties.PricingTier",
 	"title":                     "description.Pricing.Name",
 	"type":                      "description.Pricing.Type",
@@ -21320,7 +21320,7 @@ var listTenantFilters = map[string]string{
 	"id":               "description.TenantIDDescription.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.TenantIDDescription.Name",
-	"tenant_category":  "tenantCategory",
+	"tenant_category":  "TenantCategory",
 	"tenant_id":        "description.TenantIDDescription.TenantID",
 	"title":            "description.TenantIDDescription.Name",
 }
@@ -21360,7 +21360,7 @@ var getTenantFilters = map[string]string{
 	"id":               "description.TenantIDDescription.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.TenantIDDescription.Name",
-	"tenant_category":  "tenantCategory",
+	"tenant_category":  "TenantCategory",
 	"tenant_id":        "description.TenantIDDescription.TenantID",
 	"title":            "description.TenantIDDescription.Name",
 }
@@ -21541,7 +21541,7 @@ var listSubscriptionFilters = map[string]string{
 	"state":                 "description.Subscription.State",
 	"subscription_id":       "description.Subscription.SubscriptionID",
 	"subscription_policies": "description.Subscription.SubscriptionPolicies",
-	"tenant_id":             "tenantID",
+	"tenant_id":             "TenantID",
 	"title":                 "description.Subscription.DisplayName",
 }
 
@@ -21584,7 +21584,7 @@ var getSubscriptionFilters = map[string]string{
 	"state":                 "description.Subscription.State",
 	"subscription_id":       "description.Subscription.SubscriptionID",
 	"subscription_policies": "description.Subscription.SubscriptionPolicies",
-	"tenant_id":             "tenantID",
+	"tenant_id":             "TenantID",
 	"title":                 "description.Subscription.DisplayName",
 }
 
@@ -23916,7 +23916,7 @@ var listContainerRegistryFilters = map[string]string{
 	"sku_tier":                     "description.Registry.SKU.Tier",
 	"status":                       "description.Registry.Properties.Status.DisplayStatus",
 	"status_message":               "description.Registry.Properties.Status.Message",
-	"storage_account_id":           "registryProperties.StorageAccount.ID",
+	"storage_account_id":           "RegistryProperties.StorageAccount.ID",
 	"system_data":                  "description.Registry.SystemData",
 	"tags":                         "description.Registry.Tags",
 	"title":                        "description.Registry.Name",
@@ -23977,7 +23977,7 @@ var getContainerRegistryFilters = map[string]string{
 	"sku_tier":                     "description.Registry.SKU.Tier",
 	"status":                       "description.Registry.Properties.Status.DisplayStatus",
 	"status_message":               "description.Registry.Properties.Status.Message",
-	"storage_account_id":           "registryProperties.StorageAccount.ID",
+	"storage_account_id":           "RegistryProperties.StorageAccount.ID",
 	"system_data":                  "description.Registry.SystemData",
 	"tags":                         "description.Registry.Tags",
 	"title":                        "description.Registry.Name",
@@ -37072,7 +37072,7 @@ var listAdUsersFilters = map[string]string{
 	"id":                                    "description.AdUsers.DirectoryObject.id",
 	"im_addresses":                          "description.AdUsers.ImAddresses",
 	"kaytu_account_id":                      "metadata.SourceID",
-	"kaytu_resource_id":                     "iD",
+	"kaytu_resource_id":                     "ID",
 	"mail":                                  "description.AdUsers.Mail",
 	"mail_nickname":                         "description.AdUsers.MailNickname",
 	"member_of":                             "description.AdUsers.MemberOf",
@@ -37129,7 +37129,7 @@ var getAdUsersFilters = map[string]string{
 	"id":                                    "description.AdUsers.DirectoryObject.id",
 	"im_addresses":                          "description.AdUsers.ImAddresses",
 	"kaytu_account_id":                      "metadata.SourceID",
-	"kaytu_resource_id":                     "iD",
+	"kaytu_resource_id":                     "ID",
 	"mail":                                  "description.AdUsers.Mail",
 	"mail_nickname":                         "description.AdUsers.MailNickname",
 	"member_of":                             "description.AdUsers.MemberOf",
@@ -39258,7 +39258,7 @@ var listSqlDatabaseFilters = map[string]string{
 	"max_size_bytes":               "description.Database.Properties.MaxSizeBytes",
 	"name":                         "description.Database.Name",
 	"read_scale":                   "description.Database.Properties.ReadScale",
-	"recommended_index":            "databaseProperties.RecommendedIndex",
+	"recommended_index":            "DatabaseProperties.RecommendedIndex",
 	"recovery_services_recovery_point_resource_id": "description.Database.Properties.RecoveryServicesRecoveryPointID",
 	"requested_service_objective_id":               "description.Database.Properties.RequestedServiceObjectiveName",
 	"requested_service_objective_name":             "description.Database.Properties.RequestedServiceObjectiveName",
@@ -39328,7 +39328,7 @@ var getSqlDatabaseFilters = map[string]string{
 	"max_size_bytes":               "description.Database.Properties.MaxSizeBytes",
 	"name":                         "description.Database.name",
 	"read_scale":                   "description.Database.Properties.ReadScale",
-	"recommended_index":            "databaseProperties.RecommendedIndex",
+	"recommended_index":            "DatabaseProperties.RecommendedIndex",
 	"recovery_services_recovery_point_resource_id": "description.Database.Properties.RecoveryServicesRecoveryPointID",
 	"requested_service_objective_id":               "description.Database.Properties.RequestedServiceObjectiveName",
 	"requested_service_objective_name":             "description.Database.Properties.RequestedServiceObjectiveName",
@@ -42166,7 +42166,7 @@ func (p CostManagementCostByResourceTypePaginator) NextPage(ctx context.Context)
 
 var listCostManagementCostByResourceTypeFilters = map[string]string{
 	"cost":             "description.CostManagementCostByResourceType.Cost",
-	"id":               "iD",
+	"id":               "ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"publisher_type":   "description.CostManagementCostByResourceType.PublisherType",
 	"resource_type":    "metadata.ResourceType",
@@ -42206,7 +42206,7 @@ func ListCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryDa
 
 var getCostManagementCostByResourceTypeFilters = map[string]string{
 	"cost":             "description.CostManagementCostByResourceType.Cost",
-	"id":               "iD",
+	"id":               "ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"publisher_type":   "description.CostManagementCostByResourceType.PublisherType",
 	"resource_type":    "metadata.ResourceType",
@@ -42382,7 +42382,7 @@ func (p CostManagementCostBySubscriptionPaginator) NextPage(ctx context.Context)
 }
 
 var listCostManagementCostBySubscriptionFilters = map[string]string{
-	"id":               "iD",
+	"id":               "ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.CostManagementCostBySubscription",
 }
@@ -42418,7 +42418,7 @@ func ListCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryDa
 }
 
 var getCostManagementCostBySubscriptionFilters = map[string]string{
-	"id":               "iD",
+	"id":               "ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.CostManagementCostBySubscription",
 }

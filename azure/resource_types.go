@@ -1828,20 +1828,6 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Authorization/policyDefinitions": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Authorization/policyDefinitions",
-		ResourceLabel:        "Policy Definitions",
-		Tags:                 map[string][]string{"category": {"Identify & Access"}},
-		ServiceName:          "Authorization",
-		ListDescriber:        DescribeBySubscription(describer.PolicyDefinition),
-		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_policy_definition"},
-		TerraformServiceName: "policy",
-		FastDiscovery:        false,
-		Summarize:            false,
-	},
-
 	"Microsoft.Compute/diskAccesses": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/diskAccesses",
