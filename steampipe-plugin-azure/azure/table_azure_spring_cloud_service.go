@@ -69,7 +69,7 @@ func tableAzureSpringCloudService(_ context.Context) *plugin.Table {
 			{
 				Name:        "version",
 				Description: "Version of the service.",
-				Type:        proto.ColumnType_INT,
+				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.ServiceResource.Plan.Version")},
 			{
 				Name:        "diagnostic_settings",
