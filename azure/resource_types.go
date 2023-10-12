@@ -706,20 +706,6 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Compute/resourceSku": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Compute/resourceSku",
-		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
-		ServiceName:          "Compute",
-		ListDescriber:        DescribeBySubscription(describer.ComputeResourceSKU),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            false,
-	},
-
 	"Microsoft.Network/expressRouteCircuits": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/expressRouteCircuits",
