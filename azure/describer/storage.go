@@ -48,7 +48,13 @@ func StorageContainer(ctx context.Context, cred *azidentity.ClientSecretCredenti
 					if r.Value == nil {
 						continue
 					}
-					vvv = append(vvv, r.Value.(Resource))
+					if stream != nil {
+						if err := (*stream)(r.Value.(Resource)); err != nil {
+							return nil, err
+						}
+					} else {
+						vvv = append(vvv, r.Value.(Resource))
+					}
 				}
 				return vvv, nil
 			})
@@ -64,14 +70,6 @@ func StorageContainer(ctx context.Context, cred *azidentity.ClientSecretCredenti
 			continue
 		}
 		values = append(values, r.Value.([]Resource)...)
-	}
-	if stream != nil {
-		for _, resource := range values {
-			if err := (*stream)(resource); err != nil {
-				return values, err
-			}
-		}
-		values = nil
 	}
 
 	return values, nil
