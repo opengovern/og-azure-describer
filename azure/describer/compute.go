@@ -399,6 +399,18 @@ func getComputeVirtualMachine(ctx context.Context, vmClient *armcompute.VirtualM
 			configurationListOp = append(configurationListOp, *v)
 		}
 	}
+
+	for idx, ex := range computeInstanceViewOp.VirtualMachineInstanceView.Extensions {
+		for sidx, substatus := range ex.Substatuses {
+			if substatus == nil {
+				continue
+			}
+			substatus.Message = nil
+			ex.Substatuses[sidx] = substatus
+		}
+		computeInstanceViewOp.VirtualMachineInstanceView.Extensions[idx] = ex
+	}
+
 	resource := Resource{
 		ID:       *virtualMachine.ID,
 		Name:     *virtualMachine.Name,

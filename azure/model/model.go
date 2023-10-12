@@ -730,7 +730,7 @@ type SecurityCenterSettingDescription struct {
 }
 
 //index:microsoft_security_pricings
-//getfilter:name=description.Pricing.name
+//getfilter:name=description.Pricing.Name
 type SecurityCenterSubscriptionPricingDescription struct {
 	Pricing armsecurity.Pricing
 }

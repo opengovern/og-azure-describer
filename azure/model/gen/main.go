@@ -211,7 +211,7 @@ func List{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(ctx, d.QueryContext, list{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID, cfg.EncodedResourceGroupFilters), d.QueryContext.Limit)
+	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(ctx, d.QueryContext, list{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -248,7 +248,7 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(ctx, d.QueryContext, get{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID, cfg.EncodedResourceGroupFilters), &limit)
+	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(ctx, d.QueryContext, get{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -362,7 +362,9 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 							}
 
 							if columnName != "" && transformer != "" {
-								transformer = strings.ToLower(transformer[:1]) + transformer[1:]
+								if strings.HasPrefix(transformer, "Description") || strings.HasPrefix(transformer, "Metadata") {
+									transformer = strings.ToLower(transformer[:1]) + transformer[1:]
+								}
 								s.GetFilters[columnName] = transformer
 								s.ListFilters[columnName] = transformer
 							}
