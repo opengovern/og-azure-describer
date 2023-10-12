@@ -51,6 +51,9 @@ func KeyVaultSecret(ctx context.Context, cred *azidentity.ClientSecretCredential
 				for pager.More() {
 					page, err := pager.NextPage(ctx)
 					if err != nil {
+						if strings.Contains(err.Error(), "could not be found") {
+							break
+						}
 						return nil, err
 					}
 					for _, sc := range page.Value {
