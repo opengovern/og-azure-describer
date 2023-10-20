@@ -8,6 +8,7 @@ import (
 	azureDescriber "github.com/kaytu-io/kaytu-azure-describer/azure/describer"
 	azure "github.com/kaytu-io/kaytu-azure-describer/azure/model"
 	essdk "github.com/kaytu-io/kaytu-util/pkg/kaytu-es-sdk"
+	steampipesdk "github.com/kaytu-io/kaytu-util/pkg/steampipe"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
@@ -204,15 +205,15 @@ func ListAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -291,15 +292,15 @@ func GetAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -489,15 +490,15 @@ func ListAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -550,15 +551,15 @@ func GetAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -745,15 +746,15 @@ func ListAutomationVariables(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -803,15 +804,15 @@ func GetAutomationVariables(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -999,15 +1000,15 @@ func ListAppConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -1058,15 +1059,15 @@ func GetAppConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -1258,15 +1259,15 @@ func ListAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -1322,15 +1323,15 @@ func GetAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -1526,15 +1527,15 @@ func ListAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -1594,15 +1595,15 @@ func GetAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -1800,15 +1801,15 @@ func ListAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -1870,15 +1871,15 @@ func GetAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -2093,15 +2094,15 @@ func ListAppServiceWebAppSlot(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -2179,15 +2180,15 @@ func GetAppServiceWebAppSlot(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -2384,15 +2385,15 @@ func ListAppServicePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -2453,15 +2454,15 @@ func GetAppServicePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -2641,15 +2642,15 @@ func ListContainerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -2692,15 +2693,15 @@ func GetContainerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -2880,15 +2881,15 @@ func ListAppManagedEnvironment(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -2931,15 +2932,15 @@ func GetAppManagedEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -3119,15 +3120,15 @@ func ListWebServerFarms(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -3170,15 +3171,15 @@ func GetWebServerFarms(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -3358,15 +3359,15 @@ func ListBlueprint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -3409,15 +3410,15 @@ func GetBlueprint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -3634,15 +3635,15 @@ func ListComputeDisk(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -3722,15 +3723,15 @@ func GetComputeDisk(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -3906,15 +3907,15 @@ func ListComputeDiskReadOps(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -3953,15 +3954,15 @@ func GetComputeDiskReadOps(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -4137,15 +4138,15 @@ func ListComputeDiskReadOpsDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -4184,15 +4185,15 @@ func GetComputeDiskReadOpsDaily(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -4368,15 +4369,15 @@ func ListComputeDiskReadOpsHourly(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -4415,15 +4416,15 @@ func GetComputeDiskReadOpsHourly(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -4599,15 +4600,15 @@ func ListComputeDiskWriteOps(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -4646,15 +4647,15 @@ func GetComputeDiskWriteOps(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -4830,15 +4831,15 @@ func ListComputeDiskWriteOpsDaily(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -4877,15 +4878,15 @@ func GetComputeDiskWriteOpsDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -5061,15 +5062,15 @@ func ListComputeDiskWriteOpsHourly(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -5108,15 +5109,15 @@ func GetComputeDiskWriteOpsHourly(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -5299,15 +5300,15 @@ func ListComputeDiskAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -5353,15 +5354,15 @@ func GetComputeDiskAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -5566,15 +5567,15 @@ func ListComputeVirtualMachineScaleSet(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -5642,15 +5643,15 @@ func GetComputeVirtualMachineScaleSet(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -5834,15 +5835,15 @@ func ListComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, d *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -5889,15 +5890,15 @@ func GetComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, d *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -6105,15 +6106,15 @@ func ListComputeVirtualMachineScaleSetVm(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -6184,15 +6185,15 @@ func GetComputeVirtualMachineScaleSetVm(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -6400,15 +6401,15 @@ func ListComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -6479,15 +6480,15 @@ func GetComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -6677,15 +6678,15 @@ func ListComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -6738,15 +6739,15 @@ func GetComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -6936,15 +6937,15 @@ func ListComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -6997,15 +6998,15 @@ func GetComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -7185,15 +7186,15 @@ func ListComputeImageGallery(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -7237,15 +7238,15 @@ func GetComputeImageGallery(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -7441,15 +7442,15 @@ func ListComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -7508,15 +7509,15 @@ func GetComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -7695,15 +7696,15 @@ func ListComputeHostGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -7745,15 +7746,15 @@ func GetComputeHostGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -7932,15 +7933,15 @@ func ListComputeHostGroupHost(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -7982,15 +7983,15 @@ func GetComputeHostGroupHost(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -8169,15 +8170,15 @@ func ListComputeRestorePointCollection(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -8219,15 +8220,15 @@ func GetComputeRestorePointCollection(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -8409,15 +8410,15 @@ func ListComputeSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -8462,15 +8463,15 @@ func GetComputeSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -8670,15 +8671,15 @@ func ListDataboxEdgeDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -8741,15 +8742,15 @@ func GetDataboxEdgeDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -8947,15 +8948,15 @@ func ListHealthcareService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -9016,15 +9017,15 @@ func GetHealthcareService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -9217,15 +9218,15 @@ func ListHpcCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -9281,15 +9282,15 @@ func GetHpcCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -9480,15 +9481,15 @@ func ListKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -9543,15 +9544,15 @@ func GetKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -9745,15 +9746,15 @@ func ListKeyVaultKeyVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -9810,15 +9811,15 @@ func GetKeyVaultKeyVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -10028,15 +10029,15 @@ func ListKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -10109,15 +10110,15 @@ func GetKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -10302,15 +10303,15 @@ func ListKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -10359,15 +10360,15 @@ func GetKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -10564,15 +10565,15 @@ func ListContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -10632,15 +10633,15 @@ func GetContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -10820,15 +10821,15 @@ func ListCDNProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -10871,15 +10872,15 @@ func GetCDNProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -11058,15 +11059,15 @@ func ListCDNEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -11108,15 +11109,15 @@ func GetCDNEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -11315,15 +11316,15 @@ func ListNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -11385,15 +11386,15 @@ func GetNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -11587,15 +11588,15 @@ func ListNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -11652,15 +11653,15 @@ func GetNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -11845,15 +11846,15 @@ func ListRouteTables(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -11902,15 +11903,15 @@ func GetRouteTables(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -12094,15 +12095,15 @@ func ListNetworkApplicationSecurityGroups(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -12149,15 +12150,15 @@ func GetNetworkApplicationSecurityGroups(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -12355,15 +12356,15 @@ func ListNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -12424,15 +12425,15 @@ func GetNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -12629,15 +12630,15 @@ func ListExpressRouteCircuit(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -12697,15 +12698,15 @@ func GetExpressRouteCircuit(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -12907,15 +12908,15 @@ func ListVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -12980,15 +12981,15 @@ func GetVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -13185,15 +13186,15 @@ func ListFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -13253,15 +13254,15 @@ func GetFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -13441,15 +13442,15 @@ func ListLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -13493,15 +13494,15 @@ func GetLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -13686,15 +13687,15 @@ func ListNatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -13742,15 +13743,15 @@ func GetNatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -13930,15 +13931,15 @@ func ListPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -13982,15 +13983,15 @@ func GetPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -14170,15 +14171,15 @@ func ListVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -14222,15 +14223,15 @@ func GetVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -14410,15 +14411,15 @@ func ListVpnGatewayVpnConnection(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -14461,15 +14462,15 @@ func GetVpnGatewayVpnConnection(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -14649,15 +14650,15 @@ func ListVpnSite(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -14700,15 +14701,15 @@ func GetVpnSite(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -14908,15 +14909,15 @@ func ListPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -14979,15 +14980,15 @@ func GetPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -15167,15 +15168,15 @@ func ListPublicIPPrefix(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -15218,15 +15219,15 @@ func GetPublicIPPrefix(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -15416,15 +15417,15 @@ func ListDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -15477,15 +15478,15 @@ func GetDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -15672,15 +15673,15 @@ func ListBastionHosts(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -15730,15 +15731,15 @@ func GetBastionHosts(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -15918,15 +15919,15 @@ func ListConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -15969,15 +15970,15 @@ func GetConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -16157,15 +16158,15 @@ func ListVirtualHubs(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -16208,15 +16209,15 @@ func GetVirtualHubs(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -16396,15 +16397,15 @@ func ListVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -16447,15 +16448,15 @@ func GetVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -16635,15 +16636,15 @@ func ListDNSResolver(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -16686,15 +16687,15 @@ func GetDNSResolver(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -16873,15 +16874,15 @@ func ListTrafficManagerProfile(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -16923,15 +16924,15 @@ func GetTrafficManagerProfile(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -17121,15 +17122,15 @@ func ListPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -17182,15 +17183,15 @@ func GetPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -17370,15 +17371,15 @@ func ListPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -17421,15 +17422,15 @@ func GetPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -17608,15 +17609,15 @@ func ListNetworkDDoSProtectionPlan(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -17658,15 +17659,15 @@ func GetNetworkDDoSProtectionPlan(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -17857,15 +17858,15 @@ func ListPolicyAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -17919,15 +17920,15 @@ func GetPolicyAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -18130,15 +18131,15 @@ func ListRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -18204,15 +18205,15 @@ func GetRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -18392,15 +18393,15 @@ func ListRedisEnterpriseCache(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -18443,15 +18444,15 @@ func GetRedisEnterpriseCache(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -18635,15 +18636,15 @@ func ListResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -18690,15 +18691,15 @@ func GetResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -18882,15 +18883,15 @@ func ListRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -18937,15 +18938,15 @@ func GetRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -19129,15 +19130,15 @@ func ListRoleDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -19184,15 +19185,15 @@ func GetRoleDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -19380,15 +19381,15 @@ func ListPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -19439,15 +19440,15 @@ func GetPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -19628,15 +19629,15 @@ func ListSecurityCenterAutoProvisioning(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -19680,15 +19681,15 @@ func GetSecurityCenterAutoProvisioning(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -19872,15 +19873,15 @@ func ListSecurityCenterContact(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -19927,15 +19928,15 @@ func GetSecurityCenterContact(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -20118,15 +20119,15 @@ func ListSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.Que
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -20172,15 +20173,15 @@ func GetSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.Quer
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -20362,15 +20363,15 @@ func ListSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -20415,15 +20416,15 @@ func GetSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -20605,15 +20606,15 @@ func ListSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -20658,15 +20659,15 @@ func GetSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -20855,15 +20856,15 @@ func ListSecurityCenterAutomation(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -20915,15 +20916,15 @@ func GetSecurityCenterAutomation(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -21110,15 +21111,15 @@ func ListSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -21168,15 +21169,15 @@ func GetSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -21372,15 +21373,15 @@ func ListStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -21439,15 +21440,15 @@ func GetStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -21668,15 +21669,15 @@ func ListStorageBlob(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -21759,15 +21760,15 @@ func GetStorageBlob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -21959,15 +21960,15 @@ func ListStorageBlobService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -22022,15 +22023,15 @@ func GetStorageBlobService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -22213,15 +22214,15 @@ func ListStorageQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -22267,15 +22268,15 @@ func GetStorageQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -22467,15 +22468,15 @@ func ListStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -22529,15 +22530,15 @@ func GetStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -22719,15 +22720,15 @@ func ListStorageTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -22771,15 +22772,15 @@ func GetStorageTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -22962,15 +22963,15 @@ func ListStorageTableService(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -23015,15 +23016,15 @@ func GetStorageTableService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -23215,15 +23216,15 @@ func ListSubnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -23279,15 +23280,15 @@ func GetSubnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -23477,15 +23478,15 @@ func ListVirtualNetwork(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -23538,15 +23539,15 @@ func GetVirtualNetwork(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -23728,15 +23729,15 @@ func ListTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -23781,15 +23782,15 @@ func GetTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -23974,15 +23975,15 @@ func ListSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -24030,15 +24031,15 @@ func GetSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -24237,15 +24238,15 @@ func ListApplicationGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -24307,15 +24308,15 @@ func GetApplicationGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -24513,15 +24514,15 @@ func ListBatchAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -24582,15 +24583,15 @@ func GetBatchAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -24798,15 +24799,15 @@ func ListCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -24877,15 +24878,15 @@ func GetCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -25114,15 +25115,15 @@ func ListComputeVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -25214,15 +25215,15 @@ func GetComputeVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -25411,15 +25412,15 @@ func ListComputeResourceSKU(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -25471,15 +25472,15 @@ func GetComputeResourceSKU(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -25655,15 +25656,15 @@ func ListComputeVirtualMachineCpuUtilization(ctx context.Context, d *plugin.Quer
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -25702,15 +25703,15 @@ func GetComputeVirtualMachineCpuUtilization(ctx context.Context, d *plugin.Query
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -25886,15 +25887,15 @@ func ListComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, d *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -25933,15 +25934,15 @@ func GetComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, d *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -26117,15 +26118,15 @@ func ListComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, d *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -26164,15 +26165,15 @@ func GetComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, d *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -26352,15 +26353,15 @@ func ListComputeCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -26403,15 +26404,15 @@ func GetComputeCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -26614,15 +26615,15 @@ func ListContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -26688,15 +26689,15 @@ func GetContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -26904,15 +26905,15 @@ func ListCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -26984,15 +26985,15 @@ func GetCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -27178,15 +27179,15 @@ func ListCosmosdbRestorableDatabaseAccount(ctx context.Context, d *plugin.QueryD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -27235,15 +27236,15 @@ func GetCosmosdbRestorableDatabaseAccount(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -27430,15 +27431,15 @@ func ListCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -27489,15 +27490,15 @@ func GetCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -27690,15 +27691,15 @@ func ListCosmosdbMongoCollection(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -27754,15 +27755,15 @@ func GetCosmosdbMongoCollection(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -27951,15 +27952,15 @@ func ListCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -28012,15 +28013,15 @@ func GetCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -28199,15 +28200,15 @@ func ListCosmosdbCassandraCluster(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -28249,15 +28250,15 @@ func GetCosmosdbCassandraCluster(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -28437,15 +28438,15 @@ func ListDatabricksWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -28488,15 +28489,15 @@ func GetDatabricksWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -28676,15 +28677,15 @@ func ListDataMigrationService(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -28727,15 +28728,15 @@ func GetDataMigrationService(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -28915,15 +28916,15 @@ func ListDataProtectionBackupVaults(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -28966,15 +28967,15 @@ func GetDataProtectionBackupVaults(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -29154,15 +29155,15 @@ func ListDataProtectionBackupVaultsBackupPolicies(ctx context.Context, d *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -29205,15 +29206,15 @@ func GetDataProtectionBackupVaultsBackupPolicies(ctx context.Context, d *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -29405,15 +29406,15 @@ func ListDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -29468,15 +29469,15 @@ func GetDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -29660,15 +29661,15 @@ func ListDataFactoryDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -29715,15 +29716,15 @@ func GetDataFactoryDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -29915,15 +29916,15 @@ func ListDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -29978,15 +29979,15 @@ func GetDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -30189,15 +30190,15 @@ func ListDataLakeAnalyticsAccount(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -30263,15 +30264,15 @@ func GetDataLakeAnalyticsAccount(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -30471,15 +30472,15 @@ func ListDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -30542,15 +30543,15 @@ func GetDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -30739,15 +30740,15 @@ func ListDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -30799,15 +30800,15 @@ func GetDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -31008,15 +31009,15 @@ func ListEventGridDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -31080,15 +31081,15 @@ func GetEventGridDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -31287,15 +31288,15 @@ func ListEventGridTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -31357,15 +31358,15 @@ func GetEventGridTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -31563,15 +31564,15 @@ func ListEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -31632,15 +31633,15 @@ func GetEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -31820,15 +31821,15 @@ func ListEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -31871,15 +31872,15 @@ func GetEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -32074,15 +32075,15 @@ func ListFrontdoor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -32140,15 +32141,15 @@ func GetFrontdoor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -32355,15 +32356,15 @@ func ListHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -32433,15 +32434,15 @@ func GetHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -32643,15 +32644,15 @@ func ListHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -32716,15 +32717,15 @@ func GetHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -32928,15 +32929,15 @@ func ListIOTHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -33003,15 +33004,15 @@ func GetIOTHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -33206,15 +33207,15 @@ func ListIOTHubDps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -33272,15 +33273,15 @@ func GetIOTHubDps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -33476,15 +33477,15 @@ func ListKeyVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -33543,15 +33544,15 @@ func GetKeyVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -33733,15 +33734,15 @@ func ListKeyVaultDeletedVault(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -33787,15 +33788,15 @@ func GetKeyVaultDeletedVault(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -33988,15 +33989,15 @@ func ListKeyVaultManagedHardwareSecurityModule(ctx context.Context, d *plugin.Qu
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -34052,15 +34053,15 @@ func GetKeyVaultManagedHardwareSecurityModule(ctx context.Context, d *plugin.Que
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -34246,15 +34247,15 @@ func ListKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -34303,15 +34304,15 @@ func GetKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -34513,15 +34514,15 @@ func ListKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -34586,15 +34587,15 @@ func GetKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -34782,15 +34783,15 @@ func ListLogAlert(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -34841,15 +34842,15 @@ func GetLogAlert(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -35037,15 +35038,15 @@ func ListLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -35096,15 +35097,15 @@ func GetLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -35299,15 +35300,15 @@ func ListLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -35365,15 +35366,15 @@ func GetLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -35553,15 +35554,15 @@ func ListLogicIntegrationAccounts(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -35604,15 +35605,15 @@ func GetLogicIntegrationAccounts(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -35811,15 +35812,15 @@ func ListMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -35881,15 +35882,15 @@ func GetMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -36090,15 +36091,15 @@ func ListMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -36162,15 +36163,15 @@ func GetMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -36350,15 +36351,15 @@ func ListMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -36401,15 +36402,15 @@ func GetMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -36616,15 +36617,15 @@ func ListMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -36694,15 +36695,15 @@ func GetMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -36882,15 +36883,15 @@ func ListMysqlFlexibleserver(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -36933,15 +36934,15 @@ func GetMysqlFlexibleserver(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -37132,15 +37133,15 @@ func ListNetworkSecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -37194,15 +37195,15 @@ func GetNetworkSecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -37386,15 +37387,15 @@ func ListNetworkWatcher(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -37441,15 +37442,15 @@ func GetNetworkWatcher(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -37643,15 +37644,15 @@ func ListSearchService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -37709,15 +37710,15 @@ func GetSearchService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -37923,15 +37924,15 @@ func ListServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -38000,15 +38001,15 @@ func GetServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -38201,15 +38202,15 @@ func ListServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -38265,15 +38266,15 @@ func GetServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -38469,15 +38470,15 @@ func ListSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -38536,15 +38537,15 @@ func GetSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -38733,15 +38734,15 @@ func ListSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -38793,15 +38794,15 @@ func GetSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -39000,15 +39001,15 @@ func ListStreamAnalyticsJob(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -39070,15 +39071,15 @@ func GetStreamAnalyticsJob(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -39258,15 +39259,15 @@ func ListStreamAnalyticsCluster(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -39309,15 +39310,15 @@ func GetStreamAnalyticsCluster(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -39497,15 +39498,15 @@ func ListVirtualMachineImagesImageTemplates(ctx context.Context, d *plugin.Query
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -39548,15 +39549,15 @@ func GetVirtualMachineImagesImageTemplates(ctx context.Context, d *plugin.QueryD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -39736,15 +39737,15 @@ func ListOperationalInsightsWorkspaces(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -39787,15 +39788,15 @@ func GetOperationalInsightsWorkspaces(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -39975,15 +39976,15 @@ func ListTimeSeriesInsightsEnvironments(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -40026,15 +40027,15 @@ func GetTimeSeriesInsightsEnvironments(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -40234,15 +40235,15 @@ func ListSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -40305,15 +40306,15 @@ func GetSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -40493,15 +40494,15 @@ func ListSynapseWorkspaceBigdatapools(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -40544,15 +40545,15 @@ func GetSynapseWorkspaceBigdatapools(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -40732,15 +40733,15 @@ func ListSynapseWorkspaceSqlpools(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -40783,15 +40784,15 @@ func GetSynapseWorkspaceSqlpools(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -40973,15 +40974,15 @@ func ListLocation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -41027,15 +41028,15 @@ func GetLocation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -41235,15 +41236,15 @@ func ListAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -41305,15 +41306,15 @@ func GetAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -41520,15 +41521,15 @@ func ListAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -41598,15 +41599,15 @@ func GetAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -41808,15 +41809,15 @@ func ListAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -41881,15 +41882,15 @@ func GetAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -42069,15 +42070,15 @@ func ListAnalysisServiceServer(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -42121,15 +42122,15 @@ func GetAnalysisServiceServer(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -42337,15 +42338,15 @@ func ListPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -42416,15 +42417,15 @@ func GetPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -42604,15 +42605,15 @@ func ListPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -42655,15 +42656,15 @@ func GetPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -42851,15 +42852,15 @@ func ListStorageSync(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -42910,15 +42911,15 @@ func GetStorageSync(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -43124,15 +43125,15 @@ func ListMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -43201,15 +43202,15 @@ func GetMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -43389,15 +43390,15 @@ func ListMssqlManagedInstanceDatabases(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -43440,15 +43441,15 @@ func GetMssqlManagedInstanceDatabases(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -43660,15 +43661,15 @@ func ListSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -43743,15 +43744,15 @@ func GetSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -43930,15 +43931,15 @@ func ListSqlInstancePool(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -43980,15 +43981,15 @@ func GetSqlInstancePool(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -44188,15 +44189,15 @@ func ListSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -44259,15 +44260,15 @@ func GetSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -44447,15 +44448,15 @@ func ListSqlServerJobAgent(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -44498,15 +44499,15 @@ func GetSqlServerJobAgent(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -44686,15 +44687,15 @@ func ListSqlVirtualClusters(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -44737,15 +44738,15 @@ func GetSqlVirtualClusters(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -44937,15 +44938,15 @@ func ListSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -45000,15 +45001,15 @@ func GetSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -45204,15 +45205,15 @@ func ListSqlServerVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -45271,15 +45272,15 @@ func GetSqlServerVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -45459,15 +45460,15 @@ func ListSqlServerVirtualMachineGroup(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -45510,15 +45511,15 @@ func GetSqlServerVirtualMachineGroup(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -45725,15 +45726,15 @@ func ListSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -45803,15 +45804,15 @@ func GetSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -46039,15 +46040,15 @@ func ListStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -46139,15 +46140,15 @@ func GetStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -46338,15 +46339,15 @@ func ListRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -46400,15 +46401,15 @@ func GetRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -46606,15 +46607,15 @@ func ListHybridKubernetesConnectedCluster(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -46675,15 +46676,15 @@ func GetHybridKubernetesConnectedCluster(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -46865,15 +46866,15 @@ func ListCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -46918,15 +46919,15 @@ func GetCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -47104,15 +47105,15 @@ func ListCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -47153,15 +47154,15 @@ func GetCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -47358,15 +47359,15 @@ func ListLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -47426,15 +47427,15 @@ func GetLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -47624,15 +47625,15 @@ func ListLoadBalancerBackendAddressPool(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -47685,15 +47686,15 @@ func GetLoadBalancerBackendAddressPool(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -47885,15 +47886,15 @@ func ListLoadBalancerNatRule(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -47948,15 +47949,15 @@ func GetLoadBalancerNatRule(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -48146,15 +48147,15 @@ func ListLoadBalancerOutboundRule(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -48207,15 +48208,15 @@ func GetLoadBalancerOutboundRule(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -48405,15 +48406,15 @@ func ListLoadBalancerProbe(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -48466,15 +48467,15 @@ func GetLoadBalancerProbe(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -48670,15 +48671,15 @@ func ListLoadBalancerRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -48737,15 +48738,15 @@ func GetLoadBalancerRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -48928,15 +48929,15 @@ func ListManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -48982,15 +48983,15 @@ func GetManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -49173,15 +49174,15 @@ func ListManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -49228,15 +49229,15 @@ func GetManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -49417,15 +49418,15 @@ func ListResourceProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -49469,15 +49470,15 @@ func GetResourceProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -49660,15 +49661,15 @@ func ListResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -49714,15 +49715,15 @@ func GetResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -49901,15 +49902,15 @@ func ListBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -49951,15 +49952,15 @@ func GetBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -50138,15 +50139,15 @@ func ListNetAppAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -50188,15 +50189,15 @@ func GetNetAppAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -50375,15 +50376,15 @@ func ListNetAppCapacityPool(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -50425,15 +50426,15 @@ func GetNetAppCapacityPool(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -50611,15 +50612,15 @@ func ListDashboardGrafana(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -50660,15 +50661,15 @@ func GetDashboardGrafana(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -50847,15 +50848,15 @@ func ListDesktopVirtualizationHostPool(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -50897,15 +50898,15 @@ func GetDesktopVirtualizationHostPool(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -51084,15 +51085,15 @@ func ListDesktopVirtualizationWorkspace(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -51134,15 +51135,15 @@ func GetDesktopVirtualizationWorkspace(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -51321,15 +51322,15 @@ func ListDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -51371,15 +51372,15 @@ func GetDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -51558,15 +51559,15 @@ func ListPurviewAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -51608,15 +51609,15 @@ func GetPurviewAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -51795,15 +51796,15 @@ func ListPowerBIDedicatedCapacity(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -51845,15 +51846,15 @@ func GetPowerBIDedicatedCapacity(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -52056,15 +52057,15 @@ func ListApplicationInsightsComponent(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
@@ -52130,15 +52131,15 @@ func GetApplicationInsightsComponent(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
 		return nil, err
 	}
-	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
 		return nil, err
 	}
-	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
 		return nil, err
 	}
