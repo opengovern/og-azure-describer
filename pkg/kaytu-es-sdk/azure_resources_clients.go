@@ -204,7 +204,20 @@ func ListAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAPIManagementPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAPIManagementFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewAPIManagementPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAPIManagementFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -278,8 +291,21 @@ func GetAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewAPIManagementPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAPIManagementFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAPIManagementPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAPIManagementFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -463,7 +489,20 @@ func ListAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAutomationAccountsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAutomationAccountsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewAutomationAccountsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAutomationAccountsFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -511,8 +550,21 @@ func GetAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewAutomationAccountsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAutomationAccountsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAutomationAccountsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAutomationAccountsFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -693,7 +745,20 @@ func ListAutomationVariables(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAutomationVariablesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAutomationVariablesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewAutomationVariablesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAutomationVariablesFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -738,8 +803,21 @@ func GetAutomationVariables(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewAutomationVariablesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAutomationVariablesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAutomationVariablesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAutomationVariablesFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -921,7 +999,20 @@ func ListAppConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppConfigurationFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewAppConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppConfigurationFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -967,8 +1058,21 @@ func GetAppConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewAppConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppConfigurationFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAppConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppConfigurationFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1154,7 +1258,20 @@ func ListAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppServiceEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServiceEnvironmentFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewAppServiceEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServiceEnvironmentFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1205,8 +1322,21 @@ func GetAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewAppServiceEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppServiceEnvironmentFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAppServiceEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppServiceEnvironmentFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1396,7 +1526,20 @@ func ListAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppServiceFunctionAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServiceFunctionAppFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewAppServiceFunctionAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServiceFunctionAppFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1451,8 +1594,21 @@ func GetAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewAppServiceFunctionAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppServiceFunctionAppFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAppServiceFunctionAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppServiceFunctionAppFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1644,7 +1800,20 @@ func ListAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppServiceWebAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServiceWebAppFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewAppServiceWebAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServiceWebAppFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1701,8 +1870,21 @@ func GetAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewAppServiceWebAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppServiceWebAppFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAppServiceWebAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppServiceWebAppFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1911,7 +2093,20 @@ func ListAppServiceWebAppSlot(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppServiceWebAppSlotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServiceWebAppSlotFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewAppServiceWebAppSlotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServiceWebAppSlotFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1984,8 +2179,21 @@ func GetAppServiceWebAppSlot(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewAppServiceWebAppSlotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppServiceWebAppSlotFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAppServiceWebAppSlotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppServiceWebAppSlotFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2176,7 +2384,20 @@ func ListAppServicePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppServicePlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServicePlanFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewAppServicePlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServicePlanFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2232,8 +2453,21 @@ func GetAppServicePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewAppServicePlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppServicePlanFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAppServicePlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppServicePlanFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2407,7 +2641,20 @@ func ListContainerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewContainerAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listContainerAppFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewContainerAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listContainerAppFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2445,8 +2692,21 @@ func GetContainerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewContainerAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, getContainerAppFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewContainerAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, getContainerAppFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2620,7 +2880,20 @@ func ListAppManagedEnvironment(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppManagedEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppManagedEnvironmentFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewAppManagedEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppManagedEnvironmentFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2658,8 +2931,21 @@ func GetAppManagedEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewAppManagedEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppManagedEnvironmentFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAppManagedEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppManagedEnvironmentFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2833,7 +3119,20 @@ func ListWebServerFarms(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWebServerFarmsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWebServerFarmsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewWebServerFarmsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWebServerFarmsFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2871,8 +3170,21 @@ func GetWebServerFarms(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewWebServerFarmsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWebServerFarmsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWebServerFarmsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWebServerFarmsFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3046,7 +3358,20 @@ func ListBlueprint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBlueprintPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBlueprintFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewBlueprintPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBlueprintFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3084,8 +3409,21 @@ func GetBlueprint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewBlueprintPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBlueprintFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBlueprintPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBlueprintFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3296,7 +3634,20 @@ func ListComputeDisk(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeDiskPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3371,8 +3722,21 @@ func GetComputeDisk(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeDiskPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3542,7 +3906,20 @@ func ListComputeDiskReadOps(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskReadOpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskReadOpsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeDiskReadOpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskReadOpsFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3576,8 +3953,21 @@ func GetComputeDiskReadOps(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskReadOpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskReadOpsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeDiskReadOpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskReadOpsFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3747,7 +4137,20 @@ func ListComputeDiskReadOpsDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskReadOpsDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskReadOpsDailyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeDiskReadOpsDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskReadOpsDailyFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3781,8 +4184,21 @@ func GetComputeDiskReadOpsDaily(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskReadOpsDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskReadOpsDailyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeDiskReadOpsDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskReadOpsDailyFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3952,7 +4368,20 @@ func ListComputeDiskReadOpsHourly(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskReadOpsHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskReadOpsHourlyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeDiskReadOpsHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskReadOpsHourlyFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3986,8 +4415,21 @@ func GetComputeDiskReadOpsHourly(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskReadOpsHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskReadOpsHourlyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeDiskReadOpsHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskReadOpsHourlyFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4157,7 +4599,20 @@ func ListComputeDiskWriteOps(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskWriteOpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskWriteOpsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeDiskWriteOpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskWriteOpsFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4191,8 +4646,21 @@ func GetComputeDiskWriteOps(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskWriteOpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskWriteOpsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeDiskWriteOpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskWriteOpsFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4362,7 +4830,20 @@ func ListComputeDiskWriteOpsDaily(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskWriteOpsDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskWriteOpsDailyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeDiskWriteOpsDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskWriteOpsDailyFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4396,8 +4877,21 @@ func GetComputeDiskWriteOpsDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskWriteOpsDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskWriteOpsDailyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeDiskWriteOpsDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskWriteOpsDailyFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4567,7 +5061,20 @@ func ListComputeDiskWriteOpsHourly(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskWriteOpsHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskWriteOpsHourlyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeDiskWriteOpsHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskWriteOpsHourlyFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4601,8 +5108,21 @@ func GetComputeDiskWriteOpsHourly(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskWriteOpsHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskWriteOpsHourlyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeDiskWriteOpsHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskWriteOpsHourlyFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4779,7 +5299,20 @@ func ListComputeDiskAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskAccessPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskAccessFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeDiskAccessPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskAccessFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4820,8 +5353,21 @@ func GetComputeDiskAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskAccessPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskAccessFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeDiskAccessPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskAccessFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5020,7 +5566,20 @@ func ListComputeVirtualMachineScaleSet(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineScaleSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineScaleSetFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeVirtualMachineScaleSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineScaleSetFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5083,8 +5642,21 @@ func GetComputeVirtualMachineScaleSet(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineScaleSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeVirtualMachineScaleSetFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeVirtualMachineScaleSetFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5262,7 +5834,20 @@ func ListComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, d *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineScaleSetNetworkInterfaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineScaleSetNetworkInterfaceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5304,8 +5889,21 @@ func GetComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, d *pl
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeVirtualMachineScaleSetNetworkInterfaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeVirtualMachineScaleSetNetworkInterfaceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5507,7 +6105,20 @@ func ListComputeVirtualMachineScaleSetVm(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineScaleSetVmPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineScaleSetVmFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeVirtualMachineScaleSetVmPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineScaleSetVmFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5573,8 +6184,21 @@ func GetComputeVirtualMachineScaleSetVm(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineScaleSetVmPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeVirtualMachineScaleSetVmFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeVirtualMachineScaleSetVmPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeVirtualMachineScaleSetVmFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5776,7 +6400,20 @@ func ListComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeSnapshotsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeSnapshotsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeSnapshotsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeSnapshotsFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5842,8 +6479,21 @@ func GetComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeSnapshotsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeSnapshotsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeSnapshotsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeSnapshotsFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6027,7 +6677,20 @@ func ListComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeAvailabilitySetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeAvailabilitySetFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeAvailabilitySetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeAvailabilitySetFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6075,8 +6738,21 @@ func GetComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeAvailabilitySetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeAvailabilitySetFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeAvailabilitySetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeAvailabilitySetFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6260,7 +6936,20 @@ func ListComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeDiskEncryptionSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskEncryptionSetFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeDiskEncryptionSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskEncryptionSetFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6308,8 +6997,21 @@ func GetComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeDiskEncryptionSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskEncryptionSetFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeDiskEncryptionSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeDiskEncryptionSetFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6483,7 +7185,20 @@ func ListComputeImageGallery(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeImageGalleryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeImageGalleryFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeImageGalleryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeImageGalleryFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6522,8 +7237,21 @@ func GetComputeImageGallery(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeImageGalleryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeImageGalleryFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeImageGalleryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeImageGalleryFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6713,7 +7441,20 @@ func ListComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeImageFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeImageFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6767,8 +7508,21 @@ func GetComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeImageFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeImageFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6941,7 +7695,20 @@ func ListComputeHostGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeHostGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeHostGroupFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeHostGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeHostGroupFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6978,8 +7745,21 @@ func GetComputeHostGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeHostGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeHostGroupFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeHostGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeHostGroupFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7152,7 +7932,20 @@ func ListComputeHostGroupHost(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeHostGroupHostPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeHostGroupHostFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeHostGroupHostPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeHostGroupHostFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7189,8 +7982,21 @@ func GetComputeHostGroupHost(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeHostGroupHostPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeHostGroupHostFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeHostGroupHostPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeHostGroupHostFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7363,7 +8169,20 @@ func ListComputeRestorePointCollection(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeRestorePointCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeRestorePointCollectionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeRestorePointCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeRestorePointCollectionFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7400,8 +8219,21 @@ func GetComputeRestorePointCollection(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeRestorePointCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeRestorePointCollectionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeRestorePointCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeRestorePointCollectionFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7577,7 +8409,20 @@ func ListComputeSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeSSHPublicKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeSSHPublicKeyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeSSHPublicKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeSSHPublicKeyFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7617,8 +8462,21 @@ func GetComputeSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeSSHPublicKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeSSHPublicKeyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeSSHPublicKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeSSHPublicKeyFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7812,7 +8670,20 @@ func ListDataboxEdgeDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataboxEdgeDevicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataboxEdgeDeviceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDataboxEdgeDevicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataboxEdgeDeviceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7870,8 +8741,21 @@ func GetDataboxEdgeDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDataboxEdgeDevicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataboxEdgeDeviceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDataboxEdgeDevicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataboxEdgeDeviceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8063,7 +8947,20 @@ func ListHealthcareService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewHealthcareServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listHealthcareServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewHealthcareServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listHealthcareServiceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8119,8 +9016,21 @@ func GetHealthcareService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewHealthcareServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getHealthcareServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewHealthcareServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getHealthcareServiceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8307,7 +9217,20 @@ func ListHpcCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewHpcCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, listHpcCacheFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewHpcCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, listHpcCacheFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8358,8 +9281,21 @@ func GetHpcCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewHpcCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, getHpcCacheFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewHpcCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, getHpcCacheFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8544,7 +9480,20 @@ func ListKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultKeyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewKeyVaultKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultKeyFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8594,8 +9543,21 @@ func GetKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyVaultKeyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKeyVaultKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyVaultKeyFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8783,7 +9745,20 @@ func ListKeyVaultKeyVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultKeyVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultKeyVersionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewKeyVaultKeyVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultKeyVersionFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8835,8 +9810,21 @@ func GetKeyVaultKeyVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultKeyVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyVaultKeyVersionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKeyVaultKeyVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyVaultKeyVersionFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9040,7 +10028,20 @@ func ListKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKubernetesClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKubernetesClusterFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewKubernetesClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKubernetesClusterFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9108,8 +10109,21 @@ func GetKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewKubernetesClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKubernetesClusterFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKubernetesClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKubernetesClusterFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9288,7 +10302,20 @@ func ListKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKubernetesServiceVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKubernetesServiceVersionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewKubernetesServiceVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKubernetesServiceVersionFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9332,8 +10359,21 @@ func GetKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewKubernetesServiceVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKubernetesServiceVersionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKubernetesServiceVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKubernetesServiceVersionFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9524,7 +10564,20 @@ func ListContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewContainerInstanceContainerGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listContainerInstanceContainerGroupFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewContainerInstanceContainerGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listContainerInstanceContainerGroupFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9579,8 +10632,21 @@ func GetContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewContainerInstanceContainerGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getContainerInstanceContainerGroupFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewContainerInstanceContainerGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getContainerInstanceContainerGroupFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9754,7 +10820,20 @@ func ListCDNProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCDNProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCDNProfileFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewCDNProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCDNProfileFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9792,8 +10871,21 @@ func GetCDNProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewCDNProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCDNProfileFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCDNProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCDNProfileFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9966,7 +11058,20 @@ func ListCDNEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCDNEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCDNEndpointFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewCDNEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCDNEndpointFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10003,8 +11108,21 @@ func GetCDNEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewCDNEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCDNEndpointFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCDNEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCDNEndpointFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10197,7 +11315,20 @@ func ListNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkInterfacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkInterfaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewNetworkInterfacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkInterfaceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10254,8 +11385,21 @@ func GetNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewNetworkInterfacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkInterfaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNetworkInterfacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkInterfaceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10443,7 +11587,20 @@ func ListNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkWatcherFlowLogPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkWatcherFlowLogFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewNetworkWatcherFlowLogPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkWatcherFlowLogFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10495,8 +11652,21 @@ func GetNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewNetworkWatcherFlowLogPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkWatcherFlowLogFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNetworkWatcherFlowLogPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkWatcherFlowLogFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10675,7 +11845,20 @@ func ListRouteTables(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRouteTablesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRouteTablesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewRouteTablesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRouteTablesFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10719,8 +11902,21 @@ func GetRouteTables(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewRouteTablesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRouteTablesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRouteTablesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRouteTablesFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10898,7 +12094,20 @@ func ListNetworkApplicationSecurityGroups(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkApplicationSecurityGroupsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkApplicationSecurityGroupsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewNetworkApplicationSecurityGroupsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkApplicationSecurityGroupsFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10940,8 +12149,21 @@ func GetNetworkApplicationSecurityGroups(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewNetworkApplicationSecurityGroupsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkApplicationSecurityGroupsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNetworkApplicationSecurityGroupsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkApplicationSecurityGroupsFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11133,7 +12355,20 @@ func ListNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkAzureFirewallPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkAzureFirewallFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewNetworkAzureFirewallPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkAzureFirewallFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11189,8 +12424,21 @@ func GetNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewNetworkAzureFirewallPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkAzureFirewallFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNetworkAzureFirewallPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkAzureFirewallFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11381,7 +12629,20 @@ func ListExpressRouteCircuit(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewExpressRouteCircuitPaginator(essdk.BuildFilter(ctx, d.QueryContext, listExpressRouteCircuitFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewExpressRouteCircuitPaginator(essdk.BuildFilter(ctx, d.QueryContext, listExpressRouteCircuitFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11436,8 +12697,21 @@ func GetExpressRouteCircuit(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewExpressRouteCircuitPaginator(essdk.BuildFilter(ctx, d.QueryContext, getExpressRouteCircuitFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewExpressRouteCircuitPaginator(essdk.BuildFilter(ctx, d.QueryContext, getExpressRouteCircuitFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11633,7 +12907,20 @@ func ListVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVirtualNetworkGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualNetworkGatewayFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewVirtualNetworkGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualNetworkGatewayFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11693,8 +12980,21 @@ func GetVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewVirtualNetworkGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getVirtualNetworkGatewayFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewVirtualNetworkGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getVirtualNetworkGatewayFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11885,7 +13185,20 @@ func ListFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewFirewallPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFirewallPolicyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewFirewallPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFirewallPolicyFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11940,8 +13253,21 @@ func GetFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewFirewallPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFirewallPolicyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewFirewallPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFirewallPolicyFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12115,7 +13441,20 @@ func ListLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLocalNetworkGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLocalNetworkGatewayFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewLocalNetworkGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLocalNetworkGatewayFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12154,8 +13493,21 @@ func GetLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewLocalNetworkGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLocalNetworkGatewayFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLocalNetworkGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLocalNetworkGatewayFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12334,7 +13686,20 @@ func ListNatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNatGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNatGatewayFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewNatGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNatGatewayFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12377,8 +13742,21 @@ func GetNatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewNatGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNatGatewayFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNatGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNatGatewayFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12552,7 +13930,20 @@ func ListPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPrivateLinkServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listPrivateLinkServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewPrivateLinkServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listPrivateLinkServiceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12591,8 +13982,21 @@ func GetPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewPrivateLinkServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getPrivateLinkServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewPrivateLinkServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getPrivateLinkServiceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12766,7 +14170,20 @@ func ListVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVpnGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVpnGatewayFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewVpnGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVpnGatewayFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12805,8 +14222,21 @@ func GetVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewVpnGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getVpnGatewayFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewVpnGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getVpnGatewayFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12980,7 +14410,20 @@ func ListVpnGatewayVpnConnection(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVpnGatewayVpnConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVpnGatewayVpnConnectionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewVpnGatewayVpnConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVpnGatewayVpnConnectionFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13018,8 +14461,21 @@ func GetVpnGatewayVpnConnection(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewVpnGatewayVpnConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getVpnGatewayVpnConnectionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewVpnGatewayVpnConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getVpnGatewayVpnConnectionFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13193,7 +14649,20 @@ func ListVpnSite(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVpnSitePaginator(essdk.BuildFilter(ctx, d.QueryContext, listVpnSiteFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewVpnSitePaginator(essdk.BuildFilter(ctx, d.QueryContext, listVpnSiteFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13231,8 +14700,21 @@ func GetVpnSite(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewVpnSitePaginator(essdk.BuildFilter(ctx, d.QueryContext, getVpnSiteFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewVpnSitePaginator(essdk.BuildFilter(ctx, d.QueryContext, getVpnSiteFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13426,7 +14908,20 @@ func ListPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPublicIPAddressPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPublicIPAddressFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewPublicIPAddressPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPublicIPAddressFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13484,8 +14979,21 @@ func GetPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewPublicIPAddressPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPublicIPAddressFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewPublicIPAddressPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPublicIPAddressFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13659,7 +15167,20 @@ func ListPublicIPPrefix(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPublicIPPrefixPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPublicIPPrefixFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewPublicIPPrefixPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPublicIPPrefixFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13697,8 +15218,21 @@ func GetPublicIPPrefix(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewPublicIPPrefixPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPublicIPPrefixFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewPublicIPPrefixPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPublicIPPrefixFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13882,7 +15416,20 @@ func ListDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDNSZonesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDNSZonesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDNSZonesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDNSZonesFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13930,8 +15477,21 @@ func GetDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDNSZonesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDNSZonesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDNSZonesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDNSZonesFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14112,7 +15672,20 @@ func ListBastionHosts(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBastionHostsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBastionHostsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewBastionHostsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBastionHostsFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14157,8 +15730,21 @@ func GetBastionHosts(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewBastionHostsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBastionHostsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBastionHostsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBastionHostsFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14332,7 +15918,20 @@ func ListConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listConnectionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listConnectionFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14370,8 +15969,21 @@ func GetConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getConnectionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getConnectionFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14545,7 +16157,20 @@ func ListVirtualHubs(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVirtualHubsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualHubsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewVirtualHubsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualHubsFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14583,8 +16208,21 @@ func GetVirtualHubs(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewVirtualHubsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getVirtualHubsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewVirtualHubsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getVirtualHubsFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14758,7 +16396,20 @@ func ListVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVirtualWansPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualWansFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewVirtualWansPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualWansFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14796,8 +16447,21 @@ func GetVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewVirtualWansPaginator(essdk.BuildFilter(ctx, d.QueryContext, getVirtualWansFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewVirtualWansPaginator(essdk.BuildFilter(ctx, d.QueryContext, getVirtualWansFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14971,7 +16635,20 @@ func ListDNSResolver(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDNSResolverPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDNSResolverFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDNSResolverPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDNSResolverFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15009,8 +16686,21 @@ func GetDNSResolver(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDNSResolverPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDNSResolverFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDNSResolverPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDNSResolverFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15183,7 +16873,20 @@ func ListTrafficManagerProfile(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewTrafficManagerProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, listTrafficManagerProfileFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewTrafficManagerProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, listTrafficManagerProfileFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15220,8 +16923,21 @@ func GetTrafficManagerProfile(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewTrafficManagerProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, getTrafficManagerProfileFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewTrafficManagerProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, getTrafficManagerProfileFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15405,7 +17121,20 @@ func ListPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPrivateDNSZonesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPrivateDNSZonesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewPrivateDNSZonesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPrivateDNSZonesFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15453,8 +17182,21 @@ func GetPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewPrivateDNSZonesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPrivateDNSZonesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewPrivateDNSZonesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPrivateDNSZonesFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15628,7 +17370,20 @@ func ListPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPrivateEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPrivateEndpointFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewPrivateEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPrivateEndpointFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15666,8 +17421,21 @@ func GetPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewPrivateEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPrivateEndpointFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewPrivateEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPrivateEndpointFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15840,7 +17608,20 @@ func ListNetworkDDoSProtectionPlan(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkDDoSProtectionPlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkDDoSProtectionPlanFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewNetworkDDoSProtectionPlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkDDoSProtectionPlanFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15877,8 +17658,21 @@ func GetNetworkDDoSProtectionPlan(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewNetworkDDoSProtectionPlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkDDoSProtectionPlanFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNetworkDDoSProtectionPlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkDDoSProtectionPlanFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16063,7 +17857,20 @@ func ListPolicyAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPolicyAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPolicyAssignmentFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewPolicyAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPolicyAssignmentFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16112,8 +17919,21 @@ func GetPolicyAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewPolicyAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPolicyAssignmentFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewPolicyAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPolicyAssignmentFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16310,7 +18130,20 @@ func ListRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRedisCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedisCacheFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewRedisCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedisCacheFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16371,8 +18204,21 @@ func GetRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewRedisCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedisCacheFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRedisCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedisCacheFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16546,7 +18392,20 @@ func ListRedisEnterpriseCache(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRedisEnterpriseCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedisEnterpriseCacheFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewRedisEnterpriseCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedisEnterpriseCacheFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16584,8 +18443,21 @@ func GetRedisEnterpriseCache(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewRedisEnterpriseCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedisEnterpriseCacheFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRedisEnterpriseCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedisEnterpriseCacheFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16763,7 +18635,20 @@ func ListResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewResourceLinkPaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceLinkFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewResourceLinkPaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceLinkFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16805,8 +18690,21 @@ func GetResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewResourceLinkPaginator(essdk.BuildFilter(ctx, d.QueryContext, getResourceLinkFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewResourceLinkPaginator(essdk.BuildFilter(ctx, d.QueryContext, getResourceLinkFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16984,7 +18882,20 @@ func ListRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRoleAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoleAssignmentFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewRoleAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoleAssignmentFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17026,8 +18937,21 @@ func GetRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewRoleAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoleAssignmentFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRoleAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoleAssignmentFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17205,7 +19129,20 @@ func ListRoleDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRoleDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoleDefinitionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewRoleDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoleDefinitionFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17247,8 +19184,21 @@ func GetRoleDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewRoleDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoleDefinitionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRoleDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoleDefinitionFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17430,7 +19380,20 @@ func ListPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPolicyDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPolicyDefinitionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewPolicyDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPolicyDefinitionFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17476,8 +19439,21 @@ func GetPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewPolicyDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPolicyDefinitionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewPolicyDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPolicyDefinitionFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17652,7 +19628,20 @@ func ListSecurityCenterAutoProvisioning(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterAutoProvisioningPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterAutoProvisioningFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSecurityCenterAutoProvisioningPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterAutoProvisioningFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17691,8 +19680,21 @@ func GetSecurityCenterAutoProvisioning(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterAutoProvisioningPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityCenterAutoProvisioningFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityCenterAutoProvisioningPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityCenterAutoProvisioningFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17870,7 +19872,20 @@ func ListSecurityCenterContact(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterContactPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterContactFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSecurityCenterContactPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterContactFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17912,8 +19927,21 @@ func GetSecurityCenterContact(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterContactPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityCenterContactFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityCenterContactPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityCenterContactFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18090,7 +20118,20 @@ func ListSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.Que
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterJitNetworkAccessPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterJitNetworkAccessPolicyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSecurityCenterJitNetworkAccessPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterJitNetworkAccessPolicyFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18131,8 +20172,21 @@ func GetSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.Quer
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterJitNetworkAccessPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityCenterJitNetworkAccessPolicyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityCenterJitNetworkAccessPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityCenterJitNetworkAccessPolicyFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18308,7 +20362,20 @@ func ListSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterSettingFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSecurityCenterSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterSettingFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18348,8 +20415,21 @@ func GetSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityCenterSettingFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityCenterSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityCenterSettingFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18525,7 +20605,20 @@ func ListSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterSubscriptionPricingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterSubscriptionPricingFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSecurityCenterSubscriptionPricingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterSubscriptionPricingFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18565,8 +20658,21 @@ func GetSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterSubscriptionPricingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityCenterSubscriptionPricingFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityCenterSubscriptionPricingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityCenterSubscriptionPricingFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18749,7 +20855,20 @@ func ListSecurityCenterAutomation(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterAutomationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterAutomationFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSecurityCenterAutomationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterAutomationFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18796,8 +20915,21 @@ func GetSecurityCenterAutomation(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterAutomationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityCenterAutomationFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityCenterAutomationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityCenterAutomationFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18978,7 +21110,20 @@ func ListSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityCenterSubAssessmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterSubAssessmentFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSecurityCenterSubAssessmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterSubAssessmentFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19023,8 +21168,21 @@ func GetSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSecurityCenterSubAssessmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityCenterSubAssessmentFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityCenterSubAssessmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityCenterSubAssessmentFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19214,7 +21372,20 @@ func ListStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageContainerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageContainerFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19268,8 +21439,21 @@ func GetStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageContainerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageContainerFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19484,7 +21668,20 @@ func ListStorageBlob(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageBlobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageBlobFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewStorageBlobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageBlobFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19562,8 +21759,21 @@ func GetStorageBlob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewStorageBlobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageBlobFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStorageBlobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageBlobFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19749,7 +21959,20 @@ func ListStorageBlobService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageBlobServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageBlobServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewStorageBlobServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageBlobServiceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19799,8 +22022,21 @@ func GetStorageBlobService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewStorageBlobServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageBlobServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStorageBlobServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageBlobServiceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19977,7 +22213,20 @@ func ListStorageQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageQueuePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageQueueFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewStorageQueuePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageQueueFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20018,8 +22267,21 @@ func GetStorageQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewStorageQueuePaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageQueueFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStorageQueuePaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageQueueFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20205,7 +22467,20 @@ func ListStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageFileSharePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageFileShareFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewStorageFileSharePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageFileShareFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20254,8 +22529,21 @@ func GetStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewStorageFileSharePaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageFileShareFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStorageFileSharePaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageFileShareFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20431,7 +22719,20 @@ func ListStorageTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageTableFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewStorageTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageTableFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20470,8 +22771,21 @@ func GetStorageTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewStorageTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageTableFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStorageTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageTableFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20648,7 +22962,20 @@ func ListStorageTableService(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageTableServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageTableServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewStorageTableServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageTableServiceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20688,8 +23015,21 @@ func GetStorageTableService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewStorageTableServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageTableServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStorageTableServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageTableServiceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20875,7 +23215,20 @@ func ListSubnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSubnetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSubnetFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSubnetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSubnetFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20926,8 +23279,21 @@ func GetSubnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSubnetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSubnetFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSubnetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSubnetFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21111,7 +23477,20 @@ func ListVirtualNetwork(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVirtualNetworkPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualNetworkFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewVirtualNetworkPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualNetworkFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21159,8 +23538,21 @@ func GetVirtualNetwork(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewVirtualNetworkPaginator(essdk.BuildFilter(ctx, d.QueryContext, getVirtualNetworkFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewVirtualNetworkPaginator(essdk.BuildFilter(ctx, d.QueryContext, getVirtualNetworkFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21336,7 +23728,20 @@ func ListTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewTenantPaginator(essdk.BuildFilter(ctx, d.QueryContext, listTenantFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewTenantPaginator(essdk.BuildFilter(ctx, d.QueryContext, listTenantFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21376,8 +23781,21 @@ func GetTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewTenantPaginator(essdk.BuildFilter(ctx, d.QueryContext, getTenantFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewTenantPaginator(essdk.BuildFilter(ctx, d.QueryContext, getTenantFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21556,7 +23974,20 @@ func ListSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSubscriptionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSubscriptionFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21599,8 +24030,21 @@ func GetSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSubscriptionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSubscriptionFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21793,7 +24237,20 @@ func ListApplicationGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApplicationGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApplicationGatewayFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewApplicationGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApplicationGatewayFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21850,8 +24307,21 @@ func GetApplicationGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewApplicationGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApplicationGatewayFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApplicationGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApplicationGatewayFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22043,7 +24513,20 @@ func ListBatchAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBatchAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBatchAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewBatchAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBatchAccountFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22099,8 +24582,21 @@ func GetBatchAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewBatchAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBatchAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBatchAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBatchAccountFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22302,7 +24798,20 @@ func ListCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCognitiveAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCognitiveAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewCognitiveAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCognitiveAccountFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22368,8 +24877,21 @@ func GetCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewCognitiveAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCognitiveAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCognitiveAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCognitiveAccountFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22592,7 +25114,20 @@ func ListComputeVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeVirtualMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22679,8 +25214,21 @@ func GetComputeVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeVirtualMachineFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeVirtualMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeVirtualMachineFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22863,7 +25411,20 @@ func ListComputeResourceSKU(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeResourceSKUPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeResourceSKUFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeResourceSKUPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeResourceSKUFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22910,8 +25471,21 @@ func GetComputeResourceSKU(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeResourceSKUPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeResourceSKUFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeResourceSKUPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeResourceSKUFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23081,7 +25655,20 @@ func ListComputeVirtualMachineCpuUtilization(ctx context.Context, d *plugin.Quer
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineCpuUtilizationFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineCpuUtilizationFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23115,8 +25702,21 @@ func GetComputeVirtualMachineCpuUtilization(ctx context.Context, d *plugin.Query
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeVirtualMachineCpuUtilizationFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeVirtualMachineCpuUtilizationFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23286,7 +25886,20 @@ func ListComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, d *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineCpuUtilizationDailyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineCpuUtilizationDailyFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23320,8 +25933,21 @@ func GetComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, d *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeVirtualMachineCpuUtilizationDailyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeVirtualMachineCpuUtilizationDailyFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23491,7 +26117,20 @@ func ListComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, d *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineCpuUtilizationHourlyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineCpuUtilizationHourlyFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23525,8 +26164,21 @@ func GetComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, d *plugin
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeVirtualMachineCpuUtilizationHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeVirtualMachineCpuUtilizationHourlyFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeVirtualMachineCpuUtilizationHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeVirtualMachineCpuUtilizationHourlyFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23700,7 +26352,20 @@ func ListComputeCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewComputeCloudServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeCloudServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewComputeCloudServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeCloudServiceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23738,8 +26403,21 @@ func GetComputeCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewComputeCloudServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeCloudServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewComputeCloudServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getComputeCloudServiceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23936,7 +26614,20 @@ func ListContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewContainerRegistryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listContainerRegistryFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewContainerRegistryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listContainerRegistryFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23997,8 +26688,21 @@ func GetContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewContainerRegistryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getContainerRegistryFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewContainerRegistryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getContainerRegistryFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24200,7 +26904,20 @@ func ListCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCosmosdbAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewCosmosdbAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbAccountFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24267,8 +26984,21 @@ func GetCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewCosmosdbAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCosmosdbAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCosmosdbAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCosmosdbAccountFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24448,7 +27178,20 @@ func ListCosmosdbRestorableDatabaseAccount(ctx context.Context, d *plugin.QueryD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCosmosdbRestorableDatabaseAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbRestorableDatabaseAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewCosmosdbRestorableDatabaseAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbRestorableDatabaseAccountFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24492,8 +27235,21 @@ func GetCosmosdbRestorableDatabaseAccount(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewCosmosdbRestorableDatabaseAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCosmosdbRestorableDatabaseAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCosmosdbRestorableDatabaseAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCosmosdbRestorableDatabaseAccountFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24674,7 +27430,20 @@ func ListCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCosmosdbMongoDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbMongoDatabaseFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewCosmosdbMongoDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbMongoDatabaseFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24720,8 +27489,21 @@ func GetCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewCosmosdbMongoDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCosmosdbMongoDatabaseFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCosmosdbMongoDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCosmosdbMongoDatabaseFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24908,7 +27690,20 @@ func ListCosmosdbMongoCollection(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCosmosdbMongoCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbMongoCollectionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewCosmosdbMongoCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbMongoCollectionFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24959,8 +27754,21 @@ func GetCosmosdbMongoCollection(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewCosmosdbMongoCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCosmosdbMongoCollectionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCosmosdbMongoCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCosmosdbMongoCollectionFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25143,7 +27951,20 @@ func ListCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCosmosdbSqlDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbSqlDatabaseFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewCosmosdbSqlDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbSqlDatabaseFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25191,8 +28012,21 @@ func GetCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewCosmosdbSqlDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCosmosdbSqlDatabaseFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCosmosdbSqlDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCosmosdbSqlDatabaseFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25365,7 +28199,20 @@ func ListCosmosdbCassandraCluster(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCosmosdbCassandraClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbCassandraClusterFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewCosmosdbCassandraClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbCassandraClusterFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25402,8 +28249,21 @@ func GetCosmosdbCassandraCluster(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewCosmosdbCassandraClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCosmosdbCassandraClusterFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCosmosdbCassandraClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCosmosdbCassandraClusterFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25577,7 +28437,20 @@ func ListDatabricksWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDatabricksWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDatabricksWorkspaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDatabricksWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDatabricksWorkspaceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25615,8 +28488,21 @@ func GetDatabricksWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDatabricksWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDatabricksWorkspaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDatabricksWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDatabricksWorkspaceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25790,7 +28676,20 @@ func ListDataMigrationService(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataMigrationServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataMigrationServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDataMigrationServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataMigrationServiceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25828,8 +28727,21 @@ func GetDataMigrationService(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDataMigrationServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataMigrationServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDataMigrationServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataMigrationServiceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26003,7 +28915,20 @@ func ListDataProtectionBackupVaults(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataProtectionBackupVaultsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataProtectionBackupVaultsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDataProtectionBackupVaultsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataProtectionBackupVaultsFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26041,8 +28966,21 @@ func GetDataProtectionBackupVaults(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDataProtectionBackupVaultsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataProtectionBackupVaultsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDataProtectionBackupVaultsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataProtectionBackupVaultsFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26216,7 +29154,20 @@ func ListDataProtectionBackupVaultsBackupPolicies(ctx context.Context, d *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataProtectionBackupVaultsBackupPoliciesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataProtectionBackupVaultsBackupPoliciesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDataProtectionBackupVaultsBackupPoliciesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataProtectionBackupVaultsBackupPoliciesFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26254,8 +29205,21 @@ func GetDataProtectionBackupVaultsBackupPolicies(ctx context.Context, d *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDataProtectionBackupVaultsBackupPoliciesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataProtectionBackupVaultsBackupPoliciesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDataProtectionBackupVaultsBackupPoliciesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataProtectionBackupVaultsBackupPoliciesFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26441,7 +29405,20 @@ func ListDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataFactoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataFactoryFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDataFactoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataFactoryFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26491,8 +29468,21 @@ func GetDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDataFactoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataFactoryFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDataFactoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataFactoryFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26670,7 +29660,20 @@ func ListDataFactoryDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataFactoryDatasetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataFactoryDatasetFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDataFactoryDatasetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataFactoryDatasetFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26712,8 +29715,21 @@ func GetDataFactoryDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDataFactoryDatasetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataFactoryDatasetFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDataFactoryDatasetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataFactoryDatasetFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26899,7 +29915,20 @@ func ListDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataFactoryPipelinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataFactoryPipelineFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDataFactoryPipelinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataFactoryPipelineFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26949,8 +29978,21 @@ func GetDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDataFactoryPipelinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataFactoryPipelineFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDataFactoryPipelinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataFactoryPipelineFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27147,7 +30189,20 @@ func ListDataLakeAnalyticsAccount(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataLakeAnalyticsAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataLakeAnalyticsAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDataLakeAnalyticsAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataLakeAnalyticsAccountFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27208,8 +30263,21 @@ func GetDataLakeAnalyticsAccount(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDataLakeAnalyticsAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataLakeAnalyticsAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDataLakeAnalyticsAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataLakeAnalyticsAccountFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27403,7 +30471,20 @@ func ListDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDataLakeStorePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataLakeStoreFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDataLakeStorePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataLakeStoreFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27461,8 +30542,21 @@ func GetDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDataLakeStorePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataLakeStoreFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDataLakeStorePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDataLakeStoreFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27645,7 +30739,20 @@ func ListDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDiagnosticSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDiagnosticSettingFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDiagnosticSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDiagnosticSettingFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27692,8 +30799,21 @@ func GetDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDiagnosticSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDiagnosticSettingFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDiagnosticSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDiagnosticSettingFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27888,7 +31008,20 @@ func ListEventGridDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEventGridDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventGridDomainFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewEventGridDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventGridDomainFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27947,8 +31080,21 @@ func GetEventGridDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewEventGridDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEventGridDomainFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEventGridDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEventGridDomainFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28141,7 +31287,20 @@ func ListEventGridTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEventGridTopicPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventGridTopicFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewEventGridTopicPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventGridTopicFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28198,8 +31357,21 @@ func GetEventGridTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewEventGridTopicPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEventGridTopicFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEventGridTopicPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEventGridTopicFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28391,7 +31563,20 @@ func ListEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEventhubNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventhubNamespaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewEventhubNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventhubNamespaceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28447,8 +31632,21 @@ func GetEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewEventhubNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEventhubNamespaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEventhubNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEventhubNamespaceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28622,7 +31820,20 @@ func ListEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEventhubNamespaceEventhubPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventhubNamespaceEventhubFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewEventhubNamespaceEventhubPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventhubNamespaceEventhubFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28660,8 +31871,21 @@ func GetEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewEventhubNamespaceEventhubPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEventhubNamespaceEventhubFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEventhubNamespaceEventhubPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEventhubNamespaceEventhubFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28850,7 +32074,20 @@ func ListFrontdoor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewFrontdoorPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFrontdoorFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewFrontdoorPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFrontdoorFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28903,8 +32140,21 @@ func GetFrontdoor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewFrontdoorPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFrontdoorFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewFrontdoorPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFrontdoorFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29105,7 +32355,20 @@ func ListHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewHdinsightClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listHdinsightClusterFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewHdinsightClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listHdinsightClusterFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29170,8 +32433,21 @@ func GetHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewHdinsightClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getHdinsightClusterFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewHdinsightClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getHdinsightClusterFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29367,7 +32643,20 @@ func ListHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewHybridComputeMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listHybridComputeMachineFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewHybridComputeMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listHybridComputeMachineFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29427,8 +32716,21 @@ func GetHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewHybridComputeMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getHybridComputeMachineFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewHybridComputeMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getHybridComputeMachineFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29626,7 +32928,20 @@ func ListIOTHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIOTHubPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIOTHubFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewIOTHubPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIOTHubFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29688,8 +33003,21 @@ func GetIOTHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewIOTHubPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIOTHubFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIOTHubPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIOTHubFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29878,7 +33206,20 @@ func ListIOTHubDps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIOTHubDpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIOTHubDpsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewIOTHubDpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIOTHubDpsFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29931,8 +33272,21 @@ func GetIOTHubDps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewIOTHubDpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIOTHubDpsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIOTHubDpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIOTHubDpsFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30122,7 +33476,20 @@ func ListKeyVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewKeyVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30176,8 +33543,21 @@ func GetKeyVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyVaultFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKeyVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyVaultFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30353,7 +33733,20 @@ func ListKeyVaultDeletedVault(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultDeletedVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultDeletedVaultFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewKeyVaultDeletedVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultDeletedVaultFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30394,8 +33787,21 @@ func GetKeyVaultDeletedVault(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultDeletedVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyVaultDeletedVaultFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKeyVaultDeletedVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyVaultDeletedVaultFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30582,7 +33988,20 @@ func ListKeyVaultManagedHardwareSecurityModule(ctx context.Context, d *plugin.Qu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultManagedHardwareSecurityModulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultManagedHardwareSecurityModuleFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewKeyVaultManagedHardwareSecurityModulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultManagedHardwareSecurityModuleFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30633,8 +34052,21 @@ func GetKeyVaultManagedHardwareSecurityModule(ctx context.Context, d *plugin.Que
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultManagedHardwareSecurityModulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyVaultManagedHardwareSecurityModuleFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKeyVaultManagedHardwareSecurityModulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyVaultManagedHardwareSecurityModuleFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30814,7 +34246,20 @@ func ListKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyVaultSecretPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultSecretFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewKeyVaultSecretPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultSecretFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30858,8 +34303,21 @@ func GetKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewKeyVaultSecretPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyVaultSecretFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKeyVaultSecretPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyVaultSecretFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31055,7 +34513,20 @@ func ListKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKustoClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKustoClusterFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewKustoClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKustoClusterFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31115,8 +34586,21 @@ func GetKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewKustoClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKustoClusterFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKustoClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKustoClusterFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31298,7 +34782,20 @@ func ListLogAlert(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLogAlertPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLogAlertFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewLogAlertPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLogAlertFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31344,8 +34841,21 @@ func GetLogAlert(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewLogAlertPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLogAlertFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLogAlertPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLogAlertFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31527,7 +35037,20 @@ func ListLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLogProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLogProfileFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewLogProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLogProfileFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31573,8 +35096,21 @@ func GetLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewLogProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, getLogProfileFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLogProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, getLogProfileFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31763,7 +35299,20 @@ func ListLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLogicAppWorkflowPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLogicAppWorkflowFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewLogicAppWorkflowPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLogicAppWorkflowFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31816,8 +35365,21 @@ func GetLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewLogicAppWorkflowPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLogicAppWorkflowFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLogicAppWorkflowPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLogicAppWorkflowFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31991,7 +35553,20 @@ func ListLogicIntegrationAccounts(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLogicIntegrationAccountsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLogicIntegrationAccountsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewLogicIntegrationAccountsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLogicIntegrationAccountsFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32029,8 +35604,21 @@ func GetLogicIntegrationAccounts(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewLogicIntegrationAccountsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLogicIntegrationAccountsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLogicIntegrationAccountsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLogicIntegrationAccountsFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32223,7 +35811,20 @@ func ListMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMachineLearningWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listMachineLearningWorkspaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewMachineLearningWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listMachineLearningWorkspaceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32280,8 +35881,21 @@ func GetMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewMachineLearningWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getMachineLearningWorkspaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewMachineLearningWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getMachineLearningWorkspaceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32476,7 +36090,20 @@ func ListMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMariadbServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMariadbServerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewMariadbServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMariadbServerFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32535,8 +36162,21 @@ func GetMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewMariadbServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMariadbServerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewMariadbServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMariadbServerFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32710,7 +36350,20 @@ func ListMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMariadbDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listMariadbDatabaseFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewMariadbDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listMariadbDatabaseFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32748,8 +36401,21 @@ func GetMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewMariadbDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getMariadbDatabaseFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewMariadbDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getMariadbDatabaseFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32950,7 +36616,20 @@ func ListMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMysqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMysqlServerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewMysqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMysqlServerFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33015,8 +36694,21 @@ func GetMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewMysqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMysqlServerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewMysqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMysqlServerFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33190,7 +36882,20 @@ func ListMysqlFlexibleserver(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMysqlFlexibleserverPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMysqlFlexibleserverFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewMysqlFlexibleserverPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMysqlFlexibleserverFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33228,8 +36933,21 @@ func GetMysqlFlexibleserver(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewMysqlFlexibleserverPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMysqlFlexibleserverFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewMysqlFlexibleserverPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMysqlFlexibleserverFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33414,7 +37132,20 @@ func ListNetworkSecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkSecurityGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkSecurityGroupFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewNetworkSecurityGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkSecurityGroupFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33463,8 +37194,21 @@ func GetNetworkSecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewNetworkSecurityGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkSecurityGroupFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNetworkSecurityGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkSecurityGroupFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33642,7 +37386,20 @@ func ListNetworkWatcher(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkWatcherPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkWatcherFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewNetworkWatcherPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkWatcherFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33684,8 +37441,21 @@ func GetNetworkWatcher(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewNetworkWatcherPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkWatcherFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNetworkWatcherPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkWatcherFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33873,7 +37643,20 @@ func ListSearchService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSearchServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSearchServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSearchServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSearchServiceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33926,8 +37709,21 @@ func GetSearchService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSearchServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSearchServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSearchServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSearchServiceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34127,7 +37923,20 @@ func ListServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewServiceFabricClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceFabricClusterFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewServiceFabricClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceFabricClusterFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34191,8 +38000,21 @@ func GetServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewServiceFabricClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getServiceFabricClusterFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewServiceFabricClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getServiceFabricClusterFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34379,7 +38201,20 @@ func ListServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewServicebusNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listServicebusNamespaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewServicebusNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listServicebusNamespaceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34430,8 +38265,21 @@ func GetServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewServicebusNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getServicebusNamespaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewServicebusNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getServicebusNamespaceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34621,7 +38469,20 @@ func ListSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSignalrServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSignalrServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSignalrServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSignalrServiceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34675,8 +38536,21 @@ func GetSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSignalrServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSignalrServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSignalrServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSignalrServiceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34859,7 +38733,20 @@ func ListSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSpringCloudServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSpringCloudServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSpringCloudServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSpringCloudServiceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34906,8 +38793,21 @@ func GetSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSpringCloudServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSpringCloudServiceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSpringCloudServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSpringCloudServiceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35100,7 +39000,20 @@ func ListStreamAnalyticsJob(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStreamAnalyticsJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStreamAnalyticsJobFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewStreamAnalyticsJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStreamAnalyticsJobFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35157,8 +39070,21 @@ func GetStreamAnalyticsJob(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewStreamAnalyticsJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStreamAnalyticsJobFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStreamAnalyticsJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStreamAnalyticsJobFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35332,7 +39258,20 @@ func ListStreamAnalyticsCluster(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStreamAnalyticsClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStreamAnalyticsClusterFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewStreamAnalyticsClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStreamAnalyticsClusterFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35370,8 +39309,21 @@ func GetStreamAnalyticsCluster(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewStreamAnalyticsClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStreamAnalyticsClusterFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStreamAnalyticsClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStreamAnalyticsClusterFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35545,7 +39497,20 @@ func ListVirtualMachineImagesImageTemplates(ctx context.Context, d *plugin.Query
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewVirtualMachineImagesImageTemplatesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualMachineImagesImageTemplatesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewVirtualMachineImagesImageTemplatesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualMachineImagesImageTemplatesFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35583,8 +39548,21 @@ func GetVirtualMachineImagesImageTemplates(ctx context.Context, d *plugin.QueryD
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewVirtualMachineImagesImageTemplatesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getVirtualMachineImagesImageTemplatesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewVirtualMachineImagesImageTemplatesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getVirtualMachineImagesImageTemplatesFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35758,7 +39736,20 @@ func ListOperationalInsightsWorkspaces(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewOperationalInsightsWorkspacesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOperationalInsightsWorkspacesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewOperationalInsightsWorkspacesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOperationalInsightsWorkspacesFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35796,8 +39787,21 @@ func GetOperationalInsightsWorkspaces(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewOperationalInsightsWorkspacesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOperationalInsightsWorkspacesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewOperationalInsightsWorkspacesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOperationalInsightsWorkspacesFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35971,7 +39975,20 @@ func ListTimeSeriesInsightsEnvironments(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewTimeSeriesInsightsEnvironmentsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listTimeSeriesInsightsEnvironmentsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewTimeSeriesInsightsEnvironmentsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listTimeSeriesInsightsEnvironmentsFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36009,8 +40026,21 @@ func GetTimeSeriesInsightsEnvironments(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewTimeSeriesInsightsEnvironmentsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getTimeSeriesInsightsEnvironmentsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewTimeSeriesInsightsEnvironmentsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getTimeSeriesInsightsEnvironmentsFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36204,7 +40234,20 @@ func ListSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSynapseWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSynapseWorkspaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSynapseWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSynapseWorkspaceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36262,8 +40305,21 @@ func GetSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSynapseWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSynapseWorkspaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSynapseWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSynapseWorkspaceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36437,7 +40493,20 @@ func ListSynapseWorkspaceBigdatapools(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSynapseWorkspaceBigdatapoolsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSynapseWorkspaceBigdatapoolsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSynapseWorkspaceBigdatapoolsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSynapseWorkspaceBigdatapoolsFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36475,8 +40544,21 @@ func GetSynapseWorkspaceBigdatapools(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSynapseWorkspaceBigdatapoolsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSynapseWorkspaceBigdatapoolsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSynapseWorkspaceBigdatapoolsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSynapseWorkspaceBigdatapoolsFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36650,7 +40732,20 @@ func ListSynapseWorkspaceSqlpools(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSynapseWorkspaceSqlpoolsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSynapseWorkspaceSqlpoolsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSynapseWorkspaceSqlpoolsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSynapseWorkspaceSqlpoolsFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36688,8 +40783,21 @@ func GetSynapseWorkspaceSqlpools(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSynapseWorkspaceSqlpoolsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSynapseWorkspaceSqlpoolsFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSynapseWorkspaceSqlpoolsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSynapseWorkspaceSqlpoolsFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36865,7 +40973,20 @@ func ListLocation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLocationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLocationFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewLocationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLocationFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36906,8 +41027,21 @@ func GetLocation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewLocationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLocationFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLocationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLocationFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37101,7 +41235,20 @@ func ListAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAdUsersPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAdUsersFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewAdUsersPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAdUsersFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37158,8 +41305,21 @@ func GetAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewAdUsersPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAdUsersFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAdUsersPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAdUsersFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37360,7 +41520,20 @@ func ListAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAdGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAdGroupFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewAdGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAdGroupFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37425,8 +41598,21 @@ func GetAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewAdGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAdGroupFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAdGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAdGroupFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37622,7 +41808,20 @@ func ListAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAdServicePrincipalPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAdServicePrincipalFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewAdServicePrincipalPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAdServicePrincipalFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37682,8 +41881,21 @@ func GetAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewAdServicePrincipalPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAdServicePrincipalFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAdServicePrincipalPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAdServicePrincipalFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37857,7 +42069,20 @@ func ListAnalysisServiceServer(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAnalysisServiceServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAnalysisServiceServerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewAnalysisServiceServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAnalysisServiceServerFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37896,8 +42121,21 @@ func GetAnalysisServiceServer(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewAnalysisServiceServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAnalysisServiceServerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAnalysisServiceServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAnalysisServiceServerFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38099,7 +42337,20 @@ func ListPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPostgresqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPostgresqlServerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewPostgresqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPostgresqlServerFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38165,8 +42416,21 @@ func GetPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewPostgresqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPostgresqlServerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewPostgresqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPostgresqlServerFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38340,7 +42604,20 @@ func ListPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPostgresqlFlexibleServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPostgresqlFlexibleServerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewPostgresqlFlexibleServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPostgresqlFlexibleServerFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38378,8 +42655,21 @@ func GetPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewPostgresqlFlexibleServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPostgresqlFlexibleServerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewPostgresqlFlexibleServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPostgresqlFlexibleServerFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38561,7 +42851,20 @@ func ListStorageSync(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageSyncPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageSyncFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewStorageSyncPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageSyncFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38607,8 +42910,21 @@ func GetStorageSync(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewStorageSyncPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageSyncFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStorageSyncPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageSyncFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38808,7 +43124,20 @@ func ListMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMssqlManagedInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listMssqlManagedInstanceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewMssqlManagedInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listMssqlManagedInstanceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38872,8 +43201,21 @@ func GetMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewMssqlManagedInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getMssqlManagedInstanceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewMssqlManagedInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getMssqlManagedInstanceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39047,7 +43389,20 @@ func ListMssqlManagedInstanceDatabases(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMssqlManagedInstanceDatabasesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMssqlManagedInstanceDatabasesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewMssqlManagedInstanceDatabasesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMssqlManagedInstanceDatabasesFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39085,8 +43440,21 @@ func GetMssqlManagedInstanceDatabases(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewMssqlManagedInstanceDatabasesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMssqlManagedInstanceDatabasesFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewMssqlManagedInstanceDatabasesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMssqlManagedInstanceDatabasesFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39292,7 +43660,20 @@ func ListSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlDatabaseFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSqlDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlDatabaseFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39362,8 +43743,21 @@ func GetSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSqlDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlDatabaseFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSqlDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlDatabaseFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39536,7 +43930,20 @@ func ListSqlInstancePool(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlInstancePoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlInstancePoolFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSqlInstancePoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlInstancePoolFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39573,8 +43980,21 @@ func GetSqlInstancePool(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSqlInstancePoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlInstancePoolFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSqlInstancePoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlInstancePoolFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39768,7 +44188,20 @@ func ListSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39826,8 +44259,21 @@ func GetSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlServerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlServerFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40001,7 +44447,20 @@ func ListSqlServerJobAgent(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerJobAgentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerJobAgentFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSqlServerJobAgentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerJobAgentFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40039,8 +44498,21 @@ func GetSqlServerJobAgent(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSqlServerJobAgentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlServerJobAgentFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSqlServerJobAgentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlServerJobAgentFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40214,7 +44686,20 @@ func ListSqlVirtualClusters(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlVirtualClustersPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlVirtualClustersFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSqlVirtualClustersPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlVirtualClustersFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40252,8 +44737,21 @@ func GetSqlVirtualClusters(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSqlVirtualClustersPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlVirtualClustersFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSqlVirtualClustersPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlVirtualClustersFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40439,7 +44937,20 @@ func ListSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerElasticPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerElasticPoolFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSqlServerElasticPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerElasticPoolFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40489,8 +45000,21 @@ func GetSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSqlServerElasticPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlServerElasticPoolFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSqlServerElasticPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlServerElasticPoolFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40680,7 +45204,20 @@ func ListSqlServerVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerVirtualMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerVirtualMachineFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSqlServerVirtualMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerVirtualMachineFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40734,8 +45271,21 @@ func GetSqlServerVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSqlServerVirtualMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlServerVirtualMachineFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSqlServerVirtualMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlServerVirtualMachineFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40909,7 +45459,20 @@ func ListSqlServerVirtualMachineGroup(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerVirtualMachineGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerVirtualMachineGroupFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSqlServerVirtualMachineGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerVirtualMachineGroupFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40947,8 +45510,21 @@ func GetSqlServerVirtualMachineGroup(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSqlServerVirtualMachineGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlServerVirtualMachineGroupFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSqlServerVirtualMachineGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlServerVirtualMachineGroupFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41149,7 +45725,20 @@ func ListSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSqlServerFlexibleServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerFlexibleServerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewSqlServerFlexibleServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerFlexibleServerFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41214,8 +45803,21 @@ func GetSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewSqlServerFlexibleServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlServerFlexibleServerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSqlServerFlexibleServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSqlServerFlexibleServerFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41437,7 +46039,20 @@ func ListStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewStorageAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageAccountFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41524,8 +46139,21 @@ func GetStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewStorageAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStorageAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageAccountFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41710,7 +46338,20 @@ func ListRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRecoveryServicesVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRecoveryServicesVaultFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewRecoveryServicesVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRecoveryServicesVaultFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41759,8 +46400,21 @@ func GetRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewRecoveryServicesVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRecoveryServicesVaultFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRecoveryServicesVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRecoveryServicesVaultFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41952,7 +46606,20 @@ func ListHybridKubernetesConnectedCluster(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewHybridKubernetesConnectedClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listHybridKubernetesConnectedClusterFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewHybridKubernetesConnectedClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listHybridKubernetesConnectedClusterFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42008,8 +46675,21 @@ func GetHybridKubernetesConnectedCluster(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewHybridKubernetesConnectedClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getHybridKubernetesConnectedClusterFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewHybridKubernetesConnectedClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getHybridKubernetesConnectedClusterFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42185,7 +46865,20 @@ func ListCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCostManagementCostByResourceTypePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostManagementCostByResourceTypeFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewCostManagementCostByResourceTypePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostManagementCostByResourceTypeFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42225,8 +46918,21 @@ func GetCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewCostManagementCostByResourceTypePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostManagementCostByResourceTypeFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCostManagementCostByResourceTypePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostManagementCostByResourceTypeFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42398,7 +47104,20 @@ func ListCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCostManagementCostBySubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostManagementCostBySubscriptionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewCostManagementCostBySubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostManagementCostBySubscriptionFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42434,8 +47153,21 @@ func GetCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewCostManagementCostBySubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostManagementCostBySubscriptionFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCostManagementCostBySubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostManagementCostBySubscriptionFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42626,7 +47358,20 @@ func ListLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewLoadBalancerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42681,8 +47426,21 @@ func GetLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLoadBalancerFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLoadBalancerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLoadBalancerFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42866,7 +47624,20 @@ func ListLoadBalancerBackendAddressPool(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerBackendAddressPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerBackendAddressPoolFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewLoadBalancerBackendAddressPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerBackendAddressPoolFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42914,8 +47685,21 @@ func GetLoadBalancerBackendAddressPool(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerBackendAddressPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLoadBalancerBackendAddressPoolFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLoadBalancerBackendAddressPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLoadBalancerBackendAddressPoolFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43101,7 +47885,20 @@ func ListLoadBalancerNatRule(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerNatRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerNatRuleFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewLoadBalancerNatRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerNatRuleFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43151,8 +47948,21 @@ func GetLoadBalancerNatRule(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerNatRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getLoadBalancerNatRuleFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLoadBalancerNatRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getLoadBalancerNatRuleFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43336,7 +48146,20 @@ func ListLoadBalancerOutboundRule(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerOutboundRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerOutboundRuleFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewLoadBalancerOutboundRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerOutboundRuleFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43384,8 +48207,21 @@ func GetLoadBalancerOutboundRule(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerOutboundRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getLoadBalancerOutboundRuleFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLoadBalancerOutboundRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getLoadBalancerOutboundRuleFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43569,7 +48405,20 @@ func ListLoadBalancerProbe(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerProbePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerProbeFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewLoadBalancerProbePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerProbeFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43617,8 +48466,21 @@ func GetLoadBalancerProbe(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerProbePaginator(essdk.BuildFilter(ctx, d.QueryContext, getLoadBalancerProbeFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLoadBalancerProbePaginator(essdk.BuildFilter(ctx, d.QueryContext, getLoadBalancerProbeFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43808,7 +48670,20 @@ func ListLoadBalancerRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLoadBalancerRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerRuleFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewLoadBalancerRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerRuleFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43862,8 +48737,21 @@ func GetLoadBalancerRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewLoadBalancerRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getLoadBalancerRuleFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLoadBalancerRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getLoadBalancerRuleFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44040,7 +48928,20 @@ func ListManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewManagementGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listManagementGroupFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewManagementGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listManagementGroupFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44081,8 +48982,21 @@ func GetManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewManagementGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getManagementGroupFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewManagementGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getManagementGroupFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44259,7 +49173,20 @@ func ListManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewManagementLockPaginator(essdk.BuildFilter(ctx, d.QueryContext, listManagementLockFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewManagementLockPaginator(essdk.BuildFilter(ctx, d.QueryContext, listManagementLockFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44301,8 +49228,21 @@ func GetManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewManagementLockPaginator(essdk.BuildFilter(ctx, d.QueryContext, getManagementLockFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewManagementLockPaginator(essdk.BuildFilter(ctx, d.QueryContext, getManagementLockFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44477,7 +49417,20 @@ func ListResourceProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewResourceProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceProviderFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewResourceProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceProviderFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44516,8 +49469,21 @@ func GetResourceProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewResourceProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, getResourceProviderFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewResourceProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, getResourceProviderFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44694,7 +49660,20 @@ func ListResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewResourceGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceGroupFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewResourceGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceGroupFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44735,8 +49714,21 @@ func GetResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewResourceGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getResourceGroupFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewResourceGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getResourceGroupFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44909,7 +49901,20 @@ func ListBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBotServiceBotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBotServiceBotFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewBotServiceBotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBotServiceBotFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44946,8 +49951,21 @@ func GetBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewBotServiceBotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBotServiceBotFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBotServiceBotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBotServiceBotFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45120,7 +50138,20 @@ func ListNetAppAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetAppAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetAppAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewNetAppAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetAppAccountFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45157,8 +50188,21 @@ func GetNetAppAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewNetAppAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetAppAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNetAppAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetAppAccountFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45331,7 +50375,20 @@ func ListNetAppCapacityPool(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetAppCapacityPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetAppCapacityPoolFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewNetAppCapacityPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetAppCapacityPoolFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45368,8 +50425,21 @@ func GetNetAppCapacityPool(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewNetAppCapacityPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetAppCapacityPoolFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNetAppCapacityPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetAppCapacityPoolFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45541,7 +50611,20 @@ func ListDashboardGrafana(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDashboardGrafanaPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDashboardGrafanaFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDashboardGrafanaPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDashboardGrafanaFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45577,8 +50660,21 @@ func GetDashboardGrafana(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDashboardGrafanaPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDashboardGrafanaFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDashboardGrafanaPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDashboardGrafanaFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45751,7 +50847,20 @@ func ListDesktopVirtualizationHostPool(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDesktopVirtualizationHostPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDesktopVirtualizationHostPoolFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDesktopVirtualizationHostPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDesktopVirtualizationHostPoolFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45788,8 +50897,21 @@ func GetDesktopVirtualizationHostPool(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDesktopVirtualizationHostPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDesktopVirtualizationHostPoolFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDesktopVirtualizationHostPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDesktopVirtualizationHostPoolFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45962,7 +51084,20 @@ func ListDesktopVirtualizationWorkspace(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDesktopVirtualizationWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDesktopVirtualizationWorkspaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDesktopVirtualizationWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDesktopVirtualizationWorkspaceFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45999,8 +51134,21 @@ func GetDesktopVirtualizationWorkspace(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDesktopVirtualizationWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDesktopVirtualizationWorkspaceFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDesktopVirtualizationWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDesktopVirtualizationWorkspaceFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46173,7 +51321,20 @@ func ListDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDevTestLabLabPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDevTestLabLabFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewDevTestLabLabPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDevTestLabLabFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46210,8 +51371,21 @@ func GetDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewDevTestLabLabPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDevTestLabLabFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDevTestLabLabPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDevTestLabLabFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46384,7 +51558,20 @@ func ListPurviewAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPurviewAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPurviewAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewPurviewAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPurviewAccountFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46421,8 +51608,21 @@ func GetPurviewAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewPurviewAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPurviewAccountFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewPurviewAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPurviewAccountFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46595,7 +51795,20 @@ func ListPowerBIDedicatedCapacity(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPowerBIDedicatedCapacityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPowerBIDedicatedCapacityFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewPowerBIDedicatedCapacityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPowerBIDedicatedCapacityFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46632,8 +51845,21 @@ func GetPowerBIDedicatedCapacity(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewPowerBIDedicatedCapacityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPowerBIDedicatedCapacityFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewPowerBIDedicatedCapacityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPowerBIDedicatedCapacityFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46830,7 +52056,20 @@ func ListApplicationInsightsComponent(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApplicationInsightsComponentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApplicationInsightsComponentFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), d.QueryContext.Limit)
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
+	paginator, err := k.NewApplicationInsightsComponentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApplicationInsightsComponentFilters, "azure", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46891,8 +52130,21 @@ func GetApplicationInsightsComponent(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
+	sc, err := essdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, essdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+
 	limit := int64(1)
-	paginator, err := k.NewApplicationInsightsComponentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApplicationInsightsComponentFilters, "azure", *cfg.AccountID, cfg.EncodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApplicationInsightsComponentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApplicationInsightsComponentFilters, "azure", accountId, encodedResourceCollectionFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
