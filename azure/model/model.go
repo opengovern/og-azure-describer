@@ -89,6 +89,7 @@ import (
 	"github.com/manicminer/hamilton/msgraph"
 	"github.com/tombuildsstuff/giovanni/storage/2018-11-09/queue/queues"
 	"github.com/tombuildsstuff/giovanni/storage/2019-12-12/blob/accounts"
+	"time"
 )
 
 type Metadata struct {
@@ -1729,6 +1730,7 @@ type CostManagementQueryRow struct {
 //index:microsoft_costmanagement_costbyresourcetype
 type CostManagementCostByResourceTypeDescription struct {
 	CostManagementCostByResourceType CostManagementQueryRow
+	CostDate                         time.Time
 }
 
 //index:microsoft_costmanagement_costbysubscription

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
@@ -97,7 +98,7 @@ func cost(ctx context.Context, cred *azidentity.ClientSecretCredential, subscrip
 func DailyCostByResourceType(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	triggerType := GetTriggerTypeFromContext(ctx)
 	from := time.Now().AddDate(0, 0, -7)
-	if time.Now().Day() == 6 {
+	if time.Now().Day() == 6 || 1 == 1 {
 		y, m, _ := time.Now().Date()
 		from = time.Date(y, m, 1, 0, 0, 0, 0, time.UTC).AddDate(0, -1, 0)
 	}
@@ -142,12 +143,20 @@ func DailyCostByResourceType(ctx context.Context, cred *azidentity.ClientSecretC
 	}
 	var values []Resource
 	for _, row := range costResult {
+		usageDateStr := strconv.FormatInt(int64(row.UsageDate), 10)
+		year, month, day := usageDateStr[:4], usageDateStr[4:6], usageDateStr[6:]
+		costDate, err := time.Parse("2006-01-02", fmt.Sprintf("%s-%s-%s", year, month, day))
+		if err != nil {
+			return nil, err
+		}
+
 		resource := Resource{
 			ID:       fmt.Sprintf("resource-cost-%s/%s-%d", subscription, *row.ServiceName, row.UsageDate),
 			Location: location,
 			Description: JSONAllFieldsMarshaller{
 				Value: model.CostManagementCostByResourceTypeDescription{
 					CostManagementCostByResourceType: row,
+					CostDate:                         costDate,
 				},
 			},
 		}
