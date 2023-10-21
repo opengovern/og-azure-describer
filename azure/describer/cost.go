@@ -156,7 +156,7 @@ func DailyCostByResourceType(ctx context.Context, cred *azidentity.ClientSecretC
 			Description: JSONAllFieldsMarshaller{
 				Value: model.CostManagementCostByResourceTypeDescription{
 					CostManagementCostByResourceType: row,
-					CostDate:                         costDate,
+					CostDateMillis:                   costDate.UnixMilli(),
 				},
 			},
 		}
