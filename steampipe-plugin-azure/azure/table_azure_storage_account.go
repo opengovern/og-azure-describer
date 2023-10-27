@@ -218,6 +218,36 @@ func tableAzureStorageAccount(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_BOOL,
 				Transform:   transform.FromField("Description.StorageServiceProperties.Logging.Write")},
 			{
+				Name:        "table_logging_read",
+				Description: "Indicates whether all read requests should be logged.",
+				Type:        proto.ColumnType_BOOL,
+				Transform:   transform.FromField("Description.StorageServiceProperties.Logging.Read"),
+			},
+			{
+				Name:        "table_logging_write",
+				Description: "Indicates whether all write requests should be logged.",
+				Type:        proto.ColumnType_BOOL,
+				Transform:   transform.FromField("Description.StorageServiceProperties.Logging.Write"),
+			},
+			{
+				Name:        "table_logging_delete",
+				Description: "Indicates whether all delete requests should be logged.",
+				Type:        proto.ColumnType_BOOL,
+				Transform:   transform.FromField("Description.StorageServiceProperties.Logging.Delete"),
+			},
+			{
+				Name:        "table_logging_version",
+				Description: "The version of Analytics to configure.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.StorageServiceProperties.Logging.Version"),
+			},
+			{
+				Name:        "table_logging_retention_policy",
+				Description: "The retention policy.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.StorageServiceProperties.Logging.RetentionPolicy"),
+			},
+			{
 				Name:        "minimum_tls_version",
 				Description: "Contains the minimum TLS version to be permitted on requests to storage.",
 				Type:        proto.ColumnType_STRING,
