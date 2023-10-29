@@ -209,15 +209,21 @@ func tableAzureEventGridTopic(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 // If we return the private endpoint connection directly from api response we will not receive all the properties of private endpoint connections.
-func extractEventgridTopicPrivaterEndPointConnections(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	var privateEndpointConnectionsInfo []map[string]interface{}
+func extractEventgridTopicPrivaterEndPointConnections(ctx context.Context, d *transform.TransformData) (any, error) {
+	var privateEndpointConnectionsInfo []map[string]any
+	if d == nil {
+		return privateEndpointConnectionsInfo, nil
+	}
 	if d.HydrateItem == nil {
 		return privateEndpointConnectionsInfo, nil
 	}
 	topic := d.HydrateItem.(kaytu.EventGridTopic).Description.Topic
-	if topic.Properties.PrivateEndpointConnections != nil {
+	if topic.Properties != nil && topic.Properties.PrivateEndpointConnections != nil {
 		for _, endpoint := range topic.Properties.PrivateEndpointConnections {
-			objectMap := make(map[string]interface{})
+			objectMap := make(map[string]any)
+			if endpoint == nil {
+				continue
+			}
 
 			if endpoint.ID != nil {
 				objectMap["id"] = endpoint.ID
