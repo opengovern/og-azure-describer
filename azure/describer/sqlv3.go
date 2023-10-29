@@ -310,10 +310,17 @@ func SqlServerElasticPool(ctx context.Context, cred *azidentity.ClientSecretCred
 }
 
 func ListSqlServerElasticPools(ctx context.Context, elasticPoolClient *armsql.ElasticPoolsClient, activityClient *armsql.ElasticPoolActivitiesClient, server *armsql.Server) ([]Resource, error) {
+	if server == nil || server.ID == nil {
+		return nil, nil
+	}
 	serverResourceGroup := strings.Split(string(*server.ID), "/")[4]
 
 	var values []Resource
-	pager := elasticPoolClient.NewListByServerPager(serverResourceGroup, *server.Name, nil)
+	name := *server.ID
+	if server.Name != nil {
+		name = *server.Name
+	}
+	pager := elasticPoolClient.NewListByServerPager(serverResourceGroup, name, nil)
 	for pager.More() {
 		page, err := pager.NextPage(ctx)
 		if err != nil {
@@ -324,6 +331,9 @@ func ListSqlServerElasticPools(ctx context.Context, elasticPoolClient *armsql.El
 			if err != nil {
 				return nil, err
 			}
+			if resource == nil {
+				continue
+			}
 			values = append(values, *resource)
 		}
 	}
@@ -331,16 +341,30 @@ func ListSqlServerElasticPools(ctx context.Context, elasticPoolClient *armsql.El
 }
 
 func GetSqlServerElasticPool(ctx context.Context, server *armsql.Server, activityClient *armsql.ElasticPoolActivitiesClient, elasticPool *armsql.ElasticPool) (*Resource, error) {
+	if elasticPool == nil || elasticPool.ID == nil {
+		return nil, nil
+	}
 	resourceGroup := strings.Split(string(*elasticPool.ID), "/")[4]
 
 	var totalDTU int32
-	pager := activityClient.NewListByElasticPoolPager(resourceGroup, *server.Name, *elasticPool.Name, nil)
+	name := *server.ID
+	if server.Name != nil {
+		name = *server.Name
+	}
+	epName := *elasticPool.ID
+	if elasticPool.Name != nil {
+		epName = *elasticPool.Name
+	}
+	pager := activityClient.NewListByElasticPoolPager(resourceGroup, name, epName, nil)
 	for pager.More() {
 		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
 		for _, v := range page.Value {
+			if v.Properties == nil || v.Properties.RequestedDtu == nil {
+				continue
+			}
 			totalDTU = totalDTU + *v.Properties.RequestedDtu
 		}
 	}
@@ -352,7 +376,7 @@ func GetSqlServerElasticPool(ctx context.Context, server *armsql.Server, activit
 			Value: model.SqlServerElasticPoolDescription{
 				TotalDTU:      totalDTU,
 				Pool:          *elasticPool,
-				ServerName:    *server.Name,
+				ServerName:    name,
 				ResourceGroup: resourceGroup,
 			},
 		},

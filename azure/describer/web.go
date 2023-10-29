@@ -140,6 +140,9 @@ func AppServiceWebApp(ctx context.Context, cred *azidentity.ClientSecretCredenti
 			if err != nil {
 				return nil, err
 			}
+			if resource == nil {
+				continue
+			}
 			if stream != nil {
 				if err := (*stream)(*resource); err != nil {
 					return nil, err
@@ -153,20 +156,30 @@ func AppServiceWebApp(ctx context.Context, cred *azidentity.ClientSecretCredenti
 }
 
 func GetAppServiceWebApp(ctx context.Context, webClient *appservice.WebAppsClient, v *appservice.Site) (*Resource, error) {
+	var err error
+
 	resourceGroup := strings.Split(*v.ID, "/")[4]
-
-	configuration, err := webClient.GetConfiguration(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
-	if err != nil {
-		return nil, err
+	configuration := appservice.WebAppsClientGetConfigurationResponse{}
+	if v.Properties != nil && v.Properties.ResourceGroup != nil && v.Name != nil {
+		configuration, err = webClient.GetConfiguration(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
+		if err != nil {
+			return nil, err
+		}
 	}
-	authSettings, err := webClient.GetAuthSettings(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
-	if err != nil {
-		return nil, err
+	authSettings := appservice.WebAppsClientGetAuthSettingsResponse{}
+	if v.Properties != nil && v.Properties.ResourceGroup != nil && v.Name != nil {
+		authSettings, err = webClient.GetAuthSettings(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	vnet, err := webClient.GetVnetConnection(ctx, *v.Properties.ResourceGroup, *v.Name, *v.Properties.VirtualNetworkSubnetID, nil)
-	if err != nil {
-		return nil, err
+	vnet := appservice.WebAppsClientGetVnetConnectionResponse{}
+	if v.Properties != nil && v.Properties.ResourceGroup != nil && v.Name != nil && v.Properties.VirtualNetworkSubnetID != nil {
+		vnet, err = webClient.GetVnetConnection(ctx, *v.Properties.ResourceGroup, *v.Name, *v.Properties.VirtualNetworkSubnetID, nil)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	location := ""
@@ -174,9 +187,12 @@ func GetAppServiceWebApp(ctx context.Context, webClient *appservice.WebAppsClien
 		location = *v.Location
 	}
 
-	diagnosticLogConfiguration, err := webClient.GetDiagnosticLogsConfiguration(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
-	if err != nil {
-		return nil, err
+	diagnosticLogConfiguration := appservice.WebAppsClientGetDiagnosticLogsConfigurationResponse{}
+	if v.Properties != nil && v.Properties.ResourceGroup != nil && v.Name != nil {
+		diagnosticLogConfiguration, err = webClient.GetDiagnosticLogsConfiguration(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
+		if err != nil {
+			return nil, err
+		}
 	}
 	resource := Resource{
 		ID:       *v.ID,
