@@ -206,11 +206,14 @@ func getKeyVaultSecret(ctx context.Context, d *plugin.QueryData, h *plugin.Hydra
 
 //// TRANSFORM FUNCTIONS
 
-func extractVaultNameFromSecretID(ctx context.Context, d *transform.TransformData) (interface{}, error) {
+func extractVaultNameFromSecretID(ctx context.Context, d *transform.TransformData) (any, error) {
 	secretID := keyVaultSecretData(d.HydrateItem)
 	param := d.Param.(string)
 
 	splitID := strings.Split(secretID, "/")
+	if len(splitID) < 5 {
+		return nil, nil
+	}
 
 	result := map[string]string{
 		"VaultName": strings.Split(splitID[2], ".")[0],
@@ -233,9 +236,13 @@ func extractRecoveryLevel(ctx context.Context, d *transform.TransformData) (inte
 func keyVaultSecretData(item interface{}) string {
 	switch item := item.(type) {
 	case secret.SecretItem:
-		return *item.ID
+		if item.ID != nil {
+			return *item.ID
+		}
 	case secret.SecretBundle:
-		return *item.ID
+		if item.ID != nil {
+			return *item.ID
+		}
 	}
 	return ""
 }
