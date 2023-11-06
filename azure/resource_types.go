@@ -426,20 +426,6 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"Microsoft.EventGrid/domains/topics": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.EventGrid/domains/topics",
-		ResourceLabel:        "EventGrid Domain Topics",
-		Tags:                 map[string][]string{"category": {"Data and Analytics"}},
-		ServiceName:          "EventGrid",
-		ListDescriber:        DescribeBySubscription(describer.EventGridDomainTopic),
-		GetDescriber:         nil,
-		TerraformName:        []string{"azurerm_eventgrid_domain_topic"},
-		TerraformServiceName: "eventgrid",
-		FastDiscovery:        false,
-		Summarize:            false,
-	},
-
 	"Microsoft.Network/networkWatchers": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Network/networkWatchers",

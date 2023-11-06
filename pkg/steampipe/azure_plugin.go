@@ -69,12 +69,11 @@ func ExtractTableName(resourceType string) string {
 	return ""
 }
 
-func GetResourceTypeByTableName(tableName string) string {
+func ExtractResourceType(tableName string) string {
 	tableName = strings.ToLower(tableName)
-	for k, v := range azureMap {
-		if tableName == strings.ToLower(v) {
-			return k
-		}
-	}
-	return ""
+	return strings.ToLower(azureReverseMap[tableName])
+}
+
+func GetResourceTypeByTableName(tableName string) string {
+	return ExtractResourceType(tableName)
 }
