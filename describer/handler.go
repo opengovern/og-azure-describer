@@ -173,7 +173,7 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		jsonString := errorString[jsonStart:jsonEnd]
 		var jsonData map[string]interface{}
 		err := json.Unmarshal([]byte(jsonString), &jsonData)
-		if err != nil {
+		if err != nil || jsonData == nil {
 			errMsg = jsonString
 		} else {
 			if errorData, ok := jsonData["error"]; ok {
