@@ -176,8 +176,23 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		if err != nil {
 			errMsg = jsonString
 		} else {
-			errCode = jsonData["error"].(map[string]interface{})["code"].(string)
-			errMsg = jsonData["error"].(map[string]interface{})["message"].(string)
+			if errorData, ok := jsonData["error"]; ok {
+				if v, ok := errorData.(map[string]interface{}); ok {
+					if code, ok := v["code"].(string); ok {
+						errCode = code
+					} else {
+						errCode = "unknown"
+					}
+					if msg, ok := v["message"].(string); ok {
+						errMsg = msg
+					} else {
+						errMsg = fmt.Sprintf("%v", v)
+					}
+				} else {
+					errCode = "unknown"
+					errMsg = fmt.Sprintf("%v", errorData)
+				}
+			}
 		}
 		status = DescribeResourceJobFailed
 	}
