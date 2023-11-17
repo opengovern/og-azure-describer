@@ -495,6 +495,7 @@ type ExpressRouteCircuitDescription struct {
 //getfilter:name=description.VirtualNetworkGateway.Name
 //getfilter:resource_group=description.ResourceGroup
 type VirtualNetworkGatewayDescription struct {
+	VirtualNetwork                  string
 	VirtualNetworkGateway           armnetwork.VirtualNetworkGateway
 	ResourceGroup                   string
 	VirtualNetworkGatewayConnection []*armnetwork.VirtualNetworkGatewayConnectionListEntity
