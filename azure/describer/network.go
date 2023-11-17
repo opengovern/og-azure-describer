@@ -666,6 +666,10 @@ func getVirtualNetworkGateway(ctx context.Context, client *armnetwork.VirtualNet
 		}
 		gatewayConnections = append(gatewayConnections, page.Value...)
 	}
+	var virtualNetwork string
+	for _, config := range virtualNetworkGateway.Properties.IPConfigurations {
+		virtualNetwork = strings.Split(*config.Properties.Subnet.ID, "/subnets")[0]
+	}
 
 	resource := Resource{
 		ID:       *virtualNetworkGateway.ID,
@@ -676,6 +680,7 @@ func getVirtualNetworkGateway(ctx context.Context, client *armnetwork.VirtualNet
 				ResourceGroup:                   resourceGroup,
 				VirtualNetworkGateway:           *virtualNetworkGateway,
 				VirtualNetworkGatewayConnection: gatewayConnections,
+				VirtualNetwork:                  virtualNetwork,
 			},
 		},
 	}
