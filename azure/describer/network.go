@@ -670,7 +670,7 @@ func getVirtualNetworkGateway(ctx context.Context, client *armnetwork.VirtualNet
 	if virtualNetworkGateway.Properties != nil {
 		if len(virtualNetworkGateway.Properties.IPConfigurations) > 0 {
 			for _, config := range virtualNetworkGateway.Properties.IPConfigurations {
-				if config != nil {
+				if config != nil && config.Properties != nil && config.Properties.Subnet != nil && config.Properties.Subnet.ID != nil {
 					split := strings.Split(*config.Properties.Subnet.ID, "/subnets")
 					if len(split) > 0 {
 						virtualNetwork = split[0]
