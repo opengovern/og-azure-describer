@@ -7,7 +7,7 @@
 	<tr><td>type</td><td>The resource type of the server.</td></tr>
 	<tr><td>state</td><td>The state of the server.</td></tr>
 	<tr><td>version</td><td>Specifies the version of the server.</td></tr>
-	<tr><td>administrator_login</td><td>The administrator's login name of a server.</td></tr>
+	<tr><td>administrator_login</td><td>The administrator&#39;s login name of a server.</td></tr>
 	<tr><td>availability_zone</td><td>Availability Zone information of the server.</td></tr>
 	<tr><td>backup_retention_days</td><td>Backup retention days for the server.</td></tr>
 	<tr><td>create_mode</td><td>The mode to create a new server.</td></tr>

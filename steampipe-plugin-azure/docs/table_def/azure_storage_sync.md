@@ -6,7 +6,7 @@
 	<tr><td>id</td><td>Fully qualified resource id for the resource.</td></tr>
 	<tr><td>provisioning_state</td><td>The provisioning state of the storage sync service.</td></tr>
 	<tr><td>type</td><td>The type of the resource.</td></tr>
-	<tr><td>incoming_traffic_policy</td><td>The incoming traffic policy of the storage sync service. Possible values include: 'AllowAllTraffic', 'AllowVirtualNetworksOnly'.</td></tr>
+	<tr><td>incoming_traffic_policy</td><td>The incoming traffic policy of the storage sync service. Possible values include: &#39;AllowAllTraffic&#39;, &#39;AllowVirtualNetworksOnly&#39;.</td></tr>
 	<tr><td>last_operation_name</td><td>The last operation name of the storage sync service.</td></tr>
 	<tr><td>last_workflow_id</td><td>The last workflow id of the storage sync service.</td></tr>
 	<tr><td>storage_sync_service_status</td><td>The status of the storage sync service.</td></tr>

@@ -6,9 +6,9 @@
 	<tr><td>id</td><td>The resource ID.</td></tr>
 	<tr><td>type</td><td>The type of the resource.</td></tr>
 	<tr><td>provisioning_state</td><td>The provisioning state of the container group. This only appears in the response.</td></tr>
-	<tr><td>restart_policy</td><td>Restart policy for all containers within the container group. Possible values include: 'ContainerGroupRestartPolicyAlways', 'ContainerGroupRestartPolicyOnFailure', 'ContainerGroupRestartPolicyNever'.</td></tr>
-	<tr><td>sku</td><td>The SKU for a container group. Possible values include: 'ContainerGroupSkuStandard', 'ContainerGroupSkuDedicated'.</td></tr>
-	<tr><td>os_type</td><td>The operating system type required by the containers in the container group. Possible values include: 'OperatingSystemTypesWindows', 'OperatingSystemTypesLinux'.</td></tr>
+	<tr><td>restart_policy</td><td>Restart policy for all containers within the container group. Possible values include: &#39;ContainerGroupRestartPolicyAlways&#39;, &#39;ContainerGroupRestartPolicyOnFailure&#39;, &#39;ContainerGroupRestartPolicyNever&#39;.</td></tr>
+	<tr><td>sku</td><td>The SKU for a container group. Possible values include: &#39;ContainerGroupSkuStandard&#39;, &#39;ContainerGroupSkuDedicated&#39;.</td></tr>
+	<tr><td>os_type</td><td>The operating system type required by the containers in the container group. Possible values include: &#39;OperatingSystemTypesWindows&#39;, &#39;OperatingSystemTypesLinux&#39;.</td></tr>
 	<tr><td>encryption_properties</td><td>The encryption settings of container registry.</td></tr>
 	<tr><td>containers</td><td>The containers within the container group.</td></tr>
 	<tr><td>ip_address</td><td>The IP address type of the container group.</td></tr>

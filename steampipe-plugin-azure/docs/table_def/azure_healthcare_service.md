@@ -10,7 +10,7 @@
 	<tr><td>allow_credentials</td><td>If credentials are allowed via CORS.</td></tr>
 	<tr><td>audience</td><td>The audience url for the service.</td></tr>
 	<tr><td>authority</td><td>The authority url for the service.</td></tr>
-	<tr><td>kind</td><td>The kind of the service. Possible values include: 'Fhir', 'FhirStu3', 'FhirR4'.</td></tr>
+	<tr><td>kind</td><td>The kind of the service. Possible values include: &#39;Fhir&#39;, &#39;FhirStu3&#39;, &#39;FhirR4&#39;.</td></tr>
 	<tr><td>location</td><td>The resource location.</td></tr>
 	<tr><td>max_age</td><td>The max age to be allowed via CORS.</td></tr>
 	<tr><td>smart_proxy_enabled</td><td>If the SMART on FHIR proxy is enabled.</td></tr>

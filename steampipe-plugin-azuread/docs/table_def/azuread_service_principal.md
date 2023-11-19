@@ -14,11 +14,11 @@
 	<tr><td>app_description</td><td>The description exposed by the associated application.</td></tr>
 	<tr><td>description</td><td>Free text field to provide an internal end-user facing description of the service principal.</td></tr>
 	<tr><td>login_url</td><td>Specifies the URL where the service provider redirects the user to Azure AD to authenticate. Azure AD uses the URL to launch the application from Microsoft 365 or the Azure AD My Apps. When blank, Azure AD performs IdP-initiated sign-on for applications configured with SAML-based single sign-on.</td></tr>
-	<tr><td>logout_url</td><td>Specifies the URL that will be used by Microsoft's authorization service to logout an user using OpenId Connect front-channel, back-channel or SAML logout protocols.</td></tr>
+	<tr><td>logout_url</td><td>Specifies the URL that will be used by Microsoft&#39;s authorization service to logout an user using OpenId Connect front-channel, back-channel or SAML logout protocols.</td></tr>
 	<tr><td>add_ins</td><td>Defines custom behavior that a consuming service can use to call an app in specific contexts.</td></tr>
 	<tr><td>alternative_names</td><td>Used to retrieve service principals by subscription, identify resource group and full resource ids for managed identities.</td></tr>
 	<tr><td>app_roles</td><td>The roles exposed by the application which this service principal represents.</td></tr>
-	<tr><td>info</td><td>Basic profile information of the acquired application such as app's marketing, support, terms of service and privacy statement URLs.</td></tr>
+	<tr><td>info</td><td>Basic profile information of the acquired application such as app&#39;s marketing, support, terms of service and privacy statement URLs.</td></tr>
 	<tr><td>key_credentials</td><td>The collection of key credentials associated with the service principal.</td></tr>
 	<tr><td>notification_email_addresses</td><td>Specifies the list of email addresses where Azure AD sends a notification when the active certificate is near the expiration date. This is only for the certificates used to sign the SAML token issued for Azure AD Gallery applications.</td></tr>
 	<tr><td>owner_ids</td><td>Id of the owners of the application. The owners are a set of non-admin users who are allowed to modify this object.</td></tr>

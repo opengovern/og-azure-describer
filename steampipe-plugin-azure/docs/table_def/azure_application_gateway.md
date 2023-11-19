@@ -4,13 +4,13 @@
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>name</td><td>The resource name.</td></tr>
 	<tr><td>id</td><td>The resource ID.</td></tr>
-	<tr><td>provisioning_state</td><td>The provisioning state of the application gateway. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.</td></tr>
+	<tr><td>provisioning_state</td><td>The provisioning state of the application gateway. Possible values include: &#39;Succeeded&#39;, &#39;Updating&#39;, &#39;Deleting&#39;, &#39;Failed&#39;.</td></tr>
 	<tr><td>type</td><td>The resource type.</td></tr>
 	<tr><td>enable_fips</td><td>Whether FIPS is enabled on the application gateway.</td></tr>
 	<tr><td>enable_http2</td><td>Whether HTTP2 is enabled on the application gateway.</td></tr>
 	<tr><td>etag</td><td>A unique read-only string that changes whenever the resource is updated.</td></tr>
 	<tr><td>force_firewall_policy_association</td><td>If true, associates a firewall policy with an application gateway regardless whether the policy differs from the WAF configuration.</td></tr>
-	<tr><td>operational_state</td><td>Operational state of the application gateway. Possible values include: 'Stopped', 'Starting', 'Running', 'Stopping'.</td></tr>
+	<tr><td>operational_state</td><td>Operational state of the application gateway. Possible values include: &#39;Stopped&#39;, &#39;Starting&#39;, &#39;Running&#39;, &#39;Stopping&#39;.</td></tr>
 	<tr><td>resource_guid</td><td>The resource GUID property of the application gateway.</td></tr>
 	<tr><td>authentication_certificates</td><td>Authentication certificates of the application gateway.</td></tr>
 	<tr><td>autoscale_configuration</td><td>Autoscale Configuration of the application gateway.</td></tr>

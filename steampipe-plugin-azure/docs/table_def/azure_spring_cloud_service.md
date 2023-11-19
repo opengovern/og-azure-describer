@@ -4,7 +4,7 @@
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>name</td><td>The name of the resource.</td></tr>
 	<tr><td>id</td><td>Fully qualified resource Id for the resource.</td></tr>
-	<tr><td>provisioning_state</td><td>Provisioning state of the Service. Possible values include: 'Creating', 'Updating', 'Deleting', 'Deleted', 'Succeeded', 'Failed', 'Moving', 'Moved', 'MoveFailed'.</td></tr>
+	<tr><td>provisioning_state</td><td>Provisioning state of the Service. Possible values include: &#39;Creating&#39;, &#39;Updating&#39;, &#39;Deleting&#39;, &#39;Deleted&#39;, &#39;Succeeded&#39;, &#39;Failed&#39;, &#39;Moving&#39;, &#39;Moved&#39;, &#39;MoveFailed&#39;.</td></tr>
 	<tr><td>type</td><td>The type of the resource.</td></tr>
 	<tr><td>service_id</td><td>Service instance entity GUID which uniquely identifies a created resource.</td></tr>
 	<tr><td>sku_name</td><td>Name of the Sku.</td></tr>

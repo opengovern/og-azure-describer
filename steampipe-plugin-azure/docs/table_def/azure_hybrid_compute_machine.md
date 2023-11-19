@@ -19,7 +19,7 @@
 	<tr><td>os_sku</td><td>Specifies the Operating System product SKU.</td></tr>
 	<tr><td>os_version</td><td>The version of Operating System running on the hybrid machine.</td></tr>
 	<tr><td>vm_id</td><td>Specifies the hybrid machine unique ID.</td></tr>
-	<tr><td>vm_uuid</td><td>Specifies the Arc Machine's unique SMBIOS ID.</td></tr>
+	<tr><td>vm_uuid</td><td>Specifies the Arc Machine&#39;s unique SMBIOS ID.</td></tr>
 	<tr><td>error_details</td><td>Details about the error state.</td></tr>
 	<tr><td>extensions</td><td>The extensions of the compute machine.</td></tr>
 	<tr><td>identity</td><td>The identity of the compute machine.</td></tr>

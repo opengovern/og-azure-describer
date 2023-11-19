@@ -6,10 +6,10 @@
 	<tr><td>id</td><td>Contains ID to identify a firewall policy uniquely.</td></tr>
 	<tr><td>etag</td><td>A unique read-only string that changes whenever the resource is updated.</td></tr>
 	<tr><td>type</td><td>The resource type of the firewall policy.</td></tr>
-	<tr><td>provisioning_state</td><td>The provisioning state of the firewall policy resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.</td></tr>
-	<tr><td>intrusion_detection_mode</td><td>Intrusion detection general state. Possible values include: 'FirewallPolicyIntrusionDetectionStateTypeOff', 'FirewallPolicyIntrusionDetectionStateTypeAlert', 'FirewallPolicyIntrusionDetectionStateTypeDeny'.</td></tr>
-	<tr><td>sku_tier</td><td>Tier of Firewall Policy. Possible values include: 'FirewallPolicySkuTierStandard', 'FirewallPolicySkuTierPremium'.</td></tr>
-	<tr><td>threat_intel_mode</td><td>The operation mode for Threat Intelligence. Possible values include: 'AzureFirewallThreatIntelModeAlert', 'AzureFirewallThreatIntelModeDeny', 'AzureFirewallThreatIntelModeOff'.</td></tr>
+	<tr><td>provisioning_state</td><td>The provisioning state of the firewall policy resource. Possible values include: &#39;Succeeded&#39;, &#39;Updating&#39;, &#39;Deleting&#39;, &#39;Failed&#39;.</td></tr>
+	<tr><td>intrusion_detection_mode</td><td>Intrusion detection general state. Possible values include: &#39;FirewallPolicyIntrusionDetectionStateTypeOff&#39;, &#39;FirewallPolicyIntrusionDetectionStateTypeAlert&#39;, &#39;FirewallPolicyIntrusionDetectionStateTypeDeny&#39;.</td></tr>
+	<tr><td>sku_tier</td><td>Tier of Firewall Policy. Possible values include: &#39;FirewallPolicySkuTierStandard&#39;, &#39;FirewallPolicySkuTierPremium&#39;.</td></tr>
+	<tr><td>threat_intel_mode</td><td>The operation mode for Threat Intelligence. Possible values include: &#39;AzureFirewallThreatIntelModeAlert&#39;, &#39;AzureFirewallThreatIntelModeDeny&#39;, &#39;AzureFirewallThreatIntelModeOff&#39;.</td></tr>
 	<tr><td>base_policy</td><td>The parent firewall policy from which rules are inherited.</td></tr>
 	<tr><td>child_policies</td><td>List of references to Child Firewall Policies.</td></tr>
 	<tr><td>dns_settings</td><td>DNS Proxy Settings definition.</td></tr>

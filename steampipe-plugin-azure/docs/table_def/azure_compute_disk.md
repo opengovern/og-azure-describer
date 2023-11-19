@@ -13,7 +13,7 @@
 	<tr><td>unique_id</td><td>Unique Guid identifying the resource</td></tr>
 	<tr><td>disk_access_id</td><td>ARM id of the DiskAccess resource for using private endpoints on disks</td></tr>
 	<tr><td>disk_size_bytes</td><td>The size of the disk in bytes</td></tr>
-	<tr><td>disk_size_gb</td><td>If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size</td></tr>
+	<tr><td>disk_size_gb</td><td>If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk&#39;s size</td></tr>
 	<tr><td>disk_state</td><td>This enumerates the possible state of the disk</td></tr>
 	<tr><td>hyper_v_generation</td><td>The hypervisor generation of the Virtual Machine. Applicable to OS disks only</td></tr>
 	<tr><td>disk_iops_read_only</td><td>The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes</td></tr>
@@ -23,20 +23,20 @@
 	<tr><td>max_shares</td><td>The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time</td></tr>
 	<tr><td>os_type</td><td>The Operating System type</td></tr>
 	<tr><td>encryption_settings_collection_enabled</td><td>Shows the status of the encryption settings for the disk</td></tr>
-	<tr><td>encryption_settings_collection_version</td><td>Describes the type of encryption is used for the disks. '1.0' corresponds to Azure Disk Encryption with AAD app. '1.1' corresponds to Azure Disk Encryption</td></tr>
+	<tr><td>encryption_settings_collection_version</td><td>Describes the type of encryption is used for the disks. &#39;1.0&#39; corresponds to Azure Disk Encryption with AAD app. &#39;1.1&#39; corresponds to Azure Disk Encryption</td></tr>
 	<tr><td>encryption_disk_encryption_set_id</td><td>ResourceId of the disk encryption set to use for enabling encryption at rest</td></tr>
 	<tr><td>encryption_type</td><td>The type of key used to encrypt the data of the disk</td></tr>
 	<tr><td>network_access_policy</td><td>Policy for accessing the disk via network</td></tr>
-	<tr><td>creation_data_option</td><td>This enumerates the possible sources of a disk's creation</td></tr>
+	<tr><td>creation_data_option</td><td>This enumerates the possible sources of a disk&#39;s creation</td></tr>
 	<tr><td>creation_data_storage_account_id</td><td>The Azure Resource Manager identifier of the storage account containing the blob to import as a disk</td></tr>
 	<tr><td>creation_data_source_uri</td><td>The URI of a blob to be imported into a managed disk</td></tr>
 	<tr><td>creation_data_source_resource_id</td><td>The ARM id of the source snapshot or disk</td></tr>
 	<tr><td>creation_data_source_unique_id</td><td>An unique id identifying the source of this resource</td></tr>
 	<tr><td>creation_data_upload_size_bytes</td><td>This is the size of the contents of the upload including the VHD footer. This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512 bytes for the VHD footer)</td></tr>
 	<tr><td>creation_data_image_reference_id</td><td>A relative uri containing either a Platform Image Repository or user image reference</td></tr>
-	<tr><td>creation_data_image_reference_lun</td><td>If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null</td></tr>
+	<tr><td>creation_data_image_reference_lun</td><td>If the disk is created from an image&#39;s data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null</td></tr>
 	<tr><td>creation_data_gallery_image_reference_id</td><td>The ARM id of the shared galley image version from which disk was created</td></tr>
-	<tr><td>creation_data_gallery_image_reference_lun</td><td>An index that indicates which of the data disks in the image to use, if the disk is created from an image's data disk</td></tr>
+	<tr><td>creation_data_gallery_image_reference_lun</td><td>An index that indicates which of the data disks in the image to use, if the disk is created from an image&#39;s data disk</td></tr>
 	<tr><td>encryption_settings_collection_settings</td><td>A collection of encryption settings, one for each disk volume</td></tr>
 	<tr><td>share_info</td><td>Details of the list of all VMs that have the disk attached</td></tr>
 	<tr><td>zones</td><td>The Logical zone list for Disk</td></tr>

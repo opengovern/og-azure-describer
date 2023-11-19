@@ -5,7 +5,7 @@
 	<tr><td>name</td><td>The name of the resource that is unique within the set of backend address pools used by the load balancer. This name can be used to access the resource.</td></tr>
 	<tr><td>id</td><td>The resource ID.</td></tr>
 	<tr><td>load_balancer_name</td><td>The friendly name that identifies the load balancer.</td></tr>
-	<tr><td>provisioning_state</td><td>The provisioning state of the backend address pool resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.</td></tr>
+	<tr><td>provisioning_state</td><td>The provisioning state of the backend address pool resource. Possible values include: &#39;Succeeded&#39;, &#39;Updating&#39;, &#39;Deleting&#39;, &#39;Failed&#39;.</td></tr>
 	<tr><td>type</td><td>Type of the resource.</td></tr>
 	<tr><td>etag</td><td>A unique read-only string that changes whenever the resource is updated.</td></tr>
 	<tr><td>outbound_rule_id</td><td>A reference to an outbound rule that uses this backend address pool.</td></tr>

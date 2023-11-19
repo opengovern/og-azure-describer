@@ -4,12 +4,12 @@
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>name</td><td>The name of the resource.</td></tr>
 	<tr><td>id</td><td>Fully qualified resource ID for the resource.</td></tr>
-	<tr><td>provisioning_state</td><td>Provisioning state of the resource. Possible values include: 'Unknown', 'Succeeded', 'Failed', 'Canceled', 'Running', 'Creating', 'Updating', 'Deleting', 'Moving'.</td></tr>
+	<tr><td>provisioning_state</td><td>Provisioning state of the resource. Possible values include: &#39;Unknown&#39;, &#39;Succeeded&#39;, &#39;Failed&#39;, &#39;Canceled&#39;, &#39;Running&#39;, &#39;Creating&#39;, &#39;Updating&#39;, &#39;Deleting&#39;, &#39;Moving&#39;.</td></tr>
 	<tr><td>type</td><td>The type of the resource.</td></tr>
 	<tr><td>external_ip</td><td>The publicly accessible IP of the SignalR service.</td></tr>
 	<tr><td>host_name</td><td>FQDN of the SignalR service instance.</td></tr>
 	<tr><td>host_name_prefix</td><td>Prefix for the host name of the SignalR service.</td></tr>
-	<tr><td>kind</td><td>The kind of the service. Possible values include: 'SignalR', 'RawWebSockets'.</td></tr>
+	<tr><td>kind</td><td>The kind of the service. Possible values include: &#39;SignalR&#39;, &#39;RawWebSockets&#39;.</td></tr>
 	<tr><td>public_port</td><td>The publicly accessible port of the SignalR service which is designed for browser/client side usage.</td></tr>
 	<tr><td>server_port</td><td>The publicly accessible port of the SignalR service which is designed for customer server side usage.</td></tr>
 	<tr><td>version</td><td>Version of the SignalR resource.</td></tr>

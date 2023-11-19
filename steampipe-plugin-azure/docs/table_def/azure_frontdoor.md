@@ -7,10 +7,10 @@
 	<tr><td>provisioning_state</td><td>Provisioning state of the front door.</td></tr>
 	<tr><td>type</td><td>The type of the resource.</td></tr>
 	<tr><td>cname</td><td>The host that each frontendEndpoint must CNAME to.</td></tr>
-	<tr><td>enabled_state</td><td>Operational status of the front door load balancer. Possible values include: 'Enabled', 'Disabled'.</td></tr>
+	<tr><td>enabled_state</td><td>Operational status of the front door load balancer. Possible values include: &#39;Enabled&#39;, &#39;Disabled&#39;.</td></tr>
 	<tr><td>friendly_name</td><td>A friendly name for the front door.</td></tr>
 	<tr><td>front_door_id</td><td>The ID of the front door.</td></tr>
-	<tr><td>resource_state</td><td>Resource status of the front door. Possible values include: 'Creating', 'Enabling', 'Enabled', 'Disabling', 'Disabled', 'Deleting'.</td></tr>
+	<tr><td>resource_state</td><td>Resource status of the front door. Possible values include: &#39;Creating&#39;, &#39;Enabling&#39;, &#39;Enabled&#39;, &#39;Disabling&#39;, &#39;Disabled&#39;, &#39;Deleting&#39;.</td></tr>
 	<tr><td>backend_pools</td><td>Backend pools available to routing rules.</td></tr>
 	<tr><td>backend_pools_settings</td><td>Settings for all backend pools</td></tr>
 	<tr><td>diagnostic_settings</td><td>A list of active diagnostic settings for the resource.</td></tr>

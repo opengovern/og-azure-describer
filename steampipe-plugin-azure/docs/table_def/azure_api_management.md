@@ -4,7 +4,7 @@
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>name</td><td>A friendly name that identifies an API management service.</td></tr>
 	<tr><td>id</td><td>Contains ID to identify an API management service uniquely.</td></tr>
-	<tr><td>provisioning_state</td><td>The current provisioning state of the API management service. Possible values include: 'Created', 'Activating', 'Succeeded', 'Updating', 'Failed', 'Stopped', 'Terminating', 'TerminationFailed', 'Deleted'.</td></tr>
+	<tr><td>provisioning_state</td><td>The current provisioning state of the API management service. Possible values include: &#39;Created&#39;, &#39;Activating&#39;, &#39;Succeeded&#39;, &#39;Updating&#39;, &#39;Failed&#39;, &#39;Stopped&#39;, &#39;Terminating&#39;, &#39;TerminationFailed&#39;, &#39;Deleted&#39;.</td></tr>
 	<tr><td>type</td><td>Type of the resource.</td></tr>
 	<tr><td>created_at_utc</td><td>Creation UTC date of the API management service.</td></tr>
 	<tr><td>developer_portal_url</td><td>Developer Portal endpoint URL of the API management service.</td></tr>
@@ -29,7 +29,7 @@
 	<tr><td>virtual_network_configuration_subnet_name</td><td>The name of the subnet.</td></tr>
 	<tr><td>virtual_network_configuration_subnet_resource_id</td><td>The full resource ID of a subnet in a virtual network to deploy the API Management service in.</td></tr>
 	<tr><td>virtual_network_configuration_id</td><td>The virtual network ID.</td></tr>
-	<tr><td>virtual_network_type</td><td>The type of VPN in which API management service needs to be configured in. None (Default Value) means the API management service is not part of any Virtual Network, External means the API management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only. Possible values include: 'None', 'External', 'Internal'</td></tr>
+	<tr><td>virtual_network_type</td><td>The type of VPN in which API management service needs to be configured in. None (Default Value) means the API management service is not part of any Virtual Network, External means the API management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only. Possible values include: &#39;None&#39;, &#39;External&#39;, &#39;Internal&#39;</td></tr>
 	<tr><td>additional_locations</td><td>Additional datacenter locations of the API management service.</td></tr>
 	<tr><td>api_version_constraint</td><td>Control plane APIs version constraint for the API management service.</td></tr>
 	<tr><td>certificates</td><td>List of certificates that need to be installed in the API management service.</td></tr>
@@ -37,8 +37,8 @@
 	<tr><td>diagnostic_settings</td><td>A list of active diagnostic settings for the API management service.</td></tr>
 	<tr><td>host_name_configurations</td><td>Custom hostname configuration of the API management service.</td></tr>
 	<tr><td>identity_user_assigned_identities</td><td>The list of user identities associated with the resource.</td></tr>
-	<tr><td>private_ip_addresses</td><td>Private static load balanced IP addresses of the API management service in primary region which is deployed in an internal virtual network. Available only for 'Basic', 'Standard', 'Premium' and 'Isolated' SKU.</td></tr>
-	<tr><td>public_ip_addresses</td><td>Public static load balanced IP addresses of the API management service in primary region. Available only for 'Basic', 'Standard', 'Premium' and 'Isolated' SKU.</td></tr>
+	<tr><td>private_ip_addresses</td><td>Private static load balanced IP addresses of the API management service in primary region which is deployed in an internal virtual network. Available only for &#39;Basic&#39;, &#39;Standard&#39;, &#39;Premium&#39; and &#39;Isolated&#39; SKU.</td></tr>
+	<tr><td>public_ip_addresses</td><td>Public static load balanced IP addresses of the API management service in primary region. Available only for &#39;Basic&#39;, &#39;Standard&#39;, &#39;Premium&#39; and &#39;Isolated&#39; SKU.</td></tr>
 	<tr><td>zones</td><td>A list of availability zones denoting where the resource needs to come from.</td></tr>
 	<tr><td>title</td><td>Title of the resource.</td></tr>
 	<tr><td>tags</td><td>A map of tags for the resource.</td></tr>

@@ -10,7 +10,7 @@
 	<tr><td>type</td><td>The resource type of the flow log.</td></tr>
 	<tr><td>version</td><td>The version (revision) of the flow log.</td></tr>
 	<tr><td>etag</td><td>An unique read-only string that changes whenever the resource is updated.</td></tr>
-	<tr><td>file_type</td><td>The file type of flow log. Possible values include: 'JSON'.</td></tr>
+	<tr><td>file_type</td><td>The file type of flow log. Possible values include: &#39;JSON&#39;.</td></tr>
 	<tr><td>retention_policy_days</td><td>Specifies the number of days to retain flow log records.</td></tr>
 	<tr><td>retention_policy_enabled</td><td>Indicates whether flow log retention is enabled, or not.</td></tr>
 	<tr><td>storage_id</td><td>The ID of the storage account which is used to store the flow log.</td></tr>

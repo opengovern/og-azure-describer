@@ -3,7 +3,7 @@
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>id</td><td>The fully qualified name of the domain.</td></tr>
-	<tr><td>authentication_type</td><td>Indicates the configured authentication type for the domain. The value is either Managed or Federated. Managed indicates a cloud managed domain where Azure AD performs user authentication. Federated indicates authentication is federated with an identity provider such as the tenant's on-premises Active Directory via Active Directory Federation Services.</td></tr>
+	<tr><td>authentication_type</td><td>Indicates the configured authentication type for the domain. The value is either Managed or Federated. Managed indicates a cloud managed domain where Azure AD performs user authentication. Federated indicates authentication is federated with an identity provider such as the tenant&#39;s on-premises Active Directory via Active Directory Federation Services.</td></tr>
 	<tr><td>is_default</td><td>true if this is the default domain that is used for user creation. There is only one default domain per company.</td></tr>
 	<tr><td>is_admin_managed</td><td>The value of the property is false if the DNS record management of the domain has been delegated to Microsoft 365. Otherwise, the value is true.</td></tr>
 	<tr><td>is_initial</td><td>true if this is the initial domain created by Microsoft Online Services (companyname.onmicrosoft.com). There is only one initial domain per company.</td></tr>

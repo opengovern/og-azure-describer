@@ -5,20 +5,20 @@
 	<tr><td>name</td><td>The name of the resource.</td></tr>
 	<tr><td>id</td><td>The unique id identifying the resource in subscription.</td></tr>
 	<tr><td>type</td><td>The type of the resource.</td></tr>
-	<tr><td>provisioning_state</td><td>The provisioning state of the container registry at the time the operation was called. Valid values are: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'.</td></tr>
+	<tr><td>provisioning_state</td><td>The provisioning state of the container registry at the time the operation was called. Valid values are: &#39;Creating&#39;, &#39;Updating&#39;, &#39;Deleting&#39;, &#39;Succeeded&#39;, &#39;Failed&#39;, &#39;Canceled&#39;.</td></tr>
 	<tr><td>creation_date</td><td>The creation date of the container registry.</td></tr>
 	<tr><td>admin_user_enabled</td><td>Indicates whether the admin user is enabled, or not.</td></tr>
 	<tr><td>data_endpoint_enabled</td><td>Enable a single data endpoint per region for serving data.</td></tr>
 	<tr><td>login_server</td><td>The URL that can be used to log into the container registry.</td></tr>
-	<tr><td>network_rule_bypass_options</td><td>Indicates whether to allow trusted Azure services to access a network restricted registry. Valid values are: 'AzureServices', 'None'.</td></tr>
-	<tr><td>public_network_access</td><td>Indicates whether or not public network access is allowed for the container registry. Valid values are: 'Enabled', 'Disabled'.</td></tr>
-	<tr><td>sku_name</td><td>The SKU name of the container registry. Required for registry creation. Valid values are: 'Classic', 'Basic', 'Standard', 'Premium'.</td></tr>
-	<tr><td>sku_tier</td><td>The SKU tier based on the SKU name. Valid values are: 'Classic', 'Basic', 'Standard', 'Premium'.</td></tr>
+	<tr><td>network_rule_bypass_options</td><td>Indicates whether to allow trusted Azure services to access a network restricted registry. Valid values are: &#39;AzureServices&#39;, &#39;None&#39;.</td></tr>
+	<tr><td>public_network_access</td><td>Indicates whether or not public network access is allowed for the container registry. Valid values are: &#39;Enabled&#39;, &#39;Disabled&#39;.</td></tr>
+	<tr><td>sku_name</td><td>The SKU name of the container registry. Required for registry creation. Valid values are: &#39;Classic&#39;, &#39;Basic&#39;, &#39;Standard&#39;, &#39;Premium&#39;.</td></tr>
+	<tr><td>sku_tier</td><td>The SKU tier based on the SKU name. Valid values are: &#39;Classic&#39;, &#39;Basic&#39;, &#39;Standard&#39;, &#39;Premium&#39;.</td></tr>
 	<tr><td>status</td><td>The current status of the resource.</td></tr>
 	<tr><td>status_message</td><td>The detailed message for the status, including alerts and error messages.</td></tr>
 	<tr><td>status_timestamp</td><td>The timestamp when the status was changed to the current value.</td></tr>
 	<tr><td>storage_account_id</td><td>The resource ID of the storage account. Only applicable to Classic SKU.</td></tr>
-	<tr><td>zone_redundancy</td><td>Indicates whether or not zone redundancy is enabled for this container registry. Valid values are: 'Enabled', 'Disabled'.</td></tr>
+	<tr><td>zone_redundancy</td><td>Indicates whether or not zone redundancy is enabled for this container registry. Valid values are: &#39;Enabled&#39;, &#39;Disabled&#39;.</td></tr>
 	<tr><td>data_endpoint_host_names</td><td>A list of host names that will serve data when dataEndpointEnabled is true.</td></tr>
 	<tr><td>encryption</td><td>The encryption settings of container registry.</td></tr>
 	<tr><td>identity</td><td>The identity of the container registry.</td></tr>

@@ -4,14 +4,14 @@
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>name</td><td>The resource name.</td></tr>
 	<tr><td>id</td><td>The resource ID.</td></tr>
-	<tr><td>provisioning_state</td><td>The provisioning state of the load balancer resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.</td></tr>
+	<tr><td>provisioning_state</td><td>The provisioning state of the load balancer resource. Possible values include: &#39;Succeeded&#39;, &#39;Updating&#39;, &#39;Deleting&#39;, &#39;Failed&#39;.</td></tr>
 	<tr><td>type</td><td>The resource type.</td></tr>
 	<tr><td>etag</td><td>A unique read-only string that changes whenever the resource is updated.</td></tr>
 	<tr><td>extended_location_name</td><td>The name of the extended location.</td></tr>
-	<tr><td>extended_location_type</td><td>The type of the extended location. Possible values include: 'ExtendedLocationTypesEdgeZone'.</td></tr>
+	<tr><td>extended_location_type</td><td>The type of the extended location. Possible values include: &#39;ExtendedLocationTypesEdgeZone&#39;.</td></tr>
 	<tr><td>resource_guid</td><td>The resource GUID property of the load balancer resource.</td></tr>
-	<tr><td>sku_name</td><td>Name of the load balancer SKU. Possible values include: 'Basic', 'Standard', 'Gateway'.</td></tr>
-	<tr><td>sku_tier</td><td>Tier of the load balancer SKU. Possible values include: 'Regional', 'Global'.</td></tr>
+	<tr><td>sku_name</td><td>Name of the load balancer SKU. Possible values include: &#39;Basic&#39;, &#39;Standard&#39;, &#39;Gateway&#39;.</td></tr>
+	<tr><td>sku_tier</td><td>Tier of the load balancer SKU. Possible values include: &#39;Regional&#39;, &#39;Global&#39;.</td></tr>
 	<tr><td>backend_address_pools</td><td>Collection of backend address pools used by the load balancer.</td></tr>
 	<tr><td>diagnostic_settings</td><td>A list of active diagnostic settings for the load balancer.</td></tr>
 	<tr><td>frontend_ip_configurations</td><td>Object representing the frontend IPs to be used for the load balancer.</td></tr>

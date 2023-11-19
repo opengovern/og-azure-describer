@@ -14,8 +14,8 @@
 	<tr><td>metric_id</td><td>Identifier for azure insights metrics.</td></tr>
 	<tr><td>service_bus_endpoint</td><td>Endpoint you can use to perform service bus operations.</td></tr>
 	<tr><td>sku_capacity</td><td>The Event Hubs throughput units, value should be 0 to 20 throughput units.</td></tr>
-	<tr><td>sku_name</td><td>Name of this SKU. Possible values include: 'Basic', 'Standard'.</td></tr>
-	<tr><td>sku_tier</td><td>The billing tier of this particular SKU. Valid values are: 'Basic', 'Standard', 'Premium'.</td></tr>
+	<tr><td>sku_name</td><td>Name of this SKU. Possible values include: &#39;Basic&#39;, &#39;Standard&#39;.</td></tr>
+	<tr><td>sku_tier</td><td>The billing tier of this particular SKU. Valid values are: &#39;Basic&#39;, &#39;Standard&#39;, &#39;Premium&#39;.</td></tr>
 	<tr><td>updated_at</td><td>The time the namespace was updated.</td></tr>
 	<tr><td>zone_redundant</td><td>Enabling this property creates a standard event hubs namespace in regions supported availability zones.</td></tr>
 	<tr><td>diagnostic_settings</td><td>A list of active diagnostic settings for the eventhub namespace.</td></tr>

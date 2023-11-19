@@ -6,11 +6,11 @@
 	<tr><td>id</td><td>The resource identifier.</td></tr>
 	<tr><td>friendly_name</td><td>The Data Box Edge/Gateway device name.</td></tr>
 	<tr><td>type</td><td>The resource type.</td></tr>
-	<tr><td>data_box_edge_device_status</td><td>The status of the Data Box Edge/Gateway device. Possible values include: 'ReadyToSetup', 'Online', 'Offline', 'NeedsAttention', 'Disconnected', 'PartiallyDisconnected', 'Maintenance'.</td></tr>
+	<tr><td>data_box_edge_device_status</td><td>The status of the Data Box Edge/Gateway device. Possible values include: &#39;ReadyToSetup&#39;, &#39;Online&#39;, &#39;Offline&#39;, &#39;NeedsAttention&#39;, &#39;Disconnected&#39;, &#39;PartiallyDisconnected&#39;, &#39;Maintenance&#39;.</td></tr>
 	<tr><td>culture</td><td>The Data Box Edge/Gateway device culture.</td></tr>
 	<tr><td>description</td><td>he Description of the Data Box Edge/Gateway device.</td></tr>
 	<tr><td>device_model</td><td>The Data Box Edge/Gateway device model.</td></tr>
-	<tr><td>device_type</td><td>The type of the Data Box Edge/Gateway device. Possible values include: 'DataBoxEdgeDevice'.</td></tr>
+	<tr><td>device_type</td><td>The type of the Data Box Edge/Gateway device. Possible values include: &#39;DataBoxEdgeDevice&#39;.</td></tr>
 	<tr><td>device_hcs_version</td><td>The device software version number of the device (eg: 1.2.18105.6).</td></tr>
 	<tr><td>device_local_capacity</td><td>The Data Box Edge/Gateway device local capacity in MB.</td></tr>
 	<tr><td>device_software_version</td><td>The Data Box Edge/Gateway device software version.</td></tr>
@@ -19,8 +19,8 @@
 	<tr><td>model_description</td><td>The description of the Data Box Edge/Gateway device model.</td></tr>
 	<tr><td>node_count</td><td>The number of nodes in the cluster.</td></tr>
 	<tr><td>serial_number</td><td>The Serial Number of Data Box Edge/Gateway device.</td></tr>
-	<tr><td>sku_name</td><td>SKU name of the resource. Possible values include: 'Gateway', 'Edge'.</td></tr>
-	<tr><td>sku_tier</td><td>The SKU tier. This is based on the SKU name. Possible values include: 'Standard'.</td></tr>
+	<tr><td>sku_name</td><td>SKU name of the resource. Possible values include: &#39;Gateway&#39;, &#39;Edge&#39;.</td></tr>
+	<tr><td>sku_tier</td><td>The SKU tier. This is based on the SKU name. Possible values include: &#39;Standard&#39;.</td></tr>
 	<tr><td>time_zone</td><td>The Data Box Edge/Gateway device timezone.</td></tr>
 	<tr><td>configured_role_types</td><td>Type of compute roles configured.</td></tr>
 	<tr><td>title</td><td>Title of the resource.</td></tr>

@@ -4,11 +4,11 @@
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>name</td><td>The name of the resource.</td></tr>
 	<tr><td>id</td><td>The resource ID.</td></tr>
-	<tr><td>provisioning_state</td><td>The provisioning state of the configuration store. Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'.</td></tr>
+	<tr><td>provisioning_state</td><td>The provisioning state of the configuration store. Possible values include: &#39;Creating&#39;, &#39;Updating&#39;, &#39;Deleting&#39;, &#39;Succeeded&#39;, &#39;Failed&#39;, &#39;Canceled&#39;.</td></tr>
 	<tr><td>type</td><td>The type of the resource.</td></tr>
 	<tr><td>creation_date</td><td>The creation date of configuration store.</td></tr>
 	<tr><td>endpoint</td><td>The DNS endpoint where the configuration store API will be available.</td></tr>
-	<tr><td>public_network_access</td><td>Control permission for data plane traffic coming from public networks while private endpoint is enabled. Possible values include: 'Enabled', 'Disabled'.</td></tr>
+	<tr><td>public_network_access</td><td>Control permission for data plane traffic coming from public networks while private endpoint is enabled. Possible values include: &#39;Enabled&#39;, &#39;Disabled&#39;.</td></tr>
 	<tr><td>sku_name</td><td>The SKU name of the configuration store.</td></tr>
 	<tr><td>diagnostic_settings</td><td>A list of active diagnostic settings for the configuration store.</td></tr>
 	<tr><td>encryption</td><td>The encryption settings of the configuration store.</td></tr>

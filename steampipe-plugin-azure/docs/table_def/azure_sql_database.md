@@ -27,7 +27,7 @@
 	<tr><td>retention_policy_id</td><td>Retention policy ID.</td></tr>
 	<tr><td>retention_policy_name</td><td>Retention policy Name.</td></tr>
 	<tr><td>retention_policy_type</td><td>Long term Retention policy Type.</td></tr>
-	<tr><td>source_database_deletion_date</td><td>Specifies the time that the database was deleted when createMode is Restore and sourceDatabaseId is the deleted database's original resource id.</td></tr>
+	<tr><td>source_database_deletion_date</td><td>Specifies the time that the database was deleted when createMode is Restore and sourceDatabaseId is the deleted database&#39;s original resource id.</td></tr>
 	<tr><td>source_database_id</td><td>Specifies the resource ID of the source database if createMode is Copy, NonReadableSecondary, OnlineSecondary, PointInTimeRestore, Recovery, or Restore.</td></tr>
 	<tr><td>zone_redundant</td><td>Indicates if the database is zone redundant or not.</td></tr>
 	<tr><td>create_mode</td><td>Specifies the mode of database creation.</td></tr>

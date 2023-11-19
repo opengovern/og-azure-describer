@@ -5,7 +5,7 @@
 	<tr><td>name</td><td>The resource name.</td></tr>
 	<tr><td>friendly_name</td><td>The friendly name for this workspace. This name in mutable.</td></tr>
 	<tr><td>id</td><td>The resource identifier.</td></tr>
-	<tr><td>provisioning_state</td><td>The current deployment state of workspace resource, The provisioningState is to indicate states for resource provisioning. Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'.</td></tr>
+	<tr><td>provisioning_state</td><td>The current deployment state of workspace resource, The provisioningState is to indicate states for resource provisioning. Possible values include: &#39;Unknown&#39;, &#39;Updating&#39;, &#39;Creating&#39;, &#39;Deleting&#39;, &#39;Succeeded&#39;, &#39;Failed&#39;, &#39;Canceled&#39;.</td></tr>
 	<tr><td>creation_time</td><td>The creation time for this workspace resource.</td></tr>
 	<tr><td>workspace_id</td><td>The immutable id associated with this workspace.</td></tr>
 	<tr><td>application_insights</td><td>ARM id of the application insights associated with this workspace. This cannot be changed once the workspace has been created.</td></tr>

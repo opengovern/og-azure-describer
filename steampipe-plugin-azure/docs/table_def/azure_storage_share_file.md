@@ -12,9 +12,9 @@
 	<tr><td>last_modified_time</td><td>Returns the date and time the share was last modified.</td></tr>
 	<tr><td>deleted</td><td>Indicates whether the share was deleted.</td></tr>
 	<tr><td>deleted_time</td><td>The deleted time if the share was deleted.</td></tr>
-	<tr><td>enabled_protocols</td><td>The authentication protocol that is used for the file share. Can only be specified when creating a share. Possible values include: 'SMB', 'NFS'.</td></tr>
+	<tr><td>enabled_protocols</td><td>The authentication protocol that is used for the file share. Can only be specified when creating a share. Possible values include: &#39;SMB&#39;, &#39;NFS&#39;.</td></tr>
 	<tr><td>remaining_retention_days</td><td>Remaining retention days for share that was soft deleted.</td></tr>
-	<tr><td>root_squash</td><td>The property is for NFS share only. The default is NoRootSquash. Possible values include: 'NoRootSquash', 'RootSquash', 'AllSquash'.</td></tr>
+	<tr><td>root_squash</td><td>The property is for NFS share only. The default is NoRootSquash. Possible values include: &#39;NoRootSquash&#39;, &#39;RootSquash&#39;, &#39;AllSquash&#39;.</td></tr>
 	<tr><td>share_quota</td><td>The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5TB (5120). For Large File Shares, the maximum size is 102400.</td></tr>
 	<tr><td>share_usage_bytes</td><td>The approximate size of the data stored on the share. Note that this value may not include all recently created or recently resized files.</td></tr>
 	<tr><td>version</td><td>The version of the share.</td></tr>

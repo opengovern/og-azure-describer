@@ -5,13 +5,13 @@
 	<tr><td>name</td><td>The name of the managed HSM Pool.</td></tr>
 	<tr><td>id</td><td>The Azure Resource Manager resource ID for the managed HSM Pool.</td></tr>
 	<tr><td>type</td><td>The resource type of the managed HSM Pool.</td></tr>
-	<tr><td>provisioning_state</td><td>Provisioning state. Possible values include: 'ProvisioningStateSucceeded', 'ProvisioningStateProvisioning', 'ProvisioningStateFailed', 'ProvisioningStateUpdating', 'ProvisioningStateDeleting', 'ProvisioningStateActivated', 'ProvisioningStateSecurityDomainRestore', 'ProvisioningStateRestoring'.</td></tr>
+	<tr><td>provisioning_state</td><td>Provisioning state. Possible values include: &#39;ProvisioningStateSucceeded&#39;, &#39;ProvisioningStateProvisioning&#39;, &#39;ProvisioningStateFailed&#39;, &#39;ProvisioningStateUpdating&#39;, &#39;ProvisioningStateDeleting&#39;, &#39;ProvisioningStateActivated&#39;, &#39;ProvisioningStateSecurityDomainRestore&#39;, &#39;ProvisioningStateRestoring&#39;.</td></tr>
 	<tr><td>hsm_uri</td><td>The URI of the managed hsm pool for performing operations on keys.</td></tr>
-	<tr><td>enable_soft_delete</td><td>Property to specify whether the 'soft delete' functionality is enabled for this managed HSM pool. If it's not set to any value(true or false) when creating new managed HSM pool, it will be set to true by default. Once set to true, it cannot be reverted to false.</td></tr>
-	<tr><td>soft_delete_retention_in_days</td><td>Indicates softDelete data retention days. It accepts >=7 and <=90.</td></tr>
+	<tr><td>enable_soft_delete</td><td>Property to specify whether the &#39;soft delete&#39; functionality is enabled for this managed HSM pool. If it&#39;s not set to any value(true or false) when creating new managed HSM pool, it will be set to true by default. Once set to true, it cannot be reverted to false.</td></tr>
+	<tr><td>soft_delete_retention_in_days</td><td>Indicates softDelete data retention days. It accepts &gt;=7 and &lt;=90.</td></tr>
 	<tr><td>enable_purge_protection</td><td>Property specifying whether protection against purge is enabled for this managed HSM pool. Setting this property to true activates protection against purge for this managed HSM pool and its content - only the Managed HSM service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible.</td></tr>
 	<tr><td>status_message</td><td>Resource Status Message.</td></tr>
-	<tr><td>create_mode</td><td>The create mode to indicate whether the resource is being created or is being recovered from a deleted resource. Possible values include: 'CreateModeRecover', 'CreateModeDefault'.</td></tr>
+	<tr><td>create_mode</td><td>The create mode to indicate whether the resource is being created or is being recovered from a deleted resource. Possible values include: &#39;CreateModeRecover&#39;, &#39;CreateModeDefault&#39;.</td></tr>
 	<tr><td>sku_family</td><td>Contains SKU family name.</td></tr>
 	<tr><td>sku_name</td><td>SKU name to specify whether the key vault is a standard vault or a premium vault.</td></tr>
 	<tr><td>tenant_id</td><td>The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.</td></tr>

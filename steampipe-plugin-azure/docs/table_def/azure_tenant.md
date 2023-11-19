@@ -5,7 +5,7 @@
 	<tr><td>name</td><td>The display name of the tenant.</td></tr>
 	<tr><td>id</td><td>The fully qualified ID of the tenant. For example, /tenants/00000000-0000-0000-0000-000000000000.</td></tr>
 	<tr><td>tenant_id</td><td>The tenant ID. For example, 00000000-0000-0000-0000-000000000000.</td></tr>
-	<tr><td>tenant_category</td><td>The tenant category. Possible values include: 'Home', 'ProjectedBy', 'ManagedBy'.</td></tr>
+	<tr><td>tenant_category</td><td>The tenant category. Possible values include: &#39;Home&#39;, &#39;ProjectedBy&#39;, &#39;ManagedBy&#39;.</td></tr>
 	<tr><td>country</td><td>Country/region name of the address for the tenant.</td></tr>
 	<tr><td>country_code</td><td>Country/region abbreviation for the tenant.</td></tr>
 	<tr><td>display_name</td><td>The list of domains for the tenant.</td></tr>

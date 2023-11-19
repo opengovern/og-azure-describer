@@ -5,8 +5,8 @@
 	<tr><td>name</td><td>The name of the resource.</td></tr>
 	<tr><td>id</td><td>Fully qualified resource ID for the resource.</td></tr>
 	<tr><td>kind</td><td>The kind of the resource.</td></tr>
-	<tr><td>provisioning_state</td><td>The status of the cognitive services account at the time the operation was called. Possible values include: 'Accepted', 'Creating', 'Deleting', 'Moving', 'Failed', 'Succeeded', 'ResolvingDNS'.</td></tr>
-	<tr><td>type</td><td>The type of the resource. E.g. 'Microsoft.Compute/virtualMachines' or 'Microsoft.Storage/storageAccounts'.</td></tr>
+	<tr><td>provisioning_state</td><td>The status of the cognitive services account at the time the operation was called. Possible values include: &#39;Accepted&#39;, &#39;Creating&#39;, &#39;Deleting&#39;, &#39;Moving&#39;, &#39;Failed&#39;, &#39;Succeeded&#39;, &#39;ResolvingDNS&#39;.</td></tr>
+	<tr><td>type</td><td>The type of the resource. E.g. &#39;Microsoft.Compute/virtualMachines&#39; or &#39;Microsoft.Storage/storageAccounts&#39;.</td></tr>
 	<tr><td>custom_sub_domain_name</td><td>The subdomain name used for token-based authentication.</td></tr>
 	<tr><td>date_created</td><td>The date of cognitive services account creation.</td></tr>
 	<tr><td>disable_local_auth</td><td>Checks if local auth is disabled for the resource.</td></tr>
@@ -14,7 +14,7 @@
 	<tr><td>etag</td><td>The resource etag.</td></tr>
 	<tr><td>is_migrated</td><td>Checks if the resource is migrated from an existing key.</td></tr>
 	<tr><td>migration_token</td><td>The resource migration token.</td></tr>
-	<tr><td>public_network_access</td><td>Whether or not public endpoint access is allowed for this account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'.</td></tr>
+	<tr><td>public_network_access</td><td>Whether or not public endpoint access is allowed for this account. Value is optional but if passed in, must be &#39;Enabled&#39; or &#39;Disabled&#39;. Possible values include: &#39;Enabled&#39;, &#39;Disabled&#39;.</td></tr>
 	<tr><td>restore</td><td>Checks if restore is enabled for the resource.</td></tr>
 	<tr><td>restrict_outbound_network_access</td><td>Checks if outbound network access is restricted for the resource.</td></tr>
 	<tr><td>allowed_fqdn_list</td><td>The allowed FQDN list for the resource.</td></tr>

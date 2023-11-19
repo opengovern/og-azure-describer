@@ -10,8 +10,8 @@
 	<tr><td>last_modified_time</td><td>The last modified time of the account.</td></tr>
 	<tr><td>last_modified_by</td><td>The account last modified by.</td></tr>
 	<tr><td>type</td><td>The type of the resource.</td></tr>
-	<tr><td>state</td><td>The status of account. Possible values include: 'AccountStateOk', 'AccountStateUnavailable', 'AccountStateSuspended'.</td></tr>
-	<tr><td>sku_name</td><td>The SKU name of the account. Possible values include: 'SkuNameEnumFree', 'SkuNameEnumBasic'.</td></tr>
+	<tr><td>state</td><td>The status of account. Possible values include: &#39;AccountStateOk&#39;, &#39;AccountStateUnavailable&#39;, &#39;AccountStateSuspended&#39;.</td></tr>
+	<tr><td>sku_name</td><td>The SKU name of the account. Possible values include: &#39;SkuNameEnumFree&#39;, &#39;SkuNameEnumBasic&#39;.</td></tr>
 	<tr><td>sku_family</td><td>The SKU family of the account.</td></tr>
 	<tr><td>sku_capacity</td><td>The SKU capacity of the account.</td></tr>
 	<tr><td>title</td><td>Title of the resource.</td></tr>

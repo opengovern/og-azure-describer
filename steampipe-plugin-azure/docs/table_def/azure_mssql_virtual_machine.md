@@ -7,9 +7,9 @@
 	<tr><td>provisioning_state</td><td>Provisioning state to track the async operation status.</td></tr>
 	<tr><td>type</td><td>The resource type.</td></tr>
 	<tr><td>sql_image_offer</td><td>SQL image offer for the SQL virtual machine.</td></tr>
-	<tr><td>sql_image_sku</td><td>SQL Server edition type. Possible values include: 'Developer', 'Express', 'Standard', 'Enterprise', 'Web'.</td></tr>
-	<tr><td>sql_management</td><td>SQL Server Management type. Possible values include: 'Full', 'LightWeight', 'NoAgent'.</td></tr>
-	<tr><td>sql_server_license_type</td><td>SQL server license type for the SQL virtual machine. Possible values include: 'PAYG', 'AHUB', 'DR'.</td></tr>
+	<tr><td>sql_image_sku</td><td>SQL Server edition type. Possible values include: &#39;Developer&#39;, &#39;Express&#39;, &#39;Standard&#39;, &#39;Enterprise&#39;, &#39;Web&#39;.</td></tr>
+	<tr><td>sql_management</td><td>SQL Server Management type. Possible values include: &#39;Full&#39;, &#39;LightWeight&#39;, &#39;NoAgent&#39;.</td></tr>
+	<tr><td>sql_server_license_type</td><td>SQL server license type for the SQL virtual machine. Possible values include: &#39;PAYG&#39;, &#39;AHUB&#39;, &#39;DR&#39;.</td></tr>
 	<tr><td>sql_virtual_machine_group_resource_id</td><td>ARM resource id of the SQL virtual machine group this SQL virtual machine is or will be part of.</td></tr>
 	<tr><td>virtual_machine_resource_id</td><td>ARM resource id of underlying virtual machine created from SQL marketplace image.</td></tr>
 	<tr><td>auto_backup_settings</td><td>Auto backup settings for SQL Server.</td></tr>

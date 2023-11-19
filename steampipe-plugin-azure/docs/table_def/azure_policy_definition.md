@@ -7,7 +7,7 @@
 	<tr><td>display_name</td><td>The user-friendly display name of the policy definition.</td></tr>
 	<tr><td>description</td><td>The policy definition description.</td></tr>
 	<tr><td>mode</td><td>The policy definition mode. Some examples are All, Indexed, Microsoft.KeyVault.Data.</td></tr>
-	<tr><td>policy_type</td><td>The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. Possible values include: 'NotSpecified', 'BuiltIn', 'Custom', 'Static'.</td></tr>
+	<tr><td>policy_type</td><td>The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. Possible values include: &#39;NotSpecified&#39;, &#39;BuiltIn&#39;, &#39;Custom&#39;, &#39;Static&#39;.</td></tr>
 	<tr><td>type</td><td>The type of the resource (Microsoft.Authorization/policyDefinitions).</td></tr>
 	<tr><td>metadata</td><td>The policy definition metadata.  Metadata is an open ended object and is typically a collection of key value pairs.</td></tr>
 	<tr><td>parameters</td><td>The parameter definitions for parameters used in the policy rule. The keys are the parameter names.</td></tr>

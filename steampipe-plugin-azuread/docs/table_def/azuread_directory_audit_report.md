@@ -5,7 +5,7 @@
 	<tr><td>id</td><td>Indicates the unique ID for the activity.</td></tr>
 	<tr><td>activity_date_time</td><td>Indicates the date and time the activity was performed.</td></tr>
 	<tr><td>activity_display_name</td><td>Indicates the activity name or the operation name.</td></tr>
-	<tr><td>category</td><td>Indicates which resource category that's targeted by the activity.</td></tr>
+	<tr><td>category</td><td>Indicates which resource category that&#39;s targeted by the activity.</td></tr>
 	<tr><td>correlation_id</td><td>Indicates a unique ID that helps correlate activities that span across various services. Can be used to trace logs across services.</td></tr>
 	<tr><td>logged_by_service</td><td>Indicates information on which service initiated the activity (For example: Self-service Password Management, Core Directory, B2C, Invited Users, Microsoft Identity Manager, Privileged Identity Management.</td></tr>
 	<tr><td>operation_type</td><td>Indicates the type of operation that was performed. The possible values include but are not limited to the following: Add, Assign, Update, Unassign, and Delete.</td></tr>

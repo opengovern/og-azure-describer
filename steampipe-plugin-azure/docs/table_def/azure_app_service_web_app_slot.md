@@ -10,17 +10,17 @@
 	<tr><td>type</td><td>Resource type.</td></tr>
 	<tr><td>last_modified_time_utc</td><td>Last time the app was modified, in UTC.</td></tr>
 	<tr><td>repository_site_name</td><td>Name of the repository site.</td></tr>
-	<tr><td>usage_state</td><td>State indicating whether the app has exceeded its quota usage. Read-only. Possible values include: 'UsageStateNormal', 'UsageStateExceeded'.</td></tr>
+	<tr><td>usage_state</td><td>State indicating whether the app has exceeded its quota usage. Read-only. Possible values include: &#39;UsageStateNormal&#39;, &#39;UsageStateExceeded&#39;.</td></tr>
 	<tr><td>enabled</td><td>Indicates wheather the app is enabled.</td></tr>
-	<tr><td>availability_state</td><td>Management information availability state for the app. Possible values include: 'Normal', 'Limited', 'DisasterRecoveryMode'.</td></tr>
-	<tr><td>server_farm_id</td><td>Resource ID of the associated App Service plan, formatted as: '/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}'.</td></tr>
+	<tr><td>availability_state</td><td>Management information availability state for the app. Possible values include: &#39;Normal&#39;, &#39;Limited&#39;, &#39;DisasterRecoveryMode&#39;.</td></tr>
+	<tr><td>server_farm_id</td><td>Resource ID of the associated App Service plan, formatted as: &#39;/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}&#39;.</td></tr>
 	<tr><td>reserved</td><td>True if reserved; otherwise, false.</td></tr>
 	<tr><td>is_xenon</td><td>Obsolete: Hyper-V sandbox.</td></tr>
 	<tr><td>hyper_v</td><td>Hyper-V sandbox.</td></tr>
 	<tr><td>scm_site_also_stopped</td><td>True to stop SCM (KUDU) site when the app is stopped; otherwise, false. The default is false.</td></tr>
 	<tr><td>target_swap_slot</td><td>Specifies which deployment slot this app will swap into.</td></tr>
 	<tr><td>client_affinity_enabled</td><td>True to enable client affinity; false to stop sending session affinity cookies, which route client requests in the same session to the same instance. Default is true.</td></tr>
-	<tr><td>client_cert_mode</td><td>This composes with ClientCertEnabled setting. ClientCertEnabled: false means ClientCert is ignored. ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted. Possible values include: 'Required', 'Optional'.</td></tr>
+	<tr><td>client_cert_mode</td><td>This composes with ClientCertEnabled setting. ClientCertEnabled: false means ClientCert is ignored. ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted. Possible values include: &#39;Required&#39;, &#39;Optional&#39;.</td></tr>
 	<tr><td>client_cert_exclusion_paths</td><td>Client certificate authentication comma-separated exclusion paths.</td></tr>
 	<tr><td>host_names_disabled</td><td>True to disable the public hostnames of the app; otherwise, false. If true, the app is only accessible via API management process.</td></tr>
 	<tr><td>custom_domain_verification_id</td><td>Unique identifier that verifies the custom domains assigned to the app. The customer will add this ID to a text record for verification.</td></tr>
@@ -31,11 +31,11 @@
 	<tr><td>is_default_container</td><td>True if the app is a default container; otherwise, false.</td></tr>
 	<tr><td>default_host_name</td><td>Default hostname of the app.</td></tr>
 	<tr><td>https_only</td><td>Configures a web site to accept only https requests.</td></tr>
-	<tr><td>redundancy_mode</td><td>Site redundancy mode. Possible values include: 'RedundancyModeNone', 'RedundancyModeManual', 'RedundancyModeFailover', 'RedundancyModeActiveActive', 'RedundancyModeGeoRedundant'.</td></tr>
+	<tr><td>redundancy_mode</td><td>Site redundancy mode. Possible values include: &#39;RedundancyModeNone&#39;, &#39;RedundancyModeManual&#39;, &#39;RedundancyModeFailover&#39;, &#39;RedundancyModeActiveActive&#39;, &#39;RedundancyModeGeoRedundant&#39;.</td></tr>
 	<tr><td>identity</td><td>Managed service identity.</td></tr>
 	<tr><td>host_names</td><td>Hostnames associated with the app.</td></tr>
 	<tr><td>enabled_host_names</td><td>Enabled hostnames for the app. Hostnames need to be assigned (see HostNames) AND enabled. Otherwise, the app is not served on those hostnames.</td></tr>
-	<tr><td>host_name_ssl_states</td><td>Hostname SSL states are used to manage the SSL bindings for app's hostnames.</td></tr>
+	<tr><td>host_name_ssl_states</td><td>Hostname SSL states are used to manage the SSL bindings for app&#39;s hostnames.</td></tr>
 	<tr><td>site_config</td><td>Configuration of the app.</td></tr>
 	<tr><td>traffic_manager_host_names</td><td>Azure Traffic Manager hostnames associated with the app.</td></tr>
 	<tr><td>hosting_environment_profile</td><td>App Service Environment to use for the app.</td></tr>

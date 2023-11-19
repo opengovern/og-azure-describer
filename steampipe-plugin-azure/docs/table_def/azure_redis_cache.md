@@ -5,13 +5,13 @@
 	<tr><td>name</td><td>The name of the resource.</td></tr>
 	<tr><td>id</td><td>The unique id identifying the resource in subscription.</td></tr>
 	<tr><td>type</td><td>The type of the resource.</td></tr>
-	<tr><td>provisioning_state</td><td>The provisioning state of the redis instance at the time the operation was called. Valid values are: 'Creating', 'Deleting', 'Disabled', 'Failed', 'Linking', 'Provisioning', 'RecoveringScaleFailure', 'Scaling', 'Succeeded', 'Unlinking', 'Unprovisioning', and 'Updating'.</td></tr>
+	<tr><td>provisioning_state</td><td>The provisioning state of the redis instance at the time the operation was called. Valid values are: &#39;Creating&#39;, &#39;Deleting&#39;, &#39;Disabled&#39;, &#39;Failed&#39;, &#39;Linking&#39;, &#39;Provisioning&#39;, &#39;RecoveringScaleFailure&#39;, &#39;Scaling&#39;, &#39;Succeeded&#39;, &#39;Unlinking&#39;, &#39;Unprovisioning&#39;, and &#39;Updating&#39;.</td></tr>
 	<tr><td>redis_version</td><td>Specifies the version.</td></tr>
 	<tr><td>enable_non_ssl_port</td><td>Specifies whether the non-ssl Redis server port (6379) is enabled.</td></tr>
 	<tr><td>host_name</td><td>Specifies the name of the redis host.</td></tr>
 	<tr><td>minimum_tls_version</td><td>Specifies the TLS version requires to connect.</td></tr>
 	<tr><td>port</td><td>Specifies the redis non-SSL port.</td></tr>
-	<tr><td>public_network_access</td><td>Indicates whether or not public endpoint access is allowed for this cache. Valid values are: 'Enabled', 'Disabled'.</td></tr>
+	<tr><td>public_network_access</td><td>Indicates whether or not public endpoint access is allowed for this cache. Valid values are: &#39;Enabled&#39;, &#39;Disabled&#39;.</td></tr>
 	<tr><td>sku_capacity</td><td>The size of the Redis cache to deploy.</td></tr>
 	<tr><td>sku_family</td><td>The SKU family to use.</td></tr>
 	<tr><td>sku_name</td><td>The type of Redis cache to deploy.</td></tr>

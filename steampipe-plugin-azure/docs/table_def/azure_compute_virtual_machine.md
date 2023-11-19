@@ -29,7 +29,7 @@
 	<tr><td>os_disk_caching</td><td>Specifies the caching requirements of the operating system disk used by the virtual machine.</td></tr>
 	<tr><td>os_disk_create_option</td><td>Specifies how the virtual machine should be created.</td></tr>
 	<tr><td>os_disk_name</td><td>Specifies the name of the operating system disk used by the virtual machine.</td></tr>
-	<tr><td>os_disk_vhd_uri</td><td>Specifies the virtual hard disk's uri.</td></tr>
+	<tr><td>os_disk_vhd_uri</td><td>Specifies the virtual hard disk&#39;s uri.</td></tr>
 	<tr><td>os_name</td><td>The Operating System running on the virtual machine.</td></tr>
 	<tr><td>os_version</td><td>The version of Operating System running on the virtual machine.</td></tr>
 	<tr><td>os_type</td><td>Specifies the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD.</td></tr>

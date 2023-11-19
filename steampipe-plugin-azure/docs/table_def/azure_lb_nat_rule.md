@@ -9,11 +9,11 @@
 	<tr><td>type</td><td>Type of the resource.</td></tr>
 	<tr><td>etag</td><td>A unique read-only string that changes whenever the resource is updated.</td></tr>
 	<tr><td>backend_port</td><td>The port used for the internal endpoint. Acceptable values range from 1 to 65535.</td></tr>
-	<tr><td>enable_floating_ip</td><td>Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can't be changed after you create the endpoint.</td></tr>
+	<tr><td>enable_floating_ip</td><td>Configures a virtual machine&#39;s endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can&#39;t be changed after you create the endpoint.</td></tr>
 	<tr><td>frontend_port</td><td>The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values range from 1 to 65534.</td></tr>
 	<tr><td>enable_tcp_reset</td><td>Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This element is only used when the protocol is set to TCP.</td></tr>
 	<tr><td>idle_timeout_in_minutes</td><td>The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.</td></tr>
-	<tr><td>protocol</td><td>The reference to the transport protocol used by the load balancing rule. Possible values include: 'TransportProtocolUDP', 'TransportProtocolTCP', 'TransportProtocolAll'.</td></tr>
+	<tr><td>protocol</td><td>The reference to the transport protocol used by the load balancing rule. Possible values include: &#39;TransportProtocolUDP&#39;, &#39;TransportProtocolTCP&#39;, &#39;TransportProtocolAll&#39;.</td></tr>
 	<tr><td>backend_ip_configuration</td><td>A reference to a private IP address defined on a network interface of a VM. Traffic sent to the frontend port of each of the frontend IP configurations is forwarded to the backend IP.</td></tr>
 	<tr><td>frontend_ip_configuration</td><td>A reference to frontend IP addresses.</td></tr>
 	<tr><td>title</td><td>Title of the resource.</td></tr>

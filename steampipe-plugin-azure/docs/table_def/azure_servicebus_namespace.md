@@ -11,8 +11,8 @@
 	<tr><td>metric_id</td><td>The identifier for Azure insights metrics.</td></tr>
 	<tr><td>servicebus_endpoint</td><td>Specifies the endpoint used to perform Service Bus operations.</td></tr>
 	<tr><td>sku_capacity</td><td>The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.</td></tr>
-	<tr><td>sku_name</td><td>Name of this SKU. Valid valuer are: 'Basic', 'Standard', 'Premium'.</td></tr>
-	<tr><td>sku_tier</td><td>The billing tier of this particular SKU. Valid values are: 'Basic', 'Standard', 'Premium'.</td></tr>
+	<tr><td>sku_name</td><td>Name of this SKU. Valid valuer are: &#39;Basic&#39;, &#39;Standard&#39;, &#39;Premium&#39;.</td></tr>
+	<tr><td>sku_tier</td><td>The billing tier of this particular SKU. Valid values are: &#39;Basic&#39;, &#39;Standard&#39;, &#39;Premium&#39;.</td></tr>
 	<tr><td>updated_at</td><td>The time the namespace was updated.</td></tr>
 	<tr><td>diagnostic_settings</td><td>A list of active diagnostic settings for the servicebus namespace.</td></tr>
 	<tr><td>encryption</td><td>Specifies the properties of BYOK encryption configuration. Customer-managed key encryption at rest (Bring Your Own Key) is only available on Premium namespaces.</td></tr>

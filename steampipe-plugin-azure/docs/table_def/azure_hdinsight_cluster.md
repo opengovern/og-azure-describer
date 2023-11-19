@@ -4,7 +4,7 @@
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>name</td><td>The name of the resource.</td></tr>
 	<tr><td>id</td><td>Fully qualified resource Id for the resource.</td></tr>
-	<tr><td>provisioning_state</td><td>The provisioning state, which only appears in the response. Possible values include: 'InProgress', 'Failed', 'Succeeded', 'Canceled', 'Deleting'.</td></tr>
+	<tr><td>provisioning_state</td><td>The provisioning state, which only appears in the response. Possible values include: &#39;InProgress&#39;, &#39;Failed&#39;, &#39;Succeeded&#39;, &#39;Canceled&#39;, &#39;Deleting&#39;.</td></tr>
 	<tr><td>type</td><td>The type of the resource.</td></tr>
 	<tr><td>cluster_hdp_version</td><td>The hdp version of the cluster.</td></tr>
 	<tr><td>cluster_id</td><td>The cluster id.</td></tr>
@@ -13,8 +13,8 @@
 	<tr><td>created_date</td><td>The date on which the cluster was created.</td></tr>
 	<tr><td>etag</td><td>The ETag for the resource.</td></tr>
 	<tr><td>min_supported_tls_version</td><td>The minimal supported tls version of the cluster.</td></tr>
-	<tr><td>os_type</td><td>The type of operating system. Possible values include: 'Windows', 'Linux'.</td></tr>
-	<tr><td>tier</td><td>The cluster tier. Possible values include: 'Standard', 'Premium'.</td></tr>
+	<tr><td>os_type</td><td>The type of operating system. Possible values include: &#39;Windows&#39;, &#39;Linux&#39;.</td></tr>
+	<tr><td>tier</td><td>The cluster tier. Possible values include: &#39;Standard&#39;, &#39;Premium&#39;.</td></tr>
 	<tr><td>cluster_definition</td><td>The cluster definition.</td></tr>
 	<tr><td>compute_isolation_properties</td><td>The compute isolation properties of the cluster.</td></tr>
 	<tr><td>compute_profile</td><td>The complete profile of the cluster.</td></tr>

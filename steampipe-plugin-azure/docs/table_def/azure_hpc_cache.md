@@ -4,7 +4,7 @@
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>name</td><td>The name of the cache.</td></tr>
 	<tr><td>id</td><td>The resource ID of the cache.</td></tr>
-	<tr><td>provisioning_state</td><td>ARM provisioning state. Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Creating', 'Deleting', 'Updating'.</td></tr>
+	<tr><td>provisioning_state</td><td>ARM provisioning state. Possible values include: &#39;Succeeded&#39;, &#39;Failed&#39;, &#39;Cancelled&#39;, &#39;Creating&#39;, &#39;Deleting&#39;, &#39;Updating&#39;.</td></tr>
 	<tr><td>type</td><td>The type of the cache.</td></tr>
 	<tr><td>cache_size_gb</td><td>The size of the cache, in GB.</td></tr>
 	<tr><td>sku_name</td><td>The SKU for the cache.</td></tr>

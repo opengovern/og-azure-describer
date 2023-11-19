@@ -6,7 +6,7 @@
 	<tr><td>id</td><td>The unique id identifying the resource in subscription</td></tr>
 	<tr><td>type</td><td>The type of the resource in Azure</td></tr>
 	<tr><td>provisioning_state</td><td>The disk provisioning state</td></tr>
-	<tr><td>create_option</td><td>Specifies the possible sources of a disk's creation</td></tr>
+	<tr><td>create_option</td><td>Specifies the possible sources of a disk&#39;s creation</td></tr>
 	<tr><td>disk_access_id</td><td>ARM id of the DiskAccess resource for using private endpoints on disks</td></tr>
 	<tr><td>disk_encryption_set_id</td><td>ResourceId of the disk encryption set to use for enabling encryption at rest</td></tr>
 	<tr><td>disk_size_bytes</td><td>The size of the disk in bytes</td></tr>

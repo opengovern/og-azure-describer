@@ -5,9 +5,9 @@
 	<tr><td>name</td><td>The friendly name that identifies the virtual network gateway.</td></tr>
 	<tr><td>id</td><td>Contains ID to identify a virtual network gateway uniquely.</td></tr>
 	<tr><td>type</td><td>Type of the resource.</td></tr>
-	<tr><td>gateway_type</td><td>The type of this virtual network gateway. Possible values include: 'Vpn', 'ExpressRoute'.</td></tr>
-	<tr><td>vpn_type</td><td>The type of this virtual network gateway. Valid values are: 'PolicyBased', 'RouteBased'.</td></tr>
-	<tr><td>vpn_gateway_generation</td><td>The generation for this virtual network gateway. Must be None if gatewayType is not VPN. Valid values are: 'None', 'Generation1', 'Generation2'.</td></tr>
+	<tr><td>gateway_type</td><td>The type of this virtual network gateway. Possible values include: &#39;Vpn&#39;, &#39;ExpressRoute&#39;.</td></tr>
+	<tr><td>vpn_type</td><td>The type of this virtual network gateway. Valid values are: &#39;PolicyBased&#39;, &#39;RouteBased&#39;.</td></tr>
+	<tr><td>vpn_gateway_generation</td><td>The generation for this virtual network gateway. Must be None if gatewayType is not VPN. Valid values are: &#39;None&#39;, &#39;Generation1&#39;, &#39;Generation2&#39;.</td></tr>
 	<tr><td>provisioning_state</td><td>The provisioning state of the virtual network gateway resource.</td></tr>
 	<tr><td>active_active</td><td>Indicates whether virtual network gateway configured with active-active mode, or not. If true, each Azure gateway instance will have a unique public IP address, and each will establish an IPsec/IKE S2S VPN tunnel to your on-premises VPN device specified in your local network gateway and connection.</td></tr>
 	<tr><td>enable_bgp</td><td>Indicates whether BGP is enabled for this virtual network gateway, or not.</td></tr>
@@ -20,7 +20,7 @@
 	<tr><td>sku_name</td><td>Gateway SKU name.</td></tr>
 	<tr><td>sku_tier</td><td>Gateway SKU tier.</td></tr>
 	<tr><td>sku_capacity</td><td>Gateway SKU capacity.</td></tr>
-	<tr><td>bgp_settings</td><td>Virtual network gateway's BGP speaker settings.</td></tr>
+	<tr><td>bgp_settings</td><td>Virtual network gateway&#39;s BGP speaker settings.</td></tr>
 	<tr><td>custom_routes_address_prefixes</td><td>A list of address blocks reserved for this virtual network in CIDR notation.</td></tr>
 	<tr><td>gateway_connections</td><td>A list of virtual network gateway connection resources that exists in a resource group.</td></tr>
 	<tr><td>ip_configurations</td><td>IP configurations for virtual network gateway.</td></tr>

@@ -16,7 +16,7 @@
 	<tr><td>last_modified_time</td><td>Specifies the date and time the container was last modified.</td></tr>
 	<tr><td>lease_status</td><td>Specifies the lease status of the container.</td></tr>
 	<tr><td>lease_state</td><td>Specifies the lease state of the container.</td></tr>
-	<tr><td>lease_duration</td><td>Specifies whether the lease on a container is of infinite or fixed duration, only when the container is leased. Possible values are: 'Infinite', 'Fixed'.</td></tr>
+	<tr><td>lease_duration</td><td>Specifies whether the lease on a container is of infinite or fixed duration, only when the container is leased. Possible values are: &#39;Infinite&#39;, &#39;Fixed&#39;.</td></tr>
 	<tr><td>remaining_retention_days</td><td>Remaining retention days for soft deleted blob container.</td></tr>
 	<tr><td>version</td><td>The version of the deleted blob container.</td></tr>
 	<tr><td>immutability_policy</td><td>The ImmutabilityPolicy property of the container.</td></tr>

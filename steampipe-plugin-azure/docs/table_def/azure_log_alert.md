@@ -7,7 +7,7 @@
 	<tr><td>type</td><td>Type of the resource</td></tr>
 	<tr><td>enabled</td><td>Indicates whether this activity log alert is enabled.</td></tr>
 	<tr><td>description</td><td>A description of this activity log alert.</td></tr>
-	<tr><td>location</td><td>The location of the resource. Since Azure Activity Log Alerts is a global service, the location of the rules should always be 'global'.</td></tr>
+	<tr><td>location</td><td>The location of the resource. Since Azure Activity Log Alerts is a global service, the location of the rules should always be &#39;global&#39;.</td></tr>
 	<tr><td>scopes</td><td>A list of resourceIds that will be used as prefixes.</td></tr>
 	<tr><td>condition</td><td>The condition that will cause this alert to activate.</td></tr>
 	<tr><td>actions</td><td>The actions that will activate when the condition is met.</td></tr>

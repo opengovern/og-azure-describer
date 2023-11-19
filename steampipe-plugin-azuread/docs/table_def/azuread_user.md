@@ -2,7 +2,7 @@
 
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
-	<tr><td>display_name</td><td>The name displayed in the address book for the user. This is usually the combination of the user's first name, middle initial and last name.</td></tr>
+	<tr><td>display_name</td><td>The name displayed in the address book for the user. This is usually the combination of the user&#39;s first name, middle initial and last name.</td></tr>
 	<tr><td>id</td><td>The unique identifier for the user. Should be treated as an opaque identifier.</td></tr>
 	<tr><td>user_principal_name</td><td>Principal email of the active directory user.</td></tr>
 	<tr><td>account_enabled</td><td>True if the account is enabled; otherwise, false.</td></tr>

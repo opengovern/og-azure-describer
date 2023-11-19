@@ -10,7 +10,7 @@
 	<tr><td>comments</td><td>Iot hub comments.</td></tr>
 	<tr><td>enable_file_upload_notifications</td><td>Indicates if file upload notifications are enabled for the iot hub.</td></tr>
 	<tr><td>etag</td><td>An unique read-only string that changes whenever the resource is updated.</td></tr>
-	<tr><td>features</td><td>The capabilities and features enabled for the iot hub. Possible values include: 'None', 'DeviceManagement'.</td></tr>
+	<tr><td>features</td><td>The capabilities and features enabled for the iot hub. Possible values include: &#39;None&#39;, &#39;DeviceManagement&#39;.</td></tr>
 	<tr><td>host_name</td><td>The name of the host.</td></tr>
 	<tr><td>min_tls_version</td><td>Specifies the minimum TLS version to support for this iot hub.</td></tr>
 	<tr><td>public_network_access</td><td>Indicates whether requests from public network are allowed.</td></tr>

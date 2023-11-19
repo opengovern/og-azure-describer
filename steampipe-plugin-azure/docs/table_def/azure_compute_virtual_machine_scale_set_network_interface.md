@@ -5,7 +5,7 @@
 	<tr><td>name</td><td>Name of the scale set network interface.</td></tr>
 	<tr><td>scale_set_name</td><td>Name of the scale set.</td></tr>
 	<tr><td>id</td><td>The unique ID identifying the resource in a subscription.</td></tr>
-	<tr><td>provisioning_state</td><td>The provisioning state of the network interface resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.</td></tr>
+	<tr><td>provisioning_state</td><td>The provisioning state of the network interface resource. Possible values include: &#39;Succeeded&#39;, &#39;Updating&#39;, &#39;Deleting&#39;, &#39;Failed&#39;.</td></tr>
 	<tr><td>type</td><td>The type of the resource in Azure.</td></tr>
 	<tr><td>mac_address</td><td>The MAC address of the network interface.</td></tr>
 	<tr><td>enable_accelerated_networking</td><td>If the network interface has accelerated networking enabled.</td></tr>

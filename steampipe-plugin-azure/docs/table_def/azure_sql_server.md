@@ -10,14 +10,14 @@
 	<tr><td>location</td><td>The resource location.</td></tr>
 	<tr><td>administrator_login</td><td>Specifies the username of the administrator for this server.</td></tr>
 	<tr><td>administrator_login_password</td><td>The administrator login password.</td></tr>
-	<tr><td>minimal_tls_version</td><td>Minimal TLS version. Allowed values: '1.0', '1.1', '1.2'.</td></tr>
+	<tr><td>minimal_tls_version</td><td>Minimal TLS version. Allowed values: &#39;1.0&#39;, &#39;1.1&#39;, &#39;1.2&#39;.</td></tr>
 	<tr><td>public_network_access</td><td>Whether or not public endpoint access is allowed for this server.</td></tr>
 	<tr><td>version</td><td>The version of the server.</td></tr>
 	<tr><td>fully_qualified_domain_name</td><td>The fully qualified domain name of the server.</td></tr>
 	<tr><td>server_audit_policy</td><td>Specifies the audit policy configuration for server.</td></tr>
 	<tr><td>server_security_alert_policy</td><td>Specifies the security alert policy configuration for server.</td></tr>
 	<tr><td>server_azure_ad_administrator</td><td>Specifies the active directory administrator.</td></tr>
-	<tr><td>server_vulnerability_assessment</td><td>Specifies the server's vulnerability assessment.</td></tr>
+	<tr><td>server_vulnerability_assessment</td><td>Specifies the server&#39;s vulnerability assessment.</td></tr>
 	<tr><td>firewall_rules</td><td>A list of firewall rules fro this server.</td></tr>
 	<tr><td>encryption_protector</td><td>The server encryption protector.</td></tr>
 	<tr><td>private_endpoint_connections</td><td>The private endpoint connections of the sql server.</td></tr>

@@ -13,7 +13,7 @@
 	<tr><td>sign_in_audience</td><td>Specifies the Microsoft accounts that are supported for the current application.</td></tr>
 	<tr><td>api</td><td>Specifies settings for an application that implements a web API.</td></tr>
 	<tr><td>identifier_uris</td><td>The URIs that identify the application within its Azure AD tenant, or within a verified custom domain if the application is multi-tenant.</td></tr>
-	<tr><td>info</td><td>Basic profile information of the application such as app's marketing, support, terms of service and privacy statement URLs. The terms of service and privacy statement are surfaced to users through the user consent experience.</td></tr>
+	<tr><td>info</td><td>Basic profile information of the application such as app&#39;s marketing, support, terms of service and privacy statement URLs. The terms of service and privacy statement are surfaced to users through the user consent experience.</td></tr>
 	<tr><td>key_credentials</td><td>The collection of key credentials associated with the application.</td></tr>
 	<tr><td>owner_ids</td><td>Id of the owners of the application. The owners are a set of non-admin users who are allowed to modify this object.</td></tr>
 	<tr><td>parental_control_settings</td><td>Specifies parental control settings for an application.</td></tr>

@@ -14,7 +14,7 @@
 	<tr><td>type</td><td>The type of the policy assignment.</td></tr>
 	<tr><td>identity</td><td>The managed identity associated with the policy assignment.</td></tr>
 	<tr><td>metadata</td><td>The policy assignment metadata.</td></tr>
-	<tr><td>not_scopes</td><td>The policy's excluded scopes.</td></tr>
+	<tr><td>not_scopes</td><td>The policy&#39;s excluded scopes.</td></tr>
 	<tr><td>parameters</td><td>The parameter values for the assigned policy rule.</td></tr>
 	<tr><td>title</td><td>Title of the resource.</td></tr>
 	<tr><td>akas</td><td>Array of globally unique identifier strings (also known as) for the resource.</td></tr>
