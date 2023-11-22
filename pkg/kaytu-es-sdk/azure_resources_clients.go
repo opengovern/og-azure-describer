@@ -201,35 +201,42 @@ func ListAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAPIManagement NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAPIManagement NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAPIManagement GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAPIManagement GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAPIManagement GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewAPIManagementPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAPIManagementFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAPIManagement NewAPIManagementPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListAPIManagement paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -494,35 +501,42 @@ func ListAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAutomationAccounts NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAutomationAccounts NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAutomationAccounts GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAutomationAccounts GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAutomationAccounts GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewAutomationAccountsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAutomationAccountsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAutomationAccounts NewAutomationAccountsPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListAutomationAccounts paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -758,35 +772,42 @@ func ListAutomationVariables(ctx context.Context, d *plugin.QueryData, _ *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAutomationVariables NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAutomationVariables NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAutomationVariables GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAutomationVariables GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAutomationVariables GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewAutomationVariablesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAutomationVariablesFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAutomationVariables NewAutomationVariablesPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListAutomationVariables paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -1020,35 +1041,42 @@ func ListAppConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppConfiguration NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppConfiguration NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppConfiguration GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppConfiguration GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppConfiguration GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewAppConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppConfigurationFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppConfiguration NewAppConfigurationPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListAppConfiguration paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -1287,35 +1315,42 @@ func ListAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plug
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceEnvironment NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceEnvironment NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceEnvironment GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceEnvironment GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceEnvironment GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewAppServiceEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServiceEnvironmentFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceEnvironment NewAppServiceEnvironmentPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListAppServiceEnvironment paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -1563,35 +1598,42 @@ func ListAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plug
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceFunctionApp NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceFunctionApp NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceFunctionApp GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceFunctionApp GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceFunctionApp GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewAppServiceFunctionAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServiceFunctionAppFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceFunctionApp NewAppServiceFunctionAppPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListAppServiceFunctionApp paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -1845,35 +1887,42 @@ func ListAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceWebApp NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceWebApp NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceWebApp GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceWebApp GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceWebApp GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewAppServiceWebAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServiceWebAppFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceWebApp NewAppServiceWebAppPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListAppServiceWebApp paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -2146,35 +2195,42 @@ func ListAppServiceWebAppSlot(ctx context.Context, d *plugin.QueryData, _ *plugi
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceWebAppSlot NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceWebAppSlot NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceWebAppSlot GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceWebAppSlot GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceWebAppSlot GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewAppServiceWebAppSlotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServiceWebAppSlotFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServiceWebAppSlot NewAppServiceWebAppSlotPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListAppServiceWebAppSlot paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -2445,35 +2501,42 @@ func ListAppServicePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServicePlan NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServicePlan NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServicePlan GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServicePlan GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServicePlan GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewAppServicePlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppServicePlanFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppServicePlan NewAppServicePlanPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListAppServicePlan paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -2710,35 +2773,42 @@ func ListContainerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerApp NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerApp NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerApp GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerApp GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerApp GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewContainerAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listContainerAppFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerApp NewContainerAppPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListContainerApp paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -2957,35 +3027,42 @@ func ListAppManagedEnvironment(ctx context.Context, d *plugin.QueryData, _ *plug
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppManagedEnvironment NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppManagedEnvironment NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppManagedEnvironment GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppManagedEnvironment GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppManagedEnvironment GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewAppManagedEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppManagedEnvironmentFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAppManagedEnvironment NewAppManagedEnvironmentPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListAppManagedEnvironment paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -3204,35 +3281,42 @@ func ListWebServerFarms(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListWebServerFarms NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListWebServerFarms NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListWebServerFarms GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListWebServerFarms GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListWebServerFarms GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewWebServerFarmsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWebServerFarmsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListWebServerFarms NewWebServerFarmsPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListWebServerFarms paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -3451,35 +3535,42 @@ func ListBlueprint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBlueprint NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBlueprint NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBlueprint GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBlueprint GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBlueprint GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewBlueprintPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBlueprintFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBlueprint NewBlueprintPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListBlueprint paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -3735,35 +3826,42 @@ func ListComputeDisk(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDisk NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDisk NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDisk GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDisk GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDisk GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeDiskPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDisk NewComputeDiskPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeDisk paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -4015,35 +4113,42 @@ func ListComputeDiskReadOps(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOps NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOps NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOps GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOps GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOps GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeDiskReadOpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskReadOpsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOps NewComputeDiskReadOpsPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeDiskReadOps paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -4254,35 +4359,42 @@ func ListComputeDiskReadOpsDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOpsDaily NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOpsDaily NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOpsDaily GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOpsDaily GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOpsDaily GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeDiskReadOpsDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskReadOpsDailyFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOpsDaily NewComputeDiskReadOpsDailyPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeDiskReadOpsDaily paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -4493,35 +4605,42 @@ func ListComputeDiskReadOpsHourly(ctx context.Context, d *plugin.QueryData, _ *p
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOpsHourly NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOpsHourly NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOpsHourly GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOpsHourly GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOpsHourly GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeDiskReadOpsHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskReadOpsHourlyFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskReadOpsHourly NewComputeDiskReadOpsHourlyPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeDiskReadOpsHourly paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -4732,35 +4851,42 @@ func ListComputeDiskWriteOps(ctx context.Context, d *plugin.QueryData, _ *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOps NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOps NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOps GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOps GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOps GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeDiskWriteOpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskWriteOpsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOps NewComputeDiskWriteOpsPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeDiskWriteOps paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -4971,35 +5097,42 @@ func ListComputeDiskWriteOpsDaily(ctx context.Context, d *plugin.QueryData, _ *p
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOpsDaily NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOpsDaily NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOpsDaily GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOpsDaily GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOpsDaily GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeDiskWriteOpsDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskWriteOpsDailyFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOpsDaily NewComputeDiskWriteOpsDailyPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeDiskWriteOpsDaily paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -5210,35 +5343,42 @@ func ListComputeDiskWriteOpsHourly(ctx context.Context, d *plugin.QueryData, _ *
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOpsHourly NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOpsHourly NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOpsHourly GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOpsHourly GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOpsHourly GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeDiskWriteOpsHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskWriteOpsHourlyFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskWriteOpsHourly NewComputeDiskWriteOpsHourlyPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeDiskWriteOpsHourly paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -5456,35 +5596,42 @@ func ListComputeDiskAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskAccess NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskAccess NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskAccess GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskAccess GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskAccess GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeDiskAccessPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskAccessFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskAccess NewComputeDiskAccessPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeDiskAccess paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -5731,35 +5878,42 @@ func ListComputeVirtualMachineScaleSet(ctx context.Context, d *plugin.QueryData,
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSet NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSet NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSet GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSet GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSet GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeVirtualMachineScaleSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineScaleSetFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSet NewComputeVirtualMachineScaleSetPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSet paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -6007,35 +6161,42 @@ func ListComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, d *p
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSetNetworkInterface NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSetNetworkInterface NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSetNetworkInterface GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSetNetworkInterface GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSetNetworkInterface GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeVirtualMachineScaleSetNetworkInterfacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineScaleSetNetworkInterfaceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSetNetworkInterface NewComputeVirtualMachineScaleSetNetworkInterfacePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSetNetworkInterface paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -6286,35 +6447,42 @@ func ListComputeVirtualMachineScaleSetVm(ctx context.Context, d *plugin.QueryDat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSetVm NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSetVm NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSetVm GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSetVm GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSetVm GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeVirtualMachineScaleSetVmPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineScaleSetVmFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSetVm NewComputeVirtualMachineScaleSetVmPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeVirtualMachineScaleSetVm paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -6589,35 +6757,42 @@ func ListComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeSnapshots NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeSnapshots NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeSnapshots GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeSnapshots GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeSnapshots GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeSnapshotsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeSnapshotsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeSnapshots NewComputeSnapshotsPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeSnapshots paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -6874,35 +7049,42 @@ func ListComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plu
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeAvailabilitySet NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeAvailabilitySet NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeAvailabilitySet GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeAvailabilitySet GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeAvailabilitySet GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeAvailabilitySetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeAvailabilitySetFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeAvailabilitySet NewComputeAvailabilitySetPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeAvailabilitySet paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -7141,35 +7323,42 @@ func ListComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *p
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskEncryptionSet NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskEncryptionSet NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskEncryptionSet GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskEncryptionSet GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskEncryptionSet GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeDiskEncryptionSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeDiskEncryptionSetFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeDiskEncryptionSet NewComputeDiskEncryptionSetPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeDiskEncryptionSet paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -7398,35 +7587,42 @@ func ListComputeImageGallery(ctx context.Context, d *plugin.QueryData, _ *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeImageGallery NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeImageGallery NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeImageGallery GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeImageGallery GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeImageGallery GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeImageGalleryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeImageGalleryFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeImageGallery NewComputeImageGalleryPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeImageGallery paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -7662,35 +7858,42 @@ func ListComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeImage NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeImage NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeImage GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeImage GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeImage GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeImageFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeImage NewComputeImagePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeImage paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -7924,35 +8127,42 @@ func ListComputeHostGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeHostGroup NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeHostGroup NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeHostGroup GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeHostGroup GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeHostGroup GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeHostGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeHostGroupFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeHostGroup NewComputeHostGroupPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeHostGroup paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -8169,35 +8379,42 @@ func ListComputeHostGroupHost(ctx context.Context, d *plugin.QueryData, _ *plugi
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeHostGroupHost NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeHostGroupHost NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeHostGroupHost GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeHostGroupHost GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeHostGroupHost GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeHostGroupHostPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeHostGroupHostFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeHostGroupHost NewComputeHostGroupHostPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeHostGroupHost paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -8414,35 +8631,42 @@ func ListComputeRestorePointCollection(ctx context.Context, d *plugin.QueryData,
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeRestorePointCollection NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeRestorePointCollection NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeRestorePointCollection GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeRestorePointCollection GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeRestorePointCollection GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeRestorePointCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeRestorePointCollectionFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeRestorePointCollection NewComputeRestorePointCollectionPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeRestorePointCollection paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -8662,35 +8886,42 @@ func ListComputeSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeSSHPublicKey NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeSSHPublicKey NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeSSHPublicKey GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeSSHPublicKey GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeSSHPublicKey GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeSSHPublicKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeSSHPublicKeyFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeSSHPublicKey NewComputeSSHPublicKeyPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeSSHPublicKey paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -8931,35 +9162,42 @@ func ListDataboxEdgeDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataboxEdgeDevice NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataboxEdgeDevice NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataboxEdgeDevice GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataboxEdgeDevice GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataboxEdgeDevice GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDataboxEdgeDevicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataboxEdgeDeviceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataboxEdgeDevice NewDataboxEdgeDevicePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDataboxEdgeDevice paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -9216,35 +9454,42 @@ func ListHealthcareService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHealthcareService NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHealthcareService NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHealthcareService GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHealthcareService GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHealthcareService GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewHealthcareServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listHealthcareServiceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHealthcareService NewHealthcareServicePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListHealthcareService paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -9494,35 +9739,42 @@ func ListHpcCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHpcCache NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHpcCache NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHpcCache GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHpcCache GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHpcCache GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewHpcCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, listHpcCacheFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHpcCache NewHpcCachePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListHpcCache paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -9765,35 +10017,42 @@ func ListKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultKey NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultKey NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultKey GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultKey GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultKey GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewKeyVaultKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultKeyFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultKey NewKeyVaultKeyPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListKeyVaultKey paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -10038,35 +10297,42 @@ func ListKeyVaultKeyVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultKeyVersion NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultKeyVersion NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultKeyVersion GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultKeyVersion GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultKeyVersion GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewKeyVaultKeyVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultKeyVersionFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultKeyVersion NewKeyVaultKeyVersionPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListKeyVaultKeyVersion paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -10329,35 +10595,42 @@ func ListKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKubernetesCluster NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKubernetesCluster NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKubernetesCluster GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKubernetesCluster GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKubernetesCluster GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewKubernetesClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKubernetesClusterFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKubernetesCluster NewKubernetesClusterPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListKubernetesCluster paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -10611,35 +10884,42 @@ func ListKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *p
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKubernetesServiceVersion NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKubernetesServiceVersion NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKubernetesServiceVersion GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKubernetesServiceVersion GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKubernetesServiceVersion GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewKubernetesServiceVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKubernetesServiceVersionFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKubernetesServiceVersion NewKubernetesServiceVersionPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListKubernetesServiceVersion paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -10881,35 +11161,42 @@ func ListContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryDat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerInstanceContainerGroup NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerInstanceContainerGroup NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerInstanceContainerGroup GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerInstanceContainerGroup GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerInstanceContainerGroup GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewContainerInstanceContainerGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listContainerInstanceContainerGroupFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerInstanceContainerGroup NewContainerInstanceContainerGroupPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListContainerInstanceContainerGroup paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -11145,35 +11432,42 @@ func ListCDNProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCDNProfile NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCDNProfile NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCDNProfile GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCDNProfile GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCDNProfile GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewCDNProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCDNProfileFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCDNProfile NewCDNProfilePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListCDNProfile paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -11391,35 +11685,42 @@ func ListCDNEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCDNEndpoint NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCDNEndpoint NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCDNEndpoint GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCDNEndpoint GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCDNEndpoint GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewCDNEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCDNEndpointFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCDNEndpoint NewCDNEndpointPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListCDNEndpoint paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -11656,35 +11957,42 @@ func ListNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkInterface NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkInterface NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkInterface GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkInterface GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkInterface GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewNetworkInterfacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkInterfaceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkInterface NewNetworkInterfacePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListNetworkInterface paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -11936,35 +12244,42 @@ func ListNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plug
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkWatcherFlowLog NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkWatcherFlowLog NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkWatcherFlowLog GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkWatcherFlowLog GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkWatcherFlowLog GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewNetworkWatcherFlowLogPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkWatcherFlowLogFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkWatcherFlowLog NewNetworkWatcherFlowLogPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListNetworkWatcherFlowLog paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -12202,35 +12517,42 @@ func ListRouteTables(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRouteTables NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRouteTables NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRouteTables GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRouteTables GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRouteTables GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewRouteTablesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRouteTablesFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRouteTables NewRouteTablesPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListRouteTables paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -12459,35 +12781,42 @@ func ListNetworkApplicationSecurityGroups(ctx context.Context, d *plugin.QueryDa
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkApplicationSecurityGroups NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkApplicationSecurityGroups NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkApplicationSecurityGroups GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkApplicationSecurityGroups GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkApplicationSecurityGroups GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewNetworkApplicationSecurityGroupsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkApplicationSecurityGroupsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkApplicationSecurityGroups NewNetworkApplicationSecurityGroupsPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListNetworkApplicationSecurityGroups paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -12728,35 +13057,42 @@ func ListNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugi
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkAzureFirewall NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkAzureFirewall NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkAzureFirewall GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkAzureFirewall GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkAzureFirewall GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewNetworkAzureFirewallPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkAzureFirewallFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkAzureFirewall NewNetworkAzureFirewallPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListNetworkAzureFirewall paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -13010,35 +13346,42 @@ func ListExpressRouteCircuit(ctx context.Context, d *plugin.QueryData, _ *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListExpressRouteCircuit NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListExpressRouteCircuit NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListExpressRouteCircuit GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListExpressRouteCircuit GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListExpressRouteCircuit GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewExpressRouteCircuitPaginator(essdk.BuildFilter(ctx, d.QueryContext, listExpressRouteCircuitFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListExpressRouteCircuit NewExpressRouteCircuitPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListExpressRouteCircuit paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -13296,35 +13639,42 @@ func ListVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plug
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualNetworkGateway NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualNetworkGateway NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualNetworkGateway GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualNetworkGateway GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualNetworkGateway GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewVirtualNetworkGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualNetworkGatewayFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualNetworkGateway NewVirtualNetworkGatewayPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListVirtualNetworkGateway paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -13582,35 +13932,42 @@ func ListFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListFirewallPolicy NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListFirewallPolicy NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListFirewallPolicy GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListFirewallPolicy GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListFirewallPolicy GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewFirewallPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFirewallPolicyFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListFirewallPolicy NewFirewallPolicyPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListFirewallPolicy paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -13846,35 +14203,42 @@ func ListLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLocalNetworkGateway NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLocalNetworkGateway NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLocalNetworkGateway GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLocalNetworkGateway GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLocalNetworkGateway GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewLocalNetworkGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLocalNetworkGatewayFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLocalNetworkGateway NewLocalNetworkGatewayPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListLocalNetworkGateway paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -14099,35 +14463,42 @@ func ListNatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNatGateway NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNatGateway NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNatGateway GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNatGateway GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNatGateway GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewNatGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNatGatewayFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNatGateway NewNatGatewayPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListNatGateway paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -14351,35 +14722,42 @@ func ListPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateLinkService NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateLinkService NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateLinkService GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateLinkService GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateLinkService GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewPrivateLinkServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listPrivateLinkServiceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateLinkService NewPrivateLinkServicePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListPrivateLinkService paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -14599,35 +14977,42 @@ func ListVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnGateway NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnGateway NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnGateway GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnGateway GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnGateway GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewVpnGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVpnGatewayFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnGateway NewVpnGatewayPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListVpnGateway paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -14847,35 +15232,42 @@ func ListVpnGatewayVpnConnection(ctx context.Context, d *plugin.QueryData, _ *pl
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnGatewayVpnConnection NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnGatewayVpnConnection NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnGatewayVpnConnection GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnGatewayVpnConnection GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnGatewayVpnConnection GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewVpnGatewayVpnConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVpnGatewayVpnConnectionFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnGatewayVpnConnection NewVpnGatewayVpnConnectionPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListVpnGatewayVpnConnection paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -15094,35 +15486,42 @@ func ListVpnSite(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnSite NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnSite NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnSite GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnSite GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnSite GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewVpnSitePaginator(essdk.BuildFilter(ctx, d.QueryContext, listVpnSiteFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVpnSite NewVpnSitePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListVpnSite paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -15361,35 +15760,42 @@ func ListPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPublicIPAddress NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPublicIPAddress NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPublicIPAddress GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPublicIPAddress GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPublicIPAddress GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewPublicIPAddressPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPublicIPAddressFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPublicIPAddress NewPublicIPAddressPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListPublicIPAddress paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -15628,35 +16034,42 @@ func ListPublicIPPrefix(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPublicIPPrefix NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPublicIPPrefix NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPublicIPPrefix GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPublicIPPrefix GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPublicIPPrefix GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewPublicIPPrefixPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPublicIPPrefixFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPublicIPPrefix NewPublicIPPrefixPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListPublicIPPrefix paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -15885,35 +16298,42 @@ func ListDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDNSZones NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDNSZones NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDNSZones GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDNSZones GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDNSZones GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDNSZonesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDNSZonesFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDNSZones NewDNSZonesPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDNSZones paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -16149,35 +16569,42 @@ func ListBastionHosts(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBastionHosts NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBastionHosts NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBastionHosts GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBastionHosts GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBastionHosts GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewBastionHostsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBastionHostsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBastionHosts NewBastionHostsPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListBastionHosts paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -16403,35 +16830,42 @@ func ListConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListConnection NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListConnection NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListConnection GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListConnection GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListConnection GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listConnectionFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListConnection NewConnectionPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListConnection paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -16650,35 +17084,42 @@ func ListVirtualHubs(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualHubs NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualHubs NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualHubs GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualHubs GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualHubs GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewVirtualHubsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualHubsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualHubs NewVirtualHubsPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListVirtualHubs paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -16897,35 +17338,42 @@ func ListVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualWans NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualWans NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualWans GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualWans GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualWans GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewVirtualWansPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualWansFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualWans NewVirtualWansPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListVirtualWans paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -17144,35 +17592,42 @@ func ListDNSResolver(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDNSResolver NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDNSResolver NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDNSResolver GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDNSResolver GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDNSResolver GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDNSResolverPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDNSResolverFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDNSResolver NewDNSResolverPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDNSResolver paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -17390,35 +17845,42 @@ func ListTrafficManagerProfile(ctx context.Context, d *plugin.QueryData, _ *plug
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTrafficManagerProfile NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTrafficManagerProfile NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTrafficManagerProfile GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTrafficManagerProfile GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTrafficManagerProfile GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewTrafficManagerProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, listTrafficManagerProfileFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTrafficManagerProfile NewTrafficManagerProfilePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListTrafficManagerProfile paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -17646,35 +18108,42 @@ func ListPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateDNSZones NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateDNSZones NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateDNSZones GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateDNSZones GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateDNSZones GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewPrivateDNSZonesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPrivateDNSZonesFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateDNSZones NewPrivateDNSZonesPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListPrivateDNSZones paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -17903,35 +18372,42 @@ func ListPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateEndpoint NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateEndpoint NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateEndpoint GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateEndpoint GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateEndpoint GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewPrivateEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPrivateEndpointFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPrivateEndpoint NewPrivateEndpointPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListPrivateEndpoint paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -18149,35 +18625,42 @@ func ListNetworkDDoSProtectionPlan(ctx context.Context, d *plugin.QueryData, _ *
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkDDoSProtectionPlan NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkDDoSProtectionPlan NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkDDoSProtectionPlan GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkDDoSProtectionPlan GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkDDoSProtectionPlan GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewNetworkDDoSProtectionPlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkDDoSProtectionPlanFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkDDoSProtectionPlan NewNetworkDDoSProtectionPlanPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListNetworkDDoSProtectionPlan paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -18406,35 +18889,42 @@ func ListPolicyAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPolicyAssignment NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPolicyAssignment NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPolicyAssignment GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPolicyAssignment GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPolicyAssignment GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewPolicyAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPolicyAssignmentFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPolicyAssignment NewPolicyAssignmentPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListPolicyAssignment paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -18687,35 +19177,42 @@ func ListRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRedisCache NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRedisCache NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRedisCache GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRedisCache GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRedisCache GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewRedisCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedisCacheFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRedisCache NewRedisCachePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListRedisCache paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -18957,35 +19454,42 @@ func ListRedisEnterpriseCache(ctx context.Context, d *plugin.QueryData, _ *plugi
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRedisEnterpriseCache NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRedisEnterpriseCache NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRedisEnterpriseCache GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRedisEnterpriseCache GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRedisEnterpriseCache GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewRedisEnterpriseCachePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedisEnterpriseCacheFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRedisEnterpriseCache NewRedisEnterpriseCachePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListRedisEnterpriseCache paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -19208,35 +19712,42 @@ func ListResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceLink NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceLink NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceLink GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceLink GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceLink GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewResourceLinkPaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceLinkFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceLink NewResourceLinkPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListResourceLink paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -19463,35 +19974,42 @@ func ListRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRoleAssignment NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRoleAssignment NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRoleAssignment GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRoleAssignment GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRoleAssignment GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewRoleAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoleAssignmentFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRoleAssignment NewRoleAssignmentPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListRoleAssignment paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -19718,35 +20236,42 @@ func ListRoleDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRoleDefinition NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRoleDefinition NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRoleDefinition GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRoleDefinition GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRoleDefinition GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewRoleDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoleDefinitionFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRoleDefinition NewRoleDefinitionPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListRoleDefinition paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -19977,35 +20502,42 @@ func ListPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPolicyDefinition NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPolicyDefinition NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPolicyDefinition GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPolicyDefinition GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPolicyDefinition GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewPolicyDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPolicyDefinitionFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPolicyDefinition NewPolicyDefinitionPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListPolicyDefinition paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -20233,35 +20765,42 @@ func ListSecurityCenterAutoProvisioning(ctx context.Context, d *plugin.QueryData
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterAutoProvisioning NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterAutoProvisioning NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterAutoProvisioning GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterAutoProvisioning GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterAutoProvisioning GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSecurityCenterAutoProvisioningPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterAutoProvisioningFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterAutoProvisioning NewSecurityCenterAutoProvisioningPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSecurityCenterAutoProvisioning paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -20485,35 +21024,42 @@ func ListSecurityCenterContact(ctx context.Context, d *plugin.QueryData, _ *plug
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterContact NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterContact NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterContact GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterContact GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterContact GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSecurityCenterContactPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterContactFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterContact NewSecurityCenterContactPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSecurityCenterContact paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -20739,35 +21285,42 @@ func ListSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.Que
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterJitNetworkAccessPolicy NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterJitNetworkAccessPolicy NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterJitNetworkAccessPolicy GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterJitNetworkAccessPolicy GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterJitNetworkAccessPolicy GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSecurityCenterJitNetworkAccessPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterJitNetworkAccessPolicyFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterJitNetworkAccessPolicy NewSecurityCenterJitNetworkAccessPolicyPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSecurityCenterJitNetworkAccessPolicy paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -20991,35 +21544,42 @@ func ListSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plug
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSetting NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSetting NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSetting GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSetting GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSetting GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSecurityCenterSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterSettingFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSetting NewSecurityCenterSettingPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSecurityCenterSetting paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -21242,35 +21802,42 @@ func ListSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryD
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSubscriptionPricing NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSubscriptionPricing NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSubscriptionPricing GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSubscriptionPricing GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSubscriptionPricing GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSecurityCenterSubscriptionPricingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterSubscriptionPricingFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSubscriptionPricing NewSecurityCenterSubscriptionPricingPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSecurityCenterSubscriptionPricing paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -21500,35 +22067,42 @@ func ListSecurityCenterAutomation(ctx context.Context, d *plugin.QueryData, _ *p
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterAutomation NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterAutomation NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterAutomation GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterAutomation GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterAutomation GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSecurityCenterAutomationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterAutomationFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterAutomation NewSecurityCenterAutomationPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSecurityCenterAutomation paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -21763,35 +22337,42 @@ func ListSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSubAssessment NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSubAssessment NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSubAssessment GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSubAssessment GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSubAssessment GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSecurityCenterSubAssessmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityCenterSubAssessmentFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSecurityCenterSubAssessment NewSecurityCenterSubAssessmentPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSecurityCenterSubAssessment paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -22033,35 +22614,42 @@ func ListStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageContainer NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageContainer NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageContainer GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageContainer GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageContainer GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewStorageContainerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageContainerFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageContainer NewStorageContainerPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListStorageContainer paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -22337,35 +22925,42 @@ func ListStorageBlob(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageBlob NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageBlob NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageBlob GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageBlob GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageBlob GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewStorageBlobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageBlobFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageBlob NewStorageBlobPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListStorageBlob paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -22636,35 +23231,42 @@ func ListStorageBlobService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageBlobService NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageBlobService NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageBlobService GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageBlobService GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageBlobService GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewStorageBlobServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageBlobServiceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageBlobService NewStorageBlobServicePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListStorageBlobService paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -22898,35 +23500,42 @@ func ListStorageQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageQueue NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageQueue NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageQueue GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageQueue GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageQueue GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewStorageQueuePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageQueueFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageQueue NewStorageQueuePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListStorageQueue paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -23160,35 +23769,42 @@ func ListStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageFileShare NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageFileShare NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageFileShare GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageFileShare GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageFileShare GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewStorageFileSharePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageFileShareFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageFileShare NewStorageFileSharePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListStorageFileShare paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -23420,35 +24036,42 @@ func ListStorageTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageTable NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageTable NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageTable GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageTable GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageTable GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewStorageTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageTableFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageTable NewStorageTablePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListStorageTable paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -23671,35 +24294,42 @@ func ListStorageTableService(ctx context.Context, d *plugin.QueryData, _ *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageTableService NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageTableService NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageTableService GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageTableService GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageTableService GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewStorageTableServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageTableServiceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageTableService NewStorageTableServicePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListStorageTableService paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -23932,35 +24562,42 @@ func ListSubnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSubnet NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSubnet NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSubnet GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSubnet GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSubnet GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSubnetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSubnetFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSubnet NewSubnetPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSubnet paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -24202,35 +24839,42 @@ func ListVirtualNetwork(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualNetwork NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualNetwork NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualNetwork GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualNetwork GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualNetwork GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewVirtualNetworkPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualNetworkFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualNetwork NewVirtualNetworkPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListVirtualNetwork paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -24461,35 +25105,42 @@ func ListTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTenant NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTenant NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTenant GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTenant GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTenant GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewTenantPaginator(essdk.BuildFilter(ctx, d.QueryContext, listTenantFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTenant NewTenantPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListTenant paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -24715,35 +25366,42 @@ func ListSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSubscription NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSubscription NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSubscription GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSubscription GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSubscription GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSubscriptionFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSubscription NewSubscriptionPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSubscription paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -24986,35 +25644,42 @@ func ListApplicationGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListApplicationGateway NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListApplicationGateway NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListApplicationGateway GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListApplicationGateway GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListApplicationGateway GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewApplicationGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApplicationGatewayFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListApplicationGateway NewApplicationGatewayPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListApplicationGateway paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -25270,35 +25935,42 @@ func ListBatchAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBatchAccount NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBatchAccount NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBatchAccount GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBatchAccount GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBatchAccount GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewBatchAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBatchAccountFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBatchAccount NewBatchAccountPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListBatchAccount paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -25563,35 +26235,42 @@ func ListCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCognitiveAccount NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCognitiveAccount NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCognitiveAccount GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCognitiveAccount GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCognitiveAccount GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewCognitiveAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCognitiveAccountFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCognitiveAccount NewCognitiveAccountPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListCognitiveAccount paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -25887,35 +26566,42 @@ func ListComputeVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plug
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachine NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachine NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachine GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachine GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachine GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeVirtualMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachine NewComputeVirtualMachinePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeVirtualMachine paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -26192,35 +26878,42 @@ func ListComputeResourceSKU(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeResourceSKU NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeResourceSKU NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeResourceSKU GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeResourceSKU GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeResourceSKU GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeResourceSKUPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeResourceSKUFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeResourceSKU NewComputeResourceSKUPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeResourceSKU paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -26444,35 +27137,42 @@ func ListComputeVirtualMachineCpuUtilization(ctx context.Context, d *plugin.Quer
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilization NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilization NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilization GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilization GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilization GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeVirtualMachineCpuUtilizationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineCpuUtilizationFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilization NewComputeVirtualMachineCpuUtilizationPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilization paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -26683,35 +27383,42 @@ func ListComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, d *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilizationDaily NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilizationDaily NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilizationDaily GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilizationDaily GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilizationDaily GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeVirtualMachineCpuUtilizationDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineCpuUtilizationDailyFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilizationDaily NewComputeVirtualMachineCpuUtilizationDailyPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilizationDaily paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -26922,35 +27629,42 @@ func ListComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, d *plugi
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilizationHourly NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilizationHourly NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilizationHourly GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilizationHourly GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilizationHourly GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeVirtualMachineCpuUtilizationHourlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeVirtualMachineCpuUtilizationHourlyFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilizationHourly NewComputeVirtualMachineCpuUtilizationHourlyPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeVirtualMachineCpuUtilizationHourly paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -27165,35 +27879,42 @@ func ListComputeCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeCloudService NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeCloudService NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeCloudService GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeCloudService GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeCloudService GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewComputeCloudServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listComputeCloudServiceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListComputeCloudService NewComputeCloudServicePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListComputeCloudService paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -27435,35 +28156,42 @@ func ListContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerRegistry NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerRegistry NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerRegistry GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerRegistry GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerRegistry GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewContainerRegistryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listContainerRegistryFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListContainerRegistry NewContainerRegistryPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListContainerRegistry paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -27733,35 +28461,42 @@ func ListCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbAccount NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbAccount NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbAccount GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbAccount GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbAccount GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewCosmosdbAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbAccountFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbAccount NewCosmosdbAccountPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListCosmosdbAccount paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -28015,35 +28750,42 @@ func ListCosmosdbRestorableDatabaseAccount(ctx context.Context, d *plugin.QueryD
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbRestorableDatabaseAccount NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbRestorableDatabaseAccount NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbRestorableDatabaseAccount GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbRestorableDatabaseAccount GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbRestorableDatabaseAccount GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewCosmosdbRestorableDatabaseAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbRestorableDatabaseAccountFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbRestorableDatabaseAccount NewCosmosdbRestorableDatabaseAccountPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListCosmosdbRestorableDatabaseAccount paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -28275,35 +29017,42 @@ func ListCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plug
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbMongoDatabase NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbMongoDatabase NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbMongoDatabase GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbMongoDatabase GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbMongoDatabase GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewCosmosdbMongoDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbMongoDatabaseFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbMongoDatabase NewCosmosdbMongoDatabasePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListCosmosdbMongoDatabase paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -28543,35 +29292,42 @@ func ListCosmosdbMongoCollection(ctx context.Context, d *plugin.QueryData, _ *pl
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbMongoCollection NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbMongoCollection NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbMongoCollection GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbMongoCollection GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbMongoCollection GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewCosmosdbMongoCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbMongoCollectionFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbMongoCollection NewCosmosdbMongoCollectionPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListCosmosdbMongoCollection paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -28812,35 +29568,42 @@ func ListCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbSqlDatabase NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbSqlDatabase NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbSqlDatabase GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbSqlDatabase GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbSqlDatabase GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewCosmosdbSqlDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbSqlDatabaseFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbSqlDatabase NewCosmosdbSqlDatabasePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListCosmosdbSqlDatabase paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -29068,35 +29831,42 @@ func ListCosmosdbCassandraCluster(ctx context.Context, d *plugin.QueryData, _ *p
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbCassandraCluster NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbCassandraCluster NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbCassandraCluster GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbCassandraCluster GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbCassandraCluster GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewCosmosdbCassandraClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCosmosdbCassandraClusterFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCosmosdbCassandraCluster NewCosmosdbCassandraClusterPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListCosmosdbCassandraCluster paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -29314,35 +30084,42 @@ func ListDatabricksWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDatabricksWorkspace NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDatabricksWorkspace NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDatabricksWorkspace GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDatabricksWorkspace GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDatabricksWorkspace GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDatabricksWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDatabricksWorkspaceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDatabricksWorkspace NewDatabricksWorkspacePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDatabricksWorkspace paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -29561,35 +30338,42 @@ func ListDataMigrationService(ctx context.Context, d *plugin.QueryData, _ *plugi
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataMigrationService NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataMigrationService NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataMigrationService GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataMigrationService GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataMigrationService GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDataMigrationServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataMigrationServiceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataMigrationService NewDataMigrationServicePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDataMigrationService paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -29808,35 +30592,42 @@ func ListDataProtectionBackupVaults(ctx context.Context, d *plugin.QueryData, _ 
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataProtectionBackupVaults NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataProtectionBackupVaults NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataProtectionBackupVaults GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataProtectionBackupVaults GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataProtectionBackupVaults GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDataProtectionBackupVaultsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataProtectionBackupVaultsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataProtectionBackupVaults NewDataProtectionBackupVaultsPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDataProtectionBackupVaults paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -30055,35 +30846,42 @@ func ListDataProtectionBackupVaultsBackupPolicies(ctx context.Context, d *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataProtectionBackupVaultsBackupPolicies NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataProtectionBackupVaultsBackupPolicies NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataProtectionBackupVaultsBackupPolicies GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataProtectionBackupVaultsBackupPolicies GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataProtectionBackupVaultsBackupPolicies GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDataProtectionBackupVaultsBackupPoliciesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataProtectionBackupVaultsBackupPoliciesFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataProtectionBackupVaultsBackupPolicies NewDataProtectionBackupVaultsBackupPoliciesPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDataProtectionBackupVaultsBackupPolicies paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -30314,35 +31112,42 @@ func ListDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactory NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactory NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactory GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactory GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactory GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDataFactoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataFactoryFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactory NewDataFactoryPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDataFactory paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -30577,35 +31382,42 @@ func ListDataFactoryDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactoryDataset NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactoryDataset NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactoryDataset GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactoryDataset GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactoryDataset GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDataFactoryDatasetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataFactoryDatasetFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactoryDataset NewDataFactoryDatasetPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDataFactoryDataset paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -30840,35 +31652,42 @@ func ListDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactoryPipeline NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactoryPipeline NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactoryPipeline GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactoryPipeline GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactoryPipeline GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDataFactoryPipelinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataFactoryPipelineFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataFactoryPipeline NewDataFactoryPipelinePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDataFactoryPipeline paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -31122,35 +31941,42 @@ func ListDataLakeAnalyticsAccount(ctx context.Context, d *plugin.QueryData, _ *p
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataLakeAnalyticsAccount NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataLakeAnalyticsAccount NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataLakeAnalyticsAccount GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataLakeAnalyticsAccount GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataLakeAnalyticsAccount GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDataLakeAnalyticsAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataLakeAnalyticsAccountFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataLakeAnalyticsAccount NewDataLakeAnalyticsAccountPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDataLakeAnalyticsAccount paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -31412,35 +32238,42 @@ func ListDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataLakeStore NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataLakeStore NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataLakeStore GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataLakeStore GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataLakeStore GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDataLakeStorePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDataLakeStoreFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDataLakeStore NewDataLakeStorePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDataLakeStore paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -31688,35 +32521,42 @@ func ListDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDiagnosticSetting NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDiagnosticSetting NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDiagnosticSetting GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDiagnosticSetting GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDiagnosticSetting GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDiagnosticSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDiagnosticSettingFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDiagnosticSetting NewDiagnosticSettingPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDiagnosticSetting paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -31965,35 +32805,42 @@ func ListEventGridDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventGridDomain NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventGridDomain NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventGridDomain GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventGridDomain GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventGridDomain GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewEventGridDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventGridDomainFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventGridDomain NewEventGridDomainPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListEventGridDomain paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -32252,35 +33099,42 @@ func ListEventGridTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventGridTopic NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventGridTopic NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventGridTopic GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventGridTopic GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventGridTopic GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewEventGridTopicPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventGridTopicFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventGridTopic NewEventGridTopicPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListEventGridTopic paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -32536,35 +33390,42 @@ func ListEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventhubNamespace NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventhubNamespace NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventhubNamespace GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventhubNamespace GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventhubNamespace GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewEventhubNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventhubNamespaceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventhubNamespace NewEventhubNamespacePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListEventhubNamespace paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -32801,35 +33662,42 @@ func ListEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventhubNamespaceEventhub NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventhubNamespaceEventhub NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventhubNamespaceEventhub GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventhubNamespaceEventhub GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventhubNamespaceEventhub GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewEventhubNamespaceEventhubPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventhubNamespaceEventhubFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListEventhubNamespaceEventhub NewEventhubNamespaceEventhubPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListEventhubNamespaceEventhub paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -33063,35 +33931,42 @@ func ListFrontdoor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListFrontdoor NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListFrontdoor NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListFrontdoor GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListFrontdoor GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListFrontdoor GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewFrontdoorPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFrontdoorFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListFrontdoor NewFrontdoorPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListFrontdoor paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -33352,35 +34227,42 @@ func ListHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHdinsightCluster NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHdinsightCluster NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHdinsightCluster GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHdinsightCluster GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHdinsightCluster GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewHdinsightClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listHdinsightClusterFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHdinsightCluster NewHdinsightClusterPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListHdinsightCluster paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -33648,35 +34530,42 @@ func ListHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugi
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHybridComputeMachine NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHybridComputeMachine NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHybridComputeMachine GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHybridComputeMachine GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHybridComputeMachine GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewHybridComputeMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listHybridComputeMachineFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHybridComputeMachine NewHybridComputeMachinePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListHybridComputeMachine paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -33941,35 +34830,42 @@ func ListIOTHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListIOTHub NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListIOTHub NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListIOTHub GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListIOTHub GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListIOTHub GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewIOTHubPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIOTHubFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListIOTHub NewIOTHubPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListIOTHub paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -34227,35 +35123,42 @@ func ListIOTHubDps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListIOTHubDps NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListIOTHubDps NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListIOTHubDps GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListIOTHubDps GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListIOTHubDps GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewIOTHubDpsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIOTHubDpsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListIOTHubDps NewIOTHubDpsPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListIOTHubDps paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -34505,35 +35408,42 @@ func ListKeyVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVault NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVault NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVault GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVault GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVault GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewKeyVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVault NewKeyVaultPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListKeyVault paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -34770,35 +35680,42 @@ func ListKeyVaultDeletedVault(ctx context.Context, d *plugin.QueryData, _ *plugi
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultDeletedVault NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultDeletedVault NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultDeletedVault GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultDeletedVault GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultDeletedVault GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewKeyVaultDeletedVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultDeletedVaultFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultDeletedVault NewKeyVaultDeletedVaultPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListKeyVaultDeletedVault paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -35033,35 +35950,42 @@ func ListKeyVaultManagedHardwareSecurityModule(ctx context.Context, d *plugin.Qu
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultManagedHardwareSecurityModule NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultManagedHardwareSecurityModule NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultManagedHardwareSecurityModule GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultManagedHardwareSecurityModule GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultManagedHardwareSecurityModule GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewKeyVaultManagedHardwareSecurityModulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultManagedHardwareSecurityModuleFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultManagedHardwareSecurityModule NewKeyVaultManagedHardwareSecurityModulePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListKeyVaultManagedHardwareSecurityModule paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -35299,35 +36223,42 @@ func ListKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultSecret NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultSecret NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultSecret GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultSecret GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultSecret GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewKeyVaultSecretPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyVaultSecretFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKeyVaultSecret NewKeyVaultSecretPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListKeyVaultSecret paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -35574,35 +36505,42 @@ func ListKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKustoCluster NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKustoCluster NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKustoCluster GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKustoCluster GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKustoCluster GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewKustoClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKustoClusterFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListKustoCluster NewKustoClusterPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListKustoCluster paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -35851,35 +36789,42 @@ func ListLogAlert(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogAlert NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogAlert NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogAlert GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogAlert GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogAlert GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewLogAlertPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLogAlertFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogAlert NewLogAlertPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListLogAlert paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -36114,35 +37059,42 @@ func ListLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogProfile NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogProfile NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogProfile GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogProfile GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogProfile GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewLogProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLogProfileFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogProfile NewLogProfilePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListLogProfile paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -36384,35 +37336,42 @@ func ListLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogicAppWorkflow NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogicAppWorkflow NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogicAppWorkflow GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogicAppWorkflow GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogicAppWorkflow GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewLogicAppWorkflowPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLogicAppWorkflowFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogicAppWorkflow NewLogicAppWorkflowPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListLogicAppWorkflow paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -36646,35 +37605,42 @@ func ListLogicIntegrationAccounts(ctx context.Context, d *plugin.QueryData, _ *p
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogicIntegrationAccounts NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogicIntegrationAccounts NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogicIntegrationAccounts GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogicIntegrationAccounts GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogicIntegrationAccounts GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewLogicIntegrationAccountsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLogicIntegrationAccountsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLogicIntegrationAccounts NewLogicIntegrationAccountsPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListLogicIntegrationAccounts paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -36912,35 +37878,42 @@ func ListMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *p
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMachineLearningWorkspace NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMachineLearningWorkspace NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMachineLearningWorkspace GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMachineLearningWorkspace GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMachineLearningWorkspace GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewMachineLearningWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listMachineLearningWorkspaceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMachineLearningWorkspace NewMachineLearningWorkspacePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListMachineLearningWorkspace paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -37199,35 +38172,42 @@ func ListMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMariadbServer NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMariadbServer NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMariadbServer GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMariadbServer GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMariadbServer GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewMariadbServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMariadbServerFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMariadbServer NewMariadbServerPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListMariadbServer paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -37467,35 +38447,42 @@ func ListMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMariadbDatabase NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMariadbDatabase NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMariadbDatabase GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMariadbDatabase GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMariadbDatabase GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewMariadbDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listMariadbDatabaseFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMariadbDatabase NewMariadbDatabasePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListMariadbDatabase paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -37741,35 +38728,42 @@ func ListMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMysqlServer NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMysqlServer NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMysqlServer GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMysqlServer GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMysqlServer GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewMysqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMysqlServerFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMysqlServer NewMysqlServerPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListMysqlServer paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -38015,35 +39009,42 @@ func ListMysqlFlexibleserver(ctx context.Context, d *plugin.QueryData, _ *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMysqlFlexibleserver NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMysqlFlexibleserver NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMysqlFlexibleserver GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMysqlFlexibleserver GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMysqlFlexibleserver GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewMysqlFlexibleserverPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMysqlFlexibleserverFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMysqlFlexibleserver NewMysqlFlexibleserverPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListMysqlFlexibleserver paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -38273,35 +39274,42 @@ func ListNetworkSecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugi
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkSecurityGroup NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkSecurityGroup NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkSecurityGroup GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkSecurityGroup GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkSecurityGroup GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewNetworkSecurityGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkSecurityGroupFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkSecurityGroup NewNetworkSecurityGroupPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListNetworkSecurityGroup paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -38535,35 +39543,42 @@ func ListNetworkWatcher(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkWatcher NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkWatcher NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkWatcher GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkWatcher GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkWatcher GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewNetworkWatcherPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkWatcherFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetworkWatcher NewNetworkWatcherPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListNetworkWatcher paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -38800,35 +39815,42 @@ func ListSearchService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSearchService NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSearchService NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSearchService GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSearchService GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSearchService GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSearchServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSearchServiceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSearchService NewSearchServicePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSearchService paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -39088,35 +40110,42 @@ func ListServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugi
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListServiceFabricCluster NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListServiceFabricCluster NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListServiceFabricCluster GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListServiceFabricCluster GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListServiceFabricCluster GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewServiceFabricClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceFabricClusterFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListServiceFabricCluster NewServiceFabricClusterPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListServiceFabricCluster paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -39374,35 +40403,42 @@ func ListServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListServicebusNamespace NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListServicebusNamespace NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListServicebusNamespace GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListServicebusNamespace GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListServicebusNamespace GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewServicebusNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listServicebusNamespaceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListServicebusNamespace NewServicebusNamespacePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListServicebusNamespace paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -39650,35 +40686,42 @@ func ListSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSignalrService NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSignalrService NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSignalrService GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSignalrService GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSignalrService GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSignalrServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSignalrServiceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSignalrService NewSignalrServicePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSignalrService paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -39922,35 +40965,42 @@ func ListSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSpringCloudService NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSpringCloudService NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSpringCloudService GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSpringCloudService GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSpringCloudService GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSpringCloudServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSpringCloudServiceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSpringCloudService NewSpringCloudServicePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSpringCloudService paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -40197,35 +41247,42 @@ func ListStreamAnalyticsJob(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStreamAnalyticsJob NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStreamAnalyticsJob NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStreamAnalyticsJob GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStreamAnalyticsJob GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStreamAnalyticsJob GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewStreamAnalyticsJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStreamAnalyticsJobFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStreamAnalyticsJob NewStreamAnalyticsJobPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListStreamAnalyticsJob paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -40463,35 +41520,42 @@ func ListStreamAnalyticsCluster(ctx context.Context, d *plugin.QueryData, _ *plu
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStreamAnalyticsCluster NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStreamAnalyticsCluster NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStreamAnalyticsCluster GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStreamAnalyticsCluster GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStreamAnalyticsCluster GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewStreamAnalyticsClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStreamAnalyticsClusterFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStreamAnalyticsCluster NewStreamAnalyticsClusterPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListStreamAnalyticsCluster paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -40710,35 +41774,42 @@ func ListVirtualMachineImagesImageTemplates(ctx context.Context, d *plugin.Query
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualMachineImagesImageTemplates NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualMachineImagesImageTemplates NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualMachineImagesImageTemplates GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualMachineImagesImageTemplates GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualMachineImagesImageTemplates GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewVirtualMachineImagesImageTemplatesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listVirtualMachineImagesImageTemplatesFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListVirtualMachineImagesImageTemplates NewVirtualMachineImagesImageTemplatesPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListVirtualMachineImagesImageTemplates paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -40957,35 +42028,42 @@ func ListOperationalInsightsWorkspaces(ctx context.Context, d *plugin.QueryData,
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListOperationalInsightsWorkspaces NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListOperationalInsightsWorkspaces NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListOperationalInsightsWorkspaces GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListOperationalInsightsWorkspaces GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListOperationalInsightsWorkspaces GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewOperationalInsightsWorkspacesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOperationalInsightsWorkspacesFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListOperationalInsightsWorkspaces NewOperationalInsightsWorkspacesPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListOperationalInsightsWorkspaces paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -41204,35 +42282,42 @@ func ListTimeSeriesInsightsEnvironments(ctx context.Context, d *plugin.QueryData
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTimeSeriesInsightsEnvironments NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTimeSeriesInsightsEnvironments NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTimeSeriesInsightsEnvironments GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTimeSeriesInsightsEnvironments GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTimeSeriesInsightsEnvironments GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewTimeSeriesInsightsEnvironmentsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listTimeSeriesInsightsEnvironmentsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListTimeSeriesInsightsEnvironments NewTimeSeriesInsightsEnvironmentsPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListTimeSeriesInsightsEnvironments paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -41471,35 +42556,42 @@ func ListSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspace NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspace NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspace GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspace GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspace GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSynapseWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSynapseWorkspaceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspace NewSynapseWorkspacePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSynapseWorkspace paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -41738,35 +42830,42 @@ func ListSynapseWorkspaceBigdatapools(ctx context.Context, d *plugin.QueryData, 
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspaceBigdatapools NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspaceBigdatapools NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspaceBigdatapools GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspaceBigdatapools GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspaceBigdatapools GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSynapseWorkspaceBigdatapoolsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSynapseWorkspaceBigdatapoolsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspaceBigdatapools NewSynapseWorkspaceBigdatapoolsPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSynapseWorkspaceBigdatapools paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -41985,35 +43084,42 @@ func ListSynapseWorkspaceSqlpools(ctx context.Context, d *plugin.QueryData, _ *p
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspaceSqlpools NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspaceSqlpools NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspaceSqlpools GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspaceSqlpools GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspaceSqlpools GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSynapseWorkspaceSqlpoolsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSynapseWorkspaceSqlpoolsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSynapseWorkspaceSqlpools NewSynapseWorkspaceSqlpoolsPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSynapseWorkspaceSqlpools paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -42234,35 +43340,42 @@ func ListLocation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLocation NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLocation NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLocation GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLocation GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLocation GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewLocationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLocationFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLocation NewLocationPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListLocation paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -42504,35 +43617,42 @@ func ListAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdUsers NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdUsers NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdUsers GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdUsers GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdUsers GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewAdUsersPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAdUsersFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdUsers NewAdUsersPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListAdUsers paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -42797,35 +43917,42 @@ func ListAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdGroup NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdGroup NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdGroup GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdGroup GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdGroup GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewAdGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAdGroupFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdGroup NewAdGroupPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListAdGroup paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -43093,35 +44220,42 @@ func ListAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdServicePrincipal NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdServicePrincipal NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdServicePrincipal GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdServicePrincipal GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdServicePrincipal GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewAdServicePrincipalPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAdServicePrincipalFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAdServicePrincipal NewAdServicePrincipalPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListAdServicePrincipal paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -43362,35 +44496,42 @@ func ListAnalysisServiceServer(ctx context.Context, d *plugin.QueryData, _ *plug
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAnalysisServiceServer NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAnalysisServiceServer NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAnalysisServiceServer GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAnalysisServiceServer GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAnalysisServiceServer GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewAnalysisServiceServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAnalysisServiceServerFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListAnalysisServiceServer NewAnalysisServiceServerPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListAnalysisServiceServer paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -43638,35 +44779,42 @@ func ListPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPostgresqlServer NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPostgresqlServer NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPostgresqlServer GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPostgresqlServer GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPostgresqlServer GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewPostgresqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPostgresqlServerFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPostgresqlServer NewPostgresqlServerPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListPostgresqlServer paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -43913,35 +45061,42 @@ func ListPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *p
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPostgresqlFlexibleServer NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPostgresqlFlexibleServer NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPostgresqlFlexibleServer GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPostgresqlFlexibleServer GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPostgresqlFlexibleServer GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewPostgresqlFlexibleServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPostgresqlFlexibleServerFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPostgresqlFlexibleServer NewPostgresqlFlexibleServerPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListPostgresqlFlexibleServer paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -44168,35 +45323,42 @@ func ListStorageSync(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageSync NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageSync NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageSync GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageSync GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageSync GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewStorageSyncPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageSyncFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageSync NewStorageSyncPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListStorageSync paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -44449,35 +45611,42 @@ func ListMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMssqlManagedInstance NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMssqlManagedInstance NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMssqlManagedInstance GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMssqlManagedInstance GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMssqlManagedInstance GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewMssqlManagedInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listMssqlManagedInstanceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMssqlManagedInstance NewMssqlManagedInstancePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListMssqlManagedInstance paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -44722,35 +45891,42 @@ func ListMssqlManagedInstanceDatabases(ctx context.Context, d *plugin.QueryData,
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMssqlManagedInstanceDatabases NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMssqlManagedInstanceDatabases NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMssqlManagedInstanceDatabases GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMssqlManagedInstanceDatabases GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMssqlManagedInstanceDatabases GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewMssqlManagedInstanceDatabasesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMssqlManagedInstanceDatabasesFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListMssqlManagedInstanceDatabases NewMssqlManagedInstanceDatabasesPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListMssqlManagedInstanceDatabases paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -45001,35 +46177,42 @@ func ListSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlDatabase NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlDatabase NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlDatabase GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlDatabase GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlDatabase GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSqlDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlDatabaseFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlDatabase NewSqlDatabasePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSqlDatabase paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -45279,35 +46462,42 @@ func ListSqlInstancePool(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlInstancePool NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlInstancePool NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlInstancePool GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlInstancePool GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlInstancePool GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSqlInstancePoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlInstancePoolFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlInstancePool NewSqlInstancePoolPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSqlInstancePool paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -45545,35 +46735,42 @@ func ListSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServer NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServer NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServer GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServer GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServer GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSqlServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServer NewSqlServerPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSqlServer paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -45812,35 +47009,42 @@ func ListSqlServerJobAgent(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerJobAgent NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerJobAgent NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerJobAgent GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerJobAgent GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerJobAgent GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSqlServerJobAgentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerJobAgentFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerJobAgent NewSqlServerJobAgentPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSqlServerJobAgent paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -46059,35 +47263,42 @@ func ListSqlVirtualClusters(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlVirtualClusters NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlVirtualClusters NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlVirtualClusters GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlVirtualClusters GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlVirtualClusters GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSqlVirtualClustersPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlVirtualClustersFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlVirtualClusters NewSqlVirtualClustersPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSqlVirtualClusters paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -46318,35 +47529,42 @@ func ListSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugi
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerElasticPool NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerElasticPool NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerElasticPool GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerElasticPool GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerElasticPool GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSqlServerElasticPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerElasticPoolFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerElasticPool NewSqlServerElasticPoolPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSqlServerElasticPool paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -46593,35 +47811,42 @@ func ListSqlServerVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *pl
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerVirtualMachine NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerVirtualMachine NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerVirtualMachine GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerVirtualMachine GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerVirtualMachine GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSqlServerVirtualMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerVirtualMachineFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerVirtualMachine NewSqlServerVirtualMachinePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSqlServerVirtualMachine paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -46856,35 +48081,42 @@ func ListSqlServerVirtualMachineGroup(ctx context.Context, d *plugin.QueryData, 
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerVirtualMachineGroup NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerVirtualMachineGroup NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerVirtualMachineGroup GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerVirtualMachineGroup GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerVirtualMachineGroup GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSqlServerVirtualMachineGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerVirtualMachineGroupFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerVirtualMachineGroup NewSqlServerVirtualMachineGroupPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSqlServerVirtualMachineGroup paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -47130,35 +48362,42 @@ func ListSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *pl
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerFlexibleServer NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerFlexibleServer NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerFlexibleServer GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerFlexibleServer GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerFlexibleServer GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewSqlServerFlexibleServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSqlServerFlexibleServerFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListSqlServerFlexibleServer NewSqlServerFlexibleServerPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListSqlServerFlexibleServer paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -47457,35 +48696,42 @@ func ListStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageAccount NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageAccount NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageAccount GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageAccount GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageAccount GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewStorageAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageAccountFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListStorageAccount NewStorageAccountPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListStorageAccount paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -47769,35 +49015,42 @@ func ListRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plug
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRecoveryServicesVault NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRecoveryServicesVault NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRecoveryServicesVault GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRecoveryServicesVault GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRecoveryServicesVault GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewRecoveryServicesVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRecoveryServicesVaultFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListRecoveryServicesVault NewRecoveryServicesVaultPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListRecoveryServicesVault paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -48045,35 +49298,42 @@ func ListHybridKubernetesConnectedCluster(ctx context.Context, d *plugin.QueryDa
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHybridKubernetesConnectedCluster NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHybridKubernetesConnectedCluster NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHybridKubernetesConnectedCluster GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHybridKubernetesConnectedCluster GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHybridKubernetesConnectedCluster GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewHybridKubernetesConnectedClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listHybridKubernetesConnectedClusterFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListHybridKubernetesConnectedCluster NewHybridKubernetesConnectedClusterPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListHybridKubernetesConnectedCluster paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -48312,35 +49572,42 @@ func ListCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryDa
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCostManagementCostByResourceType NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCostManagementCostByResourceType NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCostManagementCostByResourceType GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCostManagementCostByResourceType GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCostManagementCostByResourceType GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewCostManagementCostByResourceTypePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostManagementCostByResourceTypeFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCostManagementCostByResourceType NewCostManagementCostByResourceTypePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListCostManagementCostByResourceType paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -48559,35 +49826,42 @@ func ListCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryDa
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCostManagementCostBySubscription NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCostManagementCostBySubscription NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCostManagementCostBySubscription GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCostManagementCostBySubscription GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCostManagementCostBySubscription GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewCostManagementCostBySubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostManagementCostBySubscriptionFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListCostManagementCostBySubscription NewCostManagementCostBySubscriptionPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListCostManagementCostBySubscription paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -48821,35 +50095,42 @@ func ListLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancer NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancer NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancer GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancer GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancer GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewLoadBalancerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancer NewLoadBalancerPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListLoadBalancer paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -49095,35 +50376,42 @@ func ListLoadBalancerBackendAddressPool(ctx context.Context, d *plugin.QueryData
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerBackendAddressPool NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerBackendAddressPool NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerBackendAddressPool GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerBackendAddressPool GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerBackendAddressPool GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewLoadBalancerBackendAddressPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerBackendAddressPoolFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerBackendAddressPool NewLoadBalancerBackendAddressPoolPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListLoadBalancerBackendAddressPool paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -49364,35 +50652,42 @@ func ListLoadBalancerNatRule(ctx context.Context, d *plugin.QueryData, _ *plugin
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerNatRule NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerNatRule NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerNatRule GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerNatRule GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerNatRule GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewLoadBalancerNatRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerNatRuleFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerNatRule NewLoadBalancerNatRulePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListLoadBalancerNatRule paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -49633,35 +50928,42 @@ func ListLoadBalancerOutboundRule(ctx context.Context, d *plugin.QueryData, _ *p
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerOutboundRule NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerOutboundRule NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerOutboundRule GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerOutboundRule GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerOutboundRule GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewLoadBalancerOutboundRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerOutboundRuleFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerOutboundRule NewLoadBalancerOutboundRulePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListLoadBalancerOutboundRule paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -49900,35 +51202,42 @@ func ListLoadBalancerProbe(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerProbe NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerProbe NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerProbe GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerProbe GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerProbe GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewLoadBalancerProbePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerProbeFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerProbe NewLoadBalancerProbePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListLoadBalancerProbe paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -50173,35 +51482,42 @@ func ListLoadBalancerRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerRule NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerRule NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerRule GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerRule GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerRule GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewLoadBalancerRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLoadBalancerRuleFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListLoadBalancerRule NewLoadBalancerRulePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListLoadBalancerRule paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -50439,35 +51755,42 @@ func ListManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListManagementGroup NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListManagementGroup NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListManagementGroup GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListManagementGroup GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListManagementGroup GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewManagementGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listManagementGroupFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListManagementGroup NewManagementGroupPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListManagementGroup paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -50692,35 +52015,42 @@ func ListManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListManagementLock NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListManagementLock NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListManagementLock GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListManagementLock GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListManagementLock GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewManagementLockPaginator(essdk.BuildFilter(ctx, d.QueryContext, listManagementLockFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListManagementLock NewManagementLockPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListManagementLock paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -50944,35 +52274,42 @@ func ListResourceProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceProvider NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceProvider NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceProvider GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceProvider GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceProvider GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewResourceProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceProviderFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceProvider NewResourceProviderPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListResourceProvider paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -51195,35 +52532,42 @@ func ListResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceGroup NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceGroup NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceGroup GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceGroup GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceGroup GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewResourceGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceGroupFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListResourceGroup NewResourceGroupPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListResourceGroup paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -51444,35 +52788,42 @@ func ListBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBotServiceBot NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBotServiceBot NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBotServiceBot GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBotServiceBot GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBotServiceBot GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewBotServiceBotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBotServiceBotFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListBotServiceBot NewBotServiceBotPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListBotServiceBot paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -51689,35 +53040,42 @@ func ListNetAppAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetAppAccount NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetAppAccount NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetAppAccount GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetAppAccount GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetAppAccount GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewNetAppAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetAppAccountFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetAppAccount NewNetAppAccountPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListNetAppAccount paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -51934,35 +53292,42 @@ func ListNetAppCapacityPool(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetAppCapacityPool NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetAppCapacityPool NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetAppCapacityPool GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetAppCapacityPool GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetAppCapacityPool GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewNetAppCapacityPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetAppCapacityPoolFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListNetAppCapacityPool NewNetAppCapacityPoolPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListNetAppCapacityPool paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -52178,35 +53543,42 @@ func ListDashboardGrafana(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDashboardGrafana NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDashboardGrafana NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDashboardGrafana GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDashboardGrafana GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDashboardGrafana GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDashboardGrafanaPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDashboardGrafanaFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDashboardGrafana NewDashboardGrafanaPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDashboardGrafana paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -52422,35 +53794,42 @@ func ListDesktopVirtualizationHostPool(ctx context.Context, d *plugin.QueryData,
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDesktopVirtualizationHostPool NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDesktopVirtualizationHostPool NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDesktopVirtualizationHostPool GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDesktopVirtualizationHostPool GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDesktopVirtualizationHostPool GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDesktopVirtualizationHostPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDesktopVirtualizationHostPoolFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDesktopVirtualizationHostPool NewDesktopVirtualizationHostPoolPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDesktopVirtualizationHostPool paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -52667,35 +54046,42 @@ func ListDesktopVirtualizationWorkspace(ctx context.Context, d *plugin.QueryData
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDesktopVirtualizationWorkspace NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDesktopVirtualizationWorkspace NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDesktopVirtualizationWorkspace GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDesktopVirtualizationWorkspace GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDesktopVirtualizationWorkspace GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDesktopVirtualizationWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDesktopVirtualizationWorkspaceFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDesktopVirtualizationWorkspace NewDesktopVirtualizationWorkspacePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDesktopVirtualizationWorkspace paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -52912,35 +54298,42 @@ func ListDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDevTestLabLab NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDevTestLabLab NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDevTestLabLab GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDevTestLabLab GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDevTestLabLab GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewDevTestLabLabPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDevTestLabLabFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListDevTestLabLab NewDevTestLabLabPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListDevTestLabLab paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -53157,35 +54550,42 @@ func ListPurviewAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPurviewAccount NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPurviewAccount NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPurviewAccount GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPurviewAccount GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPurviewAccount GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewPurviewAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPurviewAccountFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPurviewAccount NewPurviewAccountPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListPurviewAccount paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -53402,35 +54802,42 @@ func ListPowerBIDedicatedCapacity(ctx context.Context, d *plugin.QueryData, _ *p
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPowerBIDedicatedCapacity NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPowerBIDedicatedCapacity NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPowerBIDedicatedCapacity GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPowerBIDedicatedCapacity GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPowerBIDedicatedCapacity GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewPowerBIDedicatedCapacityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPowerBIDedicatedCapacityFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListPowerBIDedicatedCapacity NewPowerBIDedicatedCapacityPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListPowerBIDedicatedCapacity paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -53671,35 +55078,42 @@ func ListApplicationInsightsComponent(ctx context.Context, d *plugin.QueryData, 
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListApplicationInsightsComponent NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListApplicationInsightsComponent NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListApplicationInsightsComponent GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListApplicationInsightsComponent GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListApplicationInsightsComponent GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.NewApplicationInsightsComponentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApplicationInsightsComponentFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("ListApplicationInsightsComponent NewApplicationInsightsComponentPaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("ListApplicationInsightsComponent paginator.NextPage", "error", err)
 			return nil, err
 		}
 
