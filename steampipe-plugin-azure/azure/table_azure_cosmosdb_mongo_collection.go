@@ -23,6 +23,7 @@ func tableAzureCosmosDBMongoCollection(_ context.Context) *plugin.Table {
 			},
 		},
 		List: &plugin.ListConfig{
+			Hydrate: kaytu.ListCosmosdbMongoCollection,
 			KeyColumns: plugin.KeyColumnSlice{
 				{
 					Name: "database_name", Require: plugin.Required,

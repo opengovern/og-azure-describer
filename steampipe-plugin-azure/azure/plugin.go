@@ -109,6 +109,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"azure_cosmosdb_mongo_database":                               tableAzureCosmosDBMongoDatabase(ctx),
 			"azure_cosmosdb_restorable_database_account":                  tableAzureCosmosDBRestorableDatabaseAccount(ctx),
 			"azure_cosmosdb_sql_database":                                 tableAzureCosmosDBSQLDatabase(ctx),
+			"azure_cosmosdb_cassandra_cluster":                            tableAzureCosmosdbCassandraCluster(ctx),
 			"azure_costmanagement_costbyresourcetype":                     tableAzureCostManagementCostByResourceType(ctx),
 			"azure_costmanagement_costbysubscription":                     tableAzureCostManagementCostBySubscription(ctx),
 			"azure_data_factory":                                          tableAzureDataFactory(ctx),
