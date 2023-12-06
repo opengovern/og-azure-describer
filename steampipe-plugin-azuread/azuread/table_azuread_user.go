@@ -142,10 +142,7 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 				Name:        "usage_location",
 				Type:        proto.ColumnType_STRING,
 				Description: "A two letter country code (ISO standard 3166), required for users that will be assigned licenses due to legal requirement to check for availability of services in countries.",
-
-				Transform:
-				// Json fields
-				transform.FromField("Description.AdUsers.UsageLocation")},
+				Transform:   transform.FromField("Description.AdUsers.UsageLocation")},
 
 			{
 				Name:        "member_of",

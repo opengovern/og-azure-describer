@@ -40,10 +40,7 @@ func tableAzureAdGroup(_ context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			{Name: "display_name", Type: proto.ColumnType_STRING, Description: "The name displayed in the address book for the user. This is usually the combination of the user's first name, middle initial and last name.", Transform: transform.FromField("Description.AdGroup.DisplayName")},
 			{Name: "id", Type: proto.ColumnType_STRING, Description: "The unique identifier for the group.", Transform: transform.FromField("Description.AdGroup.DirectoryObject.ID")},
-			{Name: "description", Type: proto.ColumnType_STRING, Description: "An optional description for the group.", Transform:
-
-			// Other fields
-			transform.FromField("Description.AdGroup.Description")},
+			{Name: "description", Type: proto.ColumnType_STRING, Description: "An optional description for the group.", Transform: transform.FromField("Description.AdGroup.Description")},
 
 			{Name: "classification", Type: proto.ColumnType_STRING, Description: "Describes a classification for the group (such as low, medium or high business impact).", Transform: transform.FromField("Description.AdGroup.Classification")},
 			{Name: "created_date_time", Type: proto.ColumnType_TIMESTAMP, Description: "The time at which the group was created.", Transform: transform.FromField("Description.AdGroup.CreatedDateTime")},
@@ -64,11 +61,7 @@ func tableAzureAdGroup(_ context.Context) *plugin.Table {
 			{Name: "renewed_date_time", Type: proto.ColumnType_TIMESTAMP, Description: "Timestamp of when the group was last renewed. This cannot be modified directly and is only updated via the renew service action.", Transform: transform.FromField("Description.AdGroup.RenewedDateTime")},
 			{Name: "security_enabled", Type: proto.ColumnType_BOOL, Description: "Specifies whether the group is a security group.", Transform: transform.FromField("Description.AdGroup.SecurityEnabled")},
 			{Name: "security_identifier", Type: proto.ColumnType_STRING, Description: "Security identifier of the group, used in Windows scenarios.", Transform: transform.FromField("Description.AdGroup.SecurityIdentifier")},
-			{Name: "visibility", Type: proto.ColumnType_STRING, Description: "Specifies the group join policy and group content visibility for groups. Possible values are: Private, Public, or Hiddenmembership.", Transform:
-
-			// JSON fields
-			transform.FromField("Description.AdGroup.Visibility")},
-
+			{Name: "visibility", Type: proto.ColumnType_STRING, Description: "Specifies the group join policy and group content visibility for groups. Possible values are: Private, Public, or Hiddenmembership.", Transform: transform.FromField("Description.AdGroup.Visibility")},
 			{Name: "assigned_labels", Type: proto.ColumnType_JSON, Description: "The list of sensitivity label pairs (label ID, label name) associated with a Microsoft 365 group.", Transform: transform.FromField("Description.AdGroup.AssignedLabels")},
 			{Name: "group_types", Type: proto.ColumnType_JSON, Description: "Specifies the group type and its membership. If the collection contains Unified, the group is a Microsoft 365 group; otherwise, it's either a security group or distribution group. For details, see [groups overview](https://docs.microsoft.com/en-us/graph/api/resources/groups-overview?view=graph-rest-1.0).", Transform: transform.FromField("Description.AdGroup.GroupTypes")},
 			{Name: "member_ids", Type: proto.ColumnType_JSON, Transform: transform.FromField("Description.AdGroup.Members"), Description: "Id of Users and groups that are members of this group."},
@@ -80,6 +73,22 @@ func tableAzureAdGroup(_ context.Context) *plugin.Table {
 			{Name: "tags", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTags, Transform: transform.From(adGroupTags)},
 			{Name: "title", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTitle, Transform: transform.From(adGroupTitle)},
 			{Name: "tenant_id", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTenant, Transform: transform.FromField("Description.TenantID")},
+			{
+				Name:        "metadata",
+				Description: "Metadata of the Azure resource",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Metadata").Transform(marshalJSON),
+			},
+			{
+				Name:        "kaytu_account_id",
+				Type:        proto.ColumnType_STRING,
+				Description: "The Kaytu Account ID in which the resource is located.",
+				Transform:   transform.FromField("Metadata.SourceID")},
+			{
+				Name:        "kaytu_resource_id",
+				Type:        proto.ColumnType_STRING,
+				Description: "The unique ID of the resource in Kaytu.",
+				Transform:   transform.FromField("ID")},
 		},
 	}
 }

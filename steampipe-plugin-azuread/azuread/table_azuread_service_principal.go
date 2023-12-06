@@ -39,10 +39,7 @@ func tableAzureAdServicePrincipal(_ context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			{Name: "id", Type: proto.ColumnType_STRING, Description: "The unique identifier for the service principal.", Transform: transform.FromField("Description.AdServicePrincipal.DirectoryObject.ID")},
 			{Name: "display_name", Type: proto.ColumnType_STRING, Description: "The display name for the service principal.", Transform: transform.FromField("Description.AdServicePrincipal.DisplayName")},
-			{Name: "app_id", Type: proto.ColumnType_STRING, Description: "The unique identifier for the associated application (its appId property).", Transform:
-
-			// Other fields
-			transform.FromField("Description.AdServicePrincipal.AppId")},
+			{Name: "app_id", Type: proto.ColumnType_STRING, Description: "The unique identifier for the associated application (its appId property).", Transform: transform.FromField("Description.AdServicePrincipal.AppId")},
 
 			{Name: "account_enabled", Type: proto.ColumnType_BOOL, Description: "true if the service principal account is enabled; otherwise, false.", Transform: transform.FromField("Description.AdServicePrincipal.AccountEnabled")},
 			{Name: "app_display_name", Type: proto.ColumnType_STRING, Description: "The display name exposed by the associated application.", Transform: transform.FromField("Description.AdServicePrincipal.AppDisplayName")},
@@ -69,14 +66,27 @@ func tableAzureAdServicePrincipal(_ context.Context) *plugin.Table {
 			{Name: "oauth2_permission_scopes", Type: proto.ColumnType_JSON, Description: "The published permission scopes.", Transform: transform.FromField("Description.AdServicePrincipal.PublishedPermissionScopes")},
 			{Name: "reply_urls", Type: proto.ColumnType_JSON, Description: "The URLs that user tokens are sent to for sign in with the associated application, or the redirect URIs that OAuth 2.0 authorization codes and access tokens are sent to for the associated application.", Transform: transform.FromField("Description.AdServicePrincipal.ReplyUrls")},
 			{Name: "service_principal_names", Type: proto.ColumnType_JSON, Description: "Contains the list of identifiersUris, copied over from the associated application. Additional values can be added to hybrid applications. These values can be used to identify the permissions exposed by this app within Azure AD.", Transform: transform.FromField("Description.AdServicePrincipal.ServicePrincipalNames")},
-			{Name: "tags_src", Type: proto.ColumnType_JSON, Description: "Custom strings that can be used to categorize and identify the service principal.", Transform:
-
-			// Standard columns
-			transform.FromField("Description.AdServicePrincipal.Tags")},
+			{Name: "tags_src", Type: proto.ColumnType_JSON, Description: "Custom strings that can be used to categorize and identify the service principal.", Transform: transform.FromField("Description.AdServicePrincipal.Tags")},
 
 			{Name: "tags", Type: proto.ColumnType_JSON, Description: ColumnDescriptionTags, Transform: transform.From(adServicePrincipalTags)},
 			{Name: "title", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTitle, Transform: transform.From(adServicePrincipalTitle)},
 			{Name: "tenant_id", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTenant, Transform: transform.FromField("Description.TenantID")},
+			{
+				Name:        "metadata",
+				Description: "Metadata of the Azure resource",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Metadata").Transform(marshalJSON),
+			},
+			{
+				Name:        "kaytu_account_id",
+				Type:        proto.ColumnType_STRING,
+				Description: "The Kaytu Account ID in which the resource is located.",
+				Transform:   transform.FromField("Metadata.SourceID")},
+			{
+				Name:        "kaytu_resource_id",
+				Type:        proto.ColumnType_STRING,
+				Description: "The unique ID of the resource in Kaytu.",
+				Transform:   transform.FromField("ID")},
 		},
 	}
 }
