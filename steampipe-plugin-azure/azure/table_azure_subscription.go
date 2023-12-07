@@ -20,7 +20,7 @@ func tableAzureSubscription(_ context.Context) *plugin.Table {
 			Hydrate: kaytu.ListSubscription,
 		},
 
-		Columns: []*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "id",
 				Type:        proto.ColumnType_STRING,
@@ -63,10 +63,7 @@ func tableAzureSubscription(_ context.Context) *plugin.Table {
 				Name:        "subscription_policies",
 				Description: "The subscription policies.",
 				Type:        proto.ColumnType_JSON,
-
-				// Steampipe standard columns
-				Transform: transform.FromField("Description.Subscription.SubscriptionPolicies")},
-
+				Transform:   transform.FromField("Description.Subscription.SubscriptionPolicies")},
 			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
@@ -78,21 +75,6 @@ func tableAzureSubscription(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.Subscription.ID").Transform(idToAkas),
 			},
-
-			// Azure standard columns
-			{
-				Name:        "cloud_environment",
-				Description: ColumnDescriptionCloudEnvironment,
-				Type:        proto.ColumnType_STRING,
-
-				Transform: transform.FromField("Description.Subscription.SubscriptionPolicies")},
-			{
-				Name:        "kaytu_metadata",
-				Description: "Metadata of the AWS resource",
-				Type:        proto.ColumnType_STRING,
-
-				Transform: transform.FromField("Description.Subscription.State").Transform(marshalJSON),
-			},
-		},
+		}),
 	}
 }

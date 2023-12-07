@@ -72,7 +72,19 @@ func commonKaytuColumns() []*plugin.Column {
 
 // append the common azure columns onto the column list
 func azureKaytuColumns(columns []*plugin.Column) []*plugin.Column {
-	return append(columns, commonKaytuColumns()...)
+	for _, c := range commonKaytuColumns() {
+		found := false
+		for _, col := range columns {
+			if col.Name == c.Name {
+				found = true
+				break
+			}
+		}
+		if !found {
+			columns = append(columns, c)
+		}
+	}
+	return columns
 }
 
 func getSubscriptionID(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
