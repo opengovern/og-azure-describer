@@ -9,7 +9,8 @@ import (
 )
 
 const (
-	DefaultReaderRoleDefinitionIDTemplate = "/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7"
+	DefaultReaderRoleDefinitionIDTemplate        = "/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7"
+	DefaultBillingReaderRoleDefinitionIDTemplate = "/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/fa23ad8b-c56e-40d8-ac0c-ce449e1d2c64"
 )
 
 func CheckSPNAccessPermission(authConf AuthConfig) error {
@@ -33,7 +34,7 @@ func CheckRole(authConf AuthConfig, subscriptionID string, roleDefinitionIDTempl
 	if roleDefinitionIDTemplate == "" {
 		return false, fmt.Errorf("roleDefinitionIDTemplate is empty")
 	}
-	roleDefinitionID := fmt.Sprintf(DefaultReaderRoleDefinitionIDTemplate, subscriptionID)
+	roleDefinitionID := fmt.Sprintf(roleDefinitionIDTemplate, subscriptionID)
 
 	authorizer, err := NewAuthorizerFromConfig(authConf)
 	if err != nil {
