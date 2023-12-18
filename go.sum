@@ -890,6 +890,8 @@ github.com/kaytu-io/kaytu-util v0.0.0-20231122185039-4dd1d4c3d42c h1:Z6MKpLFdl37
 github.com/kaytu-io/kaytu-util v0.0.0-20231122185039-4dd1d4c3d42c/go.mod h1:DASdPC1NLGUE82wMYrzn2XPTebHy58R1hmwd1fWR+lE=
 github.com/kaytu-io/kaytu-util v0.0.0-20231214093510-226424846838 h1:IOJZRU8MfShOun5blRifgnJppuGBJ4E/NdWxYHTaSlo=
 github.com/kaytu-io/kaytu-util v0.0.0-20231214093510-226424846838/go.mod h1:DASdPC1NLGUE82wMYrzn2XPTebHy58R1hmwd1fWR+lE=
+github.com/kaytu-io/kaytu-util v0.0.0-20231218102740-ff0aea807cf0 h1:Cn9FhY9NRlMVHd/2kOLbQEzi/4Lkjlys8jJ9bPy8VfI=
+github.com/kaytu-io/kaytu-util v0.0.0-20231218102740-ff0aea807cf0/go.mod h1:EmdymCc7T4mzw+6y3mbdTeYME/tl9AoYoDpzsV+KK5o=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=

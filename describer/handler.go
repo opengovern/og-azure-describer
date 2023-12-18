@@ -129,8 +129,11 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		input.KeyARN,
 		input.DescribeEndpoint,
 		token,
+		input.IngestionPipelineEndpoint,
+		input.UseOpenSearch,
 		input.KafkaTopic,
 		input.WorkspaceName,
+		input.WorkspaceId,
 	)
 
 	errMsg := ""

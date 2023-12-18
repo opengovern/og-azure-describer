@@ -51,11 +51,14 @@ func doDescribeAzure(
 	logger *zap.Logger,
 	job describe.DescribeJob,
 	config map[string]any,
+	workspaceId string,
 	workspaceName string,
 	describeEndpoint string,
+	ingestionPipelineEndpoint string,
 	describeToken string,
-	kafkaTopic string) ([]string, error) {
-	rs, err := NewResourceSender(workspaceName, describeEndpoint, describeToken, job.JobID, kafkaTopic, logger)
+	kafkaTopic string,
+	useOpenSearch bool) ([]string, error) {
+	rs, err := NewResourceSender(workspaceId, workspaceName, describeEndpoint, ingestionPipelineEndpoint, describeToken, job.JobID, kafkaTopic, useOpenSearch, logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to resource sender: %w", err)
 	}
@@ -200,8 +203,12 @@ func Do(ctx context.Context,
 	keyARN string,
 	describeDeliverEndpoint string,
 	describeDeliverToken string,
+	ingestionPipelineEndpoint string,
+	useOpenSearch bool,
 	kafkaTopic string,
-	workspaceName string) (resourceIDs []string, err error) {
+	workspaceName string,
+	workspaceId string,
+) (resourceIDs []string, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			err = fmt.Errorf("paniced with error: %v", r)
@@ -221,5 +228,5 @@ func Do(ctx context.Context,
 		return nil, fmt.Errorf("decrypt error: %w", err)
 	}
 
-	return doDescribeAzure(ctx, logger, job, config, workspaceName, describeDeliverEndpoint, describeDeliverToken, kafkaTopic)
+	return doDescribeAzure(ctx, logger, job, config, workspaceId, workspaceName, describeDeliverEndpoint, ingestionPipelineEndpoint, describeDeliverToken, kafkaTopic, useOpenSearch)
 }
