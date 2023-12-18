@@ -97,6 +97,8 @@ require (
 	github.com/Azure/go-autorest/autorest/azure/cli v0.4.6
 	github.com/Azure/go-autorest/autorest/date v0.3.0
 	github.com/aws/aws-lambda-go v1.41.0
+	github.com/aws/aws-sdk-go-v2 v1.20.0
+	github.com/aws/aws-sdk-go-v2/config v1.18.25
 	github.com/gdexlab/go-render v1.0.1
 	github.com/go-errors/errors v1.4.2
 	github.com/gofrs/uuid v4.4.0+incompatible
@@ -140,8 +142,6 @@ require (
 	github.com/allegro/bigcache/v3 v3.1.0 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/aws/aws-sdk-go v1.44.263 // indirect
-	github.com/aws/aws-sdk-go-v2 v1.20.0 // indirect
-	github.com/aws/aws-sdk-go-v2/config v1.18.25 // indirect
 	github.com/aws/aws-sdk-go-v2/credentials v1.13.24 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.13.3 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.37 // indirect
@@ -160,6 +160,7 @@ require (
 	github.com/cenkalti/backoff/v4 v4.2.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/cjlapao/common-go v0.0.25 // indirect
+	github.com/confluentinc/confluent-kafka-go/v2 v2.1.1 // indirect
 	github.com/danwakefield/fnmatch v0.0.0-20160403171240-cbb64ac3d964 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgraph-io/ristretto v0.1.1 // indirect
