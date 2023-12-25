@@ -173,6 +173,10 @@ func (p {{ .Name }}Paginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p {{ .Name }}Paginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p {{ .Name }}Paginator) NextPage(ctx context.Context) ([]{{ .Name }}, error) {
 	var response {{ .Name }}SearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -251,6 +255,11 @@ func List{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -303,6 +312,11 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil

@@ -128,6 +128,10 @@ func (p APIManagementPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p APIManagementPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p APIManagementPaginator) NextPage(ctx context.Context) ([]APIManagement, error) {
 	var response APIManagementSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -245,6 +249,11 @@ func ListAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -335,6 +344,11 @@ func GetAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -454,6 +468,10 @@ func (p AutomationAccountsPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p AutomationAccountsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p AutomationAccountsPaginator) NextPage(ctx context.Context) ([]AutomationAccounts, error) {
 	var response AutomationAccountsSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -545,6 +563,11 @@ func ListAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -609,6 +632,11 @@ func GetAutomationAccounts(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -728,6 +756,10 @@ func (p AutomationVariablesPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p AutomationVariablesPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p AutomationVariablesPaginator) NextPage(ctx context.Context) ([]AutomationVariables, error) {
 	var response AutomationVariablesSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -816,6 +848,11 @@ func ListAutomationVariables(ctx context.Context, d *plugin.QueryData, _ *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -877,6 +914,11 @@ func GetAutomationVariables(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -996,6 +1038,10 @@ func (p AppConfigurationPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p AppConfigurationPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p AppConfigurationPaginator) NextPage(ctx context.Context) ([]AppConfiguration, error) {
 	var response AppConfigurationSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -1085,6 +1131,11 @@ func ListAppConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -1147,6 +1198,11 @@ func GetAppConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -1266,6 +1322,10 @@ func (p AppServiceEnvironmentPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p AppServiceEnvironmentPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p AppServiceEnvironmentPaginator) NextPage(ctx context.Context) ([]AppServiceEnvironment, error) {
 	var response AppServiceEnvironmentSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -1359,6 +1419,11 @@ func ListAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plug
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -1426,6 +1491,11 @@ func GetAppServiceEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugi
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -1545,6 +1615,10 @@ func (p AppServiceFunctionAppPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p AppServiceFunctionAppPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p AppServiceFunctionAppPaginator) NextPage(ctx context.Context) ([]AppServiceFunctionApp, error) {
 	var response AppServiceFunctionAppSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -1642,6 +1716,11 @@ func ListAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plug
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -1713,6 +1792,11 @@ func GetAppServiceFunctionApp(ctx context.Context, d *plugin.QueryData, _ *plugi
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -1832,6 +1916,10 @@ func (p AppServiceWebAppPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p AppServiceWebAppPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p AppServiceWebAppPaginator) NextPage(ctx context.Context) ([]AppServiceWebApp, error) {
 	var response AppServiceWebAppSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -1931,6 +2019,11 @@ func ListAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -2004,6 +2097,11 @@ func GetAppServiceWebApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -2123,6 +2221,10 @@ func (p AppServiceWebAppSlotPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p AppServiceWebAppSlotPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p AppServiceWebAppSlotPaginator) NextPage(ctx context.Context) ([]AppServiceWebAppSlot, error) {
 	var response AppServiceWebAppSlotSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -2239,6 +2341,11 @@ func ListAppServiceWebAppSlot(ctx context.Context, d *plugin.QueryData, _ *plugi
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -2328,6 +2435,11 @@ func GetAppServiceWebAppSlot(ctx context.Context, d *plugin.QueryData, _ *plugin
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -2447,6 +2559,10 @@ func (p AppServicePlanPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p AppServicePlanPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p AppServicePlanPaginator) NextPage(ctx context.Context) ([]AppServicePlan, error) {
 	var response AppServicePlanSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -2545,6 +2661,11 @@ func ListAppServicePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -2617,6 +2738,11 @@ func GetAppServicePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -2736,6 +2862,10 @@ func (p ContainerAppPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ContainerAppPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ContainerAppPaginator) NextPage(ctx context.Context) ([]ContainerApp, error) {
 	var response ContainerAppSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -2817,6 +2947,11 @@ func ListContainerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -2871,6 +3006,11 @@ func GetContainerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -2990,6 +3130,10 @@ func (p AppManagedEnvironmentPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p AppManagedEnvironmentPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p AppManagedEnvironmentPaginator) NextPage(ctx context.Context) ([]AppManagedEnvironment, error) {
 	var response AppManagedEnvironmentSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -3071,6 +3215,11 @@ func ListAppManagedEnvironment(ctx context.Context, d *plugin.QueryData, _ *plug
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -3125,6 +3274,11 @@ func GetAppManagedEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugi
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -3244,6 +3398,10 @@ func (p WebServerFarmsPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p WebServerFarmsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p WebServerFarmsPaginator) NextPage(ctx context.Context) ([]WebServerFarms, error) {
 	var response WebServerFarmsSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -3325,6 +3483,11 @@ func ListWebServerFarms(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -3379,6 +3542,11 @@ func GetWebServerFarms(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -3498,6 +3666,10 @@ func (p BlueprintPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p BlueprintPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p BlueprintPaginator) NextPage(ctx context.Context) ([]Blueprint, error) {
 	var response BlueprintSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -3579,6 +3751,11 @@ func ListBlueprint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -3633,6 +3810,11 @@ func GetBlueprint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -3750,6 +3932,10 @@ func (k Client) NewComputeDiskPaginator(filters []essdk.BoolFilter, limit *int64
 
 func (p ComputeDiskPaginator) HasNext() bool {
 	return !p.paginator.Done()
+}
+
+func (p ComputeDiskPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
 }
 
 func (p ComputeDiskPaginator) NextPage(ctx context.Context) ([]ComputeDisk, error) {
@@ -3870,6 +4056,11 @@ func ListComputeDisk(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -3961,6 +4152,11 @@ func GetComputeDisk(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -4080,6 +4276,10 @@ func (p ComputeDiskReadOpsPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeDiskReadOpsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeDiskReadOpsPaginator) NextPage(ctx context.Context) ([]ComputeDiskReadOps, error) {
 	var response ComputeDiskReadOpsSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -4157,6 +4357,11 @@ func ListComputeDiskReadOps(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -4207,6 +4412,11 @@ func GetComputeDiskReadOps(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -4326,6 +4536,10 @@ func (p ComputeDiskReadOpsDailyPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeDiskReadOpsDailyPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeDiskReadOpsDailyPaginator) NextPage(ctx context.Context) ([]ComputeDiskReadOpsDaily, error) {
 	var response ComputeDiskReadOpsDailySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -4403,6 +4617,11 @@ func ListComputeDiskReadOpsDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -4453,6 +4672,11 @@ func GetComputeDiskReadOpsDaily(ctx context.Context, d *plugin.QueryData, _ *plu
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -4572,6 +4796,10 @@ func (p ComputeDiskReadOpsHourlyPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeDiskReadOpsHourlyPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeDiskReadOpsHourlyPaginator) NextPage(ctx context.Context) ([]ComputeDiskReadOpsHourly, error) {
 	var response ComputeDiskReadOpsHourlySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -4649,6 +4877,11 @@ func ListComputeDiskReadOpsHourly(ctx context.Context, d *plugin.QueryData, _ *p
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -4699,6 +4932,11 @@ func GetComputeDiskReadOpsHourly(ctx context.Context, d *plugin.QueryData, _ *pl
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -4818,6 +5056,10 @@ func (p ComputeDiskWriteOpsPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeDiskWriteOpsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeDiskWriteOpsPaginator) NextPage(ctx context.Context) ([]ComputeDiskWriteOps, error) {
 	var response ComputeDiskWriteOpsSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -4895,6 +5137,11 @@ func ListComputeDiskWriteOps(ctx context.Context, d *plugin.QueryData, _ *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -4945,6 +5192,11 @@ func GetComputeDiskWriteOps(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -5064,6 +5316,10 @@ func (p ComputeDiskWriteOpsDailyPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeDiskWriteOpsDailyPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeDiskWriteOpsDailyPaginator) NextPage(ctx context.Context) ([]ComputeDiskWriteOpsDaily, error) {
 	var response ComputeDiskWriteOpsDailySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -5141,6 +5397,11 @@ func ListComputeDiskWriteOpsDaily(ctx context.Context, d *plugin.QueryData, _ *p
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -5191,6 +5452,11 @@ func GetComputeDiskWriteOpsDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -5310,6 +5576,10 @@ func (p ComputeDiskWriteOpsHourlyPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeDiskWriteOpsHourlyPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeDiskWriteOpsHourlyPaginator) NextPage(ctx context.Context) ([]ComputeDiskWriteOpsHourly, error) {
 	var response ComputeDiskWriteOpsHourlySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -5387,6 +5657,11 @@ func ListComputeDiskWriteOpsHourly(ctx context.Context, d *plugin.QueryData, _ *
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -5437,6 +5712,11 @@ func GetComputeDiskWriteOpsHourly(ctx context.Context, d *plugin.QueryData, _ *p
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -5556,6 +5836,10 @@ func (p ComputeDiskAccessPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeDiskAccessPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeDiskAccessPaginator) NextPage(ctx context.Context) ([]ComputeDiskAccess, error) {
 	var response ComputeDiskAccessSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -5640,6 +5924,11 @@ func ListComputeDiskAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -5697,6 +5986,11 @@ func GetComputeDiskAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -5816,6 +6110,10 @@ func (p ComputeVirtualMachineScaleSetPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeVirtualMachineScaleSetPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeVirtualMachineScaleSetPaginator) NextPage(ctx context.Context) ([]ComputeVirtualMachineScaleSet, error) {
 	var response ComputeVirtualMachineScaleSetSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -5922,6 +6220,11 @@ func ListComputeVirtualMachineScaleSet(ctx context.Context, d *plugin.QueryData,
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -6001,6 +6304,11 @@ func GetComputeVirtualMachineScaleSet(ctx context.Context, d *plugin.QueryData, 
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -6120,6 +6428,10 @@ func (p ComputeVirtualMachineScaleSetNetworkInterfacePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeVirtualMachineScaleSetNetworkInterfacePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeVirtualMachineScaleSetNetworkInterfacePaginator) NextPage(ctx context.Context) ([]ComputeVirtualMachineScaleSetNetworkInterface, error) {
 	var response ComputeVirtualMachineScaleSetNetworkInterfaceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -6205,6 +6517,11 @@ func ListComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, d *p
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -6263,6 +6580,11 @@ func GetComputeVirtualMachineScaleSetNetworkInterface(ctx context.Context, d *pl
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -6382,6 +6704,10 @@ func (p ComputeVirtualMachineScaleSetVmPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeVirtualMachineScaleSetVmPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeVirtualMachineScaleSetVmPaginator) NextPage(ctx context.Context) ([]ComputeVirtualMachineScaleSetVm, error) {
 	var response ComputeVirtualMachineScaleSetVmSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -6491,6 +6817,11 @@ func ListComputeVirtualMachineScaleSetVm(ctx context.Context, d *plugin.QueryDat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -6573,6 +6904,11 @@ func GetComputeVirtualMachineScaleSetVm(ctx context.Context, d *plugin.QueryData
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -6692,6 +7028,10 @@ func (p ComputeSnapshotsPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeSnapshotsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeSnapshotsPaginator) NextPage(ctx context.Context) ([]ComputeSnapshots, error) {
 	var response ComputeSnapshotsSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -6801,6 +7141,11 @@ func ListComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -6883,6 +7228,11 @@ func GetComputeSnapshots(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -7002,6 +7352,10 @@ func (p ComputeAvailabilitySetPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeAvailabilitySetPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeAvailabilitySetPaginator) NextPage(ctx context.Context) ([]ComputeAvailabilitySet, error) {
 	var response ComputeAvailabilitySetSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -7093,6 +7447,11 @@ func ListComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plu
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -7157,6 +7516,11 @@ func GetComputeAvailabilitySet(ctx context.Context, d *plugin.QueryData, _ *plug
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -7276,6 +7640,10 @@ func (p ComputeDiskEncryptionSetPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeDiskEncryptionSetPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeDiskEncryptionSetPaginator) NextPage(ctx context.Context) ([]ComputeDiskEncryptionSet, error) {
 	var response ComputeDiskEncryptionSetSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -7367,6 +7735,11 @@ func ListComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *p
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -7431,6 +7804,11 @@ func GetComputeDiskEncryptionSet(ctx context.Context, d *plugin.QueryData, _ *pl
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -7550,6 +7928,10 @@ func (p ComputeImageGalleryPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeImageGalleryPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeImageGalleryPaginator) NextPage(ctx context.Context) ([]ComputeImageGallery, error) {
 	var response ComputeImageGallerySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -7631,6 +8013,11 @@ func ListComputeImageGallery(ctx context.Context, d *plugin.QueryData, _ *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -7686,6 +8073,11 @@ func GetComputeImageGallery(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -7805,6 +8197,10 @@ func (p ComputeImagePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeImagePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeImagePaginator) NextPage(ctx context.Context) ([]ComputeImage, error) {
 	var response ComputeImageSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -7902,6 +8298,11 @@ func ListComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -7972,6 +8373,11 @@ func GetComputeImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -8091,6 +8497,10 @@ func (p ComputeHostGroupPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeHostGroupPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeHostGroupPaginator) NextPage(ctx context.Context) ([]ComputeHostGroup, error) {
 	var response ComputeHostGroupSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -8171,6 +8581,11 @@ func ListComputeHostGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -8224,6 +8639,11 @@ func GetComputeHostGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -8343,6 +8763,10 @@ func (p ComputeHostGroupHostPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeHostGroupHostPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeHostGroupHostPaginator) NextPage(ctx context.Context) ([]ComputeHostGroupHost, error) {
 	var response ComputeHostGroupHostSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -8423,6 +8847,11 @@ func ListComputeHostGroupHost(ctx context.Context, d *plugin.QueryData, _ *plugi
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -8476,6 +8905,11 @@ func GetComputeHostGroupHost(ctx context.Context, d *plugin.QueryData, _ *plugin
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -8595,6 +9029,10 @@ func (p ComputeRestorePointCollectionPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeRestorePointCollectionPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeRestorePointCollectionPaginator) NextPage(ctx context.Context) ([]ComputeRestorePointCollection, error) {
 	var response ComputeRestorePointCollectionSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -8675,6 +9113,11 @@ func ListComputeRestorePointCollection(ctx context.Context, d *plugin.QueryData,
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -8728,6 +9171,11 @@ func GetComputeRestorePointCollection(ctx context.Context, d *plugin.QueryData, 
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -8847,6 +9295,10 @@ func (p ComputeSSHPublicKeyPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeSSHPublicKeyPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeSSHPublicKeyPaginator) NextPage(ctx context.Context) ([]ComputeSSHPublicKey, error) {
 	var response ComputeSSHPublicKeySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -8930,6 +9382,11 @@ func ListComputeSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -8986,6 +9443,11 @@ func GetComputeSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -9105,6 +9567,10 @@ func (p DataboxEdgeDevicePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DataboxEdgeDevicePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DataboxEdgeDevicePaginator) NextPage(ctx context.Context) ([]DataboxEdgeDevice, error) {
 	var response DataboxEdgeDeviceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -9206,6 +9672,11 @@ func ListDataboxEdgeDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -9280,6 +9751,11 @@ func GetDataboxEdgeDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -9399,6 +9875,10 @@ func (p HealthcareServicePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p HealthcareServicePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p HealthcareServicePaginator) NextPage(ctx context.Context) ([]HealthcareService, error) {
 	var response HealthcareServiceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -9498,6 +9978,11 @@ func ListHealthcareService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -9570,6 +10055,11 @@ func GetHealthcareService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -9689,6 +10179,10 @@ func (p HpcCachePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p HpcCachePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p HpcCachePaginator) NextPage(ctx context.Context) ([]HpcCache, error) {
 	var response HpcCacheSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -9783,6 +10277,11 @@ func ListHpcCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -9850,6 +10349,11 @@ func GetHpcCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -9969,6 +10473,10 @@ func (p KeyVaultKeyPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p KeyVaultKeyPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p KeyVaultKeyPaginator) NextPage(ctx context.Context) ([]KeyVaultKey, error) {
 	var response KeyVaultKeySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -10061,6 +10569,11 @@ func ListKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -10127,6 +10640,11 @@ func GetKeyVaultKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -10246,6 +10764,10 @@ func (p KeyVaultKeyVersionPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p KeyVaultKeyVersionPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p KeyVaultKeyVersionPaginator) NextPage(ctx context.Context) ([]KeyVaultKeyVersion, error) {
 	var response KeyVaultKeyVersionSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -10341,6 +10863,11 @@ func ListKeyVaultKeyVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -10409,6 +10936,11 @@ func GetKeyVaultKeyVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -10528,6 +11060,10 @@ func (p KubernetesClusterPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p KubernetesClusterPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p KubernetesClusterPaginator) NextPage(ctx context.Context) ([]KubernetesCluster, error) {
 	var response KubernetesClusterSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -10639,6 +11175,11 @@ func ListKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -10723,6 +11264,11 @@ func GetKubernetesCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -10842,6 +11388,10 @@ func (p KubernetesServiceVersionPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p KubernetesServiceVersionPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p KubernetesServiceVersionPaginator) NextPage(ctx context.Context) ([]KubernetesServiceVersion, error) {
 	var response KubernetesServiceVersionSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -10928,6 +11478,11 @@ func ListKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *p
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -10988,6 +11543,11 @@ func GetKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *pl
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -11107,6 +11667,10 @@ func (p ContainerInstanceContainerGroupPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ContainerInstanceContainerGroupPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ContainerInstanceContainerGroupPaginator) NextPage(ctx context.Context) ([]ContainerInstanceContainerGroup, error) {
 	var response ContainerInstanceContainerGroupSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -11205,6 +11769,11 @@ func ListContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryDat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -11276,6 +11845,11 @@ func GetContainerInstanceContainerGroup(ctx context.Context, d *plugin.QueryData
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -11395,6 +11969,10 @@ func (p CDNProfilePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p CDNProfilePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p CDNProfilePaginator) NextPage(ctx context.Context) ([]CDNProfile, error) {
 	var response CDNProfileSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -11476,6 +12054,11 @@ func ListCDNProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -11530,6 +12113,11 @@ func GetCDNProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -11649,6 +12237,10 @@ func (p CDNEndpointPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p CDNEndpointPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p CDNEndpointPaginator) NextPage(ctx context.Context) ([]CDNEndpoint, error) {
 	var response CDNEndpointSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -11729,6 +12321,11 @@ func ListCDNEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -11782,6 +12379,11 @@ func GetCDNEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -11901,6 +12503,10 @@ func (p NetworkInterfacePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p NetworkInterfacePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p NetworkInterfacePaginator) NextPage(ctx context.Context) ([]NetworkInterface, error) {
 	var response NetworkInterfaceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -12001,6 +12607,11 @@ func ListNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -12074,6 +12685,11 @@ func GetNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -12193,6 +12809,10 @@ func (p NetworkWatcherFlowLogPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p NetworkWatcherFlowLogPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p NetworkWatcherFlowLogPaginator) NextPage(ctx context.Context) ([]NetworkWatcherFlowLog, error) {
 	var response NetworkWatcherFlowLogSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -12288,6 +12908,11 @@ func ListNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plug
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -12356,6 +12981,11 @@ func GetNetworkWatcherFlowLog(ctx context.Context, d *plugin.QueryData, _ *plugi
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -12475,6 +13105,10 @@ func (p RouteTablesPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p RouteTablesPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p RouteTablesPaginator) NextPage(ctx context.Context) ([]RouteTables, error) {
 	var response RouteTablesSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -12561,6 +13195,11 @@ func ListRouteTables(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -12621,6 +13260,11 @@ func GetRouteTables(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -12740,6 +13384,10 @@ func (p NetworkApplicationSecurityGroupsPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p NetworkApplicationSecurityGroupsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p NetworkApplicationSecurityGroupsPaginator) NextPage(ctx context.Context) ([]NetworkApplicationSecurityGroups, error) {
 	var response NetworkApplicationSecurityGroupsSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -12825,6 +13473,11 @@ func ListNetworkApplicationSecurityGroups(ctx context.Context, d *plugin.QueryDa
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -12883,6 +13536,11 @@ func GetNetworkApplicationSecurityGroups(ctx context.Context, d *plugin.QueryDat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -13002,6 +13660,10 @@ func (p NetworkAzureFirewallPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p NetworkAzureFirewallPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p NetworkAzureFirewallPaginator) NextPage(ctx context.Context) ([]NetworkAzureFirewall, error) {
 	var response NetworkAzureFirewallSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -13101,6 +13763,11 @@ func ListNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugi
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -13173,6 +13840,11 @@ func GetNetworkAzureFirewall(ctx context.Context, d *plugin.QueryData, _ *plugin
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -13292,6 +13964,10 @@ func (p ExpressRouteCircuitPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ExpressRouteCircuitPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ExpressRouteCircuitPaginator) NextPage(ctx context.Context) ([]ExpressRouteCircuit, error) {
 	var response ExpressRouteCircuitSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -13390,6 +14066,11 @@ func ListExpressRouteCircuit(ctx context.Context, d *plugin.QueryData, _ *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -13461,6 +14142,11 @@ func GetExpressRouteCircuit(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -13580,6 +14266,10 @@ func (p VirtualNetworkGatewayPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p VirtualNetworkGatewayPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p VirtualNetworkGatewayPaginator) NextPage(ctx context.Context) ([]VirtualNetworkGateway, error) {
 	var response VirtualNetworkGatewaySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -13683,6 +14373,11 @@ func ListVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plug
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -13759,6 +14454,11 @@ func GetVirtualNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugi
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -13878,6 +14578,10 @@ func (p FirewallPolicyPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p FirewallPolicyPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p FirewallPolicyPaginator) NextPage(ctx context.Context) ([]FirewallPolicy, error) {
 	var response FirewallPolicySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -13976,6 +14680,11 @@ func ListFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -14047,6 +14756,11 @@ func GetFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -14166,6 +14880,10 @@ func (p LocalNetworkGatewayPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p LocalNetworkGatewayPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p LocalNetworkGatewayPaginator) NextPage(ctx context.Context) ([]LocalNetworkGateway, error) {
 	var response LocalNetworkGatewaySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -14247,6 +14965,11 @@ func ListLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -14302,6 +15025,11 @@ func GetLocalNetworkGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -14421,6 +15149,10 @@ func (p NatGatewayPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p NatGatewayPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p NatGatewayPaginator) NextPage(ctx context.Context) ([]NatGateway, error) {
 	var response NatGatewaySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -14507,6 +15239,11 @@ func ListNatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -14566,6 +15303,11 @@ func GetNatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -14685,6 +15427,10 @@ func (p PrivateLinkServicePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p PrivateLinkServicePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p PrivateLinkServicePaginator) NextPage(ctx context.Context) ([]PrivateLinkService, error) {
 	var response PrivateLinkServiceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -14766,6 +15512,11 @@ func ListPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -14821,6 +15572,11 @@ func GetPrivateLinkService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -14940,6 +15696,10 @@ func (p VpnGatewayPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p VpnGatewayPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p VpnGatewayPaginator) NextPage(ctx context.Context) ([]VpnGateway, error) {
 	var response VpnGatewaySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -15021,6 +15781,11 @@ func ListVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -15076,6 +15841,11 @@ func GetVpnGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -15195,6 +15965,10 @@ func (p VpnGatewayVpnConnectionPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p VpnGatewayVpnConnectionPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p VpnGatewayVpnConnectionPaginator) NextPage(ctx context.Context) ([]VpnGatewayVpnConnection, error) {
 	var response VpnGatewayVpnConnectionSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -15276,6 +16050,11 @@ func ListVpnGatewayVpnConnection(ctx context.Context, d *plugin.QueryData, _ *pl
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -15330,6 +16109,11 @@ func GetVpnGatewayVpnConnection(ctx context.Context, d *plugin.QueryData, _ *plu
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -15449,6 +16233,10 @@ func (p VpnSitePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p VpnSitePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p VpnSitePaginator) NextPage(ctx context.Context) ([]VpnSite, error) {
 	var response VpnSiteSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -15530,6 +16318,11 @@ func ListVpnSite(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -15584,6 +16377,11 @@ func GetVpnSite(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -15703,6 +16501,10 @@ func (p PublicIPAddressPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p PublicIPAddressPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p PublicIPAddressPaginator) NextPage(ctx context.Context) ([]PublicIPAddress, error) {
 	var response PublicIPAddressSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -15804,6 +16606,11 @@ func ListPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -15878,6 +16685,11 @@ func GetPublicIPAddress(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -15997,6 +16809,10 @@ func (p PublicIPPrefixPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p PublicIPPrefixPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p PublicIPPrefixPaginator) NextPage(ctx context.Context) ([]PublicIPPrefix, error) {
 	var response PublicIPPrefixSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -16078,6 +16894,11 @@ func ListPublicIPPrefix(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -16132,6 +16953,11 @@ func GetPublicIPPrefix(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -16251,6 +17077,10 @@ func (p DNSZonesPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DNSZonesPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DNSZonesPaginator) NextPage(ctx context.Context) ([]DNSZones, error) {
 	var response DNSZonesSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -16342,6 +17172,11 @@ func ListDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -16406,6 +17241,11 @@ func GetDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -16525,6 +17365,10 @@ func (p BastionHostsPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p BastionHostsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p BastionHostsPaginator) NextPage(ctx context.Context) ([]BastionHosts, error) {
 	var response BastionHostsSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -16613,6 +17457,11 @@ func ListBastionHosts(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -16674,6 +17523,11 @@ func GetBastionHosts(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -16793,6 +17647,10 @@ func (p ConnectionPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ConnectionPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ConnectionPaginator) NextPage(ctx context.Context) ([]Connection, error) {
 	var response ConnectionSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -16874,6 +17732,11 @@ func ListConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -16928,6 +17791,11 @@ func GetConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -17047,6 +17915,10 @@ func (p VirtualHubsPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p VirtualHubsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p VirtualHubsPaginator) NextPage(ctx context.Context) ([]VirtualHubs, error) {
 	var response VirtualHubsSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -17128,6 +18000,11 @@ func ListVirtualHubs(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -17182,6 +18059,11 @@ func GetVirtualHubs(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -17301,6 +18183,10 @@ func (p VirtualWansPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p VirtualWansPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p VirtualWansPaginator) NextPage(ctx context.Context) ([]VirtualWans, error) {
 	var response VirtualWansSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -17382,6 +18268,11 @@ func ListVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -17436,6 +18327,11 @@ func GetVirtualWans(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -17555,6 +18451,10 @@ func (p DNSResolverPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DNSResolverPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DNSResolverPaginator) NextPage(ctx context.Context) ([]DNSResolver, error) {
 	var response DNSResolverSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -17636,6 +18536,11 @@ func ListDNSResolver(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -17690,6 +18595,11 @@ func GetDNSResolver(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -17809,6 +18719,10 @@ func (p TrafficManagerProfilePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p TrafficManagerProfilePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p TrafficManagerProfilePaginator) NextPage(ctx context.Context) ([]TrafficManagerProfile, error) {
 	var response TrafficManagerProfileSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -17889,6 +18803,11 @@ func ListTrafficManagerProfile(ctx context.Context, d *plugin.QueryData, _ *plug
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -17942,6 +18861,11 @@ func GetTrafficManagerProfile(ctx context.Context, d *plugin.QueryData, _ *plugi
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -18061,6 +18985,10 @@ func (p PrivateDNSZonesPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p PrivateDNSZonesPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p PrivateDNSZonesPaginator) NextPage(ctx context.Context) ([]PrivateDNSZones, error) {
 	var response PrivateDNSZonesSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -18152,6 +19080,11 @@ func ListPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -18216,6 +19149,11 @@ func GetPrivateDNSZones(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -18335,6 +19273,10 @@ func (p PrivateEndpointPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p PrivateEndpointPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p PrivateEndpointPaginator) NextPage(ctx context.Context) ([]PrivateEndpoint, error) {
 	var response PrivateEndpointSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -18416,6 +19358,11 @@ func ListPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -18470,6 +19417,11 @@ func GetPrivateEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -18589,6 +19541,10 @@ func (p NetworkDDoSProtectionPlanPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p NetworkDDoSProtectionPlanPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p NetworkDDoSProtectionPlanPaginator) NextPage(ctx context.Context) ([]NetworkDDoSProtectionPlan, error) {
 	var response NetworkDDoSProtectionPlanSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -18669,6 +19625,11 @@ func ListNetworkDDoSProtectionPlan(ctx context.Context, d *plugin.QueryData, _ *
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -18722,6 +19683,11 @@ func GetNetworkDDoSProtectionPlan(ctx context.Context, d *plugin.QueryData, _ *p
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -18841,6 +19807,10 @@ func (p PolicyAssignmentPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p PolicyAssignmentPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p PolicyAssignmentPaginator) NextPage(ctx context.Context) ([]PolicyAssignment, error) {
 	var response PolicyAssignmentSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -18933,6 +19903,11 @@ func ListPolicyAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -18998,6 +19973,11 @@ func GetPolicyAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -19117,6 +20097,10 @@ func (p RedisCachePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p RedisCachePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p RedisCachePaginator) NextPage(ctx context.Context) ([]RedisCache, error) {
 	var response RedisCacheSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -19221,6 +20205,11 @@ func ListRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -19298,6 +20287,11 @@ func GetRedisCache(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -19417,6 +20411,10 @@ func (p RedisEnterpriseCachePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p RedisEnterpriseCachePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p RedisEnterpriseCachePaginator) NextPage(ctx context.Context) ([]RedisEnterpriseCache, error) {
 	var response RedisEnterpriseCacheSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -19498,6 +20496,11 @@ func ListRedisEnterpriseCache(ctx context.Context, d *plugin.QueryData, _ *plugi
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -19552,6 +20555,11 @@ func GetRedisEnterpriseCache(ctx context.Context, d *plugin.QueryData, _ *plugin
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -19671,6 +20679,10 @@ func (p ResourceLinkPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ResourceLinkPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ResourceLinkPaginator) NextPage(ctx context.Context) ([]ResourceLink, error) {
 	var response ResourceLinkSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -19756,6 +20768,11 @@ func ListResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -19814,6 +20831,11 @@ func GetResourceLink(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -19933,6 +20955,10 @@ func (p RoleAssignmentPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p RoleAssignmentPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p RoleAssignmentPaginator) NextPage(ctx context.Context) ([]RoleAssignment, error) {
 	var response RoleAssignmentSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -20018,6 +21044,11 @@ func ListRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -20076,6 +21107,11 @@ func GetRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -20195,6 +21231,10 @@ func (p RoleDefinitionPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p RoleDefinitionPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p RoleDefinitionPaginator) NextPage(ctx context.Context) ([]RoleDefinition, error) {
 	var response RoleDefinitionSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -20280,6 +21320,11 @@ func ListRoleDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -20338,6 +21383,11 @@ func GetRoleDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -20457,6 +21507,10 @@ func (p PolicyDefinitionPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p PolicyDefinitionPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p PolicyDefinitionPaginator) NextPage(ctx context.Context) ([]PolicyDefinition, error) {
 	var response PolicyDefinitionSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -20546,6 +21600,11 @@ func ListPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -20608,6 +21667,11 @@ func GetPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -20727,6 +21791,10 @@ func (p SecurityCenterAutoProvisioningPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SecurityCenterAutoProvisioningPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SecurityCenterAutoProvisioningPaginator) NextPage(ctx context.Context) ([]SecurityCenterAutoProvisioning, error) {
 	var response SecurityCenterAutoProvisioningSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -20809,6 +21877,11 @@ func ListSecurityCenterAutoProvisioning(ctx context.Context, d *plugin.QueryData
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -20864,6 +21937,11 @@ func GetSecurityCenterAutoProvisioning(ctx context.Context, d *plugin.QueryData,
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -20983,6 +22061,10 @@ func (p SecurityCenterContactPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SecurityCenterContactPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SecurityCenterContactPaginator) NextPage(ctx context.Context) ([]SecurityCenterContact, error) {
 	var response SecurityCenterContactSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -21068,6 +22150,11 @@ func ListSecurityCenterContact(ctx context.Context, d *plugin.QueryData, _ *plug
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -21126,6 +22213,11 @@ func GetSecurityCenterContact(ctx context.Context, d *plugin.QueryData, _ *plugi
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -21245,6 +22337,10 @@ func (p SecurityCenterJitNetworkAccessPolicyPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SecurityCenterJitNetworkAccessPolicyPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SecurityCenterJitNetworkAccessPolicyPaginator) NextPage(ctx context.Context) ([]SecurityCenterJitNetworkAccessPolicy, error) {
 	var response SecurityCenterJitNetworkAccessPolicySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -21329,6 +22425,11 @@ func ListSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.Que
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -21386,6 +22487,11 @@ func GetSecurityCenterJitNetworkAccessPolicy(ctx context.Context, d *plugin.Quer
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -21505,6 +22611,10 @@ func (p SecurityCenterSettingPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SecurityCenterSettingPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SecurityCenterSettingPaginator) NextPage(ctx context.Context) ([]SecurityCenterSetting, error) {
 	var response SecurityCenterSettingSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -21588,6 +22698,11 @@ func ListSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plug
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -21644,6 +22759,11 @@ func GetSecurityCenterSetting(ctx context.Context, d *plugin.QueryData, _ *plugi
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -21763,6 +22883,10 @@ func (p SecurityCenterSubscriptionPricingPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SecurityCenterSubscriptionPricingPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SecurityCenterSubscriptionPricingPaginator) NextPage(ctx context.Context) ([]SecurityCenterSubscriptionPricing, error) {
 	var response SecurityCenterSubscriptionPricingSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -21846,6 +22970,11 @@ func ListSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryD
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -21902,6 +23031,11 @@ func GetSecurityCenterSubscriptionPricing(ctx context.Context, d *plugin.QueryDa
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -22021,6 +23155,10 @@ func (p SecurityCenterAutomationPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SecurityCenterAutomationPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SecurityCenterAutomationPaginator) NextPage(ctx context.Context) ([]SecurityCenterAutomation, error) {
 	var response SecurityCenterAutomationSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -22111,6 +23249,11 @@ func ListSecurityCenterAutomation(ctx context.Context, d *plugin.QueryData, _ *p
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -22174,6 +23317,11 @@ func GetSecurityCenterAutomation(ctx context.Context, d *plugin.QueryData, _ *pl
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -22293,6 +23441,10 @@ func (p SecurityCenterSubAssessmentPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SecurityCenterSubAssessmentPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SecurityCenterSubAssessmentPaginator) NextPage(ctx context.Context) ([]SecurityCenterSubAssessment, error) {
 	var response SecurityCenterSubAssessmentSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -22381,6 +23533,11 @@ func ListSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -22442,6 +23599,11 @@ func GetSecurityCenterSubAssessment(ctx context.Context, d *plugin.QueryData, _ 
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -22561,6 +23723,10 @@ func (p StorageContainerPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p StorageContainerPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p StorageContainerPaginator) NextPage(ctx context.Context) ([]StorageContainer, error) {
 	var response StorageContainerSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -22658,6 +23824,11 @@ func ListStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -22728,6 +23899,11 @@ func GetStorageContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -22845,6 +24021,10 @@ func (k Client) NewStorageBlobPaginator(filters []essdk.BoolFilter, limit *int64
 
 func (p StorageBlobPaginator) HasNext() bool {
 	return !p.paginator.Done()
+}
+
+func (p StorageBlobPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
 }
 
 func (p StorageBlobPaginator) NextPage(ctx context.Context) ([]StorageBlob, error) {
@@ -22969,6 +24149,11 @@ func ListStorageBlob(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -23063,6 +24248,11 @@ func GetStorageBlob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -23182,6 +24372,10 @@ func (p StorageBlobServicePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p StorageBlobServicePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p StorageBlobServicePaginator) NextPage(ctx context.Context) ([]StorageBlobService, error) {
 	var response StorageBlobServiceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -23275,6 +24469,11 @@ func ListStorageBlobService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -23341,6 +24540,11 @@ func GetStorageBlobService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -23460,6 +24664,10 @@ func (p StorageQueuePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p StorageQueuePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p StorageQueuePaginator) NextPage(ctx context.Context) ([]StorageQueue, error) {
 	var response StorageQueueSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -23544,6 +24752,11 @@ func ListStorageQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -23601,6 +24814,11 @@ func GetStorageQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -23720,6 +24938,10 @@ func (p StorageFileSharePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p StorageFileSharePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p StorageFileSharePaginator) NextPage(ctx context.Context) ([]StorageFileShare, error) {
 	var response StorageFileShareSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -23813,6 +25035,11 @@ func ListStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -23878,6 +25105,11 @@ func GetStorageFileShare(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -23997,6 +25229,10 @@ func (p StorageTablePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p StorageTablePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p StorageTablePaginator) NextPage(ctx context.Context) ([]StorageTable, error) {
 	var response StorageTableSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -24080,6 +25316,11 @@ func ListStorageTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -24135,6 +25376,11 @@ func GetStorageTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -24254,6 +25500,10 @@ func (p StorageTableServicePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p StorageTableServicePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p StorageTableServicePaginator) NextPage(ctx context.Context) ([]StorageTableService, error) {
 	var response StorageTableServiceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -24338,6 +25588,11 @@ func ListStorageTableService(ctx context.Context, d *plugin.QueryData, _ *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -24394,6 +25649,11 @@ func GetStorageTableService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -24513,6 +25773,10 @@ func (p SubnetPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SubnetPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SubnetPaginator) NextPage(ctx context.Context) ([]Subnet, error) {
 	var response SubnetSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -24606,6 +25870,11 @@ func ListSubnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -24673,6 +25942,11 @@ func GetSubnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -24792,6 +26066,10 @@ func (p VirtualNetworkPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p VirtualNetworkPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p VirtualNetworkPaginator) NextPage(ctx context.Context) ([]VirtualNetwork, error) {
 	var response VirtualNetworkSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -24883,6 +26161,11 @@ func ListVirtualNetwork(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -24947,6 +26230,11 @@ func GetVirtualNetwork(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -25066,6 +26354,10 @@ func (p TenantPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p TenantPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p TenantPaginator) NextPage(ctx context.Context) ([]Tenant, error) {
 	var response TenantSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -25149,6 +26441,11 @@ func ListTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -25205,6 +26502,11 @@ func GetTenant(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -25324,6 +26626,10 @@ func (p SubscriptionPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SubscriptionPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SubscriptionPaginator) NextPage(ctx context.Context) ([]Subscription, error) {
 	var response SubscriptionSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -25348,7 +26654,6 @@ func (p SubscriptionPaginator) NextPage(ctx context.Context) ([]Subscription, er
 
 var listSubscriptionFilters = map[string]string{
 	"authorization_source":  "description.Subscription.AuthorizationSource",
-	"cloud_environment":     "description.Subscription.SubscriptionPolicies",
 	"display_name":          "description.Subscription.DisplayName",
 	"id":                    "description.Subscription.ID",
 	"kaytu_account_id":      "metadata.SourceID",
@@ -25410,12 +26715,16 @@ func ListSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
 var getSubscriptionFilters = map[string]string{
 	"authorization_source":  "description.Subscription.AuthorizationSource",
-	"cloud_environment":     "description.Subscription.SubscriptionPolicies",
 	"display_name":          "description.Subscription.DisplayName",
 	"id":                    "description.Subscription.ID",
 	"kaytu_account_id":      "metadata.SourceID",
@@ -25469,6 +26778,11 @@ func GetSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -25588,6 +26902,10 @@ func (p ApplicationGatewayPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ApplicationGatewayPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ApplicationGatewayPaginator) NextPage(ctx context.Context) ([]ApplicationGateway, error) {
 	var response ApplicationGatewaySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -25688,6 +27006,11 @@ func ListApplicationGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -25761,6 +27084,11 @@ func GetApplicationGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -25880,6 +27208,10 @@ func (p BatchAccountPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p BatchAccountPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p BatchAccountPaginator) NextPage(ctx context.Context) ([]BatchAccount, error) {
 	var response BatchAccountSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -25979,6 +27311,11 @@ func ListBatchAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -26051,6 +27388,11 @@ func GetBatchAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -26170,6 +27512,10 @@ func (p CognitiveAccountPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p CognitiveAccountPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p CognitiveAccountPaginator) NextPage(ctx context.Context) ([]CognitiveAccount, error) {
 	var response CognitiveAccountSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -26279,6 +27625,11 @@ func ListCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -26361,6 +27712,11 @@ func GetCognitiveAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -26478,6 +27834,10 @@ func (k Client) NewComputeVirtualMachinePaginator(filters []essdk.BoolFilter, li
 
 func (p ComputeVirtualMachinePaginator) HasNext() bool {
 	return !p.paginator.Done()
+}
+
+func (p ComputeVirtualMachinePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
 }
 
 func (p ComputeVirtualMachinePaginator) NextPage(ctx context.Context) ([]ComputeVirtualMachine, error) {
@@ -26610,6 +27970,11 @@ func ListComputeVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plug
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -26713,6 +28078,11 @@ func GetComputeVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plugi
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -26832,6 +28202,10 @@ func (p ComputeResourceSKUPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeResourceSKUPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeResourceSKUPaginator) NextPage(ctx context.Context) ([]ComputeResourceSKU, error) {
 	var response ComputeResourceSKUSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -26922,6 +28296,11 @@ func ListComputeResourceSKU(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -26985,6 +28364,11 @@ func GetComputeResourceSKU(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -27104,6 +28488,10 @@ func (p ComputeVirtualMachineCpuUtilizationPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeVirtualMachineCpuUtilizationPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeVirtualMachineCpuUtilizationPaginator) NextPage(ctx context.Context) ([]ComputeVirtualMachineCpuUtilization, error) {
 	var response ComputeVirtualMachineCpuUtilizationSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -27181,6 +28569,11 @@ func ListComputeVirtualMachineCpuUtilization(ctx context.Context, d *plugin.Quer
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -27231,6 +28624,11 @@ func GetComputeVirtualMachineCpuUtilization(ctx context.Context, d *plugin.Query
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -27350,6 +28748,10 @@ func (p ComputeVirtualMachineCpuUtilizationDailyPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeVirtualMachineCpuUtilizationDailyPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeVirtualMachineCpuUtilizationDailyPaginator) NextPage(ctx context.Context) ([]ComputeVirtualMachineCpuUtilizationDaily, error) {
 	var response ComputeVirtualMachineCpuUtilizationDailySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -27427,6 +28829,11 @@ func ListComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, d *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -27477,6 +28884,11 @@ func GetComputeVirtualMachineCpuUtilizationDaily(ctx context.Context, d *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -27596,6 +29008,10 @@ func (p ComputeVirtualMachineCpuUtilizationHourlyPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeVirtualMachineCpuUtilizationHourlyPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeVirtualMachineCpuUtilizationHourlyPaginator) NextPage(ctx context.Context) ([]ComputeVirtualMachineCpuUtilizationHourly, error) {
 	var response ComputeVirtualMachineCpuUtilizationHourlySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -27673,6 +29089,11 @@ func ListComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, d *plugi
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -27723,6 +29144,11 @@ func GetComputeVirtualMachineCpuUtilizationHourly(ctx context.Context, d *plugin
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -27842,6 +29268,10 @@ func (p ComputeCloudServicePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ComputeCloudServicePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ComputeCloudServicePaginator) NextPage(ctx context.Context) ([]ComputeCloudService, error) {
 	var response ComputeCloudServiceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -27923,6 +29353,11 @@ func ListComputeCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -27977,6 +29412,11 @@ func GetComputeCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -28096,6 +29536,10 @@ func (p ContainerRegistryPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ContainerRegistryPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ContainerRegistryPaginator) NextPage(ctx context.Context) ([]ContainerRegistry, error) {
 	var response ContainerRegistrySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -28200,6 +29644,11 @@ func ListContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -28277,6 +29726,11 @@ func GetContainerRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -28396,6 +29850,10 @@ func (p CosmosdbAccountPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p CosmosdbAccountPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p CosmosdbAccountPaginator) NextPage(ctx context.Context) ([]CosmosdbAccount, error) {
 	var response CosmosdbAccountSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -28505,6 +29963,11 @@ func ListCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -28588,6 +30051,11 @@ func GetCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -28707,6 +30175,10 @@ func (p CosmosdbRestorableDatabaseAccountPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p CosmosdbRestorableDatabaseAccountPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p CosmosdbRestorableDatabaseAccountPaginator) NextPage(ctx context.Context) ([]CosmosdbRestorableDatabaseAccount, error) {
 	var response CosmosdbRestorableDatabaseAccountSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -28794,6 +30266,11 @@ func ListCosmosdbRestorableDatabaseAccount(ctx context.Context, d *plugin.QueryD
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -28854,6 +30331,11 @@ func GetCosmosdbRestorableDatabaseAccount(ctx context.Context, d *plugin.QueryDa
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -28973,6 +30455,10 @@ func (p CosmosdbMongoDatabasePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p CosmosdbMongoDatabasePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p CosmosdbMongoDatabasePaginator) NextPage(ctx context.Context) ([]CosmosdbMongoDatabase, error) {
 	var response CosmosdbMongoDatabaseSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -29061,6 +30547,11 @@ func ListCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plug
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -29123,6 +30614,11 @@ func GetCosmosdbMongoDatabase(ctx context.Context, d *plugin.QueryData, _ *plugi
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -29242,6 +30738,10 @@ func (p CosmosdbMongoCollectionPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p CosmosdbMongoCollectionPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p CosmosdbMongoCollectionPaginator) NextPage(ctx context.Context) ([]CosmosdbMongoCollection, error) {
 	var response CosmosdbMongoCollectionSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -29336,6 +30836,11 @@ func ListCosmosdbMongoCollection(ctx context.Context, d *plugin.QueryData, _ *pl
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -29403,6 +30908,11 @@ func GetCosmosdbMongoCollection(ctx context.Context, d *plugin.QueryData, _ *plu
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -29522,6 +31032,10 @@ func (p CosmosdbSqlDatabasePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p CosmosdbSqlDatabasePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p CosmosdbSqlDatabasePaginator) NextPage(ctx context.Context) ([]CosmosdbSqlDatabase, error) {
 	var response CosmosdbSqlDatabaseSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -29612,6 +31126,11 @@ func ListCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -29676,6 +31195,11 @@ func GetCosmosdbSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -29795,6 +31319,10 @@ func (p CosmosdbCassandraClusterPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p CosmosdbCassandraClusterPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p CosmosdbCassandraClusterPaginator) NextPage(ctx context.Context) ([]CosmosdbCassandraCluster, error) {
 	var response CosmosdbCassandraClusterSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -29875,6 +31403,11 @@ func ListCosmosdbCassandraCluster(ctx context.Context, d *plugin.QueryData, _ *p
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -29928,6 +31461,11 @@ func GetCosmosdbCassandraCluster(ctx context.Context, d *plugin.QueryData, _ *pl
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -30047,6 +31585,10 @@ func (p DatabricksWorkspacePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DatabricksWorkspacePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DatabricksWorkspacePaginator) NextPage(ctx context.Context) ([]DatabricksWorkspace, error) {
 	var response DatabricksWorkspaceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -30128,6 +31670,11 @@ func ListDatabricksWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -30182,6 +31729,11 @@ func GetDatabricksWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -30301,6 +31853,10 @@ func (p DataMigrationServicePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DataMigrationServicePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DataMigrationServicePaginator) NextPage(ctx context.Context) ([]DataMigrationService, error) {
 	var response DataMigrationServiceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -30382,6 +31938,11 @@ func ListDataMigrationService(ctx context.Context, d *plugin.QueryData, _ *plugi
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -30436,6 +31997,11 @@ func GetDataMigrationService(ctx context.Context, d *plugin.QueryData, _ *plugin
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -30555,6 +32121,10 @@ func (p DataProtectionBackupVaultsPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DataProtectionBackupVaultsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DataProtectionBackupVaultsPaginator) NextPage(ctx context.Context) ([]DataProtectionBackupVaults, error) {
 	var response DataProtectionBackupVaultsSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -30636,6 +32206,11 @@ func ListDataProtectionBackupVaults(ctx context.Context, d *plugin.QueryData, _ 
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -30690,6 +32265,11 @@ func GetDataProtectionBackupVaults(ctx context.Context, d *plugin.QueryData, _ *
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -30809,6 +32389,10 @@ func (p DataProtectionBackupVaultsBackupPoliciesPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DataProtectionBackupVaultsBackupPoliciesPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DataProtectionBackupVaultsBackupPoliciesPaginator) NextPage(ctx context.Context) ([]DataProtectionBackupVaultsBackupPolicies, error) {
 	var response DataProtectionBackupVaultsBackupPoliciesSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -30890,6 +32474,11 @@ func ListDataProtectionBackupVaultsBackupPolicies(ctx context.Context, d *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -30944,6 +32533,11 @@ func GetDataProtectionBackupVaultsBackupPolicies(ctx context.Context, d *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -31063,6 +32657,10 @@ func (p DataFactoryPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DataFactoryPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DataFactoryPaginator) NextPage(ctx context.Context) ([]DataFactory, error) {
 	var response DataFactorySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -31156,6 +32754,11 @@ func ListDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -31222,6 +32825,11 @@ func GetDataFactory(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -31341,6 +32949,10 @@ func (p DataFactoryDatasetPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DataFactoryDatasetPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DataFactoryDatasetPaginator) NextPage(ctx context.Context) ([]DataFactoryDataset, error) {
 	var response DataFactoryDatasetSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -31426,6 +33038,11 @@ func ListDataFactoryDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -31484,6 +33101,11 @@ func GetDataFactoryDataset(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -31603,6 +33225,10 @@ func (p DataFactoryPipelinePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DataFactoryPipelinePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DataFactoryPipelinePaginator) NextPage(ctx context.Context) ([]DataFactoryPipeline, error) {
 	var response DataFactoryPipelineSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -31696,6 +33322,11 @@ func ListDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -31762,6 +33393,11 @@ func GetDataFactoryPipeline(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -31881,6 +33517,10 @@ func (p DataLakeAnalyticsAccountPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DataLakeAnalyticsAccountPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DataLakeAnalyticsAccountPaginator) NextPage(ctx context.Context) ([]DataLakeAnalyticsAccount, error) {
 	var response DataLakeAnalyticsAccountSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -31985,6 +33625,11 @@ func ListDataLakeAnalyticsAccount(ctx context.Context, d *plugin.QueryData, _ *p
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -32062,6 +33707,11 @@ func GetDataLakeAnalyticsAccount(ctx context.Context, d *plugin.QueryData, _ *pl
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -32181,6 +33831,10 @@ func (p DataLakeStorePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DataLakeStorePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DataLakeStorePaginator) NextPage(ctx context.Context) ([]DataLakeStore, error) {
 	var response DataLakeStoreSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -32282,6 +33936,11 @@ func ListDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -32356,6 +34015,11 @@ func GetDataLakeStore(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -32475,6 +34139,10 @@ func (p DiagnosticSettingPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DiagnosticSettingPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DiagnosticSettingPaginator) NextPage(ctx context.Context) ([]DiagnosticSetting, error) {
 	var response DiagnosticSettingSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -32565,6 +34233,11 @@ func ListDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -32628,6 +34301,11 @@ func GetDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -32747,6 +34425,10 @@ func (p EventGridDomainPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p EventGridDomainPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p EventGridDomainPaginator) NextPage(ctx context.Context) ([]EventGridDomain, error) {
 	var response EventGridDomainSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -32849,6 +34531,11 @@ func ListEventGridDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -32924,6 +34611,11 @@ func GetEventGridDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -33043,6 +34735,10 @@ func (p EventGridTopicPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p EventGridTopicPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p EventGridTopicPaginator) NextPage(ctx context.Context) ([]EventGridTopic, error) {
 	var response EventGridTopicSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -33143,6 +34839,11 @@ func ListEventGridTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -33216,6 +34917,11 @@ func GetEventGridTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -33335,6 +35041,10 @@ func (p EventhubNamespacePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p EventhubNamespacePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p EventhubNamespacePaginator) NextPage(ctx context.Context) ([]EventhubNamespace, error) {
 	var response EventhubNamespaceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -33434,6 +35144,11 @@ func ListEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -33506,6 +35221,11 @@ func GetEventhubNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -33625,6 +35345,10 @@ func (p EventhubNamespaceEventhubPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p EventhubNamespaceEventhubPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p EventhubNamespaceEventhubPaginator) NextPage(ctx context.Context) ([]EventhubNamespaceEventhub, error) {
 	var response EventhubNamespaceEventhubSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -33706,6 +35430,11 @@ func ListEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -33760,6 +35489,11 @@ func GetEventhubNamespaceEventhub(ctx context.Context, d *plugin.QueryData, _ *p
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -33879,6 +35613,10 @@ func (p FrontdoorPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p FrontdoorPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p FrontdoorPaginator) NextPage(ctx context.Context) ([]Frontdoor, error) {
 	var response FrontdoorSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -33975,6 +35713,11 @@ func ListFrontdoor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -34044,6 +35787,11 @@ func GetFrontdoor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -34163,6 +35911,10 @@ func (p HdinsightClusterPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p HdinsightClusterPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p HdinsightClusterPaginator) NextPage(ctx context.Context) ([]HdinsightCluster, error) {
 	var response HdinsightClusterSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -34271,6 +36023,11 @@ func ListHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -34352,6 +36109,11 @@ func GetHdinsightCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -34471,6 +36233,10 @@ func (p HybridComputeMachinePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p HybridComputeMachinePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p HybridComputeMachinePaginator) NextPage(ctx context.Context) ([]HybridComputeMachine, error) {
 	var response HybridComputeMachineSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -34574,6 +36340,11 @@ func ListHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugi
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -34650,6 +36421,11 @@ func GetHybridComputeMachine(ctx context.Context, d *plugin.QueryData, _ *plugin
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -34769,6 +36545,10 @@ func (p IOTHubPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p IOTHubPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p IOTHubPaginator) NextPage(ctx context.Context) ([]IOTHub, error) {
 	var response IOTHubSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -34874,6 +36654,11 @@ func ListIOTHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -34952,6 +36737,11 @@ func GetIOTHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -35071,6 +36861,10 @@ func (p IOTHubDpsPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p IOTHubDpsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p IOTHubDpsPaginator) NextPage(ctx context.Context) ([]IOTHubDps, error) {
 	var response IOTHubDpsSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -35167,6 +36961,11 @@ func ListIOTHubDps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -35236,6 +37035,11 @@ func GetIOTHubDps(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -35355,6 +37159,10 @@ func (p KeyVaultPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p KeyVaultPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p KeyVaultPaginator) NextPage(ctx context.Context) ([]KeyVault, error) {
 	var response KeyVaultSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -35452,6 +37260,11 @@ func ListKeyVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -35522,6 +37335,11 @@ func GetKeyVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -35641,6 +37459,10 @@ func (p KeyVaultDeletedVaultPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p KeyVaultDeletedVaultPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p KeyVaultDeletedVaultPaginator) NextPage(ctx context.Context) ([]KeyVaultDeletedVault, error) {
 	var response KeyVaultDeletedVaultSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -35724,6 +37546,11 @@ func ListKeyVaultDeletedVault(ctx context.Context, d *plugin.QueryData, _ *plugi
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -35781,6 +37608,11 @@ func GetKeyVaultDeletedVault(ctx context.Context, d *plugin.QueryData, _ *plugin
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -35900,6 +37732,10 @@ func (p KeyVaultManagedHardwareSecurityModulePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p KeyVaultManagedHardwareSecurityModulePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p KeyVaultManagedHardwareSecurityModulePaginator) NextPage(ctx context.Context) ([]KeyVaultManagedHardwareSecurityModule, error) {
 	var response KeyVaultManagedHardwareSecurityModuleSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -35994,6 +37830,11 @@ func ListKeyVaultManagedHardwareSecurityModule(ctx context.Context, d *plugin.Qu
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -36061,6 +37902,11 @@ func GetKeyVaultManagedHardwareSecurityModule(ctx context.Context, d *plugin.Que
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -36180,6 +38026,10 @@ func (p KeyVaultSecretPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p KeyVaultSecretPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p KeyVaultSecretPaginator) NextPage(ctx context.Context) ([]KeyVaultSecret, error) {
 	var response KeyVaultSecretSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -36267,6 +38117,11 @@ func ListKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -36327,6 +38182,11 @@ func GetKeyVaultSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -36446,6 +38306,10 @@ func (p KustoClusterPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p KustoClusterPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p KustoClusterPaginator) NextPage(ctx context.Context) ([]KustoCluster, error) {
 	var response KustoClusterSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -36549,6 +38413,11 @@ func ListKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -36625,6 +38494,11 @@ func GetKustoCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -36744,6 +38618,10 @@ func (p LogAlertPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p LogAlertPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p LogAlertPaginator) NextPage(ctx context.Context) ([]LogAlert, error) {
 	var response LogAlertSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -36833,6 +38711,11 @@ func ListLogAlert(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -36895,6 +38778,11 @@ func GetLogAlert(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -37014,6 +38902,10 @@ func (p LogProfilePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p LogProfilePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p LogProfilePaginator) NextPage(ctx context.Context) ([]LogProfile, error) {
 	var response LogProfileSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -37103,6 +38995,11 @@ func ListLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -37165,6 +39062,11 @@ func GetLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -37284,6 +39186,10 @@ func (p LogicAppWorkflowPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p LogicAppWorkflowPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p LogicAppWorkflowPaginator) NextPage(ctx context.Context) ([]LogicAppWorkflow, error) {
 	var response LogicAppWorkflowSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -37380,6 +39286,11 @@ func ListLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -37449,6 +39360,11 @@ func GetLogicAppWorkflow(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -37568,6 +39484,10 @@ func (p LogicIntegrationAccountsPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p LogicIntegrationAccountsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p LogicIntegrationAccountsPaginator) NextPage(ctx context.Context) ([]LogicIntegrationAccounts, error) {
 	var response LogicIntegrationAccountsSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -37649,6 +39569,11 @@ func ListLogicIntegrationAccounts(ctx context.Context, d *plugin.QueryData, _ *p
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -37703,6 +39628,11 @@ func GetLogicIntegrationAccounts(ctx context.Context, d *plugin.QueryData, _ *pl
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -37822,6 +39752,10 @@ func (p MachineLearningWorkspacePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p MachineLearningWorkspacePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p MachineLearningWorkspacePaginator) NextPage(ctx context.Context) ([]MachineLearningWorkspace, error) {
 	var response MachineLearningWorkspaceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -37922,6 +39856,11 @@ func ListMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *p
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -37995,6 +39934,11 @@ func GetMachineLearningWorkspace(ctx context.Context, d *plugin.QueryData, _ *pl
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -38114,6 +40058,10 @@ func (p MariadbServerPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p MariadbServerPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p MariadbServerPaginator) NextPage(ctx context.Context) ([]MariadbServer, error) {
 	var response MariadbServerSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -38216,6 +40164,11 @@ func ListMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -38291,6 +40244,11 @@ func GetMariadbServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -38410,6 +40368,10 @@ func (p MariadbDatabasePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p MariadbDatabasePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p MariadbDatabasePaginator) NextPage(ctx context.Context) ([]MariadbDatabase, error) {
 	var response MariadbDatabaseSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -38491,6 +40453,11 @@ func ListMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -38545,6 +40512,11 @@ func GetMariadbDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -38664,6 +40636,10 @@ func (p MysqlServerPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p MysqlServerPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p MysqlServerPaginator) NextPage(ctx context.Context) ([]MysqlServer, error) {
 	var response MysqlServerSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -38772,6 +40748,11 @@ func ListMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -38853,6 +40834,11 @@ func GetMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -38972,6 +40958,10 @@ func (p MysqlFlexibleserverPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p MysqlFlexibleserverPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p MysqlFlexibleserverPaginator) NextPage(ctx context.Context) ([]MysqlFlexibleserver, error) {
 	var response MysqlFlexibleserverSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -39053,6 +41043,11 @@ func ListMysqlFlexibleserver(ctx context.Context, d *plugin.QueryData, _ *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -39107,6 +41102,11 @@ func GetMysqlFlexibleserver(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -39226,6 +41226,10 @@ func (p NetworkSecurityGroupPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p NetworkSecurityGroupPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p NetworkSecurityGroupPaginator) NextPage(ctx context.Context) ([]NetworkSecurityGroup, error) {
 	var response NetworkSecurityGroupSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -39318,6 +41322,11 @@ func ListNetworkSecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugi
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -39383,6 +41392,11 @@ func GetNetworkSecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -39502,6 +41516,10 @@ func (p NetworkWatcherPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p NetworkWatcherPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p NetworkWatcherPaginator) NextPage(ctx context.Context) ([]NetworkWatcher, error) {
 	var response NetworkWatcherSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -39587,6 +41605,11 @@ func ListNetworkWatcher(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -39645,6 +41668,11 @@ func GetNetworkWatcher(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -39764,6 +41792,10 @@ func (p SearchServicePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SearchServicePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SearchServicePaginator) NextPage(ctx context.Context) ([]SearchService, error) {
 	var response SearchServiceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -39859,6 +41891,11 @@ func ListSearchService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -39928,6 +41965,11 @@ func GetSearchService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -40047,6 +42089,10 @@ func (p ServiceFabricClusterPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ServiceFabricClusterPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ServiceFabricClusterPaginator) NextPage(ctx context.Context) ([]ServiceFabricCluster, error) {
 	var response ServiceFabricClusterSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -40154,6 +42200,11 @@ func ListServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugi
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -40234,6 +42285,11 @@ func GetServiceFabricCluster(ctx context.Context, d *plugin.QueryData, _ *plugin
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -40353,6 +42409,10 @@ func (p ServicebusNamespacePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ServicebusNamespacePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ServicebusNamespacePaginator) NextPage(ctx context.Context) ([]ServicebusNamespace, error) {
 	var response ServicebusNamespaceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -40447,6 +42507,11 @@ func ListServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -40514,6 +42579,11 @@ func GetServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -40633,6 +42703,10 @@ func (p SignalrServicePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SignalrServicePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SignalrServicePaginator) NextPage(ctx context.Context) ([]SignalrService, error) {
 	var response SignalrServiceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -40730,6 +42804,11 @@ func ListSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -40800,6 +42879,11 @@ func GetSignalrService(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -40919,6 +43003,10 @@ func (p SpringCloudServicePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SpringCloudServicePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SpringCloudServicePaginator) NextPage(ctx context.Context) ([]SpringCloudService, error) {
 	var response SpringCloudServiceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -41009,6 +43097,11 @@ func ListSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -41072,6 +43165,11 @@ func GetSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -41191,6 +43289,10 @@ func (p StreamAnalyticsJobPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p StreamAnalyticsJobPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p StreamAnalyticsJobPaginator) NextPage(ctx context.Context) ([]StreamAnalyticsJob, error) {
 	var response StreamAnalyticsJobSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -41291,6 +43393,11 @@ func ListStreamAnalyticsJob(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -41364,6 +43471,11 @@ func GetStreamAnalyticsJob(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -41483,6 +43595,10 @@ func (p StreamAnalyticsClusterPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p StreamAnalyticsClusterPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p StreamAnalyticsClusterPaginator) NextPage(ctx context.Context) ([]StreamAnalyticsCluster, error) {
 	var response StreamAnalyticsClusterSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -41564,6 +43680,11 @@ func ListStreamAnalyticsCluster(ctx context.Context, d *plugin.QueryData, _ *plu
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -41618,6 +43739,11 @@ func GetStreamAnalyticsCluster(ctx context.Context, d *plugin.QueryData, _ *plug
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -41737,6 +43863,10 @@ func (p VirtualMachineImagesImageTemplatesPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p VirtualMachineImagesImageTemplatesPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p VirtualMachineImagesImageTemplatesPaginator) NextPage(ctx context.Context) ([]VirtualMachineImagesImageTemplates, error) {
 	var response VirtualMachineImagesImageTemplatesSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -41818,6 +43948,11 @@ func ListVirtualMachineImagesImageTemplates(ctx context.Context, d *plugin.Query
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -41872,6 +44007,11 @@ func GetVirtualMachineImagesImageTemplates(ctx context.Context, d *plugin.QueryD
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -41991,6 +44131,10 @@ func (p OperationalInsightsWorkspacesPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p OperationalInsightsWorkspacesPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p OperationalInsightsWorkspacesPaginator) NextPage(ctx context.Context) ([]OperationalInsightsWorkspaces, error) {
 	var response OperationalInsightsWorkspacesSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -42072,6 +44216,11 @@ func ListOperationalInsightsWorkspaces(ctx context.Context, d *plugin.QueryData,
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -42126,6 +44275,11 @@ func GetOperationalInsightsWorkspaces(ctx context.Context, d *plugin.QueryData, 
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -42245,6 +44399,10 @@ func (p TimeSeriesInsightsEnvironmentsPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p TimeSeriesInsightsEnvironmentsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p TimeSeriesInsightsEnvironmentsPaginator) NextPage(ctx context.Context) ([]TimeSeriesInsightsEnvironments, error) {
 	var response TimeSeriesInsightsEnvironmentsSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -42326,6 +44484,11 @@ func ListTimeSeriesInsightsEnvironments(ctx context.Context, d *plugin.QueryData
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -42380,6 +44543,11 @@ func GetTimeSeriesInsightsEnvironments(ctx context.Context, d *plugin.QueryData,
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -42499,6 +44667,10 @@ func (p SynapseWorkspacePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SynapseWorkspacePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SynapseWorkspacePaginator) NextPage(ctx context.Context) ([]SynapseWorkspace, error) {
 	var response SynapseWorkspaceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -42600,6 +44772,11 @@ func ListSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -42674,6 +44851,11 @@ func GetSynapseWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -42793,6 +44975,10 @@ func (p SynapseWorkspaceBigdatapoolsPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SynapseWorkspaceBigdatapoolsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SynapseWorkspaceBigdatapoolsPaginator) NextPage(ctx context.Context) ([]SynapseWorkspaceBigdatapools, error) {
 	var response SynapseWorkspaceBigdatapoolsSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -42874,6 +45060,11 @@ func ListSynapseWorkspaceBigdatapools(ctx context.Context, d *plugin.QueryData, 
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -42928,6 +45119,11 @@ func GetSynapseWorkspaceBigdatapools(ctx context.Context, d *plugin.QueryData, _
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -43047,6 +45243,10 @@ func (p SynapseWorkspaceSqlpoolsPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SynapseWorkspaceSqlpoolsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SynapseWorkspaceSqlpoolsPaginator) NextPage(ctx context.Context) ([]SynapseWorkspaceSqlpools, error) {
 	var response SynapseWorkspaceSqlpoolsSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -43128,6 +45328,11 @@ func ListSynapseWorkspaceSqlpools(ctx context.Context, d *plugin.QueryData, _ *p
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -43182,6 +45387,11 @@ func GetSynapseWorkspaceSqlpools(ctx context.Context, d *plugin.QueryData, _ *pl
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -43301,6 +45511,10 @@ func (p LocationPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p LocationPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p LocationPaginator) NextPage(ctx context.Context) ([]Location, error) {
 	var response LocationSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -43384,6 +45598,11 @@ func ListLocation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -43441,6 +45660,11 @@ func GetLocation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -43560,6 +45784,10 @@ func (p AdUsersPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p AdUsersPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p AdUsersPaginator) NextPage(ctx context.Context) ([]AdUsers, error) {
 	var response AdUsersSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -43661,6 +45889,11 @@ func ListAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -43734,6 +45967,11 @@ func GetAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -43853,6 +46091,10 @@ func (p AdGroupPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p AdGroupPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p AdGroupPaginator) NextPage(ctx context.Context) ([]AdGroup, error) {
 	var response AdGroupSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -43887,6 +46129,7 @@ var listAdGroupFilters = map[string]string{
 	"is_assignable_to_role":            "description.AdGroup.Classification",
 	"is_subscribed_by_mail":            "description.AdGroup.IsAssignableToRole",
 	"kaytu_account_id":                 "metadata.SourceID",
+	"kaytu_resource_id":                "ID",
 	"mail":                             "description.AdGroup.Mail",
 	"mail_enabled":                     "description.AdGroup.MailEnabled",
 	"mail_nickname":                    "description.AdGroup.MailNickname",
@@ -43961,6 +46204,11 @@ func ListAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -43976,6 +46224,7 @@ var getAdGroupFilters = map[string]string{
 	"is_assignable_to_role":            "description.AdGroup.Classification",
 	"is_subscribed_by_mail":            "description.AdGroup.IsAssignableToRole",
 	"kaytu_account_id":                 "metadata.SourceID",
+	"kaytu_resource_id":                "ID",
 	"mail":                             "description.AdGroup.Mail",
 	"mail_enabled":                     "description.AdGroup.MailEnabled",
 	"mail_nickname":                    "description.AdGroup.MailNickname",
@@ -44042,6 +46291,11 @@ func GetAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -44161,6 +46415,10 @@ func (p AdServicePrincipalPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p AdServicePrincipalPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p AdServicePrincipalPaginator) NextPage(ctx context.Context) ([]AdServicePrincipal, error) {
 	var response AdServicePrincipalSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -44198,6 +46456,7 @@ var listAdServicePrincipalFilters = map[string]string{
 	"id":                           "description.AdServicePrincipal.DirectoryObject.ID",
 	"info":                         "description.AdServicePrincipal.Info",
 	"kaytu_account_id":             "metadata.SourceID",
+	"kaytu_resource_id":            "ID",
 	"key_credentials":              "description.AdServicePrincipal.KeyCredentials",
 	"login_url":                    "description.AdServicePrincipal.LoginUrl",
 	"logout_url":                   "description.AdServicePrincipal.LogoutUrl",
@@ -44264,6 +46523,11 @@ func ListAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -44282,6 +46546,7 @@ var getAdServicePrincipalFilters = map[string]string{
 	"id":                           "description.AdServicePrincipal.DirectoryObject.ID",
 	"info":                         "description.AdServicePrincipal.Info",
 	"kaytu_account_id":             "metadata.SourceID",
+	"kaytu_resource_id":            "ID",
 	"key_credentials":              "description.AdServicePrincipal.KeyCredentials",
 	"login_url":                    "description.AdServicePrincipal.LoginUrl",
 	"logout_url":                   "description.AdServicePrincipal.LogoutUrl",
@@ -44340,6 +46605,11 @@ func GetAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -44459,6 +46729,10 @@ func (p AnalysisServiceServerPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p AnalysisServiceServerPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p AnalysisServiceServerPaginator) NextPage(ctx context.Context) ([]AnalysisServiceServer, error) {
 	var response AnalysisServiceServerSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -44540,6 +46814,11 @@ func ListAnalysisServiceServer(ctx context.Context, d *plugin.QueryData, _ *plug
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -44595,6 +46874,11 @@ func GetAnalysisServiceServer(ctx context.Context, d *plugin.QueryData, _ *plugi
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -44714,6 +46998,10 @@ func (p PostgresqlServerPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p PostgresqlServerPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p PostgresqlServerPaginator) NextPage(ctx context.Context) ([]PostgresqlServer, error) {
 	var response PostgresqlServerSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -44823,6 +47111,11 @@ func ListPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -44905,6 +47198,11 @@ func GetPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -45024,6 +47322,10 @@ func (p PostgresqlFlexibleServerPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p PostgresqlFlexibleServerPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p PostgresqlFlexibleServerPaginator) NextPage(ctx context.Context) ([]PostgresqlFlexibleServer, error) {
 	var response PostgresqlFlexibleServerSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -45105,6 +47407,11 @@ func ListPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *p
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -45159,6 +47466,11 @@ func GetPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *pl
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -45278,6 +47590,10 @@ func (p StorageSyncPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p StorageSyncPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p StorageSyncPaginator) NextPage(ctx context.Context) ([]StorageSync, error) {
 	var response StorageSyncSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -45367,6 +47683,11 @@ func ListStorageSync(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -45429,6 +47750,11 @@ func GetStorageSync(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -45548,6 +47874,10 @@ func (p MssqlManagedInstancePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p MssqlManagedInstancePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p MssqlManagedInstancePaginator) NextPage(ctx context.Context) ([]MssqlManagedInstance, error) {
 	var response MssqlManagedInstanceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -45655,6 +47985,11 @@ func ListMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -45735,6 +48070,11 @@ func GetMssqlManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -45854,6 +48194,10 @@ func (p MssqlManagedInstanceDatabasesPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p MssqlManagedInstanceDatabasesPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p MssqlManagedInstanceDatabasesPaginator) NextPage(ctx context.Context) ([]MssqlManagedInstanceDatabases, error) {
 	var response MssqlManagedInstanceDatabasesSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -45935,6 +48279,11 @@ func ListMssqlManagedInstanceDatabases(ctx context.Context, d *plugin.QueryData,
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -45989,6 +48338,11 @@ func GetMssqlManagedInstanceDatabases(ctx context.Context, d *plugin.QueryData, 
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -46108,6 +48462,10 @@ func (p SqlDatabasePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SqlDatabasePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SqlDatabasePaginator) NextPage(ctx context.Context) ([]SqlDatabase, error) {
 	var response SqlDatabaseSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -46221,6 +48579,11 @@ func ListSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -46307,6 +48670,11 @@ func GetSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -46426,6 +48794,10 @@ func (p SqlInstancePoolPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SqlInstancePoolPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SqlInstancePoolPaginator) NextPage(ctx context.Context) ([]SqlInstancePool, error) {
 	var response SqlInstancePoolSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -46506,6 +48878,11 @@ func ListSqlInstancePool(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -46559,6 +48936,11 @@ func GetSqlInstancePool(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -46678,6 +49060,10 @@ func (p SqlServerPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SqlServerPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SqlServerPaginator) NextPage(ctx context.Context) ([]SqlServer, error) {
 	var response SqlServerSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -46779,6 +49165,11 @@ func ListSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -46853,6 +49244,11 @@ func GetSqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -46972,6 +49368,10 @@ func (p SqlServerJobAgentPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SqlServerJobAgentPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SqlServerJobAgentPaginator) NextPage(ctx context.Context) ([]SqlServerJobAgent, error) {
 	var response SqlServerJobAgentSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -47053,6 +49453,11 @@ func ListSqlServerJobAgent(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -47107,6 +49512,11 @@ func GetSqlServerJobAgent(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -47226,6 +49636,10 @@ func (p SqlVirtualClustersPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SqlVirtualClustersPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SqlVirtualClustersPaginator) NextPage(ctx context.Context) ([]SqlVirtualClusters, error) {
 	var response SqlVirtualClustersSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -47307,6 +49721,11 @@ func ListSqlVirtualClusters(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -47361,6 +49780,11 @@ func GetSqlVirtualClusters(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -47480,6 +49904,10 @@ func (p SqlServerElasticPoolPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SqlServerElasticPoolPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SqlServerElasticPoolPaginator) NextPage(ctx context.Context) ([]SqlServerElasticPool, error) {
 	var response SqlServerElasticPoolSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -47573,6 +50001,11 @@ func ListSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugi
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -47639,6 +50072,11 @@ func GetSqlServerElasticPool(ctx context.Context, d *plugin.QueryData, _ *plugin
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -47758,6 +50196,10 @@ func (p SqlServerVirtualMachinePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SqlServerVirtualMachinePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SqlServerVirtualMachinePaginator) NextPage(ctx context.Context) ([]SqlServerVirtualMachine, error) {
 	var response SqlServerVirtualMachineSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -47855,6 +50297,11 @@ func ListSqlServerVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *pl
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -47925,6 +50372,11 @@ func GetSqlServerVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plu
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -48044,6 +50496,10 @@ func (p SqlServerVirtualMachineGroupPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SqlServerVirtualMachineGroupPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SqlServerVirtualMachineGroupPaginator) NextPage(ctx context.Context) ([]SqlServerVirtualMachineGroup, error) {
 	var response SqlServerVirtualMachineGroupSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -48125,6 +50581,11 @@ func ListSqlServerVirtualMachineGroup(ctx context.Context, d *plugin.QueryData, 
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -48179,6 +50640,11 @@ func GetSqlServerVirtualMachineGroup(ctx context.Context, d *plugin.QueryData, _
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -48298,6 +50764,10 @@ func (p SqlServerFlexibleServerPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p SqlServerFlexibleServerPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p SqlServerFlexibleServerPaginator) NextPage(ctx context.Context) ([]SqlServerFlexibleServer, error) {
 	var response SqlServerFlexibleServerSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -48406,6 +50876,11 @@ func ListSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *pl
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -48487,6 +50962,11 @@ func GetSqlServerFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *plu
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -48604,6 +51084,10 @@ func (k Client) NewStorageAccountPaginator(filters []essdk.BoolFilter, limit *in
 
 func (p StorageAccountPaginator) HasNext() bool {
 	return !p.paginator.Done()
+}
+
+func (p StorageAccountPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
 }
 
 func (p StorageAccountPaginator) NextPage(ctx context.Context) ([]StorageAccount, error) {
@@ -48740,6 +51224,11 @@ func ListStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -48848,6 +51337,11 @@ func GetStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -48967,6 +51461,10 @@ func (p RecoveryServicesVaultPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p RecoveryServicesVaultPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p RecoveryServicesVaultPaginator) NextPage(ctx context.Context) ([]RecoveryServicesVault, error) {
 	var response RecoveryServicesVaultSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -49059,6 +51557,11 @@ func ListRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plug
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -49124,6 +51627,11 @@ func GetRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plugi
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -49243,6 +51751,10 @@ func (p HybridKubernetesConnectedClusterPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p HybridKubernetesConnectedClusterPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p HybridKubernetesConnectedClusterPaginator) NextPage(ctx context.Context) ([]HybridKubernetesConnectedCluster, error) {
 	var response HybridKubernetesConnectedClusterSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -49342,6 +51854,11 @@ func ListHybridKubernetesConnectedCluster(ctx context.Context, d *plugin.QueryDa
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -49414,6 +51931,11 @@ func GetHybridKubernetesConnectedCluster(ctx context.Context, d *plugin.QueryDat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -49533,6 +52055,10 @@ func (p CostManagementCostByResourceTypePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p CostManagementCostByResourceTypePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p CostManagementCostByResourceTypePaginator) NextPage(ctx context.Context) ([]CostManagementCostByResourceType, error) {
 	var response CostManagementCostByResourceTypeSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -49616,6 +52142,11 @@ func ListCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryDa
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -49672,6 +52203,11 @@ func GetCostManagementCostByResourceType(ctx context.Context, d *plugin.QueryDat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -49791,6 +52327,10 @@ func (p CostManagementCostBySubscriptionPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p CostManagementCostBySubscriptionPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p CostManagementCostBySubscriptionPaginator) NextPage(ctx context.Context) ([]CostManagementCostBySubscription, error) {
 	var response CostManagementCostBySubscriptionSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -49870,6 +52410,11 @@ func ListCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryDa
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -49922,6 +52467,11 @@ func GetCostManagementCostBySubscription(ctx context.Context, d *plugin.QueryDat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -50041,6 +52591,10 @@ func (p LoadBalancerPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p LoadBalancerPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p LoadBalancerPaginator) NextPage(ctx context.Context) ([]LoadBalancer, error) {
 	var response LoadBalancerSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -50139,6 +52693,11 @@ func ListLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -50210,6 +52769,11 @@ func GetLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -50329,6 +52893,10 @@ func (p LoadBalancerBackendAddressPoolPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p LoadBalancerBackendAddressPoolPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p LoadBalancerBackendAddressPoolPaginator) NextPage(ctx context.Context) ([]LoadBalancerBackendAddressPool, error) {
 	var response LoadBalancerBackendAddressPoolSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -50420,6 +52988,11 @@ func ListLoadBalancerBackendAddressPool(ctx context.Context, d *plugin.QueryData
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -50484,6 +53057,11 @@ func GetLoadBalancerBackendAddressPool(ctx context.Context, d *plugin.QueryData,
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -50603,6 +53181,10 @@ func (p LoadBalancerNatRulePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p LoadBalancerNatRulePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p LoadBalancerNatRulePaginator) NextPage(ctx context.Context) ([]LoadBalancerNatRule, error) {
 	var response LoadBalancerNatRuleSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -50696,6 +53278,11 @@ func ListLoadBalancerNatRule(ctx context.Context, d *plugin.QueryData, _ *plugin
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -50762,6 +53349,11 @@ func GetLoadBalancerNatRule(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -50881,6 +53473,10 @@ func (p LoadBalancerOutboundRulePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p LoadBalancerOutboundRulePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p LoadBalancerOutboundRulePaginator) NextPage(ctx context.Context) ([]LoadBalancerOutboundRule, error) {
 	var response LoadBalancerOutboundRuleSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -50972,6 +53568,11 @@ func ListLoadBalancerOutboundRule(ctx context.Context, d *plugin.QueryData, _ *p
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -51036,6 +53637,11 @@ func GetLoadBalancerOutboundRule(ctx context.Context, d *plugin.QueryData, _ *pl
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -51155,6 +53761,10 @@ func (p LoadBalancerProbePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p LoadBalancerProbePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p LoadBalancerProbePaginator) NextPage(ctx context.Context) ([]LoadBalancerProbe, error) {
 	var response LoadBalancerProbeSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -51246,6 +53856,11 @@ func ListLoadBalancerProbe(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -51310,6 +53925,11 @@ func GetLoadBalancerProbe(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -51429,6 +54049,10 @@ func (p LoadBalancerRulePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p LoadBalancerRulePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p LoadBalancerRulePaginator) NextPage(ctx context.Context) ([]LoadBalancerRule, error) {
 	var response LoadBalancerRuleSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -51526,6 +54150,11 @@ func ListLoadBalancerRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -51596,6 +54225,11 @@ func GetLoadBalancerRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -51715,6 +54349,10 @@ func (p ManagementGroupPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ManagementGroupPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ManagementGroupPaginator) NextPage(ctx context.Context) ([]ManagementGroup, error) {
 	var response ManagementGroupSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -51799,6 +54437,11 @@ func ListManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -51856,6 +54499,11 @@ func GetManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -51975,6 +54623,10 @@ func (p ManagementLockPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ManagementLockPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ManagementLockPaginator) NextPage(ctx context.Context) ([]ManagementLock, error) {
 	var response ManagementLockSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -52059,6 +54711,11 @@ func ListManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -52117,6 +54774,11 @@ func GetManagementLock(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -52236,6 +54898,10 @@ func (p ResourceProviderPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ResourceProviderPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ResourceProviderPaginator) NextPage(ctx context.Context) ([]ResourceProvider, error) {
 	var response ResourceProviderSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -52318,6 +54984,11 @@ func ListResourceProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -52373,6 +55044,11 @@ func GetResourceProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -52492,6 +55168,10 @@ func (p ResourceGroupPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ResourceGroupPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ResourceGroupPaginator) NextPage(ctx context.Context) ([]ResourceGroup, error) {
 	var response ResourceGroupSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -52576,6 +55256,11 @@ func ListResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -52633,6 +55318,11 @@ func GetResourceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -52752,6 +55442,10 @@ func (p BotServiceBotPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p BotServiceBotPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p BotServiceBotPaginator) NextPage(ctx context.Context) ([]BotServiceBot, error) {
 	var response BotServiceBotSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -52832,6 +55526,11 @@ func ListBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -52885,6 +55584,11 @@ func GetBotServiceBot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -53004,6 +55708,10 @@ func (p NetAppAccountPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p NetAppAccountPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p NetAppAccountPaginator) NextPage(ctx context.Context) ([]NetAppAccount, error) {
 	var response NetAppAccountSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -53084,6 +55792,11 @@ func ListNetAppAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -53137,6 +55850,11 @@ func GetNetAppAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -53256,6 +55974,10 @@ func (p NetAppCapacityPoolPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p NetAppCapacityPoolPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p NetAppCapacityPoolPaginator) NextPage(ctx context.Context) ([]NetAppCapacityPool, error) {
 	var response NetAppCapacityPoolSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -53336,6 +56058,11 @@ func ListNetAppCapacityPool(ctx context.Context, d *plugin.QueryData, _ *plugin.
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -53389,6 +56116,11 @@ func GetNetAppCapacityPool(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -53508,6 +56240,10 @@ func (p DashboardGrafanaPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DashboardGrafanaPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DashboardGrafanaPaginator) NextPage(ctx context.Context) ([]DashboardGrafana, error) {
 	var response DashboardGrafanaSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -53587,6 +56323,11 @@ func ListDashboardGrafana(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -53639,6 +56380,11 @@ func GetDashboardGrafana(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -53758,6 +56504,10 @@ func (p DesktopVirtualizationHostPoolPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DesktopVirtualizationHostPoolPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DesktopVirtualizationHostPoolPaginator) NextPage(ctx context.Context) ([]DesktopVirtualizationHostPool, error) {
 	var response DesktopVirtualizationHostPoolSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -53838,6 +56588,11 @@ func ListDesktopVirtualizationHostPool(ctx context.Context, d *plugin.QueryData,
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -53891,6 +56646,11 @@ func GetDesktopVirtualizationHostPool(ctx context.Context, d *plugin.QueryData, 
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -54010,6 +56770,10 @@ func (p DesktopVirtualizationWorkspacePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DesktopVirtualizationWorkspacePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DesktopVirtualizationWorkspacePaginator) NextPage(ctx context.Context) ([]DesktopVirtualizationWorkspace, error) {
 	var response DesktopVirtualizationWorkspaceSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -54090,6 +56854,11 @@ func ListDesktopVirtualizationWorkspace(ctx context.Context, d *plugin.QueryData
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -54143,6 +56912,11 @@ func GetDesktopVirtualizationWorkspace(ctx context.Context, d *plugin.QueryData,
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -54262,6 +57036,10 @@ func (p DevTestLabLabPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p DevTestLabLabPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p DevTestLabLabPaginator) NextPage(ctx context.Context) ([]DevTestLabLab, error) {
 	var response DevTestLabLabSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -54342,6 +57120,11 @@ func ListDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -54395,6 +57178,11 @@ func GetDevTestLabLab(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -54514,6 +57302,10 @@ func (p PurviewAccountPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p PurviewAccountPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p PurviewAccountPaginator) NextPage(ctx context.Context) ([]PurviewAccount, error) {
 	var response PurviewAccountSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -54594,6 +57386,11 @@ func ListPurviewAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -54647,6 +57444,11 @@ func GetPurviewAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -54766,6 +57568,10 @@ func (p PowerBIDedicatedCapacityPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p PowerBIDedicatedCapacityPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p PowerBIDedicatedCapacityPaginator) NextPage(ctx context.Context) ([]PowerBIDedicatedCapacity, error) {
 	var response PowerBIDedicatedCapacitySearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -54846,6 +57652,11 @@ func ListPowerBIDedicatedCapacity(ctx context.Context, d *plugin.QueryData, _ *p
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -54899,6 +57710,11 @@ func GetPowerBIDedicatedCapacity(ctx context.Context, d *plugin.QueryData, _ *pl
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
@@ -55018,6 +57834,10 @@ func (p ApplicationInsightsComponentPaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
+func (p ApplicationInsightsComponentPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
 func (p ApplicationInsightsComponentPaginator) NextPage(ctx context.Context) ([]ApplicationInsightsComponent, error) {
 	var response ApplicationInsightsComponentSearchResponse
 	err := p.paginator.Search(ctx, &response)
@@ -55122,6 +57942,11 @@ func ListApplicationInsightsComponent(ctx context.Context, d *plugin.QueryData, 
 		}
 	}
 
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }
 
@@ -55199,6 +58024,11 @@ func GetApplicationInsightsComponent(ctx context.Context, d *plugin.QueryData, _
 		for _, v := range page {
 			return v, nil
 		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	return nil, nil
