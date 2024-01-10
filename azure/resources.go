@@ -312,8 +312,6 @@ func GetResourceTypeByTerraform(terraformType string) string {
 
 func GetUnsupportedCostQuotaIds() []string {
 	return []string{
-		"PayAsYouGo_2014-09-01",
-		"CSP_2015-05-01",
 		"DreamSpark_2015-02-01",
 		"AzureForStudents_2018-01-01",
 		"Sponsored_2016-01-01",
