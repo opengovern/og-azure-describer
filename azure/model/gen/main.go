@@ -206,6 +206,7 @@ var list{{ .Name }}Filters = map[string]string{
 
 func List{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("List{{ .Name }}")
+    runtime.GC()
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
@@ -271,7 +272,7 @@ var get{{ .Name }}Filters = map[string]string{
 
 func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("Get{{ .Name }}")
-
+    runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -468,6 +469,7 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 			"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 			`+*sourceType+`Describer "github.com/kaytu-io/kaytu-`+*sourceType+`-describer/`+*sourceType+`/describer"
 			`+*sourceType+` "github.com/kaytu-io/kaytu-`+*sourceType+`-describer/`+*sourceType+`/model"
+            "runtime"
 		)
 
 		type Client struct {
