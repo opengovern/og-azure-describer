@@ -3,6 +3,7 @@ package azure
 import (
 	"context"
 	"encoding/json"
+	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -71,7 +72,7 @@ func commonKaytuColumns() []*plugin.Column {
 			Name:        "kaytu_description",
 			Type:        proto.ColumnType_JSON,
 			Description: "The full model description of the resource",
-			Transform:   transform.FromField("Description").Transform(marshalJSON),
+			Transform:   transform.FromField("Description").Transform(marshalAzureJSON),
 		},
 	}
 }
@@ -133,6 +134,14 @@ func getCloudEnvironment(ctx context.Context, d *plugin.QueryData, h *plugin.Hyd
 
 func marshalJSON(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	b, err := json.Marshal(d.Value)
+	if err != nil {
+		return nil, err
+	}
+	return string(b), nil
+}
+
+func marshalAzureJSON(_ context.Context, d *transform.TransformData) (interface{}, error) {
+	b, err := json.Marshal(describer.JSONAllFieldsMarshaller{Value: d.Value})
 	if err != nil {
 		return nil, err
 	}
