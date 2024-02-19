@@ -158,7 +158,7 @@ func StorageAccount(ctx context.Context, cred *azidentity.ClientSecretCredential
 		for _, account := range page.Value {
 			resource, err := GetStorageAccount(ctx, storageClient, encryptionScopesStorageClient, diagnosticClient, fileServicesStorageClient, blobServicesStorageClient, managementPoliciesStorageClient, account)
 			if err != nil {
-				continue
+				return nil, err
 			}
 			if stream != nil {
 				if err := (*stream)(*resource); err != nil {
