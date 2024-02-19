@@ -37,6 +37,23 @@ func tableAzureAdAuthorizationPolicy(_ context.Context) *plugin.Table {
 			// Standard columns
 			{Name: "title", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTitle, Transform: transform.FromMethod("GetDisplayName")},
 			{Name: "tenant_id", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTenant, Hydrate: plugin.HydrateFunc(getTenant).WithCache(), Transform: transform.FromValue()},
+
+			{
+				Name:        "metadata",
+				Description: "Metadata of the Azure resource",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Metadata").Transform(marshalJSON),
+			},
+			{
+				Name:        "kaytu_account_id",
+				Type:        proto.ColumnType_STRING,
+				Description: "The Kaytu Account ID in which the resource is located.",
+				Transform:   transform.FromField("Metadata.SourceID")},
+			{
+				Name:        "kaytu_resource_id",
+				Type:        proto.ColumnType_STRING,
+				Description: "The unique ID of the resource in Kaytu.",
+				Transform:   transform.FromField("ID")},
 		},
 	}
 }
