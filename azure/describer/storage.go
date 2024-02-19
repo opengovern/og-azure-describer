@@ -215,7 +215,6 @@ func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsCl
 
 				client := accounts.New()
 				client.Client.Authorizer = storageAuth
-				client.BaseURI = storage.DefaultBaseURI
 
 				resp, err := client.GetServiceProperties(ctx, *account.Name)
 				if err != nil {
