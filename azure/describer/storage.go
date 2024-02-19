@@ -13,7 +13,6 @@ import (
 	azblobOld "github.com/Azure/azure-storage-blob-go/azblob"
 	"github.com/kaytu-io/kaytu-util/pkg/concurrency"
 
-	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2019-06-01/storage"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 	"github.com/tombuildsstuff/giovanni/storage/2018-11-09/queue/queues"
@@ -215,7 +214,6 @@ func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsCl
 
 				client := accounts.New()
 				client.Client.Authorizer = storageAuth
-				client.BaseURI = storage.DefaultBaseURI
 
 				resp, err := client.GetServiceProperties(ctx, *account.Name)
 				if err != nil {
@@ -277,7 +275,6 @@ func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsCl
 
 				queuesClient := queues.New()
 				queuesClient.Client.Authorizer = storageAuth
-				queuesClient.BaseURI = storage.DefaultBaseURI
 
 				resp, err := queuesClient.GetServiceProperties(ctx, *account.Name)
 
