@@ -39,23 +39,10 @@ func StorageContainer(ctx context.Context, cred *azidentity.ClientSecretCredenti
 			account := ac
 			wpe.AddJob(func() (interface{}, error) {
 				results, err := ListAccountStorageContainers(ctx, client, account)
-				var vvv []Resource
-				for _, r := range results {
-					if r.Error != nil {
-						return nil, err
-					}
-					if r.Value == nil {
-						continue
-					}
-					if stream != nil {
-						if err := (*stream)(r.Value.(Resource)); err != nil {
-							return nil, err
-						}
-					} else {
-						vvv = append(vvv, r.Value.(Resource))
-					}
+				if err != nil {
+					return nil, err
 				}
-				return vvv, nil
+				return results, nil
 			})
 		}
 	}
@@ -71,33 +58,36 @@ func StorageContainer(ctx context.Context, cred *azidentity.ClientSecretCredenti
 		values = append(values, r.Value.([]Resource)...)
 	}
 
+	if stream != nil {
+		for _, resource := range values {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		}
+		values = nil
+	}
+
 	return values, nil
 }
 
-func ListAccountStorageContainers(ctx context.Context, client *armstorage.BlobContainersClient, account *armstorage.Account) ([]concurrency.Result, error) {
+func ListAccountStorageContainers(ctx context.Context, client *armstorage.BlobContainersClient, account *armstorage.Account) ([]Resource, error) {
 	resourceGroup := &strings.Split(string(*account.ID), "/")[4]
-
-	var result []*armstorage.ListContainerItem
+	var resources []Resource
 	pager := client.NewListPager(*resourceGroup, *account.Name, nil)
 	for pager.More() {
 		page, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
-		result = append(result, page.Value...)
-	}
-
-	wp := concurrency.NewWorkPool(8)
-	for _, vl := range result {
-		wp.AddJob(func() (interface{}, error) {
+		for _, vl := range page.Value {
 			resource, err := GetAccountStorageContainter(ctx, client, vl, account)
 			if err != nil {
 				return nil, err
 			}
-			return resource, nil
-		})
+			resources = append(resources, *resource)
+		}
 	}
-	return wp.Run(), nil
+	return resources, nil
 }
 
 func GetAccountStorageContainter(ctx context.Context, client *armstorage.BlobContainersClient, v *armstorage.ListContainerItem, acc *armstorage.Account) (*Resource, error) {
