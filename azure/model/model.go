@@ -62,6 +62,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/privatedns/armprivatedns"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/purview/armpurview"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservicesbackup/v3"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlinks"
@@ -1703,6 +1704,16 @@ type RecoveryServicesVaultDescription struct {
 	Vault                      armrecoveryservices.Vault
 	DiagnosticSettingsResource []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup              string
+}
+
+//index:microsoft_recoveryservices_vault
+//getfilter:name=description.Vault.Name
+//getfilter:resource_group=description.ResourceGroup
+type RecoveryServicesBackupJobDescription struct {
+	Job           armrecoveryservicesbackup.JobResource
+	VaultName     string
+	Properties    map[string]interface{}
+	ResourceGroup string
 }
 
 //  =================== kubernetes ==================

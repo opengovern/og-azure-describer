@@ -14656,28 +14656,28 @@ func (p FirewallPolicyPaginator) NextPage(ctx context.Context) ([]FirewallPolicy
 }
 
 var listFirewallPolicyFilters = map[string]string{
-	"base_policy":                         "description.FirewallPolicies.Properties.BasePolicy",
-	"child_policies":                      "description.FirewallPolicies.Properties.ChildPolicies",
-	"dns_settings":                        "description.FirewallPolicies.Properties.DNSSettings",
-	"etag":                                "description.FirewallPolicies.Etag",
-	"firewalls":                           "description.FirewallPolicies.Properties.Firewalls",
+	"base_policy":                         "description.FirewallPolicy.Properties.BasePolicy",
+	"child_policies":                      "description.FirewallPolicy.Properties.ChildPolicies",
+	"dns_settings":                        "description.FirewallPolicy.Properties.DNSSettings",
+	"etag":                                "description.FirewallPolicy.Etag",
+	"firewalls":                           "description.FirewallPolicy.Properties.Firewalls",
 	"id":                                  "description.FirewallPolicy.ID",
-	"identity":                            "description.FirewallPolicies.Identity",
-	"intrusion_detection_configuration":   "description.FirewallPolicies.Properties.IntrusionDetection.Configuration",
-	"intrusion_detection_mode":            "description.FirewallPolicies.Properties.IntrusionDetection.Mode",
+	"identity":                            "description.FirewallPolicy.Identity",
+	"intrusion_detection_configuration":   "description.FirewallPolicy.Properties.IntrusionDetection.Configuration",
+	"intrusion_detection_mode":            "description.FirewallPolicy.Properties.IntrusionDetection.Mode",
 	"kaytu_account_id":                    "metadata.SourceID",
 	"name":                                "description.FirewallPolicy.Name",
-	"provisioning_state":                  "description.FirewallPolicies.Properties.ProvisioningState",
+	"provisioning_state":                  "description.FirewallPolicy.Properties.ProvisioningState",
 	"resource_group":                      "description.ResourceGroup",
-	"rule_collection_groups":              "description.FirewallPolicies.Properties.RuleCollectionGroups",
-	"sku_tier":                            "description.FirewallPolicies.Properties.SKU.Tier",
+	"rule_collection_groups":              "description.FirewallPolicy.Properties.RuleCollectionGroups",
+	"sku_tier":                            "description.FirewallPolicy.Properties.SKU.Tier",
 	"tags":                                "description.FirewallPolicy.Tags",
-	"threat_intel_mode":                   "description.FirewallPolicies.Properties.ThreatIntelMode",
-	"threat_intel_whitelist_fqdns":        "description.FirewallPolicies.Properties.ThreatIntelWhitelist.Fqdns",
-	"threat_intel_whitelist_ip_addresses": "description.FirewallPolicies.Properties.ThreatIntelWhitelist.IPAddresses",
+	"threat_intel_mode":                   "description.FirewallPolicy.Properties.ThreatIntelMode",
+	"threat_intel_whitelist_fqdns":        "description.FirewallPolicy.Properties.ThreatIntelWhitelist.Fqdns",
+	"threat_intel_whitelist_ip_addresses": "description.FirewallPolicy.Properties.ThreatIntelWhitelist.IPAddresses",
 	"title":                               "description.FirewallPolicy.Name",
-	"transport_security_certificate_authority": "description.FirewallPolicies.Properties.TransportSecurity.CertificateAuthority",
-	"type": "description.FirewallPolicies.Type",
+	"transport_security_certificate_authority": "description.FirewallPolicy.Properties.TransportSecurity.CertificateAuthority",
+	"type": "description.FirewallPolicy.Type",
 }
 
 func ListFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -14741,28 +14741,28 @@ func ListFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getFirewallPolicyFilters = map[string]string{
-	"base_policy":                         "description.FirewallPolicies.Properties.BasePolicy",
-	"child_policies":                      "description.FirewallPolicies.Properties.ChildPolicies",
-	"dns_settings":                        "description.FirewallPolicies.Properties.DNSSettings",
-	"etag":                                "description.FirewallPolicies.Etag",
-	"firewalls":                           "description.FirewallPolicies.Properties.Firewalls",
+	"base_policy":                         "description.FirewallPolicy.Properties.BasePolicy",
+	"child_policies":                      "description.FirewallPolicy.Properties.ChildPolicies",
+	"dns_settings":                        "description.FirewallPolicy.Properties.DNSSettings",
+	"etag":                                "description.FirewallPolicy.Etag",
+	"firewalls":                           "description.FirewallPolicy.Properties.Firewalls",
 	"id":                                  "description.FirewallPolicy.ID",
-	"identity":                            "description.FirewallPolicies.Identity",
-	"intrusion_detection_configuration":   "description.FirewallPolicies.Properties.IntrusionDetection.Configuration",
-	"intrusion_detection_mode":            "description.FirewallPolicies.Properties.IntrusionDetection.Mode",
+	"identity":                            "description.FirewallPolicy.Identity",
+	"intrusion_detection_configuration":   "description.FirewallPolicy.Properties.IntrusionDetection.Configuration",
+	"intrusion_detection_mode":            "description.FirewallPolicy.Properties.IntrusionDetection.Mode",
 	"kaytu_account_id":                    "metadata.SourceID",
 	"name":                                "description.FirewallPolicy.Name",
-	"provisioning_state":                  "description.FirewallPolicies.Properties.ProvisioningState",
+	"provisioning_state":                  "description.FirewallPolicy.Properties.ProvisioningState",
 	"resource_group":                      "description.ResourceGroup",
-	"rule_collection_groups":              "description.FirewallPolicies.Properties.RuleCollectionGroups",
-	"sku_tier":                            "description.FirewallPolicies.Properties.SKU.Tier",
+	"rule_collection_groups":              "description.FirewallPolicy.Properties.RuleCollectionGroups",
+	"sku_tier":                            "description.FirewallPolicy.Properties.SKU.Tier",
 	"tags":                                "description.FirewallPolicy.Tags",
-	"threat_intel_mode":                   "description.FirewallPolicies.Properties.ThreatIntelMode",
-	"threat_intel_whitelist_fqdns":        "description.FirewallPolicies.Properties.ThreatIntelWhitelist.Fqdns",
-	"threat_intel_whitelist_ip_addresses": "description.FirewallPolicies.Properties.ThreatIntelWhitelist.IPAddresses",
+	"threat_intel_mode":                   "description.FirewallPolicy.Properties.ThreatIntelMode",
+	"threat_intel_whitelist_fqdns":        "description.FirewallPolicy.Properties.ThreatIntelWhitelist.Fqdns",
+	"threat_intel_whitelist_ip_addresses": "description.FirewallPolicy.Properties.ThreatIntelWhitelist.IPAddresses",
 	"title":                               "description.FirewallPolicy.Name",
-	"transport_security_certificate_authority": "description.FirewallPolicies.Properties.TransportSecurity.CertificateAuthority",
-	"type": "description.FirewallPolicies.Type",
+	"transport_security_certificate_authority": "description.FirewallPolicy.Properties.TransportSecurity.CertificateAuthority",
+	"type": "description.FirewallPolicy.Type",
 }
 
 func GetFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -48659,7 +48659,6 @@ func (p SqlDatabasePaginator) NextPage(ctx context.Context) ([]SqlDatabase, erro
 
 var listSqlDatabaseFilters = map[string]string{
 	"collation":                    "description.Database.Properties.Collation",
-	"containment_state":            "description.Database.Properties.ContainmentState",
 	"create_mode":                  "description.Database.Properties.CreateMode",
 	"current_service_objective_id": "description.Database.Properties.CurrentServiceObjectiveName",
 	"database_id":                  "description.Database.Properties.DatabaseID",
@@ -48674,14 +48673,13 @@ var listSqlDatabaseFilters = map[string]string{
 	"max_size_bytes":               "description.Database.Properties.MaxSizeBytes",
 	"name":                         "description.Database.Name",
 	"read_scale":                   "description.Database.Properties.ReadScale",
-	"recommended_index":            "DatabaseProperties.RecommendedIndex",
 	"recovery_services_recovery_point_resource_id": "description.Database.Properties.RecoveryServicesRecoveryPointID",
 	"requested_service_objective_id":               "description.Database.Properties.RequestedServiceObjectiveName",
 	"requested_service_objective_name":             "description.Database.Properties.RequestedServiceObjectiveName",
 	"resource_group":                               "description.ResourceGroup",
 	"retention_policy_id":                          "description.LongTermRetentionPolicy.ID",
 	"retention_policy_name":                        "description.LongTermRetentionPolicy.Name",
-	"retention_policy_property":                    "description.LongTermRetentionPolicy",
+	"retention_policy_property":                    "description.LongTermRetentionPolicy.Properties",
 	"retention_policy_type":                        "description.LongTermRetentionPolicy.Type",
 	"sample_name":                                  "description.Database.Properties.SampleName",
 	"service_level_objective":                      "description.Database.Properties.RequestedServiceObjectiveName",
@@ -48759,7 +48757,6 @@ func ListSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 var getSqlDatabaseFilters = map[string]string{
 	"collation":                    "description.Database.Properties.Collation",
-	"containment_state":            "description.Database.Properties.ContainmentState",
 	"create_mode":                  "description.Database.Properties.CreateMode",
 	"current_service_objective_id": "description.Database.Properties.CurrentServiceObjectiveName",
 	"database_id":                  "description.Database.Properties.DatabaseID",
@@ -48774,14 +48771,13 @@ var getSqlDatabaseFilters = map[string]string{
 	"max_size_bytes":               "description.Database.Properties.MaxSizeBytes",
 	"name":                         "description.Database.name",
 	"read_scale":                   "description.Database.Properties.ReadScale",
-	"recommended_index":            "DatabaseProperties.RecommendedIndex",
 	"recovery_services_recovery_point_resource_id": "description.Database.Properties.RecoveryServicesRecoveryPointID",
 	"requested_service_objective_id":               "description.Database.Properties.RequestedServiceObjectiveName",
 	"requested_service_objective_name":             "description.Database.Properties.RequestedServiceObjectiveName",
 	"resource_group":                               "description.ResourceGroup",
 	"retention_policy_id":                          "description.LongTermRetentionPolicy.ID",
 	"retention_policy_name":                        "description.LongTermRetentionPolicy.Name",
-	"retention_policy_property":                    "description.LongTermRetentionPolicy",
+	"retention_policy_property":                    "description.LongTermRetentionPolicy.Properties",
 	"retention_policy_type":                        "description.LongTermRetentionPolicy.Type",
 	"sample_name":                                  "description.Database.Properties.SampleName",
 	"service_level_objective":                      "description.Database.Properties.RequestedServiceObjectiveName",
@@ -51818,6 +51814,285 @@ func GetRecoveryServicesVault(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 // ==========================  END: RecoveryServicesVault =============================
+
+// ==========================  START: RecoveryServicesBackupJob =============================
+
+type RecoveryServicesBackupJob struct {
+	Description   azure.RecoveryServicesBackupJobDescription `json:"description"`
+	Metadata      azure.Metadata                             `json:"metadata"`
+	ResourceJobID int                                        `json:"resource_job_id"`
+	SourceJobID   int                                        `json:"source_job_id"`
+	ResourceType  string                                     `json:"resource_type"`
+	SourceType    string                                     `json:"source_type"`
+	ID            string                                     `json:"id"`
+	ARN           string                                     `json:"arn"`
+	SourceID      string                                     `json:"source_id"`
+}
+
+func (r *RecoveryServicesBackupJob) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.RecoveryServicesBackupJobDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type RecoveryServicesBackupJobHit struct {
+	ID      string                    `json:"_id"`
+	Score   float64                   `json:"_score"`
+	Index   string                    `json:"_index"`
+	Type    string                    `json:"_type"`
+	Version int64                     `json:"_version,omitempty"`
+	Source  RecoveryServicesBackupJob `json:"_source"`
+	Sort    []interface{}             `json:"sort"`
+}
+
+type RecoveryServicesBackupJobHits struct {
+	Total essdk.SearchTotal              `json:"total"`
+	Hits  []RecoveryServicesBackupJobHit `json:"hits"`
+}
+
+type RecoveryServicesBackupJobSearchResponse struct {
+	PitID string                        `json:"pit_id"`
+	Hits  RecoveryServicesBackupJobHits `json:"hits"`
+}
+
+type RecoveryServicesBackupJobPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewRecoveryServicesBackupJobPaginator(filters []essdk.BoolFilter, limit *int64) (RecoveryServicesBackupJobPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_recoveryservices_vaults_backupjobs", filters, limit)
+	if err != nil {
+		return RecoveryServicesBackupJobPaginator{}, err
+	}
+
+	p := RecoveryServicesBackupJobPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p RecoveryServicesBackupJobPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p RecoveryServicesBackupJobPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p RecoveryServicesBackupJobPaginator) NextPage(ctx context.Context) ([]RecoveryServicesBackupJob, error) {
+	var response RecoveryServicesBackupJobSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []RecoveryServicesBackupJob
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listRecoveryServicesBackupJobFilters = map[string]string{
+	"etag":             "description.Job.ETag",
+	"id":               "description.Job.ID",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Job.Name",
+	"properties":       "description.Properties",
+	"resource_group":   "description.ResourceGroup",
+	"tags":             "description.Job.Tags",
+	"title":            "description.Job.Name",
+	"type":             "description.Job.Type",
+	"vault_name":       "description.VaultName",
+}
+
+func ListRecoveryServicesBackupJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListRecoveryServicesBackupJob")
+	runtime.GC()
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListRecoveryServicesBackupJob NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListRecoveryServicesBackupJob NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListRecoveryServicesBackupJob GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListRecoveryServicesBackupJob GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListRecoveryServicesBackupJob GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewRecoveryServicesBackupJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRecoveryServicesBackupJobFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListRecoveryServicesBackupJob NewRecoveryServicesBackupJobPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListRecoveryServicesBackupJob paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getRecoveryServicesBackupJobFilters = map[string]string{
+	"etag":             "description.Job.ETag",
+	"id":               "description.Job.ID",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Vault.Name",
+	"properties":       "description.Properties",
+	"resource_group":   "description.ResourceGroup",
+	"tags":             "description.Job.Tags",
+	"title":            "description.Job.Name",
+	"type":             "description.Job.Type",
+	"vault_name":       "description.VaultName",
+}
+
+func GetRecoveryServicesBackupJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetRecoveryServicesBackupJob")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewRecoveryServicesBackupJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRecoveryServicesBackupJobFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: RecoveryServicesBackupJob =============================
 
 // ==========================  START: HybridKubernetesConnectedCluster =============================
 
