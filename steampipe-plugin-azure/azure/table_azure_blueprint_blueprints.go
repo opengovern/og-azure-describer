@@ -36,12 +36,6 @@ func tableAzureBlueprintBlueprints(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Blueprint.Name")},
 			{
-				Name:        "tags",
-				Description: ColumnDescriptionTags,
-				Type:        proto.ColumnType_JSON,
-				// probably needs a transform function
-				Transform: transform.FromField("Description.Blueprint.Name")},
-			{
 				Name:        "akas",
 				Description: ColumnDescriptionAkas,
 				Type:        proto.ColumnType_JSON,
