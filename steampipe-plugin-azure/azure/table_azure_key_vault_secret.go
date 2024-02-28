@@ -95,7 +95,7 @@ func tableAzureKeyVaultSecret(_ context.Context) *plugin.Table {
 				Name:        "recovery_level",
 				Description: "The deletion recovery level currently in effect for the object. If it contains 'Purgeable', then the object can be permanently deleted by a privileged user; otherwise, only the system can purge the object at the end of the retention interval.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromP(extractRecoveryLevel, "Description.Vault.Properties.EnablePurgeProtection"),
+				Transform:   transform.From(extractRecoveryLevel),
 			},
 			{
 				Name:        "updated_at",
@@ -226,7 +226,7 @@ func extractVaultNameFromSecretID(ctx context.Context, d *transform.TransformDat
 func extractRecoveryLevel(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	purge := d.HydrateItem.(kaytu.KeyVaultSecret).Description.Vault.Properties.EnablePurgeProtection
 
-	if *purge {
+	if purge != nil && *purge {
 		return "Purgeable", nil
 	} else {
 		return "Other", nil
