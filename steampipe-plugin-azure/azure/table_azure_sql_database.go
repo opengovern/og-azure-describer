@@ -56,11 +56,11 @@ func tableAzureSqlDatabase(_ context.Context) *plugin.Table {
 				Description: "The collation of the database.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Database.Properties.Collation")},
-			{
-				Name:        "containment_state",
-				Description: "The containment state of the database.",
-				Type:        proto.ColumnType_INT,
-				Transform:   transform.FromField("Description.Database.Properties.ContainmentState")},
+			//{
+			//	Name:        "containment_state",
+			//	Description: "The containment state of the database.",
+			//	Type:        proto.ColumnType_INT,
+			//	Transform:   transform.FromField("Description.Database.Properties.ContainmentState")}, // not correct
 			{
 				Name:        "creation_date",
 				Description: "The creation date of the database.",
@@ -118,7 +118,7 @@ func tableAzureSqlDatabase(_ context.Context) *plugin.Table {
 			{
 				Name:        "max_size_bytes",
 				Description: "The max size of the database expressed in bytes.",
-				Type:        proto.ColumnType_STRING,
+				Type:        proto.ColumnType_INT,
 				Transform:   transform.FromField("Description.Database.Properties.MaxSizeBytes")},
 			{
 				Name:        "recovery_services_recovery_point_resource_id",
@@ -177,58 +177,58 @@ func tableAzureSqlDatabase(_ context.Context) *plugin.Table {
 			{
 				Name:        "create_mode",
 				Description: "Specifies the mode of database creation.",
-				Type:        proto.ColumnType_JSON,
+				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Database.Properties.CreateMode")},
 			{
 				Name:        "read_scale",
 				Description: "ReadScale indicates whether read-only connections are allowed to this database or not if the database is a geo-secondary.",
-				Type:        proto.ColumnType_JSON,
+				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Database.Properties.ReadScale")},
-			{
-				Name:        "recommended_index",
-				Description: "The recommended indices for this database.",
-				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("DatabaseProperties.RecommendedIndex"),
-			},
+			//{
+			//	Name:        "recommended_index",
+			//	Description: "The recommended indices for this database.", // this could be available through service_tier_advisors
+			//	Type:        proto.ColumnType_JSON,
+			//	Transform:   transform.FromField("DatabaseProperties.RecommendedIndex"), // not correct
+			//},
 			{
 				Name:        "retention_policy_property",
 				Description: "Long term Retention policy Property.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.LongTermRetentionPolicy")},
+				Transform:   transform.FromField("Description.LongTermRetentionPolicy.Properties")},
 			{
 				Name:        "sample_name",
 				Description: "Indicates the name of the sample schema to apply when creating this database.",
-				Type:        proto.ColumnType_JSON,
+				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Database.Properties.SampleName")},
 			{
 				Name:        "service_level_objective",
 				Description: "The current service level objective of the database.",
-				Type:        proto.ColumnType_JSON,
+				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Database.Properties.RequestedServiceObjectiveName")},
 			{
 				Name:        "service_tier_advisors",
 				Description: "The list of service tier advisors for this database.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Advisors"),
+				Transform:   transform.FromField("Description.Advisors"), // is it ok to be an array?
 			},
 			{
 				Name:        "transparent_data_encryption",
 				Description: "The transparent data encryption info for this database.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.TransparentDataEncryption"),
+				Transform:   transform.FromField("Description.TransparentDataEncryption"), // is it ok to be an array?
 			},
 			{
 				Name:        "vulnerability_assessments",
 				Description: "The vulnerability assessments for this database.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.DatabaseVulnerabilityAssessments")},
+				Transform:   transform.FromField("Description.DatabaseVulnerabilityAssessments")}, // is it ok to be an array?
 			{
 				Name:        "vulnerability_assessment_scan_records",
 				Description: "The vulnerability assessment scan records for this database.",
 				Type:        proto.ColumnType_JSON,
 
 				// Steampipe standard columns
-				Transform: transform.FromField("Description.VulnerabilityAssessmentScanRecords")},
+				Transform: transform.FromField("Description.VulnerabilityAssessmentScanRecords")}, // is it ok to be an array?
 
 			{
 				Name:        "title",
@@ -262,13 +262,7 @@ func tableAzureSqlDatabase(_ context.Context) *plugin.Table {
 				Description: ColumnDescriptionResourceGroup,
 				Type:        proto.ColumnType_STRING,
 
-				//// LIST FUNCTION
-
-				Transform: transform.
-
-					// Check if context has been cancelled or if the limit has been hit (if specified)
-					// if there is a limit, it will return the number of rows required to reach this limit
-					FromField("Description.ResourceGroup")},
+				Transform: transform.FromField("Description.ResourceGroup")},
 		}),
 	}
 }
