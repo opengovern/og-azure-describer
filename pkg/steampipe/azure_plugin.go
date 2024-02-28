@@ -3,6 +3,7 @@ package steampipe
 import (
 	"context"
 	"fmt"
+	"go.uber.org/zap"
 	"strings"
 
 	"github.com/hashicorp/go-hclog"
@@ -20,12 +21,12 @@ func buildContext() context.Context {
 	return ctx
 }
 
-func AzureDescriptionToRecord(resource interface{}, indexName string) (map[string]*proto.Column, error) {
-	return steampipe.DescriptionToRecord(azure.Plugin(buildContext()), resource, indexName)
+func AzureDescriptionToRecord(logger *zap.Logger, resource interface{}, indexName string) (map[string]*proto.Column, error) {
+	return steampipe.DescriptionToRecord(logger, azure.Plugin(buildContext()), resource, indexName)
 }
 
-func AzureADDescriptionToRecord(resource interface{}, indexName string) (map[string]*proto.Column, error) {
-	return steampipe.DescriptionToRecord(azuread.Plugin(buildContext()), resource, indexName)
+func AzureADDescriptionToRecord(logger *zap.Logger, resource interface{}, indexName string) (map[string]*proto.Column, error) {
+	return steampipe.DescriptionToRecord(logger, azuread.Plugin(buildContext()), resource, indexName)
 }
 
 func AzureCells(indexName string) ([]string, error) {
@@ -41,7 +42,7 @@ func Plugin() *plugin.Plugin {
 func ADPlugin() *plugin.Plugin {
 	return azuread.Plugin(buildContext())
 }
-func ExtractTagsAndNames(plg, adPlg *plugin.Plugin, resourceType string, source interface{}) (map[string]string, string, error) {
+func ExtractTagsAndNames(logger *zap.Logger, plg, adPlg *plugin.Plugin, resourceType string, source interface{}) (map[string]string, string, error) {
 	pluginTableName := ExtractTableName(resourceType)
 	if pluginTableName == "" {
 		return nil, "", fmt.Errorf("cannot find table name for resourceType: %s", resourceType)
@@ -49,9 +50,9 @@ func ExtractTagsAndNames(plg, adPlg *plugin.Plugin, resourceType string, source 
 
 	switch steampipe.ExtractPlugin(resourceType) {
 	case steampipe.SteampipePluginAzure:
-		return steampipe.ExtractTagsAndNames(plg, pluginTableName, resourceType, source, AzureDescriptionMap)
+		return steampipe.ExtractTagsAndNames(plg, logger, pluginTableName, resourceType, source, AzureDescriptionMap)
 	case steampipe.SteampipePluginAzureAD:
-		return steampipe.ExtractTagsAndNames(adPlg, pluginTableName, resourceType, source, AzureDescriptionMap)
+		return steampipe.ExtractTagsAndNames(adPlg, logger, pluginTableName, resourceType, source, AzureDescriptionMap)
 	default:
 		return nil, "", fmt.Errorf("invalid provider for resource type: %s", resourceType)
 	}
