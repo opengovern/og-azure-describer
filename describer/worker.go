@@ -133,7 +133,8 @@ func doDescribeAzure(
 
 		tags, name, err := steampipe.ExtractTagsAndNames(plg, plgAD, job.ResourceType, kafkaResource)
 		if err != nil {
-			return fmt.Errorf("failed to build tags for service: %v", err.Error())
+			logger.Error("failed to build tags for service", zap.Error(err), zap.String("resourceType", job.ResourceType), zap.Any("resource", kafkaResource))
+			return fmt.Errorf("failed to build tags for servicem resource type: %v, resource: %v, err: %v", job.ResourceType, kafkaResource, err)
 		}
 		if len(name) > 0 {
 			kafkaResource.Metadata["name"] = name
