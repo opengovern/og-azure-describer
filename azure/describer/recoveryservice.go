@@ -141,9 +141,6 @@ func GetRecoveryServicesBackupJob(resourceGroup, vaultName string, job *armrecov
 		return nil, err
 	}
 	resource := Resource{
-		ID:       *job.ID,
-		Name:     *job.Name,
-		Location: *job.Location,
 		Description: JSONAllFieldsMarshaller{
 			Value: model.RecoveryServicesBackupJobDescription{
 				Job: struct {
@@ -166,6 +163,15 @@ func GetRecoveryServicesBackupJob(resourceGroup, vaultName string, job *armrecov
 				ResourceGroup: resourceGroup,
 			},
 		},
+	}
+	if job.ID != nil {
+		resource.ID = *job.ID
+	}
+	if job.Name != nil {
+		resource.Name = *job.Name
+	}
+	if job.Location != nil {
+		resource.Location = *job.Location
 	}
 	return &resource, nil
 }
