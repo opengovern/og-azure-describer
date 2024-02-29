@@ -117,9 +117,7 @@ func RecoveryServicesBackupJobs(ctx context.Context, cred *azidentity.ClientSecr
 }
 
 func ListRecoveryServicesVaultBackupJobs(ctx context.Context, client *armrecoveryservicesbackup.BackupJobsClient, vaultName, resourceGroup string) ([]Resource, error) {
-	pager := client.NewListPager(vaultName, resourceGroup, &armrecoveryservicesbackup.BackupJobsClientListOptions{Filter: nil,
-		SkipToken: nil,
-	})
+	pager := client.NewListPager(vaultName, resourceGroup, nil)
 	var resources []Resource
 	for pager.More() {
 		page, err := pager.NextPage(ctx)
@@ -148,7 +146,21 @@ func GetRecoveryServicesBackupJob(resourceGroup, vaultName string, job *armrecov
 		Location: *job.Location,
 		Description: JSONAllFieldsMarshaller{
 			Value: model.RecoveryServicesBackupJobDescription{
-				Job:           *job,
+				Job: struct {
+					Name     *string
+					ID       *string
+					Type     *string
+					ETag     *string
+					Tags     map[string]*string
+					Location *string
+				}{
+					Name:     job.Name,
+					ID:       job.ID,
+					Location: job.Location,
+					Type:     job.Type,
+					Tags:     job.Tags,
+					ETag:     job.ETag,
+				},
 				VaultName:     vaultName,
 				Properties:    properties,
 				ResourceGroup: resourceGroup,
