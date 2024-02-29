@@ -97,6 +97,9 @@ func RecoveryServicesBackupJobs(ctx context.Context, cred *azidentity.ClientSecr
 			return nil, err
 		}
 		for _, vault := range page.Value {
+			if vault.ID == nil || vault.Name == nil {
+				continue
+			}
 			resourceGroup := strings.Split(*vault.ID, "/")[4]
 			vaultBackupJobs, err := ListRecoveryServicesVaultBackupJobs(ctx, client, *vault.Name, resourceGroup)
 			if err != nil {
