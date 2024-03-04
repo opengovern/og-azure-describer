@@ -3,46 +3,60 @@ package describer
 import (
 	"context"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/springappdiscovery/armspringappdiscovery"
 	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
 
 func SpringCloudService(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
-	clientFactory, err := armresources.NewClientFactory(subscription, cred, nil)
+	var values []Resource
+
+	clientFactory, err := armspringappdiscovery.NewClientFactory(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewClient()
-	pager := client.NewListPager(nil)
-	var values []Resource
+	siteClient := clientFactory.NewSpringbootsitesClient()
+	client := clientFactory.NewSpringbootappsClient()
+	pager := siteClient.NewListBySubscriptionPager(&armspringappdiscovery.SpringbootsitesClientListBySubscriptionOptions{})
 	for pager.More() {
-		result, err := pager.NextPage(ctx)
+		sites, err := pager.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
-		for _, resource := range result.Value {
-			resource, err := getSpringCloudService(ctx, resource)
-			if err != nil {
-				return nil, err
-			}
-			if resource == nil {
-				continue
-			}
-			if stream != nil {
-				if err := (*stream)(*resource); err != nil {
+
+		for _, site := range sites.Value {
+			appPager := client.NewListBySubscriptionPager(*site.Name, &armspringappdiscovery.SpringbootappsClientListBySubscriptionOptions{})
+			for appPager.More() {
+				apps, err := appPager.NextPage(ctx)
+				if err != nil {
 					return nil, err
 				}
-			} else {
-				values = append(values, *resource)
+
+				for _, app := range apps.Value {
+					resource, err := getSpringCloudService(ctx, app, site)
+					if err != nil {
+						return nil, err
+					}
+					if resource == nil {
+						continue
+					}
+					if stream != nil {
+						if err := (*stream)(*resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, *resource)
+					}
+				}
 			}
 		}
 	}
+
 	return values, nil
 }
 
-func getSpringCloudService(ctx context.Context, service *armresources.GenericResourceExpanded) (*Resource, error) {
+func getSpringCloudService(ctx context.Context, service *armspringappdiscovery.SpringbootappsModel, site *armspringappdiscovery.SpringbootsitesModel) (*Resource, error) {
 	if service.Name == nil {
 		return nil, nil
 	}
@@ -53,10 +67,11 @@ func getSpringCloudService(ctx context.Context, service *armresources.GenericRes
 	resource := Resource{
 		ID:       *service.ID,
 		Name:     *service.Name,
-		Location: *service.Location,
+		Location: *site.Location,
 		Description: JSONAllFieldsMarshaller{
 			Value: model.SpringCloudServiceDescription{
-				ServiceResource:            *service,
+				App:                        *service,
+				Site:                       site,
 				DiagnosticSettingsResource: nil, // TODO: Arta fix this =)))
 				ResourceGroup:              resourceGroup,
 			},

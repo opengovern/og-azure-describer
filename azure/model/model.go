@@ -73,6 +73,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicefabric/armservicefabric"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/springappdiscovery/armspringappdiscovery"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sqlvirtualmachine/armsqlvirtualmachine"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
@@ -1417,9 +1418,10 @@ type SignalrServiceDescription struct {
 //getfilter:name=description.ServiceResource.name
 //getfilter:resource_group=description.ResourceGroup
 type SpringCloudServiceDescription struct {
-	ServiceResource            armresources.GenericResourceExpanded
 	DiagnosticSettingsResource *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup              string
+	Site                       *armspringappdiscovery.SpringbootsitesModel
+	App                        armspringappdiscovery.SpringbootappsModel
 }
 
 //  =================== streamanalytics ==================

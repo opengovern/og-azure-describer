@@ -30,70 +30,70 @@ func tableAzureSpringCloudService(_ context.Context) *plugin.Table {
 				Name:        "name",
 				Description: "The name of the resource.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.ServiceResource.Name")},
+				Transform:   transform.FromField("Description.App.Name")},
 			{
 				Name:        "id",
 				Description: "Fully qualified resource Id for the resource.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.ServiceResource.ID")},
+				Transform:   transform.FromField("Description.App.ID")},
 			{
 				Name:        "provisioning_state",
 				Description: "Provisioning state of the Service. Possible values include: 'Creating', 'Updating', 'Deleting', 'Deleted', 'Succeeded', 'Failed', 'Moving', 'Moved', 'MoveFailed'.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.ServiceResource.ProvisioningState")},
+				Transform:   transform.FromField("Description.App.Properties.ProvisioningState")},
 			{
 				Name:        "type",
 				Description: "The type of the resource.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.ServiceResource.Type")},
-			{
-				Name:        "service_id",
-				Description: "Service instance entity GUID which uniquely identifies a created resource.",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.ServiceResource.ID")},
-			{
-				Name:        "sku_name",
-				Description: "Name of the Sku.",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.ServiceResource.SKU.Name")},
-			{
-				Name:        "sku_tier",
-				Description: "Tier of the Sku.",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.ServiceResource.SKU.Tier")},
-			{
-				Name:        "sku_capacity",
-				Description: "Current capacity of the target resource.",
-				Type:        proto.ColumnType_INT,
-				Transform:   transform.FromField("Description.ServiceResource.SKU.Capacity")},
+				Transform:   transform.FromField("Description.App.Properties.AppType")},
+			//{
+			//	Name:        "service_id",
+			//	Description: "Service instance entity GUID which uniquely identifies a created resource.",
+			//	Type:        proto.ColumnType_STRING,
+			//	Transform:   transform.FromField("Description.ServiceResource.ID")},
+			//{
+			//	Name:        "sku_name",
+			//	Description: "Name of the Sku.",
+			//	Type:        proto.ColumnType_STRING,
+			//	Transform:   transform.FromField("Description.ServiceResource.SKU.Name")},
+			//{
+			//	Name:        "sku_tier",
+			//	Description: "Tier of the Sku.",
+			//	Type:        proto.ColumnType_STRING,
+			//	Transform:   transform.FromField("Description.ServiceResource.SKU.Tier")},
+			//{
+			//	Name:        "sku_capacity",
+			//	Description: "Current capacity of the target resource.",
+			//	Type:        proto.ColumnType_INT,
+			//	Transform:   transform.FromField("Description.ServiceResource.SKU.Capacity")},
 			{
 				Name:        "version",
 				Description: "Version of the service.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.ServiceResource.Plan.Version")},
+				Transform:   transform.FromField("Description.App.Properties.SpringBootVersion")},
 			{
 				Name:        "diagnostic_settings",
 				Description: "A list of active diagnostic settings for the resource.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.DiagnosticSettingsResource")},
-			{
-				Name:        "network_profile",
-				Description: "Network profile of the service.",
-				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(extractSpringCloudServiceNetworkProfile),
-			},
+			//{
+			//	Name:        "network_profile",
+			//	Description: "Network profile of the service.",
+			//	Type:        proto.ColumnType_JSON,
+			//	Transform:   transform.From(extractSpringCloudServiceNetworkProfile),
+			//},
 
 			// Steampipe standard columns
 			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.ServiceResource.Name")},
+				Transform:   transform.FromField("Description.App.Name")},
 			{
 				Name:        "tags",
 				Description: ColumnDescriptionTags,
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.ServiceResource.Tags")},
+				Transform:   transform.FromField("Description.App.Tags")},
 			{
 				Name:        "akas",
 				Description: ColumnDescriptionAkas,
@@ -101,7 +101,7 @@ func tableAzureSpringCloudService(_ context.Context) *plugin.Table {
 
 				// Azure standard columns
 
-				Transform: transform.FromField("Description.ServiceResource.ID").Transform(idToAkas),
+				Transform: transform.FromField("Description.App.ID").Transform(idToAkas),
 			},
 
 			{
@@ -109,7 +109,7 @@ func tableAzureSpringCloudService(_ context.Context) *plugin.Table {
 				Description: ColumnDescriptionRegion,
 				Type:        proto.ColumnType_STRING,
 
-				Transform: transform.FromField("Description.ServiceResource.Location").Transform(toLower),
+				Transform: transform.FromField("Description.Site.Location").Transform(toLower),
 			},
 			{
 				Name:        "resource_group",
@@ -151,7 +151,6 @@ type SpringCloudServiceNetworkProfile struct {
 // If we return the API response directly, the output does not provide
 // all the properties of NetworkProfile
 func extractSpringCloudServiceNetworkProfile(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	workspace := d.HydrateItem.(kaytu.SpringCloudService).Description.ServiceResource
-
+	workspace := d.HydrateItem.(kaytu.SpringCloudService).Description.Site
 	return workspace.Properties, nil
 }

@@ -349,6 +349,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicefabric/armservicefa
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicefabric/armservicefabric v1.1.0/go.mod h1:A2/sPKLx4ug/C8X0Wa1SQN1ZESvw+V+y/ACW9hc2T5Q=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr v1.1.1 h1:jKW5K2Q7FE9FSZcpTcC2Y0lAYw80oXRnOsJQ/LrC7iw=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/signalr/armsignalr v1.1.1/go.mod h1:ZwgPLPucO/eU8bqKMrPFeuRoErGQhsrv+kqE2I0qpYM=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/springappdiscovery/armspringappdiscovery v0.1.0 h1:C+ClArPw3XfT1OnumNJJWdThapfU2vnADDta/AP9XMs=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/springappdiscovery/armspringappdiscovery v0.1.0/go.mod h1:/sE2hbhoTkTXvztJbIC1NXb1XW+MGsBvTSy/H5sEH6w=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql v1.1.0 h1:G2MvNS98bjXD7Vks+psbTU/uBiBH7gicij12Xc8q6lM=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql v1.1.0/go.mod h1:f/IvRlQ/eFP31UXVUwh3BzTOOC2cEo6/u+7g9+KTzPk=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sqlvirtualmachine/armsqlvirtualmachine v0.9.0 h1:eqDvuH51BlAL5NqTV/aD+u/kCU55upDf8ptwD9NyC68=
