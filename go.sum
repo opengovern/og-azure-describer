@@ -321,6 +321,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/purview/armpurview v1.1.0 
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/purview/armpurview v1.1.0/go.mod h1:1534T+m6sciFjLVJA+2H4eyq5QxLAUsK/WhJ3qioKdU=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices v1.5.0 h1:HlyXywGTNzJH5kHQz3rxgUku4D96+ySdMVlWu/Y3vOc=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices v1.5.0/go.mod h1:QIficO9nG0JePjH1IURjOza/Jvbl95rQDmvzBeYRC2w=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservicesbackup/v2 v2.1.1 h1:3iBLSfpWqfGTFH/B0acMlve59yJ2b8FFqnfuuXUNS0U=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservicesbackup/v2 v2.1.1/go.mod h1:XzMdm7gtLCMP+rOipRzYZXnnR9YEuzitlWz0He6nK7E=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservicesbackup/v3 v3.1.0 h1:hV/8SYoq+h2EIXV9p30r7ouYEAMOgJdqN3xDawkQhg4=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservicesbackup/v3 v3.1.0/go.mod h1:9BkxBsQQhjeQ1SV5J5iGnU44Kvecsc/JZRUf541Lbyw=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis/v2 v2.3.0 h1:/DeaPA3K0LQXaFGsGJMBeCswc2arEsM1SsueqAJIwe8=

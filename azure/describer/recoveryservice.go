@@ -5,7 +5,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservicesbackup/v3"
+	armrecoveryservicesbackup "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservicesbackup/v3"
 	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
@@ -211,4 +211,79 @@ func backupJobProperties(data *armrecoveryservicesbackup.JobResource) (map[strin
 		}
 	}
 	return output, nil
+}
+
+func RecoveryServicesBackupPolicies(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	vaultClientFactory, err := armrecoveryservices.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	vaultClient := vaultClientFactory.NewVaultsClient()
+
+	clientFactory, err := armrecoveryservicesbackup.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewProtectionPoliciesClient()
+
+	var values []Resource
+	pager := vaultClient.NewListBySubscriptionIDPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, vault := range page.Value {
+			if vault.ID == nil || vault.Name == nil {
+				continue
+			}
+			resourceGroup := strings.Split(*vault.ID, "/")[4]
+			vaultBackupJobs, err := ListRecoveryServicesVaultBackupPolicies(ctx, client, *vault.Name, resourceGroup)
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range vaultBackupJobs {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func ListRecoveryServicesVaultBackupPolicies(ctx context.Context, client *armrecoveryservicesbackup.ProtectionPoliciesClient, vaultName, resourceGroup string) ([]Resource, error) {
+	pager := client.NewListPager(vaultName, resourceGroup, nil)
+	var resources []Resource
+
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, policy := range page.Value {
+			resource := GetRecoveryServicesBackupPolicy(policy)
+			if err != nil {
+				return nil, err
+			}
+			resources = append(resources, resource)
+		}
+	}
+	return resources, nil
+}
+
+func GetRecoveryServicesBackupPolicy(policy *armrecoveryservicesbackup.ProtectionPolicyResource, vaultName, resourceGroup string) Resource {
+	return Resource{
+		Description: JSONAllFieldsMarshaller{
+			Value: model.RecoveryServicesBackupPolicyDescription{
+				ResourceGroup: resourceGroup,
+				VaultName:     vaultName,
+				Policy:        policy,
+			},
+		},
+	}
 }
