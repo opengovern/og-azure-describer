@@ -224,7 +224,7 @@ func RecoveryServicesBackupPolicies(ctx context.Context, cred *azidentity.Client
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewProtectionPoliciesClient()
+	client := clientFactory.NewBackupPoliciesClient()
 
 	var values []Resource
 	pager := vaultClient.NewListBySubscriptionIDPager(nil)
@@ -256,7 +256,7 @@ func RecoveryServicesBackupPolicies(ctx context.Context, cred *azidentity.Client
 	return values, nil
 }
 
-func ListRecoveryServicesVaultBackupPolicies(ctx context.Context, client *armrecoveryservicesbackup.ProtectionPoliciesClient, vaultName, resourceGroup string) ([]Resource, error) {
+func ListRecoveryServicesVaultBackupPolicies(ctx context.Context, client *armrecoveryservicesbackup.BackupPoliciesClient, vaultName, resourceGroup string) ([]Resource, error) {
 	pager := client.NewListPager(vaultName, resourceGroup, nil)
 	var resources []Resource
 
@@ -266,7 +266,7 @@ func ListRecoveryServicesVaultBackupPolicies(ctx context.Context, client *armrec
 			return nil, err
 		}
 		for _, policy := range page.Value {
-			resource := GetRecoveryServicesBackupPolicy(policy)
+			resource := GetRecoveryServicesBackupPolicy(policy, vaultName, resourceGroup)
 			if err != nil {
 				return nil, err
 			}
