@@ -11,8 +11,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.App/containerApps",
 		ResourceLabel:        "Container Apps",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Container%20App.svg"},
             "category": {"Container"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Container%20App.svg"},
         },
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.AppContainerApps),
@@ -161,8 +161,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Network/bastionHosts",
 		ResourceLabel:        "Bastion Hosts",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Bastion.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.NetworkBastionHosts),
@@ -244,8 +244,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Network/publicIPPrefixes",
 		ResourceLabel:        "Public IP Prefixes",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Public%20IP%20Prefix.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.PublicIPPrefix),
@@ -435,9 +435,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"Microsoft.Automation/AutomationVariables": {
+	"Microsoft.Automation/automationAccounts/variables": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Automation/AutomationVariables",
+		ResourceName:         "Microsoft.Automation/automationAccounts/variables",
 		ResourceLabel:        "Automation Variables",
 		Tags:                 map[string][]string{
             "category": {"Management & Governance"},
@@ -457,8 +457,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Network/dnsZones",
 		ResourceLabel:        "DNS Zones",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/DNS%20Zone%20(Public).svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.DNSZones),
@@ -474,8 +474,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Network/privateDnsZones",
 		ResourceLabel:        "Private DNS Zone(s)",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/DNS%20Zone%20(Private).svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.PrivateDnsZones),
@@ -519,9 +519,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/resourceGroups": {
+	"Microsoft.Resources/subscriptions/resourceGroups": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/resourceGroups",
+		ResourceName:         "Microsoft.Resources/subscriptions/resourceGroups",
 		ResourceLabel:        "Resource Groups",
 		Tags:                 map[string][]string{
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Resource%20Group.svg"},
@@ -552,9 +552,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Web/staticSitesSlot": {
+	"Microsoft.Web/sites/slots": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Web/staticSitesSlot",
+		ResourceName:         "Microsoft.Web/sites/slots",
 		ResourceLabel:        "Static Web App Slots",
 		Tags:                 map[string][]string{
             "category": {"PaaS"},
@@ -654,9 +654,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"Microsoft.Storage/fileShares": {
+	"Microsoft.Storage/storageAccounts/largeFileSharesState": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Storage/fileShares",
+		ResourceName:         "Microsoft.Storage/storageAccounts/largeFileSharesState",
 		ResourceLabel:        "File Share",
 		Tags:                 map[string][]string{
             "category": {"Storage"},
@@ -710,8 +710,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.AnalysisServices/servers",
 		ResourceLabel:        "Analysis Services Server",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Analysis%20Service.svg"},
             "category": {"Data and Analytics"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Analysis%20Service.svg"},
         },
 		ServiceName:          "AnalysisServices",
 		ListDescriber:        DescribeBySubscription(describer.AnalysisService),
@@ -792,8 +792,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.ContainerRegistry/registries",
 		ResourceLabel:        "Container Registry",
 		Tags:                 map[string][]string{
-            "category": {"Container"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Container%20Registry.svg"},
+            "category": {"Container"},
         },
 		ServiceName:          "ContainerRegistry",
 		ListDescriber:        DescribeBySubscription(describer.ContainerRegistry),
@@ -804,9 +804,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"Microsoft.DataFactory/factoriesPipelines": {
+	"Microsoft.DataFactory/factories/pipelines": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.DataFactory/factoriesPipelines",
+		ResourceName:         "Microsoft.DataFactory/factories/pipelines",
 		ResourceLabel:        "Data Factory Pipeline",
 		Tags:                 map[string][]string{
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Data%20Factory.svg"},
@@ -837,9 +837,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"Microsoft.Management/groups": {
+	"Microsoft.Management/managementgroups": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Management/groups",
+		ResourceName:         "Microsoft.Management/managementgroups",
 		ResourceLabel:        "Management Groups",
 		Tags:                 map[string][]string{
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Management%20Group.svg"},
@@ -887,9 +887,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Storage/tableServices": {
+	"Microsoft.Storage/storageAccounts/tableServices": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Storage/tableServices",
+		ResourceName:         "Microsoft.Storage/storageAccounts/tableServices",
 		ResourceLabel:        "Storage Account Table Service",
 		Tags:                 map[string][]string{
             "category": {"Storage"},
@@ -1004,9 +1004,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"Microsoft.HybridContainerService/CustomLocations/Orchestrators": {
+	"Microsoft.HybridContainerService/locations/orchestrators": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.HybridContainerService/CustomLocations/Orchestrators",
+		ResourceName:         "Microsoft.HybridContainerService/locations/orchestrators",
 		ResourceLabel:        "Kubernetes Service Version",
 		Tags:                 map[string][]string{
             "category": {"Container"},
@@ -1059,8 +1059,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Sql/servers/jobagents",
 		ResourceLabel:        "Logical Job Agents",
 		Tags:                 map[string][]string{
-            "category": {"Database"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SQL%20Elastic%20Job%20Agent.svg"},
+            "category": {"Database"},
         },
 		ServiceName:          "Sql",
 		ListDescriber:        DescribeBySubscription(describer.SqlServerJobAgents),
@@ -1106,8 +1106,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.DataBoxEdge/dataBoxEdgeDevices",
 		ResourceLabel:        "Data Box Edge Devices",
 		Tags:                 map[string][]string{
-            "category": {"IoT & Devices"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Data%20Box%20Edge.svg"},
+            "category": {"IoT & Devices"},
         },
 		ServiceName:          "DataBoxEdge",
 		ListDescriber:        DescribeBySubscription(describer.DataboxEdgeDevice),
@@ -1140,8 +1140,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Network/azureFirewalls",
 		ResourceLabel:        "Azure Firewalls",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Firewall.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Firewall.svg"},
         },
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.NetworkAzureFirewall),
@@ -1189,8 +1189,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Network/frontDoors",
 		ResourceLabel:        "Frontdoors",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Front%20Door.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Front%20Door.svg"},
         },
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.FrontDoor),
@@ -1282,6 +1282,22 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.RecoveryServices/vaults/backupPolicies": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.RecoveryServices/vaults/backupPolicies",
+		ResourceLabel:        "Recovery Services Backup Policies",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "RecoveryServices",
+		ListDescriber:        DescribeBySubscription(describer.RecoveryServicesBackupPolicies),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "recoveryservices",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Compute/diskEncryptionSets": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/diskEncryptionSets",
@@ -1299,9 +1315,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.DocumentDB/SqlDatabases": {
+	"Microsoft.DocumentDB/databaseAccounts/sqlDatabases": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.DocumentDB/SqlDatabases",
+		ResourceName:         "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
 		ResourceLabel:        "Cosmos DB SQL Databases",
 		Tags:                 map[string][]string{
             "category": {"Database"},
@@ -1321,8 +1337,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.EventGrid/topics",
 		ResourceLabel:        "EventGrid Topics",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Event%20Grid%20Topic.svg"},
             "category": {"Data and Analytics"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Event%20Grid%20Topic.svg"},
         },
 		ServiceName:          "EventGrid",
 		ListDescriber:        DescribeBySubscription(describer.EventGridTopic),
@@ -1406,8 +1422,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.DesktopVirtualization/workspaces",
 		ResourceLabel:        "Virtual desktop workspace",
 		Tags:                 map[string][]string{
-            "category": {"End User"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Windows%20Virtual%20Desktop.svg"},
+            "category": {"End User"},
         },
 		ServiceName:          "DesktopVirtualization",
 		ListDescriber:        DescribeBySubscription(describer.DesktopVirtualizationWorkspaces),
@@ -1539,8 +1555,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Web/sites",
 		ResourceLabel:        "App Services",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Application%20Service.svg"},
             "category": {"PaaS"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Application%20Service.svg"},
         },
 		ServiceName:          "Web",
 		ListDescriber:        DescribeBySubscription(describer.AppServiceFunctionApp),
@@ -1634,9 +1650,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Storage/tables": {
+	"Microsoft.Storage/storageAccounts/tableServices/tables": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Storage/tables",
+		ResourceName:         "Microsoft.Storage/storageAccounts/tableServices/tables",
 		ResourceLabel:        "Storage Tables",
 		Tags:                 map[string][]string{
             "category": {"Storage"},
@@ -1673,8 +1689,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Kusto/clusters",
 		ResourceLabel:        "Azure Data Explorer cluster",
 		Tags:                 map[string][]string{
-            "category": {"Data and Analytics"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_Grouped/Data/Azure%20Data%20Explorer%20Cluster.svg"},
+            "category": {"Data and Analytics"},
         },
 		ServiceName:          "Kusto",
 		ListDescriber:        DescribeBySubscription(describer.KustoCluster),
@@ -1690,8 +1706,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.StorageSync/storageSyncServices",
 		ResourceLabel:        "Storage Sync Service",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Storage%20Sync%20Service.svg"},
             "category": {"Storage"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Storage%20Sync%20Service.svg"},
         },
 		ServiceName:          "StorageSync",
 		ListDescriber:        DescribeBySubscription(describer.StorageSync),
@@ -1734,9 +1750,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"Microsoft.LoadBalancer/backendAddressPools": {
+	"Microsoft.Network/loadBalancers/backendAddressPools": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.LoadBalancer/backendAddressPools",
+		ResourceName:         "Microsoft.Network/loadBalancers/backendAddressPools",
 		ResourceLabel:        "Load Balancer Backend Pools",
 		Tags:                 map[string][]string{
             "category": {"Networking"},
@@ -1772,8 +1788,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.DataLakeStore/accounts",
 		ResourceLabel:        "Data Lake Store account",
 		Tags:                 map[string][]string{
-            "category": {"Data and Analytics"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Data%20Lake.svg"},
+            "category": {"Data and Analytics"},
         },
 		ServiceName:          "DataLakeStore",
 		ListDescriber:        DescribeBySubscription(describer.DataLakeStore),
@@ -1884,9 +1900,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.DocumentDB/MongoDatabases": {
+	"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.DocumentDB/MongoDatabases",
+		ResourceName:         "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases",
 		ResourceLabel:        "Cosmos DB Mongo Databases",
 		Tags:                 map[string][]string{
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Cosmos%20DB.svg"},
@@ -1901,9 +1917,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.DocumentDB/MongoCollection": {
+	"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.DocumentDB/MongoCollection",
+		ResourceName:         "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections",
 		ResourceLabel:        "Cosmos DB Mongo Collections",
 		Tags:                 map[string][]string{
             "category": {"Database"},
@@ -1966,9 +1982,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"Microsoft.Devices/iotHubDpses": {
+	"Microsoft.Devices/ProvisioningServices": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Devices/iotHubDpses",
+		ResourceName:         "Microsoft.Devices/ProvisioningServices",
 		ResourceLabel:        "IoT Hub Device Provisioning Service (DPS)",
 		Tags:                 map[string][]string{
             "category": {"IoT & Devices"},
@@ -2034,9 +2050,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"Microsoft.Storage/blobs": {
+	"Microsoft.Storage/storageAccounts/blobServices": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Storage/blobs",
+		ResourceName:         "Microsoft.Storage/storageAccounts/blobServices",
 		ResourceLabel:        "Storage Blobs",
 		Tags:                 map[string][]string{
             "category": {"Storage"},
@@ -2068,9 +2084,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Storage/blobServives": {
+	"Microsoft.Storage/storageAccounts/blobServices": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Storage/blobServives",
+		ResourceName:         "Microsoft.Storage/storageAccounts/blobServices",
 		ResourceLabel:        "Storage Blob Services",
 		Tags:                 map[string][]string{
             "category": {"Storage"},
@@ -2085,9 +2101,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Storage/queues": {
+	"Microsoft.Storage/storageAccounts/queueServices": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Storage/queues",
+		ResourceName:         "Microsoft.Storage/storageAccounts/queueServices",
 		ResourceLabel:        "Storage Queues",
 		Tags:                 map[string][]string{
             "category": {"Storage"},
@@ -2124,8 +2140,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Compute/virtualMachineScaleSets",
 		ResourceLabel:        "VM Scale Set",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Virtual%20Machine%20Scale%20Set.svg"},
             "category": {"Compute"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Virtual%20Machine%20Scale%20Set.svg"},
         },
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeVirtualMachineScaleSet),
@@ -2136,9 +2152,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"Microsoft.DataFactory/factoriesDatasets": {
+	"Microsoft.DataFactory/factories/datasets": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.DataFactory/factoriesDatasets",
+		ResourceName:         "Microsoft.DataFactory/factories/datasets",
 		ResourceLabel:        "Data Factory Datasets",
 		Tags:                 map[string][]string{
             "category": {"Data and Analytics"},
@@ -2158,8 +2174,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Compute/diskAccesses",
 		ResourceLabel:        "Disk Access",
 		Tags:                 map[string][]string{
-            "category": {"Compute"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Disk%20Access.svg"},
+            "category": {"Compute"},
         },
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeDiskAccess),
@@ -2209,8 +2225,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Cache/redisenterprise",
 		ResourceLabel:        "Azure Cache Redis Enterprise",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Cache%20for%20Redis.svg"},
             "category": {"Database"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Cache%20for%20Redis.svg"},
         },
 		ServiceName:          "Cache",
 		ListDescriber:        DescribeBySubscription(describer.CacheRedisEnterprise),
@@ -2258,8 +2274,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Network/loadBalancers/outboundRules",
 		ResourceLabel:        "Load Balancer Outbound Rules",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Load%20Balancer%20Backend%20Outbound%20Rule.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Load%20Balancer%20Backend%20Outbound%20Rule.svg"},
         },
 		ServiceName:          "LoadBalancer",
 		ListDescriber:        DescribeBySubscription(describer.LoadBalancerOutboundRule),
@@ -2291,8 +2307,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Network/loadBalancers/inboundNatRules",
 		ResourceLabel:        "Load Balancer Inbound NAT Roles",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Load%20Balancer%20Inbound%20NAT%20Rule.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "LoadBalancer",
 		ListDescriber:        DescribeBySubscription(describer.LoadBalancerNatRule),
@@ -2308,8 +2324,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Network/routeTables",
 		ResourceLabel:        "Route Tables",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Route%20Table.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Route%20Table.svg"},
         },
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.RouteTables),
@@ -2342,8 +2358,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.DocumentDB/restorableDatabaseAccounts",
 		ResourceLabel:        "Restorable Database Account",
 		Tags:                 map[string][]string{
-            "category": {"Database"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Cosmos%20DB.svg"},
+            "category": {"Database"},
         },
 		ServiceName:          "DocumentDB",
 		ListDescriber:        DescribeBySubscription(describer.CosmosdbRestorableDatabaseAccount),
@@ -2359,8 +2375,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Network/applicationGateways",
 		ResourceLabel:        "Application Gateways",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Application%20Gateway.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Application%20Gateway.svg"},
         },
 		ServiceName:          "Network",
 		ListDescriber:        DescribeBySubscription(describer.ApplicationGateway),
@@ -2408,8 +2424,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.KeyVault/vaults/keys",
 		ResourceLabel:        "Key Vault Keys",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Key%20Vault.svg"},
             "category": {"Security"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Key%20Vault.svg"},
         },
 		ServiceName:          "KeyVault",
 		ListDescriber:        DescribeBySubscription(describer.KeyVaultKey),
@@ -2459,8 +2475,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.DBforMariaDB/servers/databases",
 		ResourceLabel:        "MariaDB Database",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Database%20for%20MariaDB.svg"},
             "category": {"Database"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Database%20for%20MariaDB.svg"},
         },
 		ServiceName:          "DBforMariaDB",
 		ListDescriber:        DescribeBySubscription(describer.MariadbDatabases),
@@ -2677,8 +2693,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.KeyVault/vaults/secrets",
 		ResourceLabel:        "Key Vault Secrets",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Key%20Vault%20Secret.svg"},
             "category": {"Security"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Key%20Vault%20Secret.svg"},
         },
 		ServiceName:          "KeyVault",
 		ListDescriber:        DescribeBySubscription(describer.KeyVaultSecret),
@@ -2762,8 +2778,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Compute/hostGroups",
 		ResourceLabel:        "Host Groups",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Host%20Group.svg"},
             "category": {"Compute"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Host%20Group.svg"},
         },
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeHostGroup),
@@ -2812,8 +2828,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Compute/sshPublicKeys",
 		ResourceLabel:        "SSH Key",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SSH%20key.svg"},
             "category": {"Management & Governance"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SSH%20key.svg"},
         },
 		ServiceName:          "Compute",
 		ListDescriber:        DescribeBySubscription(describer.ComputeSSHPublicKey),
@@ -2965,8 +2981,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.Devtestlab/labs",
 		ResourceLabel:        "DevTest Labs",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/DevTest%20Lab.svg"},
             "category": {"DevOps + Testing"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/DevTest%20Lab.svg"},
         },
 		ServiceName:          "DevTestLab",
 		ListDescriber:        DescribeBySubscription(describer.DevTestLabLab),
@@ -2999,8 +3015,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "Microsoft.PowerBIDedicated/capacities",
 		ResourceLabel:        "Power BI Embedded",
 		Tags:                 map[string][]string{
-            "category": {"Data and Analytics"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Power%20BI%20Embedded.svg"},
+            "category": {"Data and Analytics"},
         },
 		ServiceName:          "PowerBI",
 		ListDescriber:        DescribeBySubscription(describer.PowerBIDedicatedCapacity),
@@ -3011,13 +3027,13 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.ApplicationInsights/components": {
+	"Microsoft.Insights/components": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.ApplicationInsights/components",
+		ResourceName:         "Microsoft.Insights/components",
 		ResourceLabel:        "Application Insights Components",
 		Tags:                 map[string][]string{
-            "category": {"Data and Analytics"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Application%20Insights.svg"},
+            "category": {"Data and Analytics"},
         },
 		ServiceName:          "ApplicationInsights",
 		ListDescriber:        DescribeBySubscription(describer.ApplicationInsights),
