@@ -1118,6 +1118,14 @@ type DiagnosticSettingDescription struct {
 	ResourceGroup              string
 }
 
+//index:microsoft_insights_autoscalingsettings
+//getfilter:name=description.AutoscaleSettingsResource.name
+//getfilter:resource_group=description.ResourceGroup
+type AutoscaleSettingDescription struct {
+	AutoscaleSettingsResource armmonitor.AutoscaleSettingResource
+	ResourceGroup             string
+}
+
 //  =================== eventgrid ==================
 
 //index:microsoft_eventgrid_domains
@@ -1725,11 +1733,20 @@ type RecoveryServicesBackupJobDescription struct {
 	ResourceGroup string
 }
 
-//index:microsoft_recoveryservices_vault
-//getfilter:name=description.Vault.Name
+//index:microsoft_recoveryservices_policy
+//getfilter:name=description.Policy.Name
 //getfilter:resource_group=description.ResourceGroup
 type RecoveryServicesBackupPolicyDescription struct {
 	Policy        *armrecoveryservicesbackup.ProtectionPolicyResource
+	VaultName     string
+	ResourceGroup string
+}
+
+//index:microsoft_recoveryservices_item
+//getfilter:name=description.Item.Name
+//getfilter:resource_group=description.ResourceGroup
+type RecoveryServicesBackupItemDescription struct {
+	Item          *armrecoveryservicesbackup.ProtectedItemResource
 	VaultName     string
 	ResourceGroup string
 }
