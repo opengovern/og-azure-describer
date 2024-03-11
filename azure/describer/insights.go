@@ -234,3 +234,46 @@ func listAzureMonitorMetricStatistics(ctx context.Context, cred *azidentity.Clie
 	}
 	return values, nil
 }
+
+func AutoscaleSetting(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	monitorClientFactory, err := armmonitor.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := monitorClientFactory.NewAutoscaleSettingsClient()
+
+	pager := client.NewListBySubscriptionPager(nil)
+	var values []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Value {
+			resource := getAutoscaleSetting(v)
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getAutoscaleSetting(v *armmonitor.AutoscaleSettingResource) Resource {
+	resourceGroup := strings.Split(*v.ID, "/")[4]
+	return Resource{
+		ID:       *v.ID,
+		Name:     *v.Name,
+		Location: *v.Location,
+		Description: JSONAllFieldsMarshaller{
+			Value: model.AutoscaleSettingDescription{
+				AutoscaleSettingsResource: *v,
+				ResourceGroup:             resourceGroup,
+			},
+		},
+	}
+}

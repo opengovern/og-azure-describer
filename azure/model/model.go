@@ -1118,6 +1118,14 @@ type DiagnosticSettingDescription struct {
 	ResourceGroup              string
 }
 
+//index:microsoft_insights_autoscalingsettings
+//getfilter:name=description.AutoscaleSettingsResource.name
+//getfilter:resource_group=description.ResourceGroup
+type AutoscaleSettingDescription struct {
+	AutoscaleSettingsResource armmonitor.AutoscaleSettingResource
+	ResourceGroup             string
+}
+
 //  =================== eventgrid ==================
 
 //index:microsoft_eventgrid_domains

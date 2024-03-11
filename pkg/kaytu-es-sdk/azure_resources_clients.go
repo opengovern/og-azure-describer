@@ -743,7 +743,7 @@ type AutomationVariablesPaginator struct {
 }
 
 func (k Client) NewAutomationVariablesPaginator(filters []essdk.BoolFilter, limit *int64) (AutomationVariablesPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_automation_automationvariables", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_automation_automationaccounts_variables", filters, limit)
 	if err != nil {
 		return AutomationVariablesPaginator{}, err
 	}
@@ -2213,7 +2213,7 @@ type AppServiceWebAppSlotPaginator struct {
 }
 
 func (k Client) NewAppServiceWebAppSlotPaginator(filters []essdk.BoolFilter, limit *int64) (AppServiceWebAppSlotPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_web_staticsitesslot", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_web_sites_slots", filters, limit)
 	if err != nil {
 		return AppServiceWebAppSlotPaginator{}, err
 	}
@@ -3709,7 +3709,6 @@ var listBlueprintFilters = map[string]string{
 	"id":               "description.Blueprints.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Blueprint.Name",
-	"tags":             "description.Blueprint.Name",
 	"title":            "description.Blueprint.Name",
 }
 
@@ -3777,7 +3776,6 @@ var getBlueprintFilters = map[string]string{
 	"id":               "description.Blueprints.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Blueprint.Name",
-	"tags":             "description.Blueprint.Name",
 	"title":            "description.Blueprint.Name",
 }
 
@@ -11412,7 +11410,7 @@ type KubernetesServiceVersionPaginator struct {
 }
 
 func (k Client) NewKubernetesServiceVersionPaginator(filters []essdk.BoolFilter, limit *int64) (KubernetesServiceVersionPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_hybridcontainerservice_customlocations_orchestrators", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_hybridcontainerservice_locations_orchestrators", filters, limit)
 	if err != nil {
 		return KubernetesServiceVersionPaginator{}, err
 	}
@@ -24092,7 +24090,7 @@ type StorageBlobPaginator struct {
 }
 
 func (k Client) NewStorageBlobPaginator(filters []essdk.BoolFilter, limit *int64) (StorageBlobPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_blobs", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_blobservices", filters, limit)
 	if err != nil {
 		return StorageBlobPaginator{}, err
 	}
@@ -24442,7 +24440,7 @@ type StorageBlobServicePaginator struct {
 }
 
 func (k Client) NewStorageBlobServicePaginator(filters []essdk.BoolFilter, limit *int64) (StorageBlobServicePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_blobservives", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_blobservices", filters, limit)
 	if err != nil {
 		return StorageBlobServicePaginator{}, err
 	}
@@ -24735,7 +24733,7 @@ type StorageQueuePaginator struct {
 }
 
 func (k Client) NewStorageQueuePaginator(filters []essdk.BoolFilter, limit *int64) (StorageQueuePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_queues", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_queueservices", filters, limit)
 	if err != nil {
 		return StorageQueuePaginator{}, err
 	}
@@ -25010,7 +25008,7 @@ type StorageFileSharePaginator struct {
 }
 
 func (k Client) NewStorageFileSharePaginator(filters []essdk.BoolFilter, limit *int64) (StorageFileSharePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_fileshares", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_largefilesharesstate", filters, limit)
 	if err != nil {
 		return StorageFileSharePaginator{}, err
 	}
@@ -25302,7 +25300,7 @@ type StorageTablePaginator struct {
 }
 
 func (k Client) NewStorageTablePaginator(filters []essdk.BoolFilter, limit *int64) (StorageTablePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_tables", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_tableservices_tables", filters, limit)
 	if err != nil {
 		return StorageTablePaginator{}, err
 	}
@@ -25574,7 +25572,7 @@ type StorageTableServicePaginator struct {
 }
 
 func (k Client) NewStorageTableServicePaginator(filters []essdk.BoolFilter, limit *int64) (StorageTableServicePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_tableservices", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_tableservices", filters, limit)
 	if err != nil {
 		return StorageTableServicePaginator{}, err
 	}
@@ -30546,7 +30544,7 @@ type CosmosdbMongoDatabasePaginator struct {
 }
 
 func (k Client) NewCosmosdbMongoDatabasePaginator(filters []essdk.BoolFilter, limit *int64) (CosmosdbMongoDatabasePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_mongodatabases", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_databaseaccounts_mongodbdatabases", filters, limit)
 	if err != nil {
 		return CosmosdbMongoDatabasePaginator{}, err
 	}
@@ -30830,7 +30828,7 @@ type CosmosdbMongoCollectionPaginator struct {
 }
 
 func (k Client) NewCosmosdbMongoCollectionPaginator(filters []essdk.BoolFilter, limit *int64) (CosmosdbMongoCollectionPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_mongocollection", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_databaseaccounts_mongodbdatabases_collections", filters, limit)
 	if err != nil {
 		return CosmosdbMongoCollectionPaginator{}, err
 	}
@@ -31125,7 +31123,7 @@ type CosmosdbSqlDatabasePaginator struct {
 }
 
 func (k Client) NewCosmosdbSqlDatabasePaginator(filters []essdk.BoolFilter, limit *int64) (CosmosdbSqlDatabasePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_sqldatabases", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_databaseaccounts_sqldatabases", filters, limit)
 	if err != nil {
 		return CosmosdbSqlDatabasePaginator{}, err
 	}
@@ -32533,7 +32531,6 @@ var listDataProtectionBackupVaultsBackupPoliciesFilters = map[string]string{
 	"id":               "description.BackupPolicies.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.BackupPolicies.Name",
-	"tags":             "description.BackupPolicies.Name",
 	"title":            "description.BackupPolicies.Name",
 }
 
@@ -32601,7 +32598,6 @@ var getDataProtectionBackupVaultsBackupPoliciesFilters = map[string]string{
 	"id":               "description.BackupPolicies.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.BackupPolicies.Name",
-	"tags":             "description.BackupPolicies.Name",
 	"title":            "description.BackupPolicies.Name",
 }
 
@@ -33049,7 +33045,7 @@ type DataFactoryDatasetPaginator struct {
 }
 
 func (k Client) NewDataFactoryDatasetPaginator(filters []essdk.BoolFilter, limit *int64) (DataFactoryDatasetPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_factoriesdatasets", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_factories_datasets", filters, limit)
 	if err != nil {
 		return DataFactoryDatasetPaginator{}, err
 	}
@@ -33326,7 +33322,7 @@ type DataFactoryPipelinePaginator struct {
 }
 
 func (k Client) NewDataFactoryPipelinePaginator(filters []essdk.BoolFilter, limit *int64) (DataFactoryPipelinePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_factoriespipelines", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_factories_pipelines", filters, limit)
 	if err != nil {
 		return DataFactoryPipelinePaginator{}, err
 	}
@@ -34433,6 +34429,287 @@ func GetDiagnosticSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 // ==========================  END: DiagnosticSetting =============================
+
+// ==========================  START: AutoscaleSetting =============================
+
+type AutoscaleSetting struct {
+	Description   azure.AutoscaleSettingDescription `json:"description"`
+	Metadata      azure.Metadata                    `json:"metadata"`
+	ResourceJobID int                               `json:"resource_job_id"`
+	SourceJobID   int                               `json:"source_job_id"`
+	ResourceType  string                            `json:"resource_type"`
+	SourceType    string                            `json:"source_type"`
+	ID            string                            `json:"id"`
+	ARN           string                            `json:"arn"`
+	SourceID      string                            `json:"source_id"`
+}
+
+func (r *AutoscaleSetting) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.AutoscaleSettingDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type AutoscaleSettingHit struct {
+	ID      string           `json:"_id"`
+	Score   float64          `json:"_score"`
+	Index   string           `json:"_index"`
+	Type    string           `json:"_type"`
+	Version int64            `json:"_version,omitempty"`
+	Source  AutoscaleSetting `json:"_source"`
+	Sort    []interface{}    `json:"sort"`
+}
+
+type AutoscaleSettingHits struct {
+	Total essdk.SearchTotal     `json:"total"`
+	Hits  []AutoscaleSettingHit `json:"hits"`
+}
+
+type AutoscaleSettingSearchResponse struct {
+	PitID string               `json:"pit_id"`
+	Hits  AutoscaleSettingHits `json:"hits"`
+}
+
+type AutoscaleSettingPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAutoscaleSettingPaginator(filters []essdk.BoolFilter, limit *int64) (AutoscaleSettingPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_insights_autoscalesettings", filters, limit)
+	if err != nil {
+		return AutoscaleSettingPaginator{}, err
+	}
+
+	p := AutoscaleSettingPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AutoscaleSettingPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AutoscaleSettingPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p AutoscaleSettingPaginator) NextPage(ctx context.Context) ([]AutoscaleSetting, error) {
+	var response AutoscaleSettingSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AutoscaleSetting
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAutoscaleSettingFilters = map[string]string{
+	"enabled":                  "description.AutoscaleSettingsResource.Properties.Enabled",
+	"id":                       "description.AutoscaleSettingsResource.ID",
+	"kaytu_account_id":         "metadata.SourceID",
+	"name":                     "description.AutoscaleSettingsResource.Name",
+	"notifications":            "description.AutoscaleSettingsResource.Properties.Notifications",
+	"profiles":                 "description.AutoscaleSettingsResource.Properties.Profiles",
+	"resource_group":           "description.ResourceGroup",
+	"target_resource_location": "description.AutoscaleSettingsResource.Properties.TargetResourceLocation",
+	"target_resource_uri":      "description.AutoscaleSettingsResource.Properties.TargetResourceURI",
+	"title":                    "description.AutoscaleSettingsResource.Name",
+	"type":                     "description.AutoscaleSettingsResource.Type",
+}
+
+func ListAutoscaleSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAutoscaleSetting")
+	runtime.GC()
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAutoscaleSetting NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAutoscaleSetting NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAutoscaleSetting GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAutoscaleSetting GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAutoscaleSetting GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewAutoscaleSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAutoscaleSettingFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAutoscaleSetting NewAutoscaleSettingPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListAutoscaleSetting paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getAutoscaleSettingFilters = map[string]string{
+	"enabled":                  "description.AutoscaleSettingsResource.Properties.Enabled",
+	"id":                       "description.AutoscaleSettingsResource.ID",
+	"kaytu_account_id":         "metadata.SourceID",
+	"name":                     "description.AutoscaleSettingsResource.name",
+	"notifications":            "description.AutoscaleSettingsResource.Properties.Notifications",
+	"profiles":                 "description.AutoscaleSettingsResource.Properties.Profiles",
+	"resource_group":           "description.ResourceGroup",
+	"target_resource_location": "description.AutoscaleSettingsResource.Properties.TargetResourceLocation",
+	"target_resource_uri":      "description.AutoscaleSettingsResource.Properties.TargetResourceURI",
+	"title":                    "description.AutoscaleSettingsResource.Name",
+	"type":                     "description.AutoscaleSettingsResource.Type",
+}
+
+func GetAutoscaleSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAutoscaleSetting")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewAutoscaleSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAutoscaleSettingFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AutoscaleSetting =============================
 
 // ==========================  START: EventGridDomain =============================
 
@@ -36974,7 +37251,7 @@ type IOTHubDpsPaginator struct {
 }
 
 func (k Client) NewIOTHubDpsPaginator(filters []essdk.BoolFilter, limit *int64) (IOTHubDpsPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_devices_iothubdpses", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_devices_provisioningservices", filters, limit)
 	if err != nil {
 		return IOTHubDpsPaginator{}, err
 	}
@@ -43181,19 +43458,15 @@ func (p SpringCloudServicePaginator) NextPage(ctx context.Context) ([]SpringClou
 
 var listSpringCloudServiceFilters = map[string]string{
 	"diagnostic_settings": "description.DiagnosticSettingsResource",
-	"id":                  "description.ServiceResource.ID",
+	"id":                  "description.App.ID",
 	"kaytu_account_id":    "metadata.SourceID",
-	"name":                "description.ServiceResource.Name",
-	"provisioning_state":  "description.ServiceResource.ProvisioningState",
+	"name":                "description.App.Name",
+	"provisioning_state":  "description.App.Properties.ProvisioningState",
 	"resource_group":      "description.ResourceGroup",
-	"service_id":          "description.ServiceResource.ID",
-	"sku_capacity":        "description.ServiceResource.SKU.Capacity",
-	"sku_name":            "description.ServiceResource.SKU.Name",
-	"sku_tier":            "description.ServiceResource.SKU.Tier",
-	"tags":                "description.ServiceResource.Tags",
-	"title":               "description.ServiceResource.Name",
-	"type":                "description.ServiceResource.Type",
-	"version":             "description.ServiceResource.Plan.Version",
+	"tags":                "description.App.Tags",
+	"title":               "description.App.Name",
+	"type":                "description.App.Properties.AppType",
+	"version":             "description.App.Properties.SpringBootVersion",
 }
 
 func ListSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -43258,19 +43531,15 @@ func ListSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 var getSpringCloudServiceFilters = map[string]string{
 	"diagnostic_settings": "description.DiagnosticSettingsResource",
-	"id":                  "description.ServiceResource.ID",
+	"id":                  "description.App.ID",
 	"kaytu_account_id":    "metadata.SourceID",
 	"name":                "description.ServiceResource.name",
-	"provisioning_state":  "description.ServiceResource.ProvisioningState",
+	"provisioning_state":  "description.App.Properties.ProvisioningState",
 	"resource_group":      "description.ResourceGroup",
-	"service_id":          "description.ServiceResource.ID",
-	"sku_capacity":        "description.ServiceResource.SKU.Capacity",
-	"sku_name":            "description.ServiceResource.SKU.Name",
-	"sku_tier":            "description.ServiceResource.SKU.Tier",
-	"tags":                "description.ServiceResource.Tags",
-	"title":               "description.ServiceResource.Name",
-	"type":                "description.ServiceResource.Type",
-	"version":             "description.ServiceResource.Plan.Version",
+	"tags":                "description.App.Tags",
+	"title":               "description.App.Name",
+	"type":                "description.App.Properties.AppType",
+	"version":             "description.App.Properties.SpringBootVersion",
 }
 
 func GetSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -53600,7 +53869,7 @@ type LoadBalancerBackendAddressPoolPaginator struct {
 }
 
 func (k Client) NewLoadBalancerBackendAddressPoolPaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerBackendAddressPoolPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_loadbalancer_backendaddresspools", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_loadbalancers_backendaddresspools", filters, limit)
 	if err != nil {
 		return LoadBalancerBackendAddressPoolPaginator{}, err
 	}
@@ -55061,7 +55330,7 @@ type ManagementGroupPaginator struct {
 }
 
 func (k Client) NewManagementGroupPaginator(filters []essdk.BoolFilter, limit *int64) (ManagementGroupPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_management_groups", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_management_managementgroups", filters, limit)
 	if err != nil {
 		return ManagementGroupPaginator{}, err
 	}
@@ -55883,7 +56152,7 @@ type ResourceGroupPaginator struct {
 }
 
 func (k Client) NewResourceGroupPaginator(filters []essdk.BoolFilter, limit *int64) (ResourceGroupPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_resourcegroups", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_subscriptions_resourcegroups", filters, limit)
 	if err != nil {
 		return ResourceGroupPaginator{}, err
 	}
@@ -58559,7 +58828,7 @@ type ApplicationInsightsComponentPaginator struct {
 }
 
 func (k Client) NewApplicationInsightsComponentPaginator(filters []essdk.BoolFilter, limit *int64) (ApplicationInsightsComponentPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_applicationinsights_components", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_insights_components", filters, limit)
 	if err != nil {
 		return ApplicationInsightsComponentPaginator{}, err
 	}
