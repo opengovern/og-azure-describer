@@ -19,16 +19,6 @@ func tableAzureRecoveryServicesBackupPolicy(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "404"}),
 			},
-			KeyColumns: plugin.KeyColumnSlice{
-				{
-					Name:    "vault_name",
-					Require: plugin.Optional,
-				},
-				{
-					Name:    "resource_group",
-					Require: plugin.Optional,
-				},
-			},
 		},
 		Columns: azureColumns([]*plugin.Column{
 			// Azure standard columns
