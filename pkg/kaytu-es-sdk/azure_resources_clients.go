@@ -24090,7 +24090,7 @@ type StorageBlobPaginator struct {
 }
 
 func (k Client) NewStorageBlobPaginator(filters []essdk.BoolFilter, limit *int64) (StorageBlobPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_blobservices", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_blob", filters, limit)
 	if err != nil {
 		return StorageBlobPaginator{}, err
 	}
