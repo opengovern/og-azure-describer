@@ -1292,6 +1292,22 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.RecoveryServices/vaults/backupItems": {
+		Connector:     source.CloudAzure,
+		ResourceName:  "Microsoft.RecoveryServices/vaults/backupItems",
+		ResourceLabel: "Recovery Services Backup Items",
+		Tags: map[string][]string{
+			"logo_uri": {},
+		},
+		ServiceName:          "RecoveryServices",
+		ListDescriber:        DescribeBySubscription(describer.RecoveryServicesBackupItem),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "recoveryservices",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.RecoveryServices/vaults/backupPolicies": {
 		Connector:     source.CloudAzure,
 		ResourceName:  "Microsoft.RecoveryServices/vaults/backupPolicies",

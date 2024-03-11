@@ -10,12 +10,12 @@ import (
 
 //// TABLE DEFINITION ////
 
-func tableAzureRecoveryServicesBackupPolicy(_ context.Context) *plugin.Table {
+func tableAzureRecoveryServicesBackupItem(_ context.Context) *plugin.Table {
 	return &plugin.Table{
-		Name:        "azure_recovery_services_backup_policy",
-		Description: "Azure Recovery Services Backup Policy",
+		Name:        "azure_recovery_services_backup_item",
+		Description: "Azure Recovery Services Backup Item",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRecoveryServicesBackupPolicy,
+			Hydrate: kaytu.ListRecoveryServicesBackupItem,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "404"}),
 			},
@@ -35,12 +35,12 @@ func tableAzureRecoveryServicesBackupPolicy(_ context.Context) *plugin.Table {
 				Name:        "name",
 				Type:        proto.ColumnType_STRING,
 				Description: "The friendly name that identifies the table service",
-				Transform:   transform.FromField("Description.Policy.Name")},
+				Transform:   transform.FromField("Description.Item.Name")},
 			{
 				Name:        "id",
 				Description: "Contains ID to identify a table service uniquely",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Policy.ID"),
+				Transform:   transform.FromField("Description.Item.ID"),
 			},
 			{
 				Name:        "vault_name",
@@ -49,53 +49,42 @@ func tableAzureRecoveryServicesBackupPolicy(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.VaultName"),
 			},
 			{
-				Name:        "backup_management_type",
-				Description: "Backup management type",
+				Name:        "policy_name",
+				Description: "Backup item policy name",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Policy.Properties.BackupManagementType"),
+				Transform:   transform.FromField("Description.Item.Properties.PolicyName"),
 			},
 			{
-				Name:        "instant_rp_retention_range_in_days",
-				Description: "Backup management type",
+				Name:        "policy_id",
+				Description: "Backup item policy id",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Policy.Properties.InstantRpRetentionRangeInDays"),
+				Transform:   transform.FromField("Description.Item.Properties.PolicyID"),
 			},
 			{
-				Name:        "policy_type",
-				Description: "Backup management type",
+				Name:        "source_resource_id",
+				Description: "Backup item source resource identifier",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Policy.Properties.PolicyType"),
-			},
-			{
-				Name:        "protected_items_count",
-				Description: "ProtectedItemsCount",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Policy.Properties.ProtectedItemsCount"),
-			},
-			{
-				Name:        "retention_policy",
-				Description: "RetentionPolicy",
-				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Policy.Properties.RetentionPolicy"),
-			},
-			{
-				Name:        "schedule_policy",
-				Description: "SchedulePolicy",
-				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Policy.Properties.SchedulePolicy"),
+				Transform:   transform.FromField("Description.Item.Properties.SourceResourceID"),
 			},
 			// Azure standard columns
+			{
+				Name:        "region",
+				Description: ColumnDescriptionRegion,
+				Type:        proto.ColumnType_STRING,
+
+				Transform: transform.FromField("Description.Item.Location").Transform(formatRegion).Transform(toLower),
+			},
 			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Policy.Name")},
+				Transform:   transform.FromField("Description.Item.Name")},
 			{
 				Name:        "akas",
 				Description: ColumnDescriptionAkas,
 				Type:        proto.ColumnType_JSON,
 
-				Transform: transform.FromField("Description.Policy.ID").Transform(idToAkas),
+				Transform: transform.FromField("Description.Item.ID").Transform(idToAkas),
 			},
 			{
 				Name:        "resource_group",

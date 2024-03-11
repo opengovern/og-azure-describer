@@ -287,3 +287,78 @@ func GetRecoveryServicesBackupPolicy(policy *armrecoveryservicesbackup.Protectio
 		},
 	}
 }
+
+func RecoveryServicesBackupItem(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	vaultClientFactory, err := armrecoveryservices.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	vaultClient := vaultClientFactory.NewVaultsClient()
+
+	clientFactory, err := armrecoveryservicesbackup.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewBackupProtectedItemsClient()
+
+	var values []Resource
+	pager := vaultClient.NewListBySubscriptionIDPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, vault := range page.Value {
+			if vault.ID == nil || vault.Name == nil {
+				continue
+			}
+			resourceGroup := strings.Split(*vault.ID, "/")[4]
+			vaultBackupJobs, err := ListRecoveryServicesVaultBackupItems(ctx, client, *vault.Name, resourceGroup)
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range vaultBackupJobs {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func ListRecoveryServicesVaultBackupItems(ctx context.Context, client *armrecoveryservicesbackup.BackupProtectedItemsClient, vaultName, resourceGroup string) ([]Resource, error) {
+	pager := client.NewListPager(vaultName, resourceGroup, nil)
+	var resources []Resource
+
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, item := range page.Value {
+			resource := GetRecoveryServicesBackupItem(item, vaultName, resourceGroup)
+			if err != nil {
+				return nil, err
+			}
+			resources = append(resources, resource)
+		}
+	}
+	return resources, nil
+}
+
+func GetRecoveryServicesBackupItem(item *armrecoveryservicesbackup.ProtectedItemResource, vaultName, resourceGroup string) Resource {
+	return Resource{
+		Description: JSONAllFieldsMarshaller{
+			Value: model.RecoveryServicesBackupItemDescription{
+				ResourceGroup: resourceGroup,
+				VaultName:     vaultName,
+				Item:          item,
+			},
+		},
+	}
+}
