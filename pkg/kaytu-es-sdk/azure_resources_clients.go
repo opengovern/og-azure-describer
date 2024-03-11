@@ -743,7 +743,7 @@ type AutomationVariablesPaginator struct {
 }
 
 func (k Client) NewAutomationVariablesPaginator(filters []essdk.BoolFilter, limit *int64) (AutomationVariablesPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_automation_automationaccounts_variables", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_automation_automationvariables", filters, limit)
 	if err != nil {
 		return AutomationVariablesPaginator{}, err
 	}
@@ -2213,7 +2213,7 @@ type AppServiceWebAppSlotPaginator struct {
 }
 
 func (k Client) NewAppServiceWebAppSlotPaginator(filters []essdk.BoolFilter, limit *int64) (AppServiceWebAppSlotPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_web_sites_slots", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_web_staticsitesslot", filters, limit)
 	if err != nil {
 		return AppServiceWebAppSlotPaginator{}, err
 	}
@@ -3709,6 +3709,7 @@ var listBlueprintFilters = map[string]string{
 	"id":               "description.Blueprints.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Blueprint.Name",
+	"tags":             "description.Blueprint.Name",
 	"title":            "description.Blueprint.Name",
 }
 
@@ -3776,6 +3777,7 @@ var getBlueprintFilters = map[string]string{
 	"id":               "description.Blueprints.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Blueprint.Name",
+	"tags":             "description.Blueprint.Name",
 	"title":            "description.Blueprint.Name",
 }
 
@@ -11410,7 +11412,7 @@ type KubernetesServiceVersionPaginator struct {
 }
 
 func (k Client) NewKubernetesServiceVersionPaginator(filters []essdk.BoolFilter, limit *int64) (KubernetesServiceVersionPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_hybridcontainerservice_locations_orchestrators", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_hybridcontainerservice_customlocations_orchestrators", filters, limit)
 	if err != nil {
 		return KubernetesServiceVersionPaginator{}, err
 	}
@@ -24090,7 +24092,7 @@ type StorageBlobPaginator struct {
 }
 
 func (k Client) NewStorageBlobPaginator(filters []essdk.BoolFilter, limit *int64) (StorageBlobPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_blobservices", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_blobs", filters, limit)
 	if err != nil {
 		return StorageBlobPaginator{}, err
 	}
@@ -24440,7 +24442,7 @@ type StorageBlobServicePaginator struct {
 }
 
 func (k Client) NewStorageBlobServicePaginator(filters []essdk.BoolFilter, limit *int64) (StorageBlobServicePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_blobservices", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_blobservives", filters, limit)
 	if err != nil {
 		return StorageBlobServicePaginator{}, err
 	}
@@ -24733,7 +24735,7 @@ type StorageQueuePaginator struct {
 }
 
 func (k Client) NewStorageQueuePaginator(filters []essdk.BoolFilter, limit *int64) (StorageQueuePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_queueservices", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_queues", filters, limit)
 	if err != nil {
 		return StorageQueuePaginator{}, err
 	}
@@ -25008,7 +25010,7 @@ type StorageFileSharePaginator struct {
 }
 
 func (k Client) NewStorageFileSharePaginator(filters []essdk.BoolFilter, limit *int64) (StorageFileSharePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_largefilesharesstate", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_fileshares", filters, limit)
 	if err != nil {
 		return StorageFileSharePaginator{}, err
 	}
@@ -25300,7 +25302,7 @@ type StorageTablePaginator struct {
 }
 
 func (k Client) NewStorageTablePaginator(filters []essdk.BoolFilter, limit *int64) (StorageTablePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_tableservices_tables", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_tables", filters, limit)
 	if err != nil {
 		return StorageTablePaginator{}, err
 	}
@@ -25572,7 +25574,7 @@ type StorageTableServicePaginator struct {
 }
 
 func (k Client) NewStorageTableServicePaginator(filters []essdk.BoolFilter, limit *int64) (StorageTableServicePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_tableservices", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_tableservices", filters, limit)
 	if err != nil {
 		return StorageTableServicePaginator{}, err
 	}
@@ -30544,7 +30546,7 @@ type CosmosdbMongoDatabasePaginator struct {
 }
 
 func (k Client) NewCosmosdbMongoDatabasePaginator(filters []essdk.BoolFilter, limit *int64) (CosmosdbMongoDatabasePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_databaseaccounts_mongodbdatabases", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_mongodatabases", filters, limit)
 	if err != nil {
 		return CosmosdbMongoDatabasePaginator{}, err
 	}
@@ -30828,7 +30830,7 @@ type CosmosdbMongoCollectionPaginator struct {
 }
 
 func (k Client) NewCosmosdbMongoCollectionPaginator(filters []essdk.BoolFilter, limit *int64) (CosmosdbMongoCollectionPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_databaseaccounts_mongodbdatabases_collections", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_mongocollection", filters, limit)
 	if err != nil {
 		return CosmosdbMongoCollectionPaginator{}, err
 	}
@@ -31123,7 +31125,7 @@ type CosmosdbSqlDatabasePaginator struct {
 }
 
 func (k Client) NewCosmosdbSqlDatabasePaginator(filters []essdk.BoolFilter, limit *int64) (CosmosdbSqlDatabasePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_databaseaccounts_sqldatabases", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_documentdb_sqldatabases", filters, limit)
 	if err != nil {
 		return CosmosdbSqlDatabasePaginator{}, err
 	}
@@ -32531,6 +32533,7 @@ var listDataProtectionBackupVaultsBackupPoliciesFilters = map[string]string{
 	"id":               "description.BackupPolicies.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.BackupPolicies.Name",
+	"tags":             "description.BackupPolicies.Name",
 	"title":            "description.BackupPolicies.Name",
 }
 
@@ -32598,6 +32601,7 @@ var getDataProtectionBackupVaultsBackupPoliciesFilters = map[string]string{
 	"id":               "description.BackupPolicies.ID",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.BackupPolicies.Name",
+	"tags":             "description.BackupPolicies.Name",
 	"title":            "description.BackupPolicies.Name",
 }
 
@@ -33045,7 +33049,7 @@ type DataFactoryDatasetPaginator struct {
 }
 
 func (k Client) NewDataFactoryDatasetPaginator(filters []essdk.BoolFilter, limit *int64) (DataFactoryDatasetPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_factories_datasets", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_factoriesdatasets", filters, limit)
 	if err != nil {
 		return DataFactoryDatasetPaginator{}, err
 	}
@@ -33322,7 +33326,7 @@ type DataFactoryPipelinePaginator struct {
 }
 
 func (k Client) NewDataFactoryPipelinePaginator(filters []essdk.BoolFilter, limit *int64) (DataFactoryPipelinePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_factories_pipelines", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_datafactory_factoriespipelines", filters, limit)
 	if err != nil {
 		return DataFactoryPipelinePaginator{}, err
 	}
@@ -37251,7 +37255,7 @@ type IOTHubDpsPaginator struct {
 }
 
 func (k Client) NewIOTHubDpsPaginator(filters []essdk.BoolFilter, limit *int64) (IOTHubDpsPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_devices_provisioningservices", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_devices_iothubdpses", filters, limit)
 	if err != nil {
 		return IOTHubDpsPaginator{}, err
 	}
@@ -43458,15 +43462,19 @@ func (p SpringCloudServicePaginator) NextPage(ctx context.Context) ([]SpringClou
 
 var listSpringCloudServiceFilters = map[string]string{
 	"diagnostic_settings": "description.DiagnosticSettingsResource",
-	"id":                  "description.App.ID",
+	"id":                  "description.ServiceResource.ID",
 	"kaytu_account_id":    "metadata.SourceID",
-	"name":                "description.App.Name",
-	"provisioning_state":  "description.App.Properties.ProvisioningState",
+	"name":                "description.ServiceResource.Name",
+	"provisioning_state":  "description.ServiceResource.ProvisioningState",
 	"resource_group":      "description.ResourceGroup",
-	"tags":                "description.App.Tags",
-	"title":               "description.App.Name",
-	"type":                "description.App.Properties.AppType",
-	"version":             "description.App.Properties.SpringBootVersion",
+	"service_id":          "description.ServiceResource.ID",
+	"sku_capacity":        "description.ServiceResource.SKU.Capacity",
+	"sku_name":            "description.ServiceResource.SKU.Name",
+	"sku_tier":            "description.ServiceResource.SKU.Tier",
+	"tags":                "description.ServiceResource.Tags",
+	"title":               "description.ServiceResource.Name",
+	"type":                "description.ServiceResource.Type",
+	"version":             "description.ServiceResource.Plan.Version",
 }
 
 func ListSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -43531,15 +43539,19 @@ func ListSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 var getSpringCloudServiceFilters = map[string]string{
 	"diagnostic_settings": "description.DiagnosticSettingsResource",
-	"id":                  "description.App.ID",
+	"id":                  "description.ServiceResource.ID",
 	"kaytu_account_id":    "metadata.SourceID",
 	"name":                "description.ServiceResource.name",
-	"provisioning_state":  "description.App.Properties.ProvisioningState",
+	"provisioning_state":  "description.ServiceResource.ProvisioningState",
 	"resource_group":      "description.ResourceGroup",
-	"tags":                "description.App.Tags",
-	"title":               "description.App.Name",
-	"type":                "description.App.Properties.AppType",
-	"version":             "description.App.Properties.SpringBootVersion",
+	"service_id":          "description.ServiceResource.ID",
+	"sku_capacity":        "description.ServiceResource.SKU.Capacity",
+	"sku_name":            "description.ServiceResource.SKU.Name",
+	"sku_tier":            "description.ServiceResource.SKU.Tier",
+	"tags":                "description.ServiceResource.Tags",
+	"title":               "description.ServiceResource.Name",
+	"type":                "description.ServiceResource.Type",
+	"version":             "description.ServiceResource.Plan.Version",
 }
 
 func GetSpringCloudService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -53869,7 +53881,7 @@ type LoadBalancerBackendAddressPoolPaginator struct {
 }
 
 func (k Client) NewLoadBalancerBackendAddressPoolPaginator(filters []essdk.BoolFilter, limit *int64) (LoadBalancerBackendAddressPoolPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_network_loadbalancers_backendaddresspools", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_loadbalancer_backendaddresspools", filters, limit)
 	if err != nil {
 		return LoadBalancerBackendAddressPoolPaginator{}, err
 	}
@@ -55330,7 +55342,7 @@ type ManagementGroupPaginator struct {
 }
 
 func (k Client) NewManagementGroupPaginator(filters []essdk.BoolFilter, limit *int64) (ManagementGroupPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_management_managementgroups", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_management_groups", filters, limit)
 	if err != nil {
 		return ManagementGroupPaginator{}, err
 	}
@@ -56152,7 +56164,7 @@ type ResourceGroupPaginator struct {
 }
 
 func (k Client) NewResourceGroupPaginator(filters []essdk.BoolFilter, limit *int64) (ResourceGroupPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_subscriptions_resourcegroups", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_resourcegroups", filters, limit)
 	if err != nil {
 		return ResourceGroupPaginator{}, err
 	}
@@ -58828,7 +58840,7 @@ type ApplicationInsightsComponentPaginator struct {
 }
 
 func (k Client) NewApplicationInsightsComponentPaginator(filters []essdk.BoolFilter, limit *int64) (ApplicationInsightsComponentPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_insights_components", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_applicationinsights_components", filters, limit)
 	if err != nil {
 		return ApplicationInsightsComponentPaginator{}, err
 	}
