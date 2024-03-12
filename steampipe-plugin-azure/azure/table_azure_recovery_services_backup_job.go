@@ -30,7 +30,7 @@ func tableAzureRecoveryServicesBackupJob(_ context.Context) *plugin.Table {
 				},
 			},
 		},
-		Columns: azureColumns([]*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "Resource name associated with the resource.",
