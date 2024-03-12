@@ -6,6 +6,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservicesbackup/v3"
+	"reflect"
 	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
@@ -282,7 +283,22 @@ func GetRecoveryServicesBackupPolicy(policy *armrecoveryservicesbackup.Protectio
 			Value: model.RecoveryServicesBackupPolicyDescription{
 				ResourceGroup: resourceGroup,
 				VaultName:     vaultName,
-				Policy:        policy,
+				Policy: struct {
+					Name     *string
+					ID       *string
+					Type     *string
+					ETag     *string
+					Tags     map[string]*string
+					Location *string
+				}{
+					Name:     policy.Name,
+					ID:       policy.ID,
+					Location: policy.Location,
+					Type:     policy.Type,
+					Tags:     policy.Tags,
+					ETag:     policy.ETag,
+				},
+				Properties: extractData(policy.Properties),
 			},
 		},
 	}
@@ -342,9 +358,6 @@ func ListRecoveryServicesVaultBackupItems(ctx context.Context, client *armrecove
 		}
 		for _, item := range page.Value {
 			resource := GetRecoveryServicesBackupItem(item, vaultName, resourceGroup)
-			if err != nil {
-				return nil, err
-			}
 			resources = append(resources, resource)
 		}
 	}
@@ -357,8 +370,67 @@ func GetRecoveryServicesBackupItem(item *armrecoveryservicesbackup.ProtectedItem
 			Value: model.RecoveryServicesBackupItemDescription{
 				ResourceGroup: resourceGroup,
 				VaultName:     vaultName,
-				Item:          item,
+				Item: struct {
+					Name     *string
+					ID       *string
+					Type     *string
+					ETag     *string
+					Tags     map[string]*string
+					Location *string
+				}{
+					Name:     item.Name,
+					ID:       item.ID,
+					Location: item.Location,
+					Type:     item.Type,
+					Tags:     item.Tags,
+					ETag:     item.ETag,
+				},
+				Properties: extractData(item.Properties),
 			},
 		},
 	}
+}
+
+func extractData(obj interface{}) map[string]interface{} {
+	result := make(map[string]interface{})
+	v := reflect.ValueOf(obj)
+
+	// If the object is a pointer, we need to dereference it
+	if v.Kind() == reflect.Ptr {
+		v = v.Elem()
+	}
+
+	// Check if v is a struct
+	if v.Kind() != reflect.Struct {
+		return result
+	}
+
+	// Iterate over the fields of the struct
+	for i := 0; i < v.NumField(); i++ {
+		field := v.Field(i)
+		fieldType := v.Type().Field(i)
+
+		// Only deal with exported fields
+		if fieldType.PkgPath != "" {
+			continue
+		}
+
+		// If the field is a pointer, dereference it
+		if field.Kind() == reflect.Ptr {
+			if field.IsNil() {
+				result[fieldType.Name] = nil
+				continue
+			}
+			field = field.Elem()
+		}
+
+		// If the field is a struct, recursively extract its data
+		if field.Kind() == reflect.Struct {
+			result[fieldType.Name] = extractData(field.Interface())
+		} else {
+			result[fieldType.Name] = field.Interface()
+		}
+	}
+
+	return result
 }

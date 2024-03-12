@@ -49,22 +49,10 @@ func tableAzureRecoveryServicesBackupItem(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.VaultName"),
 			},
 			{
-				Name:        "policy_name",
-				Description: "Backup item policy name",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Item.Properties.PolicyName"),
-			},
-			{
-				Name:        "policy_id",
-				Description: "Backup item policy id",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Item.Properties.PolicyID"),
-			},
-			{
-				Name:        "source_resource_id",
-				Description: "Backup item source resource identifier",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Item.Properties.SourceResourceID"),
+				Name:        "properties",
+				Description: "Backup item properties",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Properties"),
 			},
 			// Azure standard columns
 			{

@@ -62,7 +62,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/privatedns/armprivatedns"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/purview/armpurview"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservicesbackup/v3"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armlinks"
@@ -906,6 +905,7 @@ type ComputeVirtualMachineDescription struct {
 	InterfaceIPConfigurations  []armnetwork.InterfaceIPConfiguration
 	PublicIPs                  []string
 	VirtualMachineExtension    []*armcompute.VirtualMachineExtension
+	ExtensionsSettings         map[string]map[string]interface{}
 	Assignments                *[]armguestconfiguration.Assignment
 	ResourceGroup              string
 }
@@ -1737,7 +1737,15 @@ type RecoveryServicesBackupJobDescription struct {
 //getfilter:name=description.Policy.Name
 //getfilter:resource_group=description.ResourceGroup
 type RecoveryServicesBackupPolicyDescription struct {
-	Policy        *armrecoveryservicesbackup.ProtectionPolicyResource
+	Policy struct {
+		Name     *string
+		ID       *string
+		Type     *string
+		ETag     *string
+		Tags     map[string]*string
+		Location *string
+	}
+	Properties    map[string]interface{}
 	VaultName     string
 	ResourceGroup string
 }
@@ -1746,7 +1754,15 @@ type RecoveryServicesBackupPolicyDescription struct {
 //getfilter:name=description.Item.Name
 //getfilter:resource_group=description.ResourceGroup
 type RecoveryServicesBackupItemDescription struct {
-	Item          *armrecoveryservicesbackup.ProtectedItemResource
+	Item struct {
+		Name     *string
+		ID       *string
+		Type     *string
+		ETag     *string
+		Tags     map[string]*string
+		Location *string
+	}
+	Properties    map[string]interface{}
 	VaultName     string
 	ResourceGroup string
 }

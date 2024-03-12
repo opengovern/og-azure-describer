@@ -280,7 +280,12 @@ func tableAzureComputeVirtualMachine(_ context.Context) *plugin.Table {
 				Name:        "extensions",
 				Description: "Specifies the details of VM Extensions.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.VirtualMachineInstanceView.Extensions")},
+				Transform:   transform.FromField("Description.VirtualMachineExtension")},
+			{
+				Name:        "extensions_settings",
+				Description: "Specifies the details of VM Extensions settings map.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.ExtensionsSettings")},
 			{
 				Name:        "guest_configuration_assignments",
 				Description: "Guest configuration assignments for a virtual machine.",
