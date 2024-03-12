@@ -1640,6 +1640,7 @@ type SqlServerDescription struct {
 	PrivateEndpointConnections     []*armsql.PrivateEndpointConnection
 	VirtualNetworkRules            []*armsql.VirtualNetworkRule
 	FailoverGroups                 []*armsql.FailoverGroup
+	AutomaticTuning                armsql.ServerAutomaticTuning
 	ResourceGroup                  string
 }
 

@@ -107,9 +107,14 @@ func tableAzureSQLServer(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.ServerVulnerabilityAssessments")},
 			{
 				Name:        "firewall_rules",
-				Description: "A list of firewall rules fro this server.",
+				Description: "A list of firewall rules for this server.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.FirewallRules")},
+			{
+				Name:        "automatic_tuning",
+				Description: "Automatic tuning setting for this server.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.AutomaticTuning")},
 			{
 				Name:        "encryption_protector",
 				Description: "The server encryption protector.",

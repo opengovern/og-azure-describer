@@ -25,6 +25,7 @@ func SqlServer(ctx context.Context, cred *azidentity.ClientSecretCredential, sub
 	serverSecurityClient := clientFactory.NewServerSecurityAlertPoliciesClient()
 	serverBlobClient := clientFactory.NewServerBlobAuditingPoliciesClient()
 	failoverClient := clientFactory.NewFailoverGroupsClient()
+	automaticTuningClient := clientFactory.NewServerAutomaticTuningClient()
 	client := clientFactory.NewServersClient()
 
 	pager := client.NewListPager(nil)
@@ -35,7 +36,7 @@ func SqlServer(ctx context.Context, cred *azidentity.ClientSecretCredential, sub
 			return nil, err
 		}
 		for _, server := range page.Value {
-			resource, err := GetSqlServer(ctx, failoverClient, virtualNetworkClient, privateEndpointClient, encryptionProtectorsClient, firewallRulesClient, serverVulnerabilityClient, serverAzureClient, serverSecurityClient, serverBlobClient, server)
+			resource, err := GetSqlServer(ctx, automaticTuningClient, failoverClient, virtualNetworkClient, privateEndpointClient, encryptionProtectorsClient, firewallRulesClient, serverVulnerabilityClient, serverAzureClient, serverSecurityClient, serverBlobClient, server)
 			if err != nil {
 				return nil, err
 			}
@@ -51,7 +52,7 @@ func SqlServer(ctx context.Context, cred *azidentity.ClientSecretCredential, sub
 	return values, err
 }
 
-func GetSqlServer(ctx context.Context, failoverClient *armsql.FailoverGroupsClient, virtualNetworkClient *armsql.VirtualNetworkRulesClient, privateEndpointClient *armsql.PrivateEndpointConnectionsClient, encryptionProtectorsClient *armsql.EncryptionProtectorsClient, firewallRulesClient *armsql.FirewallRulesClient, serverVulnerabilityClient *armsql.ServerVulnerabilityAssessmentsClient, serverAzureClient *armsql.ServerAzureADAdministratorsClient, serverSecurityClient *armsql.ServerSecurityAlertPoliciesClient, serverBlobClient *armsql.ServerBlobAuditingPoliciesClient, server *armsql.Server) (*Resource, error) {
+func GetSqlServer(ctx context.Context, automaticTuningClient *armsql.ServerAutomaticTuningClient, failoverClient *armsql.FailoverGroupsClient, virtualNetworkClient *armsql.VirtualNetworkRulesClient, privateEndpointClient *armsql.PrivateEndpointConnectionsClient, encryptionProtectorsClient *armsql.EncryptionProtectorsClient, firewallRulesClient *armsql.FirewallRulesClient, serverVulnerabilityClient *armsql.ServerVulnerabilityAssessmentsClient, serverAzureClient *armsql.ServerAzureADAdministratorsClient, serverSecurityClient *armsql.ServerSecurityAlertPoliciesClient, serverBlobClient *armsql.ServerBlobAuditingPoliciesClient, server *armsql.Server) (*Resource, error) {
 	resourceGroupName := strings.Split(string(*server.ID), "/")[4]
 
 	pager1 := serverBlobClient.NewListByServerPager(resourceGroupName, *server.Name, nil)
@@ -144,6 +145,11 @@ func GetSqlServer(ctx context.Context, failoverClient *armsql.FailoverGroupsClie
 		fop = append(fop, page9.Value...)
 	}
 
+	automaticTuning, err := automaticTuningClient.Get(ctx, resourceGroupName, *server.Name, nil)
+	if err != nil {
+		return nil, err
+	}
+
 	resource := Resource{
 		ID:       *server.ID,
 		Name:     *server.Name,
@@ -160,6 +166,7 @@ func GetSqlServer(ctx context.Context, failoverClient *armsql.FailoverGroupsClie
 				PrivateEndpointConnections:     pop,
 				VirtualNetworkRules:            nop,
 				FailoverGroups:                 fop,
+				AutomaticTuning:                automaticTuning.ServerAutomaticTuning,
 				ResourceGroup:                  resourceGroupName,
 			},
 		},
