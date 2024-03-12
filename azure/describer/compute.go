@@ -7,6 +7,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+	"path/filepath"
 	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
@@ -340,11 +341,15 @@ func getComputeVirtualMachine(ctx context.Context, vmClient *armcompute.VirtualM
 
 	var ipConfigs = make([]armnetwork.InterfaceIPConfiguration, 0, 0)
 	if virtualMachine.Properties.VirtualMachineScaleSet != nil && virtualMachine.Properties.VirtualMachineScaleSet.ID != nil {
+		vmstateName := filepath.Base(*virtualMachine.Properties.VirtualMachineScaleSet.ID)
 		pager := networkInterfaceClient.NewListVirtualMachineScaleSetNetworkInterfacesPager(
-			resourceGroupName, *virtualMachine.Properties.VirtualMachineScaleSet.ID, nil)
+			resourceGroupName, vmstateName, nil)
 		for pager.More() {
 			page, err := pager.NextPage(ctx)
 			if err != nil {
+				if strings.Contains(err.Error(), "ERROR CODE: NotFound") {
+					continue
+				}
 				return nil, err
 			}
 			for _, n := range page.Value {
@@ -412,7 +417,7 @@ func getComputeVirtualMachine(ctx context.Context, vmClient *armcompute.VirtualM
 	}
 	extensionsSettings := make(map[string]map[string]interface{})
 	for _, ex := range computeListOp.Value {
-		extensionsSettings[*ex.ID] = extractData(ex.Properties.Settings)
+		extensionsSettings[*ex.ID] = ex.Properties.Settings.(map[string]interface{})
 	}
 
 	resource := Resource{

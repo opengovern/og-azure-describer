@@ -51,7 +51,7 @@ func tableAzureRecoveryServicesBackupPolicy(_ context.Context) *plugin.Table {
 			{
 				Name:        "properties",
 				Description: "Backup policy properties",
-				Type:        proto.ColumnType_STRING,
+				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.Properties"),
 			},
 			// Azure standard columns
