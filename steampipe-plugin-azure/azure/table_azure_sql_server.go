@@ -107,9 +107,14 @@ func tableAzureSQLServer(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.ServerVulnerabilityAssessments")},
 			{
 				Name:        "firewall_rules",
-				Description: "A list of firewall rules fro this server.",
+				Description: "A list of firewall rules for this server.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.FirewallRules")},
+			{
+				Name:        "automatic_tuning",
+				Description: "Automatic tuning setting for this server.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.AutomaticTuning")},
 			{
 				Name:        "encryption_protector",
 				Description: "The server encryption protector.",
@@ -119,7 +124,7 @@ func tableAzureSQLServer(_ context.Context) *plugin.Table {
 				Name:        "private_endpoint_connections",
 				Description: "The private endpoint connections of the sql server.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Server.Properties.PrivateEndpointConnections")},
+				Transform:   transform.FromField("Description.PrivateEndpointConnections")},
 			{
 				Name:        "tags_src",
 				Description: "Specifies the set of tags attached to the server.",
@@ -133,6 +138,11 @@ func tableAzureSQLServer(_ context.Context) *plugin.Table {
 
 				// Steampipe standard columns
 				Transform: transform.FromField("Description.VirtualNetworkRules")},
+			{
+				Name:        "failover_groups",
+				Description: "A list of failover groups for this server.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.FailoverGroups")},
 
 			{
 				Name:        "title",
