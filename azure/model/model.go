@@ -1767,6 +1767,15 @@ type RecoveryServicesBackupItemDescription struct {
 	ResourceGroup string
 }
 
+//index:microsoft_recoveryservices_item
+//getfilter:name=description.Item.Name
+//getfilter:resource_group=description.ResourceGroup
+type RecoveryServicesBackupItemDescription struct {
+	Item          *armrecoveryservicesbackup.ProtectedItemResource
+	VaultName     string
+	ResourceGroup string
+}
+
 //  =================== kubernetes ==================
 
 //index:microsoft_hybridkubernetes_connectedcluster

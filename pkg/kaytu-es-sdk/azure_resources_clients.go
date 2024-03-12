@@ -24090,7 +24090,7 @@ type StorageBlobPaginator struct {
 }
 
 func (k Client) NewStorageBlobPaginator(filters []essdk.BoolFilter, limit *int64) (StorageBlobPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_blobservices", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_storage_storageaccounts_blob", filters, limit)
 	if err != nil {
 		return StorageBlobPaginator{}, err
 	}
@@ -27971,8 +27971,7 @@ var listComputeVirtualMachineFilters = map[string]string{
 	"disable_password_authentication":     "description.VirtualMachine.Properties.OSProfile.LinuxConfiguration.DisablePasswordAuthentication",
 	"enable_automatic_updates":            "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.EnableAutomaticUpdates",
 	"eviction_policy":                     "description.VirtualMachine.Properties.EvictionPolicy",
-	"extensions":                          "description.VirtualMachineExtension",
-	"extensions_settings":                 "description.ExtensionsSettings",
+	"extensions":                          "description.VirtualMachineInstanceView.Extensions",
 	"guest_configuration_assignments":     "description.Assignments",
 	"id":                                  "description.VirtualMachine.ID",
 	"identity":                            "description.VirtualMachine.Identity",
@@ -28089,8 +28088,7 @@ var getComputeVirtualMachineFilters = map[string]string{
 	"disable_password_authentication":     "description.VirtualMachine.Properties.OSProfile.LinuxConfiguration.DisablePasswordAuthentication",
 	"enable_automatic_updates":            "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.EnableAutomaticUpdates",
 	"eviction_policy":                     "description.VirtualMachine.Properties.EvictionPolicy",
-	"extensions":                          "description.VirtualMachineExtension",
-	"extensions_settings":                 "description.ExtensionsSettings",
+	"extensions":                          "description.VirtualMachineInstanceView.Extensions",
 	"guest_configuration_assignments":     "description.Assignments",
 	"id":                                  "description.VirtualMachine.ID",
 	"identity":                            "description.VirtualMachine.Identity",
