@@ -410,6 +410,10 @@ func getComputeVirtualMachine(ctx context.Context, vmClient *armcompute.VirtualM
 		}
 		computeInstanceViewOp.VirtualMachineInstanceView.Extensions[idx] = ex
 	}
+	extensionsSettings := make(map[string]map[string]interface{})
+	for _, ex := range computeListOp.Value {
+		extensionsSettings[*ex.ID] = extractData(ex.Properties.Settings)
+	}
 
 	resource := Resource{
 		ID:       *virtualMachine.ID,
@@ -422,6 +426,7 @@ func getComputeVirtualMachine(ctx context.Context, vmClient *armcompute.VirtualM
 				InterfaceIPConfigurations:  ipConfigs,
 				PublicIPs:                  publicIPs,
 				VirtualMachineExtension:    computeListOp.Value,
+				ExtensionsSettings:         extensionsSettings,
 				Assignments:                &configurationListOp,
 				ResourceGroup:              resourceGroupName,
 			},

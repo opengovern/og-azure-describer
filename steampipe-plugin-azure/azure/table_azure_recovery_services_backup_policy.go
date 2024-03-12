@@ -19,6 +19,16 @@ func tableAzureRecoveryServicesBackupPolicy(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "404"}),
 			},
+			KeyColumns: plugin.KeyColumnSlice{
+				{
+					Name:    "vault_name",
+					Require: plugin.Optional,
+				},
+				{
+					Name:    "resource_group",
+					Require: plugin.Optional,
+				},
+			},
 		},
 		Columns: azureColumns([]*plugin.Column{
 			{
@@ -34,45 +44,15 @@ func tableAzureRecoveryServicesBackupPolicy(_ context.Context) *plugin.Table {
 			},
 			{
 				Name:        "vault_name",
-				Description: "Backup item vault name",
+				Description: "Backup policy vault name",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.VaultName"),
 			},
 			{
-				Name:        "backup_management_type",
-				Description: "Backup management type",
+				Name:        "properties",
+				Description: "Backup policy properties",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Policy.Properties.BackupManagementType"),
-			},
-			{
-				Name:        "instant_rp_retention_range_in_days",
-				Description: "Backup management type",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Policy.Properties.InstantRpRetentionRangeInDays"),
-			},
-			{
-				Name:        "policy_type",
-				Description: "Backup management type",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Policy.Properties.PolicyType"),
-			},
-			{
-				Name:        "protected_items_count",
-				Description: "ProtectedItemsCount",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Policy.Properties.ProtectedItemsCount"),
-			},
-			{
-				Name:        "retention_policy",
-				Description: "RetentionPolicy",
-				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Policy.Properties.RetentionPolicy"),
-			},
-			{
-				Name:        "schedule_policy",
-				Description: "SchedulePolicy",
-				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Policy.Properties.SchedulePolicy"),
+				Transform:   transform.FromField("Description.Properties"),
 			},
 			// Azure standard columns
 			{

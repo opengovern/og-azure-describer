@@ -27971,7 +27971,8 @@ var listComputeVirtualMachineFilters = map[string]string{
 	"disable_password_authentication":     "description.VirtualMachine.Properties.OSProfile.LinuxConfiguration.DisablePasswordAuthentication",
 	"enable_automatic_updates":            "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.EnableAutomaticUpdates",
 	"eviction_policy":                     "description.VirtualMachine.Properties.EvictionPolicy",
-	"extensions":                          "description.VirtualMachineInstanceView.Extensions",
+	"extensions":                          "description.VirtualMachineExtension",
+	"extensions_settings":                 "description.ExtensionsSettings",
 	"guest_configuration_assignments":     "description.Assignments",
 	"id":                                  "description.VirtualMachine.ID",
 	"identity":                            "description.VirtualMachine.Identity",
@@ -28088,7 +28089,8 @@ var getComputeVirtualMachineFilters = map[string]string{
 	"disable_password_authentication":     "description.VirtualMachine.Properties.OSProfile.LinuxConfiguration.DisablePasswordAuthentication",
 	"enable_automatic_updates":            "description.VirtualMachine.Properties.OSProfile.WindowsConfiguration.EnableAutomaticUpdates",
 	"eviction_policy":                     "description.VirtualMachine.Properties.EvictionPolicy",
-	"extensions":                          "description.VirtualMachineInstanceView.Extensions",
+	"extensions":                          "description.VirtualMachineExtension",
+	"extensions_settings":                 "description.ExtensionsSettings",
 	"guest_configuration_assignments":     "description.Assignments",
 	"id":                                  "description.VirtualMachine.ID",
 	"identity":                            "description.VirtualMachine.Identity",
@@ -52502,18 +52504,13 @@ func (p RecoveryServicesBackupPolicyPaginator) NextPage(ctx context.Context) ([]
 }
 
 var listRecoveryServicesBackupPolicyFilters = map[string]string{
-	"backup_management_type":             "description.Policy.Properties.BackupManagementType",
-	"id":                                 "description.Policy.ID",
-	"instant_rp_retention_range_in_days": "description.Policy.Properties.InstantRpRetentionRangeInDays",
-	"kaytu_account_id":                   "metadata.SourceID",
-	"name":                               "description.Policy.Name",
-	"policy_type":                        "description.Policy.Properties.PolicyType",
-	"protected_items_count":              "description.Policy.Properties.ProtectedItemsCount",
-	"resource_group":                     "description.ResourceGroup",
-	"retention_policy":                   "description.Policy.Properties.RetentionPolicy",
-	"schedule_policy":                    "description.Policy.Properties.SchedulePolicy",
-	"title":                              "description.Policy.Name",
-	"vault_name":                         "description.VaultName",
+	"id":               "description.Policy.ID",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Policy.Name",
+	"properties":       "description.Properties",
+	"resource_group":   "description.ResourceGroup",
+	"title":            "description.Policy.Name",
+	"vault_name":       "description.VaultName",
 }
 
 func ListRecoveryServicesBackupPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -52577,18 +52574,13 @@ func ListRecoveryServicesBackupPolicy(ctx context.Context, d *plugin.QueryData, 
 }
 
 var getRecoveryServicesBackupPolicyFilters = map[string]string{
-	"backup_management_type":             "description.Policy.Properties.BackupManagementType",
-	"id":                                 "description.Policy.ID",
-	"instant_rp_retention_range_in_days": "description.Policy.Properties.InstantRpRetentionRangeInDays",
-	"kaytu_account_id":                   "metadata.SourceID",
-	"name":                               "description.Policy.Name",
-	"policy_type":                        "description.Policy.Properties.PolicyType",
-	"protected_items_count":              "description.Policy.Properties.ProtectedItemsCount",
-	"resource_group":                     "description.ResourceGroup",
-	"retention_policy":                   "description.Policy.Properties.RetentionPolicy",
-	"schedule_policy":                    "description.Policy.Properties.SchedulePolicy",
-	"title":                              "description.Policy.Name",
-	"vault_name":                         "description.VaultName",
+	"id":               "description.Policy.ID",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Policy.Name",
+	"properties":       "description.Properties",
+	"resource_group":   "description.ResourceGroup",
+	"title":            "description.Policy.Name",
+	"vault_name":       "description.VaultName",
 }
 
 func GetRecoveryServicesBackupPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -52785,15 +52777,13 @@ func (p RecoveryServicesBackupItemPaginator) NextPage(ctx context.Context) ([]Re
 }
 
 var listRecoveryServicesBackupItemFilters = map[string]string{
-	"id":                 "description.Item.ID",
-	"kaytu_account_id":   "metadata.SourceID",
-	"name":               "description.Item.Name",
-	"policy_id":          "description.Item.Properties.PolicyID",
-	"policy_name":        "description.Item.Properties.PolicyName",
-	"resource_group":     "description.ResourceGroup",
-	"source_resource_id": "description.Item.Properties.SourceResourceID",
-	"title":              "description.Item.Name",
-	"vault_name":         "description.VaultName",
+	"id":               "description.Item.ID",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Item.Name",
+	"properties":       "description.Properties",
+	"resource_group":   "description.ResourceGroup",
+	"title":            "description.Item.Name",
+	"vault_name":       "description.VaultName",
 }
 
 func ListRecoveryServicesBackupItem(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -52857,15 +52847,13 @@ func ListRecoveryServicesBackupItem(ctx context.Context, d *plugin.QueryData, _ 
 }
 
 var getRecoveryServicesBackupItemFilters = map[string]string{
-	"id":                 "description.Item.ID",
-	"kaytu_account_id":   "metadata.SourceID",
-	"name":               "description.Item.Name",
-	"policy_id":          "description.Item.Properties.PolicyID",
-	"policy_name":        "description.Item.Properties.PolicyName",
-	"resource_group":     "description.ResourceGroup",
-	"source_resource_id": "description.Item.Properties.SourceResourceID",
-	"title":              "description.Item.Name",
-	"vault_name":         "description.VaultName",
+	"id":               "description.Item.ID",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Item.Name",
+	"properties":       "description.Properties",
+	"resource_group":   "description.ResourceGroup",
+	"title":            "description.Item.Name",
+	"vault_name":       "description.VaultName",
 }
 
 func GetRecoveryServicesBackupItem(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
