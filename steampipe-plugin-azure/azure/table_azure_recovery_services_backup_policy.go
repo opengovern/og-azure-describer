@@ -30,7 +30,7 @@ func tableAzureRecoveryServicesBackupPolicy(_ context.Context) *plugin.Table {
 				},
 			},
 		},
-		Columns: azureColumns([]*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Type:        proto.ColumnType_STRING,
