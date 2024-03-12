@@ -1639,6 +1639,7 @@ type SqlServerDescription struct {
 	EncryptionProtectors           []*armsql.EncryptionProtector
 	PrivateEndpointConnections     []*armsql.PrivateEndpointConnection
 	VirtualNetworkRules            []*armsql.VirtualNetworkRule
+	FailoverGroups                 []*armsql.FailoverGroup
 	ResourceGroup                  string
 }
 
