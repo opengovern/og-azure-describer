@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/keyvault/azcertificates"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"strings"
@@ -169,7 +170,7 @@ func KeyVault(ctx context.Context, cred *azidentity.ClientSecretCredential, subs
 			return nil, err
 		}
 		for _, vault := range page.Value {
-			resource, err := getKeyVault(ctx, vault, vaultsClient, diagnosticClient)
+			resource, err := getKeyVault(ctx, cred, vault, vaultsClient, diagnosticClient)
 			if err != nil {
 				return nil, err
 			}
@@ -185,7 +186,7 @@ func KeyVault(ctx context.Context, cred *azidentity.ClientSecretCredential, subs
 	return values, nil
 }
 
-func getKeyVault(ctx context.Context, vault *armkeyvault.Resource, vaultsClient *armkeyvault.VaultsClient, diagnosticClient *armmonitor.DiagnosticSettingsClient) (*Resource, error) {
+func getKeyVault(ctx context.Context, cred *azidentity.ClientSecretCredential, vault *armkeyvault.Resource, vaultsClient *armkeyvault.VaultsClient, diagnosticClient *armmonitor.DiagnosticSettingsClient) (*Resource, error) {
 	name := *vault.Name
 	resourceGroup := strings.Split(*vault.ID, "/")[4]
 
@@ -207,6 +208,35 @@ func getKeyVault(ctx context.Context, vault *armkeyvault.Resource, vaultsClient 
 		insightsListOp = append(insightsListOp, page.Value...)
 	}
 
+	client, err := azcertificates.NewClient(*keyVaultGetOp.Vault.Properties.VaultURI, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	var certificates []struct {
+		Item   *azcertificates.CertificateItem
+		Policy azcertificates.CertificatePolicy
+	}
+	pager2 := client.NewListCertificatesPager(nil)
+	for pager2.More() {
+		page, err := pager2.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, c := range page.Value {
+			policy, err := client.GetCertificatePolicy(ctx, c.ID.Name(), nil)
+			if err != nil {
+				return nil, err
+			}
+			certificates = append(certificates, struct {
+				Item   *azcertificates.CertificateItem
+				Policy azcertificates.CertificatePolicy
+			}{
+				Item:   c,
+				Policy: policy.CertificatePolicy,
+			})
+		}
+	}
+
 	resource := Resource{
 		ID:       *vault.ID,
 		Name:     *vault.Name,
@@ -215,6 +245,7 @@ func getKeyVault(ctx context.Context, vault *armkeyvault.Resource, vaultsClient 
 			Value: model.KeyVaultDescription{
 				Resource:                    *vault,
 				Vault:                       keyVaultGetOp.Vault,
+				Certificates:                certificates,
 				DiagnosticSettingsResources: insightsListOp,
 				ResourceGroup:               resourceGroup,
 			},

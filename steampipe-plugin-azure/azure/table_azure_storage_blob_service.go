@@ -17,8 +17,7 @@ func tableAzureStorageBlobService(_ context.Context) *plugin.Table {
 		Name:        "azure_storage_blob_service",
 		Description: "Azure Storage Blob Service",
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.AllColumns([]string{"storage_account_name", "resource_group"}),
-			Hydrate:    kaytu.GetStorageBlobService,
+			Hydrate: kaytu.GetStorageBlobService,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound"}),
 			},

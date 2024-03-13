@@ -37595,6 +37595,7 @@ func (p KeyVaultPaginator) NextPage(ctx context.Context) ([]KeyVault, error) {
 }
 
 var listKeyVaultFilters = map[string]string{
+	"certificates":                    "description.Certificates",
 	"create_mode":                     "description.Vault.Properties.CreateMode",
 	"diagnostic_settings":             "description.DiagnosticSettingsResources",
 	"enable_rbac_authorization":       "description.Vault.Properties.EnableRbacAuthorization",
@@ -37679,6 +37680,7 @@ func ListKeyVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 }
 
 var getKeyVaultFilters = map[string]string{
+	"certificates":                    "description.Certificates",
 	"create_mode":                     "description.Vault.Properties.CreateMode",
 	"diagnostic_settings":             "description.DiagnosticSettingsResources",
 	"enable_rbac_authorization":       "description.Vault.Properties.EnableRbacAuthorization",
@@ -51608,6 +51610,7 @@ var listStorageAccountFilters = map[string]string{
 	"queue_logging_version":                                  "description.StorageServiceProperties.Logging.Version",
 	"queue_logging_write":                                    "description.StorageServiceProperties.Logging.Write",
 	"require_infrastructure_encryption":                      "description.Account.Properties.Encryption.RequireInfrastructureEncryption",
+	"sas_policy":                                             "description.Account.Properties.SasPolicy",
 	"secondary_location":                                     "description.Account.Properties.SecondaryLocation",
 	"sku_name":                                               "description.Account.SKU.Name",
 	"sku_tier":                                               "description.Account.SKU.Tier",
@@ -51730,6 +51733,7 @@ var getStorageAccountFilters = map[string]string{
 	"queue_logging_write":                                    "description.StorageServiceProperties.Logging.Write",
 	"require_infrastructure_encryption":                      "description.Account.Properties.Encryption.RequireInfrastructureEncryption",
 	"resource_group":                                         "description.ResourceGroup",
+	"sas_policy":                                             "description.Account.Properties.SasPolicy",
 	"secondary_location":                                     "description.Account.Properties.SecondaryLocation",
 	"sku_name":                                               "description.Account.SKU.Name",
 	"sku_tier":                                               "description.Account.SKU.Tier",

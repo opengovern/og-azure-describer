@@ -17,8 +17,7 @@ func tableAzureStorageBlob(_ context.Context) *plugin.Table {
 		Name:        "azure_storage_blob",
 		Description: "Azure Storage Blob",
 		List: &plugin.ListConfig{
-			KeyColumns: plugin.AllColumns([]string{"resource_group", "storage_account_name"}),
-			Hydrate:    kaytu.ListStorageBlob,
+			Hydrate: kaytu.ListStorageBlob,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			// Basic info

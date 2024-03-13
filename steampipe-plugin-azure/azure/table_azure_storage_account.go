@@ -359,6 +359,13 @@ func tableAzureStorageAccount(_ context.Context) *plugin.Table {
 				Transform:
 				// Steampipe standard columns
 				transform.FromField("Description.Account.Properties.NetworkRuleSet.VirtualNetworkRules")},
+			{
+				Name:        "sas_policy",
+				Description: "A list of virtual network rules.",
+				Type:        proto.ColumnType_JSON,
+				Transform:
+				// Steampipe standard columns
+				transform.FromField("Description.Account.Properties.SasPolicy")},
 
 			{
 				Name:        "title",

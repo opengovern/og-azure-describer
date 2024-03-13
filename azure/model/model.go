@@ -3,6 +3,7 @@
 package model
 
 import (
+	"github.com/Azure/azure-sdk-for-go/sdk/keyvault/azcertificates"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/analysisservices/armanalysisservices"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
@@ -1227,8 +1228,12 @@ type IOTHubDpsDescription struct {
 //getfilter:name=description.Resource.name
 //getfilter:resource_group=description.ResourceGroup
 type KeyVaultDescription struct {
-	Resource                    armkeyvault.Resource
-	Vault                       armkeyvault.Vault
+	Resource     armkeyvault.Resource
+	Vault        armkeyvault.Vault
+	Certificates []struct {
+		Item   *azcertificates.CertificateItem
+		Policy azcertificates.CertificatePolicy
+	}
 	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
 }
