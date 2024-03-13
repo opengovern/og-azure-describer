@@ -137,12 +137,6 @@ func tableAzureKeyVault(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.From(extractKeyVaultPrivateEndpointConnections),
 			},
-			{
-				Name:        "certificates",
-				Description: "List of certificates associated with the key vault.",
-				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Certificates"),
-			},
 
 			// Steampipe standard columns
 			{

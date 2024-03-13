@@ -1228,14 +1228,19 @@ type IOTHubDpsDescription struct {
 //getfilter:name=description.Resource.name
 //getfilter:resource_group=description.ResourceGroup
 type KeyVaultDescription struct {
-	Resource     armkeyvault.Resource
-	Vault        armkeyvault.Vault
-	Certificates []struct {
-		Item   *azcertificates.CertificateItem
-		Policy azcertificates.CertificatePolicy
-	}
+	Resource                    armkeyvault.Resource
+	Vault                       armkeyvault.Vault
 	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
+}
+
+//index:microsoft_keyvault_vaults_certificates
+//getfilter:name=description.Resource.name
+//getfilter:resource_group=description.ResourceGroup
+type KeyVaultCertificateDescription struct {
+	Policy        azcertificates.CertificatePolicy
+	Vault         armkeyvault.Resource
+	ResourceGroup string
 }
 
 //index:microsoft_keyvault_deletedvaults
