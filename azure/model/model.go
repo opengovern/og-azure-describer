@@ -3,6 +3,7 @@
 package model
 
 import (
+	"github.com/Azure/azure-sdk-for-go/sdk/keyvault/azcertificates"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/analysisservices/armanalysisservices"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
@@ -1231,6 +1232,15 @@ type KeyVaultDescription struct {
 	Vault                       armkeyvault.Vault
 	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
+}
+
+//index:microsoft_keyvault_vaults_certificates
+//getfilter:name=description.Resource.name
+//getfilter:resource_group=description.ResourceGroup
+type KeyVaultCertificateDescription struct {
+	Policy        azcertificates.CertificatePolicy
+	Vault         armkeyvault.Resource
+	ResourceGroup string
 }
 
 //index:microsoft_keyvault_deletedvaults

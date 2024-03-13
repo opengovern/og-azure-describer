@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/keyvault/azcertificates"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"strings"
@@ -469,4 +470,85 @@ func GetKeyVaultKeyVersion(ctx context.Context, resourceGroup string, vault *arm
 		},
 	}
 	return &resource
+}
+
+func KeyVaultCertificate(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armkeyvault.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	vaultsClient := clientFactory.NewVaultsClient()
+
+	maxResults := int32(100)
+	options := &armkeyvault.VaultsClientListOptions{
+		Top: &maxResults,
+	}
+	var values []Resource
+	pager := vaultsClient.NewListPager(options)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, vault := range page.Value {
+			resource, err := getKeyVaultCertificates(ctx, cred, vault, vaultsClient)
+			if err != nil {
+				return nil, err
+			}
+			for _, res := range resource {
+				if stream != nil {
+					if err := (*stream)(res); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, res)
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func getKeyVaultCertificates(ctx context.Context, cred *azidentity.ClientSecretCredential, vault *armkeyvault.Resource, vaultsClient *armkeyvault.VaultsClient) ([]Resource, error) {
+	name := *vault.Name
+	resourceGroup := strings.Split(*vault.ID, "/")[4]
+
+	keyVaultGetOp, err := vaultsClient.Get(ctx, resourceGroup, name, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	client, err := azcertificates.NewClient(*keyVaultGetOp.Vault.Properties.VaultURI, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	var resources []Resource
+	pager2 := client.NewListCertificatesPager(nil)
+	for pager2.More() {
+		page, err := pager2.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, c := range page.Value {
+			policy, err := client.GetCertificatePolicy(ctx, c.ID.Name(), nil)
+			if err != nil {
+				return nil, err
+			}
+			resource := Resource{
+				ID:       *vault.ID,
+				Name:     *vault.Name,
+				Location: *vault.Location,
+				Description: JSONAllFieldsMarshaller{
+					Value: model.KeyVaultCertificateDescription{
+						Policy:        policy.CertificatePolicy,
+						Vault:         *vault,
+						ResourceGroup: resourceGroup,
+					},
+				},
+			}
+			resources = append(resources, resource)
+		}
+	}
+
+	return resources, nil
 }

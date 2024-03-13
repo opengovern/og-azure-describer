@@ -8,7 +8,7 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
-//// TABLE DEFINITION
+//// TABLE DEFINITIO
 
 func tableAzureStorageContainer(_ context.Context) *plugin.Table {
 	return &plugin.Table{
