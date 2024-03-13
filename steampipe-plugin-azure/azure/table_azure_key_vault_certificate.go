@@ -16,7 +16,7 @@ func tableAzureKeyVaultCertificate(_ context.Context) *plugin.Table {
 		Name:        "azure_key_vault_certificate",
 		Description: "Azure Key Vault Certificate",
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.AllColumns([]string{"vault_name", "name", "resource_group"}),
+			KeyColumns: plugin.AllColumns([]string{"vault_name", "resource_group"}),
 			Hydrate:    kaytu.GetKeyVaultCertificate,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
