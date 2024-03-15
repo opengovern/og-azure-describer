@@ -72,7 +72,7 @@ func ExtractTableName(resourceType string) string {
 
 func ExtractResourceType(tableName string) string {
 	tableName = strings.ToLower(tableName)
-	return strings.ToLower(azureReverseMap[tableName])
+	return strings.ToLower(AzureReverseMap[tableName])
 }
 
 func GetResourceTypeByTableName(tableName string) string {

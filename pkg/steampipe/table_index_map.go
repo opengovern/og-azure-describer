@@ -425,7 +425,7 @@ var AzureDescriptionMap = map[string]interface{}{
   "Microsoft.Insights/components": kaytu.ApplicationInsightsComponent{},
 }
 
-var azureReverseMap = map[string]string{
+var AzureReverseMap = map[string]string{
   "azure_app_containerapps": "Microsoft.App/containerApps",
   "azure_app_managedenvironments": "Microsoft.App/managedEnvironments",
   "azure_blueprint_blueprints": "Microsoft.Blueprint/blueprints",
