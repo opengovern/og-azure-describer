@@ -23,6 +23,8 @@ var rootCmd = &cobra.Command{
 	Use:   "kaytu-azure-describer",
 	Short: "kaytu azure describer manual",
 	RunE: func(cmd *cobra.Command, args []string) error {
+		resourceType = "Microsoft.Resources/users"
+		subscriptionID = "710e21af-6987-4f5d-80a0-d2ef06f8645b"
 		logger, _ := zap.NewProduction()
 		output, err := azure.GetResources(
 			context.Background(),
@@ -31,9 +33,9 @@ var rootCmd = &cobra.Command{
 			enums.DescribeTriggerTypeManual,
 			[]string{subscriptionID},
 			azure.AuthConfig{
-				TenantID:            tenantID,
-				ClientID:            clientID,
-				ClientSecret:        clientSecret,
+				TenantID:            "4725ad3d-5ab0-4f42-8a4a-fdee5ef586c5",     // tenantID,
+				ClientID:            "08618331-3f87-4d97-bbe0-e3c4f06ae3cb",     // clientID,
+				ClientSecret:        "c3~8Q~LDreBuHUwEAQGho2zLF1mcskeU3L4C-agy", // clientSecret,
 				CertificatePath:     "",
 				CertificatePassword: "",
 				Username:            "",
@@ -44,7 +46,7 @@ var rootCmd = &cobra.Command{
 			nil,
 		)
 		if err != nil {
-			return fmt.Errorf("AWS: %w", err)
+			return fmt.Errorf("Azure: %w", err)
 		}
 		js, err := json.Marshal(output)
 		if err != nil {

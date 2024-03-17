@@ -89,6 +89,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/services/preview/web/mgmt/2015-08-01-preview/web"
 	azblobOld "github.com/Azure/azure-storage-blob-go/azblob"
 	"github.com/manicminer/hamilton/msgraph"
+	"github.com/microsoftgraph/msgraph-sdk-go/models"
 	"github.com/tombuildsstuff/giovanni/storage/2018-11-09/queue/queues"
 	"github.com/tombuildsstuff/giovanni/storage/2019-12-12/blob/accounts"
 )
@@ -1531,7 +1532,7 @@ type LocationDescription struct {
 //listfilter:surname=description.AdUsers.surname
 type AdUsersDescription struct {
 	TenantID string
-	AdUsers  msgraph.User
+	AdUsers  *models.User
 }
 
 //index:microsoft_resources_groups
@@ -1543,7 +1544,7 @@ type AdUsersDescription struct {
 //listfilter:security_enabled=description.AdGroup.SecurityEnabled
 type AdGroupDescription struct {
 	TenantID string
-	AdGroup  msgraph.Group
+	AdGroup  *models.Group
 }
 
 //index:microsoft_resources_serviceprincipals
