@@ -189,11 +189,11 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 					if msg, ok := v["message"].(string); ok {
 						errMsg = msg
 					} else {
-						errMsg = fmt.Sprintf("%v", v)
+						errMsg = fmt.Sprintf("ErrMsg= %v", v)
 					}
 				} else {
 					errCode = "unknown"
-					errMsg = fmt.Sprintf("%v", errorData)
+					errMsg = fmt.Sprintf("ErrorData= %v", errorData)
 				}
 			}
 		}

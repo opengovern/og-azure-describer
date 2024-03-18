@@ -33,9 +33,9 @@ var rootCmd = &cobra.Command{
 			enums.DescribeTriggerTypeManual,
 			[]string{subscriptionID},
 			azure.AuthConfig{
-				TenantID:            "4725ad3d-5ab0-4f42-8a4a-fdee5ef586c5",     // tenantID,
-				ClientID:            "08618331-3f87-4d97-bbe0-e3c4f06ae3cb",     // clientID,
-				ClientSecret:        "c3~8Q~LDreBuHUwEAQGho2zLF1mcskeU3L4C-agy", // clientSecret,
+				TenantID:            tenantID,
+				ClientID:            clientID,
+				ClientSecret:        clientSecret,
 				CertificatePath:     "",
 				CertificatePassword: "",
 				Username:            "",
