@@ -5,13 +5,11 @@ import (
 	"fmt"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
-	"github.com/manicminer/hamilton/auth"
-	"github.com/manicminer/hamilton/msgraph"
-	"github.com/manicminer/hamilton/odata"
 	msgraphsdk "github.com/microsoftgraph/msgraph-sdk-go"
+	"github.com/microsoftgraph/msgraph-sdk-go/applications"
 	"github.com/microsoftgraph/msgraph-sdk-go/groups"
+	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipals"
 	users2 "github.com/microsoftgraph/msgraph-sdk-go/users"
-	"strings"
 )
 
 func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
@@ -145,30 +143,104 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 	return values, nil
 }
 
-func AdServicePrinciple(ctx context.Context, authorizer auth.Authorizer, tenantId string, stream *StreamSender) ([]Resource, error) {
-	client := msgraph.NewServicePrincipalsClient(tenantId)
-	client.BaseClient.Authorizer = authorizer
-
-	input := odata.Query{}
-
-	servicePrincipals, _, err := client.List(ctx, input)
+func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
 	if err != nil {
-		if strings.Contains(err.Error(), "Request_ResourceNotFound") {
-			return nil, nil
-		}
-		return nil, err
+		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
 
+	result, err := client.ServicePrincipals().Get(ctx, &serviceprincipals.ServicePrincipalsRequestBuilderGetRequestConfiguration{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get groups: %v", err)
+	}
 	var values []Resource
-	for _, servicePrincipal := range *servicePrincipals {
+	for _, servicePrincipal := range result.GetValue() {
 		resource := Resource{
-			ID:       *servicePrincipal.ID,
-			Name:     *servicePrincipal.DisplayName,
+			ID:       *servicePrincipal.GetId(),
+			Name:     *servicePrincipal.GetDisplayName(),
 			Location: "global",
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdServicePrincipalDescription{
-					TenantID:           tenantId,
-					AdServicePrincipal: servicePrincipal,
+					TenantID:                   tenantId,
+					Id:                         servicePrincipal.GetId(),
+					DisplayName:                servicePrincipal.GetDisplayName(),
+					AppId:                      servicePrincipal.GetAppId(),
+					AccountEnabled:             servicePrincipal.GetAccountEnabled(),
+					AppDisplayName:             servicePrincipal.GetAppDisplayName(),
+					AppOwnerOrganizationId:     servicePrincipal.GetAppOwnerOrganizationId(),
+					AppRoleAssignmentRequired:  servicePrincipal.GetAppRoleAssignmentRequired(),
+					ServicePrincipalType:       servicePrincipal.GetServicePrincipalType(),
+					SignInAudience:             servicePrincipal.GetSignInAudience(),
+					AppDescription:             servicePrincipal.GetAppDescription(),
+					Description:                servicePrincipal.GetDescription(),
+					LoginUrl:                   servicePrincipal.GetLoginUrl(),
+					LogoutUrl:                  servicePrincipal.GetLogoutUrl(),
+					AddIns:                     servicePrincipal.GetAddIns(),
+					AlternativeNames:           servicePrincipal.GetAlternativeNames(),
+					AppRoles:                   servicePrincipal.GetAppRoles(),
+					Info:                       servicePrincipal.GetInfo(),
+					KeyCredentials:             servicePrincipal.GetKeyCredentials(),
+					NotificationEmailAddresses: servicePrincipal.GetNotificationEmailAddresses(),
+					OwnerIds:                   servicePrincipal.GetOwners(),
+					PasswordCredentials:        servicePrincipal.GetPasswordCredentials(),
+					Oauth2PermissionScopes:     servicePrincipal.GetOauth2PermissionScopes(),
+					ReplyUrls:                  servicePrincipal.GetReplyUrls(),
+					ServicePrincipalNames:      servicePrincipal.GetServicePrincipalNames(),
+					TagsSrc:                    servicePrincipal.GetTags(),
+				},
+			},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
+	}
+
+	return values, nil
+}
+
+func AdApplication(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	result, err := client.Applications().Get(ctx, &applications.ApplicationsRequestBuilderGetRequestConfiguration{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get groups: %v", err)
+	}
+	var values []Resource
+	for _, app := range result.GetValue() {
+		resource := Resource{
+			ID:       *app.GetId(),
+			Name:     *app.GetDisplayName(),
+			Location: "global",
+			Description: JSONAllFieldsMarshaller{
+				Value: model.AdApplicationDescription{
+					TenantID:                  tenantId,
+					DisplayName:               app.GetDisplayName(),
+					Id:                        app.GetId(),
+					AppId:                     app.GetAppId(),
+					CreatedDateTime:           app.GetCreatedDateTime(),
+					Description:               app.GetDescription(),
+					Oauth2RequirePostResponse: app.GetOauth2RequirePostResponse(),
+					PublisherDomain:           app.GetPublisherDomain(),
+					SignInAudience:            app.GetSignInAudience(),
+					Api:                       app.GetApi(),
+					IdentifierUris:            app.GetIdentifierUris(),
+					Info:                      app.GetInfo(),
+					KeyCredentials:            app.GetKeyCredentials(),
+					OwnerIds:                  app.GetOwners(),
+					ParentalControlSettings:   app.GetParentalControlSettings(),
+					PasswordCredentials:       app.GetPasswordCredentials(),
+					Spa:                       app.GetSpa(),
+					TagsSrc:                   app.GetTags(),
+					Web:                       app.GetWeb(),
 				},
 			},
 		}

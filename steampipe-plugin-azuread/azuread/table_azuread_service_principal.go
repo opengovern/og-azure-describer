@@ -40,7 +40,6 @@ func tableAzureAdServicePrincipal(_ context.Context) *plugin.Table {
 			{Name: "id", Type: proto.ColumnType_STRING, Description: "The unique identifier for the service principal.", Transform: transform.FromField("Description.AdServicePrincipal.DirectoryObject.ID")},
 			{Name: "display_name", Type: proto.ColumnType_STRING, Description: "The display name for the service principal.", Transform: transform.FromField("Description.AdServicePrincipal.DisplayName")},
 			{Name: "app_id", Type: proto.ColumnType_STRING, Description: "The unique identifier for the associated application (its appId property).", Transform: transform.FromField("Description.AdServicePrincipal.AppId")},
-
 			{Name: "account_enabled", Type: proto.ColumnType_BOOL, Description: "true if the service principal account is enabled; otherwise, false.", Transform: transform.FromField("Description.AdServicePrincipal.AccountEnabled")},
 			{Name: "app_display_name", Type: proto.ColumnType_STRING, Description: "The display name exposed by the associated application.", Transform: transform.FromField("Description.AdServicePrincipal.AppDisplayName")},
 			{Name: "app_owner_organization_id", Type: proto.ColumnType_STRING, Description: "Contains the tenant id where the application is registered. This is applicable only to service principals backed by applications.", Transform: transform.FromField("Description.AdServicePrincipal.AppOwnerOrganizationId")},
@@ -50,11 +49,7 @@ func tableAzureAdServicePrincipal(_ context.Context) *plugin.Table {
 			{Name: "app_description", Type: proto.ColumnType_STRING, Description: "The description exposed by the associated application.", Transform: transform.FromField("Description.AdServicePrincipal.Description")},
 			{Name: "description", Type: proto.ColumnType_STRING, Description: "Free text field to provide an internal end-user facing description of the service principal.", Transform: transform.FromField("Description.AdServicePrincipal.Description")},
 			{Name: "login_url", Type: proto.ColumnType_STRING, Description: "Specifies the URL where the service provider redirects the user to Azure AD to authenticate. Azure AD uses the URL to launch the application from Microsoft 365 or the Azure AD My Apps. When blank, Azure AD performs IdP-initiated sign-on for applications configured with SAML-based single sign-on.", Transform: transform.FromField("Description.AdServicePrincipal.LoginUrl")},
-			{Name: "logout_url", Type: proto.ColumnType_STRING, Description: "Specifies the URL that will be used by Microsoft's authorization service to logout an user using OpenId Connect front-channel, back-channel or SAML logout protocols.", Transform:
-
-			// JSON fields
-			transform.FromField("Description.AdServicePrincipal.LogoutUrl")},
-
+			{Name: "logout_url", Type: proto.ColumnType_STRING, Description: "Specifies the URL that will be used by Microsoft's authorization service to logout an user using OpenId Connect front-channel, back-channel or SAML logout protocols.", Transform: transform.FromField("Description.AdServicePrincipal.LogoutUrl")},
 			{Name: "add_ins", Type: proto.ColumnType_JSON, Description: "Defines custom behavior that a consuming service can use to call an app in specific contexts.", Transform: transform.FromField("Description.AdServicePrincipal.AddIns")},
 			{Name: "alternative_names", Type: proto.ColumnType_JSON, Description: "Used to retrieve service principals by subscription, identify resource group and full resource ids for managed identities.", Transform: transform.FromField("Description.AdServicePrincipal.AlternativeNames")},
 			{Name: "app_roles", Type: proto.ColumnType_JSON, Description: "The roles exposed by the application which this service principal represents.", Transform: transform.FromField("Description.AdServicePrincipal.AppRoles")},
@@ -92,20 +87,20 @@ func tableAzureAdServicePrincipal(_ context.Context) *plugin.Table {
 }
 
 func adServicePrincipalTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	servicePrincipal := d.HydrateItem.(kaytu.AdServicePrincipal).Description.AdServicePrincipal
-	tags := servicePrincipal.Tags
+	servicePrincipal := d.HydrateItem.(kaytu.AdServicePrincipal).Description
+	tags := servicePrincipal.TagsSrc
 	if tags == nil {
 		return nil, nil
 	}
-	return TagsToMap(*tags)
+	return TagsToMap(tags)
 }
 
 func adServicePrincipalTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.AdServicePrincipal).Description.AdServicePrincipal
+	data := d.HydrateItem.(kaytu.AdServicePrincipal).Description
 
 	title := data.DisplayName
 	if title == nil {
-		title = data.DirectoryObject.ID
+		title = data.Id
 	}
 
 	return title, nil

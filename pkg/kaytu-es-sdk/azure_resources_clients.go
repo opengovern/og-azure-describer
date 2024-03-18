@@ -46523,28 +46523,28 @@ func (p AdUsersPaginator) NextPage(ctx context.Context) ([]AdUsers, error) {
 
 var listAdUsersFilters = map[string]string{
 	"account_enabled":                       "description.AdUsers.accountEnabled",
-	"additional_properties":                 "description.AdUsers.CreationType",
-	"created_date_time":                     "description.AdUsers.CreatedDateTime",
+	"additional_properties":                 "description.AdditionalProperties",
+	"created_date_time":                     "description.CreatedDateTime",
 	"display_name":                          "description.AdUsers.displayName",
 	"filter":                                "description.AdUsers.filter",
-	"given_name":                            "description.AdUsers.GivenName",
+	"given_name":                            "description.GivenName",
 	"id":                                    "description.AdUsers.DirectoryObject.id",
-	"im_addresses":                          "description.AdUsers.ImAddresses",
+	"im_addresses":                          "description.ImAddresses",
 	"kaytu_account_id":                      "metadata.SourceID",
 	"kaytu_resource_id":                     "ID",
-	"mail":                                  "description.AdUsers.Mail",
-	"mail_nickname":                         "description.AdUsers.MailNickname",
-	"member_of":                             "description.AdUsers.MemberOf",
-	"on_premises_immutable_id":              "description.AdUsers.OnPremisesImmutableId",
-	"other_mails":                           "description.AdUsers.OtherMails",
-	"password_policies":                     "description.AdUsers.PasswordPolicies",
-	"password_profile":                      "description.AdUsers.PasswordProfile",
-	"refresh_tokens_valid_from_date_time":   "description.AdUsers.RefreshTokensValidFromDateTime",
-	"sign_in_sessions_valid_from_date_time": "description.AdUsers.SignInSessionsValidFromDateTime",
+	"mail":                                  "description.Mail",
+	"mail_nickname":                         "description.MailNickname",
+	"member_of":                             "description.MemberOf",
+	"on_premises_immutable_id":              "description.OnPremisesImmutableId",
+	"other_mails":                           "description.OtherMails",
+	"password_policies":                     "description.PasswordPolicies",
+	"password_profile":                      "description.PasswordProfile",
+	"refresh_tokens_valid_from_date_time":   "description.RefreshTokensValidFromDateTime",
+	"sign_in_sessions_valid_from_date_time": "description.SignInSessionsValidFromDateTime",
 	"surname":                               "description.AdUsers.surname",
 	"tenant_id":                             "description.TenantID",
-	"title":                                 "description.AdUsers.DisplayName",
-	"usage_location":                        "description.AdUsers.UsageLocation",
+	"title":                                 "description.DisplayName",
+	"usage_location":                        "description.UsageLocation",
 	"user_principal_name":                   "description.AdUsers.userPrincipalName",
 	"user_type":                             "description.AdUsers.userType",
 }
@@ -46610,30 +46610,30 @@ func ListAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 var getAdUsersFilters = map[string]string{
-	"account_enabled":                       "description.AdUsers.AccountEnabled",
-	"additional_properties":                 "description.AdUsers.CreationType",
-	"created_date_time":                     "description.AdUsers.CreatedDateTime",
-	"display_name":                          "description.AdUsers.DisplayName",
-	"given_name":                            "description.AdUsers.GivenName",
+	"account_enabled":                       "description.AccountEnabled",
+	"additional_properties":                 "description.AdditionalProperties",
+	"created_date_time":                     "description.CreatedDateTime",
+	"display_name":                          "description.DisplayName",
+	"given_name":                            "description.GivenName",
 	"id":                                    "description.AdUsers.DirectoryObject.id",
-	"im_addresses":                          "description.AdUsers.ImAddresses",
+	"im_addresses":                          "description.ImAddresses",
 	"kaytu_account_id":                      "metadata.SourceID",
 	"kaytu_resource_id":                     "ID",
-	"mail":                                  "description.AdUsers.Mail",
-	"mail_nickname":                         "description.AdUsers.MailNickname",
-	"member_of":                             "description.AdUsers.MemberOf",
-	"on_premises_immutable_id":              "description.AdUsers.OnPremisesImmutableId",
-	"other_mails":                           "description.AdUsers.OtherMails",
-	"password_policies":                     "description.AdUsers.PasswordPolicies",
-	"password_profile":                      "description.AdUsers.PasswordProfile",
-	"refresh_tokens_valid_from_date_time":   "description.AdUsers.RefreshTokensValidFromDateTime",
-	"sign_in_sessions_valid_from_date_time": "description.AdUsers.SignInSessionsValidFromDateTime",
-	"surname":                               "description.AdUsers.Surname",
+	"mail":                                  "description.Mail",
+	"mail_nickname":                         "description.MailNickname",
+	"member_of":                             "description.MemberOf",
+	"on_premises_immutable_id":              "description.OnPremisesImmutableId",
+	"other_mails":                           "description.OtherMails",
+	"password_policies":                     "description.PasswordPolicies",
+	"password_profile":                      "description.PasswordProfile",
+	"refresh_tokens_valid_from_date_time":   "description.RefreshTokensValidFromDateTime",
+	"sign_in_sessions_valid_from_date_time": "description.SignInSessionsValidFromDateTime",
+	"surname":                               "description.Surname",
 	"tenant_id":                             "description.TenantID",
-	"title":                                 "description.AdUsers.DisplayName",
-	"usage_location":                        "description.AdUsers.UsageLocation",
-	"user_principal_name":                   "description.AdUsers.UserPrincipalName",
-	"user_type":                             "description.AdUsers.UserType",
+	"title":                                 "description.DisplayName",
+	"usage_location":                        "description.UsageLocation",
+	"user_principal_name":                   "description.UserPrincipalName",
+	"user_type":                             "description.UserType",
 }
 
 func GetAdUsers(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -46830,39 +46830,39 @@ func (p AdGroupPaginator) NextPage(ctx context.Context) ([]AdGroup, error) {
 }
 
 var listAdGroupFilters = map[string]string{
-	"assigned_labels":                  "description.AdGroup.AssignedLabels",
-	"classification":                   "description.AdGroup.Classification",
-	"created_date_time":                "description.AdGroup.CreatedDateTime",
-	"description":                      "description.AdGroup.Description",
+	"assigned_labels":                  "description.AssignedLabels",
+	"classification":                   "description.Classification",
+	"created_date_time":                "description.CreatedDateTime",
+	"description":                      "description.Description",
 	"display_name":                     "description.AdGroup.DisplayName",
-	"expiration_date_time":             "description.AdGroup.ExpirationDateTime",
-	"group_types":                      "description.AdGroup.GroupTypes",
-	"id":                               "description.AdGroup.DirectoryObject.ID",
-	"is_assignable_to_role":            "description.AdGroup.Classification",
-	"is_subscribed_by_mail":            "description.AdGroup.IsAssignableToRole",
+	"expiration_date_time":             "description.ExpirationDateTime",
+	"group_types":                      "description.GroupTypes",
+	"id":                               "description.ID",
+	"is_assignable_to_role":            "description.IsAssignableToRole",
+	"is_subscribed_by_mail":            "description.IsAssignableToRole",
 	"kaytu_account_id":                 "metadata.SourceID",
 	"kaytu_resource_id":                "ID",
 	"mail":                             "description.AdGroup.Mail",
 	"mail_enabled":                     "description.AdGroup.MailEnabled",
-	"mail_nickname":                    "description.AdGroup.MailNickname",
-	"member_ids":                       "description.AdGroup.Members",
-	"membership_rule":                  "description.AdGroup.MembershipRule",
-	"membership_rule_processing_state": "description.AdGroup.MembershipRuleProcessingState",
-	"on_premises_domain_name":          "description.AdGroup.OnPremisesDomainName",
-	"on_premises_last_sync_date_time":  "description.AdGroup.OnPremisesLastSyncDateTime",
-	"on_premises_net_bios_name":        "description.AdGroup.OnPremisesNetBiosName",
-	"on_premises_sam_account_name":     "description.AdGroup.OnPremisesSamAccountName",
-	"on_premises_security_identifier":  "description.AdGroup.OnPremisesSecurityIdentifier",
+	"mail_nickname":                    "description.MailNickname",
+	"member_ids":                       "description.MemberIDs",
+	"membership_rule":                  "description.MembershipRule",
+	"membership_rule_processing_state": "description.MembershipRuleProcessingState",
+	"on_premises_domain_name":          "description.OnPremisesDomainName",
+	"on_premises_last_sync_date_time":  "description.OnPremisesLastSyncDateTime",
+	"on_premises_net_bios_name":        "description.OnPremisesNetBiosName",
+	"on_premises_sam_account_name":     "description.OnPremisesSamAccountName",
+	"on_premises_security_identifier":  "description.OnPremisesSecurityIdentifier",
 	"on_premises_sync_enabled":         "description.AdGroup.OnPremisesSyncEnabled",
-	"owner_ids":                        "description.AdGroup.Owners",
-	"proxy_addresses":                  "description.AdGroup.ProxyAddresses",
-	"renewed_date_time":                "description.AdGroup.RenewedDateTime",
-	"resource_behavior_options":        "description.AdGroup.ResourceBehaviorOptions",
-	"resource_provisioning_options":    "description.AdGroup.ResourceProvisioningOptions",
+	"owner_ids":                        "description.OwnerIDs",
+	"proxy_addresses":                  "description.ProxyAddresses",
+	"renewed_date_time":                "description.RenewedDateTime",
+	"resource_behavior_options":        "description.ResourceBehaviorOptions",
+	"resource_provisioning_options":    "description.ResourceProvisioningOptions",
 	"security_enabled":                 "description.AdGroup.SecurityEnabled",
-	"security_identifier":              "description.AdGroup.SecurityIdentifier",
+	"security_identifier":              "description.SecurityIdentifier",
 	"tenant_id":                        "description.TenantID",
-	"visibility":                       "description.AdGroup.Visibility",
+	"visibility":                       "description.Visibility",
 }
 
 func ListAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -46926,39 +46926,39 @@ func ListAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 var getAdGroupFilters = map[string]string{
-	"assigned_labels":                  "description.AdGroup.AssignedLabels",
-	"classification":                   "description.AdGroup.Classification",
-	"created_date_time":                "description.AdGroup.CreatedDateTime",
-	"description":                      "description.AdGroup.Description",
-	"display_name":                     "description.AdGroup.DisplayName",
-	"expiration_date_time":             "description.AdGroup.ExpirationDateTime",
-	"group_types":                      "description.AdGroup.GroupTypes",
+	"assigned_labels":                  "description.AssignedLabels",
+	"classification":                   "description.Classification",
+	"created_date_time":                "description.CreatedDateTime",
+	"description":                      "description.Description",
+	"display_name":                     "description.DisplayName",
+	"expiration_date_time":             "description.ExpirationDateTime",
+	"group_types":                      "description.GroupTypes",
 	"id":                               "description.AdGroup.DirectoryObject.ID",
-	"is_assignable_to_role":            "description.AdGroup.Classification",
-	"is_subscribed_by_mail":            "description.AdGroup.IsAssignableToRole",
+	"is_assignable_to_role":            "description.IsAssignableToRole",
+	"is_subscribed_by_mail":            "description.IsAssignableToRole",
 	"kaytu_account_id":                 "metadata.SourceID",
 	"kaytu_resource_id":                "ID",
-	"mail":                             "description.AdGroup.Mail",
-	"mail_enabled":                     "description.AdGroup.MailEnabled",
-	"mail_nickname":                    "description.AdGroup.MailNickname",
-	"member_ids":                       "description.AdGroup.Members",
-	"membership_rule":                  "description.AdGroup.MembershipRule",
-	"membership_rule_processing_state": "description.AdGroup.MembershipRuleProcessingState",
-	"on_premises_domain_name":          "description.AdGroup.OnPremisesDomainName",
-	"on_premises_last_sync_date_time":  "description.AdGroup.OnPremisesLastSyncDateTime",
-	"on_premises_net_bios_name":        "description.AdGroup.OnPremisesNetBiosName",
-	"on_premises_sam_account_name":     "description.AdGroup.OnPremisesSamAccountName",
-	"on_premises_security_identifier":  "description.AdGroup.OnPremisesSecurityIdentifier",
-	"on_premises_sync_enabled":         "description.AdGroup.OnPremisesSyncEnabled",
-	"owner_ids":                        "description.AdGroup.Owners",
-	"proxy_addresses":                  "description.AdGroup.ProxyAddresses",
-	"renewed_date_time":                "description.AdGroup.RenewedDateTime",
-	"resource_behavior_options":        "description.AdGroup.ResourceBehaviorOptions",
-	"resource_provisioning_options":    "description.AdGroup.ResourceProvisioningOptions",
-	"security_enabled":                 "description.AdGroup.SecurityEnabled",
-	"security_identifier":              "description.AdGroup.SecurityIdentifier",
+	"mail":                             "description.Mail",
+	"mail_enabled":                     "description.MailEnabled",
+	"mail_nickname":                    "description.MailNickname",
+	"member_ids":                       "description.MemberIDs",
+	"membership_rule":                  "description.MembershipRule",
+	"membership_rule_processing_state": "description.MembershipRuleProcessingState",
+	"on_premises_domain_name":          "description.OnPremisesDomainName",
+	"on_premises_last_sync_date_time":  "description.OnPremisesLastSyncDateTime",
+	"on_premises_net_bios_name":        "description.OnPremisesNetBiosName",
+	"on_premises_sam_account_name":     "description.OnPremisesSamAccountName",
+	"on_premises_security_identifier":  "description.OnPremisesSecurityIdentifier",
+	"on_premises_sync_enabled":         "description.OnPremisesSyncEnabled",
+	"owner_ids":                        "description.OwnerIDs",
+	"proxy_addresses":                  "description.ProxyAddresses",
+	"renewed_date_time":                "description.RenewedDateTime",
+	"resource_behavior_options":        "description.ResourceBehaviorOptions",
+	"resource_provisioning_options":    "description.ResourceProvisioningOptions",
+	"security_enabled":                 "description.SecurityEnabled",
+	"security_identifier":              "description.SecurityIdentifier",
 	"tenant_id":                        "description.TenantID",
-	"visibility":                       "description.AdGroup.Visibility",
+	"visibility":                       "description.Visibility",
 }
 
 func GetAdGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -47330,6 +47330,267 @@ func GetAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 // ==========================  END: AdServicePrincipal =============================
+
+// ==========================  START: AdApplication =============================
+
+type AdApplication struct {
+	Description   azure.AdApplicationDescription `json:"description"`
+	Metadata      azure.Metadata                 `json:"metadata"`
+	ResourceJobID int                            `json:"resource_job_id"`
+	SourceJobID   int                            `json:"source_job_id"`
+	ResourceType  string                         `json:"resource_type"`
+	SourceType    string                         `json:"source_type"`
+	ID            string                         `json:"id"`
+	ARN           string                         `json:"arn"`
+	SourceID      string                         `json:"source_id"`
+}
+
+func (r *AdApplication) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.AdApplicationDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type AdApplicationHit struct {
+	ID      string        `json:"_id"`
+	Score   float64       `json:"_score"`
+	Index   string        `json:"_index"`
+	Type    string        `json:"_type"`
+	Version int64         `json:"_version,omitempty"`
+	Source  AdApplication `json:"_source"`
+	Sort    []interface{} `json:"sort"`
+}
+
+type AdApplicationHits struct {
+	Total essdk.SearchTotal  `json:"total"`
+	Hits  []AdApplicationHit `json:"hits"`
+}
+
+type AdApplicationSearchResponse struct {
+	PitID string            `json:"pit_id"`
+	Hits  AdApplicationHits `json:"hits"`
+}
+
+type AdApplicationPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAdApplicationPaginator(filters []essdk.BoolFilter, limit *int64) (AdApplicationPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_applications", filters, limit)
+	if err != nil {
+		return AdApplicationPaginator{}, err
+	}
+
+	p := AdApplicationPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AdApplicationPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AdApplicationPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p AdApplicationPaginator) NextPage(ctx context.Context) ([]AdApplication, error) {
+	var response AdApplicationSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AdApplication
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAdApplicationFilters = map[string]string{
+	"kaytu_account_id": "metadata.SourceID",
+}
+
+func ListAdApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAdApplication")
+	runtime.GC()
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdApplication NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdApplication NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdApplication GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdApplication GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdApplication GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewAdApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAdApplicationFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdApplication NewAdApplicationPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListAdApplication paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getAdApplicationFilters = map[string]string{
+	"kaytu_account_id": "metadata.SourceID",
+}
+
+func GetAdApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAdApplication")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewAdApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAdApplicationFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AdApplication =============================
 
 // ==========================  START: AnalysisServiceServer =============================
 
