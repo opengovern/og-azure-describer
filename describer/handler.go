@@ -177,7 +177,8 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		var jsonData map[string]interface{}
 		err := json.Unmarshal([]byte(jsonString), &jsonData)
 		if err != nil || jsonData == nil {
-			errMsg = jsonString
+			errMsg = errorString
+			errCode = "UnknownFailure"
 		} else {
 			if errorData, ok := jsonData["error"]; ok {
 				if v, ok := errorData.(map[string]interface{}); ok {
@@ -195,6 +196,9 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 					errCode = "unknown"
 					errMsg = fmt.Sprintf("ErrorData= %v", errorData)
 				}
+			} else {
+				errMsg = errorString
+				errCode = "UnknownFailure"
 			}
 		}
 		status = DescribeResourceJobFailed
