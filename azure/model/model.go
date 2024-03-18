@@ -92,6 +92,7 @@ import (
 	"github.com/microsoftgraph/msgraph-sdk-go/models"
 	"github.com/tombuildsstuff/giovanni/storage/2018-11-09/queue/queues"
 	"github.com/tombuildsstuff/giovanni/storage/2019-12-12/blob/accounts"
+	"time"
 )
 
 type Metadata struct {
@@ -1531,8 +1532,27 @@ type LocationDescription struct {
 //listfilter:display_name=description.AdUsers.displayName
 //listfilter:surname=description.AdUsers.surname
 type AdUsersDescription struct {
-	TenantID string
-	AdUsers  *models.User
+	TenantID                        string
+	DisplayName                     *string
+	Id                              *string
+	UserPrincipalName               *string
+	AccountEnabled                  *bool
+	UserType                        *string
+	GivenName                       *string
+	Surname                         *string
+	Filter                          *string
+	OnPremisesImmutableId           *string
+	CreatedDateTime                 *time.Time
+	Mail                            *string
+	MailNickname                    *string
+	PasswordPolicies                *string
+	RefreshTokensValidFromDateTime  *time.Time
+	SignInSessionsValidFromDateTime *time.Time
+	UsageLocation                   *string
+	MemberOf                        []models.DirectoryObjectable
+	ImAddresses                     []string
+	OtherMails                      []string
+	PasswordProfile                 models.PasswordProfileable
 }
 
 //index:microsoft_resources_groups
@@ -1543,8 +1563,35 @@ type AdUsersDescription struct {
 //listfilter:on_premises_sync_enabled=description.AdGroup.OnPremisesSyncEnabled
 //listfilter:security_enabled=description.AdGroup.SecurityEnabled
 type AdGroupDescription struct {
-	TenantID string
-	AdGroup  *models.Group
+	TenantID                      string
+	DisplayName                   *string
+	ID                            *string
+	Description                   *string
+	Classification                *string
+	CreatedDateTime               *time.Time
+	ExpirationDateTime            *time.Time
+	IsAssignableToRole            *bool
+	IsSubscribedByMail            *bool
+	Mail                          *string
+	MailEnabled                   *bool
+	MailNickname                  *string
+	MembershipRule                *string
+	MembershipRuleProcessingState *string
+	OnPremisesDomainName          *string
+	OnPremisesLastSyncDateTime    *time.Time
+	OnPremisesNetBiosName         *string
+	OnPremisesSamAccountName      *string
+	OnPremisesSecurityIdentifier  *string
+	OnPremisesSyncEnabled         *bool
+	RenewedDateTime               *time.Time
+	SecurityEnabled               *bool
+	SecurityIdentifier            *string
+	Visibility                    *string
+	AssignedLabels                []models.AssignedLabelable
+	GroupTypes                    []string
+	MemberIds                     []*string
+	OwnerIds                      []*string
+	ProxyAddresses                []string
 }
 
 //index:microsoft_resources_serviceprincipals

@@ -4,17 +4,14 @@ import (
 	"context"
 	"fmt"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/microsoftgraph/msgraph-sdk-go/groups"
-	"github.com/microsoftgraph/msgraph-sdk-go/models"
-	users2 "github.com/microsoftgraph/msgraph-sdk-go/users"
-	"reflect"
-	"strings"
-
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 	"github.com/manicminer/hamilton/auth"
 	"github.com/manicminer/hamilton/msgraph"
 	"github.com/manicminer/hamilton/odata"
 	msgraphsdk "github.com/microsoftgraph/msgraph-sdk-go"
+	"github.com/microsoftgraph/msgraph-sdk-go/groups"
+	users2 "github.com/microsoftgraph/msgraph-sdk-go/users"
+	"strings"
 )
 
 func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
@@ -31,18 +28,34 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 
 	var values []Resource
 	for _, user := range result.GetValue() {
-		userModel, ok := user.(*models.User)
-		if !ok {
-			return nil, fmt.Errorf("failed to convert user to userModel, type: %s, value: %v", reflect.TypeOf(user).String(), user)
-		}
 		resource := Resource{
 			ID:       *user.GetId(),
 			Name:     *user.GetDisplayName(),
 			Location: "global",
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdUsersDescription{
-					TenantID: tenantId,
-					AdUsers:  userModel,
+					TenantID:          tenantId,
+					DisplayName:       user.GetDisplayName(),
+					Id:                user.GetId(),
+					UserPrincipalName: user.GetUserPrincipalName(),
+					AccountEnabled:    user.GetAccountEnabled(),
+					UserType:          user.GetUserType(),
+					GivenName:         user.GetGivenName(),
+					Surname:           user.GetSurname(),
+					//Filter:                          user.GetFilter(),
+					OnPremisesImmutableId: user.GetOnPremisesImmutableId(),
+					CreatedDateTime:       user.GetCreatedDateTime(),
+					Mail:                  user.GetMail(),
+					MailNickname:          user.GetMailNickname(),
+					PasswordPolicies:      user.GetPasswordPolicies(),
+					//RefreshTokensValidFromDateTime:  user.GetRefreshTokensValidFromDateTime(),
+					SignInSessionsValidFromDateTime: user.GetSignInSessionsValidFromDateTime(),
+					UsageLocation:                   user.GetUsageLocation(),
+					MemberOf:                        user.GetMemberOf(),
+					//AdditionalProperties:            user.GetAdditionalProperties(),
+					ImAddresses:     user.GetImAddresses(),
+					OtherMails:      user.GetOtherMails(),
+					PasswordProfile: user.GetPasswordProfile(),
 				},
 			},
 		}
@@ -72,13 +85,13 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 
 	var values []Resource
 	for _, group := range result.GetValue() {
-		groupModel, ok := group.(*models.Group)
-		if !ok {
-			return nil, fmt.Errorf("failed to convert group to groupModel, type: %s, value: %v", reflect.TypeOf(group).String(), group)
+		var memberIds []*string
+		for _, m := range group.GetMembers() {
+			memberIds = append(memberIds, m.GetId())
 		}
-
-		if groupModel == nil {
-			return nil, fmt.Errorf("failed to convert group to groupModel, it's null, type: %s, value: %v", reflect.TypeOf(group).String(), group)
+		var ownerIds []*string
+		for _, m := range group.GetOwners() {
+			ownerIds = append(ownerIds, m.GetId())
 		}
 		resource := Resource{
 			ID:       *group.GetId(),
@@ -86,8 +99,37 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 			Location: "global",
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdGroupDescription{
-					TenantID: tenantId,
-					AdGroup:  groupModel,
+					TenantID:                      tenantId,
+					DisplayName:                   group.GetDisplayName(),
+					ID:                            group.GetId(),
+					Description:                   group.GetDescription(),
+					Classification:                group.GetClassification(),
+					CreatedDateTime:               group.GetCreatedDateTime(),
+					ExpirationDateTime:            group.GetExpirationDateTime(),
+					IsAssignableToRole:            group.GetIsAssignableToRole(),
+					IsSubscribedByMail:            group.GetIsSubscribedByMail(),
+					Mail:                          group.GetMail(),
+					MailEnabled:                   group.GetMailEnabled(),
+					MailNickname:                  group.GetMailNickname(),
+					MembershipRule:                group.GetMembershipRule(),
+					MembershipRuleProcessingState: group.GetMembershipRuleProcessingState(),
+					OnPremisesDomainName:          group.GetOnPremisesDomainName(),
+					OnPremisesLastSyncDateTime:    group.GetOnPremisesLastSyncDateTime(),
+					OnPremisesNetBiosName:         group.GetOnPremisesNetBiosName(),
+					OnPremisesSamAccountName:      group.GetOnPremisesSamAccountName(),
+					OnPremisesSecurityIdentifier:  group.GetOnPremisesSecurityIdentifier(),
+					OnPremisesSyncEnabled:         group.GetOnPremisesSyncEnabled(),
+					RenewedDateTime:               group.GetRenewedDateTime(),
+					SecurityEnabled:               group.GetSecurityEnabled(),
+					SecurityIdentifier:            group.GetSecurityIdentifier(),
+					Visibility:                    group.GetVisibility(),
+					AssignedLabels:                group.GetAssignedLabels(),
+					GroupTypes:                    group.GetGroupTypes(),
+					MemberIds:                     memberIds,
+					OwnerIds:                      ownerIds,
+					ProxyAddresses:                group.GetProxyAddresses(),
+					//ResourceBehaviorOptions:       group.GetResourceBehaviorOptions(),
+					//ResourceProvisioningOptions:   group.GetResourceProvisioningOptions(),
 				},
 			},
 		}
