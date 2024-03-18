@@ -23,7 +23,7 @@ var rootCmd = &cobra.Command{
 	Use:   "kaytu-azure-describer",
 	Short: "kaytu azure describer manual",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		resourceType = "Microsoft.Resources/users"
+		resourceType = "Microsoft.Resources/groups"
 		subscriptionID = "710e21af-6987-4f5d-80a0-d2ef06f8645b"
 		logger, _ := zap.NewProduction()
 		output, err := azure.GetResources(

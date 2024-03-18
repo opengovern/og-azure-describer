@@ -21,12 +21,12 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 	scopes := []string{"https://graph.microsoft.com/.default"}
 	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
 
 	result, err := client.Users().Get(ctx, &users2.UsersRequestBuilderGetRequestConfiguration{})
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to get users: %v", err)
 	}
 
 	var values []Resource
@@ -48,7 +48,7 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 		}
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
-				return nil, err
+				return nil, fmt.Errorf("failed to stream due to: %v", err)
 			}
 		} else {
 			values = append(values, resource)
@@ -62,12 +62,12 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 	scopes := []string{"https://graph.microsoft.com/.default"}
 	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
 
 	result, err := client.Groups().Get(ctx, &groups.GroupsRequestBuilderGetRequestConfiguration{})
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
 
 	var values []Resource
@@ -89,7 +89,7 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 		}
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
-				return nil, err
+				return nil, fmt.Errorf("failed to stream due to: %v", err)
 			}
 		} else {
 			values = append(values, resource)
