@@ -49,13 +49,13 @@ func tableAzureAdApplication(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func adApplicationTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	application := d.HydrateItem.(*kaytu.AdApplication).Description
+	application := d.HydrateItem.(kaytu.AdApplication).Description
 	tags := application.TagsSrc
 	return TagsToMap(tags)
 }
 
 func adApplicationTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(*kaytu.AdApplication).Description
+	data := d.HydrateItem.(kaytu.AdApplication).Description
 
 	title := data.DisplayName
 	if title == nil {
