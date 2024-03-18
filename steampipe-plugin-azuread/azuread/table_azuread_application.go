@@ -37,7 +37,7 @@ func tableAzureAdApplication(_ context.Context) *plugin.Table {
 			{Name: "password_credentials", Type: proto.ColumnType_JSON, Description: "The collection of password credentials associated with the application.", Transform: transform.FromField("Description.PasswordCredentials")},
 			{Name: "spa", Type: proto.ColumnType_JSON, Description: "Specifies settings for a single-page application, including sign out URLs and redirect URIs for authorization codes and access tokens.", Transform: transform.FromField("Description.Spa")},
 			{Name: "tags_src", Type: proto.ColumnType_JSON, Description: "Custom strings that can be used to categorize and identify the application.", Transform: transform.FromField("Description.TagsSrc")},
-			{Name: "web", Type: proto.ColumnType_JSON, Description: "Specifies settings for a web application.", Transform: transform.FromMethod("Description.Web")},
+			{Name: "web", Type: proto.ColumnType_JSON, Description: "Specifies settings for a web application.", Transform: transform.FromField("Description.Web")},
 
 			// Standard columns
 			{Name: "tags", Type: proto.ColumnType_JSON, Description: ColumnDescriptionTags, Transform: transform.From(adApplicationTags)},
