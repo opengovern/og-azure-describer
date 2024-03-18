@@ -96,18 +96,18 @@ func tableAzureAdGroup(_ context.Context) *plugin.Table {
 func adGroupTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	group := d.HydrateItem.(kaytu.AdGroup).Description.AdGroup
 
-	if group.AssignedLabels == nil {
+	if group.GetAssignedLabels() == nil {
 		return nil, nil
 	}
 
-	assignedLabels := *group.AssignedLabels
+	assignedLabels := group.GetAssignedLabels()
 	if len(assignedLabels) == 0 {
 		return nil, nil
 	}
 
 	var tags = map[*string]*string{}
 	for _, i := range assignedLabels {
-		tags[i.LabelId] = i.DisplayName
+		tags[i.GetLabelId()] = i.GetDisplayName()
 	}
 
 	return tags, nil
@@ -116,9 +116,9 @@ func adGroupTags(_ context.Context, d *transform.TransformData) (interface{}, er
 func adGroupTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	data := d.HydrateItem.(kaytu.AdGroup).Description.AdGroup
 
-	title := data.DisplayName
+	title := data.GetDisplayName()
 	if title == nil {
-		title = data.DirectoryObject.ID
+		title = data.DirectoryObject.GetId()
 	}
 
 	return title, nil
