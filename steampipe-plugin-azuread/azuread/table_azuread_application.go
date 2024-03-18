@@ -56,7 +56,7 @@ func adApplicationTags(ctx context.Context, d *transform.TransformData) (interfa
 
 func adApplicationTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	data := d.HydrateItem.(*kaytu.AdApplication).Description
-	
+
 	title := data.DisplayName
 	if title == nil {
 		title = data.Id
