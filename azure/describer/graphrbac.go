@@ -8,7 +8,6 @@ import (
 	msgraphsdk "github.com/microsoftgraph/msgraph-sdk-go"
 	"github.com/microsoftgraph/msgraph-sdk-go/applications"
 	"github.com/microsoftgraph/msgraph-sdk-go/groups"
-	"github.com/microsoftgraph/msgraph-sdk-go/models"
 	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipals"
 	users2 "github.com/microsoftgraph/msgraph-sdk-go/users"
 )
@@ -217,8 +216,10 @@ func AdApplication(ctx context.Context, cred *azidentity.ClientSecretCredential,
 	}
 	var values []Resource
 	for _, app := range result.GetValue() {
-		appModel := models.Application{}
-		appModel.GetDisplayName()
+		if app == nil {
+			continue
+		}
+
 		resource := Resource{
 			ID:       *app.GetId(),
 			Name:     *app.GetDisplayName(),
