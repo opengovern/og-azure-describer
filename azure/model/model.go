@@ -1613,18 +1613,18 @@ type AdServicePrincipalDescription struct {
 	Description          *string
 	LoginUrl             *string
 	LogoutUrl            *string
-	//AddIns                     []models.AddInable
-	AlternativeNames []string
-	//AppRoles                   []models.AppRoleable
+	AddIns               []models.AddInable
+	AlternativeNames     []string
+	AppRoles             []models.AppRoleable
 	//Info models.InformationalUrlable
-	//KeyCredentials             []models.KeyCredentialable
+	KeyCredentials             []models.KeyCredentialable
 	NotificationEmailAddresses []string
-	//OwnerIds                   []models.DirectoryObjectable
-	//PasswordCredentials        []models.PasswordCredentialable
-	//Oauth2PermissionScopes     []models.PermissionScopeable
-	ReplyUrls             []string
-	ServicePrincipalNames []string
-	TagsSrc               []string
+	OwnerIds                   []models.DirectoryObjectable
+	PasswordCredentials        []models.PasswordCredentialable
+	Oauth2PermissionScopes     []models.PermissionScopeable
+	ReplyUrls                  []string
+	ServicePrincipalNames      []string
+	TagsSrc                    []string
 }
 
 //index:microsoft_resources_applications
