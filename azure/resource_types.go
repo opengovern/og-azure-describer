@@ -569,6 +569,21 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Resources/serviceprincipals": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/serviceprincipals",
+		ResourceLabel:        "Service Principals",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdServicePrinciple),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.CognitiveServices/accounts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.CognitiveServices/accounts",
