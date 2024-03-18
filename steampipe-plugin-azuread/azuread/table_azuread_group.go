@@ -96,6 +96,10 @@ func tableAzureAdGroup(_ context.Context) *plugin.Table {
 func adGroupTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	group := d.HydrateItem.(kaytu.AdGroup).Description.AdGroup
 
+	if group == nil {
+		return nil, nil
+	}
+
 	if group.GetAssignedLabels() == nil {
 		return nil, nil
 	}

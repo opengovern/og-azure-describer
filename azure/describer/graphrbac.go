@@ -76,6 +76,10 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 		if !ok {
 			return nil, fmt.Errorf("failed to convert group to groupModel, type: %s, value: %v", reflect.TypeOf(group).String(), group)
 		}
+
+		if groupModel == nil {
+			return nil, fmt.Errorf("failed to convert group to groupModel, it's null, type: %s, value: %v", reflect.TypeOf(group).String(), group)
+		}
 		resource := Resource{
 			ID:       *group.GetId(),
 			Name:     *group.GetDisplayName(),
