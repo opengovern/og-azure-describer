@@ -2,6 +2,7 @@ package azuread
 
 import (
 	"context"
+	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -49,20 +50,20 @@ func tableAzureAdApplication(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func adApplicationTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	application := d.HydrateItem.(*ADApplicationInfo)
-	tags := application.GetTags()
+	application := d.HydrateItem.(*model.AdApplicationDescription)
+	tags := application.TagsSrc
 	return TagsToMap(tags)
 }
 
 func adApplicationTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(*ADApplicationInfo)
+	data := d.HydrateItem.(*model.AdApplicationDescription)
 	if data == nil {
 		return nil, nil
 	}
 
-	title := data.GetDisplayName()
+	title := data.DisplayName
 	if title == nil {
-		title = data.GetId()
+		title = data.Id
 	}
 
 	return title, nil
