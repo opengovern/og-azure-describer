@@ -216,6 +216,12 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 		if servicePrincipal == nil {
 			return true
 		}
+		var orgID *string
+		v := servicePrincipal.GetAppOwnerOrganizationId()
+		if v != nil {
+			tmp := v.String()
+			orgID = &tmp
+		}
 		resource := Resource{
 			ID:       *servicePrincipal.GetId(),
 			Name:     *servicePrincipal.GetDisplayName(),
@@ -229,7 +235,7 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 					AppId:                     servicePrincipal.GetAppId(),
 					AccountEnabled:            servicePrincipal.GetAccountEnabled(),
 					AppDisplayName:            servicePrincipal.GetAppDisplayName(),
-					AppOwnerOrganizationId:    servicePrincipal.GetAppOwnerOrganizationId(),
+					AppOwnerOrganizationId:    orgID,
 					AppRoleAssignmentRequired: servicePrincipal.GetAppRoleAssignmentRequired(),
 					ServicePrincipalType:      servicePrincipal.GetServicePrincipalType(),
 					SignInAudience:            servicePrincipal.GetSignInAudience(),
