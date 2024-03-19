@@ -284,11 +284,11 @@ func DescribeBySubscription(describe func(context.Context, *azidentity.ClientSec
 	})
 }
 
-func DescribeADByTenantID(describe func(context.Context, hamiltonAuth.Authorizer, string, *describer.StreamSender) ([]describer.Resource, error)) ResourceDescriber {
+func DescribeADByTenantID(describe func(context.Context, *azidentity.ClientSecretCredential, string, *describer.StreamSender) ([]describer.Resource, error)) ResourceDescriber {
 	return ResourceDescribeFunc(func(ctx context.Context, cred *azidentity.ClientSecretCredential, hamiltonAuth hamiltonAuth.Authorizer, subscription []string, tenantId string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) ([]describer.Resource, error) {
 		ctx = describer.WithTriggerType(ctx, triggerType)
 		var values []describer.Resource
-		result, err := describe(ctx, hamiltonAuth, tenantId, stream)
+		result, err := describe(ctx, cred, tenantId, stream)
 		if err != nil {
 			return nil, err
 		}
