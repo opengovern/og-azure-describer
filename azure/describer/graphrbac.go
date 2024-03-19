@@ -9,6 +9,7 @@ import (
 	"github.com/microsoftgraph/msgraph-sdk-go/applications"
 	"github.com/microsoftgraph/msgraph-sdk-go/auditlogs"
 	"github.com/microsoftgraph/msgraph-sdk-go/directoryroles"
+	"github.com/microsoftgraph/msgraph-sdk-go/domains"
 	"github.com/microsoftgraph/msgraph-sdk-go/groups"
 	"github.com/microsoftgraph/msgraph-sdk-go/groupsettings"
 	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipals"
@@ -523,6 +524,52 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 					AdditionalDetails:   additionalDetails,
 					InitiatedBy:         initiatedBy,
 					TargetResources:     targetResources,
+				},
+			},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
+	}
+
+	return values, nil
+}
+
+func AdDomain(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	result, err := client.Domains().Get(ctx, &domains.DomainsRequestBuilderGetRequestConfiguration{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get groups: %v", err)
+	}
+	var values []Resource
+	for _, domain := range result.GetValue() {
+		if domain == nil {
+			continue
+		}
+
+		resource := Resource{
+			ID:       *domain.GetId(),
+			Location: "global",
+			Description: JSONAllFieldsMarshaller{
+				Value: model.AdDomainDescription{
+					TenantID:           tenantId,
+					Id:                 domain.GetId(),
+					AuthenticationType: domain.GetAuthenticationType(),
+					IsDefault:          domain.GetIsDefault(),
+					IsAdminManaged:     domain.GetIsAdminManaged(),
+					IsInitial:          domain.GetIsInitial(),
+					IsRoot:             domain.GetIsRoot(),
+					IsVerified:         domain.GetIsVerified(),
+					SupportedServices:  domain.GetSupportedServices(),
 				},
 			},
 		}

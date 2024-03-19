@@ -1721,6 +1721,19 @@ type AdDirectoryAuditReportDescription struct {
 	}
 }
 
+//index:microsoft_resources_directorysettings
+type AdDomainDescription struct {
+	TenantID           string
+	Id                 *string
+	AuthenticationType *string
+	IsDefault          *bool
+	IsAdminManaged     *bool
+	IsInitial          *bool
+	IsRoot             *bool
+	IsVerified         *bool
+	SupportedServices  []string
+}
+
 //  =================== analysis ==================
 
 //index:microsoft_analysisservice_servers
