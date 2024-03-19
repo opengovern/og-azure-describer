@@ -1539,7 +1539,6 @@ type AdUsersDescription struct {
 	UserType                        *string
 	GivenName                       *string
 	Surname                         *string
-	Filter                          *string
 	OnPremisesImmutableId           *string
 	CreatedDateTime                 *time.Time
 	Mail                            *string
