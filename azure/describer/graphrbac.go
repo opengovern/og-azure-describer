@@ -6,8 +6,12 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 	msgraphsdk "github.com/microsoftgraph/msgraph-sdk-go"
+	msgraphcore "github.com/microsoftgraph/msgraph-sdk-go-core"
 	"github.com/microsoftgraph/msgraph-sdk-go/applications"
+	"github.com/microsoftgraph/msgraph-sdk-go/auditlogs"
+	"github.com/microsoftgraph/msgraph-sdk-go/devices"
 	"github.com/microsoftgraph/msgraph-sdk-go/groups"
+	"github.com/microsoftgraph/msgraph-sdk-go/models"
 	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipals"
 	users2 "github.com/microsoftgraph/msgraph-sdk-go/users"
 )
@@ -255,6 +259,144 @@ func AdApplication(ctx context.Context, cred *azidentity.ClientSecretCredential,
 		} else {
 			values = append(values, resource)
 		}
+	}
+
+	return values, nil
+}
+
+//
+
+func AdSignInReport(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	result, err := client.AuditLogs().SignIns().Get(ctx, &auditlogs.SignInsRequestBuilderGetRequestConfiguration{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get sign in report: %v", err)
+	}
+
+	var values []Resource
+	var itemErr error
+
+	pageIterator, err := msgraphcore.NewPageIterator[models.SignInable](result, client.GetAdapter(), models.CreateSignInCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(report models.SignInable) bool {
+		resource := Resource{
+			ID:       *report.GetId(),
+			Name:     *report.GetId(),
+			Location: "global",
+			Description: JSONAllFieldsMarshaller{
+				Value: model.AdSignInReportDescription{
+					TenantID:                         tenantId,
+					Id:                               report.GetId(),
+					CreatedDateTime:                  report.GetCreatedDateTime(),
+					UserDisplayName:                  report.GetUserDisplayName(),
+					UserPrincipalName:                report.GetUserPrincipalName(),
+					UserId:                           report.GetUserId(),
+					AppId:                            report.GetAppId(),
+					AppDisplayName:                   report.GetAppDisplayName(),
+					IpAddress:                        report.GetIpAddress(),
+					ClientAppUsed:                    report.GetClientAppUsed(),
+					CorrelationId:                    report.GetCorrelationId(),
+					ConditionalAccessStatus:          report.GetConditionalAccessStatus(),
+					IsInteractive:                    report.GetIsInteractive(),
+					RiskDetail:                       report.GetRiskDetail(),
+					RiskLevelAggregated:              report.GetRiskLevelAggregated(),
+					RiskLevelDuringSignIn:            report.GetRiskLevelDuringSignIn(),
+					RiskState:                        report.GetRiskState(),
+					ResourceDisplayName:              report.GetResourceDisplayName(),
+					ResourceId:                       report.GetResourceId(),
+					RiskEventTypes:                   report.GetRiskEventTypes(),
+					Status:                           report.GetStatus(),
+					DeviceDetail:                     report.GetDeviceDetail(),
+					Location:                         report.GetLocation(),
+					AppliedConditionalAccessPolicies: report.GetAppliedConditionalAccessPolicies(),
+				},
+			},
+		}
+		if stream != nil {
+			if itemErr = (*stream)(resource); itemErr != nil {
+				return false
+			}
+		} else {
+			values = append(values, resource)
+		}
+		// Return true to continue the iteration
+		return true
+	})
+	if itemErr != nil {
+		return nil, err
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return values, nil
+}
+
+func AdDevice(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	var values []Resource
+	var itemErr error
+	result, err := client.Devices().Get(ctx, &devices.DevicesRequestBuilderGetRequestConfiguration{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get devices: %v", err)
+	}
+	pageIterator, err := msgraphcore.NewPageIterator[models.Deviceable](result, client.GetAdapter(), models.CreateDeviceCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(device models.Deviceable) bool {
+		resource := Resource{
+			ID:       *device.GetId(),
+			Name:     *device.GetDisplayName(),
+			Location: "global",
+			Description: JSONAllFieldsMarshaller{
+				Value: model.AdDeviceDescription{
+					TenantID:                      tenantId,
+					Id:                            device.GetId(),
+					DisplayName:                   device.GetDisplayName(),
+					AccountEnabled:                device.GetAccountEnabled(),
+					DeviceId:                      device.GetDeviceId(),
+					ApproximateLastSignInDateTime: device.GetApproximateLastSignInDateTime(),
+					IsCompliant:                   device.GetIsCompliant(),
+					IsManaged:                     device.GetIsManaged(),
+					MdmAppId:                      device.GetMdmAppId(),
+					OperatingSystem:               device.GetOperatingSystem(),
+					OperatingSystemVersion:        device.GetOperatingSystemVersion(),
+					ProfileType:                   device.GetProfileType(),
+					TrustType:                     device.GetTrustType(),
+					ExtensionAttributes:           device.GetExtensions(),
+					MemberOf:                      device.GetMemberOf(),
+				},
+			},
+		}
+		if stream != nil {
+			if itemErr = (*stream)(resource); itemErr != nil {
+				return false
+			}
+		} else {
+			values = append(values, resource)
+		}
+		return true
+	})
+	if itemErr != nil {
+		return nil, err
+	}
+
+	if err != nil {
+		return nil, err
 	}
 
 	return values, nil

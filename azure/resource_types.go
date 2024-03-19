@@ -800,6 +800,38 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Resources/devices": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/devices",
+		ResourceLabel:        "Azure AD Devices",
+		Tags:                 map[string][]string{
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdDevice),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Resources/signInReports": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/signInReports",
+		ResourceLabel:        "Azure AD Sign-in reports",
+		Tags:                 map[string][]string{
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdSignInReport),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Resources/applications": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Resources/applications",
