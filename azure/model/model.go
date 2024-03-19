@@ -1671,6 +1671,56 @@ type AdDirectorySettingDescription struct {
 	Value       *string
 }
 
+//index:microsoft_resources_directoryauditreports
+type AdDirectoryAuditReportDescription struct {
+	TenantID            string
+	Id                  *string
+	ActivityDateTime    *time.Time
+	ActivityDisplayName *string
+	Category            *string
+	CorrelationId       *string
+	LoggedByService     *string
+	OperationType       *string
+	Result              *string
+	ResultReason        *string
+	AdditionalDetails   []struct {
+		Key       *string
+		OdataType *string
+		Value     *string
+	}
+	InitiatedBy struct {
+		OdataType *string
+		App       struct {
+			AppId                *string
+			DisplayName          *string
+			OdataType            *string
+			ServicePrincipalId   *string
+			ServicePrincipalName *string
+		}
+		User struct {
+			Id                *string
+			DisplayName       *string
+			OdataType         *string
+			IpAddress         *string
+			UserPrincipalName *string
+		}
+	}
+	TargetResources []struct {
+		DisplayName        *string
+		GroupType          string
+		Id                 *string
+		ModifiedProperties []struct {
+			DisplayName *string
+			NewValue    *string
+			OdataType   *string
+			OldValue    *string
+		}
+		OdataType         *string
+		TypeEscaped       *string
+		UserPrincipalName *string
+	}
+}
+
 //  =================== analysis ==================
 
 //index:microsoft_analysisservice_servers

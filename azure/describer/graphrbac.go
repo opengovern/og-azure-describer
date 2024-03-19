@@ -7,6 +7,7 @@ import (
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 	msgraphsdk "github.com/microsoftgraph/msgraph-sdk-go"
 	"github.com/microsoftgraph/msgraph-sdk-go/applications"
+	"github.com/microsoftgraph/msgraph-sdk-go/auditlogs"
 	"github.com/microsoftgraph/msgraph-sdk-go/directoryroles"
 	"github.com/microsoftgraph/msgraph-sdk-go/groups"
 	"github.com/microsoftgraph/msgraph-sdk-go/groupsettings"
@@ -351,6 +352,186 @@ func AdDirectorySetting(ctx context.Context, cred *azidentity.ClientSecretCreden
 			} else {
 				values = append(values, resource)
 			}
+		}
+	}
+
+	return values, nil
+}
+
+func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	result, err := client.AuditLogs().DirectoryAudits().Get(ctx, &auditlogs.DirectoryAuditsRequestBuilderGetRequestConfiguration{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get groups: %v", err)
+	}
+	var values []Resource
+	for _, audit := range result.GetValue() {
+		if audit == nil {
+			continue
+		}
+
+		var auditResult *string
+		if audit.GetResult() != nil {
+			tmpResult := audit.GetResult().String()
+			auditResult = &tmpResult
+		}
+
+		var additionalDetails []struct {
+			Key       *string
+			OdataType *string
+			Value     *string
+		}
+
+		for _, ad := range audit.GetAdditionalDetails() {
+			additionalDetails = append(additionalDetails, struct {
+				Key       *string
+				OdataType *string
+				Value     *string
+			}{Key: ad.GetKey(), OdataType: ad.GetOdataType(), Value: ad.GetValue()})
+		}
+
+		initiatedBy := struct {
+			OdataType *string
+			App       struct {
+				AppId                *string
+				DisplayName          *string
+				OdataType            *string
+				ServicePrincipalId   *string
+				ServicePrincipalName *string
+			}
+			User struct {
+				Id                *string
+				DisplayName       *string
+				OdataType         *string
+				IpAddress         *string
+				UserPrincipalName *string
+			}
+		}{
+			OdataType: audit.GetInitiatedBy().GetOdataType(),
+			App: struct {
+				AppId                *string
+				DisplayName          *string
+				OdataType            *string
+				ServicePrincipalId   *string
+				ServicePrincipalName *string
+			}{
+				AppId:                audit.GetInitiatedBy().GetApp().GetAppId(),
+				DisplayName:          audit.GetInitiatedBy().GetApp().GetDisplayName(),
+				OdataType:            audit.GetInitiatedBy().GetApp().GetOdataType(),
+				ServicePrincipalId:   audit.GetInitiatedBy().GetApp().GetServicePrincipalId(),
+				ServicePrincipalName: audit.GetInitiatedBy().GetApp().GetServicePrincipalName(),
+			},
+			User: struct {
+				Id                *string
+				DisplayName       *string
+				OdataType         *string
+				IpAddress         *string
+				UserPrincipalName *string
+			}{
+				Id:                audit.GetInitiatedBy().GetUser().GetId(),
+				DisplayName:       audit.GetInitiatedBy().GetUser().GetDisplayName(),
+				OdataType:         audit.GetInitiatedBy().GetUser().GetOdataType(),
+				IpAddress:         audit.GetInitiatedBy().GetUser().GetIpAddress(),
+				UserPrincipalName: audit.GetInitiatedBy().GetUser().GetUserPrincipalName(),
+			},
+		}
+
+		var targetResources []struct {
+			DisplayName        *string
+			GroupType          string
+			Id                 *string
+			ModifiedProperties []struct {
+				DisplayName *string
+				NewValue    *string
+				OdataType   *string
+				OldValue    *string
+			}
+			OdataType         *string
+			TypeEscaped       *string
+			UserPrincipalName *string
+		}
+
+		for _, tr := range audit.GetTargetResources() {
+			targetResource := struct {
+				DisplayName        *string
+				GroupType          string
+				Id                 *string
+				ModifiedProperties []struct {
+					DisplayName *string
+					NewValue    *string
+					OdataType   *string
+					OldValue    *string
+				}
+				OdataType         *string
+				TypeEscaped       *string
+				UserPrincipalName *string
+			}{
+				DisplayName:       tr.GetDisplayName(),
+				GroupType:         tr.GetGroupType().String(),
+				Id:                tr.GetId(),
+				OdataType:         tr.GetOdataType(),
+				TypeEscaped:       tr.GetTypeEscaped(),
+				UserPrincipalName: tr.GetUserPrincipalName(),
+			}
+
+			var modifiedProperties []struct {
+				DisplayName *string
+				NewValue    *string
+				OdataType   *string
+				OldValue    *string
+			}
+
+			for _, mp := range tr.GetModifiedProperties() {
+				modifiedProperties = append(modifiedProperties, struct {
+					DisplayName *string
+					NewValue    *string
+					OdataType   *string
+					OldValue    *string
+				}{
+					DisplayName: mp.GetDisplayName(),
+					NewValue:    mp.GetNewValue(),
+					OdataType:   mp.GetOdataType(),
+					OldValue:    mp.GetOldValue(),
+				})
+			}
+
+			targetResource.ModifiedProperties = modifiedProperties
+
+			targetResources = append(targetResources, targetResource)
+		}
+
+		resource := Resource{
+			ID:       *audit.GetId(),
+			Location: "global",
+			Description: JSONAllFieldsMarshaller{
+				Value: model.AdDirectoryAuditReportDescription{
+					TenantID:            tenantId,
+					Id:                  audit.GetId(),
+					ActivityDateTime:    audit.GetActivityDateTime(),
+					ActivityDisplayName: audit.GetActivityDisplayName(),
+					Category:            audit.GetCategory(),
+					CorrelationId:       audit.GetCorrelationId(),
+					LoggedByService:     audit.GetLoggedByService(),
+					OperationType:       audit.GetOperationType(),
+					Result:              auditResult,
+					ResultReason:        audit.GetResultReason(),
+					AdditionalDetails:   additionalDetails,
+					InitiatedBy:         initiatedBy,
+					TargetResources:     targetResources,
+				},
+			},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
 		}
 	}
 

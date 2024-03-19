@@ -1763,6 +1763,22 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Resources/directoryauditreport": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/directoryauditreport",
+		ResourceLabel:        "Azure AD Directory Audit Report",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdDirectoryAuditReport),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Compute/snapshots": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/snapshots",
