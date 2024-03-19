@@ -88,6 +88,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/virtualmachineimagebuilder/armvirtualmachineimagebuilder"
 	"github.com/Azure/azure-sdk-for-go/services/preview/web/mgmt/2015-08-01-preview/web"
 	azblobOld "github.com/Azure/azure-storage-blob-go/azblob"
+	"github.com/google/uuid"
 	"github.com/microsoftgraph/msgraph-sdk-go/models"
 	"github.com/tombuildsstuff/giovanni/storage/2018-11-09/queue/queues"
 	"github.com/tombuildsstuff/giovanni/storage/2019-12-12/blob/accounts"
@@ -1605,16 +1606,16 @@ type AdServicePrincipalDescription struct {
 	AccountEnabled            *bool
 	AppDisplayName            *string
 	AppRoleAssignmentRequired *bool
-	//AppOwnerOrganizationId    *uuid.UUID
-	ServicePrincipalType *string
-	SignInAudience       *string
-	AppDescription       *string
-	Description          *string
-	LoginUrl             *string
-	LogoutUrl            *string
-	AddIns               []models.AddInable
-	AlternativeNames     []string
-	AppRoles             []models.AppRoleable
+	AppOwnerOrganizationId    *uuid.UUID
+	ServicePrincipalType      *string
+	SignInAudience            *string
+	AppDescription            *string
+	Description               *string
+	LoginUrl                  *string
+	LogoutUrl                 *string
+	AddIns                    []models.AddInable
+	AlternativeNames          []string
+	AppRoles                  []models.AppRoleable
 	//Info models.InformationalUrlable
 	KeyCredentials             []models.KeyCredentialable
 	NotificationEmailAddresses []string
