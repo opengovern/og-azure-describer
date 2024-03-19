@@ -1523,14 +1523,6 @@ type LocationDescription struct {
 //  =================== msgraph ==================
 
 //index:microsoft_resources_users
-//getfilter:id=description.AdUsers.DirectoryObject.id
-//listfilter:id=description.AdUsers.DirectoryObject.id
-//listfilter:user_principal_name=description.AdUsers.userPrincipalName
-//listfilter:filter=description.AdUsers.filter
-//listfilter:user_type=description.AdUsers.userType
-//listfilter:account_enabled=description.AdUsers.accountEnabled
-//listfilter:display_name=description.AdUsers.displayName
-//listfilter:surname=description.AdUsers.surname
 type AdUsersDescription struct {
 	TenantID                        string
 	DisplayName                     *string
@@ -1555,12 +1547,6 @@ type AdUsersDescription struct {
 }
 
 //index:microsoft_resources_groups
-//getfilter:id=description.AdGroup.DirectoryObject.ID
-//listfilter:display_name=description.AdGroup.DisplayName
-//listfilter:mail=description.AdGroup.Mail
-//listfilter:mail_enabled=description.AdGroup.MailEnabled
-//listfilter:on_premises_sync_enabled=description.AdGroup.OnPremisesSyncEnabled
-//listfilter:security_enabled=description.AdGroup.SecurityEnabled
 type AdGroupDescription struct {
 	TenantID                      string
 	DisplayName                   *string
@@ -1594,10 +1580,6 @@ type AdGroupDescription struct {
 }
 
 //index:microsoft_resources_serviceprincipals
-//getfilter:id=description.AdServicePrincipal.DirectoryObject.ID
-//listfilter:display_name=description.AdServicePrincipal.DisplayName
-//listfilter:account_enabled=description.AdServicePrincipal.AccountEnabled
-//listfilter:service_principal_type=description.AdServicePrincipal.ServicePrincipalType
 type AdServicePrincipalDescription struct {
 	TenantID                  string
 	Id                        *string
