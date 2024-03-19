@@ -21407,7 +21407,7 @@ var getRoleDefinitionFilters = map[string]string{
 	"description":       "description.RoleDefinition.Properties.Description",
 	"id":                "description.RoleDefinition.ID",
 	"kaytu_account_id":  "metadata.SourceID",
-	"name":              "description.RoleDefinition.name",
+	"name":              "description.RoleDefinition.Name",
 	"permissions":       "description.RoleDefinition.Properties.Permissions",
 	"role_name":         "description.RoleDefinition.Properties.RoleName",
 	"role_type":         "description.RoleDefinition.Properties.RoleType",
