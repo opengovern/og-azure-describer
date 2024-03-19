@@ -916,3 +916,66 @@ func AdConditionalAccessPolicy(ctx context.Context, cred *azidentity.ClientSecre
 
 	return values, nil
 }
+
+func AdAdminConsentRequestPolicy(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	result, err := client.Policies().AdminConsentRequestPolicy().Get(ctx, &policies.AdminConsentRequestPolicyRequestBuilderGetRequestConfiguration{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get groups: %v", err)
+	}
+	var values []Resource
+	if result == nil {
+		return values, nil
+	}
+
+	var reviewers []struct {
+		OdataType *string
+		Query     *string
+		QueryRoot *string
+		QueryType *string
+	}
+	for _, r := range result.GetReviewers() {
+		reviewers = append(reviewers, struct {
+			OdataType *string
+			Query     *string
+			QueryRoot *string
+			QueryType *string
+		}{
+			OdataType: r.GetOdataType(),
+			Query:     r.GetQuery(),
+			QueryRoot: r.GetQueryRoot(),
+			QueryType: r.GetQueryType(),
+		})
+	}
+
+	resource := Resource{
+		ID:       *result.GetId(),
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			Value: model.AdAdminConsentRequestPolicyDescription{
+				TenantID:              tenantId,
+				Id:                    result.GetId(),
+				IsEnabled:             result.GetIsEnabled(),
+				NotifyReviewers:       result.GetNotifyReviewers(),
+				RemindersEnabled:      result.GetRemindersEnabled(),
+				RequestDurationInDays: result.GetRequestDurationInDays(),
+				Version:               result.GetVersion(),
+				Reviewers:             reviewers,
+			},
+		},
+	}
+	if stream != nil {
+		if err := (*stream)(resource); err != nil {
+			return nil, err
+		}
+	} else {
+		values = append(values, resource)
+	}
+
+	return values, nil
+}

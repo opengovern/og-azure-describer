@@ -1844,6 +1844,23 @@ type AdConditionalAccessPolicyDescription struct {
 	UserRiskLevel []string
 }
 
+//index:microsoft_resources_adminconsentrequestpolicy
+type AdAdminConsentRequestPolicyDescription struct {
+	TenantID              string
+	Id                    *string
+	IsEnabled             *bool
+	NotifyReviewers       *bool
+	RemindersEnabled      *bool
+	RequestDurationInDays *int32
+	Version               *int32
+	Reviewers             []struct {
+		OdataType *string
+		Query     *string
+		QueryRoot *string
+		QueryType *string
+	}
+}
+
 //  =================== analysis ==================
 
 //index:microsoft_analysisservice_servers

@@ -896,6 +896,22 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Resources/adminconsentrequestpolicy": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/adminconsentrequestpolicy",
+		ResourceLabel:        "Azure AD Admin Consent Request Policy",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdAdminConsentRequestPolicy),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Web/hostingEnvironments": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Web/hostingEnvironments",
