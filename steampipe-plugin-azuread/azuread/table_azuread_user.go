@@ -53,7 +53,7 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 				Name:        "id",
 				Type:        proto.ColumnType_STRING,
 				Description: "The unique identifier for the user. Should be treated as an opaque identifier.",
-				Transform:   transform.FromField("Description.ID"),
+				Transform:   transform.FromField("Description.Id"),
 			},
 			{
 				Name:        "user_principal_name",
