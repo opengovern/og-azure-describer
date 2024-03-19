@@ -775,7 +775,7 @@ var resourceTypes = map[string]ResourceType{
 			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
 		},
 		ServiceName:          "Resources",
-		ListDescriber:        DescribeADByTenantID(describer.AdGroup),
+		ListDescriber:        DescribeBySubscription(describer.AdGroup),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
