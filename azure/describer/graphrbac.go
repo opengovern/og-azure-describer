@@ -475,17 +475,17 @@ func AdDirectoryRole(ctx context.Context, cred *azidentity.ClientSecretCredentia
 	if err != nil {
 		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
-
+	var itemErr error
 	result, err := client.DirectoryRoles().Get(ctx, &directoryroles.DirectoryRolesRequestBuilderGetRequestConfiguration{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
 	var values []Resource
-	for _, role := range result.GetValue() {
-		if role == nil {
-			continue
-		}
-
+	pageIterator, err := msgraphcore.NewPageIterator[models.DirectoryRole](result, client.GetAdapter(), models.CreateDirectoryRoleCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(role models.DirectoryRole) bool {
 		var memberIds []*string
 		for _, member := range role.GetMembers() {
 			memberIds = append(memberIds, member.GetId())
@@ -507,12 +507,21 @@ func AdDirectoryRole(ctx context.Context, cred *azidentity.ClientSecretCredentia
 			},
 		}
 		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+			if itemErr = (*stream)(resource); itemErr != nil {
+				return false
 			}
 		} else {
 			values = append(values, resource)
 		}
+		return true
+	})
+
+	if itemErr != nil {
+		return nil, err
+	}
+
+	if err != nil {
+		return nil, err
 	}
 
 	return values, nil
@@ -524,15 +533,20 @@ func AdDirectorySetting(ctx context.Context, cred *azidentity.ClientSecretCreden
 	if err != nil {
 		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
+	var itemErr error
 
 	result, err := client.GroupSettings().Get(ctx, &groupsettings.GroupSettingsRequestBuilderGetRequestConfiguration{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
 	var values []Resource
-	for _, setting := range result.GetValue() {
+	pageIterator, err := msgraphcore.NewPageIterator[models.GroupSettingable](result, client.GetAdapter(), models.CreateGroupSettingCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(setting models.GroupSettingable) bool {
 		if setting == nil {
-			continue
+			return true
 		}
 
 		for _, v := range setting.GetValues() {
@@ -552,13 +566,22 @@ func AdDirectorySetting(ctx context.Context, cred *azidentity.ClientSecretCreden
 				},
 			}
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
+				if itemErr = (*stream)(resource); itemErr != nil {
+					return false
 				}
 			} else {
 				values = append(values, resource)
 			}
 		}
+		return true
+	})
+
+	if itemErr != nil {
+		return nil, err
+	}
+
+	if err != nil {
+		return nil, err
 	}
 
 	return values, nil
@@ -570,15 +593,20 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 	if err != nil {
 		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
+	var itemErr error
 
 	result, err := client.AuditLogs().DirectoryAudits().Get(ctx, &auditlogs.DirectoryAuditsRequestBuilderGetRequestConfiguration{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
 	var values []Resource
-	for _, audit := range result.GetValue() {
+	pageIterator, err := msgraphcore.NewPageIterator[models.DirectoryAuditable](result, client.GetAdapter(), models.CreateSignInCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(audit models.DirectoryAuditable) bool {
 		if audit == nil {
-			continue
+			return true
 		}
 
 		var auditResult *string
@@ -733,12 +761,21 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 			},
 		}
 		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+			if itemErr = (*stream)(resource); itemErr != nil {
+				return false
 			}
 		} else {
 			values = append(values, resource)
 		}
+		return true
+	})
+
+	if itemErr != nil {
+		return nil, err
+	}
+
+	if err != nil {
+		return nil, err
 	}
 
 	return values, nil
@@ -750,15 +787,20 @@ func AdDomain(ctx context.Context, cred *azidentity.ClientSecretCredential, tena
 	if err != nil {
 		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
+	var itemErr error
 
 	result, err := client.Domains().Get(ctx, &domains.DomainsRequestBuilderGetRequestConfiguration{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
 	var values []Resource
-	for _, domain := range result.GetValue() {
+	pageIterator, err := msgraphcore.NewPageIterator[models.Domainable](result, client.GetAdapter(), models.CreateDomainCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(domain models.Domainable) bool {
 		if domain == nil {
-			continue
+			return true
 		}
 
 		resource := Resource{
@@ -779,12 +821,21 @@ func AdDomain(ctx context.Context, cred *azidentity.ClientSecretCredential, tena
 			},
 		}
 		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+			if itemErr = (*stream)(resource); itemErr != nil {
+				return false
 			}
 		} else {
 			values = append(values, resource)
 		}
+		return true
+	})
+
+	if itemErr != nil {
+		return nil, err
+	}
+
+	if err != nil {
+		return nil, err
 	}
 
 	return values, nil
@@ -796,16 +847,18 @@ func AdIdentityProvider(ctx context.Context, cred *azidentity.ClientSecretCreden
 	if err != nil {
 		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
+	var itemErr error
 
 	result, err := client.Identity().IdentityProviders().Get(ctx, &identity.IdentityProvidersRequestBuilderGetRequestConfiguration{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
 	var values []Resource
-	for _, ip := range result.GetValue() {
-		if ip == nil {
-			continue
-		}
+	pageIterator, err := msgraphcore.NewPageIterator[models.BuiltInIdentityProvider](result, client.GetAdapter(), models.CreateBuiltInIdentityProviderFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(ip models.BuiltInIdentityProvider) bool {
 		clientID := ip.GetAdditionalData()["clientId"]
 		clientSecret := ip.GetAdditionalData()["clientSecret"]
 
@@ -825,12 +878,21 @@ func AdIdentityProvider(ctx context.Context, cred *azidentity.ClientSecretCreden
 			},
 		}
 		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+			if itemErr = (*stream)(resource); itemErr != nil {
+				return false
 			}
 		} else {
 			values = append(values, resource)
 		}
+		return true
+	})
+
+	if itemErr != nil {
+		return nil, err
+	}
+
+	if err != nil {
+		return nil, err
 	}
 
 	return values, nil
@@ -948,6 +1010,7 @@ func AdConditionalAccessPolicy(ctx context.Context, cred *azidentity.ClientSecre
 	if err != nil {
 		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
+	var itemErr error
 
 	result, err := client.Identity().ConditionalAccess().Policies().Get(ctx, &identity.ConditionalAccessPoliciesRequestBuilderGetRequestConfiguration{})
 	if err != nil {
@@ -958,7 +1021,14 @@ func AdConditionalAccessPolicy(ctx context.Context, cred *azidentity.ClientSecre
 		return values, nil
 	}
 
-	for _, p := range result.GetValue() {
+	pageIterator, err := msgraphcore.NewPageIterator[models.ConditionalAccessPolicyable](result, client.GetAdapter(), models.CreateConditionalAccessPolicyCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(p models.ConditionalAccessPolicyable) bool {
+		if p == nil {
+			return true
+		}
 
 		applications := struct {
 			ApplicationFilter struct {
@@ -1109,12 +1179,21 @@ func AdConditionalAccessPolicy(ctx context.Context, cred *azidentity.ClientSecre
 			},
 		}
 		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+			if itemErr = (*stream)(resource); itemErr != nil {
+				return false
 			}
 		} else {
 			values = append(values, resource)
 		}
+		return true
+	})
+
+	if itemErr != nil {
+		return nil, err
+	}
+
+	if err != nil {
+		return nil, err
 	}
 
 	return values, nil
