@@ -29,7 +29,11 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
 
-	result, err := client.Users().Get(ctx, &users2.UsersRequestBuilderGetRequestConfiguration{})
+	result, err := client.Users().Get(ctx, &users2.UsersRequestBuilderGetRequestConfiguration{
+		QueryParameters: &users2.UsersRequestBuilderGetQueryParameters{
+			Top: aws.Int32(9999),
+		},
+	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get users: %v", err)
 	}
@@ -101,7 +105,11 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
 
-	result, err := client.Groups().Get(ctx, &groups.GroupsRequestBuilderGetRequestConfiguration{})
+	result, err := client.Groups().Get(ctx, &groups.GroupsRequestBuilderGetRequestConfiguration{
+		QueryParameters: &groups.GroupsRequestBuilderGetQueryParameters{
+			Top: aws.Int32(9999),
+		},
+	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
@@ -195,14 +203,7 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 	var itemErr error
 	result, err := client.ServicePrincipals().Get(ctx, &serviceprincipals.ServicePrincipalsRequestBuilderGetRequestConfiguration{
 		QueryParameters: &serviceprincipals.ServicePrincipalsRequestBuilderGetQueryParameters{
-			Count:   nil,
-			Expand:  nil,
-			Filter:  nil,
-			Orderby: nil,
-			Search:  nil,
-			Select:  nil,
-			Skip:    nil,
-			Top:     aws.Int32(999),
+			Top: aws.Int32(999),
 		},
 	})
 	if err != nil {
@@ -286,7 +287,11 @@ func AdApplication(ctx context.Context, cred *azidentity.ClientSecretCredential,
 
 	var values []Resource
 	var itemErr error
-	result, err := client.Applications().Get(ctx, &applications.ApplicationsRequestBuilderGetRequestConfiguration{})
+	result, err := client.Applications().Get(ctx, &applications.ApplicationsRequestBuilderGetRequestConfiguration{
+		QueryParameters: &applications.ApplicationsRequestBuilderGetQueryParameters{
+			Top: aws.Int32(9999),
+		},
+	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
@@ -356,7 +361,11 @@ func AdSignInReport(ctx context.Context, cred *azidentity.ClientSecretCredential
 		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
 
-	result, err := client.AuditLogs().SignIns().Get(ctx, &auditlogs.SignInsRequestBuilderGetRequestConfiguration{})
+	result, err := client.AuditLogs().SignIns().Get(ctx, &auditlogs.SignInsRequestBuilderGetRequestConfiguration{
+		QueryParameters: &auditlogs.SignInsRequestBuilderGetQueryParameters{
+			Top: aws.Int32(9999),
+		},
+	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get sign in report: %v", err)
 	}
@@ -436,7 +445,11 @@ func AdDevice(ctx context.Context, cred *azidentity.ClientSecretCredential, tena
 
 	var values []Resource
 	var itemErr error
-	result, err := client.Devices().Get(ctx, &devices.DevicesRequestBuilderGetRequestConfiguration{})
+	result, err := client.Devices().Get(ctx, &devices.DevicesRequestBuilderGetRequestConfiguration{
+		QueryParameters: &devices.DevicesRequestBuilderGetQueryParameters{
+			Top: aws.Int32(9999),
+		},
+	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get devices: %v", err)
 	}
@@ -560,7 +573,11 @@ func AdDirectorySetting(ctx context.Context, cred *azidentity.ClientSecretCreden
 	}
 	var itemErr error
 
-	result, err := client.GroupSettings().Get(ctx, &groupsettings.GroupSettingsRequestBuilderGetRequestConfiguration{})
+	result, err := client.GroupSettings().Get(ctx, &groupsettings.GroupSettingsRequestBuilderGetRequestConfiguration{
+		QueryParameters: &groupsettings.GroupSettingsRequestBuilderGetQueryParameters{
+			Top: aws.Int32(9999),
+		},
+	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
@@ -621,7 +638,11 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 	}
 	var itemErr error
 
-	result, err := client.AuditLogs().DirectoryAudits().Get(ctx, &auditlogs.DirectoryAuditsRequestBuilderGetRequestConfiguration{})
+	result, err := client.AuditLogs().DirectoryAudits().Get(ctx, &auditlogs.DirectoryAuditsRequestBuilderGetRequestConfiguration{
+		QueryParameters: &auditlogs.DirectoryAuditsRequestBuilderGetQueryParameters{
+			Top: aws.Int32(9999),
+		},
+	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
@@ -816,7 +837,11 @@ func AdDomain(ctx context.Context, cred *azidentity.ClientSecretCredential, tena
 	}
 	var itemErr error
 
-	result, err := client.Domains().Get(ctx, &domains.DomainsRequestBuilderGetRequestConfiguration{})
+	result, err := client.Domains().Get(ctx, &domains.DomainsRequestBuilderGetRequestConfiguration{
+		QueryParameters: &domains.DomainsRequestBuilderGetQueryParameters{
+			Top: aws.Int32(9999),
+		},
+	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
@@ -877,7 +902,11 @@ func AdIdentityProvider(ctx context.Context, cred *azidentity.ClientSecretCreden
 	}
 	var itemErr error
 
-	result, err := client.Identity().IdentityProviders().Get(ctx, &identity.IdentityProvidersRequestBuilderGetRequestConfiguration{})
+	result, err := client.Identity().IdentityProviders().Get(ctx, &identity.IdentityProvidersRequestBuilderGetRequestConfiguration{
+		QueryParameters: &identity.IdentityProvidersRequestBuilderGetQueryParameters{
+			Top: aws.Int32(9999),
+		},
+	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
@@ -1043,7 +1072,11 @@ func AdConditionalAccessPolicy(ctx context.Context, cred *azidentity.ClientSecre
 	}
 	var itemErr error
 
-	result, err := client.Identity().ConditionalAccess().Policies().Get(ctx, &identity.ConditionalAccessPoliciesRequestBuilderGetRequestConfiguration{})
+	result, err := client.Identity().ConditionalAccess().Policies().Get(ctx, &identity.ConditionalAccessPoliciesRequestBuilderGetRequestConfiguration{
+		QueryParameters: &identity.ConditionalAccessPoliciesRequestBuilderGetQueryParameters{
+			Top: aws.Int32(9999),
+		},
+	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
