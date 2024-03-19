@@ -11,6 +11,7 @@ type Resource struct {
 	ResourceGroup  string
 	Location       string
 	SubscriptionID string
+	TenantID       string
 }
 
 func (r Resource) UniqueID() string {

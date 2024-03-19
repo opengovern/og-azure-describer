@@ -47,6 +47,7 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 			ID:       *user.GetId(),
 			Name:     *user.GetDisplayName(),
 			Location: "global",
+			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdUsersDescription{
 					TenantID:              tenantId,
@@ -126,6 +127,7 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 			ID:       *group.GetId(),
 			Name:     *group.GetDisplayName(),
 			Location: "global",
+			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdGroupDescription{
 					TenantID:                      tenantId,
@@ -206,6 +208,7 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 			ID:       *servicePrincipal.GetId(),
 			Name:     *servicePrincipal.GetDisplayName(),
 			Location: "global",
+			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdServicePrincipalDescription{
 					TenantID:                  tenantId,
@@ -282,6 +285,7 @@ func AdApplication(ctx context.Context, cred *azidentity.ClientSecretCredential,
 			ID:       *app.GetId(),
 			Name:     *app.GetDisplayName(),
 			Location: "global",
+			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdApplicationDescription{
 					TenantID:                  tenantId,
@@ -354,6 +358,7 @@ func AdSignInReport(ctx context.Context, cred *azidentity.ClientSecretCredential
 			ID:       *report.GetId(),
 			Name:     *report.GetId(),
 			Location: "global",
+			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdSignInReportDescription{
 					TenantID:                         tenantId,
@@ -429,6 +434,7 @@ func AdDevice(ctx context.Context, cred *azidentity.ClientSecretCredential, tena
 			ID:       *device.GetId(),
 			Name:     *device.GetDisplayName(),
 			Location: "global",
+			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdDeviceDescription{
 					TenantID:                      tenantId,
@@ -495,6 +501,7 @@ func AdDirectoryRole(ctx context.Context, cred *azidentity.ClientSecretCredentia
 			ID:       *role.GetId(),
 			Name:     *role.GetDisplayName(),
 			Location: "global",
+			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdDirectoryRoleDescription{
 					TenantID:       tenantId,
@@ -554,6 +561,7 @@ func AdDirectorySetting(ctx context.Context, cred *azidentity.ClientSecretCreden
 				ID:       *setting.GetId(),
 				Name:     *setting.GetDisplayName(),
 				Location: "global",
+				TenantID: tenantId,
 				Description: JSONAllFieldsMarshaller{
 					Value: model.AdDirectorySettingDescription{
 						TenantID:    tenantId,
@@ -742,6 +750,7 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 		resource := Resource{
 			ID:       *audit.GetId(),
 			Location: "global",
+			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdDirectoryAuditReportDescription{
 					TenantID:            tenantId,
@@ -806,6 +815,7 @@ func AdDomain(ctx context.Context, cred *azidentity.ClientSecretCredential, tena
 		resource := Resource{
 			ID:       *domain.GetId(),
 			Location: "global",
+			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdDomainDescription{
 					TenantID:           tenantId,
@@ -866,6 +876,7 @@ func AdIdentityProvider(ctx context.Context, cred *azidentity.ClientSecretCreden
 			ID:       *ip.GetId(),
 			Name:     *ip.GetDisplayName(),
 			Location: "global",
+			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdIdentityProviderDescription{
 					TenantID:     tenantId,
@@ -918,6 +929,7 @@ func AdSecurityDefaultsPolicy(ctx context.Context, cred *azidentity.ClientSecret
 		ID:       *result.GetId(),
 		Name:     *result.GetDisplayName(),
 		Location: "global",
+		TenantID: tenantId,
 		Description: JSONAllFieldsMarshaller{
 			Value: model.AdSecurityDefaultsPolicyDescription{
 				TenantID:    tenantId,
@@ -977,6 +989,7 @@ func AdAuthorizationPolicy(ctx context.Context, cred *azidentity.ClientSecretCre
 		ID:       *result.GetId(),
 		Name:     *result.GetDisplayName(),
 		Location: "global",
+		TenantID: tenantId,
 		Description: JSONAllFieldsMarshaller{
 			Value: model.AdAuthorizationPolicyDescription{
 				TenantID:                               tenantId,
@@ -1092,6 +1105,7 @@ func AdConditionalAccessPolicy(ctx context.Context, cred *azidentity.ClientSecre
 			ID:       *p.GetId(),
 			Name:     *p.GetDisplayName(),
 			Location: "global",
+			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdConditionalAccessPolicyDescription{
 					TenantID:         tenantId,
@@ -1238,6 +1252,7 @@ func AdAdminConsentRequestPolicy(ctx context.Context, cred *azidentity.ClientSec
 	resource := Resource{
 		ID:       *result.GetId(),
 		Location: "global",
+		TenantID: tenantId,
 		Description: JSONAllFieldsMarshaller{
 			Value: model.AdAdminConsentRequestPolicyDescription{
 				TenantID:              tenantId,
