@@ -47331,21 +47331,21 @@ func GetAdServicePrincipal(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 // ==========================  END: AdServicePrincipal =============================
 
-// ==========================  START: AdApplication =============================
+// ==========================  START: AdDirectoryRole =============================
 
-type AdApplication struct {
-	Description   azure.AdApplicationDescription `json:"description"`
-	Metadata      azure.Metadata                 `json:"metadata"`
-	ResourceJobID int                            `json:"resource_job_id"`
-	SourceJobID   int                            `json:"source_job_id"`
-	ResourceType  string                         `json:"resource_type"`
-	SourceType    string                         `json:"source_type"`
-	ID            string                         `json:"id"`
-	ARN           string                         `json:"arn"`
-	SourceID      string                         `json:"source_id"`
+type AdDirectoryRole struct {
+	Description   azure.AdDirectoryRoleDescription `json:"description"`
+	Metadata      azure.Metadata                   `json:"metadata"`
+	ResourceJobID int                              `json:"resource_job_id"`
+	SourceJobID   int                              `json:"source_job_id"`
+	ResourceType  string                           `json:"resource_type"`
+	SourceType    string                           `json:"source_type"`
+	ID            string                           `json:"id"`
+	ARN           string                           `json:"arn"`
+	SourceID      string                           `json:"source_id"`
 }
 
-func (r *AdApplication) UnmarshalJSON(b []byte) error {
+func (r *AdDirectoryRole) UnmarshalJSON(b []byte) error {
 	var rawMsg map[string]json.RawMessage
 	if err := json.Unmarshal(b, &rawMsg); err != nil {
 		return fmt.Errorf("unmarshalling type %T: %v", r, err)
@@ -47360,7 +47360,7 @@ func (r *AdApplication) UnmarshalJSON(b []byte) error {
 				return fmt.Errorf("unmarshalling type %T: %v", r, err)
 			}
 			var ok bool
-			r.Description, ok = wrapper.Value.(azure.AdApplicationDescription)
+			r.Description, ok = wrapper.Value.(azure.AdDirectoryRoleDescription)
 			if !ok {
 				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
 			}
@@ -47402,59 +47402,59 @@ func (r *AdApplication) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-type AdApplicationHit struct {
-	ID      string        `json:"_id"`
-	Score   float64       `json:"_score"`
-	Index   string        `json:"_index"`
-	Type    string        `json:"_type"`
-	Version int64         `json:"_version,omitempty"`
-	Source  AdApplication `json:"_source"`
-	Sort    []interface{} `json:"sort"`
+type AdDirectoryRoleHit struct {
+	ID      string          `json:"_id"`
+	Score   float64         `json:"_score"`
+	Index   string          `json:"_index"`
+	Type    string          `json:"_type"`
+	Version int64           `json:"_version,omitempty"`
+	Source  AdDirectoryRole `json:"_source"`
+	Sort    []interface{}   `json:"sort"`
 }
 
-type AdApplicationHits struct {
-	Total essdk.SearchTotal  `json:"total"`
-	Hits  []AdApplicationHit `json:"hits"`
+type AdDirectoryRoleHits struct {
+	Total essdk.SearchTotal    `json:"total"`
+	Hits  []AdDirectoryRoleHit `json:"hits"`
 }
 
-type AdApplicationSearchResponse struct {
-	PitID string            `json:"pit_id"`
-	Hits  AdApplicationHits `json:"hits"`
+type AdDirectoryRoleSearchResponse struct {
+	PitID string              `json:"pit_id"`
+	Hits  AdDirectoryRoleHits `json:"hits"`
 }
 
-type AdApplicationPaginator struct {
+type AdDirectoryRolePaginator struct {
 	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) NewAdApplicationPaginator(filters []essdk.BoolFilter, limit *int64) (AdApplicationPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_applications", filters, limit)
+func (k Client) NewAdDirectoryRolePaginator(filters []essdk.BoolFilter, limit *int64) (AdDirectoryRolePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_directoryroles", filters, limit)
 	if err != nil {
-		return AdApplicationPaginator{}, err
+		return AdDirectoryRolePaginator{}, err
 	}
 
-	p := AdApplicationPaginator{
+	p := AdDirectoryRolePaginator{
 		paginator: paginator,
 	}
 
 	return p, nil
 }
 
-func (p AdApplicationPaginator) HasNext() bool {
+func (p AdDirectoryRolePaginator) HasNext() bool {
 	return !p.paginator.Done()
 }
 
-func (p AdApplicationPaginator) Close(ctx context.Context) error {
+func (p AdDirectoryRolePaginator) Close(ctx context.Context) error {
 	return p.paginator.Deallocate(ctx)
 }
 
-func (p AdApplicationPaginator) NextPage(ctx context.Context) ([]AdApplication, error) {
-	var response AdApplicationSearchResponse
+func (p AdDirectoryRolePaginator) NextPage(ctx context.Context) ([]AdDirectoryRole, error) {
+	var response AdDirectoryRoleSearchResponse
 	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
 
-	var values []AdApplication
+	var values []AdDirectoryRole
 	for _, hit := range response.Hits.Hits {
 		values = append(values, hit.Source)
 	}
@@ -47469,72 +47469,60 @@ func (p AdApplicationPaginator) NextPage(ctx context.Context) ([]AdApplication, 
 	return values, nil
 }
 
-var listAdApplicationFilters = map[string]string{
-	"api":                          "description.Api",
-	"app_id":                       "description.AppId",
-	"created_date_time":            "description.CreatedDateTime",
-	"description":                  "description.Description",
-	"display_name":                 "description.DisplayName",
-	"id":                           "description.Id",
-	"identifier_uris":              "description.IdentifierUris",
-	"info":                         "description.Info",
-	"kaytu_account_id":             "metadata.SourceID",
-	"key_credentials":              "description.KeyCredentials",
-	"oauth2_require_post_response": "description.Oauth2RequirePostResponse",
-	"owner_ids":                    "description.OwnerIds",
-	"parental_control_settings":    "description.ParentalControlSettings",
-	"password_credentials":         "description.PasswordCredentials",
-	"publisher_domain":             "description.PublisherDomain",
-	"sign_in_audience":             "description.SignInAudience",
-	"spa":                          "description.Spa",
-	"tags_src":                     "description.TagsSrc",
-	"web":                          "description.Web",
+var listAdDirectoryRoleFilters = map[string]string{
+	"description":      "description.Description",
+	"display_name":     "description.DisplayName",
+	"id":               "description.Id",
+	"kaytu_account_id": "metadata.SourceID",
+	"member_ids":       "description.MemberIds",
+	"role_template_id": "description.RoleTemplateId",
+	"tenant_id":        "description.TenantID",
 }
 
-func ListAdApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("ListAdApplication")
+func ListAdDirectoryRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAdDirectoryRole")
 	runtime.GC()
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
-		plugin.Logger(ctx).Error("ListAdApplication NewClientCached", "error", err)
+		plugin.Logger(ctx).Error("ListAdDirectoryRole NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
-		plugin.Logger(ctx).Error("ListAdApplication NewSelfClientCached", "error", err)
+		plugin.Logger(ctx).Error("ListAdDirectoryRole NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
-		plugin.Logger(ctx).Error("ListAdApplication GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		plugin.Logger(ctx).Error("ListAdDirectoryRole GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
-		plugin.Logger(ctx).Error("ListAdApplication GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		plugin.Logger(ctx).Error("ListAdDirectoryRole GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
-		plugin.Logger(ctx).Error("ListAdApplication GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		plugin.Logger(ctx).Error("ListAdDirectoryRole GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
-	paginator, err := k.NewAdApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAdApplicationFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	paginator, err := k.NewAdDirectoryRolePaginator(essdk.BuildFilter(ctx, d.QueryContext, listAdDirectoryRoleFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
-		plugin.Logger(ctx).Error("ListAdApplication NewAdApplicationPaginator", "error", err)
+		plugin.Logger(ctx).Error("ListAdDirectoryRole NewAdDirectoryRolePaginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
-			plugin.Logger(ctx).Error("ListAdApplication paginator.NextPage", "error", err)
+			plugin.Logger(ctx).Error("ListAdDirectoryRole paginator.NextPage", "error", err)
 			return nil, err
 		}
 
@@ -47551,30 +47539,18 @@ func ListAdApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	return nil, nil
 }
 
-var getAdApplicationFilters = map[string]string{
-	"api":                          "description.Api",
-	"app_id":                       "description.AppId",
-	"created_date_time":            "description.CreatedDateTime",
-	"description":                  "description.Description",
-	"display_name":                 "description.DisplayName",
-	"id":                           "description.Id",
-	"identifier_uris":              "description.IdentifierUris",
-	"info":                         "description.Info",
-	"kaytu_account_id":             "metadata.SourceID",
-	"key_credentials":              "description.KeyCredentials",
-	"oauth2_require_post_response": "description.Oauth2RequirePostResponse",
-	"owner_ids":                    "description.OwnerIds",
-	"parental_control_settings":    "description.ParentalControlSettings",
-	"password_credentials":         "description.PasswordCredentials",
-	"publisher_domain":             "description.PublisherDomain",
-	"sign_in_audience":             "description.SignInAudience",
-	"spa":                          "description.Spa",
-	"tags_src":                     "description.TagsSrc",
-	"web":                          "description.Web",
+var getAdDirectoryRoleFilters = map[string]string{
+	"description":      "description.Description",
+	"display_name":     "description.DisplayName",
+	"id":               "description.Id",
+	"kaytu_account_id": "metadata.SourceID",
+	"member_ids":       "description.MemberIds",
+	"role_template_id": "description.RoleTemplateId",
+	"tenant_id":        "description.TenantID",
 }
 
-func GetAdApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("GetAdApplication")
+func GetAdDirectoryRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAdDirectoryRole")
 	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
@@ -47602,7 +47578,7 @@ func GetAdApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 
 	limit := int64(1)
-	paginator, err := k.NewAdApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAdApplicationFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	paginator, err := k.NewAdDirectoryRolePaginator(essdk.BuildFilter(ctx, d.QueryContext, getAdDirectoryRoleFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47626,7 +47602,7 @@ func GetAdApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	return nil, nil
 }
 
-// ==========================  END: AdApplication =============================
+// ==========================  END: AdDirectoryRole =============================
 
 // ==========================  START: AnalysisServiceServer =============================
 

@@ -7,6 +7,7 @@ import (
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 	msgraphsdk "github.com/microsoftgraph/msgraph-sdk-go"
 	"github.com/microsoftgraph/msgraph-sdk-go/applications"
+	"github.com/microsoftgraph/msgraph-sdk-go/directoryroles"
 	"github.com/microsoftgraph/msgraph-sdk-go/groups"
 	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipals"
 	users2 "github.com/microsoftgraph/msgraph-sdk-go/users"
@@ -245,6 +246,55 @@ func AdApplication(ctx context.Context, cred *azidentity.ClientSecretCredential,
 					Spa:                       app.GetSpa(),
 					TagsSrc:                   app.GetTags(),
 					Web:                       app.GetWeb(),
+				},
+			},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
+	}
+
+	return values, nil
+}
+
+func AdDirectoryRole(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	result, err := client.DirectoryRoles().Get(ctx, &directoryroles.DirectoryRolesRequestBuilderGetRequestConfiguration{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get groups: %v", err)
+	}
+	var values []Resource
+	for _, role := range result.GetValue() {
+		if role == nil {
+			continue
+		}
+
+		var memberIds []*string
+		for _, member := range role.GetMembers() {
+			memberIds = append(memberIds, member.GetId())
+		}
+
+		resource := Resource{
+			ID:       *role.GetId(),
+			Name:     *role.GetDisplayName(),
+			Location: "global",
+			Description: JSONAllFieldsMarshaller{
+				Value: model.AdDirectoryRoleDescription{
+					TenantID:       tenantId,
+					DisplayName:    role.GetDisplayName(),
+					Id:             role.GetId(),
+					Description:    role.GetDescription(),
+					RoleTemplateId: role.GetRoleTemplateId(),
+					MemberIds:      memberIds,
 				},
 			},
 		}

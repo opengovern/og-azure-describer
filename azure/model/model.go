@@ -1651,6 +1651,16 @@ type AdApplicationDescription struct {
 	Web                           models.WebApplicationable
 }
 
+//index:microsoft_resources_directoryroles
+type AdDirectoryRoleDescription struct {
+	TenantID       string
+	DisplayName    *string
+	Id             *string
+	Description    *string
+	RoleTemplateId *string
+	MemberIds      []*string
+}
+
 //  =================== analysis ==================
 
 //index:microsoft_analysisservice_servers
