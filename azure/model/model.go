@@ -1744,6 +1744,15 @@ type AdIdentityProviderDescription struct {
 	ClientSecret interface{}
 }
 
+//index:microsoft_resources_securitydefaultspolicy
+type AdSecurityDefaultsPolicyDescription struct {
+	TenantID    string
+	Id          *string
+	DisplayName *string
+	IsEnabled   *bool
+	Description *string
+}
+
 //  =================== analysis ==================
 
 //index:microsoft_analysisservice_servers

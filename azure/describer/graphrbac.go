@@ -13,6 +13,7 @@ import (
 	"github.com/microsoftgraph/msgraph-sdk-go/groups"
 	"github.com/microsoftgraph/msgraph-sdk-go/groupsettings"
 	"github.com/microsoftgraph/msgraph-sdk-go/identity"
+	"github.com/microsoftgraph/msgraph-sdk-go/policies"
 	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipals"
 	users2 "github.com/microsoftgraph/msgraph-sdk-go/users"
 )
@@ -627,6 +628,47 @@ func AdIdentityProvider(ctx context.Context, cred *azidentity.ClientSecretCreden
 		} else {
 			values = append(values, resource)
 		}
+	}
+
+	return values, nil
+}
+
+func AdSecurityDefaultsPolicy(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	result, err := client.Policies().IdentitySecurityDefaultsEnforcementPolicy().Get(ctx, &policies.IdentitySecurityDefaultsEnforcementPolicyRequestBuilderGetRequestConfiguration{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get groups: %v", err)
+	}
+	var values []Resource
+	if result == nil {
+		return values, nil
+	}
+
+	resource := Resource{
+		ID:       *result.GetId(),
+		Name:     *result.GetDisplayName(),
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			Value: model.AdSecurityDefaultsPolicyDescription{
+				TenantID:    tenantId,
+				Id:          result.GetId(),
+				DisplayName: result.GetDisplayName(),
+				IsEnabled:   result.GetIsEnabled(),
+				Description: result.GetDescription(),
+			},
+		},
+	}
+	if stream != nil {
+		if err := (*stream)(resource); err != nil {
+			return nil, err
+		}
+	} else {
+		values = append(values, resource)
 	}
 
 	return values, nil

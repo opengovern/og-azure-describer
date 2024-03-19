@@ -848,6 +848,22 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Resources/securitydefaultspolicy": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/securitydefaultspolicy",
+		ResourceLabel:        "Azure AD Security Defaults Policy",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdSecurityDefaultsPolicy),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Web/hostingEnvironments": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Web/hostingEnvironments",
