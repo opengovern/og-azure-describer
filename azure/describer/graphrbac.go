@@ -673,3 +673,68 @@ func AdSecurityDefaultsPolicy(ctx context.Context, cred *azidentity.ClientSecret
 
 	return values, nil
 }
+
+func AdAuthorizationPolicy(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	result, err := client.Policies().AuthorizationPolicy().Get(ctx, &policies.AuthorizationPolicyRequestBuilderGetRequestConfiguration{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get groups: %v", err)
+	}
+	var values []Resource
+	if result == nil {
+		return values, nil
+	}
+
+	defaultUserRolePermissions := struct {
+		AllowedToCreateApps                      *bool
+		AllowedToCreateSecurityGroups            *bool
+		AllowedToCreateTenants                   *bool
+		AllowedToReadBitlockerKeysForOwnedDevice *bool
+		AllowedToReadOtherUsers                  *bool
+		OdataType                                *string
+		PermissionGrantPoliciesAssigned          []string
+	}{
+		AllowedToCreateApps:                      result.GetDefaultUserRolePermissions().GetAllowedToCreateApps(),
+		AllowedToCreateSecurityGroups:            result.GetDefaultUserRolePermissions().GetAllowedToCreateSecurityGroups(),
+		AllowedToCreateTenants:                   result.GetDefaultUserRolePermissions().GetAllowedToCreateTenants(),
+		AllowedToReadBitlockerKeysForOwnedDevice: result.GetDefaultUserRolePermissions().GetAllowedToReadBitlockerKeysForOwnedDevice(),
+		AllowedToReadOtherUsers:                  result.GetDefaultUserRolePermissions().GetAllowedToReadOtherUsers(),
+		OdataType:                                result.GetDefaultUserRolePermissions().GetOdataType(),
+		PermissionGrantPoliciesAssigned:          result.GetDefaultUserRolePermissions().GetPermissionGrantPoliciesAssigned(),
+	}
+
+	resource := Resource{
+		ID:       *result.GetId(),
+		Name:     *result.GetDisplayName(),
+		Location: "global",
+		Description: JSONAllFieldsMarshaller{
+			Value: model.AdAuthorizationPolicyDescription{
+				TenantID:                               tenantId,
+				Id:                                     result.GetId(),
+				DisplayName:                            result.GetDisplayName(),
+				Description:                            result.GetDescription(),
+				AllowedToSignIpEmailBasedSubscriptions: result.GetAllowedToSignUpEmailBasedSubscriptions(),
+				AllowedToUseSspr:                       result.GetAllowedToUseSSPR(),
+				AllowedEmailVerifiedUsersToJoinOrganization: result.GetAllowEmailVerifiedUsersToJoinOrganization(),
+				AllowInvitesFrom:           result.GetAllowInvitesFrom().String(),
+				BlockMsolPowershell:        result.GetBlockMsolPowerShell(),
+				GuestUserRoleId:            result.GetGuestUserRoleId().String(),
+				DefaultUserRolePermissions: defaultUserRolePermissions,
+			},
+		},
+	}
+	if stream != nil {
+		if err := (*stream)(resource); err != nil {
+			return nil, err
+		}
+	} else {
+		values = append(values, resource)
+	}
+
+	return values, nil
+}

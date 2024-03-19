@@ -864,6 +864,22 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Resources/authorizationpolicy": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/authorizationpolicy",
+		ResourceLabel:        "Azure AD Authorization Policy",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdAuthorizationPolicy),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Web/hostingEnvironments": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Web/hostingEnvironments",

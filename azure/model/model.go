@@ -1753,6 +1753,29 @@ type AdSecurityDefaultsPolicyDescription struct {
 	Description *string
 }
 
+//index:microsoft_resources_authorizationpolicy
+type AdAuthorizationPolicyDescription struct {
+	TenantID                                    string
+	Id                                          *string
+	DisplayName                                 *string
+	Description                                 *string
+	AllowedToSignIpEmailBasedSubscriptions      *bool
+	AllowedToUseSspr                            *bool
+	AllowedEmailVerifiedUsersToJoinOrganization *bool
+	AllowInvitesFrom                            string
+	BlockMsolPowershell                         *bool
+	GuestUserRoleId                             string
+	DefaultUserRolePermissions                  struct {
+		AllowedToCreateApps                      *bool
+		AllowedToCreateSecurityGroups            *bool
+		AllowedToCreateTenants                   *bool
+		AllowedToReadBitlockerKeysForOwnedDevice *bool
+		AllowedToReadOtherUsers                  *bool
+		OdataType                                *string
+		PermissionGrantPoliciesAssigned          []string
+	}
+}
+
 //  =================== analysis ==================
 
 //index:microsoft_analysisservice_servers
