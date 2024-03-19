@@ -696,7 +696,6 @@ type RoleAssignmentDescription struct {
 }
 
 //index:microsoft_authorization_roledefinitions
-//getfilter:name=description.RoleDefinition.name
 type RoleDefinitionDescription struct {
 	RoleDefinition armauthorization.RoleDefinition
 }
