@@ -3,9 +3,6 @@ package azuread
 import (
 	"context"
 	"encoding/json"
-	"fmt"
-
-	"github.com/iancoleman/strcase"
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -205,76 +202,6 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("ID")},
 		},
 	}
-}
-
-func adUserTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(*ADUserInfo)
-	if data == nil {
-		return nil, nil
-	}
-
-	title := data.GetDisplayName()
-	if title == nil {
-		title = data.GetUserPrincipalName()
-	}
-
-	return title, nil
-}
-
-func buildQueryFilter(equalQuals plugin.KeyColumnEqualsQualMap) []string {
-	filters := []string{}
-
-	filterQuals := map[string]string{
-		"display_name":             "string",
-		"id":                       "string",
-		"surname":                  "string",
-		"user_principal_name":      "string",
-		"user_type":                "string",
-		"account_enabled":          "bool",
-		"mail_enabled":             "bool",
-		"security_enabled":         "bool",
-		"on_premises_sync_enabled": "bool",
-	}
-
-	for qual, qualType := range filterQuals {
-		switch qualType {
-		case "string":
-			if equalQuals[qual] != nil {
-				filters = append(filters, fmt.Sprintf("%s eq '%s'", strcase.ToCamel(qual), equalQuals[qual].GetStringValue()))
-			}
-		case "bool":
-			if equalQuals[qual] != nil {
-				filters = append(filters, fmt.Sprintf("%s eq %t", strcase.ToCamel(qual), equalQuals[qual].GetBoolValue()))
-			}
-		}
-	}
-
-	return filters
-}
-
-func buildBoolNEFilter(quals plugin.KeyColumnQualMap) []string {
-	filters := []string{}
-
-	filterQuals := []string{
-		"account_enabled",
-		"mail_enabled",
-		"on_premises_sync_enabled",
-		"security_enabled",
-	}
-
-	for _, qual := range filterQuals {
-		if quals[qual] != nil {
-			for _, q := range quals[qual].Quals {
-				value := q.Value.GetBoolValue()
-				if q.Operator == "<>" {
-					filters = append(filters, fmt.Sprintf("%s eq %t", strcase.ToCamel(qual), !value))
-					break
-				}
-			}
-		}
-	}
-
-	return filters
 }
 
 func marshalJSON(_ context.Context, d *transform.TransformData) (interface{}, error) {

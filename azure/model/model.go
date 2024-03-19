@@ -1539,7 +1539,6 @@ type AdUsersDescription struct {
 	UserType                        *string
 	GivenName                       *string
 	Surname                         *string
-	Filter                          *string
 	OnPremisesImmutableId           *string
 	CreatedDateTime                 *time.Time
 	Mail                            *string
@@ -1859,6 +1858,53 @@ type AdAdminConsentRequestPolicyDescription struct {
 		QueryRoot *string
 		QueryType *string
 	}
+}
+
+//index:microsoft_resources_signinreport
+type AdSignInReportDescription struct {
+	TenantID                         string
+	Id                               *string
+	CreatedDateTime                  *time.Time
+	UserDisplayName                  *string
+	UserPrincipalName                *string
+	UserId                           *string
+	AppId                            *string
+	AppDisplayName                   *string
+	IpAddress                        *string
+	ClientAppUsed                    *string
+	CorrelationId                    *string
+	ConditionalAccessStatus          *models.ConditionalAccessStatus
+	IsInteractive                    *bool
+	RiskDetail                       *models.RiskDetail
+	RiskLevelAggregated              *models.RiskLevel
+	RiskLevelDuringSignIn            *models.RiskLevel
+	RiskState                        *models.RiskState
+	ResourceDisplayName              *string
+	ResourceId                       *string
+	RiskEventTypes                   []models.RiskEventType
+	Status                           models.SignInStatusable
+	DeviceDetail                     models.DeviceDetailable
+	Location                         models.SignInLocationable
+	AppliedConditionalAccessPolicies []models.AppliedConditionalAccessPolicyable
+}
+
+//index:microsoft_resources_device
+type AdDeviceDescription struct {
+	TenantID                      string
+	Id                            *string
+	DisplayName                   *string
+	AccountEnabled                *bool
+	DeviceId                      *string
+	ApproximateLastSignInDateTime *time.Time
+	IsCompliant                   *bool
+	IsManaged                     *bool
+	MdmAppId                      *string
+	OperatingSystem               *string
+	OperatingSystemVersion        *string
+	ProfileType                   *string
+	TrustType                     *string
+	ExtensionAttributes           []models.Extensionable
+	MemberOf                      []models.DirectoryObjectable
 }
 
 //  =================== analysis ==================
