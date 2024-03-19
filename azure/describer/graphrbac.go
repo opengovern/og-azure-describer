@@ -29,7 +29,15 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 	}
 
 	var values []Resource
-	for _, user := range result.GetValue() {
+	var itemErr error
+	pageIterator, err := msgraphcore.NewPageIterator[models.Userable](result, client.GetAdapter(), models.CreateUserCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(user models.Userable) bool {
+		if user == nil {
+			return true
+		}
 		resource := Resource{
 			ID:       *user.GetId(),
 			Name:     *user.GetDisplayName(),
@@ -61,12 +69,19 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 			},
 		}
 		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, fmt.Errorf("failed to stream due to: %v", err)
+			if itemErr = (*stream)(resource); itemErr != nil {
+				return false
 			}
 		} else {
 			values = append(values, resource)
 		}
+		return true
+	})
+	if itemErr != nil {
+		return nil, itemErr
+	}
+	if err != nil {
+		return nil, err
 	}
 
 	return values, nil
@@ -85,7 +100,15 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 	}
 
 	var values []Resource
-	for _, group := range result.GetValue() {
+	var itemErr error
+	pageIterator, err := msgraphcore.NewPageIterator[models.Groupable](result, client.GetAdapter(), models.CreateGroupCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(group models.Groupable) bool {
+		if group == nil {
+			return true
+		}
 		var memberIds []*string
 		for _, m := range group.GetMembers() {
 			memberIds = append(memberIds, m.GetId())
@@ -135,12 +158,19 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 			},
 		}
 		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, fmt.Errorf("failed to stream due to: %v", err)
+			if itemErr = (*stream)(resource); itemErr != nil {
+				return false
 			}
 		} else {
 			values = append(values, resource)
 		}
+		return true
+	})
+	if itemErr != nil {
+		return nil, itemErr
+	}
+	if err != nil {
+		return nil, err
 	}
 
 	return values, nil
@@ -153,12 +183,20 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
 
+	var values []Resource
+	var itemErr error
 	result, err := client.ServicePrincipals().Get(ctx, &serviceprincipals.ServicePrincipalsRequestBuilderGetRequestConfiguration{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
-	var values []Resource
-	for _, servicePrincipal := range result.GetValue() {
+	pageIterator, err := msgraphcore.NewPageIterator[models.ServicePrincipalable](result, client.GetAdapter(), models.CreateServicePrincipalCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(servicePrincipal models.ServicePrincipalable) bool {
+		if servicePrincipal == nil {
+			return true
+		}
 		resource := Resource{
 			ID:       *servicePrincipal.GetId(),
 			Name:     *servicePrincipal.GetDisplayName(),
@@ -195,12 +233,19 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 			},
 		}
 		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+			if itemErr = (*stream)(resource); itemErr != nil {
+				return false
 			}
 		} else {
 			values = append(values, resource)
 		}
+		return true
+	})
+	if itemErr != nil {
+		return nil, itemErr
+	}
+	if err != nil {
+		return nil, err
 	}
 
 	return values, nil
@@ -213,14 +258,19 @@ func AdApplication(ctx context.Context, cred *azidentity.ClientSecretCredential,
 		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
 
+	var values []Resource
+	var itemErr error
 	result, err := client.Applications().Get(ctx, &applications.ApplicationsRequestBuilderGetRequestConfiguration{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
-	var values []Resource
-	for _, app := range result.GetValue() {
+	pageIterator, err := msgraphcore.NewPageIterator[models.Applicationable](result, client.GetAdapter(), models.CreateApplicationCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(app models.Applicationable) bool {
 		if app == nil {
-			continue
+			return true
 		}
 
 		resource := Resource{
@@ -252,12 +302,19 @@ func AdApplication(ctx context.Context, cred *azidentity.ClientSecretCredential,
 			},
 		}
 		if stream != nil {
-			if err := (*stream)(resource); err != nil {
-				return nil, err
+			if itemErr = (*stream)(resource); itemErr != nil {
+				return false
 			}
 		} else {
 			values = append(values, resource)
 		}
+		return true
+	})
+	if itemErr != nil {
+		return nil, itemErr
+	}
+	if err != nil {
+		return nil, err
 	}
 
 	return values, nil
@@ -285,6 +342,9 @@ func AdSignInReport(ctx context.Context, cred *azidentity.ClientSecretCredential
 		return nil, err
 	}
 	err = pageIterator.Iterate(context.Background(), func(report models.SignInable) bool {
+		if report == nil {
+			return true
+		}
 		resource := Resource{
 			ID:       *report.GetId(),
 			Name:     *report.GetId(),
@@ -357,6 +417,9 @@ func AdDevice(ctx context.Context, cred *azidentity.ClientSecretCredential, tena
 		return nil, err
 	}
 	err = pageIterator.Iterate(context.Background(), func(device models.Deviceable) bool {
+		if device == nil {
+			return true
+		}
 		resource := Resource{
 			ID:       *device.GetId(),
 			Name:     *device.GetDisplayName(),
