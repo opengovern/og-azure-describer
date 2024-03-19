@@ -569,21 +569,6 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/serviceprincipals": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/serviceprincipals",
-		ResourceLabel:        "Service Principals",
-		Tags:                 map[string][]string{
-        },
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.AdServicePrinciple),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            false,
-	},
-
 	"Microsoft.CognitiveServices/accounts": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.CognitiveServices/accounts",
@@ -792,23 +777,7 @@ var resourceTypes = map[string]ResourceType{
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
         },
 		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.AdGroup),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            false,
-	},
-
-	"Microsoft.Resources/applications": {
-		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/applications",
-		ResourceLabel:        "Azure AD Applications",
-		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
-        },
-		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.AdApplication),
+		ListDescriber:        DescribeADByTenantID(describer.AdGroup),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
@@ -1754,7 +1723,23 @@ var resourceTypes = map[string]ResourceType{
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20User.svg"},
         },
 		ServiceName:          "Resources",
-		ListDescriber:        DescribeBySubscription(describer.AdUsers),
+		ListDescriber:        DescribeADByTenantID(describer.AdUsers),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Resources/directoryroles": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/directoryroles",
+		ResourceLabel:        "Azure AD Directory Roles",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeADByTenantID(describer.AdDirectoryRole),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
