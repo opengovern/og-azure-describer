@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 	msgraphsdk "github.com/microsoftgraph/msgraph-sdk-go"
 	msgraphcore "github.com/microsoftgraph/msgraph-sdk-go-core"
@@ -192,7 +193,18 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 
 	var values []Resource
 	var itemErr error
-	result, err := client.ServicePrincipals().Get(ctx, &serviceprincipals.ServicePrincipalsRequestBuilderGetRequestConfiguration{})
+	result, err := client.ServicePrincipals().Get(ctx, &serviceprincipals.ServicePrincipalsRequestBuilderGetRequestConfiguration{
+		QueryParameters: &serviceprincipals.ServicePrincipalsRequestBuilderGetQueryParameters{
+			Count:   nil,
+			Expand:  nil,
+			Filter:  nil,
+			Orderby: nil,
+			Search:  nil,
+			Select:  nil,
+			Skip:    nil,
+			Top:     aws.Int32(999),
+		},
+	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
