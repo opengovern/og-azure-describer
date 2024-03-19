@@ -1650,6 +1650,216 @@ type AdApplicationDescription struct {
 	Web                           models.WebApplicationable
 }
 
+//index:microsoft_resources_directoryroles
+type AdDirectoryRoleDescription struct {
+	TenantID       string
+	DisplayName    *string
+	Id             *string
+	Description    *string
+	RoleTemplateId *string
+	MemberIds      []*string
+}
+
+//index:microsoft_resources_directorysettings
+type AdDirectorySettingDescription struct {
+	TenantID    string
+	DisplayName *string
+	Id          *string
+	TemplateId  *string
+	Name        *string
+	Value       *string
+}
+
+//index:microsoft_resources_directoryauditreports
+type AdDirectoryAuditReportDescription struct {
+	TenantID            string
+	Id                  *string
+	ActivityDateTime    *time.Time
+	ActivityDisplayName *string
+	Category            *string
+	CorrelationId       *string
+	LoggedByService     *string
+	OperationType       *string
+	Result              *string
+	ResultReason        *string
+	AdditionalDetails   []struct {
+		Key       *string
+		OdataType *string
+		Value     *string
+	}
+	InitiatedBy struct {
+		OdataType *string
+		App       struct {
+			AppId                *string
+			DisplayName          *string
+			OdataType            *string
+			ServicePrincipalId   *string
+			ServicePrincipalName *string
+		}
+		User struct {
+			Id                *string
+			DisplayName       *string
+			OdataType         *string
+			IpAddress         *string
+			UserPrincipalName *string
+		}
+	}
+	TargetResources []struct {
+		DisplayName        *string
+		GroupType          string
+		Id                 *string
+		ModifiedProperties []struct {
+			DisplayName *string
+			NewValue    *string
+			OdataType   *string
+			OldValue    *string
+		}
+		OdataType         *string
+		TypeEscaped       *string
+		UserPrincipalName *string
+	}
+}
+
+//index:microsoft_resources_directorysettings
+type AdDomainDescription struct {
+	TenantID           string
+	Id                 *string
+	AuthenticationType *string
+	IsDefault          *bool
+	IsAdminManaged     *bool
+	IsInitial          *bool
+	IsRoot             *bool
+	IsVerified         *bool
+	SupportedServices  []string
+}
+
+//index:microsoft_resources_directorysettings
+type AdIdentityProviderDescription struct {
+	TenantID     string
+	Id           *string
+	DisplayName  *string
+	Type         *string
+	ClientId     interface{}
+	ClientSecret interface{}
+}
+
+//index:microsoft_resources_securitydefaultspolicy
+type AdSecurityDefaultsPolicyDescription struct {
+	TenantID    string
+	Id          *string
+	DisplayName *string
+	IsEnabled   *bool
+	Description *string
+}
+
+//index:microsoft_resources_authorizationpolicy
+type AdAuthorizationPolicyDescription struct {
+	TenantID                                    string
+	Id                                          *string
+	DisplayName                                 *string
+	Description                                 *string
+	AllowedToSignIpEmailBasedSubscriptions      *bool
+	AllowedToUseSspr                            *bool
+	AllowedEmailVerifiedUsersToJoinOrganization *bool
+	AllowInvitesFrom                            string
+	BlockMsolPowershell                         *bool
+	GuestUserRoleId                             string
+	DefaultUserRolePermissions                  struct {
+		AllowedToCreateApps                      *bool
+		AllowedToCreateSecurityGroups            *bool
+		AllowedToCreateTenants                   *bool
+		AllowedToReadBitlockerKeysForOwnedDevice *bool
+		AllowedToReadOtherUsers                  *bool
+		OdataType                                *string
+		PermissionGrantPoliciesAssigned          []string
+	}
+}
+
+//index:microsoft_resources_conditionalaccesspolicy
+type AdConditionalAccessPolicyDescription struct {
+	TenantID         string
+	Id               *string
+	DisplayName      *string
+	State            string
+	CreatedDateTime  *time.Time
+	ModifiedDateTime *time.Time
+	Operator         *string
+	Applications     struct {
+		ApplicationFilter struct {
+			Mode      *string
+			OdataType *string
+			Rule      *string
+		}
+		ExcludeApplications                         []string
+		IncludeApplications                         []string
+		IncludeAuthenticationContextClassReferences []string
+		IncludeUserActions                          []string
+		OdataType                                   *string
+	}
+	ApplicationEnforcedRestrictions struct {
+		IsEnabled *bool
+		OdataType *string
+	}
+	BuiltInControls             []string
+	ClientAppTypes              []string
+	CustomAuthenticationFactors []string
+	CloudAppSecurity            struct {
+		CloudAppSecurityType string
+		OdataType            *string
+		IsEnabled            *bool
+		AdditionalData       map[string]interface{}
+	}
+	Locations struct {
+		ExcludeLocations []string
+		IncludeLocations []string
+	}
+	PersistentBrowser struct {
+		OdataType      *string
+		IsEnabled      *bool
+		Mode           string
+		AdditionalData map[string]interface{}
+	}
+	Platforms struct {
+		ExcludePlatforms []string
+		IncludePlatforms []string
+	}
+	SignInFrequency struct {
+		AuthenticationType string
+		FrequencyInterval  string
+		TypeEscaped        string
+		Value              *int32
+		IsEnabled          *bool
+	}
+	SignInRiskLevels []string
+	TermsOfUse       []string
+	Users            struct {
+		ExcludeGroups []string
+		IncludeGroups []string
+		ExcludeUsers  []string
+		IncludeUsers  []string
+		ExcludeRoles  []string
+		IncludeRoles  []string
+	}
+	UserRiskLevel []string
+}
+
+//index:microsoft_resources_adminconsentrequestpolicy
+type AdAdminConsentRequestPolicyDescription struct {
+	TenantID              string
+	Id                    *string
+	IsEnabled             *bool
+	NotifyReviewers       *bool
+	RemindersEnabled      *bool
+	RequestDurationInDays *int32
+	Version               *int32
+	Reviewers             []struct {
+		OdataType *string
+		Query     *string
+		QueryRoot *string
+		QueryType *string
+	}
+}
+
 //index:microsoft_resources_signinreport
 type AdSignInReportDescription struct {
 	TenantID                         string

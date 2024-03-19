@@ -848,6 +848,102 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Resources/domains": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/domains",
+		ResourceLabel:        "Azure AD Domains",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdDomain),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Resources/identityproviders": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/identityproviders",
+		ResourceLabel:        "Azure AD Identity Providers",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdIdentityProvider),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Resources/securitydefaultspolicy": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/securitydefaultspolicy",
+		ResourceLabel:        "Azure AD Security Defaults Policy",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdSecurityDefaultsPolicy),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Resources/authorizationpolicy": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/authorizationpolicy",
+		ResourceLabel:        "Azure AD Authorization Policy",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdAuthorizationPolicy),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Resources/conditionalaccesspolicy": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/conditionalaccesspolicy",
+		ResourceLabel:        "Azure AD Conditional Access Policy",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdConditionalAccessPolicy),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Resources/adminconsentrequestpolicy": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/adminconsentrequestpolicy",
+		ResourceLabel:        "Azure AD Admin Consent Request Policy",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdAdminConsentRequestPolicy),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Web/hostingEnvironments": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Web/hostingEnvironments",
@@ -1787,6 +1883,54 @@ var resourceTypes = map[string]ResourceType{
         },
 		ServiceName:          "Resources",
 		ListDescriber:        DescribeBySubscription(describer.AdUsers),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Resources/directoryroles": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/directoryroles",
+		ResourceLabel:        "Azure AD Directory Roles",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdDirectoryRole),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Resources/directorysettings": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/directorysettings",
+		ResourceLabel:        "Azure AD Directory Settings",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdDirectorySetting),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Resources/directoryauditreport": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/directoryauditreport",
+		ResourceLabel:        "Azure AD Directory Audit Report",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdDirectoryAuditReport),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
