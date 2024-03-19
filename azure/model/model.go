@@ -1661,6 +1661,16 @@ type AdDirectoryRoleDescription struct {
 	MemberIds      []*string
 }
 
+//index:microsoft_resources_directorysettings
+type AdDirectorySettingDescription struct {
+	TenantID    string
+	DisplayName *string
+	Id          *string
+	TemplateId  *string
+	Name        *string
+	Value       *string
+}
+
 //  =================== analysis ==================
 
 //index:microsoft_analysisservice_servers

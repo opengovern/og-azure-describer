@@ -9,6 +9,7 @@ import (
 	"github.com/microsoftgraph/msgraph-sdk-go/applications"
 	"github.com/microsoftgraph/msgraph-sdk-go/directoryroles"
 	"github.com/microsoftgraph/msgraph-sdk-go/groups"
+	"github.com/microsoftgraph/msgraph-sdk-go/groupsettings"
 	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipals"
 	users2 "github.com/microsoftgraph/msgraph-sdk-go/users"
 )
@@ -304,6 +305,52 @@ func AdDirectoryRole(ctx context.Context, cred *azidentity.ClientSecretCredentia
 			}
 		} else {
 			values = append(values, resource)
+		}
+	}
+
+	return values, nil
+}
+
+func AdDirectorySetting(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	result, err := client.GroupSettings().Get(ctx, &groupsettings.GroupSettingsRequestBuilderGetRequestConfiguration{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get groups: %v", err)
+	}
+	var values []Resource
+	for _, setting := range result.GetValue() {
+		if setting == nil {
+			continue
+		}
+
+		for _, v := range setting.GetValues() {
+			resource := Resource{
+				ID:       *setting.GetId(),
+				Name:     *setting.GetDisplayName(),
+				Location: "global",
+				Description: JSONAllFieldsMarshaller{
+					Value: model.AdDirectorySettingDescription{
+						TenantID:    tenantId,
+						DisplayName: setting.GetDisplayName(),
+						Id:          setting.GetId(),
+						TemplateId:  setting.GetTemplateId(),
+						Name:        v.GetName(),
+						Value:       v.GetValue(),
+					},
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
 		}
 	}
 
