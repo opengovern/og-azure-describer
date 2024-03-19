@@ -12,6 +12,7 @@ import (
 	"github.com/microsoftgraph/msgraph-sdk-go/domains"
 	"github.com/microsoftgraph/msgraph-sdk-go/groups"
 	"github.com/microsoftgraph/msgraph-sdk-go/groupsettings"
+	"github.com/microsoftgraph/msgraph-sdk-go/identity"
 	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipals"
 	users2 "github.com/microsoftgraph/msgraph-sdk-go/users"
 )
@@ -570,6 +571,52 @@ func AdDomain(ctx context.Context, cred *azidentity.ClientSecretCredential, tena
 					IsRoot:             domain.GetIsRoot(),
 					IsVerified:         domain.GetIsVerified(),
 					SupportedServices:  domain.GetSupportedServices(),
+				},
+			},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
+	}
+
+	return values, nil
+}
+
+func AdIdentityProvider(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	result, err := client.Identity().IdentityProviders().Get(ctx, &identity.IdentityProvidersRequestBuilderGetRequestConfiguration{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get groups: %v", err)
+	}
+	var values []Resource
+	for _, ip := range result.GetValue() {
+		if ip == nil {
+			continue
+		}
+		clientID := ip.GetAdditionalData()["clientId"]
+		clientSecret := ip.GetAdditionalData()["clientSecret"]
+
+		resource := Resource{
+			ID:       *ip.GetId(),
+			Name:     *ip.GetDisplayName(),
+			Location: "global",
+			Description: JSONAllFieldsMarshaller{
+				Value: model.AdIdentityProviderDescription{
+					TenantID:     tenantId,
+					Id:           ip.GetId(),
+					DisplayName:  ip.GetDisplayName(),
+					Type:         ip.GetOdataType(),
+					ClientId:     clientID,
+					ClientSecret: clientSecret,
 				},
 			},
 		}

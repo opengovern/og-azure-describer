@@ -832,6 +832,22 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Resources/identityproviders": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/identityproviders",
+		ResourceLabel:        "Azure AD Identity Providers",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdIdentityProvider),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Web/hostingEnvironments": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Web/hostingEnvironments",

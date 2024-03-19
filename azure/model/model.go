@@ -1734,6 +1734,16 @@ type AdDomainDescription struct {
 	SupportedServices  []string
 }
 
+//index:microsoft_resources_directorysettings
+type AdIdentityProviderDescription struct {
+	TenantID     string
+	Id           *string
+	DisplayName  *string
+	Type         *string
+	ClientId     interface{}
+	ClientSecret interface{}
+}
+
 //  =================== analysis ==================
 
 //index:microsoft_analysisservice_servers
