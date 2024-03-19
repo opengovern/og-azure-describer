@@ -880,6 +880,22 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Resources/conditionalaccesspolicy": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/conditionalaccesspolicy",
+		ResourceLabel:        "Azure AD Conditional Access Policy",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.AdConditionalAccessPolicy),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Web/hostingEnvironments": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Web/hostingEnvironments",

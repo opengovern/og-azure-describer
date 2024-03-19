@@ -1776,6 +1776,74 @@ type AdAuthorizationPolicyDescription struct {
 	}
 }
 
+//index:microsoft_resources_conditionalaccesspolicy
+type AdConditionalAccessPolicyDescription struct {
+	TenantID         string
+	Id               *string
+	DisplayName      *string
+	State            string
+	CreatedDateTime  *time.Time
+	ModifiedDateTime *time.Time
+	Operator         *string
+	Applications     struct {
+		ApplicationFilter struct {
+			Mode      *string
+			OdataType *string
+			Rule      *string
+		}
+		ExcludeApplications                         []string
+		IncludeApplications                         []string
+		IncludeAuthenticationContextClassReferences []string
+		IncludeUserActions                          []string
+		OdataType                                   *string
+	}
+	ApplicationEnforcedRestrictions struct {
+		IsEnabled *bool
+		OdataType *string
+	}
+	BuiltInControls             []string
+	ClientAppTypes              []string
+	CustomAuthenticationFactors []string
+	CloudAppSecurity            struct {
+		CloudAppSecurityType string
+		OdataType            *string
+		IsEnabled            *bool
+		AdditionalData       map[string]interface{}
+	}
+	Locations struct {
+		ExcludeLocations []string
+		IncludeLocations []string
+	}
+	PersistentBrowser struct {
+		OdataType      *string
+		IsEnabled      *bool
+		Mode           string
+		AdditionalData map[string]interface{}
+	}
+	Platforms struct {
+		ExcludePlatforms []string
+		IncludePlatforms []string
+	}
+	SignInFrequency struct {
+		AuthenticationType string
+		FrequencyInterval  string
+		TypeEscaped        string
+		Value              *int32
+		IsEnabled          *bool
+	}
+	SignInRiskLevels []string
+	TermsOfUse       []string
+	Users            struct {
+		ExcludeGroups []string
+		IncludeGroups []string
+		ExcludeUsers  []string
+		IncludeUsers  []string
+		ExcludeRoles  []string
+		IncludeRoles  []string
+	}
+	UserRiskLevel []string
+}
+
 //  =================== analysis ==================
 
 //index:microsoft_analysisservice_servers

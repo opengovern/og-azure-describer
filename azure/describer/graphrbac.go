@@ -738,3 +738,181 @@ func AdAuthorizationPolicy(ctx context.Context, cred *azidentity.ClientSecretCre
 
 	return values, nil
 }
+
+func AdConditionalAccessPolicy(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	result, err := client.Identity().ConditionalAccess().Policies().Get(ctx, &identity.ConditionalAccessPoliciesRequestBuilderGetRequestConfiguration{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get groups: %v", err)
+	}
+	var values []Resource
+	if result == nil {
+		return values, nil
+	}
+
+	for _, p := range result.GetValue() {
+
+		applications := struct {
+			ApplicationFilter struct {
+				Mode      *string
+				OdataType *string
+				Rule      *string
+			}
+			ExcludeApplications                         []string
+			IncludeApplications                         []string
+			IncludeAuthenticationContextClassReferences []string
+			IncludeUserActions                          []string
+			OdataType                                   *string
+		}{
+			ApplicationFilter: struct {
+				Mode      *string
+				OdataType *string
+				Rule      *string
+			}{
+				Mode:      p.GetConditions().GetApplications().GetApplicationFilter().GetRule(),
+				OdataType: p.GetConditions().GetApplications().GetApplicationFilter().GetOdataType(),
+				Rule:      p.GetConditions().GetApplications().GetApplicationFilter().GetRule(),
+			},
+			ExcludeApplications:                         p.GetConditions().GetApplications().GetExcludeApplications(),
+			IncludeApplications:                         p.GetConditions().GetApplications().GetIncludeApplications(),
+			IncludeAuthenticationContextClassReferences: p.GetConditions().GetApplications().GetIncludeAuthenticationContextClassReferences(),
+			IncludeUserActions:                          p.GetConditions().GetApplications().GetIncludeUserActions(),
+			OdataType:                                   p.GetConditions().GetApplications().GetOdataType(),
+		}
+
+		var builtInControls []string
+		for _, c := range p.GetGrantControls().GetBuiltInControls() {
+			builtInControls = append(builtInControls, c.String())
+		}
+
+		var clientAppTypes []string
+		for _, c := range p.GetConditions().GetClientAppTypes() {
+			clientAppTypes = append(builtInControls, c.String())
+		}
+
+		var excludePlatforms []string
+		for _, ep := range p.GetConditions().GetPlatforms().GetExcludePlatforms() {
+			excludePlatforms = append(excludePlatforms, ep.String())
+		}
+
+		var includePlatforms []string
+		for _, ep := range p.GetConditions().GetPlatforms().GetIncludePlatforms() {
+			includePlatforms = append(includePlatforms, ep.String())
+		}
+
+		var signInRiskLevel []string
+		for _, c := range p.GetConditions().GetSignInRiskLevels() {
+			signInRiskLevel = append(signInRiskLevel, c.String())
+		}
+
+		var userRiskLevel []string
+		for _, c := range p.GetConditions().GetUserRiskLevels() {
+			userRiskLevel = append(userRiskLevel, c.String())
+		}
+
+		resource := Resource{
+			ID:       *p.GetId(),
+			Name:     *p.GetDisplayName(),
+			Location: "global",
+			Description: JSONAllFieldsMarshaller{
+				Value: model.AdConditionalAccessPolicyDescription{
+					TenantID:         tenantId,
+					Id:               p.GetId(),
+					DisplayName:      p.GetDisplayName(),
+					State:            p.GetState().String(),
+					CreatedDateTime:  p.GetCreatedDateTime(),
+					ModifiedDateTime: p.GetModifiedDateTime(),
+					Operator:         p.GetGrantControls().GetOperator(),
+					Applications:     applications,
+					ApplicationEnforcedRestrictions: struct {
+						IsEnabled *bool
+						OdataType *string
+					}{IsEnabled: p.GetSessionControls().GetApplicationEnforcedRestrictions().GetIsEnabled(), OdataType: p.GetSessionControls().GetApplicationEnforcedRestrictions().GetOdataType()},
+					BuiltInControls:             builtInControls,
+					ClientAppTypes:              clientAppTypes,
+					CustomAuthenticationFactors: p.GetGrantControls().GetCustomAuthenticationFactors(),
+					CloudAppSecurity: struct {
+						CloudAppSecurityType string
+						OdataType            *string
+						IsEnabled            *bool
+						AdditionalData       map[string]interface{}
+					}{
+						CloudAppSecurityType: p.GetSessionControls().GetCloudAppSecurity().GetCloudAppSecurityType().String(),
+						OdataType:            p.GetSessionControls().GetCloudAppSecurity().GetOdataType(),
+						IsEnabled:            p.GetSessionControls().GetCloudAppSecurity().GetIsEnabled(),
+						AdditionalData:       p.GetSessionControls().GetCloudAppSecurity().GetAdditionalData(),
+					},
+					Locations: struct {
+						ExcludeLocations []string
+						IncludeLocations []string
+					}{
+						ExcludeLocations: p.GetConditions().GetLocations().GetExcludeLocations(),
+						IncludeLocations: p.GetConditions().GetLocations().GetIncludeLocations()},
+					PersistentBrowser: struct {
+						OdataType      *string
+						IsEnabled      *bool
+						Mode           string
+						AdditionalData map[string]interface{}
+					}{
+						OdataType:      p.GetSessionControls().GetPersistentBrowser().GetOdataType(),
+						IsEnabled:      p.GetSessionControls().GetPersistentBrowser().GetIsEnabled(),
+						Mode:           p.GetSessionControls().GetPersistentBrowser().GetMode().String(),
+						AdditionalData: p.GetSessionControls().GetPersistentBrowser().GetAdditionalData(),
+					},
+					Platforms: struct {
+						ExcludePlatforms []string
+						IncludePlatforms []string
+					}{
+						ExcludePlatforms: excludePlatforms,
+						IncludePlatforms: includePlatforms,
+					},
+					SignInFrequency: struct {
+						AuthenticationType string
+						FrequencyInterval  string
+						TypeEscaped        string
+						Value              *int32
+						IsEnabled          *bool
+					}{
+						AuthenticationType: p.GetSessionControls().GetSignInFrequency().GetAuthenticationType().String(),
+						FrequencyInterval:  p.GetSessionControls().GetSignInFrequency().GetFrequencyInterval().String(),
+						TypeEscaped:        p.GetSessionControls().GetSignInFrequency().GetTypeEscaped().String(),
+						Value:              p.GetSessionControls().GetSignInFrequency().GetValue(),
+						IsEnabled:          p.GetSessionControls().GetSignInFrequency().GetIsEnabled(),
+					},
+					SignInRiskLevels: signInRiskLevel,
+					TermsOfUse:       p.GetGrantControls().GetTermsOfUse(),
+					Users: struct {
+						ExcludeGroups []string
+						IncludeGroups []string
+						ExcludeUsers  []string
+						IncludeUsers  []string
+						ExcludeRoles  []string
+						IncludeRoles  []string
+					}{
+						ExcludeGroups: p.GetConditions().GetUsers().GetExcludeGroups(),
+						IncludeGroups: p.GetConditions().GetUsers().GetIncludeGroups(),
+						ExcludeUsers:  p.GetConditions().GetUsers().GetExcludeUsers(),
+						IncludeUsers:  p.GetConditions().GetUsers().GetIncludeUsers(),
+						ExcludeRoles:  p.GetConditions().GetUsers().GetExcludeRoles(),
+						IncludeRoles:  p.GetConditions().GetUsers().GetIncludeRoles(),
+					},
+					UserRiskLevel: userRiskLevel,
+				},
+			},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
+	}
+
+	return values, nil
+}

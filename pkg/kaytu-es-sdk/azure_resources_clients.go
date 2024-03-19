@@ -49438,15 +49438,13 @@ var listAdAuthorizationPolicyFilters = map[string]string{
 	"allowed_to_sign_up_email_based_subscriptions":      "description.AllowedToSignIpEmailBasedSubscriptions",
 	"allowed_to_use_sspr":                               "description.AllowedToUseSspr",
 	"block_msol_powershell":                             "description.BlockMsolPowershell",
-	"default_user_role_permissions":                     "description.DisplayName",
+	"default_user_role_permissions":                     "description.DefaultUserRolePermissions",
 	"description":                                       "description.Description",
 	"display_name":                                      "description.DisplayName",
 	"guest_user_role_id":                                "description.GuestUserRoleId",
 	"id":                                                "description.Id",
 	"kaytu_account_id":                                  "metadata.SourceID",
-	"kaytu_resource_id":                                 "description.DisplayName",
-	"metadata":                                          "description.DisplayName",
-	"tenant_id":                                         "description.DisplayName",
+	"tenant_id":                                         "description.TenantID",
 	"title":                                             "description.DisplayName",
 }
 
@@ -49516,15 +49514,13 @@ var getAdAuthorizationPolicyFilters = map[string]string{
 	"allowed_to_sign_up_email_based_subscriptions":      "description.AllowedToSignIpEmailBasedSubscriptions",
 	"allowed_to_use_sspr":                               "description.AllowedToUseSspr",
 	"block_msol_powershell":                             "description.BlockMsolPowershell",
-	"default_user_role_permissions":                     "description.DisplayName",
+	"default_user_role_permissions":                     "description.DefaultUserRolePermissions",
 	"description":                                       "description.Description",
 	"display_name":                                      "description.DisplayName",
 	"guest_user_role_id":                                "description.GuestUserRoleId",
 	"id":                                                "description.Id",
 	"kaytu_account_id":                                  "metadata.SourceID",
-	"kaytu_resource_id":                                 "description.DisplayName",
-	"metadata":                                          "description.DisplayName",
-	"tenant_id":                                         "description.DisplayName",
+	"tenant_id":                                         "description.TenantID",
 	"title":                                             "description.DisplayName",
 }
 
@@ -49582,6 +49578,311 @@ func GetAdAuthorizationPolicy(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 // ==========================  END: AdAuthorizationPolicy =============================
+
+// ==========================  START: AdConditionalAccessPolicy =============================
+
+type AdConditionalAccessPolicy struct {
+	Description   azure.AdConditionalAccessPolicyDescription `json:"description"`
+	Metadata      azure.Metadata                             `json:"metadata"`
+	ResourceJobID int                                        `json:"resource_job_id"`
+	SourceJobID   int                                        `json:"source_job_id"`
+	ResourceType  string                                     `json:"resource_type"`
+	SourceType    string                                     `json:"source_type"`
+	ID            string                                     `json:"id"`
+	ARN           string                                     `json:"arn"`
+	SourceID      string                                     `json:"source_id"`
+}
+
+func (r *AdConditionalAccessPolicy) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.AdConditionalAccessPolicyDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type AdConditionalAccessPolicyHit struct {
+	ID      string                    `json:"_id"`
+	Score   float64                   `json:"_score"`
+	Index   string                    `json:"_index"`
+	Type    string                    `json:"_type"`
+	Version int64                     `json:"_version,omitempty"`
+	Source  AdConditionalAccessPolicy `json:"_source"`
+	Sort    []interface{}             `json:"sort"`
+}
+
+type AdConditionalAccessPolicyHits struct {
+	Total essdk.SearchTotal              `json:"total"`
+	Hits  []AdConditionalAccessPolicyHit `json:"hits"`
+}
+
+type AdConditionalAccessPolicySearchResponse struct {
+	PitID string                        `json:"pit_id"`
+	Hits  AdConditionalAccessPolicyHits `json:"hits"`
+}
+
+type AdConditionalAccessPolicyPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAdConditionalAccessPolicyPaginator(filters []essdk.BoolFilter, limit *int64) (AdConditionalAccessPolicyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_conditionalaccesspolicy", filters, limit)
+	if err != nil {
+		return AdConditionalAccessPolicyPaginator{}, err
+	}
+
+	p := AdConditionalAccessPolicyPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AdConditionalAccessPolicyPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AdConditionalAccessPolicyPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p AdConditionalAccessPolicyPaginator) NextPage(ctx context.Context) ([]AdConditionalAccessPolicy, error) {
+	var response AdConditionalAccessPolicySearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AdConditionalAccessPolicy
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAdConditionalAccessPolicyFilters = map[string]string{
+	"application_enforced_restrictions": "description.ApplicationEnforcedRestrictions",
+	"applications":                      "description.Applications",
+	"built_in_controls":                 "description.BuiltInControls",
+	"client_app_types":                  "description.ClientAppTypes",
+	"cloud_app_security":                "description.CloudAppSecurity",
+	"created_date_time":                 "description.CreatedDateTime",
+	"custom_authentication_factors":     "description.CustomAuthenticationFactors",
+	"display_name":                      "description.DisplayName",
+	"id":                                "description.Id",
+	"kaytu_account_id":                  "metadata.SourceID",
+	"locations":                         "description.Locations",
+	"modified_date_time":                "description.ModifiedDateTime",
+	"operator":                          "description.Operator",
+	"persistent_browser":                "description.PersistentBrowser",
+	"platforms":                         "description.Platforms",
+	"sign_in_frequency":                 "description.SignInFrequency",
+	"sign_in_risk_levels":               "description.SignInRiskLevels",
+	"state":                             "description.State",
+	"tenant_id":                         "description.TenantID",
+	"terms_of_use":                      "description.TermsOfUse",
+	"title":                             "description.DisplayName",
+	"user_risk_levels":                  "description.UserRiskLevel",
+	"users":                             "description.Users",
+}
+
+func ListAdConditionalAccessPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAdConditionalAccessPolicy")
+	runtime.GC()
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdConditionalAccessPolicy NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdConditionalAccessPolicy NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdConditionalAccessPolicy GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdConditionalAccessPolicy GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdConditionalAccessPolicy GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewAdConditionalAccessPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAdConditionalAccessPolicyFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdConditionalAccessPolicy NewAdConditionalAccessPolicyPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListAdConditionalAccessPolicy paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getAdConditionalAccessPolicyFilters = map[string]string{
+	"application_enforced_restrictions": "description.ApplicationEnforcedRestrictions",
+	"applications":                      "description.Applications",
+	"built_in_controls":                 "description.BuiltInControls",
+	"client_app_types":                  "description.ClientAppTypes",
+	"cloud_app_security":                "description.CloudAppSecurity",
+	"created_date_time":                 "description.CreatedDateTime",
+	"custom_authentication_factors":     "description.CustomAuthenticationFactors",
+	"display_name":                      "description.DisplayName",
+	"id":                                "description.Id",
+	"kaytu_account_id":                  "metadata.SourceID",
+	"locations":                         "description.Locations",
+	"modified_date_time":                "description.ModifiedDateTime",
+	"operator":                          "description.Operator",
+	"persistent_browser":                "description.PersistentBrowser",
+	"platforms":                         "description.Platforms",
+	"sign_in_frequency":                 "description.SignInFrequency",
+	"sign_in_risk_levels":               "description.SignInRiskLevels",
+	"state":                             "description.State",
+	"tenant_id":                         "description.TenantID",
+	"terms_of_use":                      "description.TermsOfUse",
+	"title":                             "description.DisplayName",
+	"user_risk_levels":                  "description.UserRiskLevel",
+	"users":                             "description.Users",
+}
+
+func GetAdConditionalAccessPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAdConditionalAccessPolicy")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewAdConditionalAccessPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAdConditionalAccessPolicyFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AdConditionalAccessPolicy =============================
 
 // ==========================  START: AnalysisServiceServer =============================
 
