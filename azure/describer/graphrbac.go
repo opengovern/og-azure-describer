@@ -18,6 +18,7 @@ import (
 	"github.com/microsoftgraph/msgraph-sdk-go/identity"
 	"github.com/microsoftgraph/msgraph-sdk-go/models"
 	"github.com/microsoftgraph/msgraph-sdk-go/policies"
+	"github.com/microsoftgraph/msgraph-sdk-go/reports"
 	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipals"
 	users2 "github.com/microsoftgraph/msgraph-sdk-go/users"
 )
@@ -1323,6 +1324,70 @@ func AdAdminConsentRequestPolicy(ctx context.Context, cred *azidentity.ClientSec
 		}
 	} else {
 		values = append(values, resource)
+	}
+
+	return values, nil
+}
+
+func AdUserRegistrationDetails(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	result, err := client.Reports().AuthenticationMethods().UserRegistrationDetails().Get(ctx, &reports.AuthenticationMethodsUserRegistrationDetailsRequestBuilderGetRequestConfiguration{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get users: %v", err)
+	}
+
+	var values []Resource
+	var itemErr error
+	pageIterator, err := msgraphcore.NewPageIterator[models.UserRegistrationDetails](result, client.GetAdapter(), models.CreateUserCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(user models.UserRegistrationDetails) bool {
+		resource := Resource{
+			ID:       *user.GetId(),
+			Location: "global",
+			TenantID: tenantId,
+			Description: JSONAllFieldsMarshaller{
+				Value: model.AdUserRegistrationDetailsDescription{
+					TenantID:                             tenantId,
+					Id:                                   user.GetId(),
+					UserPrincipalName:                    user.GetUserPrincipalName(),
+					UserDisplayName:                      user.GetUserDisplayName(),
+					UserType:                             user.GetUserType().String(),
+					IsAdmin:                              user.GetIsAdmin(),
+					IsMfaCapable:                         user.GetIsMfaCapable(),
+					IsMfaRegistered:                      user.GetIsMfaRegistered(),
+					IsSsprCapable:                        user.GetIsSsprCapable(),
+					IsSsprRegistered:                     user.GetIsSsprRegistered(),
+					IsSsprEnabled:                        user.GetIsSsprEnabled(),
+					IsPasswordlessCapable:                user.GetIsPasswordlessCapable(),
+					SystemPreferredAuthenticationMethods: user.GetSystemPreferredAuthenticationMethods(),
+					IsSystemPreferredAuthenticationMethodEnabled:  user.GetIsSystemPreferredAuthenticationMethodEnabled(),
+					LastUpdatedDateTime:                           user.GetLastUpdatedDateTime(),
+					MethodsRegistered:                             user.GetMethodsRegistered(),
+					UserPreferredMethodForSecondaryAuthentication: user.GetUserPreferredMethodForSecondaryAuthentication().String(),
+				},
+			},
+		}
+		if stream != nil {
+			if itemErr = (*stream)(resource); itemErr != nil {
+				return false
+			}
+		} else {
+			values = append(values, resource)
+		}
+		return true
+	})
+	if itemErr != nil {
+		return nil, itemErr
+	}
+	if err != nil {
+		return nil, err
 	}
 
 	return values, nil

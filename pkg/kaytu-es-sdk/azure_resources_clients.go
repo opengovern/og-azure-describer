@@ -46836,7 +46836,7 @@ var listAdGroupFilters = map[string]string{
 	"display_name":                     "description.DisplayName",
 	"expiration_date_time":             "description.ExpirationDateTime",
 	"group_types":                      "description.GroupTypes",
-	"id":                               "description.ID",
+	"id":                               "description.Id",
 	"is_assignable_to_role":            "description.IsAssignableToRole",
 	"is_subscribed_by_mail":            "description.IsAssignableToRole",
 	"kaytu_account_id":                 "metadata.SourceID",
@@ -46932,7 +46932,7 @@ var getAdGroupFilters = map[string]string{
 	"display_name":                     "description.DisplayName",
 	"expiration_date_time":             "description.ExpirationDateTime",
 	"group_types":                      "description.GroupTypes",
-	"id":                               "description.ID",
+	"id":                               "description.Id",
 	"is_assignable_to_role":            "description.IsAssignableToRole",
 	"is_subscribed_by_mail":            "description.IsAssignableToRole",
 	"kaytu_account_id":                 "metadata.SourceID",
@@ -47165,7 +47165,7 @@ var listAdServicePrincipalFilters = map[string]string{
 	"app_roles":                    "description.AppRoles",
 	"description":                  "description.Description",
 	"display_name":                 "description.DisplayName",
-	"id":                           "description.ID",
+	"id":                           "description.Id",
 	"info":                         "description.Info",
 	"kaytu_account_id":             "metadata.SourceID",
 	"kaytu_resource_id":            "ID",
@@ -47256,7 +47256,7 @@ var getAdServicePrincipalFilters = map[string]string{
 	"app_roles":                    "description.AppRoles",
 	"description":                  "description.Description",
 	"display_name":                 "description.DisplayName",
-	"id":                           "description.ID",
+	"id":                           "description.Id",
 	"info":                         "description.Info",
 	"kaytu_account_id":             "metadata.SourceID",
 	"kaytu_resource_id":            "ID",
@@ -50759,6 +50759,303 @@ func GetAdDevice(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 // ==========================  END: AdDevice =============================
+
+// ==========================  START: AdUserRegistrationDetails =============================
+
+type AdUserRegistrationDetails struct {
+	Description   azure.AdUserRegistrationDetailsDescription `json:"description"`
+	Metadata      azure.Metadata                             `json:"metadata"`
+	ResourceJobID int                                        `json:"resource_job_id"`
+	SourceJobID   int                                        `json:"source_job_id"`
+	ResourceType  string                                     `json:"resource_type"`
+	SourceType    string                                     `json:"source_type"`
+	ID            string                                     `json:"id"`
+	ARN           string                                     `json:"arn"`
+	SourceID      string                                     `json:"source_id"`
+}
+
+func (r *AdUserRegistrationDetails) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.AdUserRegistrationDetailsDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type AdUserRegistrationDetailsHit struct {
+	ID      string                    `json:"_id"`
+	Score   float64                   `json:"_score"`
+	Index   string                    `json:"_index"`
+	Type    string                    `json:"_type"`
+	Version int64                     `json:"_version,omitempty"`
+	Source  AdUserRegistrationDetails `json:"_source"`
+	Sort    []interface{}             `json:"sort"`
+}
+
+type AdUserRegistrationDetailsHits struct {
+	Total essdk.SearchTotal              `json:"total"`
+	Hits  []AdUserRegistrationDetailsHit `json:"hits"`
+}
+
+type AdUserRegistrationDetailsSearchResponse struct {
+	PitID string                        `json:"pit_id"`
+	Hits  AdUserRegistrationDetailsHits `json:"hits"`
+}
+
+type AdUserRegistrationDetailsPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAdUserRegistrationDetailsPaginator(filters []essdk.BoolFilter, limit *int64) (AdUserRegistrationDetailsPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_userregistrationdetails", filters, limit)
+	if err != nil {
+		return AdUserRegistrationDetailsPaginator{}, err
+	}
+
+	p := AdUserRegistrationDetailsPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AdUserRegistrationDetailsPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AdUserRegistrationDetailsPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p AdUserRegistrationDetailsPaginator) NextPage(ctx context.Context) ([]AdUserRegistrationDetails, error) {
+	var response AdUserRegistrationDetailsSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AdUserRegistrationDetails
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAdUserRegistrationDetailsFilters = map[string]string{
+	"id":                      "description.Id",
+	"is_admin":                "description.IsAdmin",
+	"is_mfa_capable":          "description.IsMfaCapable",
+	"is_mfa_registered":       "description.IsMfaRegistered",
+	"is_passwordless_capable": "description.IsPasswordlessCapable",
+	"is_sspr_capable":         "description.IsSsprCapable",
+	"is_sspr_enabled":         "description.IsSsprEnabled",
+	"is_sspr_registered":      "description.IsSsprRegistered",
+	"is_system_preferred_authentication_method_enabled": "description.IsSystemPreferredAuthenticationMethodEnabled",
+	"kaytu_account_id":                        "metadata.SourceID",
+	"last_updated_date_time":                  "description.LastUpdatedDateTime",
+	"methods_registered":                      "description.MethodsRegistered",
+	"system_preferred_authentication_methods": "description.SystemPreferredAuthenticationMethods",
+	"tenant_id":                               "description.TenantID",
+	"title":                                   "description.Id",
+	"user_display_name":                       "description.UserDisplayName",
+	"user_preferred_method_for_secondary_authentication": "description.UserPreferredMethodForSecondaryAuthentication",
+	"user_principal_name":                                "description.UserPrincipalName",
+	"user_type":                                          "description.UserType",
+}
+
+func ListAdUserRegistrationDetails(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAdUserRegistrationDetails")
+	runtime.GC()
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdUserRegistrationDetails NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdUserRegistrationDetails NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdUserRegistrationDetails GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdUserRegistrationDetails GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdUserRegistrationDetails GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewAdUserRegistrationDetailsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAdUserRegistrationDetailsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAdUserRegistrationDetails NewAdUserRegistrationDetailsPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListAdUserRegistrationDetails paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getAdUserRegistrationDetailsFilters = map[string]string{
+	"id":                      "description.Id",
+	"is_admin":                "description.IsAdmin",
+	"is_mfa_capable":          "description.IsMfaCapable",
+	"is_mfa_registered":       "description.IsMfaRegistered",
+	"is_passwordless_capable": "description.IsPasswordlessCapable",
+	"is_sspr_capable":         "description.IsSsprCapable",
+	"is_sspr_enabled":         "description.IsSsprEnabled",
+	"is_sspr_registered":      "description.IsSsprRegistered",
+	"is_system_preferred_authentication_method_enabled": "description.IsSystemPreferredAuthenticationMethodEnabled",
+	"kaytu_account_id":                        "metadata.SourceID",
+	"last_updated_date_time":                  "description.LastUpdatedDateTime",
+	"methods_registered":                      "description.MethodsRegistered",
+	"system_preferred_authentication_methods": "description.SystemPreferredAuthenticationMethods",
+	"tenant_id":                               "description.TenantID",
+	"title":                                   "description.Id",
+	"user_display_name":                       "description.UserDisplayName",
+	"user_preferred_method_for_secondary_authentication": "description.UserPreferredMethodForSecondaryAuthentication",
+	"user_principal_name":                                "description.UserPrincipalName",
+	"user_type":                                          "description.UserType",
+}
+
+func GetAdUserRegistrationDetails(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAdUserRegistrationDetails")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewAdUserRegistrationDetailsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAdUserRegistrationDetailsFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AdUserRegistrationDetails =============================
 
 // ==========================  START: AnalysisServiceServer =============================
 

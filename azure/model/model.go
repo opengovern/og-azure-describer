@@ -1888,6 +1888,27 @@ type AdDeviceDescription struct {
 	MemberOf                      []models.DirectoryObjectable
 }
 
+//index:microsoft_resources_userregistrationdetails
+type AdUserRegistrationDetailsDescription struct {
+	TenantID                                      string
+	Id                                            *string
+	UserPrincipalName                             *string
+	UserDisplayName                               *string
+	UserType                                      string
+	SystemPreferredAuthenticationMethods          []string
+	IsSystemPreferredAuthenticationMethodEnabled  *bool
+	IsAdmin                                       *bool
+	IsMfaCapable                                  *bool
+	IsMfaRegistered                               *bool
+	IsSsprCapable                                 *bool
+	IsSsprRegistered                              *bool
+	IsSsprEnabled                                 *bool
+	IsPasswordlessCapable                         *bool
+	LastUpdatedDateTime                           *time.Time
+	MethodsRegistered                             []string
+	UserPreferredMethodForSecondaryAuthentication string
+}
+
 //  =================== analysis ==================
 
 //index:microsoft_analysisservice_servers

@@ -40,6 +40,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"azuread_user":                         tableAzureAdUser(ctx),
 			"azuread_device":                       tableAzureAdDevice(ctx),
 			"azuread_sign_in_report":               tableAzureAdSignInReport(ctx),
+			"azuread_user_registration_details":    tableAzureAdUserRegistrationDetails(ctx),
 		},
 	}
 
