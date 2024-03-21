@@ -910,11 +910,14 @@ func AdDirectoryRole(ctx context.Context, cred *azidentity.ClientSecretCredentia
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
 	var values []Resource
-	pageIterator, err := msgraphcore.NewPageIterator[models.DirectoryRole](result, client.GetAdapter(), models.CreateDirectoryRoleCollectionResponseFromDiscriminatorValue)
+	pageIterator, err := msgraphcore.NewPageIterator[*models.DirectoryRole](result, client.GetAdapter(), models.CreateDirectoryRoleCollectionResponseFromDiscriminatorValue)
 	if err != nil {
 		return nil, err
 	}
-	err = pageIterator.Iterate(context.Background(), func(role models.DirectoryRole) bool {
+	err = pageIterator.Iterate(context.Background(), func(role *models.DirectoryRole) bool {
+		if role == nil {
+			return true
+		}
 		var memberIds []*string
 		for _, member := range role.GetMembers() {
 			memberIds = append(memberIds, member.GetId())
