@@ -33,7 +33,7 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 
 	result, err := client.Users().Get(ctx, &users2.UsersRequestBuilderGetRequestConfiguration{
 		QueryParameters: &users2.UsersRequestBuilderGetQueryParameters{
-			Top: aws.Int32(9999),
+			Top: aws.Int32(999),
 		},
 	})
 	if err != nil {
@@ -118,7 +118,7 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 
 	result, err := client.Groups().Get(ctx, &groups.GroupsRequestBuilderGetRequestConfiguration{
 		QueryParameters: &groups.GroupsRequestBuilderGetQueryParameters{
-			Top: aws.Int32(9999),
+			Top: aws.Int32(999),
 		},
 	})
 	if err != nil {
@@ -480,7 +480,7 @@ func AdApplication(ctx context.Context, cred *azidentity.ClientSecretCredential,
 	var itemErr error
 	result, err := client.Applications().Get(ctx, &applications.ApplicationsRequestBuilderGetRequestConfiguration{
 		QueryParameters: &applications.ApplicationsRequestBuilderGetQueryParameters{
-			Top: aws.Int32(9999),
+			Top: aws.Int32(999),
 		},
 	})
 	if err != nil {
@@ -755,7 +755,7 @@ func AdSignInReport(ctx context.Context, cred *azidentity.ClientSecretCredential
 
 	result, err := client.AuditLogs().SignIns().Get(ctx, &auditlogs.SignInsRequestBuilderGetRequestConfiguration{
 		QueryParameters: &auditlogs.SignInsRequestBuilderGetQueryParameters{
-			Top: aws.Int32(9999),
+			Top: aws.Int32(999),
 		},
 	})
 	if err != nil {
@@ -839,7 +839,7 @@ func AdDevice(ctx context.Context, cred *azidentity.ClientSecretCredential, tena
 	var itemErr error
 	result, err := client.Devices().Get(ctx, &devices.DevicesRequestBuilderGetRequestConfiguration{
 		QueryParameters: &devices.DevicesRequestBuilderGetQueryParameters{
-			Top: aws.Int32(9999),
+			Top: aws.Int32(999),
 		},
 	})
 	if err != nil {
@@ -1032,7 +1032,8 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 
 	result, err := client.AuditLogs().DirectoryAudits().Get(ctx, &auditlogs.DirectoryAuditsRequestBuilderGetRequestConfiguration{
 		QueryParameters: &auditlogs.DirectoryAuditsRequestBuilderGetQueryParameters{
-			Top: aws.Int32(9999),
+			Top: aws.Int32(9
+			99),
 		},
 	})
 	if err != nil {
@@ -1231,7 +1232,7 @@ func AdDomain(ctx context.Context, cred *azidentity.ClientSecretCredential, tena
 
 	result, err := client.Domains().Get(ctx, &domains.DomainsRequestBuilderGetRequestConfiguration{
 		QueryParameters: &domains.DomainsRequestBuilderGetQueryParameters{
-			Top: aws.Int32(9999),
+			Top: aws.Int32(999),
 		},
 	})
 	if err != nil {
@@ -1295,9 +1296,7 @@ func AdIdentityProvider(ctx context.Context, cred *azidentity.ClientSecretCreden
 	var itemErr error
 
 	result, err := client.Identity().IdentityProviders().Get(ctx, &identity.IdentityProvidersRequestBuilderGetRequestConfiguration{
-		QueryParameters: &identity.IdentityProvidersRequestBuilderGetQueryParameters{
-			Top: aws.Int32(9999),
-		},
+		QueryParameters: &identity.IdentityProvidersRequestBuilderGetQueryParameters{},
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
@@ -1355,7 +1354,7 @@ func AdSecurityDefaultsPolicy(ctx context.Context, cred *azidentity.ClientSecret
 		return nil, fmt.Errorf("failed to create client: %v", err)
 	}
 
-	result, err := client.Policies().IdentitySecurityDefaultsEnforcementPolicy().Get(ctx, &policies.IdentitySecurityDefaultsEnforcementPolicyRequestBuilderGetRequestConfiguration{})
+	result, err := client.Policies().IdentitySecurityDefaultsEnforcementPolicy().Get(ctx, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
