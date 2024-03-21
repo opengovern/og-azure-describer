@@ -970,7 +970,7 @@ func AdDirectorySetting(ctx context.Context, cred *azidentity.ClientSecretCreden
 
 	result, err := client.GroupSettings().Get(ctx, &groupsettings.GroupSettingsRequestBuilderGetRequestConfiguration{
 		QueryParameters: &groupsettings.GroupSettingsRequestBuilderGetQueryParameters{
-			Top: aws.Int32(9999),
+			Top: aws.Int32(999),
 		},
 	})
 	if err != nil {
