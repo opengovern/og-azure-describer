@@ -1541,7 +1541,11 @@ type AdUsersDescription struct {
 	MemberOf                        []models.DirectoryObjectable
 	ImAddresses                     []string
 	OtherMails                      []string
-	PasswordProfile                 models.PasswordProfileable
+	PasswordProfile                 struct {
+		ForceChangePasswordNextSignIn        *bool
+		ForceChangePasswordNextSignInWithMfa *bool
+		Password                             *string
+	}
 }
 
 //index:microsoft_resources_groups
@@ -1570,11 +1574,14 @@ type AdGroupDescription struct {
 	SecurityEnabled               *bool
 	SecurityIdentifier            *string
 	Visibility                    *string
-	AssignedLabels                []models.AssignedLabelable
-	GroupTypes                    []string
-	MemberIds                     []*string
-	OwnerIds                      []*string
-	ProxyAddresses                []string
+	AssignedLabels                []struct {
+		DisplayName *string
+		LabelId     *string
+	}
+	GroupTypes     []string
+	MemberIds      []*string
+	OwnerIds       []*string
+	ProxyAddresses []string
 }
 
 //index:microsoft_resources_serviceprincipals
@@ -1593,18 +1600,59 @@ type AdServicePrincipalDescription struct {
 	Description               *string
 	LoginUrl                  *string
 	LogoutUrl                 *string
-	AddIns                    []models.AddInable
-	AlternativeNames          []string
-	AppRoles                  []models.AppRoleable
+	AddIns                    []struct {
+		Id          string
+		TypeEscaped *string
+		Properties  []struct {
+			Key   *string
+			Value *string
+		}
+	}
+	AlternativeNames []string
+	AppRoles         []struct {
+		AllowedMemberTypes []string
+		Description        *string
+		DisplayName        *string
+		Id                 string
+		IsEnabled          *bool
+		Origin             *string
+		Value              *string
+	}
 	//Info models.InformationalUrlable
-	KeyCredentials             []models.KeyCredentialable
+	KeyCredentials []struct {
+		CustomKeyIdentifier []byte
+		DisplayName         *string
+		EndDateTime         *time.Time
+		Key                 []byte
+		KeyId               string
+		StartDateTime       *time.Time
+		TypeEscaped         *string
+		Usage               *string
+	}
 	NotificationEmailAddresses []string
-	OwnerIds                   []models.DirectoryObjectable
-	PasswordCredentials        []models.PasswordCredentialable
-	Oauth2PermissionScopes     []models.PermissionScopeable
-	ReplyUrls                  []string
-	ServicePrincipalNames      []string
-	TagsSrc                    []string
+	OwnerIds                   []*string
+	PasswordCredentials        []struct {
+		CustomKeyIdentifier []byte
+		DisplayName         *string
+		EndDateTime         *time.Time
+		Hint                *string
+		KeyId               string
+		SecretText          *string
+		StartDateTime       *time.Time
+	}
+	Oauth2PermissionScopes []struct {
+		AdminConsentDescription *string
+		AdminConsentDisplayName *string
+		Id                      string
+		IsEnabled               *bool
+		Origin                  *string
+		TypeEscaped             *string
+		UserConsentDescription  *string
+		UserConsentDisplayName  *string
+	}
+	ReplyUrls             []string
+	ServicePrincipalNames []string
+	TagsSrc               []string
 }
 
 //index:microsoft_resources_applications
@@ -1619,16 +1667,74 @@ type AdApplicationDescription struct {
 	Oauth2RequirePostResponse     *bool
 	PublisherDomain               *string
 	SignInAudience                *string
-	Api                           models.ApiApplicationable
-	IdentifierUris                []string
-	Info                          models.InformationalUrlable
-	KeyCredentials                []models.KeyCredentialable
-	OwnerIds                      []models.DirectoryObjectable
-	ParentalControlSettings       models.ParentalControlSettingsable
-	PasswordCredentials           []models.PasswordCredentialable
-	Spa                           models.SpaApplicationable
-	TagsSrc                       []string
-	Web                           models.WebApplicationable
+	Api                           struct {
+		AcceptMappedClaims      *bool
+		KnownClientApplications []string
+		Oauth2PermissionScopes  []struct {
+			AdminConsentDescription *string
+			AdminConsentDisplayName *string
+			Id                      string
+			IsEnabled               *bool
+			Origin                  *string
+			TypeEscaped             *string
+			UserConsentDescription  *string
+			UserConsentDisplayName  *string
+		}
+		PreAuthorizedApplications []struct {
+			AppId                  *string
+			DelegatedPermissionIds []string
+		}
+		RequestedAccessTokenVersion *int32
+	}
+	IdentifierUris []string
+	Info           struct {
+		LogoUrl             *string
+		MarketingUrl        *string
+		PrivacyStatementUrl *string
+		SupportUrl          *string
+		TermsOfServiceUrl   *string
+	}
+	KeyCredentials []struct {
+		CustomKeyIdentifier []byte
+		DisplayName         *string
+		EndDateTime         *time.Time
+		Key                 []byte
+		KeyId               string
+		StartDateTime       *time.Time
+		TypeEscaped         *string
+		Usage               *string
+	}
+	OwnerIds                []*string
+	ParentalControlSettings struct {
+		CountriesBlockedForMinors []string
+		LegalAgeGroupRule         *string
+	}
+	PasswordCredentials []struct {
+		CustomKeyIdentifier []byte
+		DisplayName         *string
+		EndDateTime         *time.Time
+		Hint                *string
+		KeyId               string
+		SecretText          *string
+		StartDateTime       *time.Time
+	}
+	Spa struct {
+		RedirectUris []string
+	}
+	TagsSrc []string
+	Web     struct {
+		HomePageUrl           *string
+		ImplicitGrantSettings struct {
+			EnableAccessTokenIssuance *bool
+			EnableIdTokenIssuance     *bool
+		}
+		LogoutUrl           *string
+		RedirectUris        []string
+		RedirectUriSettings []struct {
+			Index *int32
+			Uri   *string
+		}
+	}
 }
 
 //index:microsoft_resources_directoryroles

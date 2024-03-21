@@ -21,6 +21,7 @@ import (
 	"github.com/microsoftgraph/msgraph-sdk-go/reports"
 	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipals"
 	users2 "github.com/microsoftgraph/msgraph-sdk-go/users"
+	"time"
 )
 
 func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
@@ -49,6 +50,7 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 		if user == nil {
 			return true
 		}
+
 		resource := Resource{
 			ID:       *user.GetId(),
 			Name:     *user.GetDisplayName(),
@@ -74,9 +76,17 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 					UsageLocation:                   user.GetUsageLocation(),
 					MemberOf:                        user.GetMemberOf(),
 					//AdditionalProperties:            user.GetAdditionalProperties(),
-					ImAddresses:     user.GetImAddresses(),
-					OtherMails:      user.GetOtherMails(),
-					PasswordProfile: user.GetPasswordProfile(),
+					ImAddresses: user.GetImAddresses(),
+					OtherMails:  user.GetOtherMails(),
+					PasswordProfile: struct {
+						ForceChangePasswordNextSignIn        *bool
+						ForceChangePasswordNextSignInWithMfa *bool
+						Password                             *string
+					}{
+						ForceChangePasswordNextSignIn:        user.GetPasswordProfile().GetForceChangePasswordNextSignIn(),
+						ForceChangePasswordNextSignInWithMfa: user.GetPasswordProfile().GetForceChangePasswordNextSignInWithMfa(),
+						Password:                             user.GetPasswordProfile().GetPassword(),
+					},
 				},
 			},
 		}
@@ -133,6 +143,21 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 		for _, m := range group.GetOwners() {
 			ownerIds = append(ownerIds, m.GetId())
 		}
+
+		var assignedLabels []struct {
+			DisplayName *string
+			LabelId     *string
+		}
+		for _, l := range group.GetAssignedLabels() {
+			assignedLabels = append(assignedLabels, struct {
+				DisplayName *string
+				LabelId     *string
+			}{
+				DisplayName: l.GetDisplayName(),
+				LabelId:     l.GetLabelId(),
+			})
+		}
+
 		resource := Resource{
 			ID:       *group.GetId(),
 			Name:     *group.GetDisplayName(),
@@ -164,7 +189,7 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 					SecurityEnabled:               group.GetSecurityEnabled(),
 					SecurityIdentifier:            group.GetSecurityIdentifier(),
 					Visibility:                    group.GetVisibility(),
-					AssignedLabels:                group.GetAssignedLabels(),
+					AssignedLabels:                assignedLabels,
 					GroupTypes:                    group.GetGroupTypes(),
 					MemberIds:                     memberIds,
 					OwnerIds:                      ownerIds,
@@ -224,6 +249,171 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 			tmp := v.String()
 			orgID = &tmp
 		}
+
+		var keyCredentials []struct {
+			CustomKeyIdentifier []byte
+			DisplayName         *string
+			EndDateTime         *time.Time
+			Key                 []byte
+			KeyId               string
+			StartDateTime       *time.Time
+			TypeEscaped         *string
+			Usage               *string
+		}
+
+		for _, kc := range servicePrincipal.GetKeyCredentials() {
+			keyCredentials = append(keyCredentials, struct {
+				CustomKeyIdentifier []byte
+				DisplayName         *string
+				EndDateTime         *time.Time
+				Key                 []byte
+				KeyId               string
+				StartDateTime       *time.Time
+				TypeEscaped         *string
+				Usage               *string
+			}{
+				Key:                 kc.GetKey(),
+				TypeEscaped:         kc.GetTypeEscaped(),
+				Usage:               kc.GetUsage(),
+				DisplayName:         kc.GetDisplayName(),
+				CustomKeyIdentifier: kc.GetCustomKeyIdentifier(),
+				KeyId:               kc.GetKeyId().String(),
+				EndDateTime:         kc.GetEndDateTime(),
+				StartDateTime:       kc.GetStartDateTime(),
+			})
+		}
+
+		var passwordCredentials []struct {
+			CustomKeyIdentifier []byte
+			DisplayName         *string
+			EndDateTime         *time.Time
+			Hint                *string
+			KeyId               string
+			SecretText          *string
+			StartDateTime       *time.Time
+		}
+		for _, pc := range servicePrincipal.GetPasswordCredentials() {
+			passwordCredentials = append(passwordCredentials, struct {
+				CustomKeyIdentifier []byte
+				DisplayName         *string
+				EndDateTime         *time.Time
+				Hint                *string
+				KeyId               string
+				SecretText          *string
+				StartDateTime       *time.Time
+			}{
+				CustomKeyIdentifier: pc.GetCustomKeyIdentifier(),
+				DisplayName:         pc.GetDisplayName(),
+				EndDateTime:         pc.GetEndDateTime(),
+				Hint:                pc.GetHint(),
+				KeyId:               pc.GetKeyId().String(),
+				SecretText:          pc.GetSecretText(),
+				StartDateTime:       pc.GetStartDateTime(),
+			})
+		}
+
+		var ownerIds []*string
+		for _, owner := range servicePrincipal.GetOwners() {
+			ownerIds = append(ownerIds, owner.GetId())
+		}
+
+		var addIns []struct {
+			Id          string
+			TypeEscaped *string
+			Properties  []struct {
+				Key   *string
+				Value *string
+			}
+		}
+		for _, addIn := range servicePrincipal.GetAddIns() {
+			var properties []struct {
+				Key   *string
+				Value *string
+			}
+			for _, p := range addIn.GetProperties() {
+				properties = append(properties, struct {
+					Key   *string
+					Value *string
+				}{
+					Key:   p.GetKey(),
+					Value: p.GetValue(),
+				})
+			}
+			addIns = append(addIns, struct {
+				Id          string
+				TypeEscaped *string
+				Properties  []struct {
+					Key   *string
+					Value *string
+				}
+			}{
+				Id:          addIn.GetId().String(),
+				TypeEscaped: addIn.GetTypeEscaped(),
+				Properties:  properties,
+			})
+		}
+
+		var appRoles []struct {
+			AllowedMemberTypes []string
+			Description        *string
+			DisplayName        *string
+			Id                 string
+			IsEnabled          *bool
+			Origin             *string
+			Value              *string
+		}
+		for _, appRole := range servicePrincipal.GetAppRoles() {
+			appRoles = append(appRoles, struct {
+				AllowedMemberTypes []string
+				Description        *string
+				DisplayName        *string
+				Id                 string
+				IsEnabled          *bool
+				Origin             *string
+				Value              *string
+			}{
+				Id:                 appRole.GetId().String(),
+				Description:        appRole.GetDescription(),
+				DisplayName:        appRole.GetDisplayName(),
+				AllowedMemberTypes: appRole.GetAllowedMemberTypes(),
+				IsEnabled:          appRole.GetIsEnabled(),
+				Origin:             appRole.GetOrigin(),
+				Value:              appRole.GetValue(),
+			})
+		}
+
+		var oauth2PermissionScopes []struct {
+			AdminConsentDescription *string
+			AdminConsentDisplayName *string
+			Id                      string
+			IsEnabled               *bool
+			Origin                  *string
+			TypeEscaped             *string
+			UserConsentDescription  *string
+			UserConsentDisplayName  *string
+		}
+		for _, ps := range servicePrincipal.GetOauth2PermissionScopes() {
+			oauth2PermissionScopes = append(oauth2PermissionScopes, struct {
+				AdminConsentDescription *string
+				AdminConsentDisplayName *string
+				Id                      string
+				IsEnabled               *bool
+				Origin                  *string
+				TypeEscaped             *string
+				UserConsentDescription  *string
+				UserConsentDisplayName  *string
+			}{
+				Id:                      ps.GetId().String(),
+				Origin:                  ps.GetOrigin(),
+				IsEnabled:               ps.GetIsEnabled(),
+				TypeEscaped:             ps.GetTypeEscaped(),
+				AdminConsentDescription: ps.GetAdminConsentDescription(),
+				UserConsentDescription:  ps.GetUserConsentDescription(),
+				UserConsentDisplayName:  ps.GetUserConsentDisplayName(),
+				AdminConsentDisplayName: ps.GetAdminConsentDisplayName(),
+			})
+		}
+
 		resource := Resource{
 			ID:       *servicePrincipal.GetId(),
 			Name:     *servicePrincipal.GetDisplayName(),
@@ -245,15 +435,15 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 					Description:               servicePrincipal.GetDescription(),
 					LoginUrl:                  servicePrincipal.GetLoginUrl(),
 					LogoutUrl:                 servicePrincipal.GetLogoutUrl(),
-					AddIns:                    servicePrincipal.GetAddIns(),
+					AddIns:                    addIns,
 					AlternativeNames:          servicePrincipal.GetAlternativeNames(),
-					AppRoles:                  servicePrincipal.GetAppRoles(),
+					AppRoles:                  appRoles,
 					//Info: servicePrincipal.GetInfo(),
-					KeyCredentials:             servicePrincipal.GetKeyCredentials(),
+					KeyCredentials:             keyCredentials,
 					NotificationEmailAddresses: servicePrincipal.GetNotificationEmailAddresses(),
-					OwnerIds:                   servicePrincipal.GetOwners(),
-					PasswordCredentials:        servicePrincipal.GetPasswordCredentials(),
-					Oauth2PermissionScopes:     servicePrincipal.GetOauth2PermissionScopes(),
+					OwnerIds:                   ownerIds,
+					PasswordCredentials:        passwordCredentials,
+					Oauth2PermissionScopes:     oauth2PermissionScopes,
 					ReplyUrls:                  servicePrincipal.GetReplyUrls(),
 					ServicePrincipalNames:      servicePrincipal.GetServicePrincipalNames(),
 					TagsSrc:                    servicePrincipal.GetTags(),
@@ -305,6 +495,137 @@ func AdApplication(ctx context.Context, cred *azidentity.ClientSecretCredential,
 			return true
 		}
 
+		var oauth2PermissionScopes []struct {
+			AdminConsentDescription *string
+			AdminConsentDisplayName *string
+			Id                      string
+			IsEnabled               *bool
+			Origin                  *string
+			TypeEscaped             *string
+			UserConsentDescription  *string
+			UserConsentDisplayName  *string
+		}
+		for _, ps := range app.GetApi().GetOauth2PermissionScopes() {
+			oauth2PermissionScopes = append(oauth2PermissionScopes, struct {
+				AdminConsentDescription *string
+				AdminConsentDisplayName *string
+				Id                      string
+				IsEnabled               *bool
+				Origin                  *string
+				TypeEscaped             *string
+				UserConsentDescription  *string
+				UserConsentDisplayName  *string
+			}{
+				Id:                      ps.GetId().String(),
+				Origin:                  ps.GetOrigin(),
+				IsEnabled:               ps.GetIsEnabled(),
+				TypeEscaped:             ps.GetTypeEscaped(),
+				AdminConsentDescription: ps.GetAdminConsentDescription(),
+				UserConsentDescription:  ps.GetUserConsentDescription(),
+				UserConsentDisplayName:  ps.GetUserConsentDisplayName(),
+				AdminConsentDisplayName: ps.GetAdminConsentDisplayName(),
+			})
+		}
+
+		var preAuthorizedApplications []struct {
+			AppId                  *string
+			DelegatedPermissionIds []string
+		}
+		for _, paa := range app.GetApi().GetPreAuthorizedApplications() {
+			preAuthorizedApplications = append(preAuthorizedApplications, struct {
+				AppId                  *string
+				DelegatedPermissionIds []string
+			}{
+				AppId:                  paa.GetAppId(),
+				DelegatedPermissionIds: paa.GetDelegatedPermissionIds(),
+			})
+		}
+
+		var knownClientApplications []string
+		for _, a := range app.GetApi().GetKnownClientApplications() {
+			knownClientApplications = append(knownClientApplications, a.String())
+		}
+
+		var keyCredentials []struct {
+			CustomKeyIdentifier []byte
+			DisplayName         *string
+			EndDateTime         *time.Time
+			Key                 []byte
+			KeyId               string
+			StartDateTime       *time.Time
+			TypeEscaped         *string
+			Usage               *string
+		}
+		for _, c := range app.GetKeyCredentials() {
+			keyCredentials = append(keyCredentials, struct {
+				CustomKeyIdentifier []byte
+				DisplayName         *string
+				EndDateTime         *time.Time
+				Key                 []byte
+				KeyId               string
+				StartDateTime       *time.Time
+				TypeEscaped         *string
+				Usage               *string
+			}{
+				TypeEscaped:         c.GetTypeEscaped(),
+				Key:                 c.GetKey(),
+				DisplayName:         c.GetDisplayName(),
+				StartDateTime:       c.GetStartDateTime(),
+				KeyId:               c.GetKeyId().String(),
+				EndDateTime:         c.GetEndDateTime(),
+				Usage:               c.GetUsage(),
+				CustomKeyIdentifier: c.GetCustomKeyIdentifier(),
+			})
+		}
+
+		var ownerIds []*string
+		for _, o := range app.GetOwners() {
+			ownerIds = append(ownerIds, o.GetId())
+		}
+
+		var redirectUriSettings []struct {
+			Index *int32
+			Uri   *string
+		}
+		for _, r := range app.GetWeb().GetRedirectUriSettings() {
+			redirectUriSettings = append(redirectUriSettings, struct {
+				Index *int32
+				Uri   *string
+			}{
+				Uri:   r.GetUri(),
+				Index: r.GetIndex(),
+			})
+		}
+
+		var passwordCredentials []struct {
+			CustomKeyIdentifier []byte
+			DisplayName         *string
+			EndDateTime         *time.Time
+			Hint                *string
+			KeyId               string
+			SecretText          *string
+			StartDateTime       *time.Time
+		}
+		for _, pc := range app.GetPasswordCredentials() {
+			passwordCredentials = append(passwordCredentials, struct {
+				CustomKeyIdentifier []byte
+				DisplayName         *string
+				EndDateTime         *time.Time
+				Hint                *string
+				KeyId               string
+				SecretText          *string
+				StartDateTime       *time.Time
+			}{
+				CustomKeyIdentifier: pc.GetCustomKeyIdentifier(),
+				DisplayName:         pc.GetDisplayName(),
+				EndDateTime:         pc.GetEndDateTime(),
+				Hint:                pc.GetHint(),
+				KeyId:               pc.GetKeyId().String(),
+				SecretText:          pc.GetSecretText(),
+				StartDateTime:       pc.GetStartDateTime(),
+			})
+		}
+
 		resource := Resource{
 			ID:       *app.GetId(),
 			Name:     *app.GetDisplayName(),
@@ -321,16 +642,86 @@ func AdApplication(ctx context.Context, cred *azidentity.ClientSecretCredential,
 					Oauth2RequirePostResponse: app.GetOauth2RequirePostResponse(),
 					PublisherDomain:           app.GetPublisherDomain(),
 					SignInAudience:            app.GetSignInAudience(),
-					Api:                       app.GetApi(),
-					IdentifierUris:            app.GetIdentifierUris(),
-					Info:                      app.GetInfo(),
-					KeyCredentials:            app.GetKeyCredentials(),
-					OwnerIds:                  app.GetOwners(),
-					ParentalControlSettings:   app.GetParentalControlSettings(),
-					PasswordCredentials:       app.GetPasswordCredentials(),
-					Spa:                       app.GetSpa(),
-					TagsSrc:                   app.GetTags(),
-					Web:                       app.GetWeb(),
+					Api: struct {
+						AcceptMappedClaims      *bool
+						KnownClientApplications []string
+						Oauth2PermissionScopes  []struct {
+							AdminConsentDescription *string
+							AdminConsentDisplayName *string
+							Id                      string
+							IsEnabled               *bool
+							Origin                  *string
+							TypeEscaped             *string
+							UserConsentDescription  *string
+							UserConsentDisplayName  *string
+						}
+						PreAuthorizedApplications []struct {
+							AppId                  *string
+							DelegatedPermissionIds []string
+						}
+						RequestedAccessTokenVersion *int32
+					}{
+						AcceptMappedClaims:          app.GetApi().GetAcceptMappedClaims(),
+						KnownClientApplications:     knownClientApplications,
+						PreAuthorizedApplications:   preAuthorizedApplications,
+						Oauth2PermissionScopes:      oauth2PermissionScopes,
+						RequestedAccessTokenVersion: app.GetApi().GetRequestedAccessTokenVersion(),
+					},
+					IdentifierUris: app.GetIdentifierUris(),
+					Info: struct {
+						LogoUrl             *string
+						MarketingUrl        *string
+						PrivacyStatementUrl *string
+						SupportUrl          *string
+						TermsOfServiceUrl   *string
+					}{
+						LogoUrl:             app.GetInfo().GetLogoUrl(),
+						MarketingUrl:        app.GetInfo().GetMarketingUrl(),
+						SupportUrl:          app.GetInfo().GetSupportUrl(),
+						PrivacyStatementUrl: app.GetInfo().GetPrivacyStatementUrl(),
+						TermsOfServiceUrl:   app.GetInfo().GetTermsOfServiceUrl(),
+					},
+					KeyCredentials: keyCredentials,
+					OwnerIds:       ownerIds,
+					ParentalControlSettings: struct {
+						CountriesBlockedForMinors []string
+						LegalAgeGroupRule         *string
+					}{
+						CountriesBlockedForMinors: app.GetParentalControlSettings().GetCountriesBlockedForMinors(),
+						LegalAgeGroupRule:         app.GetParentalControlSettings().GetLegalAgeGroupRule(),
+					},
+					PasswordCredentials: passwordCredentials,
+					Spa: struct {
+						RedirectUris []string
+					}{
+						RedirectUris: app.GetSpa().GetRedirectUris(),
+					},
+					TagsSrc: app.GetTags(),
+					Web: struct {
+						HomePageUrl           *string
+						ImplicitGrantSettings struct {
+							EnableAccessTokenIssuance *bool
+							EnableIdTokenIssuance     *bool
+						}
+						LogoutUrl           *string
+						RedirectUris        []string
+						RedirectUriSettings []struct {
+							Index *int32
+							Uri   *string
+						}
+					}{
+						HomePageUrl:  app.GetWeb().GetHomePageUrl(),
+						RedirectUris: app.GetWeb().GetRedirectUris(),
+						LogoutUrl:    app.GetWeb().GetLogoutUrl(),
+						ImplicitGrantSettings: struct {
+							EnableAccessTokenIssuance *bool
+							EnableIdTokenIssuance     *bool
+						}{
+							EnableAccessTokenIssuance: app.GetWeb().GetImplicitGrantSettings().GetEnableAccessTokenIssuance(),
+							EnableIdTokenIssuance:     app.GetWeb().GetImplicitGrantSettings().GetEnableIdTokenIssuance(),
+						},
+						RedirectUriSettings: redirectUriSettings,
+					},
 				},
 			},
 		}
@@ -1343,11 +1734,14 @@ func AdUserRegistrationDetails(ctx context.Context, cred *azidentity.ClientSecre
 
 	var values []Resource
 	var itemErr error
-	pageIterator, err := msgraphcore.NewPageIterator[models.UserRegistrationDetails](result, client.GetAdapter(), models.CreateUserCollectionResponseFromDiscriminatorValue)
+	pageIterator, err := msgraphcore.NewPageIterator[*models.UserRegistrationDetails](result, client.GetAdapter(), models.CreateUserCollectionResponseFromDiscriminatorValue)
 	if err != nil {
 		return nil, err
 	}
-	err = pageIterator.Iterate(context.Background(), func(user models.UserRegistrationDetails) bool {
+	err = pageIterator.Iterate(context.Background(), func(user *models.UserRegistrationDetails) bool {
+		if user == nil {
+			return true
+		}
 		resource := Resource{
 			ID:       *user.GetId(),
 			Location: "global",
