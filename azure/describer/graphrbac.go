@@ -1032,8 +1032,7 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 
 	result, err := client.AuditLogs().DirectoryAudits().Get(ctx, &auditlogs.DirectoryAuditsRequestBuilderGetRequestConfiguration{
 		QueryParameters: &auditlogs.DirectoryAuditsRequestBuilderGetQueryParameters{
-			Top: aws.Int32(9
-			99),
+			Top: aws.Int32(999),
 		},
 	})
 	if err != nil {
