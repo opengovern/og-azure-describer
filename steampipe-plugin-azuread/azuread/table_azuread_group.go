@@ -107,7 +107,7 @@ func adGroupTags(_ context.Context, d *transform.TransformData) (interface{}, er
 
 	var tags = map[*string]*string{}
 	for _, i := range assignedLabels {
-		tags[i.GetLabelId()] = i.GetDisplayName()
+		tags[i.LabelId] = i.DisplayName
 	}
 
 	return tags, nil
