@@ -21,6 +21,7 @@ import (
 	"github.com/microsoftgraph/msgraph-sdk-go/reports"
 	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipalswithappid"
 	users2 "github.com/microsoftgraph/msgraph-sdk-go/users"
+	"strings"
 	"time"
 )
 
@@ -246,6 +247,9 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 		}
 		servicePrincipal, err := client.ServicePrincipalsWithAppId(app.GetAppId()).Get(ctx, &serviceprincipalswithappid.ServicePrincipalsWithAppIdRequestBuilderGetRequestConfiguration{})
 		if err != nil {
+			if strings.Contains(err.Error(), "Resource '' does not exist") {
+				return true
+			}
 			itemErr = fmt.Errorf("failed to run ServicePrincipalsWithAppId: %v, appId=%s", err, *app.GetAppId())
 			return false
 		}
