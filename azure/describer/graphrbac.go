@@ -246,7 +246,7 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 		}
 		result, err := client.ServicePrincipalsWithAppId(app.GetId()).Get(ctx, &serviceprincipalswithappid.ServicePrincipalsWithAppIdRequestBuilderGetRequestConfiguration{})
 		if err != nil {
-			itemErr = fmt.Errorf("failed to run ServicePrincipalsWithAppId: %v", err)
+			itemErr = fmt.Errorf("failed to run ServicePrincipalsWithAppId: %v, appId=%s", err, *app.GetId())
 			return false
 		}
 		pageIterator, err := msgraphcore.NewPageIterator[models.ServicePrincipalable](result, client.GetAdapter(), models.CreateServicePrincipalCollectionResponseFromDiscriminatorValue)
