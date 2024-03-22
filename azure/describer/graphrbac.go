@@ -773,6 +773,109 @@ func AdSignInReport(ctx context.Context, cred *azidentity.ClientSecretCredential
 		if report == nil {
 			return true
 		}
+
+		var status struct {
+			ErrorCode     *int32
+			FailureReason *string
+		}
+		if report.GetStatus() != nil {
+			status = struct {
+				ErrorCode     *int32
+				FailureReason *string
+			}{
+				ErrorCode:     report.GetStatus().GetErrorCode(),
+				FailureReason: report.GetStatus().GetFailureReason(),
+			}
+		}
+
+		var deviceDetail struct {
+			Browser         *string
+			DeviceId        *string
+			DisplayName     *string
+			IsCompliant     *bool
+			IsManaged       *bool
+			OperatingSystem *string
+			TrustType       *string
+		}
+		if report.GetDeviceDetail() != nil {
+			deviceDetail = struct {
+				Browser         *string
+				DeviceId        *string
+				DisplayName     *string
+				IsCompliant     *bool
+				IsManaged       *bool
+				OperatingSystem *string
+				TrustType       *string
+			}{
+				Browser:         report.GetDeviceDetail().GetBrowser(),
+				DeviceId:        report.GetDeviceDetail().GetDeviceId(),
+				DisplayName:     report.GetDeviceDetail().GetDisplayName(),
+				IsCompliant:     report.GetDeviceDetail().GetIsCompliant(),
+				IsManaged:       report.GetDeviceDetail().GetIsManaged(),
+				OperatingSystem: report.GetDeviceDetail().GetOperatingSystem(),
+				TrustType:       report.GetDeviceDetail().GetTrustType(),
+			}
+		}
+
+		var location struct {
+			City            *string
+			CountryOrRegion *string
+			GeoCoordinates  struct {
+				Altitude  *float64
+				Latitude  *float64
+				Longitude *float64
+			}
+			State *string
+		}
+		if report.GetLocation() != nil {
+			location = struct {
+				City            *string
+				CountryOrRegion *string
+				GeoCoordinates  struct {
+					Altitude  *float64
+					Latitude  *float64
+					Longitude *float64
+				}
+				State *string
+			}{
+				City:            report.GetLocation().GetCity(),
+				CountryOrRegion: report.GetLocation().GetCountryOrRegion(),
+				GeoCoordinates: struct {
+					Altitude  *float64
+					Latitude  *float64
+					Longitude *float64
+				}{
+					Altitude:  report.GetLocation().GetGeoCoordinates().GetAltitude(),
+					Latitude:  report.GetLocation().GetGeoCoordinates().GetLatitude(),
+					Longitude: report.GetLocation().GetGeoCoordinates().GetLongitude(),
+				},
+				State: report.GetLocation().GetState(),
+			}
+		}
+
+		var appliedConditionalAccessPolicies []struct {
+			DisplayName             *string
+			EnforcedGrantControls   []string
+			EnforcedSessionControls []string
+			Id                      *string
+			Result                  string
+		}
+		for _, p := range report.GetAppliedConditionalAccessPolicies() {
+			appliedConditionalAccessPolicies = append(appliedConditionalAccessPolicies, struct {
+				DisplayName             *string
+				EnforcedGrantControls   []string
+				EnforcedSessionControls []string
+				Id                      *string
+				Result                  string
+			}{
+				DisplayName:             p.GetDisplayName(),
+				EnforcedGrantControls:   p.GetEnforcedGrantControls(),
+				EnforcedSessionControls: p.GetEnforcedSessionControls(),
+				Id:                      p.GetId(),
+				Result:                  p.GetResult().String(),
+			})
+		}
+
 		resource := Resource{
 			ID:       *report.GetId(),
 			Name:     *report.GetId(),
@@ -800,10 +903,10 @@ func AdSignInReport(ctx context.Context, cred *azidentity.ClientSecretCredential
 					ResourceDisplayName:              report.GetResourceDisplayName(),
 					ResourceId:                       report.GetResourceId(),
 					RiskEventTypes:                   report.GetRiskEventTypes(),
-					Status:                           report.GetStatus(),
-					DeviceDetail:                     report.GetDeviceDetail(),
-					Location:                         report.GetLocation(),
-					AppliedConditionalAccessPolicies: report.GetAppliedConditionalAccessPolicies(),
+					Status:                           status,
+					DeviceDetail:                     deviceDetail,
+					Location:                         location,
+					AppliedConditionalAccessPolicies: appliedConditionalAccessPolicies,
 				},
 			},
 		}
@@ -1071,7 +1174,7 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 			}{Key: ad.GetKey(), OdataType: ad.GetOdataType(), Value: ad.GetValue()})
 		}
 
-		initiatedBy := struct {
+		var initiatedBy struct {
 			OdataType *string
 			App       struct {
 				AppId                *string
@@ -1087,34 +1190,39 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 				IpAddress         *string
 				UserPrincipalName *string
 			}
-		}{
-			OdataType: audit.GetInitiatedBy().GetOdataType(),
-			App: struct {
-				AppId                *string
-				DisplayName          *string
-				OdataType            *string
-				ServicePrincipalId   *string
-				ServicePrincipalName *string
-			}{
-				AppId:                audit.GetInitiatedBy().GetApp().GetAppId(),
-				DisplayName:          audit.GetInitiatedBy().GetApp().GetDisplayName(),
-				OdataType:            audit.GetInitiatedBy().GetApp().GetOdataType(),
-				ServicePrincipalId:   audit.GetInitiatedBy().GetApp().GetServicePrincipalId(),
-				ServicePrincipalName: audit.GetInitiatedBy().GetApp().GetServicePrincipalName(),
-			},
-			User: struct {
-				Id                *string
-				DisplayName       *string
-				OdataType         *string
-				IpAddress         *string
-				UserPrincipalName *string
-			}{
-				Id:                audit.GetInitiatedBy().GetUser().GetId(),
-				DisplayName:       audit.GetInitiatedBy().GetUser().GetDisplayName(),
-				OdataType:         audit.GetInitiatedBy().GetUser().GetOdataType(),
-				IpAddress:         audit.GetInitiatedBy().GetUser().GetIpAddress(),
-				UserPrincipalName: audit.GetInitiatedBy().GetUser().GetUserPrincipalName(),
-			},
+		}
+		if audit.GetInitiatedBy() != nil {
+			initiatedBy.OdataType = audit.GetInitiatedBy().GetOdataType()
+			if audit.GetInitiatedBy().GetApp() != nil {
+				initiatedBy.App = struct {
+					AppId                *string
+					DisplayName          *string
+					OdataType            *string
+					ServicePrincipalId   *string
+					ServicePrincipalName *string
+				}{
+					AppId:                audit.GetInitiatedBy().GetApp().GetAppId(),
+					DisplayName:          audit.GetInitiatedBy().GetApp().GetDisplayName(),
+					OdataType:            audit.GetInitiatedBy().GetApp().GetOdataType(),
+					ServicePrincipalId:   audit.GetInitiatedBy().GetApp().GetServicePrincipalId(),
+					ServicePrincipalName: audit.GetInitiatedBy().GetApp().GetServicePrincipalName(),
+				}
+			}
+			if audit.GetInitiatedBy().GetUser() != nil {
+				initiatedBy.User = struct {
+					Id                *string
+					DisplayName       *string
+					OdataType         *string
+					IpAddress         *string
+					UserPrincipalName *string
+				}{
+					Id:                audit.GetInitiatedBy().GetUser().GetId(),
+					DisplayName:       audit.GetInitiatedBy().GetUser().GetDisplayName(),
+					OdataType:         audit.GetInitiatedBy().GetUser().GetOdataType(),
+					IpAddress:         audit.GetInitiatedBy().GetUser().GetIpAddress(),
+					UserPrincipalName: audit.GetInitiatedBy().GetUser().GetUserPrincipalName(),
+				}
+			}
 		}
 
 		var targetResources []struct {
@@ -1181,8 +1289,13 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 			targetResources = append(targetResources, targetResource)
 		}
 
+		var id string
+		if audit.GetId() != nil {
+			id = *audit.GetId()
+		}
+
 		resource := Resource{
-			ID:       *audit.GetId(),
+			ID:       id,
 			Location: "global",
 			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
@@ -1304,11 +1417,14 @@ func AdIdentityProvider(ctx context.Context, cred *azidentity.ClientSecretCreden
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
 	var values []Resource
-	pageIterator, err := msgraphcore.NewPageIterator[models.BuiltInIdentityProvider](result, client.GetAdapter(), models.CreateBuiltInIdentityProviderFromDiscriminatorValue)
+	pageIterator, err := msgraphcore.NewPageIterator[*models.BuiltInIdentityProvider](result, client.GetAdapter(), models.CreateBuiltInIdentityProviderFromDiscriminatorValue)
 	if err != nil {
 		return nil, err
 	}
-	err = pageIterator.Iterate(context.Background(), func(ip models.BuiltInIdentityProvider) bool {
+	err = pageIterator.Iterate(context.Background(), func(ip *models.BuiltInIdentityProvider) bool {
+		if ip == nil {
+			return true
+		}
 		clientID := ip.GetAdditionalData()["clientId"]
 		clientSecret := ip.GetAdditionalData()["clientSecret"]
 
@@ -1465,11 +1581,7 @@ func AdConditionalAccessPolicy(ctx context.Context, cred *azidentity.ClientSecre
 	}
 	var itemErr error
 
-	result, err := client.Identity().ConditionalAccess().Policies().Get(ctx, &identity.ConditionalAccessPoliciesRequestBuilderGetRequestConfiguration{
-		QueryParameters: &identity.ConditionalAccessPoliciesRequestBuilderGetQueryParameters{
-			Top: aws.Int32(9999),
-		},
-	})
+	result, err := client.Identity().ConditionalAccess().Policies().Get(ctx, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
