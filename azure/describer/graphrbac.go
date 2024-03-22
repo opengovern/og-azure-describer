@@ -246,7 +246,7 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 		}
 		servicePrincipal, err := client.ServicePrincipalsWithAppId(app.GetAppId()).Get(ctx, &serviceprincipalswithappid.ServicePrincipalsWithAppIdRequestBuilderGetRequestConfiguration{})
 		if err != nil {
-			itemErr = fmt.Errorf("failed to run ServicePrincipalsWithAppId: %v, appId=%s", err, *app.GetId())
+			itemErr = fmt.Errorf("failed to run ServicePrincipalsWithAppId: %v, appId=%s", err, *app.GetAppId())
 			return false
 		}
 
