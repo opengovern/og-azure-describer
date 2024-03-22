@@ -1154,56 +1154,35 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 			return true
 		}
 
-		var auditResult *string
+		var auditResult string
 		if audit.GetResult() != nil {
-			tmpResult := audit.GetResult().String()
-			auditResult = &tmpResult
-		}
-
-		var additionalDetails []struct {
-			Key       *string
-			OdataType *string
-			Value     *string
-		}
-
-		for _, ad := range audit.GetAdditionalDetails() {
-			additionalDetails = append(additionalDetails, struct {
-				Key       *string
-				OdataType *string
-				Value     *string
-			}{Key: ad.GetKey(), OdataType: ad.GetOdataType(), Value: ad.GetValue()})
+			auditResult = audit.GetResult().String()
 		}
 
 		var initiatedBy struct {
-			OdataType *string
-			App       struct {
+			App struct {
 				AppId                *string
 				DisplayName          *string
-				OdataType            *string
 				ServicePrincipalId   *string
 				ServicePrincipalName *string
 			}
 			User struct {
 				Id                *string
 				DisplayName       *string
-				OdataType         *string
 				IpAddress         *string
 				UserPrincipalName *string
 			}
 		}
 		if audit.GetInitiatedBy() != nil {
-			initiatedBy.OdataType = audit.GetInitiatedBy().GetOdataType()
 			if audit.GetInitiatedBy().GetApp() != nil {
 				initiatedBy.App = struct {
 					AppId                *string
 					DisplayName          *string
-					OdataType            *string
 					ServicePrincipalId   *string
 					ServicePrincipalName *string
 				}{
 					AppId:                audit.GetInitiatedBy().GetApp().GetAppId(),
 					DisplayName:          audit.GetInitiatedBy().GetApp().GetDisplayName(),
-					OdataType:            audit.GetInitiatedBy().GetApp().GetOdataType(),
 					ServicePrincipalId:   audit.GetInitiatedBy().GetApp().GetServicePrincipalId(),
 					ServicePrincipalName: audit.GetInitiatedBy().GetApp().GetServicePrincipalName(),
 				}
@@ -1212,13 +1191,11 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 				initiatedBy.User = struct {
 					Id                *string
 					DisplayName       *string
-					OdataType         *string
 					IpAddress         *string
 					UserPrincipalName *string
 				}{
 					Id:                audit.GetInitiatedBy().GetUser().GetId(),
 					DisplayName:       audit.GetInitiatedBy().GetUser().GetDisplayName(),
-					OdataType:         audit.GetInitiatedBy().GetUser().GetOdataType(),
 					IpAddress:         audit.GetInitiatedBy().GetUser().GetIpAddress(),
 					UserPrincipalName: audit.GetInitiatedBy().GetUser().GetUserPrincipalName(),
 				}
@@ -1232,10 +1209,8 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 			ModifiedProperties []struct {
 				DisplayName *string
 				NewValue    *string
-				OdataType   *string
 				OldValue    *string
 			}
-			OdataType         *string
 			TypeEscaped       *string
 			UserPrincipalName *string
 		}
@@ -1248,17 +1223,14 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 				ModifiedProperties []struct {
 					DisplayName *string
 					NewValue    *string
-					OdataType   *string
 					OldValue    *string
 				}
-				OdataType         *string
 				TypeEscaped       *string
 				UserPrincipalName *string
 			}{
 				DisplayName:       tr.GetDisplayName(),
 				GroupType:         tr.GetGroupType().String(),
 				Id:                tr.GetId(),
-				OdataType:         tr.GetOdataType(),
 				TypeEscaped:       tr.GetTypeEscaped(),
 				UserPrincipalName: tr.GetUserPrincipalName(),
 			}
@@ -1266,7 +1238,6 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 			var modifiedProperties []struct {
 				DisplayName *string
 				NewValue    *string
-				OdataType   *string
 				OldValue    *string
 			}
 
@@ -1274,12 +1245,10 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 				modifiedProperties = append(modifiedProperties, struct {
 					DisplayName *string
 					NewValue    *string
-					OdataType   *string
 					OldValue    *string
 				}{
 					DisplayName: mp.GetDisplayName(),
 					NewValue:    mp.GetNewValue(),
-					OdataType:   mp.GetOdataType(),
 					OldValue:    mp.GetOldValue(),
 				})
 			}
@@ -1310,7 +1279,6 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 					OperationType:       audit.GetOperationType(),
 					Result:              auditResult,
 					ResultReason:        audit.GetResultReason(),
-					AdditionalDetails:   additionalDetails,
 					InitiatedBy:         initiatedBy,
 					TargetResources:     targetResources,
 				},
@@ -1599,62 +1567,188 @@ func AdConditionalAccessPolicy(ctx context.Context, cred *azidentity.ClientSecre
 			return true
 		}
 
-		applications := struct {
+		var applications struct {
 			ApplicationFilter struct {
-				Mode      *string
-				OdataType *string
-				Rule      *string
+				Mode *string
+				Rule *string
 			}
 			ExcludeApplications                         []string
 			IncludeApplications                         []string
 			IncludeAuthenticationContextClassReferences []string
 			IncludeUserActions                          []string
-			OdataType                                   *string
-		}{
-			ApplicationFilter: struct {
-				Mode      *string
-				OdataType *string
-				Rule      *string
-			}{
-				Mode:      p.GetConditions().GetApplications().GetApplicationFilter().GetRule(),
-				OdataType: p.GetConditions().GetApplications().GetApplicationFilter().GetOdataType(),
-				Rule:      p.GetConditions().GetApplications().GetApplicationFilter().GetRule(),
-			},
-			ExcludeApplications:                         p.GetConditions().GetApplications().GetExcludeApplications(),
-			IncludeApplications:                         p.GetConditions().GetApplications().GetIncludeApplications(),
-			IncludeAuthenticationContextClassReferences: p.GetConditions().GetApplications().GetIncludeAuthenticationContextClassReferences(),
-			IncludeUserActions:                          p.GetConditions().GetApplications().GetIncludeUserActions(),
-			OdataType:                                   p.GetConditions().GetApplications().GetOdataType(),
+		}
+		var clientAppTypes []string
+		var excludePlatforms []string
+		var includePlatforms []string
+		var signInRiskLevel []string
+		var userRiskLevel []string
+		var locations struct {
+			ExcludeLocations []string
+			IncludeLocations []string
+		}
+		var users struct {
+			ExcludeGroups []string
+			IncludeGroups []string
+			ExcludeUsers  []string
+			IncludeUsers  []string
+			ExcludeRoles  []string
+			IncludeRoles  []string
+		}
+		if p.GetConditions() != nil {
+			if p.GetConditions().GetUsers() != nil {
+				users = struct {
+					ExcludeGroups []string
+					IncludeGroups []string
+					ExcludeUsers  []string
+					IncludeUsers  []string
+					ExcludeRoles  []string
+					IncludeRoles  []string
+				}{
+					ExcludeGroups: p.GetConditions().GetUsers().GetExcludeGroups(),
+					IncludeGroups: p.GetConditions().GetUsers().GetIncludeGroups(),
+					ExcludeUsers:  p.GetConditions().GetUsers().GetExcludeUsers(),
+					IncludeUsers:  p.GetConditions().GetUsers().GetIncludeUsers(),
+					ExcludeRoles:  p.GetConditions().GetUsers().GetExcludeRoles(),
+					IncludeRoles:  p.GetConditions().GetUsers().GetIncludeRoles(),
+				}
+			}
+			if p.GetConditions().GetLocations() != nil {
+				locations = struct {
+					ExcludeLocations []string
+					IncludeLocations []string
+				}{
+					ExcludeLocations: p.GetConditions().GetLocations().GetExcludeLocations(),
+					IncludeLocations: p.GetConditions().GetLocations().GetIncludeLocations(),
+				}
+			}
+			for _, c := range p.GetConditions().GetClientAppTypes() {
+				clientAppTypes = append(clientAppTypes, c.String())
+			}
+			if p.GetConditions().GetPlatforms() != nil {
+				for _, ep := range p.GetConditions().GetPlatforms().GetExcludePlatforms() {
+					excludePlatforms = append(excludePlatforms, ep.String())
+				}
+				for _, ep := range p.GetConditions().GetPlatforms().GetIncludePlatforms() {
+					includePlatforms = append(includePlatforms, ep.String())
+				}
+			}
+
+			for _, c := range p.GetConditions().GetSignInRiskLevels() {
+				signInRiskLevel = append(signInRiskLevel, c.String())
+			}
+			for _, c := range p.GetConditions().GetUserRiskLevels() {
+				userRiskLevel = append(userRiskLevel, c.String())
+			}
+
+			if p.GetConditions().GetApplications() != nil {
+				applications = struct {
+					ApplicationFilter struct {
+						Mode *string
+						Rule *string
+					}
+					ExcludeApplications                         []string
+					IncludeApplications                         []string
+					IncludeAuthenticationContextClassReferences []string
+					IncludeUserActions                          []string
+				}{
+					ExcludeApplications:                         p.GetConditions().GetApplications().GetExcludeApplications(),
+					IncludeApplications:                         p.GetConditions().GetApplications().GetIncludeApplications(),
+					IncludeAuthenticationContextClassReferences: p.GetConditions().GetApplications().GetIncludeAuthenticationContextClassReferences(),
+					IncludeUserActions:                          p.GetConditions().GetApplications().GetIncludeUserActions(),
+				}
+				if p.GetConditions().GetApplications().GetApplicationFilter() != nil {
+					applications.ApplicationFilter = struct {
+						Mode *string
+						Rule *string
+					}{
+						Mode: p.GetConditions().GetApplications().GetApplicationFilter().GetRule(),
+						Rule: p.GetConditions().GetApplications().GetApplicationFilter().GetRule(),
+					}
+				}
+			}
 		}
 
 		var builtInControls []string
-		for _, c := range p.GetGrantControls().GetBuiltInControls() {
-			builtInControls = append(builtInControls, c.String())
+		var operator *string
+		var state string
+		if p.GetState() != nil {
+			state = p.GetState().String()
+		}
+		var termOfUse []string
+		var customAuthenticationFactors []string
+		if p.GetGrantControls() != nil {
+			for _, c := range p.GetGrantControls().GetBuiltInControls() {
+				builtInControls = append(builtInControls, c.String())
+			}
+			operator = p.GetGrantControls().GetOperator()
+			termOfUse = p.GetGrantControls().GetTermsOfUse()
+			customAuthenticationFactors = p.GetGrantControls().GetCustomAuthenticationFactors()
 		}
 
-		var clientAppTypes []string
-		for _, c := range p.GetConditions().GetClientAppTypes() {
-			clientAppTypes = append(builtInControls, c.String())
+		var applicationEnforcedRestrictions struct {
+			IsEnabled *bool
 		}
-
-		var excludePlatforms []string
-		for _, ep := range p.GetConditions().GetPlatforms().GetExcludePlatforms() {
-			excludePlatforms = append(excludePlatforms, ep.String())
+		var cloudAppSecurity struct {
+			CloudAppSecurityType string
+			IsEnabled            *bool
 		}
-
-		var includePlatforms []string
-		for _, ep := range p.GetConditions().GetPlatforms().GetIncludePlatforms() {
-			includePlatforms = append(includePlatforms, ep.String())
+		var signInFrequency struct {
+			AuthenticationType string
+			FrequencyInterval  string
+			TypeEscaped        string
+			Value              *int32
+			IsEnabled          *bool
 		}
-
-		var signInRiskLevel []string
-		for _, c := range p.GetConditions().GetSignInRiskLevels() {
-			signInRiskLevel = append(signInRiskLevel, c.String())
+		var persistentBrowser struct {
+			IsEnabled *bool
+			Mode      string
 		}
+		if p.GetSessionControls() != nil {
+			if p.GetSessionControls().GetApplicationEnforcedRestrictions() != nil {
+				applicationEnforcedRestrictions = struct {
+					IsEnabled *bool
+				}{IsEnabled: p.GetSessionControls().GetApplicationEnforcedRestrictions().GetIsEnabled()}
+			}
+			if p.GetSessionControls().GetCloudAppSecurity() != nil {
+				if p.GetSessionControls().GetCloudAppSecurity().GetCloudAppSecurityType() != nil {
+					cloudAppSecurity.CloudAppSecurityType = p.GetSessionControls().GetCloudAppSecurity().GetCloudAppSecurityType().String()
+				}
+				cloudAppSecurity.IsEnabled = p.GetSessionControls().GetCloudAppSecurity().GetIsEnabled()
+			}
 
-		var userRiskLevel []string
-		for _, c := range p.GetConditions().GetUserRiskLevels() {
-			userRiskLevel = append(userRiskLevel, c.String())
+			if p.GetSessionControls().GetSignInFrequency() != nil {
+				signInFrequency = struct {
+					AuthenticationType string
+					FrequencyInterval  string
+					TypeEscaped        string
+					Value              *int32
+					IsEnabled          *bool
+				}{
+					Value:     p.GetSessionControls().GetSignInFrequency().GetValue(),
+					IsEnabled: p.GetSessionControls().GetSignInFrequency().GetIsEnabled(),
+				}
+				if p.GetSessionControls().GetSignInFrequency().GetTypeEscaped() != nil {
+					signInFrequency.TypeEscaped = p.GetSessionControls().GetSignInFrequency().GetTypeEscaped().String()
+				}
+				if p.GetSessionControls().GetSignInFrequency().GetFrequencyInterval() != nil {
+					signInFrequency.FrequencyInterval = p.GetSessionControls().GetSignInFrequency().GetFrequencyInterval().String()
+				}
+				if p.GetSessionControls().GetSignInFrequency().GetAuthenticationType() != nil {
+					signInFrequency.AuthenticationType = p.GetSessionControls().GetSignInFrequency().GetAuthenticationType().String()
+				}
+			}
+
+			if p.GetSessionControls().GetPersistentBrowser() != nil {
+				persistentBrowser = struct {
+					IsEnabled *bool
+					Mode      string
+				}{
+					IsEnabled: p.GetSessionControls().GetPersistentBrowser().GetIsEnabled(),
+				}
+				if p.GetSessionControls().GetPersistentBrowser().GetMode() != nil {
+					persistentBrowser.Mode = p.GetSessionControls().GetPersistentBrowser().GetMode().String()
+				}
+			}
 		}
 
 		resource := Resource{
@@ -1664,49 +1758,21 @@ func AdConditionalAccessPolicy(ctx context.Context, cred *azidentity.ClientSecre
 			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdConditionalAccessPolicyDescription{
-					TenantID:         tenantId,
-					Id:               p.GetId(),
-					DisplayName:      p.GetDisplayName(),
-					State:            p.GetState().String(),
-					CreatedDateTime:  p.GetCreatedDateTime(),
-					ModifiedDateTime: p.GetModifiedDateTime(),
-					Operator:         p.GetGrantControls().GetOperator(),
-					Applications:     applications,
-					ApplicationEnforcedRestrictions: struct {
-						IsEnabled *bool
-						OdataType *string
-					}{IsEnabled: p.GetSessionControls().GetApplicationEnforcedRestrictions().GetIsEnabled(), OdataType: p.GetSessionControls().GetApplicationEnforcedRestrictions().GetOdataType()},
-					BuiltInControls:             builtInControls,
-					ClientAppTypes:              clientAppTypes,
-					CustomAuthenticationFactors: p.GetGrantControls().GetCustomAuthenticationFactors(),
-					CloudAppSecurity: struct {
-						CloudAppSecurityType string
-						OdataType            *string
-						IsEnabled            *bool
-						AdditionalData       map[string]interface{}
-					}{
-						CloudAppSecurityType: p.GetSessionControls().GetCloudAppSecurity().GetCloudAppSecurityType().String(),
-						OdataType:            p.GetSessionControls().GetCloudAppSecurity().GetOdataType(),
-						IsEnabled:            p.GetSessionControls().GetCloudAppSecurity().GetIsEnabled(),
-						AdditionalData:       p.GetSessionControls().GetCloudAppSecurity().GetAdditionalData(),
-					},
-					Locations: struct {
-						ExcludeLocations []string
-						IncludeLocations []string
-					}{
-						ExcludeLocations: p.GetConditions().GetLocations().GetExcludeLocations(),
-						IncludeLocations: p.GetConditions().GetLocations().GetIncludeLocations()},
-					PersistentBrowser: struct {
-						OdataType      *string
-						IsEnabled      *bool
-						Mode           string
-						AdditionalData map[string]interface{}
-					}{
-						OdataType:      p.GetSessionControls().GetPersistentBrowser().GetOdataType(),
-						IsEnabled:      p.GetSessionControls().GetPersistentBrowser().GetIsEnabled(),
-						Mode:           p.GetSessionControls().GetPersistentBrowser().GetMode().String(),
-						AdditionalData: p.GetSessionControls().GetPersistentBrowser().GetAdditionalData(),
-					},
+					TenantID:                        tenantId,
+					Id:                              p.GetId(),
+					DisplayName:                     p.GetDisplayName(),
+					State:                           state,
+					CreatedDateTime:                 p.GetCreatedDateTime(),
+					ModifiedDateTime:                p.GetModifiedDateTime(),
+					Operator:                        operator,
+					Applications:                    applications,
+					ApplicationEnforcedRestrictions: applicationEnforcedRestrictions,
+					BuiltInControls:                 builtInControls,
+					ClientAppTypes:                  clientAppTypes,
+					CustomAuthenticationFactors:     customAuthenticationFactors,
+					CloudAppSecurity:                cloudAppSecurity,
+					Locations:                       locations,
+					PersistentBrowser:               persistentBrowser,
 					Platforms: struct {
 						ExcludePlatforms []string
 						IncludePlatforms []string
@@ -1714,37 +1780,11 @@ func AdConditionalAccessPolicy(ctx context.Context, cred *azidentity.ClientSecre
 						ExcludePlatforms: excludePlatforms,
 						IncludePlatforms: includePlatforms,
 					},
-					SignInFrequency: struct {
-						AuthenticationType string
-						FrequencyInterval  string
-						TypeEscaped        string
-						Value              *int32
-						IsEnabled          *bool
-					}{
-						AuthenticationType: p.GetSessionControls().GetSignInFrequency().GetAuthenticationType().String(),
-						FrequencyInterval:  p.GetSessionControls().GetSignInFrequency().GetFrequencyInterval().String(),
-						TypeEscaped:        p.GetSessionControls().GetSignInFrequency().GetTypeEscaped().String(),
-						Value:              p.GetSessionControls().GetSignInFrequency().GetValue(),
-						IsEnabled:          p.GetSessionControls().GetSignInFrequency().GetIsEnabled(),
-					},
+					SignInFrequency:  signInFrequency,
 					SignInRiskLevels: signInRiskLevel,
-					TermsOfUse:       p.GetGrantControls().GetTermsOfUse(),
-					Users: struct {
-						ExcludeGroups []string
-						IncludeGroups []string
-						ExcludeUsers  []string
-						IncludeUsers  []string
-						ExcludeRoles  []string
-						IncludeRoles  []string
-					}{
-						ExcludeGroups: p.GetConditions().GetUsers().GetExcludeGroups(),
-						IncludeGroups: p.GetConditions().GetUsers().GetIncludeGroups(),
-						ExcludeUsers:  p.GetConditions().GetUsers().GetExcludeUsers(),
-						IncludeUsers:  p.GetConditions().GetUsers().GetIncludeUsers(),
-						ExcludeRoles:  p.GetConditions().GetUsers().GetExcludeRoles(),
-						IncludeRoles:  p.GetConditions().GetUsers().GetIncludeRoles(),
-					},
-					UserRiskLevel: userRiskLevel,
+					TermsOfUse:       termOfUse,
+					Users:            users,
+					UserRiskLevel:    userRiskLevel,
 				},
 			},
 		}
