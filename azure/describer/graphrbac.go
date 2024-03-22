@@ -238,20 +238,20 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 	}
 	appPageIterator, err := msgraphcore.NewPageIterator[models.Applicationable](resultApps, client.GetAdapter(), models.CreateApplicationCollectionResponseFromDiscriminatorValue)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to query apps client: %v", err)
 	}
 	err = appPageIterator.Iterate(context.Background(), func(app models.Applicationable) bool {
-		if app == nil {
+		if app == nil || app.GetId() == nil {
 			return true
 		}
 		result, err := client.ServicePrincipalsWithAppId(app.GetId()).Get(ctx, &serviceprincipalswithappid.ServicePrincipalsWithAppIdRequestBuilderGetRequestConfiguration{})
 		if err != nil {
-			itemErr = err
+			itemErr = fmt.Errorf("failed to run ServicePrincipalsWithAppId: %v", err)
 			return false
 		}
 		pageIterator, err := msgraphcore.NewPageIterator[models.ServicePrincipalable](result, client.GetAdapter(), models.CreateServicePrincipalCollectionResponseFromDiscriminatorValue)
 		if err != nil {
-			itemErr = err
+			itemErr = fmt.Errorf("failed to iterate ServicePrincipalsWithAppId: %v", err)
 			return false
 		}
 		err = pageIterator.Iterate(context.Background(), func(servicePrincipal models.ServicePrincipalable) bool {
@@ -467,6 +467,7 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 			}
 			if stream != nil {
 				if itemErr = (*stream)(resource); itemErr != nil {
+					itemErr = fmt.Errorf("failed to stream: %v", itemErr)
 					return false
 				}
 			} else {
