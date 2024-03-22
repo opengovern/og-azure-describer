@@ -241,10 +241,10 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 		return nil, fmt.Errorf("failed to query apps client: %v", err)
 	}
 	err = appPageIterator.Iterate(context.Background(), func(app models.Applicationable) bool {
-		if app == nil || app.GetId() == nil {
+		if app == nil || app.GetAppId() == nil {
 			return true
 		}
-		result, err := client.ServicePrincipalsWithAppId(app.GetId()).Get(ctx, &serviceprincipalswithappid.ServicePrincipalsWithAppIdRequestBuilderGetRequestConfiguration{})
+		result, err := client.ServicePrincipalsWithAppId(app.GetAppId()).Get(ctx, &serviceprincipalswithappid.ServicePrincipalsWithAppIdRequestBuilderGetRequestConfiguration{})
 		if err != nil {
 			itemErr = fmt.Errorf("failed to run ServicePrincipalsWithAppId: %v, appId=%s", err, *app.GetId())
 			return false
