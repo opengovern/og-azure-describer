@@ -1949,30 +1949,56 @@ type AdAdminConsentRequestPolicyDescription struct {
 
 //index:microsoft_resources_signinreport
 type AdSignInReportDescription struct {
-	TenantID                         string
-	Id                               *string
-	CreatedDateTime                  *time.Time
-	UserDisplayName                  *string
-	UserPrincipalName                *string
-	UserId                           *string
-	AppId                            *string
-	AppDisplayName                   *string
-	IpAddress                        *string
-	ClientAppUsed                    *string
-	CorrelationId                    *string
-	ConditionalAccessStatus          *models.ConditionalAccessStatus
-	IsInteractive                    *bool
-	RiskDetail                       *models.RiskDetail
-	RiskLevelAggregated              *models.RiskLevel
-	RiskLevelDuringSignIn            *models.RiskLevel
-	RiskState                        *models.RiskState
-	ResourceDisplayName              *string
-	ResourceId                       *string
-	RiskEventTypes                   []models.RiskEventType
-	Status                           models.SignInStatusable
-	DeviceDetail                     models.DeviceDetailable
-	Location                         models.SignInLocationable
-	AppliedConditionalAccessPolicies []models.AppliedConditionalAccessPolicyable
+	TenantID                string
+	Id                      *string
+	CreatedDateTime         *time.Time
+	UserDisplayName         *string
+	UserPrincipalName       *string
+	UserId                  *string
+	AppId                   *string
+	AppDisplayName          *string
+	IpAddress               *string
+	ClientAppUsed           *string
+	CorrelationId           *string
+	ConditionalAccessStatus *models.ConditionalAccessStatus
+	IsInteractive           *bool
+	RiskDetail              *models.RiskDetail
+	RiskLevelAggregated     *models.RiskLevel
+	RiskLevelDuringSignIn   *models.RiskLevel
+	RiskState               *models.RiskState
+	ResourceDisplayName     *string
+	ResourceId              *string
+	RiskEventTypes          []models.RiskEventType
+	Status                  struct {
+		ErrorCode     *int32
+		FailureReason *string
+	}
+	DeviceDetail struct {
+		Browser         *string
+		DeviceId        *string
+		DisplayName     *string
+		IsCompliant     *bool
+		IsManaged       *bool
+		OperatingSystem *string
+		TrustType       *string
+	}
+	Location struct {
+		City            *string
+		CountryOrRegion *string
+		GeoCoordinates  struct {
+			Altitude  *float64
+			Latitude  *float64
+			Longitude *float64
+		}
+		State *string
+	}
+	AppliedConditionalAccessPolicies []struct {
+		DisplayName             *string
+		EnforcedGrantControls   []string
+		EnforcedSessionControls []string
+		Id                      *string
+		Result                  string
+	}
 }
 
 //index:microsoft_resources_device
