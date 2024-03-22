@@ -1767,26 +1767,18 @@ type AdDirectoryAuditReportDescription struct {
 	CorrelationId       *string
 	LoggedByService     *string
 	OperationType       *string
-	Result              *string
+	Result              string
 	ResultReason        *string
-	AdditionalDetails   []struct {
-		Key       *string
-		OdataType *string
-		Value     *string
-	}
-	InitiatedBy struct {
-		OdataType *string
-		App       struct {
+	InitiatedBy         struct {
+		App struct {
 			AppId                *string
 			DisplayName          *string
-			OdataType            *string
 			ServicePrincipalId   *string
 			ServicePrincipalName *string
 		}
 		User struct {
 			Id                *string
 			DisplayName       *string
-			OdataType         *string
 			IpAddress         *string
 			UserPrincipalName *string
 		}
@@ -1798,10 +1790,8 @@ type AdDirectoryAuditReportDescription struct {
 		ModifiedProperties []struct {
 			DisplayName *string
 			NewValue    *string
-			OdataType   *string
 			OldValue    *string
 		}
-		OdataType         *string
 		TypeEscaped       *string
 		UserPrincipalName *string
 	}
@@ -1873,38 +1863,31 @@ type AdConditionalAccessPolicyDescription struct {
 	Operator         *string
 	Applications     struct {
 		ApplicationFilter struct {
-			Mode      *string
-			OdataType *string
-			Rule      *string
+			Mode *string
+			Rule *string
 		}
 		ExcludeApplications                         []string
 		IncludeApplications                         []string
 		IncludeAuthenticationContextClassReferences []string
 		IncludeUserActions                          []string
-		OdataType                                   *string
 	}
 	ApplicationEnforcedRestrictions struct {
 		IsEnabled *bool
-		OdataType *string
 	}
 	BuiltInControls             []string
 	ClientAppTypes              []string
 	CustomAuthenticationFactors []string
 	CloudAppSecurity            struct {
 		CloudAppSecurityType string
-		OdataType            *string
 		IsEnabled            *bool
-		AdditionalData       map[string]interface{}
 	}
 	Locations struct {
 		ExcludeLocations []string
 		IncludeLocations []string
 	}
 	PersistentBrowser struct {
-		OdataType      *string
-		IsEnabled      *bool
-		Mode           string
-		AdditionalData map[string]interface{}
+		IsEnabled *bool
+		Mode      string
 	}
 	Platforms struct {
 		ExcludePlatforms []string
