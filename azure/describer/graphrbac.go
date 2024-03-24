@@ -1245,10 +1245,12 @@ func AdDirectoryAuditReport(ctx context.Context, cred *azidentity.ClientSecretCr
 				UserPrincipalName *string
 			}{
 				DisplayName:       tr.GetDisplayName(),
-				GroupType:         tr.GetGroupType().String(),
 				Id:                tr.GetId(),
 				TypeEscaped:       tr.GetTypeEscaped(),
 				UserPrincipalName: tr.GetUserPrincipalName(),
+			}
+			if tr.GetGroupType() != nil {
+				targetResource.GroupType = tr.GetGroupType().String()
 			}
 
 			var modifiedProperties []struct {
