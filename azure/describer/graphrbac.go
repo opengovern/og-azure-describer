@@ -1974,3 +1974,86 @@ func AdUserRegistrationDetails(ctx context.Context, cred *azidentity.ClientSecre
 
 	return values, nil
 }
+
+func AdGroupMembership(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	result, err := client.Groups().Get(ctx, &groups.GroupsRequestBuilderGetRequestConfiguration{
+		QueryParameters: &groups.GroupsRequestBuilderGetQueryParameters{
+			Top: aws.Int32(999),
+		},
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get groups: %v", err)
+	}
+
+	var values []Resource
+	var itemErr error
+	pageIterator, err := msgraphcore.NewPageIterator[models.Groupable](result, client.GetAdapter(), models.CreateGroupCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(group models.Groupable) bool {
+		if group == nil {
+			return true
+		}
+		var memberIds []*string
+		for _, m := range group.GetMembers() {
+			memberIds = append(memberIds, m.GetId())
+		}
+
+		members, err := client.Groups().ByGroupId(*group.GetId()).TransitiveMembers().GraphUser().Get(ctx, &groups.ItemTransitiveMembersGraphUserRequestBuilderGetRequestConfiguration{
+			QueryParameters: &groups.ItemTransitiveMembersGraphUserRequestBuilderGetQueryParameters{
+				Top: aws.Int32(999),
+			},
+		})
+		if err != nil {
+			itemErr = err
+			return false
+		}
+
+		for _, member := range members.GetValue() {
+			resource := Resource{
+				ID:       *member.GetId(),
+				Name:     *member.GetDisplayName(),
+				Location: "global",
+				TenantID: tenantId,
+				Description: JSONAllFieldsMarshaller{
+					Value: model.AdGroupMembershipDescription{
+						TenantID:           tenantId,
+						DisplayName:        member.GetDisplayName(),
+						Id:                 member.GetId(),
+						GroupId:            group.GetId(),
+						State:              member.GetState(),
+						UserPrincipalName:  member.GetUserPrincipalName(),
+						AccountEnabled:     member.GetAccountEnabled(),
+						Mail:               member.GetMail(),
+						ProxyAddresses:     member.GetProxyAddresses(),
+						UserType:           member.GetUserType(),
+						SecurityIdentifier: member.GetSecurityIdentifier(),
+					},
+				},
+			}
+			if stream != nil {
+				if itemErr = (*stream)(resource); itemErr != nil {
+					return false
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		return true
+	})
+	if itemErr != nil {
+		return nil, itemErr
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	return values, nil
+}

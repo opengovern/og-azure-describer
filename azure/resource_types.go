@@ -800,6 +800,22 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Resources/groupMemberships": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/groupMemberships",
+		ResourceLabel:        "Azure AD Groups",
+		Tags:                 map[string][]string{
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeADByTenantID(describer.AdGroupMembership),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Resources/devices": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Resources/devices",

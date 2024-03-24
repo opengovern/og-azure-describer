@@ -2024,6 +2024,21 @@ type AdUserRegistrationDetailsDescription struct {
 	UserPreferredMethodForSecondaryAuthentication string
 }
 
+//index:microsoft_resources_groups_memberships
+type AdGroupMembershipDescription struct {
+	TenantID           string
+	GroupId            *string
+	Id                 *string
+	DisplayName        *string
+	AccountEnabled     *bool
+	UserPrincipalName  *string
+	UserType           *string
+	State              *string
+	SecurityIdentifier *string
+	ProxyAddresses     []string
+	Mail               *string
+}
+
 //  =================== analysis ==================
 
 //index:microsoft_analysisservice_servers
