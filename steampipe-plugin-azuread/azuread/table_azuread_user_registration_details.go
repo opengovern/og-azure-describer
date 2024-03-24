@@ -74,7 +74,7 @@ func tableAzureAdUserRegistrationDetails(_ context.Context) *plugin.Table {
 			{
 				Name:        "is_mfa_registered",
 				Type:        proto.ColumnType_BOOL,
-				Description: "IsMfaCapable",
+				Description: "IsMfaRegistered",
 				Transform:   transform.FromField("Description.IsMfaRegistered"),
 			},
 			{

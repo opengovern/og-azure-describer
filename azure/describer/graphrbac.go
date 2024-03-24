@@ -51,10 +51,35 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 		if user == nil {
 			return true
 		}
+		var id string
+		if user.GetId() != nil {
+			id = *user.GetId()
+		}
+		var name string
+		if user.GetDisplayName() != nil {
+			name = *user.GetDisplayName()
+		}
+
+		var passwordProfile struct {
+			ForceChangePasswordNextSignIn        *bool
+			ForceChangePasswordNextSignInWithMfa *bool
+			Password                             *string
+		}
+		if user.GetPasswordProfile() != nil {
+			passwordProfile = struct {
+				ForceChangePasswordNextSignIn        *bool
+				ForceChangePasswordNextSignInWithMfa *bool
+				Password                             *string
+			}{
+				ForceChangePasswordNextSignIn:        user.GetPasswordProfile().GetForceChangePasswordNextSignIn(),
+				ForceChangePasswordNextSignInWithMfa: user.GetPasswordProfile().GetForceChangePasswordNextSignInWithMfa(),
+				Password:                             user.GetPasswordProfile().GetPassword(),
+			}
+		}
 
 		resource := Resource{
-			ID:       *user.GetId(),
-			Name:     *user.GetDisplayName(),
+			ID:       id,
+			Name:     name,
 			Location: "global",
 			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
@@ -77,17 +102,9 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 					UsageLocation:                   user.GetUsageLocation(),
 					MemberOf:                        user.GetMemberOf(),
 					//AdditionalProperties:            user.GetAdditionalProperties(),
-					ImAddresses: user.GetImAddresses(),
-					OtherMails:  user.GetOtherMails(),
-					PasswordProfile: struct {
-						ForceChangePasswordNextSignIn        *bool
-						ForceChangePasswordNextSignInWithMfa *bool
-						Password                             *string
-					}{
-						ForceChangePasswordNextSignIn:        user.GetPasswordProfile().GetForceChangePasswordNextSignIn(),
-						ForceChangePasswordNextSignInWithMfa: user.GetPasswordProfile().GetForceChangePasswordNextSignInWithMfa(),
-						Password:                             user.GetPasswordProfile().GetPassword(),
-					},
+					ImAddresses:     user.GetImAddresses(),
+					OtherMails:      user.GetOtherMails(),
+					PasswordProfile: passwordProfile,
 				},
 			},
 		}
