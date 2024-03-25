@@ -19,7 +19,7 @@ func tableAzureAdSecurityDefaultsPolicy(_ context.Context) *plugin.Table {
 			Hydrate: kaytu.ListAdSecurityDefaultsPolicy,
 		},
 
-		Columns: []*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "display_name",
 				Type:        proto.ColumnType_STRING,
@@ -52,6 +52,6 @@ func tableAzureAdSecurityDefaultsPolicy(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Description: ColumnDescriptionTenant,
 				Transform:   transform.FromField("Description.TenantID")},
-		},
+		}),
 	}
 }

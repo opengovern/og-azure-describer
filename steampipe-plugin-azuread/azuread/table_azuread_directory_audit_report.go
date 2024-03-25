@@ -25,7 +25,7 @@ func tableAzureAdDirectoryAuditReport(_ context.Context) *plugin.Table {
 			Hydrate: kaytu.ListAdDirectoryAuditReport,
 		},
 
-		Columns: []*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "id",
 				Type:        proto.ColumnType_STRING,
@@ -100,6 +100,6 @@ func tableAzureAdDirectoryAuditReport(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Description: ColumnDescriptionTenant,
 				Transform:   transform.FromField("Description.TenantID")},
-		},
+		}),
 	}
 }

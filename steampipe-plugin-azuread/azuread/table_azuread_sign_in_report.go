@@ -19,7 +19,7 @@ func tableAzureAdSignInReport(_ context.Context) *plugin.Table {
 			Hydrate: kaytu.ListAdSignInReport,
 		},
 
-		Columns: []*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{Name: "id", Type: proto.ColumnType_STRING, Description: "Unique ID representing the sign-in activity.", Transform: transform.FromField("Description.Id")},
 			{Name: "created_date_time", Type: proto.ColumnType_TIMESTAMP, Description: "Date and time (UTC) the sign-in was initiated.", Transform: transform.FromField("Description.CreatedDateTime")},
 			{Name: "user_display_name", Type: proto.ColumnType_STRING, Description: "Display name of the user that initiated the sign-in.", Transform: transform.FromField("Description.UserDisplayName")},
@@ -49,7 +49,7 @@ func tableAzureAdSignInReport(_ context.Context) *plugin.Table {
 			// Standard columns
 			{Name: "title", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTitle, Transform: transform.FromField("Description.Id")},
 			{Name: "tenant_id", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTenant, Transform: transform.FromField("Description.TenantID")},
-		},
+		}),
 	}
 }
 

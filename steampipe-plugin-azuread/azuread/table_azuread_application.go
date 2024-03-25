@@ -17,7 +17,7 @@ func tableAzureAdApplication(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListAdApplication,
 		},
-		Columns: []*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{Name: "display_name", Type: proto.ColumnType_STRING, Description: "The display name for the application.", Transform: transform.FromField("Description.DisplayName")},
 			{Name: "id", Type: proto.ColumnType_STRING, Description: "The unique identifier for the application.", Transform: transform.FromField("Description.Id")},
 			{Name: "app_id", Type: proto.ColumnType_STRING, Description: "The unique identifier for the application that is assigned to an application by Azure AD.", Transform: transform.FromField("Description.AppId")},
@@ -42,7 +42,7 @@ func tableAzureAdApplication(_ context.Context) *plugin.Table {
 			{Name: "tags", Type: proto.ColumnType_JSON, Description: ColumnDescriptionTags, Transform: transform.From(adApplicationTags)},
 			{Name: "title", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTitle, Transform: transform.From(adApplicationTitle)},
 			{Name: "tenant_id", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTenant, Transform: transform.FromField("Description.TenantID")},
-		},
+		}),
 	}
 }
 

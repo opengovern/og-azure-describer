@@ -37,7 +37,7 @@ func tableAzureAdGroup(_ context.Context) *plugin.Table {
 				{Name: "security_enabled", Require: plugin.Optional, Operators: []string{"<>", "="}},
 			},
 		},
-		Columns: []*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{Name: "display_name", Type: proto.ColumnType_STRING, Description: "The name displayed in the address book for the user. This is usually the combination of the user's first name, middle initial and last name.", Transform: transform.FromField("Description.DisplayName")},
 			{Name: "id", Type: proto.ColumnType_STRING, Description: "The unique identifier for the group.", Transform: transform.FromField("Description.Id")},
 			{Name: "description", Type: proto.ColumnType_STRING, Description: "An optional description for the group.", Transform: transform.FromField("Description.Description")},
@@ -90,7 +90,7 @@ func tableAzureAdGroup(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Description: "The unique ID of the resource in Kaytu.",
 				Transform:   transform.FromField("ID")},
-		},
+		}),
 	}
 }
 

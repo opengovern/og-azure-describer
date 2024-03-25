@@ -42,7 +42,7 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 			},
 		},
 
-		Columns: []*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "display_name",
 				Type:        proto.ColumnType_STRING,
@@ -200,7 +200,7 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Description: "The unique ID of the resource in Kaytu.",
 				Transform:   transform.FromField("ID")},
-		},
+		}),
 	}
 }
 

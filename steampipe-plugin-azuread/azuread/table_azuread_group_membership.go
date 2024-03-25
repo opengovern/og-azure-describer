@@ -29,7 +29,7 @@ func tableAzureAdGroupMembership(_ context.Context) *plugin.Table {
 				ShouldIgnoreErrorFunc: isIgnorableErrorPredicate([]string{"Invalid filter clause"}),
 			},
 		},
-		Columns: []*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "display_name",
 				Type:        proto.ColumnType_STRING,
@@ -104,6 +104,6 @@ func tableAzureAdGroupMembership(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Description: "The unique ID of the resource in Kaytu.",
 				Transform:   transform.FromField("ID")},
-		},
+		}),
 	}
 }

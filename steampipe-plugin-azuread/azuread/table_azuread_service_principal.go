@@ -20,7 +20,7 @@ func tableAzureAdServicePrincipal(_ context.Context) *plugin.Table {
 			Hydrate: kaytu.ListAdServicePrincipal,
 		},
 
-		Columns: []*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{Name: "id", Type: proto.ColumnType_STRING, Description: "The unique identifier for the service principal.", Transform: transform.FromField("Description.Id")},
 			{Name: "display_name", Type: proto.ColumnType_STRING, Description: "The display name for the service principal.", Transform: transform.FromField("Description.DisplayName")},
 			{Name: "app_id", Type: proto.ColumnType_STRING, Description: "The unique identifier for the associated application (its appId property).", Transform: transform.FromField("Description.AppId")},
@@ -66,7 +66,7 @@ func tableAzureAdServicePrincipal(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Description: "The unique ID of the resource in Kaytu.",
 				Transform:   transform.FromField("ID")},
-		},
+		}),
 	}
 }
 

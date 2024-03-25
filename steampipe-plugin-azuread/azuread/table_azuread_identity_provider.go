@@ -22,7 +22,7 @@ func tableAzureAdIdentityProvider(_ context.Context) *plugin.Table {
 			},
 		},
 
-		Columns: []*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "id",
 				Type:        proto.ColumnType_STRING,
@@ -63,6 +63,6 @@ func tableAzureAdIdentityProvider(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Description: ColumnDescriptionTenant,
 				Transform:   transform.FromField("Description.TenantID")},
-		},
+		}),
 	}
 }

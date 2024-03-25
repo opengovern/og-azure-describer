@@ -27,7 +27,7 @@ func tableAzureAdDomain(_ context.Context) *plugin.Table {
 			Hydrate: kaytu.ListAdDomain,
 		},
 
-		Columns: []*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "id",
 				Type:        proto.ColumnType_STRING,
@@ -82,6 +82,6 @@ func tableAzureAdDomain(_ context.Context) *plugin.Table {
 				Name: "tenant_id", Type: proto.ColumnType_STRING,
 				Description: ColumnDescriptionTenant,
 				Transform:   transform.FromField("Description.TenantID")},
-		},
+		}),
 	}
 }

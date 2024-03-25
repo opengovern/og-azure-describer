@@ -19,7 +19,7 @@ func tableAzureAdAdminConsentRequestPolicy(_ context.Context) *plugin.Table {
 			Hydrate: kaytu.ListAdAdminConsentRequestPolicy,
 		},
 
-		Columns: []*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "is_enabled",
 				Type:        proto.ColumnType_BOOL,
@@ -74,6 +74,6 @@ func tableAzureAdAdminConsentRequestPolicy(_ context.Context) *plugin.Table {
 				Description: ColumnDescriptionTenant,
 				Transform:   transform.FromField("Description.TenantID"),
 			},
-		},
+		}),
 	}
 }

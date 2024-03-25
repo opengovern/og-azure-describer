@@ -22,7 +22,7 @@ func tableAzureAdDirectorySetting(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListAdDirectorySetting,
 		},
-		Columns: []*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "display_name",
 				Type:        proto.ColumnType_STRING,
@@ -60,6 +60,6 @@ func tableAzureAdDirectorySetting(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Description: ColumnDescriptionTenant,
 				Transform:   transform.FromField("Description.TenantID")},
-		},
+		}),
 	}
 }
