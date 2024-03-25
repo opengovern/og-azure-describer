@@ -69,6 +69,7 @@ func tableAzureAdGroup(_ context.Context) *plugin.Table {
 			{Name: "proxy_addresses", Type: proto.ColumnType_JSON, Description: "Email addresses for the group that direct to the same group mailbox. For example: [\"SMTP: bob@contoso.com\", \"smtp: bob@sales.contoso.com\"]. The any operator is required to filter expressions on multi-valued properties.", Transform: transform.FromField("Description.ProxyAddresses")},
 			{Name: "resource_behavior_options", Type: proto.ColumnType_JSON, Description: "Specifies the group behaviors that can be set for a Microsoft 365 group during creation. Possible values are AllowOnlyMembersToPost, HideGroupInOutlook, SubscribeNewGroupMembers, WelcomeEmailDisabled.", Transform: transform.FromField("Description.ResourceBehaviorOptions")},
 			{Name: "resource_provisioning_options", Type: proto.ColumnType_JSON, Description: "Specifies the group resources that are provisioned as part of Microsoft 365 group creation, that are not normally part of default group creation. Possible value is Team.", Transform: transform.FromField("Description.ResourceProvisioningOptions")},
+			{Name: "nested_groups", Type: proto.ColumnType_JSON, Description: "Members which are group.", Transform: transform.FromField("Description.NestedGroups")},
 
 			{Name: "tags", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTags, Transform: transform.From(adGroupTags)},
 			{Name: "title", Type: proto.ColumnType_STRING, Description: ColumnDescriptionTitle, Transform: transform.From(adGroupTitle)},
