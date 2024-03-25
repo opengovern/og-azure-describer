@@ -176,6 +176,29 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 			})
 		}
 
+		var nestedGroups []struct {
+			GroupId     *string
+			DisplayName *string
+		}
+		members, err := client.Groups().ByGroupId(*group.GetId()).TransitiveMembers().GraphGroup().Get(ctx, &groups.ItemTransitiveMembersGraphGroupRequestBuilderGetRequestConfiguration{
+			QueryParameters: &groups.ItemTransitiveMembersGraphGroupRequestBuilderGetQueryParameters{
+				Top: aws.Int32(999),
+			},
+		})
+		if err != nil {
+			itemErr = err
+			return false
+		}
+		for _, m := range members.GetValue() {
+			nestedGroups = append(nestedGroups, struct {
+				GroupId     *string
+				DisplayName *string
+			}{
+				GroupId:     m.GetId(),
+				DisplayName: m.GetDisplayName(),
+			})
+		}
+
 		resource := Resource{
 			ID:       *group.GetId(),
 			Name:     *group.GetDisplayName(),
@@ -214,6 +237,7 @@ func AdGroup(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 					ProxyAddresses:                group.GetProxyAddresses(),
 					//ResourceBehaviorOptions:       group.GetResourceBehaviorOptions(),
 					//ResourceProvisioningOptions:   group.GetResourceProvisioningOptions(),
+					NestedGroups: nestedGroups,
 				},
 			},
 		}

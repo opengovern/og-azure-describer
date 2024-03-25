@@ -1582,6 +1582,10 @@ type AdGroupDescription struct {
 	MemberIds      []*string
 	OwnerIds       []*string
 	ProxyAddresses []string
+	NestedGroups   []struct {
+		GroupId     *string
+		DisplayName *string
+	}
 }
 
 //index:microsoft_resources_serviceprincipals
