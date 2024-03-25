@@ -17,13 +17,14 @@ func tableAzureAdGroupMembership(_ context.Context) *plugin.Table {
 		Name:        "azuread_group_membership",
 		Description: "Represents an Azure AD group membership.",
 		Get: &plugin.GetConfig{
-			Hydrate: kaytu.GetAdGroup,
+			Hydrate: kaytu.GetAdGroupMembership,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isIgnorableErrorPredicate([]string{"Request_ResourceNotFound", "Invalid object identifier"}),
 			},
+			KeyColumns: plugin.SingleColumn("id"),
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdGroup,
+			Hydrate: kaytu.ListAdGroupMembership,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isIgnorableErrorPredicate([]string{"Invalid filter clause"}),
 			},

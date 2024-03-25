@@ -800,9 +800,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/groupMemberships": {
+	"Microsoft.Resources/groupmemberships": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/groupMemberships",
+		ResourceName:         "Microsoft.Resources/groupmemberships",
 		ResourceLabel:        "Azure AD Groups",
 		Tags:                 map[string][]string{
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
