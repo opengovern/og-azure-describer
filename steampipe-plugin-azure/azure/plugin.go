@@ -236,6 +236,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"azure_sql_virtualmachinegroups":                              tableAzureSqlVirtualMachineGroups(ctx),
 			"azure_synapse_workspacesbigdatapools":                        tableAzureSynapseWorkspacesBigDataPools(ctx),
 			"azure_synapse_workspacessqlpools":                            tableAzureSynapseWorkspacesSqlPools(ctx),
+			"azure_user_effective_access":                                 tableAzureUserEffectiveAccess(ctx),
 		},
 	}
 

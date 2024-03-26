@@ -706,6 +706,12 @@ type PolicyDefinitionDescription struct {
 	TurboData  map[string]interface{}
 }
 
+//index:microsoft_authorization_usereffectiveaccess
+type UserEffectiveAccessDescription struct {
+	RoleAssignment armauthorization.RoleAssignment
+	UserId         string
+}
+
 //  =================== security ==================
 
 //index:microsoft_security_autoprovisioningsettings
