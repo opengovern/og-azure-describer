@@ -158,7 +158,6 @@ func UserEffectiveAccess(ctx context.Context, cred *azidentity.ClientSecretCrede
 			return nil, err
 		}
 		for _, roleAssignment := range page.Value {
-			var resource Resource
 			if *roleAssignment.Properties.PrincipalType == armauthorization.PrincipalTypeGroup {
 				members, err := graphClient.Groups().ByGroupId(*roleAssignment.Properties.PrincipalID).TransitiveMembers().GraphUser().Get(ctx, &groups.ItemTransitiveMembersGraphUserRequestBuilderGetRequestConfiguration{
 					QueryParameters: &groups.ItemTransitiveMembersGraphUserRequestBuilderGetQueryParameters{
@@ -170,38 +169,45 @@ func UserEffectiveAccess(ctx context.Context, cred *azidentity.ClientSecretCrede
 				}
 				for _, m := range members.GetValue() {
 					id := fmt.Sprintf("%s_%s", *m.GetId(), *roleAssignment.ID)
-					resource = Resource{
+					resource := Resource{
 						ID:       id,
 						Name:     *roleAssignment.Name,
 						Location: "global",
 						Description: JSONAllFieldsMarshaller{
 							Value: model.UserEffectiveAccessDescription{
 								RoleAssignment: *roleAssignment,
-								UserId: *m.GetId(),
+								UserId:         *m.GetId(),
 							},
 						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
 					}
 				}
 			} else if *roleAssignment.Properties.PrincipalType == armauthorization.PrincipalTypeUser {
 				id := fmt.Sprintf("%s_%s", *roleAssignment.Properties.PrincipalID, *roleAssignment.ID)
-				resource = Resource{
+				resource := Resource{
 					ID:       id,
 					Name:     *roleAssignment.Name,
 					Location: "global",
 					Description: JSONAllFieldsMarshaller{
 						Value: model.UserEffectiveAccessDescription{
 							RoleAssignment: *roleAssignment,
-							UserId: *roleAssignment.Properties.PrincipalID,
+							UserId:         *roleAssignment.Properties.PrincipalID,
 						},
 					},
 				}
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
 				}
-			} else {
-				values = append(values, resource)
 			}
 		}
 	}
