@@ -1441,6 +1441,23 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Authorization/userEffectiveAccess": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Authorization/userEffectiveAccess",
+		ResourceLabel:        "User Effective Access",
+		Tags:                 map[string][]string{
+            "category": {"Identify & Access"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Policy%20Assignment.svg"},
+        },
+		ServiceName:          "Authorization",
+		ListDescriber:        DescribeBySubscription(describer.UserEffectiveAccess),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "policy",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Search/searchServices": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Search/searchServices",

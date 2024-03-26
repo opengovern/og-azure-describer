@@ -21754,6 +21754,279 @@ func GetPolicyDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 // ==========================  END: PolicyDefinition =============================
 
+// ==========================  START: UserEffectiveAccess =============================
+
+type UserEffectiveAccess struct {
+	Description   azure.UserEffectiveAccessDescription `json:"description"`
+	Metadata      azure.Metadata                       `json:"metadata"`
+	ResourceJobID int                                  `json:"resource_job_id"`
+	SourceJobID   int                                  `json:"source_job_id"`
+	ResourceType  string                               `json:"resource_type"`
+	SourceType    string                               `json:"source_type"`
+	ID            string                               `json:"id"`
+	ARN           string                               `json:"arn"`
+	SourceID      string                               `json:"source_id"`
+}
+
+func (r *UserEffectiveAccess) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.UserEffectiveAccessDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type UserEffectiveAccessHit struct {
+	ID      string              `json:"_id"`
+	Score   float64             `json:"_score"`
+	Index   string              `json:"_index"`
+	Type    string              `json:"_type"`
+	Version int64               `json:"_version,omitempty"`
+	Source  UserEffectiveAccess `json:"_source"`
+	Sort    []interface{}       `json:"sort"`
+}
+
+type UserEffectiveAccessHits struct {
+	Total essdk.SearchTotal        `json:"total"`
+	Hits  []UserEffectiveAccessHit `json:"hits"`
+}
+
+type UserEffectiveAccessSearchResponse struct {
+	PitID string                  `json:"pit_id"`
+	Hits  UserEffectiveAccessHits `json:"hits"`
+}
+
+type UserEffectiveAccessPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewUserEffectiveAccessPaginator(filters []essdk.BoolFilter, limit *int64) (UserEffectiveAccessPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_authorization_usereffectiveaccess", filters, limit)
+	if err != nil {
+		return UserEffectiveAccessPaginator{}, err
+	}
+
+	p := UserEffectiveAccessPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p UserEffectiveAccessPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p UserEffectiveAccessPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p UserEffectiveAccessPaginator) NextPage(ctx context.Context) ([]UserEffectiveAccess, error) {
+	var response UserEffectiveAccessSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []UserEffectiveAccess
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listUserEffectiveAccessFilters = map[string]string{
+	"id":                 "ID",
+	"kaytu_account_id":   "metadata.SourceID",
+	"name":               "description.RoleAssignment.Name",
+	"role_definition_id": "description.RoleAssignment.Properties.RoleDefinitionID",
+	"title":              "description.RoleAssignment.Name",
+	"type":               "description.RoleAssignment.Type",
+	"user_id":            "description.UserId",
+}
+
+func ListUserEffectiveAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListUserEffectiveAccess")
+	runtime.GC()
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListUserEffectiveAccess NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListUserEffectiveAccess NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListUserEffectiveAccess GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListUserEffectiveAccess GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListUserEffectiveAccess GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewUserEffectiveAccessPaginator(essdk.BuildFilter(ctx, d.QueryContext, listUserEffectiveAccessFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListUserEffectiveAccess NewUserEffectiveAccessPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListUserEffectiveAccess paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getUserEffectiveAccessFilters = map[string]string{
+	"id":                 "ID",
+	"kaytu_account_id":   "metadata.SourceID",
+	"name":               "description.RoleAssignment.Name",
+	"role_definition_id": "description.RoleAssignment.Properties.RoleDefinitionID",
+	"title":              "description.RoleAssignment.Name",
+	"type":               "description.RoleAssignment.Type",
+	"user_id":            "description.UserId",
+}
+
+func GetUserEffectiveAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetUserEffectiveAccess")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewUserEffectiveAccessPaginator(essdk.BuildFilter(ctx, d.QueryContext, getUserEffectiveAccessFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: UserEffectiveAccess =============================
+
 // ==========================  START: SecurityCenterAutoProvisioning =============================
 
 type SecurityCenterAutoProvisioning struct {
@@ -46479,7 +46752,7 @@ type AdUsersPaginator struct {
 }
 
 func (k Client) NewAdUsersPaginator(filters []essdk.BoolFilter, limit *int64) (AdUsersPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_users", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_users", filters, limit)
 	if err != nil {
 		return AdUsersPaginator{}, err
 	}
@@ -46786,7 +47059,7 @@ type AdGroupPaginator struct {
 }
 
 func (k Client) NewAdGroupPaginator(filters []essdk.BoolFilter, limit *int64) (AdGroupPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_groups", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_groups", filters, limit)
 	if err != nil {
 		return AdGroupPaginator{}, err
 	}
@@ -47113,7 +47386,7 @@ type AdServicePrincipalPaginator struct {
 }
 
 func (k Client) NewAdServicePrincipalPaginator(filters []essdk.BoolFilter, limit *int64) (AdServicePrincipalPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_serviceprincipals", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_serviceprincipals", filters, limit)
 	if err != nil {
 		return AdServicePrincipalPaginator{}, err
 	}
@@ -47428,7 +47701,7 @@ type AdApplicationPaginator struct {
 }
 
 func (k Client) NewAdApplicationPaginator(filters []essdk.BoolFilter, limit *int64) (AdApplicationPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_applications", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_applications", filters, limit)
 	if err != nil {
 		return AdApplicationPaginator{}, err
 	}
@@ -47727,7 +48000,7 @@ type AdDirectoryRolePaginator struct {
 }
 
 func (k Client) NewAdDirectoryRolePaginator(filters []essdk.BoolFilter, limit *int64) (AdDirectoryRolePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_directoryroles", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_directoryroles", filters, limit)
 	if err != nil {
 		return AdDirectoryRolePaginator{}, err
 	}
@@ -48000,7 +48273,7 @@ type AdDirectorySettingPaginator struct {
 }
 
 func (k Client) NewAdDirectorySettingPaginator(filters []essdk.BoolFilter, limit *int64) (AdDirectorySettingPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_directorysettings", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_directorysettings", filters, limit)
 	if err != nil {
 		return AdDirectorySettingPaginator{}, err
 	}
@@ -48275,7 +48548,7 @@ type AdDirectoryAuditReportPaginator struct {
 }
 
 func (k Client) NewAdDirectoryAuditReportPaginator(filters []essdk.BoolFilter, limit *int64) (AdDirectoryAuditReportPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_directoryauditreport", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_directoryauditreport", filters, limit)
 	if err != nil {
 		return AdDirectoryAuditReportPaginator{}, err
 	}
@@ -48564,7 +48837,7 @@ type AdDomainPaginator struct {
 }
 
 func (k Client) NewAdDomainPaginator(filters []essdk.BoolFilter, limit *int64) (AdDomainPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_domains", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_domains", filters, limit)
 	if err != nil {
 		return AdDomainPaginator{}, err
 	}
@@ -48845,7 +49118,7 @@ type AdIdentityProviderPaginator struct {
 }
 
 func (k Client) NewAdIdentityProviderPaginator(filters []essdk.BoolFilter, limit *int64) (AdIdentityProviderPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_identityproviders", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_identityproviders", filters, limit)
 	if err != nil {
 		return AdIdentityProviderPaginator{}, err
 	}
@@ -49120,7 +49393,7 @@ type AdSecurityDefaultsPolicyPaginator struct {
 }
 
 func (k Client) NewAdSecurityDefaultsPolicyPaginator(filters []essdk.BoolFilter, limit *int64) (AdSecurityDefaultsPolicyPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_securitydefaultspolicy", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_securitydefaultspolicy", filters, limit)
 	if err != nil {
 		return AdSecurityDefaultsPolicyPaginator{}, err
 	}
@@ -49393,7 +49666,7 @@ type AdAuthorizationPolicyPaginator struct {
 }
 
 func (k Client) NewAdAuthorizationPolicyPaginator(filters []essdk.BoolFilter, limit *int64) (AdAuthorizationPolicyPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_authorizationpolicy", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_authorizationpolicy", filters, limit)
 	if err != nil {
 		return AdAuthorizationPolicyPaginator{}, err
 	}
@@ -49678,7 +49951,7 @@ type AdConditionalAccessPolicyPaginator struct {
 }
 
 func (k Client) NewAdConditionalAccessPolicyPaginator(filters []essdk.BoolFilter, limit *int64) (AdConditionalAccessPolicyPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_conditionalaccesspolicy", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_conditionalaccesspolicy", filters, limit)
 	if err != nil {
 		return AdConditionalAccessPolicyPaginator{}, err
 	}
@@ -49983,7 +50256,7 @@ type AdAdminConsentRequestPolicyPaginator struct {
 }
 
 func (k Client) NewAdAdminConsentRequestPolicyPaginator(filters []essdk.BoolFilter, limit *int64) (AdAdminConsentRequestPolicyPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_adminconsentrequestpolicy", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_adminconsentrequestpolicy", filters, limit)
 	if err != nil {
 		return AdAdminConsentRequestPolicyPaginator{}, err
 	}
@@ -50260,7 +50533,7 @@ type AdSignInReportPaginator struct {
 }
 
 func (k Client) NewAdSignInReportPaginator(filters []essdk.BoolFilter, limit *int64) (AdSignInReportPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_signinreports", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_signinreports", filters, limit)
 	if err != nil {
 		return AdSignInReportPaginator{}, err
 	}
@@ -50569,7 +50842,7 @@ type AdDevicePaginator struct {
 }
 
 func (k Client) NewAdDevicePaginator(filters []essdk.BoolFilter, limit *int64) (AdDevicePaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_devices", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_devices", filters, limit)
 	if err != nil {
 		return AdDevicePaginator{}, err
 	}
@@ -50860,7 +51133,7 @@ type AdUserRegistrationDetailsPaginator struct {
 }
 
 func (k Client) NewAdUserRegistrationDetailsPaginator(filters []essdk.BoolFilter, limit *int64) (AdUserRegistrationDetailsPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_userregistrationdetails", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_userregistrationdetails", filters, limit)
 	if err != nil {
 		return AdUserRegistrationDetailsPaginator{}, err
 	}
@@ -51157,7 +51430,7 @@ type AdGroupMembershipPaginator struct {
 }
 
 func (k Client) NewAdGroupMembershipPaginator(filters []essdk.BoolFilter, limit *int64) (AdGroupMembershipPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_resources_groupmemberships", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_entra_groupmemberships", filters, limit)
 	if err != nil {
 		return AdGroupMembershipPaginator{}, err
 	}

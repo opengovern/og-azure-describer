@@ -2,19 +2,16 @@ package azure
 
 import (
 	"context"
-	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
-
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
-//// TABLE DEFINITION
-
-func tableAzureIamRoleAssignment(_ context.Context) *plugin.Table {
+func tableAzureUserEffectiveAccess(_ context.Context) *plugin.Table {
 	return &plugin.Table{
-		Name:        "azure_role_assignment",
-		Description: "Azure Role Assignment",
+		Name:        "azure_user_effective_access",
+		Description: "Azure User Effective Access",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
 			Hydrate:    kaytu.GetRoleAssignment,
@@ -24,12 +21,6 @@ func tableAzureIamRoleAssignment(_ context.Context) *plugin.Table {
 		},
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListRoleAssignment,
-			KeyColumns: []*plugin.KeyColumn{
-				{
-					Name:    "principal_id",
-					Require: plugin.Optional,
-				},
-			},
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -41,29 +32,17 @@ func tableAzureIamRoleAssignment(_ context.Context) *plugin.Table {
 				Name:        "id",
 				Description: "Contains ID to identify a role assignment uniquely.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.RoleAssignment.ID")},
+				Transform:   transform.FromField("ID")},
 			{
-				Name:        "scope",
+				Name:        "user_id",
 				Description: "Current state of the role assignment.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.RoleAssignment.Properties.Scope")},
+				Transform:   transform.FromField("Description.UserId")},
 			{
 				Name:        "type",
 				Description: "Contains the resource type.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.RoleAssignment.Type")},
-			{
-				Name:        "principal_id",
-				Description: "Contains the principal id.",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.RoleAssignment.Properties.PrincipalID")},
-			{
-				Name:        "principal_type",
-				Description: "Principal type of the assigned principal ID.",
-				Type:        proto.ColumnType_STRING,
-
-				Transform: transform.FromField("Description.RoleAssignment.Properties.PrincipalType"),
-			},
 			{
 				Name:        "role_definition_id",
 				Description: "Name of the assigned role definition.",
