@@ -569,9 +569,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/serviceprincipals": {
+	"Microsoft.Entra/serviceprincipals": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/serviceprincipals",
+		ResourceName:         "Microsoft.Entra/serviceprincipals",
 		ResourceLabel:        "Service Principals",
 		Tags:                 map[string][]string{
         },
@@ -784,9 +784,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/groups": {
+	"Microsoft.Entra/groups": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/groups",
+		ResourceName:         "Microsoft.Entra/groups",
 		ResourceLabel:        "Azure AD Groups",
 		Tags:                 map[string][]string{
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
@@ -800,9 +800,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/groupmemberships": {
+	"Microsoft.Entra/groupMemberships": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/groupmemberships",
+		ResourceName:         "Microsoft.Entra/groupMemberships",
 		ResourceLabel:        "Azure AD Groups",
 		Tags:                 map[string][]string{
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
@@ -816,9 +816,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/devices": {
+	"Microsoft.Entra/devices": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/devices",
+		ResourceName:         "Microsoft.Entra/devices",
 		ResourceLabel:        "Azure AD Devices",
 		Tags:                 map[string][]string{
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
@@ -832,9 +832,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/signInReports": {
+	"Microsoft.Entra/signInReports": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/signInReports",
+		ResourceName:         "Microsoft.Entra/signInReports",
 		ResourceLabel:        "Azure AD Sign-in reports",
 		Tags:                 map[string][]string{
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
@@ -848,9 +848,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/applications": {
+	"Microsoft.Entra/applications": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/applications",
+		ResourceName:         "Microsoft.Entra/applications",
 		ResourceLabel:        "Azure AD Applications",
 		Tags:                 map[string][]string{
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
@@ -864,9 +864,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/domains": {
+	"Microsoft.Entra/domains": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/domains",
+		ResourceName:         "Microsoft.Entra/domains",
 		ResourceLabel:        "Azure AD Domains",
 		Tags:                 map[string][]string{
             "logo_uri": {},
@@ -880,9 +880,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/identityproviders": {
+	"Microsoft.Entra/identityproviders": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/identityproviders",
+		ResourceName:         "Microsoft.Entra/identityproviders",
 		ResourceLabel:        "Azure AD Identity Providers",
 		Tags:                 map[string][]string{
             "logo_uri": {},
@@ -896,9 +896,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/securitydefaultspolicy": {
+	"Microsoft.Entra/securitydefaultspolicy": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/securitydefaultspolicy",
+		ResourceName:         "Microsoft.Entra/securitydefaultspolicy",
 		ResourceLabel:        "Azure AD Security Defaults Policy",
 		Tags:                 map[string][]string{
             "logo_uri": {},
@@ -912,9 +912,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/authorizationpolicy": {
+	"Microsoft.Entra/authorizationpolicy": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/authorizationpolicy",
+		ResourceName:         "Microsoft.Entra/authorizationpolicy",
 		ResourceLabel:        "Azure AD Authorization Policy",
 		Tags:                 map[string][]string{
             "logo_uri": {},
@@ -928,9 +928,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/conditionalaccesspolicy": {
+	"Microsoft.Entra/conditionalaccesspolicy": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/conditionalaccesspolicy",
+		ResourceName:         "Microsoft.Entra/conditionalaccesspolicy",
 		ResourceLabel:        "Azure AD Conditional Access Policy",
 		Tags:                 map[string][]string{
             "logo_uri": {},
@@ -944,9 +944,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/adminconsentrequestpolicy": {
+	"Microsoft.Entra/adminconsentrequestpolicy": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/adminconsentrequestpolicy",
+		ResourceName:         "Microsoft.Entra/adminconsentrequestpolicy",
 		ResourceLabel:        "Azure AD Admin Consent Request Policy",
 		Tags:                 map[string][]string{
             "logo_uri": {},
@@ -960,9 +960,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/userregistrationdetails": {
+	"Microsoft.Entra/userregistrationdetails": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/userregistrationdetails",
+		ResourceName:         "Microsoft.Entra/userregistrationdetails",
 		ResourceLabel:        "Azure AD User registration details",
 		Tags:                 map[string][]string{
             "logo_uri": {},
@@ -1906,9 +1906,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/users": {
+	"Microsoft.Entra/users": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/users",
+		ResourceName:         "Microsoft.Entra/users",
 		ResourceLabel:        "Azure AD Users",
 		Tags:                 map[string][]string{
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20User.svg"},
@@ -1922,9 +1922,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/directoryroles": {
+	"Microsoft.Entra/directoryroles": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/directoryroles",
+		ResourceName:         "Microsoft.Entra/directoryroles",
 		ResourceLabel:        "Azure AD Directory Roles",
 		Tags:                 map[string][]string{
             "logo_uri": {},
@@ -1938,9 +1938,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/directorysettings": {
+	"Microsoft.Entra/directorysettings": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/directorysettings",
+		ResourceName:         "Microsoft.Entra/directorysettings",
 		ResourceLabel:        "Azure AD Directory Settings",
 		Tags:                 map[string][]string{
             "logo_uri": {},
@@ -1954,9 +1954,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
-	"Microsoft.Resources/directoryauditreport": {
+	"Microsoft.Entra/directoryauditreport": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.Resources/directoryauditreport",
+		ResourceName:         "Microsoft.Entra/directoryauditreport",
 		ResourceLabel:        "Azure AD Directory Audit Report",
 		Tags:                 map[string][]string{
             "logo_uri": {},
