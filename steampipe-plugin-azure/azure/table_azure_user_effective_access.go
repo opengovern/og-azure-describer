@@ -14,13 +14,13 @@ func tableAzureUserEffectiveAccess(_ context.Context) *plugin.Table {
 		Description: "Azure User Effective Access",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    kaytu.GetRoleAssignment,
+			Hydrate:    kaytu.GetUserEffectiveAccess,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRoleAssignment,
+			Hydrate: kaytu.ListUserEffectiveAccess,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
