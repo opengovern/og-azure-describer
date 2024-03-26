@@ -35,7 +35,7 @@ func tableAzureUserEffectiveAccess(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("ID")},
 			{
 				Name:        "user_id",
-				Description: "Current state of the role assignment.",
+				Description: "User ID",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.UserId")},
 			{
