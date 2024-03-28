@@ -15,10 +15,6 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "azuread_user",
 		Description: "Represents an Azure AD user account.",
-		Get: &plugin.GetConfig{
-			Hydrate:    kaytu.GetAdUsers,
-			KeyColumns: plugin.SingleColumn("id"),
-		},
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListAdUsers,
 			KeyColumns: plugin.KeyColumnSlice{
