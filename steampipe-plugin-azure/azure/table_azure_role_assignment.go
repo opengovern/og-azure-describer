@@ -15,21 +15,8 @@ func tableAzureIamRoleAssignment(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "azure_role_assignment",
 		Description: "Azure Role Assignment",
-		Get: &plugin.GetConfig{
-			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    kaytu.GetRoleAssignment,
-			IgnoreConfig: &plugin.IgnoreConfig{
-				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound"}),
-			},
-		},
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListRoleAssignment,
-			KeyColumns: []*plugin.KeyColumn{
-				{
-					Name:    "principal_id",
-					Require: plugin.Optional,
-				},
-			},
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
