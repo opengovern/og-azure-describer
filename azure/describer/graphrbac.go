@@ -19,9 +19,8 @@ import (
 	"github.com/microsoftgraph/msgraph-sdk-go/models"
 	"github.com/microsoftgraph/msgraph-sdk-go/policies"
 	"github.com/microsoftgraph/msgraph-sdk-go/reports"
-	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipalswithappid"
+	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipals"
 	users2 "github.com/microsoftgraph/msgraph-sdk-go/users"
-	"strings"
 	"time"
 )
 
@@ -287,32 +286,20 @@ func AdServicePrinciple(ctx context.Context, cred *azidentity.ClientSecretCreden
 	var values []Resource
 	var itemErr error
 
-	resultApps, err := client.Applications().Get(ctx, &applications.ApplicationsRequestBuilderGetRequestConfiguration{
-		QueryParameters: &applications.ApplicationsRequestBuilderGetQueryParameters{
+	resultApps, err := client.ServicePrincipals().Get(ctx, &serviceprincipals.ServicePrincipalsRequestBuilderGetRequestConfiguration{
+		QueryParameters: &serviceprincipals.ServicePrincipalsRequestBuilderGetQueryParameters{
 			Top: aws.Int32(999),
 		},
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get groups: %v", err)
 	}
-	appPageIterator, err := msgraphcore.NewPageIterator[models.Applicationable](resultApps, client.GetAdapter(), models.CreateApplicationCollectionResponseFromDiscriminatorValue)
+	appPageIterator, err := msgraphcore.NewPageIterator[*models.ServicePrincipal](resultApps, client.GetAdapter(), models.CreateApplicationCollectionResponseFromDiscriminatorValue)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query apps client: %v", err)
 	}
-	err = appPageIterator.Iterate(context.Background(), func(app models.Applicationable) bool {
-		if app == nil || app.GetAppId() == nil {
-			return true
-		}
-		servicePrincipal, err := client.ServicePrincipalsWithAppId(app.GetAppId()).Get(ctx, &serviceprincipalswithappid.ServicePrincipalsWithAppIdRequestBuilderGetRequestConfiguration{})
-		if err != nil {
-			if strings.Contains(err.Error(), "Resource '' does not exist") {
-				return true
-			}
-			itemErr = fmt.Errorf("failed to run ServicePrincipalsWithAppId: %v, appId=%s", err, *app.GetAppId())
-			return false
-		}
-
-		if servicePrincipal == nil {
+	err = appPageIterator.Iterate(context.Background(), func(servicePrincipal *models.ServicePrincipal) bool {
+		if servicePrincipal == nil || servicePrincipal.GetAppId() == nil {
 			return true
 		}
 		var orgID *string
