@@ -168,15 +168,19 @@ func UserEffectiveAccess(ctx context.Context, cred *azidentity.ClientSecretCrede
 					return nil, err
 				}
 				for _, m := range members.GetValue() {
-					id := fmt.Sprintf("%s_%s", *m.GetId(), *roleAssignment.ID)
+					id := fmt.Sprintf("%s|%s", *m.GetId(), *roleAssignment.ID)
 					resource := Resource{
 						ID:       id,
 						Name:     *roleAssignment.Name,
 						Location: "global",
 						Description: JSONAllFieldsMarshaller{
 							Value: model.UserEffectiveAccessDescription{
-								RoleAssignment: *roleAssignment,
-								UserId:         *m.GetId(),
+								RoleAssignment:    *roleAssignment,
+								PrincipalName:     *m.GetDisplayName(),
+								PrincipalId:       *m.GetId(),
+								PrincipalType:     armauthorization.PrincipalTypeUser,
+								AssignmentType:    "GroupAssignment",
+								ParentPrincipalId: roleAssignment.Properties.PrincipalID,
 							},
 						},
 					}
@@ -189,15 +193,51 @@ func UserEffectiveAccess(ctx context.Context, cred *azidentity.ClientSecretCrede
 					}
 				}
 			} else if *roleAssignment.Properties.PrincipalType == armauthorization.PrincipalTypeUser {
-				id := fmt.Sprintf("%s_%s", *roleAssignment.Properties.PrincipalID, *roleAssignment.ID)
+				id := fmt.Sprintf("%s|%s", *roleAssignment.Properties.PrincipalID, *roleAssignment.ID)
+				user, err := graphClient.Users().ByUserId(*roleAssignment.Properties.PrincipalID).Get(ctx, nil)
+				if err != nil {
+					return nil, err
+				}
 				resource := Resource{
 					ID:       id,
 					Name:     *roleAssignment.Name,
 					Location: "global",
 					Description: JSONAllFieldsMarshaller{
 						Value: model.UserEffectiveAccessDescription{
-							RoleAssignment: *roleAssignment,
-							UserId:         *roleAssignment.Properties.PrincipalID,
+							RoleAssignment:    *roleAssignment,
+							PrincipalId:       *roleAssignment.Properties.PrincipalID,
+							PrincipalName:     *user.GetDisplayName(),
+							PrincipalType:     armauthorization.PrincipalTypeUser,
+							AssignmentType:    "Explicit",
+							ParentPrincipalId: nil,
+						},
+					},
+				}
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			} else if *roleAssignment.Properties.PrincipalType == armauthorization.PrincipalTypeServicePrincipal {
+				id := fmt.Sprintf("%s|%s", *roleAssignment.Properties.PrincipalID, *roleAssignment.ID)
+				spn, err := graphClient.ServicePrincipals().ByServicePrincipalId(*roleAssignment.Properties.PrincipalID).Get(ctx, nil)
+				if err != nil {
+					return nil, err
+				}
+				resource := Resource{
+					ID:       id,
+					Name:     *roleAssignment.Name,
+					Location: "global",
+					Description: JSONAllFieldsMarshaller{
+						Value: model.UserEffectiveAccessDescription{
+							RoleAssignment:    *roleAssignment,
+							PrincipalId:       *roleAssignment.Properties.PrincipalID,
+							PrincipalName:     *spn.GetDisplayName(),
+							PrincipalType:     armauthorization.PrincipalTypeServicePrincipal,
+							AssignmentType:    "Explicit",
+							ParentPrincipalId: nil,
 						},
 					},
 				}
