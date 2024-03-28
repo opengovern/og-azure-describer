@@ -33,8 +33,11 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 
 	result, err := client.Users().Get(ctx, &users2.UsersRequestBuilderGetRequestConfiguration{
 		QueryParameters: &users2.UsersRequestBuilderGetQueryParameters{
-			Top:    aws.Int32(999),
-			Select: []string{"memberOf", "accountEnabled", "transitiveMemberOf", "createdDateTime", "signInActivity"},
+			Top: aws.Int32(999),
+			Select: []string{"displayName", "userPrincipalName", "userType", "givenName", "surname",
+				"onPremisesImmutableId", "mail", "mailNickname", "passwordPolicies", "signInSessionsValidFromDateTime",
+				"usageLocation", "imAddresses", "otherMails",
+				"memberOf", "accountEnabled", "transitiveMemberOf", "createdDateTime", "signInActivity"},
 		},
 	})
 	if err != nil {
