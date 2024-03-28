@@ -55,9 +55,19 @@ func tableAzureUserEffectiveAccess(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.RoleAssignment.Properties.RoleDefinitionID")},
 			{
 				Name:        "parent_principal_id",
-				Description: ColumnDescriptionTitle,
+				Description: "Parent group principal id",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.ParentPrincipalId")},
+			{
+				Name:        "scope",
+				Description: "Role scope",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Scope")},
+			{
+				Name:        "scope_type",
+				Description: "Role scope type",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.ScopeType")},
 			{
 				Name:        "akas",
 				Description: ColumnDescriptionAkas,

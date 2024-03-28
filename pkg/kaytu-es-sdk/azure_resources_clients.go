@@ -21893,13 +21893,16 @@ func (p UserEffectiveAccessPaginator) NextPage(ctx context.Context) ([]UserEffec
 }
 
 var listUserEffectiveAccessFilters = map[string]string{
-	"id":                 "ID",
-	"kaytu_account_id":   "metadata.SourceID",
-	"name":               "description.RoleAssignment.Name",
-	"role_definition_id": "description.RoleAssignment.Properties.RoleDefinitionID",
-	"title":              "description.RoleAssignment.Name",
-	"type":               "description.RoleAssignment.Type",
-	"user_id":            "description.UserId",
+	"assignment_type":     "description.AssignmentType",
+	"id":                  "ID",
+	"kaytu_account_id":    "metadata.SourceID",
+	"parent_principal_id": "description.ParentPrincipalId",
+	"principal_id":        "description.PrincipalId",
+	"principal_name":      "description.PrincipalName",
+	"principal_type":      "description.PrincipalType",
+	"role_definition_id":  "description.RoleAssignment.Properties.RoleDefinitionID",
+	"scope":               "description.Scope",
+	"scope_type":          "description.ScopeType",
 }
 
 func ListUserEffectiveAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -21963,13 +21966,16 @@ func ListUserEffectiveAccess(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getUserEffectiveAccessFilters = map[string]string{
-	"id":                 "ID",
-	"kaytu_account_id":   "metadata.SourceID",
-	"name":               "description.RoleAssignment.Name",
-	"role_definition_id": "description.RoleAssignment.Properties.RoleDefinitionID",
-	"title":              "description.RoleAssignment.Name",
-	"type":               "description.RoleAssignment.Type",
-	"user_id":            "description.UserId",
+	"assignment_type":     "description.AssignmentType",
+	"id":                  "ID",
+	"kaytu_account_id":    "metadata.SourceID",
+	"parent_principal_id": "description.ParentPrincipalId",
+	"principal_id":        "description.PrincipalId",
+	"principal_name":      "description.PrincipalName",
+	"principal_type":      "description.PrincipalType",
+	"role_definition_id":  "description.RoleAssignment.Properties.RoleDefinitionID",
+	"scope":               "description.Scope",
+	"scope_type":          "description.ScopeType",
 }
 
 func GetUserEffectiveAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -46804,6 +46810,7 @@ var listAdUsersFilters = map[string]string{
 	"im_addresses":                          "description.ImAddresses",
 	"kaytu_account_id":                      "metadata.SourceID",
 	"kaytu_resource_id":                     "ID",
+	"last_sign_in_date_time":                "description.LastSignInDateTime",
 	"mail":                                  "description.Mail",
 	"mail_nickname":                         "description.MailNickname",
 	"member_of":                             "description.MemberOf",
@@ -46816,6 +46823,7 @@ var listAdUsersFilters = map[string]string{
 	"surname":                               "description.Surname",
 	"tenant_id":                             "description.TenantID",
 	"title":                                 "description.DisplayName",
+	"transitive_member_of":                  "description.TransitiveMemberOf",
 	"usage_location":                        "description.UsageLocation",
 	"user_principal_name":                   "description.UserPrincipalName",
 	"user_type":                             "description.UserType",
@@ -46891,6 +46899,7 @@ var getAdUsersFilters = map[string]string{
 	"im_addresses":                          "description.ImAddresses",
 	"kaytu_account_id":                      "metadata.SourceID",
 	"kaytu_resource_id":                     "ID",
+	"last_sign_in_date_time":                "description.LastSignInDateTime",
 	"mail":                                  "description.Mail",
 	"mail_nickname":                         "description.MailNickname",
 	"member_of":                             "description.MemberOf",
@@ -46903,6 +46912,7 @@ var getAdUsersFilters = map[string]string{
 	"surname":                               "description.Surname",
 	"tenant_id":                             "description.TenantID",
 	"title":                                 "description.DisplayName",
+	"transitive_member_of":                  "description.TransitiveMemberOf",
 	"usage_location":                        "description.UsageLocation",
 	"user_principal_name":                   "description.UserPrincipalName",
 	"user_type":                             "description.UserType",
