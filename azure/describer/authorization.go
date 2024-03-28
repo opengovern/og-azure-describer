@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	msgraphsdk "github.com/microsoftgraph/msgraph-sdk-go"
 	"github.com/microsoftgraph/msgraph-sdk-go/groups"
+	"regexp"
 	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
@@ -179,6 +180,8 @@ func UserEffectiveAccess(ctx context.Context, cred *azidentity.ClientSecretCrede
 								PrincipalName:     *m.GetDisplayName(),
 								PrincipalId:       *m.GetId(),
 								PrincipalType:     armauthorization.PrincipalTypeUser,
+								Scope:             *roleAssignment.Properties.Scope,
+								ScopeType:         getScopeType(*roleAssignment.Properties.Scope),
 								AssignmentType:    "GroupAssignment",
 								ParentPrincipalId: roleAssignment.Properties.PrincipalID,
 							},
@@ -196,6 +199,9 @@ func UserEffectiveAccess(ctx context.Context, cred *azidentity.ClientSecretCrede
 				id := fmt.Sprintf("%s|%s", *roleAssignment.Properties.PrincipalID, *roleAssignment.ID)
 				user, err := graphClient.Users().ByUserId(*roleAssignment.Properties.PrincipalID).Get(ctx, nil)
 				if err != nil {
+					if strings.Contains(err.Error(), "does not exist") {
+						continue
+					}
 					return nil, err
 				}
 				resource := Resource{
@@ -208,6 +214,8 @@ func UserEffectiveAccess(ctx context.Context, cred *azidentity.ClientSecretCrede
 							PrincipalId:       *roleAssignment.Properties.PrincipalID,
 							PrincipalName:     *user.GetDisplayName(),
 							PrincipalType:     armauthorization.PrincipalTypeUser,
+							Scope:             *roleAssignment.Properties.Scope,
+							ScopeType:         getScopeType(*roleAssignment.Properties.Scope),
 							AssignmentType:    "Explicit",
 							ParentPrincipalId: nil,
 						},
@@ -224,6 +232,9 @@ func UserEffectiveAccess(ctx context.Context, cred *azidentity.ClientSecretCrede
 				id := fmt.Sprintf("%s|%s", *roleAssignment.Properties.PrincipalID, *roleAssignment.ID)
 				spn, err := graphClient.ServicePrincipals().ByServicePrincipalId(*roleAssignment.Properties.PrincipalID).Get(ctx, nil)
 				if err != nil {
+					if strings.Contains(err.Error(), "does not exist") {
+						continue
+					}
 					return nil, err
 				}
 				resource := Resource{
@@ -236,6 +247,8 @@ func UserEffectiveAccess(ctx context.Context, cred *azidentity.ClientSecretCrede
 							PrincipalId:       *roleAssignment.Properties.PrincipalID,
 							PrincipalName:     *spn.GetDisplayName(),
 							PrincipalType:     armauthorization.PrincipalTypeServicePrincipal,
+							Scope:             *roleAssignment.Properties.Scope,
+							ScopeType:         getScopeType(*roleAssignment.Properties.Scope),
 							AssignmentType:    "Explicit",
 							ParentPrincipalId: nil,
 						},
@@ -252,4 +265,25 @@ func UserEffectiveAccess(ctx context.Context, cred *azidentity.ClientSecretCrede
 		}
 	}
 	return values, nil
+}
+
+func getScopeType(scope string) string {
+	subscriptionRegex := regexp.MustCompile(`^/subscriptions/[a-fA-F0-9\-]+$`)
+	managementGroupRegex := regexp.MustCompile(`^/providers/Microsoft\.Management/managementGroups/.*$`)
+	rootTenantRegex := regexp.MustCompile(`^/$`)
+	otherRegex := regexp.MustCompile(`^/subscriptions/[a-fA-F0-9\-]+/.*$`)
+
+	// Determine the scope type
+	switch {
+	case subscriptionRegex.MatchString(scope):
+		return "Subscription"
+	case managementGroupRegex.MatchString(scope):
+		return "Management Group"
+	case rootTenantRegex.MatchString(scope):
+		return "Root Tenant Management Group"
+	case otherRegex.MatchString(scope):
+		return "Other"
+	default:
+		return "Other"
+	}
 }

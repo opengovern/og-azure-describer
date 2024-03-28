@@ -34,7 +34,8 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 
 	result, err := client.Users().Get(ctx, &users2.UsersRequestBuilderGetRequestConfiguration{
 		QueryParameters: &users2.UsersRequestBuilderGetQueryParameters{
-			Top: aws.Int32(999),
+			Top:    aws.Int32(999),
+			Select: []string{"memberOf", "accountEnabled", "transitiveMemberOf", "createdDateTime", "signInActivity"},
 		},
 	})
 	if err != nil {
@@ -77,6 +78,20 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 			}
 		}
 
+		var memberOf []string
+		for _, m := range user.GetMemberOf() {
+			memberOf = append(memberOf, *m.GetId())
+		}
+		var transitiveMemberOf []string
+		for _, m := range user.GetTransitiveMemberOf() {
+			memberOf = append(memberOf, *m.GetId())
+		}
+
+		var lastSignInDateTime *time.Time
+		if user.GetSignInActivity() != nil {
+			lastSignInDateTime = user.GetSignInActivity().GetLastSignInDateTime()
+		}
+
 		resource := Resource{
 			ID:       id,
 			Name:     name,
@@ -100,7 +115,9 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 					//RefreshTokensValidFromDateTime:  user.GetRefreshTokensValidFromDateTime(),
 					SignInSessionsValidFromDateTime: user.GetSignInSessionsValidFromDateTime(),
 					UsageLocation:                   user.GetUsageLocation(),
-					MemberOf:                        user.GetMemberOf(),
+					MemberOf:                        memberOf,
+					TransitiveMemberOf:              transitiveMemberOf,
+					LastSignInDateTime:              lastSignInDateTime,
 					//AdditionalProperties:            user.GetAdditionalProperties(),
 					ImAddresses:     user.GetImAddresses(),
 					OtherMails:      user.GetOtherMails(),

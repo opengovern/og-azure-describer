@@ -64,6 +64,30 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 
 				Transform: transform.FromField("Description.AccountEnabled")},
 			{
+				Name:        "created_date_time",
+				Type:        proto.ColumnType_TIMESTAMP,
+				Description: "The time at which the user was created.",
+
+				Transform: transform.FromField("Description.CreatedDateTime")},
+			{
+				Name:        "last_sign_in_date_time",
+				Type:        proto.ColumnType_TIMESTAMP,
+				Description: "The time at which the user was last signed in.",
+
+				Transform: transform.FromField("Description.LastSignInDateTime")},
+			{
+				Name:        "member_of",
+				Type:        proto.ColumnType_JSON,
+				Description: "A list the groups and directory roles that the user is a direct member of.",
+
+				Transform: transform.FromField("Description.MemberOf")},
+			{
+				Name:        "transitive_member_of",
+				Type:        proto.ColumnType_JSON,
+				Description: "A list the groups and directory roles that the user is a transitive member of.",
+
+				Transform: transform.FromField("Description.TransitiveMemberOf")},
+			{
 				Name:        "user_type",
 				Type:        proto.ColumnType_STRING,
 				Description: "A string value that can be used to classify user types in your directory.",
@@ -95,12 +119,6 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 				Description: "Used to associate an on-premises Active Directory user account with their Azure AD user object.",
 
 				Transform: transform.FromField("Description.OnPremisesImmutableId")},
-			{
-				Name:        "created_date_time",
-				Type:        proto.ColumnType_TIMESTAMP,
-				Description: "The time at which the user was created.",
-
-				Transform: transform.FromField("Description.CreatedDateTime")},
 			{
 				Name:        "mail",
 				Type:        proto.ColumnType_STRING,
@@ -136,13 +154,6 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Description: "A two letter country code (ISO standard 3166), required for users that will be assigned licenses due to legal requirement to check for availability of services in countries.",
 				Transform:   transform.FromField("Description.UsageLocation")},
-
-			{
-				Name:        "member_of",
-				Type:        proto.ColumnType_JSON,
-				Description: "A list the groups and directory roles that the user is a direct member of.",
-
-				Transform: transform.FromField("Description.MemberOf")},
 			{
 				Name:        "additional_properties",
 				Type:        proto.ColumnType_JSON,

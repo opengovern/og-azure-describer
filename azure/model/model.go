@@ -712,6 +712,8 @@ type UserEffectiveAccessDescription struct {
 	PrincipalName     string
 	PrincipalId       string
 	PrincipalType     armauthorization.PrincipalType
+	Scope             string
+	ScopeType         string
 	AssignmentType    string
 	ParentPrincipalId *string
 }
@@ -1548,7 +1550,9 @@ type AdUsersDescription struct {
 	RefreshTokensValidFromDateTime  *time.Time
 	SignInSessionsValidFromDateTime *time.Time
 	UsageLocation                   *string
-	MemberOf                        []models.DirectoryObjectable
+	MemberOf                        []string
+	TransitiveMemberOf              []string
+	LastSignInDateTime              *time.Time
 	ImAddresses                     []string
 	OtherMails                      []string
 	PasswordProfile                 struct {
