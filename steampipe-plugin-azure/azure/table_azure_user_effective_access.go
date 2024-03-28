@@ -24,35 +24,40 @@ func tableAzureUserEffectiveAccess(_ context.Context) *plugin.Table {
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
-				Name:        "name",
-				Type:        proto.ColumnType_STRING,
-				Description: "The friendly name that identifies the role assignment.",
-				Transform:   transform.FromField("Description.RoleAssignment.Name")},
-			{
 				Name:        "id",
 				Description: "Contains ID to identify a role assignment uniquely.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("ID")},
 			{
-				Name:        "user_id",
+				Name:        "principal_id",
 				Description: "User ID",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.UserId")},
+				Transform:   transform.FromField("Description.PrincipalId")},
 			{
-				Name:        "type",
+				Name:        "principal_name",
+				Type:        proto.ColumnType_STRING,
+				Description: "The friendly name that identifies the role assignment.",
+				Transform:   transform.FromField("Description.PrincipalName")},
+			{
+				Name:        "principal_type",
 				Description: "Contains the resource type.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.RoleAssignment.Type")},
+				Transform:   transform.FromField("Description.PrincipalType")},
+			{
+				Name:        "assignment_type",
+				Description: "Assignment type (Explicit, GroupAssignment)",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.AssignmentType")},
 			{
 				Name:        "role_definition_id",
 				Description: "Name of the assigned role definition.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.RoleAssignment.Properties.RoleDefinitionID")},
 			{
-				Name:        "title",
+				Name:        "parent_principal_id",
 				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.RoleAssignment.Name")},
+				Transform:   transform.FromField("Description.ParentPrincipalId")},
 			{
 				Name:        "akas",
 				Description: ColumnDescriptionAkas,

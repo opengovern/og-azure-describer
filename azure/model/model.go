@@ -708,8 +708,12 @@ type PolicyDefinitionDescription struct {
 
 //index:microsoft_authorization_usereffectiveaccess
 type UserEffectiveAccessDescription struct {
-	RoleAssignment armauthorization.RoleAssignment
-	UserId         string
+	RoleAssignment    armauthorization.RoleAssignment
+	PrincipalName     string
+	PrincipalId       string
+	PrincipalType     armauthorization.PrincipalType
+	AssignmentType    string
+	ParentPrincipalId *string
 }
 
 //  =================== security ==================
