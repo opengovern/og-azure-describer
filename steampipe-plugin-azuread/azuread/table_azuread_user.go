@@ -76,49 +76,11 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 
 				Transform: transform.FromField("Description.LastSignInDateTime")},
 			{
-				Name:        "member_of",
-				Type:        proto.ColumnType_JSON,
-				Description: "A list the groups and directory roles that the user is a direct member of.",
-
-				Transform: transform.FromField("Description.MemberOf")},
-			{
-				Name:        "transitive_member_of",
-				Type:        proto.ColumnType_JSON,
-				Description: "A list the groups and directory roles that the user is a transitive member of.",
-
-				Transform: transform.FromField("Description.TransitiveMemberOf")},
-			{
 				Name:        "user_type",
 				Type:        proto.ColumnType_STRING,
 				Description: "A string value that can be used to classify user types in your directory.",
 
 				Transform: transform.FromField("Description.UserType")},
-			{
-				Name:        "given_name",
-				Type:        proto.ColumnType_STRING,
-				Description: "The given name (first name) of the user.",
-
-				Transform: transform.FromField("Description.GivenName")},
-			{
-				Name:        "surname",
-				Type:        proto.ColumnType_STRING,
-				Description: "Family name or last name of the active directory user.",
-
-				Transform: transform.FromField("Description.Surname")},
-			{
-				Name:        "filter",
-				Type:        proto.ColumnType_STRING,
-				Description: "Odata query to search for resources.",
-				Transform:   transform.FromQual("filter"),
-			},
-
-			// Other fields
-			{
-				Name:        "on_premises_immutable_id",
-				Type:        proto.ColumnType_STRING,
-				Description: "Used to associate an on-premises Active Directory user account with their Azure AD user object.",
-
-				Transform: transform.FromField("Description.OnPremisesImmutableId")},
 			{
 				Name:        "mail",
 				Type:        proto.ColumnType_STRING,
@@ -126,23 +88,23 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 
 				Transform: transform.FromField("Description.Mail")},
 			{
-				Name:        "mail_nickname",
+				Name:        "job_title",
 				Type:        proto.ColumnType_STRING,
-				Description: "The mail alias for the user.",
+				Description: "The user job title.",
 
-				Transform: transform.FromField("Description.MailNickname")},
+				Transform: transform.FromField("Description.JobTitle")},
+			{
+				Name:        "identities",
+				Type:        proto.ColumnType_JSON,
+				Description: "User identities",
+
+				Transform: transform.FromField("Description.Identities")},
 			{
 				Name:        "password_policies",
 				Type:        proto.ColumnType_STRING,
 				Description: "Specifies password policies for the user. This value is an enumeration with one possible value being DisableStrongPassword, which allows weaker passwords than the default policy to be specified. DisablePasswordExpiration can also be specified. The two may be specified together; for example: DisablePasswordExpiration, DisableStrongPassword.",
 
 				Transform: transform.FromField("Description.PasswordPolicies")},
-			{
-				Name:        "refresh_tokens_valid_from_date_time",
-				Type:        proto.ColumnType_TIMESTAMP,
-				Description: "Any refresh tokens or sessions tokens (session cookies) issued before this time are invalid, and applications will get an error when using an invalid refresh or sessions token to acquire a delegated access token (to access APIs such as Microsoft Graph).",
-
-				Transform: transform.FromField("Description.RefreshTokensValidFromDateTime")},
 			{
 				Name:        "sign_in_sessions_valid_from_date_time",
 				Type:        proto.ColumnType_TIMESTAMP,
@@ -155,11 +117,6 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 				Description: "A two letter country code (ISO standard 3166), required for users that will be assigned licenses due to legal requirement to check for availability of services in countries.",
 				Transform:   transform.FromField("Description.UsageLocation")},
 			{
-				Name:        "additional_properties",
-				Type:        proto.ColumnType_JSON,
-				Description: "A list of unmatched properties from the message are deserialized this collection.",
-				Transform:   transform.FromField("Description.AdditionalProperties")},
-			{
 				Name:        "im_addresses",
 				Type:        proto.ColumnType_JSON,
 				Description: "The instant message voice over IP (VOIP) session initiation protocol (SIP) addresses for the user.",
@@ -171,21 +128,6 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 				Description: "A list of additional email addresses for the user.",
 
 				Transform: transform.FromField("Description.OtherMails")},
-			{
-				Name:        "password_profile",
-				Type:        proto.ColumnType_JSON,
-				Description: "Specifies the password profile for the user. The profile contains the user’s password. This property is required when a user is created.",
-
-				Transform:
-				// Standard columns
-				transform.FromField("Description.PasswordProfile")},
-
-			{
-				Name:        "title",
-				Type:        proto.ColumnType_STRING,
-				Description: ColumnDescriptionTitle,
-
-				Transform: transform.FromField("Description.DisplayName")},
 			{
 				Name:        "tenant_id",
 				Type:        proto.ColumnType_STRING,

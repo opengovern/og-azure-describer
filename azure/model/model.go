@@ -1540,14 +1540,9 @@ type AdUsersDescription struct {
 	UserPrincipalName               *string
 	AccountEnabled                  *bool
 	UserType                        *string
-	GivenName                       *string
-	Surname                         *string
-	OnPremisesImmutableId           *string
 	CreatedDateTime                 *time.Time
 	Mail                            *string
-	MailNickname                    *string
 	PasswordPolicies                *string
-	RefreshTokensValidFromDateTime  *time.Time
 	SignInSessionsValidFromDateTime *time.Time
 	UsageLocation                   *string
 	MemberOf                        []string
@@ -1555,10 +1550,11 @@ type AdUsersDescription struct {
 	LastSignInDateTime              *time.Time
 	ImAddresses                     []string
 	OtherMails                      []string
-	PasswordProfile                 struct {
-		ForceChangePasswordNextSignIn        *bool
-		ForceChangePasswordNextSignInWithMfa *bool
-		Password                             *string
+	JobTitle                        *string
+	Identities                      []struct {
+		SignInType       *string
+		Issuer           *string
+		IssuerAssignedId *string
 	}
 }
 
