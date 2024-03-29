@@ -36,7 +36,7 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 			Top: aws.Int32(999),
 			Select: []string{"displayName", "userPrincipalName", "userType", "givenName", "surname",
 				"onPremisesImmutableId", "mail", "mailNickname", "passwordPolicies", "signInSessionsValidFromDateTime",
-				"usageLocation", "imAddresses", "otherMails",
+				"usageLocation", "imAddresses", "otherMails", "jobTitle", "identities",
 				"memberOf", "accountEnabled", "transitiveMemberOf", "createdDateTime", "signInActivity"},
 		},
 	})
@@ -63,23 +63,6 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 			name = *user.GetDisplayName()
 		}
 
-		var passwordProfile struct {
-			ForceChangePasswordNextSignIn        *bool
-			ForceChangePasswordNextSignInWithMfa *bool
-			Password                             *string
-		}
-		if user.GetPasswordProfile() != nil {
-			passwordProfile = struct {
-				ForceChangePasswordNextSignIn        *bool
-				ForceChangePasswordNextSignInWithMfa *bool
-				Password                             *string
-			}{
-				ForceChangePasswordNextSignIn:        user.GetPasswordProfile().GetForceChangePasswordNextSignIn(),
-				ForceChangePasswordNextSignInWithMfa: user.GetPasswordProfile().GetForceChangePasswordNextSignInWithMfa(),
-				Password:                             user.GetPasswordProfile().GetPassword(),
-			}
-		}
-
 		var memberOf []string
 		for _, m := range user.GetMemberOf() {
 			memberOf = append(memberOf, *m.GetId())
@@ -94,6 +77,23 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 			lastSignInDateTime = user.GetSignInActivity().GetLastSignInDateTime()
 		}
 
+		var identities []struct {
+			SignInType       *string
+			Issuer           *string
+			IssuerAssignedId *string
+		}
+		for _, i := range user.GetIdentities() {
+			identities = append(identities, struct {
+				SignInType       *string
+				Issuer           *string
+				IssuerAssignedId *string
+			}{
+				Issuer:           i.GetIssuer(),
+				SignInType:       i.GetSignInType(),
+				IssuerAssignedId: i.GetIssuerAssignedId(),
+			})
+		}
+
 		resource := Resource{
 			ID:       id,
 			Name:     name,
@@ -101,29 +101,24 @@ func AdUsers(ctx context.Context, cred *azidentity.ClientSecretCredential, tenan
 			TenantID: tenantId,
 			Description: JSONAllFieldsMarshaller{
 				Value: model.AdUsersDescription{
-					TenantID:              tenantId,
-					DisplayName:           user.GetDisplayName(),
-					Id:                    user.GetId(),
-					UserPrincipalName:     user.GetUserPrincipalName(),
-					AccountEnabled:        user.GetAccountEnabled(),
-					UserType:              user.GetUserType(),
-					GivenName:             user.GetGivenName(),
-					Surname:               user.GetSurname(),
-					OnPremisesImmutableId: user.GetOnPremisesImmutableId(),
-					CreatedDateTime:       user.GetCreatedDateTime(),
-					Mail:                  user.GetMail(),
-					MailNickname:          user.GetMailNickname(),
-					PasswordPolicies:      user.GetPasswordPolicies(),
-					//RefreshTokensValidFromDateTime:  user.GetRefreshTokensValidFromDateTime(),
+					TenantID:                        tenantId,
+					DisplayName:                     user.GetDisplayName(),
+					Id:                              user.GetId(),
+					UserPrincipalName:               user.GetUserPrincipalName(),
+					AccountEnabled:                  user.GetAccountEnabled(),
+					UserType:                        user.GetUserType(),
+					CreatedDateTime:                 user.GetCreatedDateTime(),
+					Mail:                            user.GetMail(),
+					PasswordPolicies:                user.GetPasswordPolicies(),
 					SignInSessionsValidFromDateTime: user.GetSignInSessionsValidFromDateTime(),
 					UsageLocation:                   user.GetUsageLocation(),
 					MemberOf:                        memberOf,
 					TransitiveMemberOf:              transitiveMemberOf,
 					LastSignInDateTime:              lastSignInDateTime,
-					//AdditionalProperties:            user.GetAdditionalProperties(),
-					ImAddresses:     user.GetImAddresses(),
-					OtherMails:      user.GetOtherMails(),
-					PasswordProfile: passwordProfile,
+					ImAddresses:                     user.GetImAddresses(),
+					OtherMails:                      user.GetOtherMails(),
+					JobTitle:                        user.GetJobTitle(),
+					Identities:                      identities,
 				},
 			},
 		}
