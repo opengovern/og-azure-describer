@@ -24,17 +24,11 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 				{
 					Name: "user_principal_name", Require: plugin.Optional},
 				{
-					Name: "filter", Require: plugin.Optional},
-
-				// Other fields for filtering OData
-				{
 					Name: "user_type", Require: plugin.Optional},
 				{
 					Name: "account_enabled", Require: plugin.Optional, Operators: []string{"<>", "="}},
 				{
 					Name: "display_name", Require: plugin.Optional},
-				{
-					Name: "surname", Require: plugin.Optional},
 			},
 		},
 
