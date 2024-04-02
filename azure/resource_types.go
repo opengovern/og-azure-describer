@@ -864,6 +864,22 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Entra/appRegistrations": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Entra/appRegistrations",
+		ResourceLabel:        "Azure AD App Registration",
+		Tags:                 map[string][]string{
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeADByTenantID(describer.AdAppRegistration),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Entra/domains": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Entra/domains",
