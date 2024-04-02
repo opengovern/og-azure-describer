@@ -2053,6 +2053,88 @@ type AdGroupMembershipDescription struct {
 	Mail               *string
 }
 
+//index:microsoft_resources_appregistration
+type AdAppRegistrationDescription struct {
+	TenantID                      string
+	DisplayName                   *string
+	Id                            *string
+	AppId                         *string
+	CreatedDateTime               *time.Time
+	Description                   *string
+	IsAuthorizationServiceEnabled *bool
+	Oauth2RequirePostResponse     *bool
+	PublisherDomain               *string
+	SignInAudience                *string
+	Api                           struct {
+		AcceptMappedClaims      *bool
+		KnownClientApplications []string
+		Oauth2PermissionScopes  []struct {
+			AdminConsentDescription *string
+			AdminConsentDisplayName *string
+			Id                      string
+			IsEnabled               *bool
+			Origin                  *string
+			TypeEscaped             *string
+			UserConsentDescription  *string
+			UserConsentDisplayName  *string
+		}
+		PreAuthorizedApplications []struct {
+			AppId                  *string
+			DelegatedPermissionIds []string
+		}
+		RequestedAccessTokenVersion *int32
+	}
+	IdentifierUris []string
+	Info           struct {
+		LogoUrl             *string
+		MarketingUrl        *string
+		PrivacyStatementUrl *string
+		SupportUrl          *string
+		TermsOfServiceUrl   *string
+	}
+	KeyCredentials []struct {
+		CustomKeyIdentifier []byte
+		DisplayName         *string
+		EndDateTime         *time.Time
+		Key                 []byte
+		KeyId               string
+		StartDateTime       *time.Time
+		TypeEscaped         *string
+		Usage               *string
+	}
+	OwnerIds                []*string
+	ParentalControlSettings struct {
+		CountriesBlockedForMinors []string
+		LegalAgeGroupRule         *string
+	}
+	PasswordCredentials []struct {
+		CustomKeyIdentifier []byte
+		DisplayName         *string
+		EndDateTime         *time.Time
+		Hint                *string
+		KeyId               string
+		SecretText          *string
+		StartDateTime       *time.Time
+	}
+	Spa struct {
+		RedirectUris []string
+	}
+	TagsSrc []string
+	Web     struct {
+		HomePageUrl           *string
+		ImplicitGrantSettings struct {
+			EnableAccessTokenIssuance *bool
+			EnableIdTokenIssuance     *bool
+		}
+		LogoutUrl           *string
+		RedirectUris        []string
+		RedirectUriSettings []struct {
+			Index *int32
+			Uri   *string
+		}
+	}
+}
+
 //  =================== analysis ==================
 
 //index:microsoft_analysisservice_servers

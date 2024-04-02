@@ -2088,3 +2088,278 @@ func AdGroupMembership(ctx context.Context, cred *azidentity.ClientSecretCredent
 
 	return values, nil
 }
+
+func AdAppRegistration(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+
+	var values []Resource
+	var itemErr error
+	result, err := client.Applications().Get(ctx, &applications.ApplicationsRequestBuilderGetRequestConfiguration{
+		QueryParameters: &applications.ApplicationsRequestBuilderGetQueryParameters{
+			Top: aws.Int32(999),
+		},
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get groups: %v", err)
+	}
+	pageIterator, err := msgraphcore.NewPageIterator[models.Applicationable](result, client.GetAdapter(), models.CreateApplicationCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(app models.Applicationable) bool {
+		if app == nil {
+			return true
+		}
+
+		var oauth2PermissionScopes []struct {
+			AdminConsentDescription *string
+			AdminConsentDisplayName *string
+			Id                      string
+			IsEnabled               *bool
+			Origin                  *string
+			TypeEscaped             *string
+			UserConsentDescription  *string
+			UserConsentDisplayName  *string
+		}
+		for _, ps := range app.GetApi().GetOauth2PermissionScopes() {
+			oauth2PermissionScopes = append(oauth2PermissionScopes, struct {
+				AdminConsentDescription *string
+				AdminConsentDisplayName *string
+				Id                      string
+				IsEnabled               *bool
+				Origin                  *string
+				TypeEscaped             *string
+				UserConsentDescription  *string
+				UserConsentDisplayName  *string
+			}{
+				Id:                      ps.GetId().String(),
+				Origin:                  ps.GetOrigin(),
+				IsEnabled:               ps.GetIsEnabled(),
+				TypeEscaped:             ps.GetTypeEscaped(),
+				AdminConsentDescription: ps.GetAdminConsentDescription(),
+				UserConsentDescription:  ps.GetUserConsentDescription(),
+				UserConsentDisplayName:  ps.GetUserConsentDisplayName(),
+				AdminConsentDisplayName: ps.GetAdminConsentDisplayName(),
+			})
+		}
+
+		var preAuthorizedApplications []struct {
+			AppId                  *string
+			DelegatedPermissionIds []string
+		}
+		for _, paa := range app.GetApi().GetPreAuthorizedApplications() {
+			preAuthorizedApplications = append(preAuthorizedApplications, struct {
+				AppId                  *string
+				DelegatedPermissionIds []string
+			}{
+				AppId:                  paa.GetAppId(),
+				DelegatedPermissionIds: paa.GetDelegatedPermissionIds(),
+			})
+		}
+
+		var knownClientApplications []string
+		for _, a := range app.GetApi().GetKnownClientApplications() {
+			knownClientApplications = append(knownClientApplications, a.String())
+		}
+
+		var keyCredentials []struct {
+			CustomKeyIdentifier []byte
+			DisplayName         *string
+			EndDateTime         *time.Time
+			Key                 []byte
+			KeyId               string
+			StartDateTime       *time.Time
+			TypeEscaped         *string
+			Usage               *string
+		}
+		for _, c := range app.GetKeyCredentials() {
+			keyCredentials = append(keyCredentials, struct {
+				CustomKeyIdentifier []byte
+				DisplayName         *string
+				EndDateTime         *time.Time
+				Key                 []byte
+				KeyId               string
+				StartDateTime       *time.Time
+				TypeEscaped         *string
+				Usage               *string
+			}{
+				TypeEscaped:         c.GetTypeEscaped(),
+				Key:                 c.GetKey(),
+				DisplayName:         c.GetDisplayName(),
+				StartDateTime:       c.GetStartDateTime(),
+				KeyId:               c.GetKeyId().String(),
+				EndDateTime:         c.GetEndDateTime(),
+				Usage:               c.GetUsage(),
+				CustomKeyIdentifier: c.GetCustomKeyIdentifier(),
+			})
+		}
+
+		var ownerIds []*string
+		for _, o := range app.GetOwners() {
+			ownerIds = append(ownerIds, o.GetId())
+		}
+
+		var redirectUriSettings []struct {
+			Index *int32
+			Uri   *string
+		}
+		for _, r := range app.GetWeb().GetRedirectUriSettings() {
+			redirectUriSettings = append(redirectUriSettings, struct {
+				Index *int32
+				Uri   *string
+			}{
+				Uri:   r.GetUri(),
+				Index: r.GetIndex(),
+			})
+		}
+
+		var passwordCredentials []struct {
+			CustomKeyIdentifier []byte
+			DisplayName         *string
+			EndDateTime         *time.Time
+			Hint                *string
+			KeyId               string
+			SecretText          *string
+			StartDateTime       *time.Time
+		}
+		for _, pc := range app.GetPasswordCredentials() {
+			passwordCredentials = append(passwordCredentials, struct {
+				CustomKeyIdentifier []byte
+				DisplayName         *string
+				EndDateTime         *time.Time
+				Hint                *string
+				KeyId               string
+				SecretText          *string
+				StartDateTime       *time.Time
+			}{
+				CustomKeyIdentifier: pc.GetCustomKeyIdentifier(),
+				DisplayName:         pc.GetDisplayName(),
+				EndDateTime:         pc.GetEndDateTime(),
+				Hint:                pc.GetHint(),
+				KeyId:               pc.GetKeyId().String(),
+				SecretText:          pc.GetSecretText(),
+				StartDateTime:       pc.GetStartDateTime(),
+			})
+		}
+
+		resource := Resource{
+			ID:       *app.GetId(),
+			Name:     *app.GetDisplayName(),
+			Location: "global",
+			TenantID: tenantId,
+			Description: JSONAllFieldsMarshaller{
+				Value: model.AdAppRegistrationDescription{
+					TenantID:                  tenantId,
+					DisplayName:               app.GetDisplayName(),
+					Id:                        app.GetId(),
+					AppId:                     app.GetAppId(),
+					CreatedDateTime:           app.GetCreatedDateTime(),
+					Description:               app.GetDescription(),
+					Oauth2RequirePostResponse: app.GetOauth2RequirePostResponse(),
+					PublisherDomain:           app.GetPublisherDomain(),
+					SignInAudience:            app.GetSignInAudience(),
+					Api: struct {
+						AcceptMappedClaims      *bool
+						KnownClientApplications []string
+						Oauth2PermissionScopes  []struct {
+							AdminConsentDescription *string
+							AdminConsentDisplayName *string
+							Id                      string
+							IsEnabled               *bool
+							Origin                  *string
+							TypeEscaped             *string
+							UserConsentDescription  *string
+							UserConsentDisplayName  *string
+						}
+						PreAuthorizedApplications []struct {
+							AppId                  *string
+							DelegatedPermissionIds []string
+						}
+						RequestedAccessTokenVersion *int32
+					}{
+						AcceptMappedClaims:          app.GetApi().GetAcceptMappedClaims(),
+						KnownClientApplications:     knownClientApplications,
+						PreAuthorizedApplications:   preAuthorizedApplications,
+						Oauth2PermissionScopes:      oauth2PermissionScopes,
+						RequestedAccessTokenVersion: app.GetApi().GetRequestedAccessTokenVersion(),
+					},
+					IdentifierUris: app.GetIdentifierUris(),
+					Info: struct {
+						LogoUrl             *string
+						MarketingUrl        *string
+						PrivacyStatementUrl *string
+						SupportUrl          *string
+						TermsOfServiceUrl   *string
+					}{
+						LogoUrl:             app.GetInfo().GetLogoUrl(),
+						MarketingUrl:        app.GetInfo().GetMarketingUrl(),
+						SupportUrl:          app.GetInfo().GetSupportUrl(),
+						PrivacyStatementUrl: app.GetInfo().GetPrivacyStatementUrl(),
+						TermsOfServiceUrl:   app.GetInfo().GetTermsOfServiceUrl(),
+					},
+					KeyCredentials: keyCredentials,
+					OwnerIds:       ownerIds,
+					ParentalControlSettings: struct {
+						CountriesBlockedForMinors []string
+						LegalAgeGroupRule         *string
+					}{
+						CountriesBlockedForMinors: app.GetParentalControlSettings().GetCountriesBlockedForMinors(),
+						LegalAgeGroupRule:         app.GetParentalControlSettings().GetLegalAgeGroupRule(),
+					},
+					PasswordCredentials: passwordCredentials,
+					Spa: struct {
+						RedirectUris []string
+					}{
+						RedirectUris: app.GetSpa().GetRedirectUris(),
+					},
+					TagsSrc: app.GetTags(),
+					Web: struct {
+						HomePageUrl           *string
+						ImplicitGrantSettings struct {
+							EnableAccessTokenIssuance *bool
+							EnableIdTokenIssuance     *bool
+						}
+						LogoutUrl           *string
+						RedirectUris        []string
+						RedirectUriSettings []struct {
+							Index *int32
+							Uri   *string
+						}
+					}{
+						HomePageUrl:  app.GetWeb().GetHomePageUrl(),
+						RedirectUris: app.GetWeb().GetRedirectUris(),
+						LogoutUrl:    app.GetWeb().GetLogoutUrl(),
+						ImplicitGrantSettings: struct {
+							EnableAccessTokenIssuance *bool
+							EnableIdTokenIssuance     *bool
+						}{
+							EnableAccessTokenIssuance: app.GetWeb().GetImplicitGrantSettings().GetEnableAccessTokenIssuance(),
+							EnableIdTokenIssuance:     app.GetWeb().GetImplicitGrantSettings().GetEnableIdTokenIssuance(),
+						},
+						RedirectUriSettings: redirectUriSettings,
+					},
+				},
+			},
+		}
+		if stream != nil {
+			if itemErr = (*stream)(resource); itemErr != nil {
+				return false
+			}
+		} else {
+			values = append(values, resource)
+		}
+		return true
+	})
+	if itemErr != nil {
+		return nil, itemErr
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	return values, nil
+}
