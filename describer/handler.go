@@ -53,7 +53,7 @@ func getJWTAuthToken(workspaceId string) (string, error) {
 	return token, nil
 }
 
-func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInput) error {
+func DescribeHandler(ctx context.Context, input describe.DescribeWorkerInput) error {
 	fmt.Printf("Input: %v", input)
 
 	var err error
