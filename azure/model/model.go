@@ -872,6 +872,7 @@ type TenantDescription struct {
 //index:microsoft_resources_subscriptions
 type SubscriptionDescription struct {
 	Subscription armsubscription.Subscription
+	Tags         map[string][]string
 }
 
 //  =================== network ==================

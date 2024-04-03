@@ -69,7 +69,7 @@ jobs:
           retention-days: 1
       - name: Build lambda describer app
         working-directory: .
-        run: make build
+        run: make lambda-build
       - name: Pack lambda describer build
         working-directory: .
         run: |
@@ -79,6 +79,19 @@ jobs:
         with:
           name: kaytu-azure-describer
           path: ./build.tar
+          retention-days: 1
+      - name: Build az functions describer app
+        working-directory: .
+        run: make functions-build
+      - name: Pack az functions describer build
+        working-directory: .
+        run: |
+          tar -cvf azfunction.tar azfunction
+      - name: Upload az functions artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: azfunction-kaytu-azure-describer
+          path: ./azfunction.tar
           retention-days: 1
       - name: Set latest tag output
         id: set_latest_tag
@@ -207,4 +220,47 @@ jobs:
       - name: AWS Lambda Deploy
         run: |
           aws lambda update-function-code --function-name kaytu-azure-describer --image-uri ${{ vars.DOCKER_REGISTRY }}/kaytu-azure-describer:${{ needs.build.outputs.latest_tag }}
-
+  deploy-azfunction-describer:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment:
+      name: ${{ github.ref_name }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Download az functions describer artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: azfunction-kaytu-azure-describer
+          path: .
+      - name: Unpack az functions describer artifact
+        run: |
+          tar -xvf azfunction.tar
+      - name: Install zip
+        uses: montudor/action-zip@v1
+      - name: Zip az functions folder
+        working-directory: ./azfunction
+        run: |
+          zip -qq -r azfunction.zip .
+      - name: Configure Azure credentials
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Deploy to function app
+        uses: azure/cli@v2
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az functionapp deployment source config-zip -g kaytu-development -n kaytu-azure-describer --src azfunction/azfunction.zip
+      - name: Restart function app
+        uses: azure/cli@v2
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az functionapp restart -g kaytu-development -n kaytu-azure-describer

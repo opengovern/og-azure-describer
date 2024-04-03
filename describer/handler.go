@@ -53,18 +53,17 @@ func getJWTAuthToken(workspaceId string) (string, error) {
 	return token, nil
 }
 
-func DescribeHandler(ctx context.Context, input describe.DescribeWorkerInput) error {
-	fmt.Printf("Input: %v", input)
+type TriggeredBy string
 
+const (
+	TriggeredByAWSLambda     TriggeredBy = "aws-lambda"
+	TriggeredByAzureFunction TriggeredBy = "azure-function"
+)
+
+// DescribeHandler
+// TriggeredBy is not used for now but might be relevant in the future
+func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, input describe.DescribeWorkerInput) error {
 	var err error
-	logger := zap.NewNop()
-
-	if debug := os.Getenv("DEBUG"); debug == "true" {
-		logger, err = zap.NewProduction()
-		if err != nil {
-			return err
-		}
-	}
 
 	if input.WorkspaceName == "" {
 		return fmt.Errorf("workspace name is required")
