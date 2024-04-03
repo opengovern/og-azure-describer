@@ -2135,6 +2135,219 @@ type AdAppRegistrationDescription struct {
 	}
 }
 
+//index:microsoft_resources_enterpriseapplications
+type AdEnterpriseApplicationDescription struct {
+	TenantID                  string
+	Id                        *string
+	DisplayName               *string
+	AppId                     *string
+	AccountEnabled            *bool
+	AppDisplayName            *string
+	AppRoleAssignmentRequired *bool
+	AppOwnerOrganizationId    *string
+	ServicePrincipalType      *string
+	SignInAudience            *string
+	AppDescription            *string
+	Description               *string
+	LoginUrl                  *string
+	LogoutUrl                 *string
+	AddIns                    []struct {
+		Id          string
+		TypeEscaped *string
+		Properties  []struct {
+			Key   *string
+			Value *string
+		}
+	}
+	AlternativeNames []string
+	AppRoles         []struct {
+		AllowedMemberTypes []string
+		Description        *string
+		DisplayName        *string
+		Id                 string
+		IsEnabled          *bool
+		Origin             *string
+		Value              *string
+	}
+	//Info models.InformationalUrlable
+	KeyCredentials []struct {
+		CustomKeyIdentifier []byte
+		DisplayName         *string
+		EndDateTime         *time.Time
+		Key                 []byte
+		KeyId               string
+		StartDateTime       *time.Time
+		TypeEscaped         *string
+		Usage               *string
+	}
+	NotificationEmailAddresses []string
+	OwnerIds                   []*string
+	PasswordCredentials        []struct {
+		CustomKeyIdentifier []byte
+		DisplayName         *string
+		EndDateTime         *time.Time
+		Hint                *string
+		KeyId               string
+		SecretText          *string
+		StartDateTime       *time.Time
+	}
+	Oauth2PermissionScopes []struct {
+		AdminConsentDescription *string
+		AdminConsentDisplayName *string
+		Id                      string
+		IsEnabled               *bool
+		Origin                  *string
+		TypeEscaped             *string
+		UserConsentDescription  *string
+		UserConsentDisplayName  *string
+	}
+	ReplyUrls             []string
+	ServicePrincipalNames []string
+	TagsSrc               []string
+}
+
+//index:microsoft_resources_managedidentity
+type AdManagedIdentityDescription struct {
+	TenantID                  string
+	Id                        *string
+	DisplayName               *string
+	AppId                     *string
+	AccountEnabled            *bool
+	AppDisplayName            *string
+	AppRoleAssignmentRequired *bool
+	AppOwnerOrganizationId    *string
+	ServicePrincipalType      *string
+	SignInAudience            *string
+	AppDescription            *string
+	Description               *string
+	LoginUrl                  *string
+	LogoutUrl                 *string
+	AddIns                    []struct {
+		Id          string
+		TypeEscaped *string
+		Properties  []struct {
+			Key   *string
+			Value *string
+		}
+	}
+	AlternativeNames []string
+	AppRoles         []struct {
+		AllowedMemberTypes []string
+		Description        *string
+		DisplayName        *string
+		Id                 string
+		IsEnabled          *bool
+		Origin             *string
+		Value              *string
+	}
+	//Info models.InformationalUrlable
+	KeyCredentials []struct {
+		CustomKeyIdentifier []byte
+		DisplayName         *string
+		EndDateTime         *time.Time
+		Key                 []byte
+		KeyId               string
+		StartDateTime       *time.Time
+		TypeEscaped         *string
+		Usage               *string
+	}
+	NotificationEmailAddresses []string
+	OwnerIds                   []*string
+	PasswordCredentials        []struct {
+		CustomKeyIdentifier []byte
+		DisplayName         *string
+		EndDateTime         *time.Time
+		Hint                *string
+		KeyId               string
+		SecretText          *string
+		StartDateTime       *time.Time
+	}
+	Oauth2PermissionScopes []struct {
+		AdminConsentDescription *string
+		AdminConsentDisplayName *string
+		Id                      string
+		IsEnabled               *bool
+		Origin                  *string
+		TypeEscaped             *string
+		UserConsentDescription  *string
+		UserConsentDisplayName  *string
+	}
+	ReplyUrls             []string
+	ServicePrincipalNames []string
+	TagsSrc               []string
+}
+
+//index:microsoft_resources_microsoftapplication
+type AdMicrosoftApplicationDescription struct {
+	TenantID                  string
+	Id                        *string
+	DisplayName               *string
+	AppId                     *string
+	AccountEnabled            *bool
+	AppDisplayName            *string
+	AppRoleAssignmentRequired *bool
+	AppOwnerOrganizationId    *string
+	ServicePrincipalType      *string
+	SignInAudience            *string
+	AppDescription            *string
+	Description               *string
+	LoginUrl                  *string
+	LogoutUrl                 *string
+	AddIns                    []struct {
+		Id          string
+		TypeEscaped *string
+		Properties  []struct {
+			Key   *string
+			Value *string
+		}
+	}
+	AlternativeNames []string
+	AppRoles         []struct {
+		AllowedMemberTypes []string
+		Description        *string
+		DisplayName        *string
+		Id                 string
+		IsEnabled          *bool
+		Origin             *string
+		Value              *string
+	}
+	//Info models.InformationalUrlable
+	KeyCredentials []struct {
+		CustomKeyIdentifier []byte
+		DisplayName         *string
+		EndDateTime         *time.Time
+		Key                 []byte
+		KeyId               string
+		StartDateTime       *time.Time
+		TypeEscaped         *string
+		Usage               *string
+	}
+	NotificationEmailAddresses []string
+	OwnerIds                   []*string
+	PasswordCredentials        []struct {
+		CustomKeyIdentifier []byte
+		DisplayName         *string
+		EndDateTime         *time.Time
+		Hint                *string
+		KeyId               string
+		SecretText          *string
+		StartDateTime       *time.Time
+	}
+	Oauth2PermissionScopes []struct {
+		AdminConsentDescription *string
+		AdminConsentDisplayName *string
+		Id                      string
+		IsEnabled               *bool
+		Origin                  *string
+		TypeEscaped             *string
+		UserConsentDescription  *string
+		UserConsentDisplayName  *string
+	}
+	ReplyUrls             []string
+	ServicePrincipalNames []string
+	TagsSrc               []string
+}
+
 //  =================== analysis ==================
 
 //index:microsoft_analysisservice_servers
