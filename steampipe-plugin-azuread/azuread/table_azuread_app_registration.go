@@ -48,8 +48,8 @@ func tableAzureAdAppRegistration(_ context.Context) *plugin.Table {
 }
 
 func adAppRegistrationTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	servicePrincipal := d.HydrateItem.(kaytu.AdServicePrincipal).Description
-	tags := servicePrincipal.TagsSrc
+	appRegistration := d.HydrateItem.(kaytu.AdAppRegistration).Description
+	tags := appRegistration.TagsSrc
 	if tags == nil {
 		return nil, nil
 	}
@@ -57,11 +57,11 @@ func adAppRegistrationTags(ctx context.Context, d *transform.TransformData) (int
 }
 
 func adAppRegistrationTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.AdServicePrincipal).Description
+	appRegistration := d.HydrateItem.(kaytu.AdAppRegistration).Description
 
-	title := data.DisplayName
+	title := appRegistration.DisplayName
 	if title == nil {
-		title = data.Id
+		title = appRegistration.Id
 	}
 
 	return title, nil
