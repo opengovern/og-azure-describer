@@ -22,6 +22,7 @@ import (
 	"github.com/microsoftgraph/msgraph-sdk-go/reports"
 	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipals"
 	users2 "github.com/microsoftgraph/msgraph-sdk-go/users"
+	"strings"
 	"time"
 )
 
@@ -2817,6 +2818,14 @@ func AdManagedIdentity(ctx context.Context, cred *azidentity.ClientSecretCredent
 				AdminConsentDisplayName: ps.GetAdminConsentDisplayName(),
 			})
 		}
+		identityType := "SystemAssigned"
+		for _, an := range servicePrincipal.GetAlternativeNames() {
+			if an == "isExplicit=True" {
+				identityType = "UserAssigned"
+			} else if strings.Contains(an, "Microsoft.ManagedIdentity/userAssignedIdentities") {
+				identityType = "UserAssigned"
+			}
+		}
 
 		resource := Resource{
 			ID:       *servicePrincipal.GetId(),
@@ -2851,6 +2860,7 @@ func AdManagedIdentity(ctx context.Context, cred *azidentity.ClientSecretCredent
 					ReplyUrls:                  servicePrincipal.GetReplyUrls(),
 					ServicePrincipalNames:      servicePrincipal.GetServicePrincipalNames(),
 					TagsSrc:                    servicePrincipal.GetTags(),
+					IdentityType:               identityType,
 				},
 			},
 		}

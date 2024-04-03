@@ -2222,6 +2222,7 @@ type AdManagedIdentityDescription struct {
 	Description               *string
 	LoginUrl                  *string
 	LogoutUrl                 *string
+	IdentityType              string
 	AddIns                    []struct {
 		Id          string
 		TypeEscaped *string
