@@ -2223,6 +2223,7 @@ type AdManagedIdentityDescription struct {
 	Description               *string
 	LoginUrl                  *string
 	LogoutUrl                 *string
+	IdentityType              string
 	AddIns                    []struct {
 		Id          string
 		TypeEscaped *string
@@ -2671,8 +2672,7 @@ type LoadBalancerRuleDescription struct {
 //index:microsoft_management_groups
 //getfilter:name=description.Group.Name
 type ManagementGroupDescription struct {
-	Group         armmanagementgroups.ManagementGroup
-	Subscriptions []*armmanagementgroups.SubscriptionUnderManagementGroup
+	Group armmanagementgroups.ManagementGroup
 }
 
 //index:microsoft_management_locks
