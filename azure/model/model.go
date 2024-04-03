@@ -872,6 +872,7 @@ type TenantDescription struct {
 //index:microsoft_resources_subscriptions
 type SubscriptionDescription struct {
 	Subscription armsubscription.Subscription
+	Tags         map[string][]string
 }
 
 //  =================== network ==================
@@ -2670,7 +2671,8 @@ type LoadBalancerRuleDescription struct {
 //index:microsoft_management_groups
 //getfilter:name=description.Group.Name
 type ManagementGroupDescription struct {
-	Group armmanagementgroups.ManagementGroup
+	Group         armmanagementgroups.ManagementGroup
+	Subscriptions []*armmanagementgroups.SubscriptionUnderManagementGroup
 }
 
 //index:microsoft_management_locks
