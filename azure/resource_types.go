@@ -880,6 +880,54 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Entra/enterpriseApplication": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Entra/enterpriseApplication",
+		ResourceLabel:        "Azure AD Enterprise Application",
+		Tags:                 map[string][]string{
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeADByTenantID(describer.AdEnterpriseApplication),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Entra/managedIdentity": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Entra/managedIdentity",
+		ResourceLabel:        "Azure AD Managed Identity",
+		Tags:                 map[string][]string{
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeADByTenantID(describer.AdManagedIdentity),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Entra/microsoftApplication": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Entra/microsoftApplication",
+		ResourceLabel:        "Azure AD Microsoft Application",
+		Tags:                 map[string][]string{
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeADByTenantID(describer.AdMicrosoftApplication),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Entra/domains": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Entra/domains",
