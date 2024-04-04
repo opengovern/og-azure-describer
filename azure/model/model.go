@@ -1825,6 +1825,22 @@ type AdDomainDescription struct {
 	SupportedServices  []string
 }
 
+//index:microsoft_resources_tenant
+type AdTenantDescription struct {
+	TenantID        *string
+	DisplayName     *string
+	TenantType      *string
+	CreatedDateTime *time.Time
+	VerifiedDomains []struct {
+		Name         *string
+		Type         *string
+		Capabilities *string
+		IsDefault    *bool
+		IsInitial    *bool
+	}
+	OnPremisesSyncEnabled *bool
+}
+
 //index:microsoft_resources_directorysettings
 type AdIdentityProviderDescription struct {
 	TenantID     string

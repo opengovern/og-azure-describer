@@ -35,6 +35,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"azuread_directory_setting":            tableAzureAdDirectorySetting(ctx),
 			"azuread_domain":                       tableAzureAdDomain(ctx),
 			"azuread_group":                        tableAzureAdGroup(ctx),
+			"azuread_tenant":                       tableAzureAdTenant(ctx),
 			"azuread_group_membership":             tableAzureAdGroupMembership(ctx),
 			"azuread_identity_provider":            tableAzureAdIdentityProvider(ctx),
 			"azuread_security_defaults_policy":     tableAzureAdSecurityDefaultsPolicy(ctx),
