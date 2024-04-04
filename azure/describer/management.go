@@ -16,7 +16,6 @@ func ManagementGroup(ctx context.Context, cred *azidentity.ClientSecretCredentia
 		return nil, err
 	}
 	client := clientFactory.NewClient()
-	mgClient := clientFactory.NewManagementGroupSubscriptionsClient()
 
 	pager := client.NewListPager(nil)
 	var values []Resource
@@ -26,7 +25,7 @@ func ManagementGroup(ctx context.Context, cred *azidentity.ClientSecretCredentia
 			return nil, err
 		}
 		for _, group := range page.Value {
-			resource, err := getManagementGroup(ctx, client, mgClient, group)
+			resource, err := getManagementGroup(ctx, client, group)
 			if err != nil {
 				return nil, err
 			}
@@ -42,22 +41,10 @@ func ManagementGroup(ctx context.Context, cred *azidentity.ClientSecretCredentia
 	return values, nil
 }
 
-func getManagementGroup(ctx context.Context, client *armmanagementgroups.Client, mgClient *armmanagementgroups.ManagementGroupSubscriptionsClient, group *armmanagementgroups.ManagementGroupInfo) (*Resource, error) {
+func getManagementGroup(ctx context.Context, client *armmanagementgroups.Client, group *armmanagementgroups.ManagementGroupInfo) (*Resource, error) {
 	info, err := client.Get(ctx, *group.Name, nil)
 	if err != nil {
 		return nil, err
-	}
-
-	var subscriptions []*armmanagementgroups.SubscriptionUnderManagementGroup
-
-	pager := mgClient.NewGetSubscriptionsUnderManagementGroupPager(*info.ID, &armmanagementgroups.ManagementGroupSubscriptionsClientGetSubscriptionsUnderManagementGroupOptions{})
-	for pager.More() {
-		page, err := pager.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		subscriptions = append(subscriptions, page.Value...)
 	}
 
 	resource := &Resource{
@@ -65,8 +52,7 @@ func getManagementGroup(ctx context.Context, client *armmanagementgroups.Client,
 		Name: *info.Name,
 		Description: JSONAllFieldsMarshaller{
 			Value: model.ManagementGroupDescription{
-				Group:         info.ManagementGroup,
-				Subscriptions: subscriptions,
+				Group: info.ManagementGroup,
 			},
 		},
 	}
