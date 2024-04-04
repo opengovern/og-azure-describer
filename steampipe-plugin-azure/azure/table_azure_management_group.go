@@ -21,7 +21,7 @@ func tableAzureManagementGroup(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListManagementGroup,
 		},
-		Columns: []*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "id",
 				Type:        proto.ColumnType_STRING,
@@ -68,6 +68,6 @@ func tableAzureManagementGroup(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.Group.ID").Transform(idToAkas),
 			},
-		},
+		}),
 	}
 }
