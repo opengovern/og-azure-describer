@@ -18,6 +18,7 @@ import (
 	"github.com/microsoftgraph/msgraph-sdk-go/groupsettings"
 	"github.com/microsoftgraph/msgraph-sdk-go/identity"
 	"github.com/microsoftgraph/msgraph-sdk-go/models"
+	"github.com/microsoftgraph/msgraph-sdk-go/organization"
 	"github.com/microsoftgraph/msgraph-sdk-go/policies"
 	"github.com/microsoftgraph/msgraph-sdk-go/reports"
 	"github.com/microsoftgraph/msgraph-sdk-go/serviceprincipals"
@@ -3136,6 +3137,91 @@ func AdMicrosoftApplication(ctx context.Context, cred *azidentity.ClientSecretCr
 	if itemErr != nil {
 		return nil, itemErr
 	}
+	if err != nil {
+		return nil, err
+	}
+
+	return values, nil
+}
+
+func AdTenant(ctx context.Context, cred *azidentity.ClientSecretCredential, tenantId string, stream *StreamSender) ([]Resource, error) {
+	scopes := []string{"https://graph.microsoft.com/.default"}
+	client, err := msgraphsdk.NewGraphServiceClientWithCredentials(cred, scopes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create client: %v", err)
+	}
+	var itemErr error
+
+	result, err := client.Organization().Get(ctx, &organization.OrganizationRequestBuilderGetRequestConfiguration{
+		QueryParameters: &organization.OrganizationRequestBuilderGetQueryParameters{
+			Top: aws.Int32(999),
+		},
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to get groups: %v", err)
+	}
+	var values []Resource
+	pageIterator, err := msgraphcore.NewPageIterator[*models.Organization](result, client.GetAdapter(), models.CreateDomainCollectionResponseFromDiscriminatorValue)
+	if err != nil {
+		return nil, err
+	}
+	err = pageIterator.Iterate(context.Background(), func(org *models.Organization) bool {
+		if org == nil {
+			return true
+		}
+
+		var verifiedDomains []struct {
+			Name         *string
+			Type         *string
+			Capabilities *string
+			IsDefault    *bool
+			IsInitial    *bool
+		}
+		for _, vd := range org.GetVerifiedDomains() {
+			verifiedDomains = append(verifiedDomains, struct {
+				Name         *string
+				Type         *string
+				Capabilities *string
+				IsDefault    *bool
+				IsInitial    *bool
+			}{
+				Name:         vd.GetName(),
+				Type:         vd.GetTypeEscaped(),
+				Capabilities: vd.GetCapabilities(),
+				IsDefault:    vd.GetIsDefault(),
+				IsInitial:    vd.GetIsInitial(),
+			})
+		}
+
+		resource := Resource{
+			ID:       *org.GetId(),
+			Location: "global",
+			TenantID: tenantId,
+			Description: JSONAllFieldsMarshaller{
+				Value: model.AdTenantDescription{
+					TenantID:              org.GetId(),
+					DisplayName:           org.GetDisplayName(),
+					CreatedDateTime:       org.GetCreatedDateTime(),
+					OnPremisesSyncEnabled: org.GetOnPremisesSyncEnabled(),
+					TenantType:            org.GetTenantType(),
+					VerifiedDomains:       verifiedDomains,
+				},
+			},
+		}
+		if stream != nil {
+			if itemErr = (*stream)(resource); itemErr != nil {
+				return false
+			}
+		} else {
+			values = append(values, resource)
+		}
+		return true
+	})
+
+	if itemErr != nil {
+		return nil, err
+	}
+
 	if err != nil {
 		return nil, err
 	}

@@ -944,6 +944,22 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.Entra/tenant": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Entra/tenant",
+		ResourceLabel:        "Azure AD Tenant",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeADByTenantID(describer.AdTenant),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.Entra/identityproviders": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Entra/identityproviders",
