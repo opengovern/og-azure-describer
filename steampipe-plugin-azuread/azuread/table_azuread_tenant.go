@@ -19,7 +19,7 @@ func tableAzureAdTenant(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isIgnorableErrorPredicate([]string{"Request_ResourceNotFound", "Invalid object identifier"}),
 			},
-			KeyColumns: plugin.SingleColumn("id"),
+			KeyColumns: plugin.SingleColumn("tenant_id"),
 		},
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListAdTenant,
