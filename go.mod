@@ -107,7 +107,7 @@ require (
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.6.2
-	github.com/kaytu-io/kaytu-util v0.0.0-20240404161318-7a0248784331
+	github.com/kaytu-io/kaytu-util v0.0.0-20240408150102-eb4ac66d21f3
 	github.com/labstack/echo/v4 v4.11.4
 	github.com/manicminer/hamilton v0.44.0
 	github.com/manicminer/hamilton-autorest v0.3.0
