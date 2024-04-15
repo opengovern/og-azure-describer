@@ -107,7 +107,7 @@ require (
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/golang-jwt/jwt/v5 v5.2.0
 	github.com/hashicorp/go-hclog v1.6.2
-	github.com/kaytu-io/kaytu-util v0.0.0-20240411110141-6f2f000cd6dd
+	github.com/kaytu-io/kaytu-util v0.0.0-20240415102306-fdc35c00b134
 	github.com/labstack/echo/v4 v4.11.4
 	github.com/manicminer/hamilton v0.44.0
 	github.com/manicminer/hamilton-autorest v0.3.0
@@ -123,6 +123,7 @@ require (
 	golang.org/x/net v0.21.0
 	golang.org/x/oauth2 v0.15.0
 	google.golang.org/grpc v1.61.0
+	google.golang.org/protobuf v1.33.0
 )
 
 require (
@@ -301,7 +302,6 @@ require (
 	google.golang.org/genproto v0.0.0-20231212172506-995d672761c0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20231212172506-995d672761c0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20231212172506-995d672761c0 // indirect
-	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
