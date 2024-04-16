@@ -4,7 +4,7 @@
       "name": "mySbMsg",
       "type": "serviceBusTrigger",
       "direction": "in",
-      "queueName": "describe-service-bus-queue",
+      "queueName": "kaytu-azure-describer",
       "connection": "SERVICE_BUS_CONNECTION"
     }
   ]
