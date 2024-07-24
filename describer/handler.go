@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
+	"google.golang.org/grpc/credentials/insecure"
 	"os"
 	"time"
 
@@ -83,10 +84,14 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 	grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
 		"workspace-name": input.WorkspaceName,
 	}))
+	creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
+	if !input.EndpointAuth {
+		creds = insecure.NewCredentials()
+	}
 	for retry := 0; retry < 5; retry++ {
 		conn, err := grpc.NewClient(
 			input.JobEndpoint,
-			grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})),
+			grpc.WithTransportCredentials(creds),
 			grpc.WithPerRPCCredentials(oauth.TokenSource{
 				TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
 					AccessToken: token,
