@@ -19,7 +19,7 @@ import (
 
 const (
 	StreamName    = "kaytu_azure_describer"
-	JobQueueTopic = "job_queue"
+	JobQueueTopic = "kaytu_azure_describer_job_queue"
 	ConsumerGroup = "azure-describer"
 )
 
