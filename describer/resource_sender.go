@@ -81,18 +81,21 @@ func NewResourceSender(workspaceId string, workspaceName string, grpcEndpoint, i
 }
 
 func (s *ResourceSender) Connect() error {
-	creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
-	if s.authToken == "" {
-		creds = insecure.NewCredentials()
-	}
-	conn, err := grpc.NewClient(
-		s.grpcEndpoint,
-		grpc.WithTransportCredentials(creds),
-		grpc.WithPerRPCCredentials(oauth.TokenSource{
+	var opts []grpc.DialOption
+	if s.authToken != "" {
+		opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})))
+		opts = append(opts, grpc.WithPerRPCCredentials(oauth.TokenSource{
 			TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
 				AccessToken: s.authToken,
 			}),
-		}),
+		}))
+	} else {
+		opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	}
+
+	conn, err := grpc.NewClient(
+		s.grpcEndpoint,
+		opts...,
 	)
 	if err != nil {
 		return err
