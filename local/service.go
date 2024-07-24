@@ -19,7 +19,7 @@ import (
 
 const (
 	StreamName    = "kaytu_azure_describer"
-	JobQueueTopic = "job_queue"
+	JobQueueTopic = "kaytu_azure_describer_job_queue"
 	ConsumerGroup = "azure-describer"
 )
 
@@ -77,7 +77,7 @@ func NewWorker(
 		return nil, err
 	}
 
-	if err := jq.Stream(ctx, StreamName, "azure describe job runner queue", []string{JobQueueTopic}, 1000000); err != nil {
+	if err := jq.Stream(ctx, StreamName, "azure describe job runner queue", []string{JobQueueTopic}, 200000); err != nil {
 		return nil, err
 	}
 
