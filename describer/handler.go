@@ -58,6 +58,7 @@ type TriggeredBy string
 const (
 	TriggeredByAWSLambda     TriggeredBy = "aws-lambda"
 	TriggeredByAzureFunction TriggeredBy = "azure-function"
+	TriggeredByLocal         TriggeredBy = "local"
 )
 
 // DescribeHandler
@@ -79,7 +80,7 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		"workspace-name": input.WorkspaceName,
 	}))
 	for retry := 0; retry < 5; retry++ {
-		conn, err := grpc.Dial(
+		conn, err := grpc.NewClient(
 			input.DescribeEndpoint,
 			grpc.WithTransportCredentials(credentials.NewTLS(nil)),
 			grpc.WithPerRPCCredentials(oauth.TokenSource{
@@ -126,6 +127,11 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		vaultSc, err = vault.NewAzureVaultClient(ctx, logger, input.VaultConfig.Azure, input.VaultConfig.KeyId)
 		if err != nil {
 			return fmt.Errorf("failed to initialize Azure vault: %w", err)
+		}
+	case vault.HashiCorpVault:
+		vaultSc, err = vault.NewHashiCorpVaultClient(ctx, logger, input.VaultConfig.HashiCorp, input.VaultConfig.KeyId)
+		if err != nil {
+			return fmt.Errorf("failed to initialize HashiCorp vault: %w", err)
 		}
 	}
 
