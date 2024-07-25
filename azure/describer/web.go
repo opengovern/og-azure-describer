@@ -271,6 +271,7 @@ func GetAppServiceWebAppSlot(ctx context.Context, app *appservice.Site, v *appse
 		Description: JSONAllFieldsMarshaller{
 			Value: model.AppServiceWebAppSlotDescription{
 				Site:          *v,
+				SiteConfig:    *v.Properties.SiteConfig,
 				AppName:       *app.Name,
 				ResourceGroup: resourceGroup,
 			},

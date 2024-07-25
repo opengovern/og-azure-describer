@@ -175,6 +175,7 @@ type AppServiceWebAppDescription struct {
 
 type AppServiceWebAppSlotDescription struct {
 	Site          appservice.Site
+	SiteConfig    appservice.SiteConfig
 	AppName       string
 	ResourceGroup string
 }
