@@ -3,6 +3,8 @@
 package model
 
 import (
+	"time"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/keyvault/azcertificates"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/analysisservices/armanalysisservices"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
@@ -91,7 +93,6 @@ import (
 	"github.com/microsoftgraph/msgraph-sdk-go/models"
 	"github.com/tombuildsstuff/giovanni/storage/2018-11-09/queue/queues"
 	"github.com/tombuildsstuff/giovanni/storage/2019-12-12/blob/accounts"
-	"time"
 )
 
 type Metadata struct {
@@ -1430,6 +1431,7 @@ type ServicebusNamespaceDescription struct {
 	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	NetworkRuleSet              []*armservicebus.NetworkRuleSet
 	PrivateEndpointConnections  []*armservicebus.PrivateEndpointConnection
+	AuthorizationRules          []*armservicebus.SBAuthorizationRule
 	ResourceGroup               string
 }
 
