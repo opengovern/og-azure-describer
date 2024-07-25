@@ -226,7 +226,7 @@ func tableAzureAppServiceWebAppSlot(_ context.Context) *plugin.Table {
 				Name:        "site_config_resource",
 				Description: "Configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.SiteConfig"),
+				Transform:   transform.FromField("Description.Site.Properties.SiteConfig"),
 			},
 			// Steampipe standard columns
 			{
