@@ -26,7 +26,7 @@ func AlertManagement(ctx context.Context, cred *azidentity.ClientSecretCredentia
 			return nil, err
 		}
 		for _, v := range page.Value {
-			resource := getAlertManagement(ctx, client, v)
+			resource := getAlertManagement(ctx, v)
 			if stream != nil {
 				if err := (*stream)(*resource); err != nil {
 					return nil, err
@@ -37,10 +37,9 @@ func AlertManagement(ctx context.Context, cred *azidentity.ClientSecretCredentia
 		}
 	}
 	return resources, nil
-
 }
 
-func getAlertManagement(_ context.Context, client *armalertsmanagement.AlertsClient, alert *armalertsmanagement.Alert) *Resource {
+func getAlertManagement(_ context.Context, alert *armalertsmanagement.Alert) *Resource {
 
 	resourceGroup := strings.Split(*alert.ID, "/")[4]
 	return &Resource{
