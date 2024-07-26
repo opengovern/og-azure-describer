@@ -130,6 +130,12 @@ func tableAzureAppServiceWebApp(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.Site.Properties.SiteConfig")},
 			{
+				Name:        "storage_info_value",
+				Description: "AzureStorageInfoValue azure Files or Blob Storage access information value for dictionary storage.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromValue(),
+			},
+			{
 				Name:        "vnet_connection",
 				Description: "Describes the virtual network connection for the app.",
 				Type:        proto.ColumnType_JSON,
