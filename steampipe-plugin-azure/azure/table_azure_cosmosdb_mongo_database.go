@@ -2,6 +2,7 @@ package azure
 
 import (
 	"context"
+
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 
@@ -79,6 +80,12 @@ func tableAzureCosmosDBMongoDatabase(_ context.Context) *plugin.Table {
 				Description: "Contains the value of the Cosmos DB resource throughput or autoscaleSettings.",
 				Type:        proto.ColumnType_INT,
 				Transform:   transform.FromField("Description.MongoDatabase.Properties.Options.Throughput")},
+			{
+				Name:        "throughput_settings",
+				Description: "Contains the value of the Cosmos DB resource throughput or autoscaleSettings.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.MongoDatabase.Properties.Options.Throughput.ThroughputSettingsGetResults.Properties.Resource"),
+			},
 			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
