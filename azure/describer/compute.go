@@ -3,14 +3,16 @@ package describer
 import (
 	"context"
 	"fmt"
+	"path/filepath"
+	"strings"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/guestconfiguration/armguestconfiguration"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-	"path/filepath"
-	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
+	"github.com/turbot/go-kit/types"
 )
 
 func ComputeDisk(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
@@ -269,6 +271,9 @@ func ComputeVirtualMachineScaleSetVm(ctx context.Context, cred *azidentity.Clien
 
 func getComputeVirtualMachineScaleSetVm(ctx context.Context, vm *armcompute.VirtualMachineScaleSet, v *armcompute.VirtualMachineScaleSetVM) *Resource {
 	resourceGroupName := strings.Split(*v.ID, "/")[4]
+
+	powerState := getStatusFromCode(v.Properties.InstanceView.Statuses, "PowerState")
+
 	resource := Resource{
 		ID:       *v.ID,
 		Name:     *v.Name,
@@ -277,11 +282,23 @@ func getComputeVirtualMachineScaleSetVm(ctx context.Context, vm *armcompute.Virt
 			Value: model.ComputeVirtualMachineScaleSetVmDescription{
 				VirtualMachineScaleSet: *vm,
 				ScaleSetVM:             *v,
+				PowerState:             powerState,
 				ResourceGroup:          resourceGroupName,
 			},
 		},
 	}
 	return &resource
+}
+
+func getStatusFromCode(statuses []*armcompute.InstanceViewStatus, codeType string) string {
+	for _, status := range statuses {
+		statusCode := types.SafeString(status.Code)
+
+		if strings.HasPrefix(statusCode, codeType+"/") {
+			return strings.SplitN(statusCode, "/", 2)[1]
+		}
+	}
+	return ""
 }
 
 func ComputeVirtualMachine(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {

@@ -286,6 +286,7 @@ type ComputeVirtualMachineScaleSetNetworkInterfaceDescription struct {
 type ComputeVirtualMachineScaleSetVmDescription struct {
 	VirtualMachineScaleSet armcompute.VirtualMachineScaleSet
 	ScaleSetVM             armcompute.VirtualMachineScaleSetVM
+	PowerState             string
 	ResourceGroup          string
 }
 
