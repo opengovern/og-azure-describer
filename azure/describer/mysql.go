@@ -2,10 +2,11 @@ package describer
 
 import (
 	"context"
+	"strings"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysql"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysqlflexibleservers"
-	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
@@ -18,6 +19,8 @@ func MysqlServer(ctx context.Context, cred *azidentity.ClientSecretCredential, s
 	serversClient := clientFactory.NewServersClient()
 	keysClient := clientFactory.NewServerKeysClient()
 	configClient := clientFactory.NewConfigurationsClient()
+	securityAlertPolicyClient := clientFactory.NewServerSecurityAlertPoliciesClient()
+	vnetRulesClient := clientFactory.NewVirtualNetworkRulesClient()
 
 	pager := serversClient.NewListPager(nil)
 	var values []Resource
@@ -27,7 +30,7 @@ func MysqlServer(ctx context.Context, cred *azidentity.ClientSecretCredential, s
 			return nil, err
 		}
 		for _, r := range page.Value {
-			resource, err := getMysqlServer(ctx, keysClient, configClient, r)
+			resource, err := getMysqlServer(ctx, keysClient, configClient, securityAlertPolicyClient, vnetRulesClient, r)
 			if err != nil {
 				return nil, err
 			}
@@ -43,7 +46,7 @@ func MysqlServer(ctx context.Context, cred *azidentity.ClientSecretCredential, s
 	return values, nil
 }
 
-func getMysqlServer(ctx context.Context, keysClient *armmysql.ServerKeysClient, configClient *armmysql.ConfigurationsClient, server *armmysql.Server) (*Resource, error) {
+func getMysqlServer(ctx context.Context, keysClient *armmysql.ServerKeysClient, configClient *armmysql.ConfigurationsClient, securityAlertPolicyClient *armmysql.ServerSecurityAlertPoliciesClient, vnetRulesClient *armmysql.VirtualNetworkRulesClient, server *armmysql.Server) (*Resource, error) {
 	resourceGroup := strings.Split(string(*server.ID), "/")[4]
 	serverName := *server.Name
 
@@ -67,16 +70,38 @@ func getMysqlServer(ctx context.Context, keysClient *armmysql.ServerKeysClient, 
 		keys = append(keys, page.Value...)
 	}
 
+	pager3 := securityAlertPolicyClient.NewListByServerPager(resourceGroup, serverName, nil)
+	var alertPolicies []*armmysql.ServerSecurityAlertPolicy
+	for pager3.More() {
+		page, err := pager3.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		alertPolicies = append(alertPolicies, page.Value...)
+	}
+
+	pager4 := vnetRulesClient.NewListByServerPager(resourceGroup, serverName, nil)
+	var vnetRules []*armmysql.VirtualNetworkRule
+	for pager4.More() {
+		page, err := pager4.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		vnetRules = append(vnetRules, page.Value...)
+	}
+
 	resource := Resource{
 		ID:       *server.ID,
 		Name:     *server.Name,
 		Location: *server.Location,
 		Description: JSONAllFieldsMarshaller{
 			Value: model.MysqlServerDescription{
-				Server:         *server,
-				Configurations: configurations,
-				ServerKeys:     keys,
-				ResourceGroup:  resourceGroup,
+				Server:                *server,
+				Configurations:        configurations,
+				ServerKeys:            keys,
+				SecurityAlertPolicies: alertPolicies,
+				VnetRules:             vnetRules,
+				ResourceGroup:         resourceGroup,
 			},
 		},
 	}

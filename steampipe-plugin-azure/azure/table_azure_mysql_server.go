@@ -199,6 +199,18 @@ func tableAzureMySQLServer(_ context.Context) *plugin.Table {
 
 				// Steampipe standard columns
 				Transform: transform.FromField("Description.ServerKeys")},
+			{
+				Name:        "server_security_alert_policy",
+				Description: "Security alert policy associated with the MySQL Server.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.SecurityAlertPolicies"),
+			},
+			{
+				Name:        "vnet_rules",
+				Description: "Rules represented by VNET.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.VnetRules"),
+			},
 
 			{
 				Name:        "title",
