@@ -177,6 +177,11 @@ func tableAzureContainerRegistry(_ context.Context) *plugin.Table {
 				Transform: transform.FromField("Description.RegistryUsages")},
 
 			{
+				Name:        "webhooks",
+				Description: "Webhooks in Azure Container Registry provide a way to trigger custom actions in response to events happening within the registry.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Webhooks")},
+			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,

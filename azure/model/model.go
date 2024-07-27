@@ -960,6 +960,7 @@ type ContainerRegistryDescription struct {
 	Registry                      armcontainerregistry.Registry
 	RegistryListCredentialsResult *armcontainerregistry.RegistryListCredentialsResult
 	RegistryUsages                []*armcontainerregistry.RegistryUsage
+	Webhooks                      []*armcontainerregistry.Webhook
 	ResourceGroup                 string
 }
 
