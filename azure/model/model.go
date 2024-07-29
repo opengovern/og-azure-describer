@@ -2392,6 +2392,7 @@ type PostgresqlServerDescription struct {
 	Configurations               []*armpostgresql.Configuration
 	ServerKeys                   []*armpostgresql.ServerKey
 	FirewallRules                []*armpostgresql.FirewallRule
+	ServerSecurityAlertPolicies  []*armpostgresql.ServerSecurityAlertPolicy
 	ResourceGroup                string
 }
 
