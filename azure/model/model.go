@@ -2442,6 +2442,7 @@ type SqlDatabaseDescription struct {
 	DatabaseVulnerabilityAssessments   []*armsql.DatabaseVulnerabilityAssessment
 	VulnerabilityAssessmentScanRecords []*armsql.VulnerabilityAssessmentScanRecord
 	Advisors                           []*armsql.Advisor
+	AuditPolicies                      []*armsql.DatabaseBlobAuditingPolicy
 	ResourceGroup                      string
 }
 

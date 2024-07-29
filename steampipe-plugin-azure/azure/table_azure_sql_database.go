@@ -231,6 +231,12 @@ func tableAzureSqlDatabase(_ context.Context) *plugin.Table {
 				Transform: transform.FromField("Description.VulnerabilityAssessmentScanRecords")}, // is it ok to be an array?
 
 			{
+				Name:        "audit_policy",
+				Description: "The database blob auditing policy.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.AuditPolicies"),
+			},
+			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,

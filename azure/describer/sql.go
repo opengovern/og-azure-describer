@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
 
@@ -180,6 +181,7 @@ func SqlDatabase(ctx context.Context, cred *azidentity.ClientSecretCredential, s
 	client := clientFactory.NewDatabasesClient()
 	advisorsClient := clientFactory.NewDatabaseAdvisorsClient()
 	recoverableClient := clientFactory.NewRecoverableDatabasesClient()
+	auditingPolicyClient := clientFactory.NewDatabaseBlobAuditingPoliciesClient()
 
 	pager := parentClient.NewListPager(nil)
 	var values []Resource
@@ -189,7 +191,7 @@ func SqlDatabase(ctx context.Context, cred *azidentity.ClientSecretCredential, s
 			return nil, err
 		}
 		for _, server := range page.Value {
-			resources, err := ListServerSqlDatabases(ctx, recoverableClient, advisorsClient, databaseVulnerabilityScanClient, databaseVulnerabilityClient, transparentDataClient, longTermClient, databasesClientClient, client, server)
+			resources, err := ListServerSqlDatabases(ctx, recoverableClient, advisorsClient, databaseVulnerabilityScanClient, databaseVulnerabilityClient, transparentDataClient, longTermClient, databasesClientClient, auditingPolicyClient, client, server)
 			if err != nil {
 				return nil, err
 			}
@@ -207,7 +209,7 @@ func SqlDatabase(ctx context.Context, cred *azidentity.ClientSecretCredential, s
 	return values, nil
 }
 
-func ListServerSqlDatabases(ctx context.Context, recoverableClient *armsql.RecoverableDatabasesClient, advisorsClient *armsql.DatabaseAdvisorsClient, databaseVulnerabilityScanClient *armsql.DatabaseVulnerabilityAssessmentScansClient, databaseVulnerabilityClient *armsql.DatabaseVulnerabilityAssessmentsClient, transparentDataClient *armsql.TransparentDataEncryptionsClient, longTermClient *armsql.LongTermRetentionPoliciesClient, databasesClientClient *armsql.DatabasesClient, client *armsql.DatabasesClient, server *armsql.Server) ([]Resource, error) {
+func ListServerSqlDatabases(ctx context.Context, recoverableClient *armsql.RecoverableDatabasesClient, advisorsClient *armsql.DatabaseAdvisorsClient, databaseVulnerabilityScanClient *armsql.DatabaseVulnerabilityAssessmentScansClient, databaseVulnerabilityClient *armsql.DatabaseVulnerabilityAssessmentsClient, transparentDataClient *armsql.TransparentDataEncryptionsClient, longTermClient *armsql.LongTermRetentionPoliciesClient, databasesClientClient *armsql.DatabasesClient, auditingPoliciesClient *armsql.DatabaseBlobAuditingPoliciesClient, client *armsql.DatabasesClient, server *armsql.Server) ([]Resource, error) {
 	resourceGroupName := strings.Split(string(*server.ID), "/")[4]
 	pager := client.NewListByServerPager(resourceGroupName, *server.Name, nil)
 	var values []Resource
@@ -217,7 +219,7 @@ func ListServerSqlDatabases(ctx context.Context, recoverableClient *armsql.Recov
 			return nil, err
 		}
 		for _, database := range page.Value {
-			resource, err := GetSqlDatabase(ctx, recoverableClient, advisorsClient, databaseVulnerabilityScanClient, databaseVulnerabilityClient, transparentDataClient, longTermClient, databasesClientClient, server, database)
+			resource, err := GetSqlDatabase(ctx, recoverableClient, advisorsClient, databaseVulnerabilityScanClient, databaseVulnerabilityClient, transparentDataClient, longTermClient, databasesClientClient, auditingPoliciesClient, server, database)
 			if err != nil {
 				return nil, err
 			}
@@ -227,7 +229,7 @@ func ListServerSqlDatabases(ctx context.Context, recoverableClient *armsql.Recov
 	return values, nil
 }
 
-func GetSqlDatabase(ctx context.Context, recoverableClient *armsql.RecoverableDatabasesClient, advisorsClient *armsql.DatabaseAdvisorsClient, databaseVulnerabilityScanClient *armsql.DatabaseVulnerabilityAssessmentScansClient, databaseVulnerabilityClient *armsql.DatabaseVulnerabilityAssessmentsClient, transparentDataClient *armsql.TransparentDataEncryptionsClient, longTermClient *armsql.LongTermRetentionPoliciesClient, databasesClientClient *armsql.DatabasesClient, server *armsql.Server, database *armsql.Database) (*Resource, error) {
+func GetSqlDatabase(ctx context.Context, recoverableClient *armsql.RecoverableDatabasesClient, advisorsClient *armsql.DatabaseAdvisorsClient, databaseVulnerabilityScanClient *armsql.DatabaseVulnerabilityAssessmentScansClient, databaseVulnerabilityClient *armsql.DatabaseVulnerabilityAssessmentsClient, transparentDataClient *armsql.TransparentDataEncryptionsClient, longTermClient *armsql.LongTermRetentionPoliciesClient, databasesClientClient *armsql.DatabasesClient, auditingPoliciesClient *armsql.DatabaseBlobAuditingPoliciesClient, server *armsql.Server, database *armsql.Database) (*Resource, error) {
 	serverName := strings.Split(*database.ID, "/")[8]
 	databaseName := *database.Name
 	resourceGroupName := strings.Split(string(*database.ID), "/")[4]
@@ -280,6 +282,16 @@ func GetSqlDatabase(ctx context.Context, recoverableClient *armsql.RecoverableDa
 		c = append(c, page3.Value...)
 	}
 
+	var auditPolicies []*armsql.DatabaseBlobAuditingPolicy
+	pager4 := auditingPoliciesClient.NewListByDatabasePager(resourceGroupName, serverName, databaseName, nil)
+	for pager4.More() {
+		page4, err := pager4.NextPage(ctx)
+		if err != nil {
+			break
+		}
+		auditPolicies = append(auditPolicies, page4.Value...)
+	}
+
 	advisors, err := advisorsClient.ListByDatabase(ctx, resourceGroupName, serverName, databaseName, nil)
 	if err != nil {
 		//IGNORE ERROR
@@ -302,6 +314,7 @@ func GetSqlDatabase(ctx context.Context, recoverableClient *armsql.RecoverableDa
 				DatabaseVulnerabilityAssessments:   c,
 				VulnerabilityAssessmentScanRecords: v,
 				Advisors:                           advisors.AdvisorArray,
+				AuditPolicies:                      auditPolicies,
 				ResourceGroup:                      resourceGroupName,
 			},
 		},
