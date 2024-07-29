@@ -2,6 +2,7 @@ package azure
 
 import (
 	"context"
+
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -135,6 +136,13 @@ func tableAzureCosmosDBAccount(_ context.Context) *plugin.Table {
 				Transform: transform.FromField("Description.DatabaseAccountGetResults.Properties.IsVirtualNetworkFilterEnabled"), Default: false,
 			},
 			{
+				Name:        "disable_local_auth",
+				Description: "Disable local authentication and ensure only MSI and AAD can be used exclusively for authentication. Defaults to false.",
+				Type:        proto.ColumnType_BOOL,
+				Transform:   transform.FromField("Description.DatabaseAccountGetResults.Properties.DisableLocalAuth"),
+				Default:     false,
+			},
+			{
 				Name:        "key_vault_key_uri",
 				Description: "The URI of the key vault, used to encrypt the Cosmos DB database account.",
 				Type:        proto.ColumnType_STRING,
@@ -157,6 +165,12 @@ func tableAzureCosmosDBAccount(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 
 				Transform: transform.FromField("Description.DatabaseAccountGetResults.Properties.APIProperties.ServerVersion"),
+			},
+			{
+				Name:        "backup_policy",
+				Description: "The object representing the policy for taking backups on an account.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.DatabaseAccountGetResults.Properties.BackupPolicy"),
 			},
 			{
 				Name:        "capabilities",
@@ -193,6 +207,12 @@ func tableAzureCosmosDBAccount(_ context.Context) *plugin.Table {
 				Description: "A list of read locations enabled for the Cosmos DB account.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.DatabaseAccountGetResults.Properties.ReadLocations")},
+			{
+				Name:        "restore_parameters",
+				Description: "Parameters to indicate the information about the restore.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.DatabaseAccountGetResults.Properties.RestoreParameters"),
+			},
 			{
 				Name:        "virtual_network_rules",
 				Description: "A list of Virtual Network ACL rules configured for the Cosmos DB account.",
