@@ -105,6 +105,42 @@ func tableAzureNetworkInterface(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Interface.Properties.VirtualMachine.ID")},
 			{
+				Name:        "vnet_encryption_supported",
+				Description: "Whether the virtual machine this NIC is attached to supports encryption.",
+				Type:        proto.ColumnType_BOOL,
+				Transform:   transform.FromField("Description.Interface.Properties.VnetEncryptionSupported"),
+			},
+			// {
+			// 	Name:        "disable_tcp_state_tracking",
+			// 	Description: "Indicates whether to disable TCP state tracking.",
+			// 	Type:        proto.ColumnType_BOOL,
+			// 	Transform:   transform.FromField("InterfacePropertiesFormat.DisableTCPStateTracking"),
+			// },
+			{
+				Name:        "workload_type",
+				Description: "Workload type of the network interface for BareMetal resources.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Interface.Properties.WorkloadType"),
+			},
+			{
+				Name:        "nic_type",
+				Description: "Type of network interface resource (e.g., Standard, Elastic).",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Interface.Properties.NicType"),
+			},
+			{
+				Name:        "migration_phase",
+				Description: "Migration phase of network interface resource.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Interface.Properties.MigrationPhase"),
+			},
+			{
+				Name:        "auxiliary_mode",
+				Description: "Auxiliary mode of network interface resource.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Interface.Properties.AuxiliaryMode"),
+			},
+			{
 				Name:        "applied_dns_servers",
 				Description: "A list of applied dns servers",
 				Type:        proto.ColumnType_JSON,
@@ -132,6 +168,24 @@ func tableAzureNetworkInterface(_ context.Context) *plugin.Table {
 				// Steampipe standard columns
 				Transform: transform.FromField("Description.Interface.Properties.TapConfigurations")},
 
+			{
+				Name:        "dscp_configuration",
+				Description: "A reference to the DSCP configuration to which the network interface is linked.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Interface.Properties.DscpConfiguration"),
+			},
+			{
+				Name:        "private_link_service",
+				Description: "Private link service of the network interface resource.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Interface.Properties.PrivateLinkService"),
+			},
+			{
+				Name:        "private_endpoint",
+				Description: "A reference to the private endpoint to which the network interface is linked.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Interface.Properties.PrivateEndpoint"),
+			},
 			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
