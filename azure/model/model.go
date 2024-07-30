@@ -1436,6 +1436,7 @@ type ServicebusNamespaceDescription struct {
 	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	NetworkRuleSet              []*armservicebus.NetworkRuleSet
 	PrivateEndpointConnections  []*armservicebus.PrivateEndpointConnection
+	AuthorizationRules          []*armservicebus.SBAuthorizationRule
 	ResourceGroup               string
 }
 

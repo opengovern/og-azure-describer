@@ -2,11 +2,12 @@ package describer
 
 import (
 	"context"
+	"strings"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus"
-	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
@@ -250,6 +251,16 @@ func GetServicebusNamespace(ctx context.Context, namespaceClient *armservicebus.
 		servicebusListOp = append(servicebusListOp, page.Value...)
 	}
 
+	var servicebusAuthorizationRules []*armservicebus.SBAuthorizationRule
+	pager4 := namespaceClient.NewListAuthorizationRulesPager(resourceGroup, *namespace.Name, nil)
+	for pager4.More() {
+		page, err := pager4.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		servicebusAuthorizationRules = append(servicebusAuthorizationRules, page.Value...)
+	}
+
 	resource := Resource{
 		ID:       *namespace.ID,
 		Name:     *namespace.Name,
@@ -260,6 +271,7 @@ func GetServicebusNamespace(ctx context.Context, namespaceClient *armservicebus.
 				DiagnosticSettingsResources: insightsListOp,
 				NetworkRuleSet:              servicebusGetNetworkRuleSetOp,
 				PrivateEndpointConnections:  servicebusListOp,
+				AuthorizationRules:          servicebusAuthorizationRules,
 				ResourceGroup:               resourceGroup,
 			},
 		},
