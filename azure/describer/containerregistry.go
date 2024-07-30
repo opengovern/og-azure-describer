@@ -2,9 +2,10 @@ package describer
 
 import (
 	"context"
+	"strings"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerregistry/armcontainerregistry"
-	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
@@ -15,6 +16,8 @@ func ContainerRegistry(ctx context.Context, cred *azidentity.ClientSecretCredent
 		return nil, err
 	}
 	client := clientFactory.NewRegistriesClient()
+	webhookClient := clientFactory.NewWebhooksClient()
+
 	pager := client.NewListPager(nil)
 	var values []Resource
 	for pager.More() {
@@ -23,7 +26,7 @@ func ContainerRegistry(ctx context.Context, cred *azidentity.ClientSecretCredent
 			return nil, err
 		}
 		for _, v := range page.Value {
-			resource, err := getContainerRegistry(ctx, client, v)
+			resource, err := getContainerRegistry(ctx, client, webhookClient, v)
 			if err != nil {
 				return nil, err
 			}
@@ -39,7 +42,7 @@ func ContainerRegistry(ctx context.Context, cred *azidentity.ClientSecretCredent
 	return values, nil
 }
 
-func getContainerRegistry(ctx context.Context, client *armcontainerregistry.RegistriesClient, registry *armcontainerregistry.Registry) (*Resource, error) {
+func getContainerRegistry(ctx context.Context, client *armcontainerregistry.RegistriesClient, webhookClient *armcontainerregistry.WebhooksClient, registry *armcontainerregistry.Registry) (*Resource, error) {
 	resourceGroup := strings.Split(*registry.ID, "/")[4]
 	var containerRegistryListCredentialsOp *armcontainerregistry.RegistryListCredentialsResult
 	containerRegistryListCredentialsOpTemp, err := client.ListCredentials(ctx, resourceGroup, *registry.Name, nil)
@@ -52,6 +55,18 @@ func getContainerRegistry(ctx context.Context, client *armcontainerregistry.Regi
 	if err != nil {
 		return nil, err
 	}
+
+	webhooksPager := webhookClient.NewListPager(resourceGroup, *registry.Name, nil)
+
+	var webhooks []*armcontainerregistry.Webhook
+	for webhooksPager.More() {
+		page, err := webhooksPager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		webhooks = append(webhooks, page.Value...)
+	}
+
 	resource := Resource{
 		ID:       *registry.ID,
 		Name:     *registry.Name,
@@ -61,6 +76,7 @@ func getContainerRegistry(ctx context.Context, client *armcontainerregistry.Regi
 				Registry:                      *registry,
 				RegistryListCredentialsResult: containerRegistryListCredentialsOp,
 				RegistryUsages:                containerRegistryListUsagesOp.Value,
+				Webhooks:                      webhooks,
 				ResourceGroup:                 resourceGroup,
 			},
 		},

@@ -194,6 +194,15 @@ func GetAppServiceWebApp(ctx context.Context, webClient *appservice.WebAppsClien
 			return nil, err
 		}
 	}
+
+	storageAccounts := appservice.WebAppsClientListAzureStorageAccountsResponse{}
+	if v.Properties != nil && v.Properties.ResourceGroup != nil && v.Name != nil {
+		storageAccounts, err = webClient.ListAzureStorageAccounts(ctx, *v.Properties.ResourceGroup, *v.Name, nil)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	resource := Resource{
 		ID:       *v.ID,
 		Name:     *v.Name,
@@ -205,6 +214,7 @@ func GetAppServiceWebApp(ctx context.Context, webClient *appservice.WebAppsClien
 				SiteAuthSettings:   authSettings.SiteAuthSettings,
 				SiteLogConfig:      diagnosticLogConfiguration.SiteLogsConfig,
 				VnetInfo:           vnet.VnetInfoResource,
+				StorageAccounts:    storageAccounts.Properties,
 				ResourceGroup:      resourceGroup,
 			},
 		},

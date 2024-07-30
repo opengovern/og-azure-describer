@@ -2,6 +2,7 @@ package azure
 
 import (
 	"context"
+
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -54,6 +55,30 @@ func tableAzureManagementGroup(_ context.Context) *plugin.Table {
 				Description: "The associated parent management group.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.Group.Properties.Details.Parent"),
+			},
+			{
+				Name:        "children",
+				Description: "The list of children of the management group.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Group.Properties.Children"),
+			},
+			{
+				Name:        "updated_by",
+				Description: "The identity of the principal or process that updated the management group.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Group.Properties.Details.UpdatedBy"),
+			},
+			{
+				Name:        "updated_time",
+				Description: "The date and time when this management group was last updated.",
+				Type:        proto.ColumnType_TIMESTAMP,
+				Transform:   transform.FromField("Description.Group.Properties.Details.UpdatedTime.Time"),
+			},
+			{
+				Name:        "version",
+				Description: "The version number of the management group.",
+				Type:        proto.ColumnType_DOUBLE,
+				Transform:   transform.FromField("Description.Group.Properties.Details.Version"),
 			},
 
 			// Steampipe standard columns

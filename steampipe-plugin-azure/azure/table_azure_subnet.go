@@ -97,6 +97,11 @@ func tableAzureSubnet(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.Subnet.Properties.Delegations")},
 			{
+				Name:        "ip_configurations",
+				Description: "IP Configuration details in a subnet.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Subnet.Properties.IPConfigurations")},
+			{
 				Name:        "service_endpoints",
 				Description: "A list of service endpoints.",
 				Type:        proto.ColumnType_JSON,

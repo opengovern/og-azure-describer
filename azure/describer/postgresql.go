@@ -2,10 +2,11 @@ package describer
 
 import (
 	"context"
+	"strings"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresql"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresqlflexibleservers"
-	"strings"
 
 	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
 )
@@ -20,6 +21,7 @@ func PostgresqlServer(ctx context.Context, cred *azidentity.ClientSecretCredenti
 	confClient := clientFactory.NewConfigurationsClient()
 	adminClient := clientFactory.NewServerAdministratorsClient()
 	client := clientFactory.NewServersClient()
+	alertPolicyClient := clientFactory.NewServerSecurityAlertPoliciesClient()
 
 	pager := client.NewListPager(nil)
 	var values []Resource
@@ -29,7 +31,7 @@ func PostgresqlServer(ctx context.Context, cred *azidentity.ClientSecretCredenti
 			return nil, err
 		}
 		for _, server := range page.Value {
-			resource, err := GetPostgresqlServer(ctx, firewallClient, keysClient, confClient, adminClient, server)
+			resource, err := GetPostgresqlServer(ctx, firewallClient, keysClient, confClient, adminClient, alertPolicyClient, server)
 			if err != nil {
 				return nil, err
 			}
@@ -45,7 +47,7 @@ func PostgresqlServer(ctx context.Context, cred *azidentity.ClientSecretCredenti
 	return values, nil
 }
 
-func GetPostgresqlServer(ctx context.Context, firewallClient *armpostgresql.FirewallRulesClient, keysClient *armpostgresql.ServerKeysClient, confClient *armpostgresql.ConfigurationsClient, adminClient *armpostgresql.ServerAdministratorsClient, server *armpostgresql.Server) (*Resource, error) {
+func GetPostgresqlServer(ctx context.Context, firewallClient *armpostgresql.FirewallRulesClient, keysClient *armpostgresql.ServerKeysClient, confClient *armpostgresql.ConfigurationsClient, adminClient *armpostgresql.ServerAdministratorsClient, alertPolicyClient *armpostgresql.ServerSecurityAlertPoliciesClient, server *armpostgresql.Server) (*Resource, error) {
 	resourceGroupName := strings.Split(string(*server.ID), "/")[4]
 
 	pager := adminClient.NewListPager(resourceGroupName, *server.Name, nil)
@@ -88,6 +90,16 @@ func GetPostgresqlServer(ctx context.Context, firewallClient *armpostgresql.Fire
 		firewallListByServerOp = append(firewallListByServerOp, page.Value...)
 	}
 
+	pager5 := alertPolicyClient.NewListByServerPager(resourceGroupName, *server.Name, nil)
+	var serverSecurityAlertPolicies []*armpostgresql.ServerSecurityAlertPolicy
+	for pager5.More() {
+		page, err := pager5.NextPage(ctx)
+		if err != nil {
+			break
+		}
+		serverSecurityAlertPolicies = append(serverSecurityAlertPolicies, page.Value...)
+	}
+
 	resource := Resource{
 		ID:       *server.ID,
 		Name:     *server.Name,
@@ -99,6 +111,7 @@ func GetPostgresqlServer(ctx context.Context, firewallClient *armpostgresql.Fire
 				Configurations:               confListByServerOp,
 				ServerKeys:                   kop,
 				FirewallRules:                firewallListByServerOp,
+				ServerSecurityAlertPolicies:  serverSecurityAlertPolicies,
 				ResourceGroup:                resourceGroupName,
 			},
 		},

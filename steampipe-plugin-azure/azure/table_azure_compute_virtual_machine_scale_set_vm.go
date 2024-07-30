@@ -2,6 +2,7 @@ package azure
 
 import (
 	"context"
+
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -51,6 +52,12 @@ func tableAzureComputeVirtualMachineScaleSetVm(_ context.Context) *plugin.Table 
 				Description: "Specifies whether the latest model has been applied to the virtual machine.",
 				Type:        proto.ColumnType_BOOL,
 				Transform:   transform.FromField("Description.VirtualMachineScaleSet.Properties.LatestModelApplied"),
+			},
+			{
+				Name:        "power_state",
+				Description: "Specifies the power state of the VM.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.PowerState"),
 			},
 			{
 				Name:        "provisioning_state",

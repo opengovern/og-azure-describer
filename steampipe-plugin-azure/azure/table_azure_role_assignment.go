@@ -2,6 +2,7 @@ package azure
 
 import (
 	"context"
+
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 
@@ -50,6 +51,18 @@ func tableAzureIamRoleAssignment(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 
 				Transform: transform.FromField("Description.RoleAssignment.Properties.PrincipalType"),
+			},
+			{
+				Name:        "created_on",
+				Description: "Time it was created.",
+				Type:        proto.ColumnType_TIMESTAMP,
+				Transform:   transform.FromField("Description.RoleAssignment.Properties.CreatedOn"),
+			},
+			{
+				Name:        "updated_on",
+				Description: "Time it was updated.",
+				Type:        proto.ColumnType_TIMESTAMP,
+				Transform:   transform.FromField("Description.RoleAssignment.Properties.UpdatedOn"),
 			},
 			{
 				Name:        "role_definition_id",

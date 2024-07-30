@@ -2,6 +2,7 @@ package azure
 
 import (
 	"context"
+
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -203,6 +204,12 @@ func tableAzurePostgreSqlServer(_ context.Context) *plugin.Table {
 				Description: "A list of server keys for a server.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.ServerKeys")},
+			{
+				Name:        "server_security_alert_policy",
+				Description: "Server security alert policy associated with the PostgreSQL Server.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.ServerSecurityAlertPolicies"),
+			},
 
 			// Steampipe standard columns
 			{
