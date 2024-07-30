@@ -172,6 +172,7 @@ type AppServiceWebAppDescription struct {
 	SiteConfigResource appservice.SiteConfigResource
 	SiteLogConfig      appservice.SiteLogsConfig
 	VnetInfo           appservice.VnetInfoResource
+	StorageAccounts    map[string]*appservice.AzureStorageInfoValue
 	ResourceGroup      string
 }
 
