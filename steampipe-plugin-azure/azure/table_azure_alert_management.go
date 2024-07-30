@@ -17,13 +17,13 @@ func tableAzureAlertMangement(_ context.Context) *plugin.Table {
 		Description: "Azure Alert Management Service",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"id"}),
-			Hydrate:    getAlertManagement, // this will be updated from the auto generated code from `pkg/kaytu-es-sdk/azure_resources_clients.go`
+			//Hydrate:    getAlertManagement, // this will be updated from the auto generated code from `pkg/kaytu-es-sdk/azure_resources_clients.go`
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "InvalidApiVersionParameter", "ResourceGroupNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: listAlertManagements, // this will be updated from the auto generated code from `pkg/kaytu-es-sdk/azure_resources_clients.go`
+			//Hydrate: listAlertManagements, // this will be updated from the auto generated code from `pkg/kaytu-es-sdk/azure_resources_clients.go`
 		},
 		Columns: azureColumns([]*plugin.Column{
 			{
