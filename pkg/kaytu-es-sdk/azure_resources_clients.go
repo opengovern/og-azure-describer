@@ -2287,6 +2287,7 @@ var listAppServiceWebAppSlotFilters = map[string]string{
 	"scm_site_also_stopped":          "description.Site.Properties.ScmSiteAlsoStopped",
 	"server_farm_id":                 "description.Site.Properties.ServerFarmID",
 	"site_config":                    "description.Site.Properties.SiteConfig",
+	"site_config_resource":           "description.Site.Properties.SiteConfig",
 	"slot_swap_status":               "description.Site.Properties.SlotSwapStatus",
 	"state":                          "description.Site.Properties.State",
 	"suspended_till":                 "description.Site.Properties.SuspendedTill",
@@ -2390,6 +2391,7 @@ var getAppServiceWebAppSlotFilters = map[string]string{
 	"scm_site_also_stopped":          "description.Site.Properties.ScmSiteAlsoStopped",
 	"server_farm_id":                 "description.Site.Properties.ServerFarmID",
 	"site_config":                    "description.Site.Properties.SiteConfig",
+	"site_config_resource":           "description.Site.Properties.SiteConfig",
 	"slot_swap_status":               "description.Site.Properties.SlotSwapStatus",
 	"state":                          "description.Site.Properties.State",
 	"suspended_till":                 "description.Site.Properties.SuspendedTill",
@@ -6764,6 +6766,7 @@ var listComputeVirtualMachineScaleSetVmFilters = map[string]string{
 	"model_definition_applied":            "description.ScaleSetVM.Properties.ModelDefinitionApplied",
 	"name":                                "description.ScaleSetVM.Name",
 	"plan":                                "description.ScaleSetVM.Plan",
+	"power_state":                         "description.PowerState",
 	"protection_policy":                   "description.VirtualMachineScaleSet.Properties.SpotRestorePolicy",
 	"provisioning_state":                  "description.VirtualMachineScaleSet.Properties.ProvisioningState",
 	"resource_group":                      "description.ResourceGroup",
@@ -6860,6 +6863,7 @@ var getComputeVirtualMachineScaleSetVmFilters = map[string]string{
 	"model_definition_applied":            "description.ScaleSetVM.Properties.ModelDefinitionApplied",
 	"name":                                "description.ScaleSetVM.Name",
 	"plan":                                "description.ScaleSetVM.Plan",
+	"power_state":                         "description.PowerState",
 	"protection_policy":                   "description.VirtualMachineScaleSet.Properties.SpotRestorePolicy",
 	"provisioning_state":                  "description.VirtualMachineScaleSet.Properties.ProvisioningState",
 	"resource_group":                      "description.ResourceGroup",
@@ -12573,7 +12577,9 @@ func (p NetworkInterfacePaginator) NextPage(ctx context.Context) ([]NetworkInter
 
 var listNetworkInterfaceFilters = map[string]string{
 	"applied_dns_servers":           "description.Interface.Properties.DNSSettings.AppliedDNSServers",
+	"auxiliary_mode":                "description.Interface.Properties.AuxiliaryMode",
 	"dns_servers":                   "description.Interface.Properties.DNSSettings.DNSServers",
+	"dscp_configuration":            "description.Interface.Properties.DscpConfiguration",
 	"enable_accelerated_networking": "description.Interface.Properties.EnableAcceleratedNetworking",
 	"enable_ip_forwarding":          "description.Interface.Properties.EnableIPForwarding",
 	"etag":                          "description.Interface.Etag",
@@ -12586,8 +12592,12 @@ var listNetworkInterfaceFilters = map[string]string{
 	"is_primary":                    "description.Interface.Properties.Primary",
 	"kaytu_account_id":              "metadata.SourceID",
 	"mac_address":                   "description.Interface.Properties.MacAddress",
+	"migration_phase":               "description.Interface.Properties.MigrationPhase",
 	"name":                          "description.Interface.Name",
 	"network_security_group_id":     "description.Interface.Properties.NetworkSecurityGroup.ID",
+	"nic_type":                      "description.Interface.Properties.NicType",
+	"private_endpoint":              "description.Interface.Properties.PrivateEndpoint",
+	"private_link_service":          "description.Interface.Properties.PrivateLinkService",
 	"provisioning_state":            "description.Interface.Properties.ProvisioningState",
 	"resource_group":                "description.ResourceGroup",
 	"resource_guid":                 "description.Interface.Properties.ResourceGUID",
@@ -12596,6 +12606,8 @@ var listNetworkInterfaceFilters = map[string]string{
 	"title":                         "description.Interface.Name",
 	"type":                          "description.Interface.Type",
 	"virtual_machine_id":            "description.Interface.Properties.VirtualMachine.ID",
+	"vnet_encryption_supported":     "description.Interface.Properties.VnetEncryptionSupported",
+	"workload_type":                 "description.Interface.Properties.WorkloadType",
 }
 
 func ListNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -12660,7 +12672,9 @@ func ListNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 var getNetworkInterfaceFilters = map[string]string{
 	"applied_dns_servers":           "description.Interface.Properties.DNSSettings.AppliedDNSServers",
+	"auxiliary_mode":                "description.Interface.Properties.AuxiliaryMode",
 	"dns_servers":                   "description.Interface.Properties.DNSSettings.DNSServers",
+	"dscp_configuration":            "description.Interface.Properties.DscpConfiguration",
 	"enable_accelerated_networking": "description.Interface.Properties.EnableAcceleratedNetworking",
 	"enable_ip_forwarding":          "description.Interface.Properties.EnableIPForwarding",
 	"etag":                          "description.Interface.Etag",
@@ -12673,8 +12687,12 @@ var getNetworkInterfaceFilters = map[string]string{
 	"is_primary":                    "description.Interface.Properties.Primary",
 	"kaytu_account_id":              "metadata.SourceID",
 	"mac_address":                   "description.Interface.Properties.MacAddress",
+	"migration_phase":               "description.Interface.Properties.MigrationPhase",
 	"name":                          "description.Interface.name",
 	"network_security_group_id":     "description.Interface.Properties.NetworkSecurityGroup.ID",
+	"nic_type":                      "description.Interface.Properties.NicType",
+	"private_endpoint":              "description.Interface.Properties.PrivateEndpoint",
+	"private_link_service":          "description.Interface.Properties.PrivateLinkService",
 	"provisioning_state":            "description.Interface.Properties.ProvisioningState",
 	"resource_group":                "description.ResourceGroup",
 	"resource_guid":                 "description.Interface.Properties.ResourceGUID",
@@ -12683,6 +12701,8 @@ var getNetworkInterfaceFilters = map[string]string{
 	"title":                         "description.Interface.Name",
 	"type":                          "description.Interface.Type",
 	"virtual_machine_id":            "description.Interface.Properties.VirtualMachine.ID",
+	"vnet_encryption_supported":     "description.Interface.Properties.VnetEncryptionSupported",
+	"workload_type":                 "description.Interface.Properties.WorkloadType",
 }
 
 func GetNetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -21054,6 +21074,7 @@ func (p RoleAssignmentPaginator) NextPage(ctx context.Context) ([]RoleAssignment
 }
 
 var listRoleAssignmentFilters = map[string]string{
+	"created_on":         "description.RoleAssignment.Properties.CreatedOn",
 	"id":                 "description.RoleAssignment.ID",
 	"kaytu_account_id":   "metadata.SourceID",
 	"name":               "description.RoleAssignment.Name",
@@ -21063,6 +21084,7 @@ var listRoleAssignmentFilters = map[string]string{
 	"scope":              "description.RoleAssignment.Properties.Scope",
 	"title":              "description.RoleAssignment.Name",
 	"type":               "description.RoleAssignment.Type",
+	"updated_on":         "description.RoleAssignment.Properties.UpdatedOn",
 }
 
 func ListRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -21126,6 +21148,7 @@ func ListRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getRoleAssignmentFilters = map[string]string{
+	"created_on":         "description.RoleAssignment.Properties.CreatedOn",
 	"id":                 "description.RoleAssignment.id",
 	"kaytu_account_id":   "metadata.SourceID",
 	"name":               "description.RoleAssignment.Name",
@@ -21135,6 +21158,7 @@ var getRoleAssignmentFilters = map[string]string{
 	"scope":              "description.RoleAssignment.Properties.Scope",
 	"title":              "description.RoleAssignment.Name",
 	"type":               "description.RoleAssignment.Type",
+	"updated_on":         "description.RoleAssignment.Properties.UpdatedOn",
 }
 
 func GetRoleAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -26172,6 +26196,7 @@ var listSubnetFilters = map[string]string{
 	"delegations":                           "description.Subnet.Properties.Delegations",
 	"etag":                                  "description.Subnet.Etag",
 	"id":                                    "description.Subnet.ID",
+	"ip_configurations":                     "description.Subnet.Properties.IPConfigurations",
 	"kaytu_account_id":                      "metadata.SourceID",
 	"name":                                  "description.Subnet.Name",
 	"nat_gateway_id":                        "description.Subnet.Properties.NatGateway.ID",
@@ -26252,6 +26277,7 @@ var getSubnetFilters = map[string]string{
 	"delegations":                           "description.Subnet.Properties.Delegations",
 	"etag":                                  "description.Subnet.Etag",
 	"id":                                    "description.Subnet.ID",
+	"ip_configurations":                     "description.Subnet.Properties.IPConfigurations",
 	"kaytu_account_id":                      "metadata.SourceID",
 	"name":                                  "description.Subnet.name",
 	"nat_gateway_id":                        "description.Subnet.Properties.NatGateway.ID",
@@ -27031,6 +27057,7 @@ var listSubscriptionFilters = map[string]string{
 	"state":                 "description.Subscription.State",
 	"subscription_id":       "description.Subscription.SubscriptionID",
 	"subscription_policies": "description.Subscription.SubscriptionPolicies",
+	"tags":                  "description.Tags",
 	"tenant_id":             "TenantID",
 	"title":                 "description.Subscription.DisplayName",
 }
@@ -27103,6 +27130,7 @@ var getSubscriptionFilters = map[string]string{
 	"state":                 "description.Subscription.State",
 	"subscription_id":       "description.Subscription.SubscriptionID",
 	"subscription_policies": "description.Subscription.SubscriptionPolicies",
+	"tags":                  "description.Tags",
 	"tenant_id":             "TenantID",
 	"title":                 "description.Subscription.DisplayName",
 }
@@ -29973,6 +30001,7 @@ var listContainerRegistryFilters = map[string]string{
 	"title":                        "description.Registry.Name",
 	"type":                         "description.Registry.Type",
 	"usages":                       "description.RegistryUsages",
+	"webhooks":                     "description.Webhooks",
 	"zone_redundancy":              "description.Registry.Properties.ZoneRedundancy",
 }
 
@@ -30064,6 +30093,7 @@ var getContainerRegistryFilters = map[string]string{
 	"title":                        "description.Registry.Name",
 	"type":                         "description.Registry.Type",
 	"usages":                       "description.RegistryUsages",
+	"webhooks":                     "description.Webhooks",
 	"zone_redundancy":              "description.Registry.Properties.ZoneRedundancy",
 }
 
@@ -30261,6 +30291,7 @@ func (p CosmosdbAccountPaginator) NextPage(ctx context.Context) ([]CosmosdbAccou
 }
 
 var listCosmosdbAccountFilters = map[string]string{
+	"backup_policy":                           "description.DatabaseAccountGetResults.Properties.BackupPolicy",
 	"capabilities":                            "description.DatabaseAccountGetResults.Properties.Capabilities",
 	"connector_offer":                         "description.DatabaseAccountGetResults.Properties.ConnectorOffer",
 	"consistency_policy_max_interval":         "description.DatabaseAccountGetResults.Properties.ConsistencyPolicy.MaxIntervalInSeconds",
@@ -30269,6 +30300,7 @@ var listCosmosdbAccountFilters = map[string]string{
 	"database_account_offer_type":             "description.DatabaseAccountGetResults.Properties.DatabaseAccountOfferType",
 	"default_consistency_level":               "description.DatabaseAccountGetResults.Properties.ConsistencyPolicy.DefaultConsistencyLevel",
 	"disable_key_based_metadata_write_access": "description.DatabaseAccountGetResults.Properties.DisableKeyBasedMetadataWriteAccess",
+	"disable_local_auth":                      "description.DatabaseAccountGetResults.Properties.DisableLocalAuth",
 	"document_endpoint":                       "description.DatabaseAccountGetResults.Properties.DocumentEndpoint",
 	"enable_analytical_storage":               "description.DatabaseAccountGetResults.Properties.EnableAnalyticalStorage",
 	"enable_automatic_failover":               "description.DatabaseAccountGetResults.Properties.EnableAutomaticFailover",
@@ -30288,6 +30320,7 @@ var listCosmosdbAccountFilters = map[string]string{
 	"provisioning_state":                      "description.DatabaseAccountGetResults.Properties.ProvisioningState",
 	"public_network_access":                   "description.DatabaseAccountGetResults.Properties.PublicNetworkAccess",
 	"read_locations":                          "description.DatabaseAccountGetResults.Properties.ReadLocations",
+	"restore_parameters":                      "description.DatabaseAccountGetResults.Properties.RestoreParameters",
 	"server_version":                          "description.DatabaseAccountGetResults.Properties.APIProperties.ServerVersion",
 	"tags":                                    "description.DatabaseAccountGetResults.Tags",
 	"title":                                   "description.DatabaseAccountGetResults.Name",
@@ -30357,6 +30390,7 @@ func ListCosmosdbAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getCosmosdbAccountFilters = map[string]string{
+	"backup_policy":                           "description.DatabaseAccountGetResults.Properties.BackupPolicy",
 	"capabilities":                            "description.DatabaseAccountGetResults.Properties.Capabilities",
 	"connector_offer":                         "description.DatabaseAccountGetResults.Properties.ConnectorOffer",
 	"consistency_policy_max_interval":         "description.DatabaseAccountGetResults.Properties.ConsistencyPolicy.MaxIntervalInSeconds",
@@ -30365,6 +30399,7 @@ var getCosmosdbAccountFilters = map[string]string{
 	"database_account_offer_type":             "description.DatabaseAccountGetResults.Properties.DatabaseAccountOfferType",
 	"default_consistency_level":               "description.DatabaseAccountGetResults.Properties.ConsistencyPolicy.DefaultConsistencyLevel",
 	"disable_key_based_metadata_write_access": "description.DatabaseAccountGetResults.Properties.DisableKeyBasedMetadataWriteAccess",
+	"disable_local_auth":                      "description.DatabaseAccountGetResults.Properties.DisableLocalAuth",
 	"document_endpoint":                       "description.DatabaseAccountGetResults.Properties.DocumentEndpoint",
 	"enable_analytical_storage":               "description.DatabaseAccountGetResults.Properties.EnableAnalyticalStorage",
 	"enable_automatic_failover":               "description.DatabaseAccountGetResults.Properties.EnableAutomaticFailover",
@@ -30385,6 +30420,7 @@ var getCosmosdbAccountFilters = map[string]string{
 	"public_network_access":                   "description.DatabaseAccountGetResults.Properties.PublicNetworkAccess",
 	"read_locations":                          "description.DatabaseAccountGetResults.Properties.ReadLocations",
 	"resource_group":                          "description.ResourceGroup",
+	"restore_parameters":                      "description.DatabaseAccountGetResults.Properties.RestoreParameters",
 	"server_version":                          "description.DatabaseAccountGetResults.Properties.APIProperties.ServerVersion",
 	"tags":                                    "description.DatabaseAccountGetResults.Tags",
 	"title":                                   "description.DatabaseAccountGetResults.Name",
@@ -30878,6 +30914,7 @@ var listCosmosdbMongoDatabaseFilters = map[string]string{
 	"name":                              "description.MongoDatabase.Name",
 	"tags":                              "description.MongoDatabase.Tags",
 	"throughput":                        "description.MongoDatabase.Properties.Options.Throughput",
+	"throughput_settings":               "description.MongoDatabase.Properties.Options.Throughput.ThroughputSettingsGetResults.Properties.Resource",
 	"title":                             "description.MongoDatabase.Name",
 	"type":                              "description.MongoDatabase.Type",
 }
@@ -30954,6 +30991,7 @@ var getCosmosdbMongoDatabaseFilters = map[string]string{
 	"resource_group":                    "description.ResourceGroup",
 	"tags":                              "description.MongoDatabase.Tags",
 	"throughput":                        "description.MongoDatabase.Properties.Options.Throughput",
+	"throughput_settings":               "description.MongoDatabase.Properties.Options.Throughput.ThroughputSettingsGetResults.Properties.Resource",
 	"title":                             "description.MongoDatabase.Name",
 	"type":                              "description.MongoDatabase.Type",
 }
@@ -39313,6 +39351,7 @@ var listKustoClusterFilters = map[string]string{
 	"engine_type":                   "description.Cluster.Properties.EngineType",
 	"etag":                          "description.Cluster.Etag",
 	"id":                            "description.Cluster.ID",
+	"identity":                      "description.Cluster.Identity",
 	"kaytu_account_id":              "metadata.SourceID",
 	"key_vault_properties":          "description.Cluster.Properties.KeyVaultProperties",
 	"language_extensions":           "description.Cluster.Properties.LanguageExtensions",
@@ -39403,6 +39442,7 @@ var getKustoClusterFilters = map[string]string{
 	"engine_type":                   "description.Cluster.Properties.EngineType",
 	"etag":                          "description.Cluster.Etag",
 	"id":                            "description.Cluster.ID",
+	"identity":                      "description.Cluster.Identity",
 	"kaytu_account_id":              "metadata.SourceID",
 	"key_vault_properties":          "description.Cluster.Properties.KeyVaultProperties",
 	"language_extensions":           "description.Cluster.Properties.LanguageExtensions",
@@ -41643,38 +41683,40 @@ func (p MysqlServerPaginator) NextPage(ctx context.Context) ([]MysqlServer, erro
 }
 
 var listMysqlServerFilters = map[string]string{
-	"administrator_login":         "description.Server.Properties.AdministratorLogin",
-	"backup_retention_days":       "description.Server.Properties.StorageProfile.BackupRetentionDays",
-	"byok_enforcement":            "description.Server.Properties.ByokEnforcement",
-	"fully_qualified_domain_name": "description.Server.Properties.FullyQualifiedDomainName",
-	"geo_redundant_backup":        "description.Server.Properties.StorageProfile.GeoRedundantBackup",
-	"id":                          "description.Server.ID",
-	"infrastructure_encryption":   "description.Server.Properties.InfrastructureEncryption",
-	"kaytu_account_id":            "metadata.SourceID",
-	"location":                    "description.Server.Location",
-	"master_server_id":            "description.Server.Properties.MasterServerID",
-	"minimal_tls_version":         "description.Server.Properties.MinimalTLSVersion",
-	"name":                        "description.Server.Name",
-	"public_network_access":       "description.Server.Properties.PublicNetworkAccess",
-	"replica_capacity":            "description.Server.Properties.ReplicaCapacity",
-	"replication_role":            "description.Server.Properties.ReplicationRole",
-	"resource_group":              "description.ResourceGroup",
-	"server_configurations":       "description.Configurations",
-	"server_keys":                 "description.ServerKeys",
-	"sku_capacity":                "description.Server.SKU.Capacity",
-	"sku_family":                  "description.Server.SKU.Family",
-	"sku_name":                    "description.Server.SKU.Name",
-	"sku_size":                    "description.Server.SKU.Size",
-	"sku_tier":                    "description.Server.SKU.Tier",
-	"ssl_enforcement":             "description.Server.Properties.SSLEnforcement",
-	"state":                       "description.Server.Properties.UserVisibleState",
-	"storage_auto_grow":           "description.Server.Properties.StorageProfile.StorageAutogrow",
-	"storage_mb":                  "description.Server.Properties.StorageProfile.StorageMB",
-	"tags":                        "description.Server.Tags",
-	"title":                       "description.Server.Name",
-	"type":                        "description.Server.Type",
-	"user_visible_state":          "description.Server.Properties.UserVisibleState",
-	"version":                     "description.Server.Properties.Version",
+	"administrator_login":          "description.Server.Properties.AdministratorLogin",
+	"backup_retention_days":        "description.Server.Properties.StorageProfile.BackupRetentionDays",
+	"byok_enforcement":             "description.Server.Properties.ByokEnforcement",
+	"fully_qualified_domain_name":  "description.Server.Properties.FullyQualifiedDomainName",
+	"geo_redundant_backup":         "description.Server.Properties.StorageProfile.GeoRedundantBackup",
+	"id":                           "description.Server.ID",
+	"infrastructure_encryption":    "description.Server.Properties.InfrastructureEncryption",
+	"kaytu_account_id":             "metadata.SourceID",
+	"location":                     "description.Server.Location",
+	"master_server_id":             "description.Server.Properties.MasterServerID",
+	"minimal_tls_version":          "description.Server.Properties.MinimalTLSVersion",
+	"name":                         "description.Server.Name",
+	"public_network_access":        "description.Server.Properties.PublicNetworkAccess",
+	"replica_capacity":             "description.Server.Properties.ReplicaCapacity",
+	"replication_role":             "description.Server.Properties.ReplicationRole",
+	"resource_group":               "description.ResourceGroup",
+	"server_configurations":        "description.Configurations",
+	"server_keys":                  "description.ServerKeys",
+	"server_security_alert_policy": "description.SecurityAlertPolicies",
+	"sku_capacity":                 "description.Server.SKU.Capacity",
+	"sku_family":                   "description.Server.SKU.Family",
+	"sku_name":                     "description.Server.SKU.Name",
+	"sku_size":                     "description.Server.SKU.Size",
+	"sku_tier":                     "description.Server.SKU.Tier",
+	"ssl_enforcement":              "description.Server.Properties.SSLEnforcement",
+	"state":                        "description.Server.Properties.UserVisibleState",
+	"storage_auto_grow":            "description.Server.Properties.StorageProfile.StorageAutogrow",
+	"storage_mb":                   "description.Server.Properties.StorageProfile.StorageMB",
+	"tags":                         "description.Server.Tags",
+	"title":                        "description.Server.Name",
+	"type":                         "description.Server.Type",
+	"user_visible_state":           "description.Server.Properties.UserVisibleState",
+	"version":                      "description.Server.Properties.Version",
+	"vnet_rules":                   "description.VnetRules",
 }
 
 func ListMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -41738,38 +41780,40 @@ func ListMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getMysqlServerFilters = map[string]string{
-	"administrator_login":         "description.Server.Properties.AdministratorLogin",
-	"backup_retention_days":       "description.Server.Properties.StorageProfile.BackupRetentionDays",
-	"byok_enforcement":            "description.Server.Properties.ByokEnforcement",
-	"fully_qualified_domain_name": "description.Server.Properties.FullyQualifiedDomainName",
-	"geo_redundant_backup":        "description.Server.Properties.StorageProfile.GeoRedundantBackup",
-	"id":                          "description.Server.ID",
-	"infrastructure_encryption":   "description.Server.Properties.InfrastructureEncryption",
-	"kaytu_account_id":            "metadata.SourceID",
-	"location":                    "description.Server.Location",
-	"master_server_id":            "description.Server.Properties.MasterServerID",
-	"minimal_tls_version":         "description.Server.Properties.MinimalTLSVersion",
-	"name":                        "description.Server.name",
-	"public_network_access":       "description.Server.Properties.PublicNetworkAccess",
-	"replica_capacity":            "description.Server.Properties.ReplicaCapacity",
-	"replication_role":            "description.Server.Properties.ReplicationRole",
-	"resource_group":              "description.ResourceGroup",
-	"server_configurations":       "description.Configurations",
-	"server_keys":                 "description.ServerKeys",
-	"sku_capacity":                "description.Server.SKU.Capacity",
-	"sku_family":                  "description.Server.SKU.Family",
-	"sku_name":                    "description.Server.SKU.Name",
-	"sku_size":                    "description.Server.SKU.Size",
-	"sku_tier":                    "description.Server.SKU.Tier",
-	"ssl_enforcement":             "description.Server.Properties.SSLEnforcement",
-	"state":                       "description.Server.Properties.UserVisibleState",
-	"storage_auto_grow":           "description.Server.Properties.StorageProfile.StorageAutogrow",
-	"storage_mb":                  "description.Server.Properties.StorageProfile.StorageMB",
-	"tags":                        "description.Server.Tags",
-	"title":                       "description.Server.Name",
-	"type":                        "description.Server.Type",
-	"user_visible_state":          "description.Server.Properties.UserVisibleState",
-	"version":                     "description.Server.Properties.Version",
+	"administrator_login":          "description.Server.Properties.AdministratorLogin",
+	"backup_retention_days":        "description.Server.Properties.StorageProfile.BackupRetentionDays",
+	"byok_enforcement":             "description.Server.Properties.ByokEnforcement",
+	"fully_qualified_domain_name":  "description.Server.Properties.FullyQualifiedDomainName",
+	"geo_redundant_backup":         "description.Server.Properties.StorageProfile.GeoRedundantBackup",
+	"id":                           "description.Server.ID",
+	"infrastructure_encryption":    "description.Server.Properties.InfrastructureEncryption",
+	"kaytu_account_id":             "metadata.SourceID",
+	"location":                     "description.Server.Location",
+	"master_server_id":             "description.Server.Properties.MasterServerID",
+	"minimal_tls_version":          "description.Server.Properties.MinimalTLSVersion",
+	"name":                         "description.Server.name",
+	"public_network_access":        "description.Server.Properties.PublicNetworkAccess",
+	"replica_capacity":             "description.Server.Properties.ReplicaCapacity",
+	"replication_role":             "description.Server.Properties.ReplicationRole",
+	"resource_group":               "description.ResourceGroup",
+	"server_configurations":        "description.Configurations",
+	"server_keys":                  "description.ServerKeys",
+	"server_security_alert_policy": "description.SecurityAlertPolicies",
+	"sku_capacity":                 "description.Server.SKU.Capacity",
+	"sku_family":                   "description.Server.SKU.Family",
+	"sku_name":                     "description.Server.SKU.Name",
+	"sku_size":                     "description.Server.SKU.Size",
+	"sku_tier":                     "description.Server.SKU.Tier",
+	"ssl_enforcement":              "description.Server.Properties.SSLEnforcement",
+	"state":                        "description.Server.Properties.UserVisibleState",
+	"storage_auto_grow":            "description.Server.Properties.StorageProfile.StorageAutogrow",
+	"storage_mb":                   "description.Server.Properties.StorageProfile.StorageMB",
+	"tags":                         "description.Server.Tags",
+	"title":                        "description.Server.Name",
+	"type":                         "description.Server.Type",
+	"user_visible_state":           "description.Server.Properties.UserVisibleState",
+	"version":                      "description.Server.Properties.Version",
+	"vnet_rules":                   "description.VnetRules",
 }
 
 func GetMysqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -43422,7 +43466,9 @@ func (p ServicebusNamespacePaginator) NextPage(ctx context.Context) ([]Servicebu
 }
 
 var listServicebusNamespaceFilters = map[string]string{
+	"authorization_rules":          "description.AuthorizationRules",
 	"diagnostic_settings":          "description.DiagnosticSettingsResources",
+	"disable_local_auth":           "description.SBNamespace.Properties.DisableLocalAuth",
 	"encryption":                   "description.SBNamespace.Properties.Encryption",
 	"id":                           "description.SBNamespace.ID",
 	"kaytu_account_id":             "metadata.SourceID",
@@ -43436,6 +43482,7 @@ var listServicebusNamespaceFilters = map[string]string{
 	"sku_capacity":                 "description.SBNamespace.SKU.Capacity",
 	"sku_name":                     "description.SBNamespace.SKU.Name",
 	"sku_tier":                     "description.SBNamespace.SKU.Tier",
+	"status":                       "description.SBNamespace.Properties.Status",
 	"tags":                         "description.SBNamespace.Tags",
 	"title":                        "description.SBNamespace.Name",
 	"type":                         "description.SBNamespace.Type",
@@ -43503,7 +43550,9 @@ func ListServicebusNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getServicebusNamespaceFilters = map[string]string{
+	"authorization_rules":          "description.AuthorizationRules",
 	"diagnostic_settings":          "description.DiagnosticSettingsResources",
+	"disable_local_auth":           "description.SBNamespace.Properties.DisableLocalAuth",
 	"encryption":                   "description.SBNamespace.Properties.Encryption",
 	"id":                           "description.SBNamespace.ID",
 	"kaytu_account_id":             "metadata.SourceID",
@@ -43517,6 +43566,7 @@ var getServicebusNamespaceFilters = map[string]string{
 	"sku_capacity":                 "description.SBNamespace.SKU.Capacity",
 	"sku_name":                     "description.SBNamespace.SKU.Name",
 	"sku_tier":                     "description.SBNamespace.SKU.Tier",
+	"status":                       "description.SBNamespace.Properties.Status",
 	"tags":                         "description.SBNamespace.Tags",
 	"title":                        "description.SBNamespace.Name",
 	"type":                         "description.SBNamespace.Type",
@@ -53543,39 +53593,40 @@ func (p PostgresqlServerPaginator) NextPage(ctx context.Context) ([]PostgresqlSe
 }
 
 var listPostgresqlServerFilters = map[string]string{
-	"administrator_login":         "description.Server.Properties.AdministratorLogin",
-	"backup_retention_days":       "description.Server.Properties.StorageProfile.BackupRetentionDays",
-	"byok_enforcement":            "description.Server.Properties.ByokEnforcement",
-	"firewall_rules":              "description.FirewallRules",
-	"fully_qualified_domain_name": "description.Server.Properties.FullyQualifiedDomainName",
-	"geo_redundant_backup":        "description.Server.Properties.StorageProfile.GeoRedundantBackup",
-	"id":                          "description.Server.ID",
-	"infrastructure_encryption":   "description.Server.Properties.InfrastructureEncryption",
-	"kaytu_account_id":            "metadata.SourceID",
-	"location":                    "description.Server.Location",
-	"master_server_id":            "description.Server.Properties.MasterServerID",
-	"minimal_tls_version":         "description.Server.Properties.MinimalTLSVersion",
-	"name":                        "description.Server.Name",
-	"public_network_access":       "description.Server.Properties.PublicNetworkAccess",
-	"replica_capacity":            "description.Server.Properties.ReplicaCapacity",
-	"replication_role":            "description.Server.Properties.ReplicationRole",
-	"resource_group":              "description.ResourceGroup",
-	"server_administrators":       "description.ServerAdministratorResources",
-	"server_configurations":       "description.Configurations",
-	"server_keys":                 "description.ServerKeys",
-	"sku_capacity":                "description.Server.SKU.Capacity",
-	"sku_family":                  "description.Server.SKU.Family",
-	"sku_name":                    "description.Server.SKU.Name",
-	"sku_size":                    "description.Server.SKU.Size",
-	"sku_tier":                    "description.Server.SKU.Tier",
-	"ssl_enforcement":             "description.Server.Properties.SSLEnforcement",
-	"storage_auto_grow":           "description.Server.Properties.StorageProfile.StorageAutogrow",
-	"storage_mb":                  "description.Server.Properties.StorageProfile.StorageMB",
-	"tags":                        "description.Server.Tags",
-	"title":                       "description.Server.Name",
-	"type":                        "description.Server.Type",
-	"user_visible_state":          "description.Server.Properties.UserVisibleState",
-	"version":                     "description.Server.Properties.Version",
+	"administrator_login":          "description.Server.Properties.AdministratorLogin",
+	"backup_retention_days":        "description.Server.Properties.StorageProfile.BackupRetentionDays",
+	"byok_enforcement":             "description.Server.Properties.ByokEnforcement",
+	"firewall_rules":               "description.FirewallRules",
+	"fully_qualified_domain_name":  "description.Server.Properties.FullyQualifiedDomainName",
+	"geo_redundant_backup":         "description.Server.Properties.StorageProfile.GeoRedundantBackup",
+	"id":                           "description.Server.ID",
+	"infrastructure_encryption":    "description.Server.Properties.InfrastructureEncryption",
+	"kaytu_account_id":             "metadata.SourceID",
+	"location":                     "description.Server.Location",
+	"master_server_id":             "description.Server.Properties.MasterServerID",
+	"minimal_tls_version":          "description.Server.Properties.MinimalTLSVersion",
+	"name":                         "description.Server.Name",
+	"public_network_access":        "description.Server.Properties.PublicNetworkAccess",
+	"replica_capacity":             "description.Server.Properties.ReplicaCapacity",
+	"replication_role":             "description.Server.Properties.ReplicationRole",
+	"resource_group":               "description.ResourceGroup",
+	"server_administrators":        "description.ServerAdministratorResources",
+	"server_configurations":        "description.Configurations",
+	"server_keys":                  "description.ServerKeys",
+	"server_security_alert_policy": "description.ServerSecurityAlertPolicies",
+	"sku_capacity":                 "description.Server.SKU.Capacity",
+	"sku_family":                   "description.Server.SKU.Family",
+	"sku_name":                     "description.Server.SKU.Name",
+	"sku_size":                     "description.Server.SKU.Size",
+	"sku_tier":                     "description.Server.SKU.Tier",
+	"ssl_enforcement":              "description.Server.Properties.SSLEnforcement",
+	"storage_auto_grow":            "description.Server.Properties.StorageProfile.StorageAutogrow",
+	"storage_mb":                   "description.Server.Properties.StorageProfile.StorageMB",
+	"tags":                         "description.Server.Tags",
+	"title":                        "description.Server.Name",
+	"type":                         "description.Server.Type",
+	"user_visible_state":           "description.Server.Properties.UserVisibleState",
+	"version":                      "description.Server.Properties.Version",
 }
 
 func ListPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -53639,39 +53690,40 @@ func ListPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getPostgresqlServerFilters = map[string]string{
-	"administrator_login":         "description.Server.Properties.AdministratorLogin",
-	"backup_retention_days":       "description.Server.Properties.StorageProfile.BackupRetentionDays",
-	"byok_enforcement":            "description.Server.Properties.ByokEnforcement",
-	"firewall_rules":              "description.FirewallRules",
-	"fully_qualified_domain_name": "description.Server.Properties.FullyQualifiedDomainName",
-	"geo_redundant_backup":        "description.Server.Properties.StorageProfile.GeoRedundantBackup",
-	"id":                          "description.Server.ID",
-	"infrastructure_encryption":   "description.Server.Properties.InfrastructureEncryption",
-	"kaytu_account_id":            "metadata.SourceID",
-	"location":                    "description.Server.Location",
-	"master_server_id":            "description.Server.Properties.MasterServerID",
-	"minimal_tls_version":         "description.Server.Properties.MinimalTLSVersion",
-	"name":                        "description.Server.name",
-	"public_network_access":       "description.Server.Properties.PublicNetworkAccess",
-	"replica_capacity":            "description.Server.Properties.ReplicaCapacity",
-	"replication_role":            "description.Server.Properties.ReplicationRole",
-	"resource_group":              "description.ResourceGroup",
-	"server_administrators":       "description.ServerAdministratorResources",
-	"server_configurations":       "description.Configurations",
-	"server_keys":                 "description.ServerKeys",
-	"sku_capacity":                "description.Server.SKU.Capacity",
-	"sku_family":                  "description.Server.SKU.Family",
-	"sku_name":                    "description.Server.SKU.Name",
-	"sku_size":                    "description.Server.SKU.Size",
-	"sku_tier":                    "description.Server.SKU.Tier",
-	"ssl_enforcement":             "description.Server.Properties.SSLEnforcement",
-	"storage_auto_grow":           "description.Server.Properties.StorageProfile.StorageAutogrow",
-	"storage_mb":                  "description.Server.Properties.StorageProfile.StorageMB",
-	"tags":                        "description.Server.Tags",
-	"title":                       "description.Server.Name",
-	"type":                        "description.Server.Type",
-	"user_visible_state":          "description.Server.Properties.UserVisibleState",
-	"version":                     "description.Server.Properties.Version",
+	"administrator_login":          "description.Server.Properties.AdministratorLogin",
+	"backup_retention_days":        "description.Server.Properties.StorageProfile.BackupRetentionDays",
+	"byok_enforcement":             "description.Server.Properties.ByokEnforcement",
+	"firewall_rules":               "description.FirewallRules",
+	"fully_qualified_domain_name":  "description.Server.Properties.FullyQualifiedDomainName",
+	"geo_redundant_backup":         "description.Server.Properties.StorageProfile.GeoRedundantBackup",
+	"id":                           "description.Server.ID",
+	"infrastructure_encryption":    "description.Server.Properties.InfrastructureEncryption",
+	"kaytu_account_id":             "metadata.SourceID",
+	"location":                     "description.Server.Location",
+	"master_server_id":             "description.Server.Properties.MasterServerID",
+	"minimal_tls_version":          "description.Server.Properties.MinimalTLSVersion",
+	"name":                         "description.Server.name",
+	"public_network_access":        "description.Server.Properties.PublicNetworkAccess",
+	"replica_capacity":             "description.Server.Properties.ReplicaCapacity",
+	"replication_role":             "description.Server.Properties.ReplicationRole",
+	"resource_group":               "description.ResourceGroup",
+	"server_administrators":        "description.ServerAdministratorResources",
+	"server_configurations":        "description.Configurations",
+	"server_keys":                  "description.ServerKeys",
+	"server_security_alert_policy": "description.ServerSecurityAlertPolicies",
+	"sku_capacity":                 "description.Server.SKU.Capacity",
+	"sku_family":                   "description.Server.SKU.Family",
+	"sku_name":                     "description.Server.SKU.Name",
+	"sku_size":                     "description.Server.SKU.Size",
+	"sku_tier":                     "description.Server.SKU.Tier",
+	"ssl_enforcement":              "description.Server.Properties.SSLEnforcement",
+	"storage_auto_grow":            "description.Server.Properties.StorageProfile.StorageAutogrow",
+	"storage_mb":                   "description.Server.Properties.StorageProfile.StorageMB",
+	"tags":                         "description.Server.Tags",
+	"title":                        "description.Server.Name",
+	"type":                         "description.Server.Type",
+	"user_visible_state":           "description.Server.Properties.UserVisibleState",
+	"version":                      "description.Server.Properties.Version",
 }
 
 func GetPostgresqlServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -55012,6 +55064,7 @@ func (p SqlDatabasePaginator) NextPage(ctx context.Context) ([]SqlDatabase, erro
 }
 
 var listSqlDatabaseFilters = map[string]string{
+	"audit_policy":                 "description.AuditPolicies",
 	"collation":                    "description.Database.Properties.Collation",
 	"create_mode":                  "description.Database.Properties.CreateMode",
 	"current_service_objective_id": "description.Database.Properties.CurrentServiceObjectiveName",
@@ -55110,6 +55163,7 @@ func ListSqlDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getSqlDatabaseFilters = map[string]string{
+	"audit_policy":                 "description.AuditPolicies",
 	"collation":                    "description.Database.Properties.Collation",
 	"create_mode":                  "description.Database.Properties.CreateMode",
 	"current_service_objective_id": "description.Database.Properties.CurrentServiceObjectiveName",
@@ -57645,6 +57699,7 @@ func (p StorageAccountPaginator) NextPage(ctx context.Context) ([]StorageAccount
 }
 
 var listStorageAccountFilters = map[string]string{
+	"access_keys":                                            "description.AccessKeys",
 	"access_tier":                                            "description.Account.Properties.AccessTier",
 	"allow_blob_public_access":                               "description.Account.Properties.AllowBlobPublicAccess",
 	"blob_change_feed_enabled":                               "description.BlobServiceProperties.BlobServiceProperties.ChangeFeed.Enabled",
@@ -57684,6 +57739,7 @@ var listStorageAccountFilters = map[string]string{
 	"primary_web_endpoint":                                   "description.Account.Properties.PrimaryEndpoints.Web",
 	"private_endpoint_connections":                           "description.Account.Properties.PrivateEndpointConnections",
 	"provisioning_state":                                     "description.Account.Properties.ProvisioningState",
+	"public_network_access":                                  "description.Account.Properties.PublicNetworkAccess",
 	"queue_logging_delete":                                   "description.StorageServiceProperties.Logging.Delete",
 	"queue_logging_read":                                     "description.StorageServiceProperties.Logging.Read",
 	"queue_logging_retention_days":                           "description.Logging.RetentionPolicy.Days",
@@ -57695,11 +57751,14 @@ var listStorageAccountFilters = map[string]string{
 	"secondary_location":                                     "description.Account.Properties.SecondaryLocation",
 	"sku_name":                                               "description.Account.SKU.Name",
 	"sku_tier":                                               "description.Account.SKU.Tier",
+	"status_of_primary":                                      "description.Account.Properties.StatusOfPrimary",
+	"status_of_secondary":                                    "description.Account.Properties.StatusOfSecondary",
 	"table_logging_delete":                                   "description.StorageServiceProperties.Logging.Delete",
 	"table_logging_read":                                     "description.StorageServiceProperties.Logging.Read",
 	"table_logging_retention_policy":                         "description.StorageServiceProperties.Logging.RetentionPolicy",
 	"table_logging_version":                                  "description.StorageServiceProperties.Logging.Version",
 	"table_logging_write":                                    "description.StorageServiceProperties.Logging.Write",
+	"table_properties":                                       "description.TableProperties",
 	"tags":                                                   "description.Account.Tags",
 	"title":                                                  "description.Account.Name",
 	"type":                                                   "description.Account.Type",
@@ -57767,6 +57826,7 @@ func ListStorageAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getStorageAccountFilters = map[string]string{
+	"access_keys":                                            "description.AccessKeys",
 	"access_tier":                                            "description.Account.Properties.AccessTier",
 	"allow_blob_public_access":                               "description.Account.Properties.AllowBlobPublicAccess",
 	"blob_change_feed_enabled":                               "description.BlobServiceProperties.BlobServiceProperties.ChangeFeed.Enabled",
@@ -57806,6 +57866,7 @@ var getStorageAccountFilters = map[string]string{
 	"primary_web_endpoint":                                   "description.Account.Properties.PrimaryEndpoints.Web",
 	"private_endpoint_connections":                           "description.Account.Properties.PrivateEndpointConnections",
 	"provisioning_state":                                     "description.Account.Properties.ProvisioningState",
+	"public_network_access":                                  "description.Account.Properties.PublicNetworkAccess",
 	"queue_logging_delete":                                   "description.StorageServiceProperties.Logging.Delete",
 	"queue_logging_read":                                     "description.StorageServiceProperties.Logging.Read",
 	"queue_logging_retention_days":                           "description.Logging.RetentionPolicy.Days",
@@ -57818,11 +57879,14 @@ var getStorageAccountFilters = map[string]string{
 	"secondary_location":                                     "description.Account.Properties.SecondaryLocation",
 	"sku_name":                                               "description.Account.SKU.Name",
 	"sku_tier":                                               "description.Account.SKU.Tier",
+	"status_of_primary":                                      "description.Account.Properties.StatusOfPrimary",
+	"status_of_secondary":                                    "description.Account.Properties.StatusOfSecondary",
 	"table_logging_delete":                                   "description.StorageServiceProperties.Logging.Delete",
 	"table_logging_read":                                     "description.StorageServiceProperties.Logging.Read",
 	"table_logging_retention_policy":                         "description.StorageServiceProperties.Logging.RetentionPolicy",
 	"table_logging_version":                                  "description.StorageServiceProperties.Logging.Version",
 	"table_logging_write":                                    "description.StorageServiceProperties.Logging.Write",
+	"table_properties":                                       "description.TableProperties",
 	"tags":                                                   "description.Account.Tags",
 	"title":                                                  "description.Account.Name",
 	"type":                                                   "description.Account.Type",
@@ -61746,6 +61810,7 @@ func (p ManagementGroupPaginator) NextPage(ctx context.Context) ([]ManagementGro
 }
 
 var listManagementGroupFilters = map[string]string{
+	"children":         "description.Group.Properties.Children",
 	"display_name":     "description.Group.Properties.DisplayName",
 	"id":               "description.Group.ID",
 	"kaytu_account_id": "metadata.SourceID",
@@ -61754,6 +61819,9 @@ var listManagementGroupFilters = map[string]string{
 	"tenant_id":        "description.Group.Properties.TenantID",
 	"title":            "description.Group.Name",
 	"type":             "description.Group.Type",
+	"updated_by":       "description.Group.Properties.Details.UpdatedBy",
+	"updated_time":     "description.Group.Properties.Details.UpdatedTime.Time",
+	"version":          "description.Group.Properties.Details.Version",
 }
 
 func ListManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -61817,6 +61885,7 @@ func ListManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getManagementGroupFilters = map[string]string{
+	"children":         "description.Group.Properties.Children",
 	"display_name":     "description.Group.Properties.DisplayName",
 	"id":               "description.Group.ID",
 	"kaytu_account_id": "metadata.SourceID",
@@ -61825,6 +61894,9 @@ var getManagementGroupFilters = map[string]string{
 	"tenant_id":        "description.Group.Properties.TenantID",
 	"title":            "description.Group.Name",
 	"type":             "description.Group.Type",
+	"updated_by":       "description.Group.Properties.Details.UpdatedBy",
+	"updated_time":     "description.Group.Properties.Details.UpdatedTime.Time",
+	"version":          "description.Group.Properties.Details.Version",
 }
 
 func GetManagementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
