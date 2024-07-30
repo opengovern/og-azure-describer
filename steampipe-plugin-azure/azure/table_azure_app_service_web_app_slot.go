@@ -2,8 +2,9 @@ package azure
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 	"strings"
+
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 
 	"github.com/Azure/azure-sdk-for-go/services/web/mgmt/2020-06-01/web"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -221,6 +222,13 @@ func tableAzureAppServiceWebAppSlot(_ context.Context) *plugin.Table {
 				Description: "Status of the last deployment slot swap operation.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.Site.Properties.SlotSwapStatus")},
+
+			{
+				Name:        "site_config_resource",
+				Description: "Configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Site.Properties.SiteConfig"),
+			},
 
 			// Steampipe standard columns
 			{
