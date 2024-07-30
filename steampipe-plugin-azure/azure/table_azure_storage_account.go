@@ -304,6 +304,18 @@ func tableAzureStorageAccount(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Account.Properties.PrimaryEndpoints.Web")},
 			{
+				Name:        "public_network_access",
+				Description: "Allow or disallow public network access to Storage Account. Value is optional but if passed in, must be Enabled or Disabled.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Account.Properties.PublicNetworkAccess"),
+			},
+			{
+				Name:        "status_of_primary",
+				Description: "The status indicating whether the primary location of the storage account is available or unavailable. Possible values include: 'available', 'unavailable'.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Account.Properties.StatusOfPrimary"),
+			},
+			{
 				Name:        "provisioning_state",
 				Description: "The provisioning state of the storage account resource.",
 				Type:        proto.ColumnType_STRING,
@@ -320,6 +332,12 @@ func tableAzureStorageAccount(_ context.Context) *plugin.Table {
 				Description: "Contains the location of the geo-replicated secondary for the storage account.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Account.Properties.SecondaryLocation")},
+			{
+				Name:        "status_of_secondary",
+				Description: "The status indicating whether the secondary location of the storage account is available or unavailable. Only available if the SKU name is Standard_GRS or Standard_RAGRS. Possible values include: 'available', 'unavailable'.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Account.Properties.StatusOfSecondary"),
+			},
 			{
 				Name:        "diagnostic_settings",
 				Description: "A list of active diagnostic settings for the storage account.",
@@ -352,6 +370,16 @@ func tableAzureStorageAccount(_ context.Context) *plugin.Table {
 				Description: "A list of private endpoint connection associated with the specified storage account.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.Account.Properties.PrivateEndpointConnections")},
+			{
+				Name:        "table_properties",
+				Description: "Azure Analytics Logging settings of tables.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.TableProperties")},
+			{
+				Name:        "access_keys",
+				Description: "The list of access keys or Kerberos keys (if active directory enabled) for the specified storage account.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.AccessKeys")},
 			{
 				Name:        "virtual_network_rules",
 				Description: "A list of virtual network rules.",

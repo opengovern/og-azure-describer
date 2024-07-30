@@ -5,6 +5,7 @@ package model
 import (
 	"time"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/data/aztables"
 	"github.com/Azure/azure-sdk-for-go/sdk/keyvault/azcertificates"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/analysisservices/armanalysisservices"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
@@ -2531,6 +2532,8 @@ type StorageAccountDescription struct {
 	FileServiceProperties       *armstorage.FileServiceProperties
 	DiagnosticSettingsResources []*armmonitor.DiagnosticSettingsResource
 	EncryptionScopes            []*armstorage.EncryptionScope
+	TableProperties             aztables.ServiceProperties
+	AccessKeys                  []map[string]interface{}
 	ResourceGroup               string
 }
 

@@ -3,11 +3,13 @@ package describer
 import (
 	"context"
 	"fmt"
+	"strings"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/data/aztables"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
-	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob"
 	azblobOld "github.com/Azure/azure-storage-blob-go/azblob"
@@ -279,6 +281,52 @@ func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsCl
 		}
 	}
 
+	v, err := storageClient.ListKeys(ctx, *resourceGroup, *account.Name, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var tableProperties aztables.ServiceProperties
+	if *account.Kind != "FileStorage" {
+
+		for _, key := range v.Keys {
+			serviceUrl := "https://" + *account.Name + ".table.core.windows.net/"
+
+			auth, err := aztables.NewSharedKeyCredential(*account.Name, *key.Value)
+			if err != nil {
+				return nil, err
+			}
+
+			client, _ := aztables.NewServiceClientWithSharedKey(serviceUrl, auth, nil)
+
+			op, err := client.GetProperties(ctx, &aztables.GetPropertiesOptions{})
+			if err != nil {
+				return nil, err
+			} else {
+				tableProperties = op.ServiceProperties
+				break
+			}
+
+		}
+	}
+
+	var keysMap []map[string]interface{}
+	if len(v.Keys) > 0 {
+		for _, key := range v.Keys {
+			keyMap := make(map[string]interface{})
+			if key.KeyName != nil {
+				keyMap["KeyName"] = *key.KeyName
+			}
+			if key.Value != nil {
+				keyMap["Value"] = *key.Value
+			}
+			if key.Permissions != nil {
+				keyMap["Permissions"] = key.Permissions
+			}
+			keysMap = append(keysMap, keyMap)
+		}
+	}
+
 	resource := Resource{
 		ID:       *account.ID,
 		Name:     *account.Name,
@@ -293,6 +341,8 @@ func GetStorageAccount(ctx context.Context, storageClient *armstorage.AccountsCl
 				FileServiceProperties:       storageGetServicePropertiesOp,
 				DiagnosticSettingsResources: diagSettingsOp,
 				EncryptionScopes:            vsop,
+				TableProperties:             tableProperties,
+				AccessKeys:                  keysMap,
 				ResourceGroup:               *resourceGroup,
 			},
 		},
