@@ -58,3 +58,54 @@ func getLighthouseDefinition(_ context.Context, lighthouseDefinition *armmanaged
 	}
 	return &resource
 }
+
+func LighthouseAssignments(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+	clientFactory, err := armmanagedservices.NewClientFactory(cred, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	client := clientFactory.NewRegistrationAssignmentsClient()
+	scope := fmt.Sprintf("subscriptions/%s", subscription)
+	pager := client.NewListPager(scope, nil)
+
+	var resources []Resource
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, assignment := range page.Value {
+			resource := getLighthouseAssignment(ctx, assignment, scope)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				resources = append(resources, *resource)
+			}
+		}
+	}
+	return resources, nil
+
+}
+
+func getLighthouseAssignment(_ context.Context, lighthouseAssignment *armmanagedservices.RegistrationAssignment, scope string) *Resource {
+
+	resourceGroup := strings.Split(*lighthouseAssignment.ID, "/")[4]
+
+	resource := Resource{
+		ID:   *lighthouseAssignment.ID,
+		Name: *lighthouseAssignment.Name,
+		Type: *lighthouseAssignment.Type,
+		Description: JSONAllFieldsMarshaller{
+			Value: model.LighthouseAssignment{
+				LighthouseAssignment: *lighthouseAssignment,
+				Scope:                scope,
+				ResourceGroup:        resourceGroup,
+			},
+		},
+	}
+	return &resource
+
+}

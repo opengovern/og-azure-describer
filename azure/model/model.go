@@ -2806,3 +2806,9 @@ type LighthouseDescription struct {
 	Scope                string
 	ResourceGroup        string
 }
+
+type LighthouseAssignment struct {
+	LighthouseAssignment armmanagedservices.RegistrationAssignment
+	Scope                string
+	ResourceGroup        string
+}
