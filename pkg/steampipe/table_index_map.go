@@ -89,7 +89,7 @@ var azureMap = map[string]string{
   "Microsoft.StreamAnalytics/streamingJobs": "azure_stream_analytics_job",
   "Microsoft.CostManagement/CostBySubscription": "azure_costmanagement_costbysubscription",
   "Microsoft.ContainerService/managedClusters": "azure_kubernetes_cluster",
-  "Microsoft.HybridContainerService/locations/orchestrators": "azure_kubernetes_service_version",
+  "Microsoft.ContainerService/serviceVersions": "azure_kubernetes_service_version",
   "Microsoft.DataFactory/factories": "azure_data_factory",
   "Microsoft.Sql/servers": "azure_sql_server",
   "Microsoft.Sql/servers/jobagents": "azure_sql_serversjobagents",
@@ -167,6 +167,7 @@ var azureMap = map[string]string{
   "Microsoft.Storage/storageAccounts/blobServices": "azure_storage_blob_service",
   "Microsoft.Storage/storageAccounts/queueServices": "azure_storage_queue",
   "Microsoft.ApiManagement/service": "azure_api_management",
+  "Microsoft.ApiManagement/backend": "azure_api_management_backend",
   "Microsoft.Compute/disksreadops": "azure_compute_disk_metric_read_ops",
   "Microsoft.Compute/virtualMachineScaleSets": "azure_compute_virtual_machine_scale_set",
   "Microsoft.DataFactory/factories/datasets": "azure_data_factory_dataset",
@@ -233,6 +234,9 @@ var azureMap = map[string]string{
   "Microsoft.Purview/Accounts": "azure_purview_account",
   "Microsoft.PowerBIDedicated/capacities": "azure_powerbidedicated_capacity",
   "Microsoft.Insights/components": "azure_application_insight",
+  "Microsoft.Lighthouse/definition": "azure_lighthouse_definition",
+  "Microsoft.Lighthouse/assignment": "azure_lighthouse_assignment",
+  "Microsoft.Maintenance/maintenanceConfigurations": "azure_maintenance_configuration",
 }
 
 var AzureDescriptionMap = map[string]interface{}{
@@ -319,7 +323,7 @@ var AzureDescriptionMap = map[string]interface{}{
   "Microsoft.StreamAnalytics/streamingJobs": kaytu.StreamAnalyticsJob{},
   "Microsoft.CostManagement/CostBySubscription": kaytu.CostManagementCostBySubscription{},
   "Microsoft.ContainerService/managedClusters": kaytu.KubernetesCluster{},
-  "Microsoft.HybridContainerService/locations/orchestrators": kaytu.KubernetesServiceVersion{},
+  "Microsoft.ContainerService/serviceVersions": kaytu.KubernetesServiceVersion{},
   "Microsoft.DataFactory/factories": kaytu.DataFactory{},
   "Microsoft.Sql/servers": kaytu.SqlServer{},
   "Microsoft.Sql/servers/jobagents": kaytu.SqlServerJobAgent{},
@@ -397,6 +401,7 @@ var AzureDescriptionMap = map[string]interface{}{
   "Microsoft.Storage/storageAccounts/blobServices": kaytu.StorageBlobService{},
   "Microsoft.Storage/storageAccounts/queueServices": kaytu.StorageQueue{},
   "Microsoft.ApiManagement/service": kaytu.APIManagement{},
+  "Microsoft.ApiManagement/backend": kaytu.APIManagementBackend{},
   "Microsoft.Compute/disksreadops": kaytu.ComputeDiskReadOps{},
   "Microsoft.Compute/virtualMachineScaleSets": kaytu.ComputeVirtualMachineScaleSet{},
   "Microsoft.DataFactory/factories/datasets": kaytu.DataFactoryDataset{},
@@ -463,6 +468,9 @@ var AzureDescriptionMap = map[string]interface{}{
   "Microsoft.Purview/Accounts": kaytu.PurviewAccount{},
   "Microsoft.PowerBIDedicated/capacities": kaytu.PowerBIDedicatedCapacity{},
   "Microsoft.Insights/components": kaytu.ApplicationInsightsComponent{},
+  "Microsoft.Lighthouse/definition": kaytu.LighthouseDefinition{},
+  "Microsoft.Lighthouse/assignment": kaytu.LighthouseAssignment{},
+  "Microsoft.Maintenance/maintenanceConfigurations": kaytu.MaintenanceConfiguration{},
 }
 
 var AzureReverseMap = map[string]string{
@@ -549,7 +557,7 @@ var AzureReverseMap = map[string]string{
   "azure_stream_analytics_job": "Microsoft.StreamAnalytics/streamingJobs",
   "azure_costmanagement_costbysubscription": "Microsoft.CostManagement/CostBySubscription",
   "azure_kubernetes_cluster": "Microsoft.ContainerService/managedClusters",
-  "azure_kubernetes_service_version": "Microsoft.HybridContainerService/locations/orchestrators",
+  "azure_kubernetes_service_version": "Microsoft.ContainerService/serviceVersions",
   "azure_data_factory": "Microsoft.DataFactory/factories",
   "azure_sql_server": "Microsoft.Sql/servers",
   "azure_sql_serversjobagents": "Microsoft.Sql/servers/jobagents",
@@ -627,6 +635,7 @@ var AzureReverseMap = map[string]string{
   "azure_storage_blob_service": "Microsoft.Storage/storageAccounts/blobServices",
   "azure_storage_queue": "Microsoft.Storage/storageAccounts/queueServices",
   "azure_api_management": "Microsoft.ApiManagement/service",
+  "azure_api_management_backend": "Microsoft.ApiManagement/backend",
   "azure_compute_disk_metric_read_ops": "Microsoft.Compute/disksreadops",
   "azure_compute_virtual_machine_scale_set": "Microsoft.Compute/virtualMachineScaleSets",
   "azure_data_factory_dataset": "Microsoft.DataFactory/factories/datasets",
@@ -693,4 +702,7 @@ var AzureReverseMap = map[string]string{
   "azure_purview_account": "Microsoft.Purview/Accounts",
   "azure_powerbidedicated_capacity": "Microsoft.PowerBIDedicated/capacities",
   "azure_application_insight": "Microsoft.Insights/components",
+  "azure_lighthouse_definition": "Microsoft.Lighthouse/definition",
+  "azure_lighthouse_assignment": "Microsoft.Lighthouse/assignment",
+  "azure_maintenance_configuration": "Microsoft.Maintenance/maintenanceConfigurations",
 }

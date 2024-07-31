@@ -23,7 +23,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerinstance/armcontainerinstance"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerregistry/armcontainerregistry"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice/v4"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dashboard/armdashboard"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/databoxedge/armdataboxedge"
@@ -45,7 +45,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hdinsight/armhdinsight"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/healthcareapis/armhealthcareapis"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridcompute/armhybridcompute"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridcontainerservice/armhybridcontainerservice"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridkubernetes/armhybridkubernetes"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iothub/armiothub"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
@@ -53,6 +52,8 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/logic/armlogic"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearning/armmachinelearning"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/maintenance/armmaintenance"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/managedservices/armmanagedservices"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/managementgroups/armmanagementgroups"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mariadb/armmariadb"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
@@ -116,6 +117,12 @@ type APIManagementDescription struct {
 	APIManagement               armapimanagement.ServiceResource
 	DiagnosticSettingsResources *[]armmonitor.DiagnosticSettingsResource
 	ResourceGroup               string
+}
+
+type APIManagementBackendDescription struct {
+	APIManagementBackend armapimanagement.BackendContract
+	ServiceName          string
+	ResourceGroup        string
 }
 
 //  ===================  Automation ==================
@@ -422,8 +429,7 @@ type KubernetesClusterDescription struct {
 //getfilter:name=description.Orchestrator.name
 //getfilter:resource_group=description.ResourceGroup
 type KubernetesServiceVersionDescription struct {
-	Orchestrator  armhybridcontainerservice.OrchestratorVersionProfile
-	ResourceGroup string
+	Version armcontainerservice.KubernetesVersion
 }
 
 //  =================== containerinstance ==================
@@ -2797,4 +2803,25 @@ type ApplicationInsightsComponentDescription struct {
 type AlertManagementDescription struct {
 	Alert         armalertsmanagement.Alert
 	ResourceGroup string
+}
+
+// =================== Lighthouse =================
+
+type LighthouseDefinitionDescription struct {
+	LighthouseDefinition armmanagedservices.RegistrationDefinition
+	Scope                string
+	ResourceGroup        string
+}
+
+type LighthouseAssignmentDescription struct {
+	LighthouseAssignment armmanagedservices.RegistrationAssignment
+	Scope                string
+	ResourceGroup        string
+}
+
+// =================== Maintenance Configuration =================
+
+type MaintenanceConfigurationDescription struct {
+	MaintenanceConfiguration armmaintenance.Configuration
+	ResourceGroup            string
 }

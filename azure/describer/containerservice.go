@@ -3,8 +3,7 @@ package describer
 import (
 	"context"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridcontainerservice/armhybridcontainerservice"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice/v4"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions"
 	"strings"
 
@@ -55,16 +54,16 @@ func getKubernatesCluster(ctx context.Context, v *armcontainerservice.ManagedClu
 	return &resource
 }
 
-func KubernetesService(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+func KubernetesServiceVersion(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
 	subClient, err := armsubscriptions.NewClient(cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	clientFactory, err := armhybridcontainerservice.NewClientFactory(subscription, cred, nil)
+
+	client, err := armcontainerservice.NewManagedClustersClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
-	client := clientFactory.NewClient()
 
 	var values []Resource
 	pager := subClient.NewListLocationsPager(subscription, nil)
@@ -84,31 +83,28 @@ func KubernetesService(ctx context.Context, cred *azidentity.ClientSecretCredent
 	return values, nil
 }
 
-func listLocationKubernatesServices(ctx context.Context, client *armhybridcontainerservice.Client, location *armsubscriptions.Location) ([]Resource, error) {
-	orchestrators, err := client.ListOrchestrators(ctx, *location.ID, nil)
+func listLocationKubernatesServices(ctx context.Context, client *armcontainerservice.ManagedClustersClient, location *armsubscriptions.Location) ([]Resource, error) {
+	kubernetesVersions, err := client.ListKubernetesVersions(ctx, *location.ID, nil)
 	if err != nil {
 		return nil, err
 	}
 	var values []Resource
-	for _, v := range orchestrators.Orchestrators {
-		resource := getKubernatesService(ctx, location, orchestrators, v)
+	for _, v := range kubernetesVersions.Values {
+		resource := getKubernatesService(ctx, location, v)
 		values = append(values, *resource)
 	}
 	return values, nil
 }
 
-func getKubernatesService(ctx context.Context, location *armsubscriptions.Location, orchestrators armhybridcontainerservice.ClientListOrchestratorsResponse, v *armhybridcontainerservice.OrchestratorVersionProfile) *Resource {
-	resourceGroup := strings.Split(*orchestrators.ID, "/")[4]
-
+func getKubernatesService(ctx context.Context, location *armsubscriptions.Location, v *armcontainerservice.KubernetesVersion) *Resource {
 	resource := Resource{
-		ID:       *orchestrators.ID,
-		Name:     *orchestrators.Name,
-		Type:     *orchestrators.Type,
+		ID:       *v.Version,
+		Name:     *v.Version,
+		Type:     *v.Version,
 		Location: *location.ID,
 		Description: JSONAllFieldsMarshaller{
 			Value: model.KubernetesServiceVersionDescription{
-				Orchestrator:  *v,
-				ResourceGroup: resourceGroup,
+				Version: *v,
 			},
 		},
 	}

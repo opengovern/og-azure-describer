@@ -358,6 +358,293 @@ func GetAPIManagement(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 // ==========================  END: APIManagement =============================
 
+// ==========================  START: APIManagementBackend =============================
+
+type APIManagementBackend struct {
+	Description   azure.APIManagementBackendDescription `json:"description"`
+	Metadata      azure.Metadata                        `json:"metadata"`
+	ResourceJobID int                                   `json:"resource_job_id"`
+	SourceJobID   int                                   `json:"source_job_id"`
+	ResourceType  string                                `json:"resource_type"`
+	SourceType    string                                `json:"source_type"`
+	ID            string                                `json:"id"`
+	ARN           string                                `json:"arn"`
+	SourceID      string                                `json:"source_id"`
+}
+
+func (r *APIManagementBackend) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.APIManagementBackendDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type APIManagementBackendHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  APIManagementBackend `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type APIManagementBackendHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []APIManagementBackendHit `json:"hits"`
+}
+
+type APIManagementBackendSearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  APIManagementBackendHits `json:"hits"`
+}
+
+type APIManagementBackendPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAPIManagementBackendPaginator(filters []essdk.BoolFilter, limit *int64) (APIManagementBackendPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_apimanagement_backend", filters, limit)
+	if err != nil {
+		return APIManagementBackendPaginator{}, err
+	}
+
+	p := APIManagementBackendPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p APIManagementBackendPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p APIManagementBackendPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p APIManagementBackendPaginator) NextPage(ctx context.Context) ([]APIManagementBackend, error) {
+	var response APIManagementBackendSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []APIManagementBackend
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAPIManagementBackendFilters = map[string]string{
+	"credentials":    "description.APIManagementBackend.Properties.Credentials",
+	"description":    "description.APIManagementBackend.Properties.Description",
+	"id":             "description.APIManagementBackend.ID",
+	"name":           "description.APIManagementBackend.Name",
+	"properties":     "description.APIManagementBackend.Properties.Properties",
+	"protocol":       "description.APIManagementBackend.Properties.Protocol",
+	"proxy":          "description.APIManagementBackend.Properties.Proxy",
+	"resource_group": "description.APIManagementBackend.ResourceGroup",
+	"resource_id":    "description.APIManagementBackend.Properties.ResourceID",
+	"service_name":   "description.ServiceName",
+	"title":          "description.APIManagementBackend.Properties.Title",
+	"tls":            "description.APIManagementBackend.Properties.TLS",
+	"type":           "description.APIManagementBackend.Type",
+	"url":            "description.APIManagementBackend.Properties.URL",
+}
+
+func ListAPIManagementBackend(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAPIManagementBackend")
+	runtime.GC()
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAPIManagementBackend NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAPIManagementBackend NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAPIManagementBackend GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAPIManagementBackend GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAPIManagementBackend GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewAPIManagementBackendPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAPIManagementBackendFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAPIManagementBackend NewAPIManagementBackendPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListAPIManagementBackend paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getAPIManagementBackendFilters = map[string]string{
+	"credentials":    "description.APIManagementBackend.Properties.Credentials",
+	"description":    "description.APIManagementBackend.Properties.Description",
+	"id":             "description.APIManagementBackend.ID",
+	"name":           "description.APIManagementBackend.Name",
+	"properties":     "description.APIManagementBackend.Properties.Properties",
+	"protocol":       "description.APIManagementBackend.Properties.Protocol",
+	"proxy":          "description.APIManagementBackend.Properties.Proxy",
+	"resource_group": "description.APIManagementBackend.ResourceGroup",
+	"resource_id":    "description.APIManagementBackend.Properties.ResourceID",
+	"service_name":   "description.ServiceName",
+	"title":          "description.APIManagementBackend.Properties.Title",
+	"tls":            "description.APIManagementBackend.Properties.TLS",
+	"type":           "description.APIManagementBackend.Type",
+	"url":            "description.APIManagementBackend.Properties.URL",
+}
+
+func GetAPIManagementBackend(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAPIManagementBackend")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewAPIManagementBackendPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAPIManagementBackendFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: APIManagementBackend =============================
+
 // ==========================  START: AutomationAccounts =============================
 
 type AutomationAccounts struct {
@@ -11414,7 +11701,7 @@ type KubernetesServiceVersionPaginator struct {
 }
 
 func (k Client) NewKubernetesServiceVersionPaginator(filters []essdk.BoolFilter, limit *int64) (KubernetesServiceVersionPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_hybridcontainerservice_locations_orchestrators", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_containerservice_serviceversions", filters, limit)
 	if err != nil {
 		return KubernetesServiceVersionPaginator{}, err
 	}
@@ -11457,16 +11744,12 @@ func (p KubernetesServiceVersionPaginator) NextPage(ctx context.Context) ([]Kube
 }
 
 var listKubernetesServiceVersionFilters = map[string]string{
-	"default":              "description.Orchestrator.Default",
-	"id":                   "ID",
-	"is_preview":           "description.Orchestrator.IsPreview",
-	"kaytu_account_id":     "metadata.SourceID",
-	"name":                 "Name",
-	"orchestrator_type":    "description.Orchestrator.OrchestratorType",
-	"orchestrator_version": "description.Orchestrator.OrchestratorVersion",
-	"title":                "Name",
-	"type":                 "Type",
-	"upgrades":             "description.Orchestrator.Upgrades",
+	"capabilities":     "description.Version.Capabilities",
+	"is_preview":       "description.Version.IsPreview",
+	"kaytu_account_id": "metadata.SourceID",
+	"patch_versions":   "description.Version.PatchVersions",
+	"title":            "description.Version.Version",
+	"version":          "description.Version.Version",
 }
 
 func ListKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -11530,17 +11813,14 @@ func ListKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getKubernetesServiceVersionFilters = map[string]string{
-	"default":              "description.Orchestrator.Default",
-	"id":                   "ID",
-	"is_preview":           "description.Orchestrator.IsPreview",
-	"kaytu_account_id":     "metadata.SourceID",
-	"name":                 "description.Orchestrator.name",
-	"orchestrator_type":    "description.Orchestrator.OrchestratorType",
-	"orchestrator_version": "description.Orchestrator.OrchestratorVersion",
-	"resource_group":       "description.ResourceGroup",
-	"title":                "Name",
-	"type":                 "Type",
-	"upgrades":             "description.Orchestrator.Upgrades",
+	"capabilities":     "description.Version.Capabilities",
+	"is_preview":       "description.Version.IsPreview",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Orchestrator.name",
+	"patch_versions":   "description.Version.PatchVersions",
+	"resource_group":   "description.ResourceGroup",
+	"title":            "description.Version.Version",
+	"version":          "description.Version.Version",
 }
 
 func GetKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -65491,3 +65771,854 @@ func GetApplicationInsightsComponent(ctx context.Context, d *plugin.QueryData, _
 }
 
 // ==========================  END: ApplicationInsightsComponent =============================
+
+// ==========================  START: LighthouseDefinition =============================
+
+type LighthouseDefinition struct {
+	Description   azure.LighthouseDefinitionDescription `json:"description"`
+	Metadata      azure.Metadata                        `json:"metadata"`
+	ResourceJobID int                                   `json:"resource_job_id"`
+	SourceJobID   int                                   `json:"source_job_id"`
+	ResourceType  string                                `json:"resource_type"`
+	SourceType    string                                `json:"source_type"`
+	ID            string                                `json:"id"`
+	ARN           string                                `json:"arn"`
+	SourceID      string                                `json:"source_id"`
+}
+
+func (r *LighthouseDefinition) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.LighthouseDefinitionDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type LighthouseDefinitionHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  LighthouseDefinition `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type LighthouseDefinitionHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []LighthouseDefinitionHit `json:"hits"`
+}
+
+type LighthouseDefinitionSearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  LighthouseDefinitionHits `json:"hits"`
+}
+
+type LighthouseDefinitionPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewLighthouseDefinitionPaginator(filters []essdk.BoolFilter, limit *int64) (LighthouseDefinitionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_lighthouse_definition", filters, limit)
+	if err != nil {
+		return LighthouseDefinitionPaginator{}, err
+	}
+
+	p := LighthouseDefinitionPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p LighthouseDefinitionPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p LighthouseDefinitionPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p LighthouseDefinitionPaginator) NextPage(ctx context.Context) ([]LighthouseDefinition, error) {
+	var response LighthouseDefinitionSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []LighthouseDefinition
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listLighthouseDefinitionFilters = map[string]string{
+	"authorizations":               "description.LighthouseDefinition.Properties.Authorizations",
+	"description":                  "description.LighthouseDefinition.Properties.Description",
+	"eligible_authorizations":      "description.LighthouseDefinition.Properties.EligibleAuthorizations",
+	"id":                           "description.LighthouseDefinition.ID",
+	"managed_by_tenant_id":         "description.LighthouseDefinition.Properties.ManagedByTenantID",
+	"managed_by_tenant_name":       "description.LighthouseDefinition.Properties.ManagedByTenantName",
+	"managed_tenant_name":          "description.LighthouseDefinition.Properties.ManageeTenantName",
+	"name":                         "description.LighthouseDefinition.Name",
+	"registration_definition_name": "description.LighthouseDefinition.Properties.RegistrationDefinitionName",
+	"resource_group":               "description.ResourceGroup",
+	"scope":                        "description.Scope",
+	"title":                        "description.LighthouseDefinition.Name",
+	"type":                         "description.LighthouseDefinition.Type",
+}
+
+func ListLighthouseDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListLighthouseDefinition")
+	runtime.GC()
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListLighthouseDefinition NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListLighthouseDefinition NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListLighthouseDefinition GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListLighthouseDefinition GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListLighthouseDefinition GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewLighthouseDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLighthouseDefinitionFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListLighthouseDefinition NewLighthouseDefinitionPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListLighthouseDefinition paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getLighthouseDefinitionFilters = map[string]string{
+	"authorizations":               "description.LighthouseDefinition.Properties.Authorizations",
+	"description":                  "description.LighthouseDefinition.Properties.Description",
+	"eligible_authorizations":      "description.LighthouseDefinition.Properties.EligibleAuthorizations",
+	"id":                           "description.LighthouseDefinition.ID",
+	"managed_by_tenant_id":         "description.LighthouseDefinition.Properties.ManagedByTenantID",
+	"managed_by_tenant_name":       "description.LighthouseDefinition.Properties.ManagedByTenantName",
+	"managed_tenant_name":          "description.LighthouseDefinition.Properties.ManageeTenantName",
+	"name":                         "description.LighthouseDefinition.Name",
+	"registration_definition_name": "description.LighthouseDefinition.Properties.RegistrationDefinitionName",
+	"resource_group":               "description.ResourceGroup",
+	"scope":                        "description.Scope",
+	"title":                        "description.LighthouseDefinition.Name",
+	"type":                         "description.LighthouseDefinition.Type",
+}
+
+func GetLighthouseDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetLighthouseDefinition")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewLighthouseDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLighthouseDefinitionFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: LighthouseDefinition =============================
+
+// ==========================  START: LighthouseAssignment =============================
+
+type LighthouseAssignment struct {
+	Description   azure.LighthouseAssignmentDescription `json:"description"`
+	Metadata      azure.Metadata                        `json:"metadata"`
+	ResourceJobID int                                   `json:"resource_job_id"`
+	SourceJobID   int                                   `json:"source_job_id"`
+	ResourceType  string                                `json:"resource_type"`
+	SourceType    string                                `json:"source_type"`
+	ID            string                                `json:"id"`
+	ARN           string                                `json:"arn"`
+	SourceID      string                                `json:"source_id"`
+}
+
+func (r *LighthouseAssignment) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.LighthouseAssignmentDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type LighthouseAssignmentHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  LighthouseAssignment `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type LighthouseAssignmentHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []LighthouseAssignmentHit `json:"hits"`
+}
+
+type LighthouseAssignmentSearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  LighthouseAssignmentHits `json:"hits"`
+}
+
+type LighthouseAssignmentPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewLighthouseAssignmentPaginator(filters []essdk.BoolFilter, limit *int64) (LighthouseAssignmentPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_lighthouse_assignment", filters, limit)
+	if err != nil {
+		return LighthouseAssignmentPaginator{}, err
+	}
+
+	p := LighthouseAssignmentPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p LighthouseAssignmentPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p LighthouseAssignmentPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p LighthouseAssignmentPaginator) NextPage(ctx context.Context) ([]LighthouseAssignment, error) {
+	var response LighthouseAssignmentSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []LighthouseAssignment
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listLighthouseAssignmentFilters = map[string]string{
+	"id":                         "description.LighthouseAssignment.ID",
+	"name":                       "description.LighthouseAssignment.Name",
+	"provisioning_state":         "description.LighthouseAssignment.Properties.ProvisioningState",
+	"registration_definition_id": "description.LighthouseAssignment.Properties.RegistrationDefinitionID",
+	"resource_group":             "description.ResourceGroup",
+	"scope":                      "description.Scope",
+	"title":                      "description.LighthouseAssignment.Name",
+	"type":                       "description.LighthouseAssignment.Type",
+}
+
+func ListLighthouseAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListLighthouseAssignment")
+	runtime.GC()
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListLighthouseAssignment NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListLighthouseAssignment NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListLighthouseAssignment GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListLighthouseAssignment GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListLighthouseAssignment GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewLighthouseAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLighthouseAssignmentFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListLighthouseAssignment NewLighthouseAssignmentPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListLighthouseAssignment paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getLighthouseAssignmentFilters = map[string]string{
+	"id":                         "description.LighthouseAssignment.ID",
+	"name":                       "description.LighthouseAssignment.Name",
+	"provisioning_state":         "description.LighthouseAssignment.Properties.ProvisioningState",
+	"registration_definition_id": "description.LighthouseAssignment.Properties.RegistrationDefinitionID",
+	"resource_group":             "description.ResourceGroup",
+	"scope":                      "description.Scope",
+	"title":                      "description.LighthouseAssignment.Name",
+	"type":                       "description.LighthouseAssignment.Type",
+}
+
+func GetLighthouseAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetLighthouseAssignment")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewLighthouseAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLighthouseAssignmentFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: LighthouseAssignment =============================
+
+// ==========================  START: MaintenanceConfiguration =============================
+
+type MaintenanceConfiguration struct {
+	Description   azure.MaintenanceConfigurationDescription `json:"description"`
+	Metadata      azure.Metadata                            `json:"metadata"`
+	ResourceJobID int                                       `json:"resource_job_id"`
+	SourceJobID   int                                       `json:"source_job_id"`
+	ResourceType  string                                    `json:"resource_type"`
+	SourceType    string                                    `json:"source_type"`
+	ID            string                                    `json:"id"`
+	ARN           string                                    `json:"arn"`
+	SourceID      string                                    `json:"source_id"`
+}
+
+func (r *MaintenanceConfiguration) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.MaintenanceConfigurationDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type MaintenanceConfigurationHit struct {
+	ID      string                   `json:"_id"`
+	Score   float64                  `json:"_score"`
+	Index   string                   `json:"_index"`
+	Type    string                   `json:"_type"`
+	Version int64                    `json:"_version,omitempty"`
+	Source  MaintenanceConfiguration `json:"_source"`
+	Sort    []interface{}            `json:"sort"`
+}
+
+type MaintenanceConfigurationHits struct {
+	Total essdk.SearchTotal             `json:"total"`
+	Hits  []MaintenanceConfigurationHit `json:"hits"`
+}
+
+type MaintenanceConfigurationSearchResponse struct {
+	PitID string                       `json:"pit_id"`
+	Hits  MaintenanceConfigurationHits `json:"hits"`
+}
+
+type MaintenanceConfigurationPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewMaintenanceConfigurationPaginator(filters []essdk.BoolFilter, limit *int64) (MaintenanceConfigurationPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_maintenance_maintenanceconfigurations", filters, limit)
+	if err != nil {
+		return MaintenanceConfigurationPaginator{}, err
+	}
+
+	p := MaintenanceConfigurationPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p MaintenanceConfigurationPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p MaintenanceConfigurationPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p MaintenanceConfigurationPaginator) NextPage(ctx context.Context) ([]MaintenanceConfiguration, error) {
+	var response MaintenanceConfigurationSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []MaintenanceConfiguration
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listMaintenanceConfigurationFilters = map[string]string{
+	"created_by":            "description.MaintenanceConfiguration.SystemData.CreatedBy",
+	"created_by_type":       "description.MaintenanceConfiguration.SystemData.CreatedByType",
+	"extension_properties":  "CDescription.MaintenanceConfiguration.Properties.ExtensionProperties",
+	"id":                    "description.MaintenanceConfiguration.ID",
+	"last_modified_by":      "description.MaintenanceConfiguration.SystemData.LastModifiedBy",
+	"last_modified_by_type": "description.MaintenanceConfiguration.SystemData.LastModifiedByType",
+	"maintenance_scope":     "description.MaintenanceConfiguration.Properties.MaintenanceScope",
+	"name":                  "description.MaintenanceConfiguration.Name",
+	"namespace":             "description.MaintenanceConfiguration.Properties.Namespace",
+	"resource_group":        "description.ResourceGroup",
+	"system_data":           "description.MaintenanceConfiguration.SystemData",
+	"tags":                  "description.MaintenanceConfiguration.Tags",
+	"title":                 "description.MaintenanceConfiguration.Name",
+	"type":                  "description.MaintenanceConfiguration.Type",
+	"visibility":            "description.MaintenanceConfiguration.Properties.Visibility",
+	"window":                "description.MaintenanceConfiguration.Properties.Window",
+}
+
+func ListMaintenanceConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListMaintenanceConfiguration")
+	runtime.GC()
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListMaintenanceConfiguration NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListMaintenanceConfiguration NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListMaintenanceConfiguration GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListMaintenanceConfiguration GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListMaintenanceConfiguration GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewMaintenanceConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMaintenanceConfigurationFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListMaintenanceConfiguration NewMaintenanceConfigurationPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListMaintenanceConfiguration paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getMaintenanceConfigurationFilters = map[string]string{
+	"created_by":            "description.MaintenanceConfiguration.SystemData.CreatedBy",
+	"created_by_type":       "description.MaintenanceConfiguration.SystemData.CreatedByType",
+	"extension_properties":  "CDescription.MaintenanceConfiguration.Properties.ExtensionProperties",
+	"id":                    "description.MaintenanceConfiguration.ID",
+	"last_modified_by":      "description.MaintenanceConfiguration.SystemData.LastModifiedBy",
+	"last_modified_by_type": "description.MaintenanceConfiguration.SystemData.LastModifiedByType",
+	"maintenance_scope":     "description.MaintenanceConfiguration.Properties.MaintenanceScope",
+	"name":                  "description.MaintenanceConfiguration.Name",
+	"namespace":             "description.MaintenanceConfiguration.Properties.Namespace",
+	"resource_group":        "description.ResourceGroup",
+	"system_data":           "description.MaintenanceConfiguration.SystemData",
+	"tags":                  "description.MaintenanceConfiguration.Tags",
+	"title":                 "description.MaintenanceConfiguration.Name",
+	"type":                  "description.MaintenanceConfiguration.Type",
+	"visibility":            "description.MaintenanceConfiguration.Properties.Visibility",
+	"window":                "description.MaintenanceConfiguration.Properties.Window",
+}
+
+func GetMaintenanceConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetMaintenanceConfiguration")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewMaintenanceConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMaintenanceConfigurationFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: MaintenanceConfiguration =============================

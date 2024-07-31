@@ -1307,15 +1307,15 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"Microsoft.HybridContainerService/locations/orchestrators": {
+	"Microsoft.ContainerService/serviceVersions": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.HybridContainerService/locations/orchestrators",
+		ResourceName:         "Microsoft.ContainerService/serviceVersions",
 		ResourceLabel:        "Kubernetes Service Version",
 		Tags:                 map[string][]string{
             "category": {"Container"},
         },
 		ServiceName:          "ContainerService",
-		ListDescriber:        DescribeBySubscription(describer.KubernetesService),
+		ListDescriber:        DescribeBySubscription(describer.KubernetesServiceVersion),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "containers",
@@ -2535,6 +2535,23 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"Microsoft.ApiManagement/backend": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.ApiManagement/backend",
+		ResourceLabel:        "API management backend",
+		Tags:                 map[string][]string{
+            "category": {"PaaS"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/API%20Management%20Service.svg"},
+        },
+		ServiceName:          "ApiManagement",
+		ListDescriber:        DescribeBySubscription(describer.APIManagementBackend),
+		GetDescriber:         nil,
+		TerraformName:        []string{"azurerm_api_management_backend"},
+		TerraformServiceName: "apimanagement",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
 	"Microsoft.Compute/virtualMachineScaleSets": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.Compute/virtualMachineScaleSets",
@@ -3457,6 +3474,57 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"azurerm_application_insights"},
 		TerraformServiceName: "applicationinsights",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Lighthouse/definition": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Lighthouse/definition",
+		ResourceLabel:        "LightHouse Definitions",
+		Tags:                 map[string][]string{
+            "category": {},
+            "logo_uri": {},
+        },
+		ServiceName:          "Lighthouse",
+		ListDescriber:        DescribeBySubscription(describer.LighthouseDefinition),
+		GetDescriber:         nil,
+		TerraformName:        []string{"azurerm_lighthouse_definition"},
+		TerraformServiceName: "lighthouse",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Lighthouse/assignment": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Lighthouse/assignment",
+		ResourceLabel:        "LightHouse Assignments",
+		Tags:                 map[string][]string{
+            "category": {},
+            "logo_uri": {},
+        },
+		ServiceName:          "Lighthouse",
+		ListDescriber:        DescribeBySubscription(describer.LighthouseAssignments),
+		GetDescriber:         nil,
+		TerraformName:        []string{"azurerm_lighthouse_assignment"},
+		TerraformServiceName: "lighthouse",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Maintenance/maintenanceConfigurations": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Maintenance/maintenanceConfigurations",
+		ResourceLabel:        "Maintenance Configurations",
+		Tags:                 map[string][]string{
+            "category": {},
+            "logo_uri": {},
+        },
+		ServiceName:          "Maintenance",
+		ListDescriber:        DescribeBySubscription(describer.MaintenanceConfiguration),
+		GetDescriber:         nil,
+		TerraformName:        []string{"azurerm_maintenance_configuration"},
+		TerraformServiceName: "maintenance",
 		FastDiscovery:        false,
 		Summarize:            false,
 	},
