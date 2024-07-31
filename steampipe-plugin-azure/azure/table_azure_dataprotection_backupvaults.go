@@ -2,6 +2,7 @@ package azure
 
 import (
 	"context"
+
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -31,6 +32,54 @@ func tableAzureDataProtectionBackupVaults(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.BackupVaults.Name")},
 			{
+				Name:        "type",
+				Description: "The resource type.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.BackupVaults.Type"),
+			},
+			{
+				Name:        "location",
+				Description: "The location of the backup vault.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.BackupVaults.Location").Transform(toLower),
+			},
+			{
+				Name:        "provisioning_state",
+				Description: "The provisioning state of the backup vault resource.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.BackupVaults.Properties.ProvisioningState"),
+			},
+			{
+				Name:        "resource_move_state",
+				Description: "The resource move state for the backup vault.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.BackupVaults.Properties.ResourceMoveState"),
+			},
+			{
+				Name:        "storage_settings",
+				Description: "The storage settings of the backup vault.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.BackupVaults.Properties.StorageSettings"),
+			},
+			{
+				Name:        "monitoring_settings",
+				Description: "The Monitoring Settings.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.BackupVaults.Properties.MonitoringSettings"),
+			},
+			{
+				Name:        "identity",
+				Description: "Input Managed Identity Details.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.BackupVaults.Identity"),
+			},
+			{
+				Name:        "system_data",
+				Description: "Metadata pertaining to creation and last modification of the resource.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.BackupVaults.SystemData"),
+			},
+			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,
@@ -47,6 +96,18 @@ func tableAzureDataProtectionBackupVaults(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				// or generate it below (keep the Transform(arnToTurbotAkas) or use Transform(transform.EnsureStringArray))
 				Transform: transform.FromField("Description.BackupVaults.ID").Transform(idToAkas),
+			},
+			{
+				Name:        "region",
+				Description: "The Azure region where the resource is located.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.BackupVaults.Location").Transform(toLower),
+			},
+			{
+				Name:        "resource_group",
+				Description: "The resource group in which the resource is located.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.BackupVaults.ID").Transform(extractResourceGroupFromID),
 			},
 		}),
 	}
