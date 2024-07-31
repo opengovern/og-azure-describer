@@ -120,6 +120,12 @@ type APIManagementDescription struct {
 	ResourceGroup               string
 }
 
+type APIManagementBackendDescription struct {
+	APIManagementBackend armapimanagement.BackendContract
+	ServiceName          string
+	ResourceGroup        string
+}
+
 //  ===================  Automation ==================
 
 //index:microsoft_automation_automationAccounts
