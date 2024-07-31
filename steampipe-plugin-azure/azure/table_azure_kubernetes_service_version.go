@@ -12,22 +12,12 @@ import (
 
 //// TABLE DEFINITION ////
 
-func tableAzureAKSOrchestractor(_ context.Context) *plugin.Table {
+func tableAzureAKSVersion(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "azure_kubernetes_service_version",
 		Description: "Azure Kubernetes Service Version",
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListKubernetesServiceVersion,
-			KeyColumns: plugin.KeyColumnSlice{
-				{
-					Name:    "location",
-					Require: plugin.Required,
-				},
-				{
-					Name:    "resource_type",
-					Require: plugin.Optional,
-				},
-			},
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
