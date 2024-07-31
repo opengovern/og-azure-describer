@@ -2408,8 +2408,9 @@ type PostgresqlServerDescription struct {
 
 //index:microsoft_dbforpostgresql_flexibleservers
 type PostgresqlFlexibleServerDescription struct {
-	ResourceGroup string
-	Server        armpostgresqlflexibleservers.Server
+	ResourceGroup        string
+	Server               armpostgresqlflexibleservers.Server
+	ServerConfigurations []*armpostgresqlflexibleservers.Configuration
 }
 
 //  =================== storagesync ==================
