@@ -2,6 +2,7 @@ package azure
 
 import (
 	"context"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,14 +18,13 @@ func tableAzureAPIManagementBackend(_ context.Context) *plugin.Table {
 		Description: "Azure API Management Backend",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"backend_id", "resource_group", "service_name"}),
-			// Hydrate:    getAPIManagementBackend,
+			Hydrate:    kaytu.GetAPIManagementBackend,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			// ParentHydrate: listAPIManagements,
-			// Hydrate:       listAPIManagementBackends,
+			Hydrate: kaytu.ListAPIManagementBackend,
 			KeyColumns: plugin.KeyColumnSlice{
 				{
 					Name:      "service_name",

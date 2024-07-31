@@ -63,6 +63,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"azure_ad_service_principal":                                  tableAzureAdServicePrincipal(ctx),
 			"azure_ad_user":                                               tableAzureAdUser(ctx),
 			"azure_api_management":                                        tableAzureAPIManagement(ctx),
+			"azure_api_management_backend":                                tableAzureAPIManagementBackend(ctx),
 			"azure_app_configuration":                                     tableAzureAppConfiguration(ctx),
 			"azure_app_service_environment":                               tableAzureAppServiceEnvironment(ctx),
 			"azure_app_service_function_app":                              tableAzureAppServiceFunctionApp(ctx),
@@ -237,6 +238,9 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"azure_synapse_workspacesbigdatapools":                        tableAzureSynapseWorkspacesBigDataPools(ctx),
 			"azure_synapse_workspacessqlpools":                            tableAzureSynapseWorkspacesSqlPools(ctx),
 			"azure_user_effective_access":                                 tableAzureUserEffectiveAccess(ctx),
+			"azure_lighthouse_definition":                                 tableAzureLighthouseDefinition(ctx),
+			"azure_lighthouse_assignment":                                 tableAzureLighthouseAssignment(ctx),
+			"azure_maintenance_configuration":                             tableAzureMaintenanceConfiguration(ctx),
 		},
 	}
 

@@ -167,6 +167,7 @@ var azureMap = map[string]string{
   "Microsoft.Storage/storageAccounts/blobServices": "azure_storage_blob_service",
   "Microsoft.Storage/storageAccounts/queueServices": "azure_storage_queue",
   "Microsoft.ApiManagement/service": "azure_api_management",
+  "Microsoft.ApiManagement/backend": "azure_api_management_backend",
   "Microsoft.Compute/disksreadops": "azure_compute_disk_metric_read_ops",
   "Microsoft.Compute/virtualMachineScaleSets": "azure_compute_virtual_machine_scale_set",
   "Microsoft.DataFactory/factories/datasets": "azure_data_factory_dataset",
@@ -233,6 +234,9 @@ var azureMap = map[string]string{
   "Microsoft.Purview/Accounts": "azure_purview_account",
   "Microsoft.PowerBIDedicated/capacities": "azure_powerbidedicated_capacity",
   "Microsoft.Insights/components": "azure_application_insight",
+  "Microsoft.Lighthouse/definition": "azure_lighthouse_definition",
+  "Microsoft.Lighthouse/assignment": "azure_lighthouse_assignment",
+  "Microsoft.Maintenance/maintenanceConfigurations": "azure_maintenance_configuration",
 }
 
 var AzureDescriptionMap = map[string]interface{}{
@@ -397,6 +401,7 @@ var AzureDescriptionMap = map[string]interface{}{
   "Microsoft.Storage/storageAccounts/blobServices": kaytu.StorageBlobService{},
   "Microsoft.Storage/storageAccounts/queueServices": kaytu.StorageQueue{},
   "Microsoft.ApiManagement/service": kaytu.APIManagement{},
+  "Microsoft.ApiManagement/backend": kaytu.APIManagementBackend{},
   "Microsoft.Compute/disksreadops": kaytu.ComputeDiskReadOps{},
   "Microsoft.Compute/virtualMachineScaleSets": kaytu.ComputeVirtualMachineScaleSet{},
   "Microsoft.DataFactory/factories/datasets": kaytu.DataFactoryDataset{},
@@ -463,6 +468,9 @@ var AzureDescriptionMap = map[string]interface{}{
   "Microsoft.Purview/Accounts": kaytu.PurviewAccount{},
   "Microsoft.PowerBIDedicated/capacities": kaytu.PowerBIDedicatedCapacity{},
   "Microsoft.Insights/components": kaytu.ApplicationInsightsComponent{},
+  "Microsoft.Lighthouse/definition": kaytu.LighthouseDefinition{},
+  "Microsoft.Lighthouse/assignment": kaytu.LighthouseAssignment{},
+  "Microsoft.Maintenance/maintenanceConfigurations": kaytu.MaintenanceConfiguration{},
 }
 
 var AzureReverseMap = map[string]string{
@@ -627,6 +635,7 @@ var AzureReverseMap = map[string]string{
   "azure_storage_blob_service": "Microsoft.Storage/storageAccounts/blobServices",
   "azure_storage_queue": "Microsoft.Storage/storageAccounts/queueServices",
   "azure_api_management": "Microsoft.ApiManagement/service",
+  "azure_api_management_backend": "Microsoft.ApiManagement/backend",
   "azure_compute_disk_metric_read_ops": "Microsoft.Compute/disksreadops",
   "azure_compute_virtual_machine_scale_set": "Microsoft.Compute/virtualMachineScaleSets",
   "azure_data_factory_dataset": "Microsoft.DataFactory/factories/datasets",
@@ -693,4 +702,7 @@ var AzureReverseMap = map[string]string{
   "azure_purview_account": "Microsoft.Purview/Accounts",
   "azure_powerbidedicated_capacity": "Microsoft.PowerBIDedicated/capacities",
   "azure_application_insight": "Microsoft.Insights/components",
+  "azure_lighthouse_definition": "Microsoft.Lighthouse/definition",
+  "azure_lighthouse_assignment": "Microsoft.Lighthouse/assignment",
+  "azure_maintenance_configuration": "Microsoft.Maintenance/maintenanceConfigurations",
 }

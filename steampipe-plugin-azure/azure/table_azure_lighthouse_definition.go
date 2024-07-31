@@ -2,6 +2,7 @@ package azure
 
 import (
 	"context"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -29,13 +30,13 @@ func tableAzureLighthouseDefinition(_ context.Context) *plugin.Table {
 					Operators: []string{"="},
 				},
 			},
-			// Hydrate: getAzureLighthouseDefinition,
+			Hydrate: kaytu.GetLighthouseDefinition,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"RegistrationDefinitionNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			// Hydrate:    listAzureLighthouseDefinitions,
+			Hydrate:    kaytu.ListMaintenanceConfiguration,
 			KeyColumns: plugin.OptionalColumns([]string{"scope"}),
 		},
 		Columns: []*plugin.Column{

@@ -2,6 +2,7 @@ package azure
 
 import (
 	"context"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -29,13 +30,13 @@ func tableAzureLighthouseAssignment(_ context.Context) *plugin.Table {
 					Operators: []string{"="},
 				},
 			},
-			// Hydrate: getAzureLighthouseAssignment,
+			Hydrate: kaytu.GetLighthouseAssignment,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"RegistrationAssignmentNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			// Hydrate:    listAzureLighthouseAssignments,
+			Hydrate:    kaytu.ListLighthouseAssignment,
 			KeyColumns: plugin.OptionalColumns([]string{"scope"}),
 		},
 		Columns: []*plugin.Column{
