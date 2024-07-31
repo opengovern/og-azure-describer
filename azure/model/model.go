@@ -2825,3 +2825,10 @@ type MaintenanceConfigurationDescription struct {
 	MaintenanceConfiguration armmaintenance.Configuration
 	ResourceGroup            string
 }
+
+// =================== Monitor Insights =================
+
+type MonitorLogProfileDescription struct {
+	LogProfile    armmonitor.LogProfileResource
+	ResourceGroup string
+}

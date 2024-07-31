@@ -313,6 +313,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mariadb/armmariadb v1.1.1 
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mariadb/armmariadb v1.1.1/go.mod h1:XTDYspbMnf4yoJ6DxcA67WIZmFoJiwDZgemGVKWFRQ4=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor v0.10.1 h1:UpPmkj6X+Nha33xdAXX2wcTNTh9tU6vhCeM/QZIK4q8=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor v0.10.1/go.mod h1:X7+7NZAH9UZInvhObje8DjGbHOQZPzhDUkAvKiX6t00=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor v0.11.0 h1:Ds0KRF8ggpEGg4Vo42oX1cIt/IfOhHWJBikksZbVxeg=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor v0.11.0/go.mod h1:jj6P8ybImR+5topJ+eH6fgcemSFBmU6/6bFF8KkwuDI=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysql v1.1.1 h1:tVC/yzOmNwNEA+BBBdZqIq0OlSAnIPTEr78GXSamfzg=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysql v1.1.1/go.mod h1:R74AaoH5TpsNGNfyMzZEmf326Wdn5UUez3+hhx28T7U=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysqlflexibleservers v1.1.1 h1:Xruue4lHaIJa9z4xDDcJ1wA0ZZzqHsBkHppw1PFWiJY=
