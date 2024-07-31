@@ -11701,7 +11701,7 @@ type KubernetesServiceVersionPaginator struct {
 }
 
 func (k Client) NewKubernetesServiceVersionPaginator(filters []essdk.BoolFilter, limit *int64) (KubernetesServiceVersionPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_hybridcontainerservice_locations_orchestrators", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_containerservice_serviceversions", filters, limit)
 	if err != nil {
 		return KubernetesServiceVersionPaginator{}, err
 	}
@@ -11744,16 +11744,12 @@ func (p KubernetesServiceVersionPaginator) NextPage(ctx context.Context) ([]Kube
 }
 
 var listKubernetesServiceVersionFilters = map[string]string{
-	"default":              "description.Orchestrator.Default",
-	"id":                   "ID",
-	"is_preview":           "description.Orchestrator.IsPreview",
-	"kaytu_account_id":     "metadata.SourceID",
-	"name":                 "Name",
-	"orchestrator_type":    "description.Orchestrator.OrchestratorType",
-	"orchestrator_version": "description.Orchestrator.OrchestratorVersion",
-	"title":                "Name",
-	"type":                 "Type",
-	"upgrades":             "description.Orchestrator.Upgrades",
+	"capabilities":     "description.Version.Capabilities",
+	"is_preview":       "description.Version.IsPreview",
+	"kaytu_account_id": "metadata.SourceID",
+	"patch_versions":   "description.Version.PatchVersions",
+	"title":            "description.Version.Version",
+	"version":          "description.Version.Version",
 }
 
 func ListKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -11817,17 +11813,14 @@ func ListKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getKubernetesServiceVersionFilters = map[string]string{
-	"default":              "description.Orchestrator.Default",
-	"id":                   "ID",
-	"is_preview":           "description.Orchestrator.IsPreview",
-	"kaytu_account_id":     "metadata.SourceID",
-	"name":                 "description.Orchestrator.name",
-	"orchestrator_type":    "description.Orchestrator.OrchestratorType",
-	"orchestrator_version": "description.Orchestrator.OrchestratorVersion",
-	"resource_group":       "description.ResourceGroup",
-	"title":                "Name",
-	"type":                 "Type",
-	"upgrades":             "description.Orchestrator.Upgrades",
+	"capabilities":     "description.Version.Capabilities",
+	"is_preview":       "description.Version.IsPreview",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Orchestrator.name",
+	"patch_versions":   "description.Version.PatchVersions",
+	"resource_group":   "description.ResourceGroup",
+	"title":            "description.Version.Version",
+	"version":          "description.Version.Version",
 }
 
 func GetKubernetesServiceVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {

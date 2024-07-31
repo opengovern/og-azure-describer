@@ -1307,15 +1307,15 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"Microsoft.HybridContainerService/locations/orchestrators": {
+	"Microsoft.ContainerService/serviceVersions": {
 		Connector:            source.CloudAzure,
-		ResourceName:         "Microsoft.HybridContainerService/locations/orchestrators",
+		ResourceName:         "Microsoft.ContainerService/serviceVersions",
 		ResourceLabel:        "Kubernetes Service Version",
 		Tags:                 map[string][]string{
             "category": {"Container"},
         },
 		ServiceName:          "ContainerService",
-		ListDescriber:        DescribeBySubscription(describer.KubernetesService),
+		ListDescriber:        DescribeBySubscription(describer.KubernetesServiceVersion),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "containers",

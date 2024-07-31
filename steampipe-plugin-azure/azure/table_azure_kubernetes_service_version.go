@@ -31,65 +31,32 @@ func tableAzureAKSOrchestractor(_ context.Context) *plugin.Table {
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
-				Name:        "name",
+				Name:        "version",
 				Type:        proto.ColumnType_STRING,
-				Description: "Name of the orchestrator version profile list result.",
-				Transform:   transform.FromField("Name")},
-			{
-				Name:        "id",
-				Description: "ID of the orchestrator version profile list result.",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("ID")},
-			{
-				Name:        "type",
-				Description: "Type of the orchestrator version profile list result.",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Type")},
-			{
-				Name:        "orchestrator_type",
-				Description: "The orchestrator type.",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Orchestrator.OrchestratorType")},
-			{
-				Name:        "orchestrator_version",
-				Description: "Orchestrator version (major, minor, patch).",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Orchestrator.OrchestratorVersion")},
-			{
-				Name:        "default",
-				Description: "Installed by default if version is not specified.",
-				Type:        proto.ColumnType_BOOL,
-				Transform:   transform.FromField("Description.Orchestrator.Default")},
+				Description: "The major.minor version of Kubernetes release.",
+				Transform:   transform.FromField("Description.Version.Version")},
 			{
 				Name:        "is_preview",
 				Description: "Whether Kubernetes version is currently in preview.",
 				Type:        proto.ColumnType_BOOL,
-				Transform:   transform.FromField("Description.Orchestrator.IsPreview")},
+				Transform:   transform.FromField("Description.Version.IsPreview")},
 			{
-				Name:        "resource_type",
-				Description: "Whether Kubernetes version is currently in preview.",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromQual("Type"),
-			},
-			{
-				Name:        "upgrades",
-				Description: "The list of available upgrade versions.",
+				Name:        "capabilities",
+				Description: "Capabilities on this Kubernetes version.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Orchestrator.Upgrades")},
+				Transform:   transform.FromField("Description.Version.Capabilities")},
+			{
+				Name:        "patch_versions",
+				Description: "Patch versions of Kubernetes release.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Version.PatchVersions")},
 
 			// Steampipe standard columns
 			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Name"),
-			},
-			{
-				Name:        "akas",
-				Description: ColumnDescriptionAkas,
-				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("ID").Transform(idToAkas),
-			},
+				Transform:   transform.FromField("Description.Version.Version")},
 
 			// Azure standard columns
 			{
