@@ -49,7 +49,7 @@ func getLighthouseDefinition(_ context.Context, lighthouseDefinition *armmanaged
 		Name: *lighthouseDefinition.Name,
 		Type: *lighthouseDefinition.Type,
 		Description: JSONAllFieldsMarshaller{
-			Value: model.LighthouseDescription{
+			Value: model.LighthouseDefinitionDescription{
 				LighthouseDefinition: *lighthouseDefinition,
 				Scope:                scope,
 				ResourceGroup:        resourceGroup,
@@ -99,7 +99,7 @@ func getLighthouseAssignment(_ context.Context, lighthouseAssignment *armmanaged
 		Name: *lighthouseAssignment.Name,
 		Type: *lighthouseAssignment.Type,
 		Description: JSONAllFieldsMarshaller{
-			Value: model.LighthouseAssignment{
+			Value: model.LighthouseAssignmentDescription{
 				LighthouseAssignment: *lighthouseAssignment,
 				Scope:                scope,
 				ResourceGroup:        resourceGroup,

@@ -53,6 +53,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/logic/armlogic"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearning/armmachinelearning"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/maintenance/armmaintenance"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/managedservices/armmanagedservices"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/managementgroups/armmanagementgroups"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mariadb/armmariadb"
@@ -2801,14 +2802,22 @@ type AlertManagementDescription struct {
 }
 
 // =================== Lighthouse =================
-type LighthouseDescription struct {
+
+type LighthouseDefinitionDescription struct {
 	LighthouseDefinition armmanagedservices.RegistrationDefinition
 	Scope                string
 	ResourceGroup        string
 }
 
-type LighthouseAssignment struct {
+type LighthouseAssignmentDescription struct {
 	LighthouseAssignment armmanagedservices.RegistrationAssignment
 	Scope                string
 	ResourceGroup        string
+}
+
+// =================== Maintenance Configuration =================
+
+type MaintenanceConfigurationDescription struct {
+	MaintenanceConfiguration armmaintenance.Configuration
+	ResourceGroup            string
 }
