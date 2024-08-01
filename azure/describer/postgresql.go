@@ -121,10 +121,13 @@ func GetPostgresqlServer(ctx context.Context, firewallClient *armpostgresql.Fire
 }
 
 func PostgresqlFlexibleservers(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+
 	client, err := armpostgresqlflexibleservers.NewServersClient(subscription, cred, nil)
 	if err != nil {
 		return nil, err
 	}
+
+	configurationsClient, err := armpostgresqlflexibleservers.NewConfigurationsClient(subscription, cred, nil)
 
 	pager := client.NewListPager(nil)
 	var values []Resource
@@ -134,7 +137,7 @@ func PostgresqlFlexibleservers(ctx context.Context, cred *azidentity.ClientSecre
 			return nil, err
 		}
 		for _, server := range page.Value {
-			resource := GetPostgresqlFlexibleserver(ctx, server)
+			resource := GetPostgresqlFlexibleserver(ctx, configurationsClient, server)
 			if err != nil {
 				return nil, err
 			}
@@ -150,8 +153,18 @@ func PostgresqlFlexibleservers(ctx context.Context, cred *azidentity.ClientSecre
 	return values, nil
 }
 
-func GetPostgresqlFlexibleserver(ctx context.Context, server *armpostgresqlflexibleservers.Server) *Resource {
+func GetPostgresqlFlexibleserver(ctx context.Context, configurationsClient *armpostgresqlflexibleservers.ConfigurationsClient, server *armpostgresqlflexibleservers.Server) *Resource {
 	resourceGroupName := strings.Split(string(*server.ID), "/")[4]
+
+	pager := configurationsClient.NewListByServerPager(resourceGroupName, *server.Name, nil)
+	var serverConfigurations []*armpostgresqlflexibleservers.Configuration
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			break
+		}
+		serverConfigurations = append(serverConfigurations, page.Value...)
+	}
 
 	resource := Resource{
 		ID:       *server.ID,
@@ -159,8 +172,9 @@ func GetPostgresqlFlexibleserver(ctx context.Context, server *armpostgresqlflexi
 		Location: *server.Location,
 		Description: JSONAllFieldsMarshaller{
 			Value: model.PostgresqlFlexibleServerDescription{
-				Server:        *server,
-				ResourceGroup: resourceGroupName,
+				Server:               *server,
+				ServerConfigurations: serverConfigurations,
+				ResourceGroup:        resourceGroupName,
 			},
 		},
 	}

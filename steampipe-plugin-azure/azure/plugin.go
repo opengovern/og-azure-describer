@@ -241,6 +241,8 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"azure_lighthouse_definition":                                 tableAzureLighthouseDefinition(ctx),
 			"azure_lighthouse_assignment":                                 tableAzureLighthouseAssignment(ctx),
 			"azure_maintenance_configuration":                             tableAzureMaintenanceConfiguration(ctx),
+			"azure_monitor_log_profile":                                   tableAzureMonitorLogProfile(ctx),
+			"azure_private_endpoint":                                      tableAzurePrivateEndpoint(ctx),
 		},
 	}
 

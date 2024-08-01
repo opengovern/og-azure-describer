@@ -32858,11 +32858,18 @@ func (p DataProtectionBackupVaultsPaginator) NextPage(ctx context.Context) ([]Da
 }
 
 var listDataProtectionBackupVaultsFilters = map[string]string{
-	"id":               "description.BackupVaults.ID",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.BackupVaults.Name",
-	"tags":             "description.BackupVaults.Tags",
-	"title":            "description.BackupVaults.Name",
+	"id":                  "description.BackupVaults.ID",
+	"identity":            "description.BackupVaults.Identity",
+	"kaytu_account_id":    "metadata.SourceID",
+	"monitoring_settings": "description.BackupVaults.Properties.MonitoringSettings",
+	"name":                "description.BackupVaults.Name",
+	"provisioning_state":  "description.BackupVaults.Properties.ProvisioningState",
+	"resource_move_state": "description.BackupVaults.Properties.ResourceMoveState",
+	"storage_settings":    "description.BackupVaults.Properties.StorageSettings",
+	"system_data":         "description.BackupVaults.SystemData",
+	"tags":                "description.BackupVaults.Tags",
+	"title":               "description.BackupVaults.Name",
+	"type":                "description.BackupVaults.Type",
 }
 
 func ListDataProtectionBackupVaults(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -32926,11 +32933,18 @@ func ListDataProtectionBackupVaults(ctx context.Context, d *plugin.QueryData, _ 
 }
 
 var getDataProtectionBackupVaultsFilters = map[string]string{
-	"id":               "description.BackupVaults.ID",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.BackupVaults.Name",
-	"tags":             "description.BackupVaults.Tags",
-	"title":            "description.BackupVaults.Name",
+	"id":                  "description.BackupVaults.ID",
+	"identity":            "description.BackupVaults.Identity",
+	"kaytu_account_id":    "metadata.SourceID",
+	"monitoring_settings": "description.BackupVaults.Properties.MonitoringSettings",
+	"name":                "description.BackupVaults.Name",
+	"provisioning_state":  "description.BackupVaults.Properties.ProvisioningState",
+	"resource_move_state": "description.BackupVaults.Properties.ResourceMoveState",
+	"storage_settings":    "description.BackupVaults.Properties.StorageSettings",
+	"system_data":         "description.BackupVaults.SystemData",
+	"tags":                "description.BackupVaults.Tags",
+	"title":               "description.BackupVaults.Name",
+	"type":                "description.BackupVaults.Type",
 }
 
 func GetDataProtectionBackupVaults(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -54200,11 +54214,16 @@ func (p PostgresqlFlexibleServerPaginator) NextPage(ctx context.Context) ([]Post
 }
 
 var listPostgresqlFlexibleServerFilters = map[string]string{
-	"id":               "description.Server.ID",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Server.Name",
-	"tags":             "description.Server.Tags",
-	"title":            "description.Server.Name",
+	"flexible_server_configurations": "description.Server.ServerConfigurations",
+	"id":                             "description.Server.ID",
+	"kaytu_account_id":               "metadata.SourceID",
+	"location":                       "description.Server.Location",
+	"name":                           "description.Server.Name",
+	"server_properties":              "description.Server.ServerProperties",
+	"sku":                            "description.Server.SKU",
+	"tags":                           "description.Server.Tags",
+	"title":                          "description.Server.Name",
+	"type":                           "description.Server.Type",
 }
 
 func ListPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -54268,11 +54287,16 @@ func ListPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 var getPostgresqlFlexibleServerFilters = map[string]string{
-	"id":               "description.Server.ID",
-	"kaytu_account_id": "metadata.SourceID",
-	"name":             "description.Server.Name",
-	"tags":             "description.Server.Tags",
-	"title":            "description.Server.Name",
+	"flexible_server_configurations": "description.Server.ServerConfigurations",
+	"id":                             "description.Server.ID",
+	"kaytu_account_id":               "metadata.SourceID",
+	"location":                       "description.Server.Location",
+	"name":                           "description.Server.Name",
+	"server_properties":              "description.Server.ServerProperties",
+	"sku":                            "description.Server.SKU",
+	"tags":                           "description.Server.Tags",
+	"title":                          "description.Server.Name",
+	"type":                           "description.Server.Type",
 }
 
 func GetPostgresqlFlexibleServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -66622,3 +66646,284 @@ func GetMaintenanceConfiguration(ctx context.Context, d *plugin.QueryData, _ *pl
 }
 
 // ==========================  END: MaintenanceConfiguration =============================
+
+// ==========================  START: MonitorLogProfile =============================
+
+type MonitorLogProfile struct {
+	Description   azure.MonitorLogProfileDescription `json:"description"`
+	Metadata      azure.Metadata                     `json:"metadata"`
+	ResourceJobID int                                `json:"resource_job_id"`
+	SourceJobID   int                                `json:"source_job_id"`
+	ResourceType  string                             `json:"resource_type"`
+	SourceType    string                             `json:"source_type"`
+	ID            string                             `json:"id"`
+	ARN           string                             `json:"arn"`
+	SourceID      string                             `json:"source_id"`
+}
+
+func (r *MonitorLogProfile) UnmarshalJSON(b []byte) error {
+	var rawMsg map[string]json.RawMessage
+	if err := json.Unmarshal(b, &rawMsg); err != nil {
+		return fmt.Errorf("unmarshalling type %T: %v", r, err)
+	}
+	for k, v := range rawMsg {
+		switch k {
+		case "description":
+			wrapper := azureDescriber.JSONAllFieldsMarshaller{
+				Value: r.Description,
+			}
+			if err := json.Unmarshal(v, &wrapper); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+			var ok bool
+			r.Description, ok = wrapper.Value.(azure.MonitorLogProfileDescription)
+			if !ok {
+				return fmt.Errorf("unmarshalling type %T: %v", r, fmt.Errorf("expected type %T, got %T", r.Description, wrapper.Value))
+			}
+		case "metadata":
+			if err := json.Unmarshal(v, &r.Metadata); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_job_id":
+			if err := json.Unmarshal(v, &r.ResourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_job_id":
+			if err := json.Unmarshal(v, &r.SourceJobID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "resource_type":
+			if err := json.Unmarshal(v, &r.ResourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_type":
+			if err := json.Unmarshal(v, &r.SourceType); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "id":
+			if err := json.Unmarshal(v, &r.ID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "arn":
+			if err := json.Unmarshal(v, &r.ARN); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		case "source_id":
+			if err := json.Unmarshal(v, &r.SourceID); err != nil {
+				return fmt.Errorf("unmarshalling type %T: %v", r, err)
+			}
+		default:
+		}
+	}
+	return nil
+}
+
+type MonitorLogProfileHit struct {
+	ID      string            `json:"_id"`
+	Score   float64           `json:"_score"`
+	Index   string            `json:"_index"`
+	Type    string            `json:"_type"`
+	Version int64             `json:"_version,omitempty"`
+	Source  MonitorLogProfile `json:"_source"`
+	Sort    []interface{}     `json:"sort"`
+}
+
+type MonitorLogProfileHits struct {
+	Total essdk.SearchTotal      `json:"total"`
+	Hits  []MonitorLogProfileHit `json:"hits"`
+}
+
+type MonitorLogProfileSearchResponse struct {
+	PitID string                `json:"pit_id"`
+	Hits  MonitorLogProfileHits `json:"hits"`
+}
+
+type MonitorLogProfilePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewMonitorLogProfilePaginator(filters []essdk.BoolFilter, limit *int64) (MonitorLogProfilePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "microsoft_monitor_logprofiles", filters, limit)
+	if err != nil {
+		return MonitorLogProfilePaginator{}, err
+	}
+
+	p := MonitorLogProfilePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p MonitorLogProfilePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p MonitorLogProfilePaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p MonitorLogProfilePaginator) NextPage(ctx context.Context) ([]MonitorLogProfile, error) {
+	var response MonitorLogProfileSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []MonitorLogProfile
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listMonitorLogProfileFilters = map[string]string{
+	"categories":          "description.LogProfile.Properties.Categories",
+	"id":                  "description.LogProfile.ID",
+	"location":            "description.LogProfile.Location",
+	"locations":           "description.LogProfile.Properties.Locations",
+	"name":                "description.LogProfile.Name",
+	"retention_policy":    "description.LogProfile.Properties.RetentionPolicy",
+	"service_bus_rule_id": "description.LogProfile.Properties.ServiceBusRuleID",
+	"storage_account_id":  "description.LogProfile.Properties.StorageAccountID",
+	"tags":                "description.LogProfile.Tags",
+	"title":               "description.LogProfile.Name",
+	"type":                "description.LogProfile.Type",
+}
+
+func ListMonitorLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListMonitorLogProfile")
+	runtime.GC()
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListMonitorLogProfile NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListMonitorLogProfile NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListMonitorLogProfile GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListMonitorLogProfile GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListMonitorLogProfile GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewMonitorLogProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, listMonitorLogProfileFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListMonitorLogProfile NewMonitorLogProfilePaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListMonitorLogProfile paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getMonitorLogProfileFilters = map[string]string{
+	"categories":          "description.LogProfile.Properties.Categories",
+	"id":                  "description.LogProfile.ID",
+	"location":            "description.LogProfile.Location",
+	"locations":           "description.LogProfile.Properties.Locations",
+	"name":                "description.LogProfile.Name",
+	"retention_policy":    "description.LogProfile.Properties.RetentionPolicy",
+	"service_bus_rule_id": "description.LogProfile.Properties.ServiceBusRuleID",
+	"storage_account_id":  "description.LogProfile.Properties.StorageAccountID",
+	"tags":                "description.LogProfile.Tags",
+	"title":               "description.LogProfile.Name",
+	"type":                "description.LogProfile.Type",
+}
+
+func GetMonitorLogProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetMonitorLogProfile")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewMonitorLogProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, getMonitorLogProfileFilters, "azure", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: MonitorLogProfile =============================

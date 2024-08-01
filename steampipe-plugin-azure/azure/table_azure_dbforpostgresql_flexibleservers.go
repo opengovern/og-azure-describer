@@ -32,6 +32,36 @@ func tableAzureDBforPostgreSQLFlexibleServers(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Server.Name")},
 			{
+				Name:        "type",
+				Description: "The type of the resource.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Server.Type"),
+			},
+			{
+				Name:        "location",
+				Description: "The geo-location where the resource lives.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Server.Location"),
+			},
+			{
+				Name:        "sku",
+				Description: "The SKU (pricing tier) of the server.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Server.SKU"),
+			},
+			{
+				Name:        "server_properties",
+				Description: "Properties of the server.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Server.ServerProperties"),
+			},
+			{
+				Name:        "flexible_server_configurations",
+				Description: "The server configurations(parameters) details of the server.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Server.ServerConfigurations"),
+			},
+			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,
@@ -52,3 +82,100 @@ func tableAzureDBforPostgreSQLFlexibleServers(_ context.Context) *plugin.Table {
 		}),
 	}
 }
+
+// func tableAzurePostgreSqlFlexibleServer(_ context.Context) *plugin.Table {
+// 	return &plugin.Table{
+// 		Name:        "azure_postgresql_flexible_server",
+// 		Description: "Azure PostgreSQL Flexible Server",
+// 		Get: &plugin.GetConfig{
+// 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
+// 			Hydrate:    getPostgreSqlFlexibleServer,
+// 			IgnoreConfig: &plugin.IgnoreConfig{
+// 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
+// 			},
+// 		},
+// 		List: &plugin.ListConfig{
+// 			ParentHydrate: listResourceGroups,
+// 			Hydrate:       listPostgreSqlFlexibleServers,
+// 		},
+// 		Columns: azureColumns([]*plugin.Column{
+// 			{
+// 				Name:        "name",
+// 				Description: "The name of the resource.",
+// 				Type:        proto.ColumnType_STRING,
+// 			},
+// 			{
+// 				Name:        "id",
+// 				Description: "Fully qualified resource ID for the resource.",
+// 				Type:        proto.ColumnType_STRING,
+// 				Transform:   transform.FromGo(),
+// 			},
+// 			{
+// 				Name:        "type",
+// 				Description: "The type of the resource.",
+// 				Type:        proto.ColumnType_STRING,
+// 			},
+// 			{
+// 				Name:        "location",
+// 				Description: "The geo-location where the resource lives.",
+// 				Type:        proto.ColumnType_STRING,
+// 			},
+// 			// We have raised a support request for this as SystemData is always null
+// 			// {
+// 			// 	Name:        "system_data",
+// 			// 	Description: "The system data for the server.",
+// 			// 	Type:        proto.ColumnType_JSON,
+// 			// },
+// 			{
+// 				Name:        "sku",
+// 				Description: "The SKU (pricing tier) of the server.",
+// 				Type:        proto.ColumnType_JSON,
+// 			},
+// 			{
+// 				Name:        "server_properties",
+// 				Description: "Properties of the server.",
+// 				Type:        proto.ColumnType_JSON,
+// 				Transform:   transform.FromField("ServerProperties").Transform(extractPostgresFlexibleServerProperties),
+// 			},
+// 			{
+// 				Name:        "flexible_server_configurations",
+// 				Description: "The server configurations(parameters) details of the server.",
+// 				Type:        proto.ColumnType_JSON,
+// 				Hydrate:     listPostgreSQLFlexibleServersConfigurations,
+// 				Transform:   transform.FromValue(),
+// 			},
+// 			// Steampipe standard columns
+// 			{
+// 				Name:        "title",
+// 				Description: ColumnDescriptionTitle,
+// 				Type:        proto.ColumnType_STRING,
+// 				Transform:   transform.FromField("Name"),
+// 			},
+// 			{
+// 				Name:        "tags",
+// 				Description: ColumnDescriptionTags,
+// 				Type:        proto.ColumnType_JSON,
+// 			},
+// 			{
+// 				Name:        "akas",
+// 				Description: ColumnDescriptionAkas,
+// 				Type:        proto.ColumnType_JSON,
+// 				Transform:   transform.FromField("ID").Transform(idToAkas),
+// 			},
+
+// 			// Azure standard columns
+// 			{
+// 				Name:        "region",
+// 				Description: ColumnDescriptionRegion,
+// 				Type:        proto.ColumnType_STRING,
+// 				Transform:   transform.FromField("Location").Transform(toLower),
+// 			},
+// 			{
+// 				Name:        "resource_group",
+// 				Description: ColumnDescriptionResourceGroup,
+// 				Type:        proto.ColumnType_STRING,
+// 				Transform:   transform.FromField("ID").Transform(extractResourceGroupFromID),
+// 			},
+// 		}),
+// 	}
+// }

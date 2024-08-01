@@ -2408,8 +2408,9 @@ type PostgresqlServerDescription struct {
 
 //index:microsoft_dbforpostgresql_flexibleservers
 type PostgresqlFlexibleServerDescription struct {
-	ResourceGroup string
-	Server        armpostgresqlflexibleservers.Server
+	ResourceGroup        string
+	Server               armpostgresqlflexibleservers.Server
+	ServerConfigurations []*armpostgresqlflexibleservers.Configuration
 }
 
 //  =================== storagesync ==================
@@ -2824,4 +2825,11 @@ type LighthouseAssignmentDescription struct {
 type MaintenanceConfigurationDescription struct {
 	MaintenanceConfiguration armmaintenance.Configuration
 	ResourceGroup            string
+}
+
+// =================== Monitor Insights =================
+
+type MonitorLogProfileDescription struct {
+	LogProfile    armmonitor.LogProfileResource
+	ResourceGroup string
 }
