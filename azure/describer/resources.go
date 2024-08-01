@@ -2,6 +2,8 @@ package describer
 
 import (
 	"context"
+	"strings"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 
@@ -110,5 +112,53 @@ func GetResourceGroup(ctx context.Context, group *armresources.ResourceGroup) *R
 		},
 	}
 
+	return &resource
+}
+
+func Resources(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {
+
+	clientFactory, err := armresources.NewClientFactory(subscription, cred, nil)
+	if err != nil {
+		return nil, err
+	}
+	client := clientFactory.NewClient()
+
+	var resources []Resource
+	pager := client.NewListPager(nil)
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, genericResource := range page.Value {
+			resource := GetResource(ctx, genericResource)
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
+				}
+			} else {
+				resources = append(resources, *resource)
+			}
+		}
+	}
+	return resources, nil
+
+}
+
+func GetResource(ctx context.Context, genericResource *armresources.GenericResourceExpanded) *Resource {
+
+	resourceGroupName := strings.Split(string(*genericResource.ID), "/")[4]
+
+	resource := Resource{
+		ID:       *genericResource.ID,
+		Name:     *genericResource.Name,
+		Location: *genericResource.Location,
+		Description: JSONAllFieldsMarshaller{
+			Value: model.GenericResourceDescription{
+				GenericResource: *genericResource,
+				ResourceGroup:   resourceGroupName,
+			},
+		},
+	}
 	return &resource
 }

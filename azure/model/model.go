@@ -2733,6 +2733,11 @@ type ResourceGroupDescription struct {
 	Group armresources.ResourceGroup
 }
 
+type GenericResourceDescription struct {
+	GenericResource armresources.GenericResourceExpanded
+	ResourceGroup   string
+}
+
 // =================== BotService ==================
 
 type BotServiceBotDescription struct {
