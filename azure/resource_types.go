@@ -3528,4 +3528,21 @@ var resourceTypes = map[string]ResourceType{
 		FastDiscovery:        false,
 		Summarize:            false,
 	},
+
+	"Microsoft.Monitor/logProfiles": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Monitor/logProfiles",
+		ResourceLabel:        "Monitor Log Profiles",
+		Tags:                 map[string][]string{
+            "category": {},
+            "logo_uri": {},
+        },
+		ServiceName:          "Monitor",
+		ListDescriber:        DescribeBySubscription(describer.MonitorLogProfiles),
+		GetDescriber:         nil,
+		TerraformName:        []string{"azurerm_monitor_log_profile"},
+		TerraformServiceName: "monitor",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
 }

@@ -237,6 +237,7 @@ var azureMap = map[string]string{
   "Microsoft.Lighthouse/definition": "azure_lighthouse_definition",
   "Microsoft.Lighthouse/assignment": "azure_lighthouse_assignment",
   "Microsoft.Maintenance/maintenanceConfigurations": "azure_maintenance_configuration",
+  "Microsoft.Monitor/logProfiles": "azure_monitor_log_profile",
 }
 
 var AzureDescriptionMap = map[string]interface{}{
@@ -471,6 +472,7 @@ var AzureDescriptionMap = map[string]interface{}{
   "Microsoft.Lighthouse/definition": kaytu.LighthouseDefinition{},
   "Microsoft.Lighthouse/assignment": kaytu.LighthouseAssignment{},
   "Microsoft.Maintenance/maintenanceConfigurations": kaytu.MaintenanceConfiguration{},
+  "Microsoft.Monitor/logProfiles": kaytu.MonitorLogProfile{},
 }
 
 var AzureReverseMap = map[string]string{
@@ -705,4 +707,5 @@ var AzureReverseMap = map[string]string{
   "azure_lighthouse_definition": "Microsoft.Lighthouse/definition",
   "azure_lighthouse_assignment": "Microsoft.Lighthouse/assignment",
   "azure_maintenance_configuration": "Microsoft.Maintenance/maintenanceConfigurations",
+  "azure_monitor_log_profile": "Microsoft.Monitor/logProfiles",
 }
