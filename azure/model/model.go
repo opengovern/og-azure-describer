@@ -1058,6 +1058,12 @@ type DataProtectionBackupVaultsBackupPoliciesDescription struct {
 	BackupPolicies armdataprotection.BaseBackupPolicyResource
 }
 
+type DataProtectionJobDescription struct {
+	DataProtectionJob armdataprotection.AzureBackupJobResource
+	VaultName         string
+	ResourceGroup     string
+}
+
 //  =================== datafactory ==================
 
 //index:microsoft_datafactory_factories
