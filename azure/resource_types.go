@@ -123,6 +123,22 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            false,
 	},
 
+	"Microsoft.DataProtection/backupJobs": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.DataProtection/backupJobs",
+		ResourceLabel:        "Data Protection Backup Jobs",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Compute",
+		ListDescriber:        DescribeBySubscription(describer.DataProtectionBackupJobs),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
 	"Microsoft.DataProtection/backupVaults/backupPolicies": {
 		Connector:            source.CloudAzure,
 		ResourceName:         "Microsoft.DataProtection/backupVaults/backupPolicies",
@@ -3543,6 +3559,22 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"azurerm_monitor_log_profile"},
 		TerraformServiceName: "monitor",
 		FastDiscovery:        false,
+		Summarize:            false,
+	},
+
+	"Microsoft.Resources/subscriptions/resources": {
+		Connector:            source.CloudAzure,
+		ResourceName:         "Microsoft.Resources/subscriptions/resources",
+		ResourceLabel:        "Resources",
+		Tags:                 map[string][]string{
+            "logo_uri": {},
+        },
+		ServiceName:          "Resources",
+		ListDescriber:        DescribeBySubscription(describer.Resources),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "resource",
+		FastDiscovery:        true,
 		Summarize:            false,
 	},
 }
