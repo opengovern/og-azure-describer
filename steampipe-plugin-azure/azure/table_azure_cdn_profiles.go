@@ -2,6 +2,7 @@ package azure
 
 import (
 	"context"
+
 	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -31,6 +32,54 @@ func tableAzureCdnProfiles(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Profile.Name")},
 			{
+				Name:        "type",
+				Description: "The resource type.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Profile.Type"),
+			},
+			{
+				Name:        "location",
+				Description: "The location of the CDN front door profile.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Profile.Location").Transform(toLower),
+			},
+			{
+				Name:        "sku_name",
+				Description: "Name of the pricing tier.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Profile.SKU.Name"),
+			},
+			{
+				Name:        "kind",
+				Description: "Kind of the profile. Used by portal to differentiate traditional CDN profile and new AFD profile.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Profile.Kind"),
+			},
+			{
+				Name:        "resource_state",
+				Description: "Resource status of the CDN front door profile.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Profile.Properties.ResourceState").Transform(transform.ToString),
+			},
+			{
+				Name:        "provisioning_state",
+				Description: "Provisioning status of the CDN front door profile.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Profile.Properties.ProvisioningState"),
+			},
+			{
+				Name:        "front_door_id",
+				Description: "The ID of the front door.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Profile.Properties.FrontDoorID"),
+			},
+			{
+				Name:        "origin_response_timeout_seconds",
+				Description: "Send and receive timeout on forwarding request to the origin. When timeout is reached, the request fails and returns.",
+				Type:        proto.ColumnType_INT,
+				Transform:   transform.FromField("Description.Profile.Properties.OriginResponseTimeoutSeconds"),
+			},
+			{
 				Name:        "title",
 				Description: ColumnDescriptionTitle,
 				Type:        proto.ColumnType_STRING,
@@ -47,6 +96,18 @@ func tableAzureCdnProfiles(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				// or generate it below (keep the Transform(arnToTurbotAkas) or use Transform(transform.EnsureStringArray))
 				Transform: transform.FromField("Description.Profile.ID").Transform(idToAkas),
+			},
+			{
+				Name:        "region",
+				Description: "The Azure region where the resource is located.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Profile.Location").Transform(toLower),
+			},
+			{
+				Name:        "resource_group",
+				Description: "The resource group in which the resource is located.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.ResourceGroup"),
 			},
 		}),
 	}

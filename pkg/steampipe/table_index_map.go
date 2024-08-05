@@ -14,6 +14,7 @@ var azureMap = map[string]string{
   "Microsoft.ContainerInstance/containerGroups": "azure_container_group",
   "Microsoft.DataMigration/services": "azure_datamigration_services",
   "Microsoft.DataProtection/backupVaults": "azure_dataprotection_backupvaults",
+  "Microsoft.DataProtection/backupJobs": "azure_data_protection_backup_job",
   "Microsoft.DataProtection/backupVaults/backupPolicies": "azure_dataprotection_backuppolicies",
   "Microsoft.Logic/integrationAccounts": "azure_logic_integrationaccounts",
   "Microsoft.Network/bastionHosts": "azure_bastion_host",
@@ -238,6 +239,7 @@ var azureMap = map[string]string{
   "Microsoft.Lighthouse/assignment": "azure_lighthouse_assignment",
   "Microsoft.Maintenance/maintenanceConfigurations": "azure_maintenance_configuration",
   "Microsoft.Monitor/logProfiles": "azure_monitor_log_profile",
+  "Microsoft.Resources/subscriptions/resources": "azure_resource",
 }
 
 var AzureDescriptionMap = map[string]interface{}{
@@ -249,6 +251,7 @@ var AzureDescriptionMap = map[string]interface{}{
   "Microsoft.ContainerInstance/containerGroups": kaytu.ContainerInstanceContainerGroup{},
   "Microsoft.DataMigration/services": kaytu.DataMigrationService{},
   "Microsoft.DataProtection/backupVaults": kaytu.DataProtectionBackupVaults{},
+  "Microsoft.DataProtection/backupJobs": kaytu.DataProtectionJob{},
   "Microsoft.DataProtection/backupVaults/backupPolicies": kaytu.DataProtectionBackupVaultsBackupPolicies{},
   "Microsoft.Logic/integrationAccounts": kaytu.LogicIntegrationAccounts{},
   "Microsoft.Network/bastionHosts": kaytu.BastionHosts{},
@@ -473,6 +476,7 @@ var AzureDescriptionMap = map[string]interface{}{
   "Microsoft.Lighthouse/assignment": kaytu.LighthouseAssignment{},
   "Microsoft.Maintenance/maintenanceConfigurations": kaytu.MaintenanceConfiguration{},
   "Microsoft.Monitor/logProfiles": kaytu.MonitorLogProfile{},
+  "Microsoft.Resources/subscriptions/resources": kaytu.GenericResource{},
 }
 
 var AzureReverseMap = map[string]string{
@@ -484,6 +488,7 @@ var AzureReverseMap = map[string]string{
   "azure_container_group": "Microsoft.ContainerInstance/containerGroups",
   "azure_datamigration_services": "Microsoft.DataMigration/services",
   "azure_dataprotection_backupvaults": "Microsoft.DataProtection/backupVaults",
+  "azure_data_protection_backup_job": "Microsoft.DataProtection/backupJobs",
   "azure_dataprotection_backuppolicies": "Microsoft.DataProtection/backupVaults/backupPolicies",
   "azure_logic_integrationaccounts": "Microsoft.Logic/integrationAccounts",
   "azure_bastion_host": "Microsoft.Network/bastionHosts",
@@ -708,4 +713,5 @@ var AzureReverseMap = map[string]string{
   "azure_lighthouse_assignment": "Microsoft.Lighthouse/assignment",
   "azure_maintenance_configuration": "Microsoft.Maintenance/maintenanceConfigurations",
   "azure_monitor_log_profile": "Microsoft.Monitor/logProfiles",
+  "azure_resource": "Microsoft.Resources/subscriptions/resources",
 }

@@ -1058,6 +1058,12 @@ type DataProtectionBackupVaultsBackupPoliciesDescription struct {
 	BackupPolicies armdataprotection.BaseBackupPolicyResource
 }
 
+type DataProtectionJobDescription struct {
+	DataProtectionJob armdataprotection.AzureBackupJobResource
+	VaultName         string
+	ResourceGroup     string
+}
+
 //  =================== datafactory ==================
 
 //index:microsoft_datafactory_factories
@@ -2731,6 +2737,11 @@ type ResourceProviderDescription struct {
 //getfilter:name=description.Group.Name
 type ResourceGroupDescription struct {
 	Group armresources.ResourceGroup
+}
+
+type GenericResourceDescription struct {
+	GenericResource armresources.GenericResourceExpanded
+	ResourceGroup   string
 }
 
 // =================== BotService ==================
