@@ -2,6 +2,7 @@ package azure
 
 import (
 	"context"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -15,23 +16,12 @@ func tableAzureDataProtectionBackupJob(_ context.Context) *plugin.Table {
 		Name:        "azure_data_protection_backup_job",
 		Description: "Azure Data Protection Backup Job",
 		List: &plugin.ListConfig{
-			// ParentHydrate: listAzureDataProtectionBackupVaults,
-			// Hydrate:       listAzureDataProtectionBackupJobs,
+			Hydrate: kaytu.ListDataProtectionJob,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "404"}),
 			},
-			KeyColumns: plugin.KeyColumnSlice{
-				{
-					Name:    "vault_name",
-					Require: plugin.Optional,
-				},
-				{
-					Name:    "resource_group",
-					Require: plugin.Optional,
-				},
-			},
 		},
-		Columns: azureColumns([]*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "Resource name associated with the resource.",

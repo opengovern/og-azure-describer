@@ -2,11 +2,11 @@ package azure
 
 import (
 	"context"
+	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
-	"github.com/turbot/steampipe-plugin-sdk/v5/query_cache"
 )
 
 //// TABLE DEFINITON
@@ -17,26 +17,13 @@ func tableAzureResourceResource(ctx context.Context) *plugin.Table {
 		Description: "Azure Resource",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
-			// Hydrate:    getResource,
+			Hydrate:    kaytu.GetGenericResource,
 			// No error is returned if the resource is not found
 		},
 		List: &plugin.ListConfig{
-			// Hydrate: listResources,
-			KeyColumns: plugin.KeyColumnSlice{
-				{Name: "region", Require: plugin.Optional, Operators: []string{"=", "<>"}},
-				{Name: "type", Require: plugin.Optional, Operators: []string{"=", "<>"}},
-				{Name: "name", Require: plugin.Optional, Operators: []string{"=", "<>"}},
-				{Name: "identity_principal_id", Require: plugin.Optional, Operators: []string{"=", "<>"}},
-				{Name: "plan_publisher", Require: plugin.Optional, Operators: []string{"=", "<>"}},
-				{Name: "plan_name", Require: plugin.Optional, Operators: []string{"=", "<>"}},
-				{Name: "plan_product", Require: plugin.Optional, Operators: []string{"=", "<>"}},
-				{Name: "plan_promotion_code", Require: plugin.Optional, Operators: []string{"=", "<>"}},
-				{Name: "plan_version", Require: plugin.Optional, Operators: []string{"=", "<>"}},
-				{Name: "resource_group", Require: plugin.Optional, Operators: []string{"=", "<>"}},
-				{Name: "filter", Require: plugin.Optional, Operators: []string{"="}, CacheMatch: query_cache.CacheMatchExact},
-			},
+			Hydrate: kaytu.ListGenericResource,
 		},
-		Columns: azureColumns([]*plugin.Column{
+		Columns: azureKaytuColumns([]*plugin.Column{
 			{
 				Name:        "id",
 				Description: "Resource ID.",
