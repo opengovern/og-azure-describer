@@ -11,7 +11,7 @@ import (
 
 func tableAzureDatabricksWorkspaces(_ context.Context) *plugin.Table {
 	return &plugin.Table{
-		Name:        "azure_databricks_workspaces",
+		Name:        "azure_databricks_workspace",
 		Description: "Azure Databricks Workspaces",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go

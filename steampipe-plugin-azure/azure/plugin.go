@@ -182,7 +182,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"azure_purview_account":                                       tableAzurePurviewAccount(ctx),
 			"azure_recovery_services_vault":                               tableAzureRecoveryServicesVault(ctx),
 			"azure_recovery_services_backup_job":                          tableAzureRecoveryServicesBackupJob(ctx),
-			"azure_backup_policy":                                         tableAzureRecoveryServicesBackupPolicy(ctx),
+			"azure_recovery_services_backup_policy":                       tableAzureRecoveryServicesBackupPolicy(ctx),
 			"azure_recovery_services_backup_item":                         tableAzureRecoveryServicesBackupItem(ctx),
 			"azure_redis_cache":                                           tableAzureRedisCache(ctx),
 			"azure_resource_group":                                        tableAzureResourceGroup(ctx),
@@ -244,11 +244,11 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"azure_monitor_log_profile":                                   tableAzureMonitorLogProfile(ctx),
 			"azure_private_endpoint":                                      tableAzurePrivateEndpoint(ctx),
 			"azure_data_protection_backup_vault":                          tableAzureDataProtectionBackupVaults(ctx),
-			"azure_cdn_frontdoor_profile":                                 tableAzureCdnProfiles(ctx),
 			"azure_data_protection_backup_job":                            tableAzureDataProtectionBackupJob(ctx),
 			"azure_resource":                                              tableAzureResourceResource(ctx),
 			"azure_alert_management":                                      tableAzureAlertMangement(ctx),
 			"azure_log_analytics_workspace":                               tableAzureLogAnalyticsWorkspace(ctx),
+			"azure_operationalinsights_workspaces":                        tableAzureOperationalInsightsWorkspaces(ctx),
 		},
 	}
 
