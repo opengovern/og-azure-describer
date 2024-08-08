@@ -11,8 +11,8 @@ import (
 
 func tableAzureDBforPostgreSQLFlexibleServers(_ context.Context) *plugin.Table {
 	return &plugin.Table{
-		Name:        "azure_dbforpostgresql_flexibleservers",
-		Description: "Azure DBforPostgreSQL FlexibleServers",
+		Name:        "azure_postgresql_flexible_server",
+		Description: "Azure PostgreSQL Flexible Server",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
 			Hydrate:    kaytu.GetPostgresqlFlexibleServer,
