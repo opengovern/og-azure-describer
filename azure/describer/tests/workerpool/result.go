@@ -21,5 +21,8 @@ func (r *Result) GetID() string {
 }
 
 func (r *Result) GetErr() string {
-	return r.err.Error()
+	if r.err != nil {
+		return r.err.Error()
+	}
+	return ""
 }

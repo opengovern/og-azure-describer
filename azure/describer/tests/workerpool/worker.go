@@ -2,6 +2,7 @@ package workerpool
 
 import (
 	"context"
+	"log"
 	"sync"
 
 	"github.com/google/uuid"
@@ -30,6 +31,7 @@ func NewWorker(
 func (w *Worker) Start(ctx context.Context) {
 	go func() {
 		for task := range w.taskQueue {
+			log.Printf("Running task: %s", task.Properties().Description)
 			err := task.Run(ctx)
 			w.results <- *NewResult(
 				task.Properties().ID,
@@ -37,6 +39,5 @@ func (w *Worker) Start(ctx context.Context) {
 			)
 			w.wg.Done()
 		}
-		// close(w.results)
 	}()
 }
