@@ -4,3 +4,5 @@ kaytu-azure-describer
 
 .terraform*
 *parameters.json
+*.tfplan
+*.tfstate*

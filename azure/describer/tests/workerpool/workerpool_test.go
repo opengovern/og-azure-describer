@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"testing"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -19,7 +20,7 @@ func (d TestTask) Properties() TaskProperties {
 func (d TestTask) Run(_ context.Context) error {
 
 	log.Println("Executing task")
-	// time.Sleep(2 * time.Second)
+	time.Sleep(1 * time.Second)
 	return nil
 }
 
@@ -29,7 +30,7 @@ func TestPool(t *testing.T) {
 
 	pool.Start(context.Background())
 
-	for range 10 {
+	for range 5 {
 		pool.AddTask(
 			TestTask{
 				TaskProperties: TaskProperties{
@@ -40,6 +41,6 @@ func TestPool(t *testing.T) {
 		)
 	}
 
-	// pool.wg.Wait()
+	pool.Wait()
 
 }

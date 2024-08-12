@@ -11,6 +11,12 @@ import (
 	"github.com/kaytu-io/kaytu-azure-describer/azure/describer/tests/workerpool"
 )
 
+// Create resource using terraform
+// collect verification data from tf files
+// run describer
+// compare describer output with verification data
+// publish result
+
 func Controller() error {
 
 	execPath, err := exec.LookPath("terraform")
@@ -42,8 +48,7 @@ func Controller() error {
 
 	}
 
-	// workerPool.Wait()
-	workerPool.Wg.Wait()
+	workerPool.Wait()
 
 	return nil
 
