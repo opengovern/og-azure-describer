@@ -1,0 +1,98 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "TestDescribers",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/azure/describer/tests",
+            "args": [
+                "-test.run",
+                "Controller",
+                "-test.v",
+            ]
+        },
+        {
+            "name": "TerraformObject",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/azure/describer/tests/pkg/terraform",
+            "args": [
+                "-test.run",
+                "NewTerraformObject"
+            ]
+        },
+        {
+            "name": "Initialize TerraformObject",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/azure/describer/tests/pkg/terraform",
+            "args": [
+                "-test.run",
+                "Initialize"
+            ]
+        },
+        {
+            "name": "Init",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/azure/describer/tests/pkg/terraform",
+            "args": [
+                "-test.run",
+                "Init"
+            ]
+        },
+        {
+            "name": "Plan",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/azure/describer/tests/pkg/terraform",
+            "args": [
+                "-test.run",
+                "Plan"
+            ]
+        },
+        {
+            "name": "Apply",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/azure/describer/tests/pkg/terraform",
+            "args": [
+                "-test.run",
+                "Apply"
+            ]
+        },
+        {
+            "name": "Destroy",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/azure/describer/tests/pkg/terraform",
+            "args": [
+                "-test.run",
+                "Destroy"
+            ]
+        },
+        {
+            "name": "WorkerPool",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/azure/describer/tests/workerpool",
+            "args": [
+                "-test.run",
+                "Pool"
+            ]
+        }
+
+    ]
+}
