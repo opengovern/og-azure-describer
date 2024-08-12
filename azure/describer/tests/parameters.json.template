@@ -1,0 +1,14 @@
+[
+    {
+        "resource_type": "",
+        "vars": [
+            "var1=value1"
+        ],
+        "azure_credentials": {
+            "client_id": "",
+            "tenant_id": "",
+            "client_secret": "",
+            "subscription": ""
+        }
+    }
+]
