@@ -14,14 +14,21 @@ import (
 	"github.com/nats-io/nats.go/jetstream"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
+	"os"
 	"runtime"
 	"time"
 )
 
 const (
-	StreamName    = "kaytu_azure_describer"
-	JobQueueTopic = "kaytu_azure_describer_job_queue"
-	ConsumerGroup = "azure-describer"
+	StreamName           = "kaytu_azure_describer"
+	JobQueueTopic        = "kaytu_azure_describer_job_queue"
+	ConsumerGroup        = "azure-describer"
+	JobQueueTopicManuals = "kaytu_azure_describer_manuals_job_queue"
+	ConsumerGroupManuals = "azure-describer-manuals"
+)
+
+var (
+	ManualTriggers = os.Getenv("MANUAL_TRIGGERS")
 )
 
 type Config struct {
@@ -75,7 +82,11 @@ func NewWorker(
 		return nil, err
 	}
 
-	if err := jq.Stream(ctx, StreamName, "azure describe job runner queue", []string{JobQueueTopic}, 200000); err != nil {
+	topic := JobQueueTopic
+	if ManualTriggers == "true" {
+		topic = JobQueueTopicManuals
+	}
+	if err := jq.Stream(ctx, StreamName, "azure describe job runner queue", []string{topic}, 200000); err != nil {
 		logger.Error("failed to create stream", zap.Error(err))
 		return nil, err
 	}
@@ -91,8 +102,13 @@ func NewWorker(
 
 func (w *Worker) Run(ctx context.Context) error {
 	w.logger.Info("starting to consume")
-
-	consumeCtx, err := w.jq.ConsumeWithConfig(ctx, ConsumerGroup, StreamName, []string{JobQueueTopic}, jetstream.ConsumerConfig{
+	topic := JobQueueTopic
+	consumer := ConsumerGroup
+	if ManualTriggers == "true" {
+		topic = JobQueueTopicManuals
+		consumer = ConsumerGroupManuals
+	}
+	consumeCtx, err := w.jq.ConsumeWithConfig(ctx, consumer, StreamName, []string{topic}, jetstream.ConsumerConfig{
 		Replicas:          1,
 		AckPolicy:         jetstream.AckExplicitPolicy,
 		DeliverPolicy:     jetstream.DeliverAllPolicy,
