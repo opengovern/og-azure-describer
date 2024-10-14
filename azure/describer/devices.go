@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 	"strings"
 
-	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
+	"github.com/opengovern/og-azure-describer/azure/model"
 )
 
 func DevicesProvisioningServicesCertificates(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string, stream *StreamSender) ([]Resource, error) {

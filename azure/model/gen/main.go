@@ -351,7 +351,7 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	// 	"context",
 	// 	"github.com/turbot/steampipe-plugin-sdk/plugin",
 	// 	"github.com/kaytu-io/kaytu-aws-describer/aws/model",
-	// 	"github.com/kaytu-io/kaytu-azure-describer/azure/model",
+	// 	"github.com/opengovern/og-azure-describer/azure/model",
 	// } {
 	// 	fmt.Fprintf(&buf, "\"%s\"\n", pkg)
 	// }
@@ -464,8 +464,8 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 			"context"
 			"encoding/json"
 			"fmt"
-			essdk "github.com/kaytu-io/kaytu-util/pkg/kaytu-es-sdk"
-			steampipesdk "github.com/kaytu-io/kaytu-util/pkg/steampipe"
+			essdk "github.com/opengovern/og-util/pkg/kaytu-es-sdk"
+			steampipesdk "github.com/opengovern/og-util/pkg/steampipe"
 			"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 			`+*sourceType+`Describer "github.com/kaytu-io/kaytu-`+*sourceType+`-describer/`+*sourceType+`/describer"
 			`+*sourceType+` "github.com/kaytu-io/kaytu-`+*sourceType+`-describer/`+*sourceType+`/model"

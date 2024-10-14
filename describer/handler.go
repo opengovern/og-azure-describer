@@ -11,9 +11,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/kaytu-io/kaytu-util/pkg/describe"
-	"github.com/kaytu-io/kaytu-util/pkg/vault"
-	"github.com/kaytu-io/kaytu-util/proto/src/golang"
+	"github.com/opengovern/og-util/pkg/describe"
+	"github.com/opengovern/og-util/pkg/vault"
+	"github.com/opengovern/og-util/proto/src/golang"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"google.golang.org/grpc"

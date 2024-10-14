@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kaytu-io/kaytu-azure-describer/local"
+	"github.com/opengovern/og-azure-describer/local"
 	"os"
 	"os/signal"
 	"syscall"

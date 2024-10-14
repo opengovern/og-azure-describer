@@ -7,14 +7,14 @@ import (
 	"strings"
 
 	"github.com/go-errors/errors"
-	"github.com/kaytu-io/kaytu-azure-describer/azure"
-	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
-	azuremodel "github.com/kaytu-io/kaytu-azure-describer/azure/model"
-	"github.com/kaytu-io/kaytu-azure-describer/pkg/steampipe"
-	"github.com/kaytu-io/kaytu-util/pkg/describe"
-	"github.com/kaytu-io/kaytu-util/pkg/source"
-	"github.com/kaytu-io/kaytu-util/pkg/vault"
-	"github.com/kaytu-io/kaytu-util/proto/src/golang"
+	"github.com/opengovern/og-azure-describer/azure"
+	"github.com/opengovern/og-azure-describer/azure/describer"
+	azuremodel "github.com/opengovern/og-azure-describer/azure/model"
+	"github.com/opengovern/og-azure-describer/pkg/steampipe"
+	"github.com/opengovern/og-util/pkg/describe"
+	"github.com/opengovern/og-util/pkg/source"
+	"github.com/opengovern/og-util/pkg/vault"
+	"github.com/opengovern/og-util/proto/src/golang"
 	"go.uber.org/zap"
 )
 

@@ -3,7 +3,7 @@ package azure
 import (
 	"context"
 	"encoding/json"
-	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
+	"github.com/opengovern/og-azure-describer/azure/describer"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"

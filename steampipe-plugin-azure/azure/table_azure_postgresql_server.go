@@ -8,7 +8,7 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 
 	"github.com/Azure/go-autorest/autorest/date"
-	"github.com/kaytu-io/kaytu-azure-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-azure-describer/pkg/kaytu-es-sdk"
 )
 
 //// TABLE DEFINITION

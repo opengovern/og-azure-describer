@@ -1,4 +1,4 @@
-module github.com/kaytu-io/kaytu-azure-describer
+module github.com/opengovern/og-azure-describer
 
 go 1.22.0
 
@@ -112,7 +112,7 @@ require (
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/hashicorp/go-hclog v1.6.3
-	github.com/kaytu-io/kaytu-util v0.0.0-20240829214119-de91fe05574d
+	github.com/opengovern/og-util v0.0.0-20240829214119-de91fe05574d
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/manicminer/hamilton v0.44.0
 	github.com/manicminer/hamilton-autorest v0.3.0

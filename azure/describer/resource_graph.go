@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
+	"github.com/opengovern/og-util/pkg/describe/enums"
 
 	hamiltonAuth "github.com/manicminer/hamilton/auth"
 )

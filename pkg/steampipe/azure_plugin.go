@@ -7,9 +7,9 @@ import (
 	"strings"
 
 	"github.com/hashicorp/go-hclog"
-	"github.com/kaytu-io/kaytu-azure-describer/steampipe-plugin-azure/azure"
-	"github.com/kaytu-io/kaytu-azure-describer/steampipe-plugin-azuread/azuread"
-	"github.com/kaytu-io/kaytu-util/pkg/steampipe"
+	"github.com/opengovern/og-azure-describer/steampipe-plugin-azure/azure"
+	"github.com/opengovern/og-azure-describer/steampipe-plugin-azuread/azuread"
+	"github.com/opengovern/og-util/pkg/steampipe"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/context_key"

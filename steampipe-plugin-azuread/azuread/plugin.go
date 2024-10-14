@@ -2,7 +2,7 @@ package azuread
 
 import (
 	"context"
-	essdk "github.com/kaytu-io/kaytu-util/pkg/kaytu-es-sdk"
+	essdk "github.com/opengovern/og-util/pkg/kaytu-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"

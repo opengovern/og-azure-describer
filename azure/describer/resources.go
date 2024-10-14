@@ -7,7 +7,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
 
-	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
+	"github.com/opengovern/og-azure-describer/azure/model"
 )
 
 func listResourceGroups(ctx context.Context, cred *azidentity.ClientSecretCredential, subscription string) ([]armresources.ResourceGroup, error) {

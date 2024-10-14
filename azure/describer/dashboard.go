@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dashboard/armdashboard"
-	"github.com/kaytu-io/kaytu-azure-describer/azure/model"
+	"github.com/opengovern/og-azure-describer/azure/model"
 	"strings"
 )
 

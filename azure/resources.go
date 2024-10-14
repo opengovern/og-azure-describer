@@ -12,15 +12,15 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 
-	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
-	"github.com/kaytu-io/kaytu-util/pkg/source"
+	"github.com/opengovern/og-util/pkg/describe/enums"
+	"github.com/opengovern/og-util/pkg/source"
 
 	"github.com/Azure/azure-sdk-for-go/profiles/latest/resourcegraph/mgmt/resourcegraph"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure/auth"
-	"github.com/kaytu-io/kaytu-azure-describer/azure/describer"
 	hamiltonAuthAutoRest "github.com/manicminer/hamilton-autorest/auth"
 	hamiltonAuth "github.com/manicminer/hamilton/auth"
+	"github.com/opengovern/og-azure-describer/azure/describer"
 )
 
 const AzureAuthLocation = "AZURE_AUTH_LOCATION"
