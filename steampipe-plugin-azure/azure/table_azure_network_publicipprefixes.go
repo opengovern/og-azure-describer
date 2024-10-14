@@ -14,10 +14,10 @@ func tableAzureNetworkPublicIPPrefixes(_ context.Context) *plugin.Table {
 		Description: "Azure Network PublicIPPrefixes",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetPublicIPPrefix,
+			Hydrate:    opengovernance.GetPublicIPPrefix,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListPublicIPPrefix,
+			Hydrate: opengovernance.ListPublicIPPrefix,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

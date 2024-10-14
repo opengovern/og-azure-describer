@@ -19,13 +19,13 @@ func tableAzurePostgreSqlServer(_ context.Context) *plugin.Table {
 		Description: "Azure PostgreSQL Server",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetPostgresqlServer,
+			Hydrate:    opengovernance.GetPostgresqlServer,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404", "InvalidApiVersionParameter"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListPostgresqlServer,
+			Hydrate: opengovernance.ListPostgresqlServer,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -261,7 +261,7 @@ type ServerKeyInfo struct {
 
 // If we return the API response directly, the output will not provide the properties of PrivateEndpointConnections
 func extractPostgreSqlServerPrivateEndpointConnections(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	server := d.HydrateItem.(kaytu.PostgresqlServer).Description.Server
+	server := d.HydrateItem.(opengovernance.PostgresqlServer).Description.Server
 	var properties []map[string]interface{}
 
 	if server.Properties.PrivateEndpointConnections != nil {

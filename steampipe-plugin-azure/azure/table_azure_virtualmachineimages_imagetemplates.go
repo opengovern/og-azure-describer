@@ -14,10 +14,10 @@ func tableAzureVirtualMachineImagesImageTemplates(_ context.Context) *plugin.Tab
 		Description: "Azure VirtualMachineImages ImageTemplates",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetVirtualMachineImagesImageTemplates,
+			Hydrate:    opengovernance.GetVirtualMachineImagesImageTemplates,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListVirtualMachineImagesImageTemplates,
+			Hydrate: opengovernance.ListVirtualMachineImagesImageTemplates,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

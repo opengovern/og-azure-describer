@@ -18,13 +18,13 @@ func tableAzureResourceGroup(ctx context.Context) *plugin.Table {
 		Description: "Azure Resource Group",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetResourceGroup,
+			Hydrate:    opengovernance.GetResourceGroup,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListResourceGroup,
+			Hydrate: opengovernance.ListResourceGroup,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

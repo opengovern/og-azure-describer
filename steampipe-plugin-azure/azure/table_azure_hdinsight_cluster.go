@@ -18,13 +18,13 @@ func tableAzureHDInsightCluster(_ context.Context) *plugin.Table {
 		Description: "Azure HDInsight Cluster",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetHdinsightCluster,
+			Hydrate:    opengovernance.GetHdinsightCluster,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListHdinsightCluster,
+			Hydrate: opengovernance.ListHdinsightCluster,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

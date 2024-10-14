@@ -18,13 +18,13 @@ func tableAzureComputeImage(_ context.Context) *plugin.Table {
 		Description: "Azure Compute Image",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetComputeImage,
+			Hydrate:    opengovernance.GetComputeImage,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeImage,
+			Hydrate: opengovernance.ListComputeImage,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

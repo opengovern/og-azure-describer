@@ -14,10 +14,10 @@ func tableAzureLogicIntegrationAccounts(_ context.Context) *plugin.Table {
 		Description: "Azure Logic IntegrationAccounts",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetLogicIntegrationAccounts,
+			Hydrate:    opengovernance.GetLogicIntegrationAccounts,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListLogicIntegrationAccounts,
+			Hydrate: opengovernance.ListLogicIntegrationAccounts,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -17,13 +17,13 @@ func tableAzureHybridKubernetesConnectedCluster(_ context.Context) *plugin.Table
 		Description: "Azure Hybrid Kubernetes Connected Cluster",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetHybridKubernetesConnectedCluster,
+			Hydrate:    opengovernance.GetHybridKubernetesConnectedCluster,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListHybridKubernetesConnectedCluster,
+			Hydrate: opengovernance.ListHybridKubernetesConnectedCluster,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

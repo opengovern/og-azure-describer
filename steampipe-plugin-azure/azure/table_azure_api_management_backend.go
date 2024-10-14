@@ -18,13 +18,13 @@ func tableAzureAPIManagementBackend(_ context.Context) *plugin.Table {
 		Description: "Azure API Management Backend",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"backend_id", "resource_group", "service_name"}),
-			Hydrate:    kaytu.GetAPIManagementBackend,
+			Hydrate:    opengovernance.GetAPIManagementBackend,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAPIManagementBackend,
+			Hydrate: opengovernance.ListAPIManagementBackend,
 			KeyColumns: plugin.KeyColumnSlice{
 				{
 					Name:      "service_name",

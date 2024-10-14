@@ -18,13 +18,13 @@ func tableAzureServiceFabricCluster(_ context.Context) *plugin.Table {
 		Description: "Azure Service Fabric Cluster",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetServiceFabricCluster,
+			Hydrate:    opengovernance.GetServiceFabricCluster,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListServiceFabricCluster,
+			Hydrate: opengovernance.ListServiceFabricCluster,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

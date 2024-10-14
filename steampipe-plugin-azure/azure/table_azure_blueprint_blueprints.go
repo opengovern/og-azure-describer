@@ -14,10 +14,10 @@ func tableAzureBlueprintBlueprints(_ context.Context) *plugin.Table {
 		Description: "Azure Blueprint Blueprints",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetBlueprint,
+			Hydrate:    opengovernance.GetBlueprint,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListBlueprint,
+			Hydrate: opengovernance.ListBlueprint,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

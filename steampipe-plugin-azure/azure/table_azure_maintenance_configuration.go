@@ -18,13 +18,13 @@ func tableAzureMaintenanceConfiguration(_ context.Context) *plugin.Table {
 		Description: "Azure Maintenance Configuration.",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"resource_group", "name"}),
-			Hydrate:    kaytu.GetMaintenanceConfiguration,
+			Hydrate:    opengovernance.GetMaintenanceConfiguration,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListMaintenanceConfiguration,
+			Hydrate: opengovernance.ListMaintenanceConfiguration,
 		},
 		Columns: azureColumns([]*plugin.Column{
 			{

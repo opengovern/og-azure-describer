@@ -18,13 +18,13 @@ func tableAzureApplicationInsight(_ context.Context) *plugin.Table {
 		Description: "Azure Application Insight",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetApplicationInsightsComponent,
+			Hydrate:    opengovernance.GetApplicationInsightsComponent,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListApplicationInsightsComponent,
+			Hydrate: opengovernance.ListApplicationInsightsComponent,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -18,13 +18,13 @@ func tableAzureStreamAnalyticsJob(_ context.Context) *plugin.Table {
 		Description: "Azure Stream Analytics Job",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetStreamAnalyticsJob,
+			Hydrate:    opengovernance.GetStreamAnalyticsJob,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "Invalid input"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListStreamAnalyticsJob,
+			Hydrate: opengovernance.ListStreamAnalyticsJob,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

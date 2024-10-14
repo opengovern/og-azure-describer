@@ -15,10 +15,10 @@ func tableAzureSqlServersJobAgents(_ context.Context) *plugin.Table {
 		Description: "Azure Sql ServersJobAgents",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetSqlServerJobAgent,
+			Hydrate:    opengovernance.GetSqlServerJobAgent,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSqlServerJobAgent,
+			Hydrate: opengovernance.ListSqlServerJobAgent,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -18,10 +18,10 @@ func tableAzureSecurityCenterPricing(_ context.Context) *plugin.Table {
 		Description: "Azure Security Center Subscription Pricing",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetSecurityCenterSubscriptionPricing,
+			Hydrate:    opengovernance.GetSecurityCenterSubscriptionPricing,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSecurityCenterSubscriptionPricing,
+			Hydrate: opengovernance.ListSecurityCenterSubscriptionPricing,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

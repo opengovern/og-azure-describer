@@ -15,8 +15,8 @@ func tableAzureKeyVaultKeyVersion(_ context.Context) *plugin.Table {
 		Name:        "azure_key_vault_key_version",
 		Description: "Azure Key Vault Key Version",
 		List: &plugin.ListConfig{
-			Hydrate:       kaytu.ListKeyVaultKeyVersion,
-			ParentHydrate: kaytu.ListKeyVault,
+			Hydrate:       opengovernance.ListKeyVaultKeyVersion,
+			ParentHydrate: opengovernance.ListKeyVault,
 			KeyColumns: plugin.KeyColumnSlice{
 				{
 					Name: "key_name", Require: plugin.Optional,

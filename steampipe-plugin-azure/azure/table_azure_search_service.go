@@ -17,13 +17,13 @@ func tableAzureSearchService(_ context.Context) *plugin.Table {
 		Description: "Azure Search Service",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetSearchService,
+			Hydrate:    opengovernance.GetSearchService,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSearchService,
+			Hydrate: opengovernance.ListSearchService,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

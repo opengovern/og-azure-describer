@@ -15,10 +15,10 @@ func tableAzureNetAppAccount(_ context.Context) *plugin.Table {
 		Description: "Azure NetApp Account",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetNetAppAccount,
+			Hydrate:    opengovernance.GetNetAppAccount,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListNetAppAccount,
+			Hydrate: opengovernance.ListNetAppAccount,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

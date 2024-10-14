@@ -16,13 +16,13 @@ func tableAzureComputeDisk(_ context.Context) *plugin.Table {
 		Description: "Azure Compute Disk",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetComputeDisk,
+			Hydrate:    opengovernance.GetComputeDisk,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeDisk,
+			Hydrate: opengovernance.ListComputeDisk,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

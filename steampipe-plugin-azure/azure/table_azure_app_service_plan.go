@@ -17,13 +17,13 @@ func tableAzureAppServicePlan(_ context.Context) *plugin.Table {
 		Description: "Azure App Service Plan",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetAppServicePlan,
+			Hydrate:    opengovernance.GetAppServicePlan,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAppServicePlan,
+			Hydrate: opengovernance.ListAppServicePlan,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

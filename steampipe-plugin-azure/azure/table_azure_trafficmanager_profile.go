@@ -14,10 +14,10 @@ func tableAzureTrafficManagerProfile(_ context.Context) *plugin.Table {
 		Description: "Azure TrafficManager Profile",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetTrafficManagerProfile,
+			Hydrate:    opengovernance.GetTrafficManagerProfile,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListTrafficManagerProfile,
+			Hydrate: opengovernance.ListTrafficManagerProfile,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -17,7 +17,7 @@ func tableAzureIamRoleAssignment(_ context.Context) *plugin.Table {
 		Name:        "azure_role_assignment",
 		Description: "Azure Role Assignment",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRoleAssignment,
+			Hydrate: opengovernance.ListRoleAssignment,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

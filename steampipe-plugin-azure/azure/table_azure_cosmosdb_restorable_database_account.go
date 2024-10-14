@@ -17,7 +17,7 @@ func tableAzureCosmosDBRestorableDatabaseAccount(_ context.Context) *plugin.Tabl
 		Name:        "azure_cosmosdb_restorable_database_account",
 		Description: "Azure Cosmos DB Restorable Database Account",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCosmosdbRestorableDatabaseAccount,
+			Hydrate: opengovernance.ListCosmosdbRestorableDatabaseAccount,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -14,7 +14,7 @@ func tableAzureCostManagementCostByResourceType(_ context.Context) *plugin.Table
 		Name:        "azure_costmanagement_costbyresourcetype",
 		Description: "Azure CostManagement CostByResourceType",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCostManagementCostByResourceType,
+			Hydrate: opengovernance.ListCostManagementCostByResourceType,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

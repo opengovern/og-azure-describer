@@ -15,10 +15,10 @@ func tableAzureAnalysisServicesServers(_ context.Context) *plugin.Table {
 		Description: "Azure AnalysisServices Servers",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetAnalysisServiceServer,
+			Hydrate:    opengovernance.GetAnalysisServiceServer,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAnalysisServiceServer,
+			Hydrate: opengovernance.ListAnalysisServiceServer,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

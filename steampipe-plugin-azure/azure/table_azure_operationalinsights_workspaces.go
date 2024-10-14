@@ -14,10 +14,10 @@ func tableAzureOperationalInsightsWorkspaces(_ context.Context) *plugin.Table {
 		Description: "Azure OperationalInsights Workspaces",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetOperationalInsightsWorkspaces,
+			Hydrate:    opengovernance.GetOperationalInsightsWorkspaces,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListOperationalInsightsWorkspaces,
+			Hydrate: opengovernance.ListOperationalInsightsWorkspaces,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

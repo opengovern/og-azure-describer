@@ -18,14 +18,14 @@ func tableAzureApAutomationVariable(_ context.Context) *plugin.Table {
 		Description: "Azure Automation Variable",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"account_name", "name", "resource_group"}),
-			Hydrate:    kaytu.GetAutomationVariables,
+			Hydrate:    opengovernance.GetAutomationVariables,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			ParentHydrate: kaytu.ListAutomationAccounts,
-			Hydrate:       kaytu.ListAutomationVariables,
+			ParentHydrate: opengovernance.ListAutomationAccounts,
+			Hydrate:       opengovernance.ListAutomationVariables,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -17,13 +17,13 @@ func tableAzureExpressRouteCircuit(_ context.Context) *plugin.Table {
 		Description: "Azure Express Route Circuit",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetExpressRouteCircuit,
+			Hydrate:    opengovernance.GetExpressRouteCircuit,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListExpressRouteCircuit,
+			Hydrate: opengovernance.ListExpressRouteCircuit,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

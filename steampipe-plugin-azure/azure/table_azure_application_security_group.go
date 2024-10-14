@@ -18,13 +18,13 @@ func tableAzureApplicationSecurityGroup(_ context.Context) *plugin.Table {
 		Description: "Azure Application Security Group",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetNetworkApplicationSecurityGroups,
+			Hydrate:    opengovernance.GetNetworkApplicationSecurityGroups,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListNetworkApplicationSecurityGroups,
+			Hydrate: opengovernance.ListNetworkApplicationSecurityGroups,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

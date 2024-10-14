@@ -17,11 +17,11 @@ func tableAzureResourceResource(ctx context.Context) *plugin.Table {
 		Description: "Azure Resource",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    kaytu.GetGenericResource,
+			Hydrate:    opengovernance.GetGenericResource,
 			// No error is returned if the resource is not found
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListGenericResource,
+			Hydrate: opengovernance.ListGenericResource,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

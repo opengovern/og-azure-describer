@@ -18,13 +18,13 @@ func tableAzureLoadBalancerProbe(_ context.Context) *plugin.Table {
 		Description: "Azure Load Balancer Probe",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"load_balancer_name", "name", "resource_group"}),
-			Hydrate:    kaytu.GetLoadBalancerProbe,
+			Hydrate:    opengovernance.GetLoadBalancerProbe,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListLoadBalancerProbe,
+			Hydrate: opengovernance.ListLoadBalancerProbe,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

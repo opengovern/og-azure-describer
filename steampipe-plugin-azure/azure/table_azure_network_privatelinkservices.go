@@ -14,10 +14,10 @@ func tableAzureNetworkPrivateLinkServices(_ context.Context) *plugin.Table {
 		Description: "Azure Network PrivateLinkServices",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetPrivateLinkService,
+			Hydrate:    opengovernance.GetPrivateLinkService,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListPrivateLinkService,
+			Hydrate: opengovernance.ListPrivateLinkService,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

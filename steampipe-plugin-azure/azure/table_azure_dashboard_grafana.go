@@ -14,10 +14,10 @@ func tableAzureDashboardGrafana(_ context.Context) *plugin.Table {
 		Description: "Azure Dashboard Grafana",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetDashboardGrafana,
+			Hydrate:    opengovernance.GetDashboardGrafana,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDashboardGrafana,
+			Hydrate: opengovernance.ListDashboardGrafana,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -20,13 +20,13 @@ func tableAzureKeyVaultSecret(_ context.Context) *plugin.Table {
 		Description: "Azure Key Vault Secret",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"vault_name", "name"}),
-			Hydrate:    kaytu.GetKeyVaultSecret,
+			Hydrate:    opengovernance.GetKeyVaultSecret,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "404", "SecretDisabled"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListKeyVaultSecret,
+			Hydrate: opengovernance.ListKeyVaultSecret,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -224,7 +224,7 @@ func extractVaultNameFromSecretID(ctx context.Context, d *transform.TransformDat
 }
 
 func extractRecoveryLevel(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	purge := d.HydrateItem.(kaytu.KeyVaultSecret).Description.Vault.Properties.EnablePurgeProtection
+	purge := d.HydrateItem.(opengovernance.KeyVaultSecret).Description.Vault.Properties.EnablePurgeProtection
 
 	if purge != nil && *purge {
 		return "Purgeable", nil

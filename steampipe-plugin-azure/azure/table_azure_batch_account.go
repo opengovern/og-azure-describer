@@ -18,13 +18,13 @@ func tableAzureBatchAccount(_ context.Context) *plugin.Table {
 		Description: "Azure Batch Account",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetBatchAccount,
+			Hydrate:    opengovernance.GetBatchAccount,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "Invalid input"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListBatchAccount,
+			Hydrate: opengovernance.ListBatchAccount,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

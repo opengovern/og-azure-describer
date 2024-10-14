@@ -17,13 +17,13 @@ func tableAzureEventGridDomain(_ context.Context) *plugin.Table {
 		Description: "Azure Event Grid Domain",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetEventGridDomain,
+			Hydrate:    opengovernance.GetEventGridDomain,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "400", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEventGridDomain,
+			Hydrate: opengovernance.ListEventGridDomain,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -220,7 +220,7 @@ func tableAzureEventGridDomain(_ context.Context) *plugin.Table {
 // If we return the private endpoint connection directly from api response we will not receive all the properties of private endpoint connections.
 func extractEventgridDomainPrivaterEndPointConnections(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("extractEventgridDomainPrivaterEndPointConnections")
-	domain := d.HydrateItem.(kaytu.EventGridDomain).Description.Domain
+	domain := d.HydrateItem.(opengovernance.EventGridDomain).Description.Domain
 	var privateEndpointConnectionsInfo []map[string]interface{}
 	if domain.Properties.PrivateEndpointConnections != nil {
 		privateEndpointConnections := domain.Properties.PrivateEndpointConnections

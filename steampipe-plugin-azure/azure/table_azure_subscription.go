@@ -17,7 +17,7 @@ func tableAzureSubscription(_ context.Context) *plugin.Table {
 		Name:        "azure_subscription",
 		Description: "Azure Subscription",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSubscription,
+			Hydrate: opengovernance.ListSubscription,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{

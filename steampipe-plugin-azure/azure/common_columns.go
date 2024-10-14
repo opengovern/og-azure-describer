@@ -59,7 +59,7 @@ func commonKaytuColumns() []*plugin.Column {
 		{
 			Name:        "kaytu_resource_id",
 			Type:        proto.ColumnType_STRING,
-			Description: "The unique ID of the resource in Kaytu.",
+			Description: "The unique ID of the resource in opengovernance.",
 			Transform:   transform.FromField("ID"),
 		},
 		{

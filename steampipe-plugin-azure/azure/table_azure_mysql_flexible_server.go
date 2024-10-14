@@ -17,13 +17,13 @@ func tableAzureMySQLFlexibleServer(_ context.Context) *plugin.Table {
 		Description: "Azure MySQL Flexible Server",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetSqlServerFlexibleServer,
+			Hydrate:    opengovernance.GetSqlServerFlexibleServer,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSqlServerFlexibleServer,
+			Hydrate: opengovernance.ListSqlServerFlexibleServer,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -14,10 +14,10 @@ func tableAzureComputeCloudServices(_ context.Context) *plugin.Table {
 		Description: "Azure Compute CloudServices",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetComputeCloudService,
+			Hydrate:    opengovernance.GetComputeCloudService,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeCloudService,
+			Hydrate: opengovernance.ListComputeCloudService,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

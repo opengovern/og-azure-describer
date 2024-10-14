@@ -18,13 +18,13 @@ func tableAzureLoadBalancerNatRule(_ context.Context) *plugin.Table {
 		Description: "Azure Load Balancer Nat Rule",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"load_balancer_name", "name", "resource_group"}),
-			Hydrate:    kaytu.GetLoadBalancerNatRule,
+			Hydrate:    opengovernance.GetLoadBalancerNatRule,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListLoadBalancerNatRule,
+			Hydrate: opengovernance.ListLoadBalancerNatRule,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

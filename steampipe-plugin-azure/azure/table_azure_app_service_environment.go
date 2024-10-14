@@ -19,13 +19,13 @@ func tableAzureAppServiceEnvironment(_ context.Context) *plugin.Table {
 		Description: "Azure App Service Environment",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetAppServiceEnvironment,
+			Hydrate:    opengovernance.GetAppServiceEnvironment,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAppServiceEnvironment,
+			Hydrate: opengovernance.ListAppServiceEnvironment,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -172,20 +172,20 @@ func tableAzureAppServiceEnvironment(_ context.Context) *plugin.Table {
 }
 
 func getVNResourceGroupName(ctx context.Context, d *transform.TransformData) (any, error) {
-	virtualNetwork := d.HydrateItem.(kaytu.AppServiceEnvironment).Description.AppServiceEnvironmentResource.Properties.VirtualNetwork
+	virtualNetwork := d.HydrateItem.(opengovernance.AppServiceEnvironment).Description.AppServiceEnvironmentResource.Properties.VirtualNetwork
 	resourceGroup := strings.Split(*virtualNetwork.ID, "/")[4]
 	return resourceGroup, nil
 }
 
 func getVNName(ctx context.Context, d *transform.TransformData) (any, error) {
-	virtualNetwork := d.HydrateItem.(kaytu.AppServiceEnvironment).Description.AppServiceEnvironmentResource.Properties.VirtualNetwork
+	virtualNetwork := d.HydrateItem.(opengovernance.AppServiceEnvironment).Description.AppServiceEnvironmentResource.Properties.VirtualNetwork
 	split := strings.Split(*virtualNetwork.ID, "/")
 	name := split[len(split)-3]
 	return name, nil
 }
 
 func getVNSubnetName(ctx context.Context, d *transform.TransformData) (any, error) {
-	virtualNetwork := d.HydrateItem.(kaytu.AppServiceEnvironment).Description.AppServiceEnvironmentResource.Properties.VirtualNetwork
+	virtualNetwork := d.HydrateItem.(opengovernance.AppServiceEnvironment).Description.AppServiceEnvironmentResource.Properties.VirtualNetwork
 	split := strings.Split(*virtualNetwork.ID, "/")
 	subnet := split[len(split)-1]
 	return subnet, nil

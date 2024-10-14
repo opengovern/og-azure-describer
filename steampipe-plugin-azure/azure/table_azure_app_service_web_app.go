@@ -19,13 +19,13 @@ func tableAzureAppServiceWebApp(_ context.Context) *plugin.Table {
 		Description: "Azure App Service Web App",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetAppServiceWebApp,
+			Hydrate:    opengovernance.GetAppServiceWebApp,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAppServiceWebApp,
+			Hydrate: opengovernance.ListAppServiceWebApp,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -183,7 +183,7 @@ func tableAzureAppServiceWebApp(_ context.Context) *plugin.Table {
 }
 
 func webAppIdentity(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.AppServiceWebApp).Description.Site
+	data := d.HydrateItem.(opengovernance.AppServiceWebApp).Description.Site
 	objectMap := make(map[string]interface{})
 	if data.Identity != nil {
 		if types.SafeString(data.Identity.Type) != "" {

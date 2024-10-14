@@ -14,10 +14,10 @@ func tableAzureNetworkConnections(_ context.Context) *plugin.Table {
 		Description: "Azure Network Connections",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetConnection,
+			Hydrate:    opengovernance.GetConnection,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListConnection,
+			Hydrate: opengovernance.ListConnection,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

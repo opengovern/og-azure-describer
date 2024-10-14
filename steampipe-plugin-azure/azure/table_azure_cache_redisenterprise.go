@@ -15,10 +15,10 @@ func tableAzureCacheRedisEnterprise(_ context.Context) *plugin.Table {
 		Description: "Azure Cache RedisEnterprise",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetRedisEnterpriseCache,
+			Hydrate:    opengovernance.GetRedisEnterpriseCache,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRedisEnterpriseCache,
+			Hydrate: opengovernance.ListRedisEnterpriseCache,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -19,13 +19,13 @@ func tableAzureFrontDoor(_ context.Context) *plugin.Table {
 		Description: "Azure Front Door",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetFrontdoor,
+			Hydrate:    opengovernance.GetFrontdoor,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListFrontdoor,
+			Hydrate: opengovernance.ListFrontdoor,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -168,6 +168,6 @@ func tableAzureFrontDoor(_ context.Context) *plugin.Table {
 // all the contents of DiagnosticSettings
 
 func getCname(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	frontDoor := d.HydrateItem.(kaytu.Frontdoor).Description.FrontDoor
+	frontDoor := d.HydrateItem.(opengovernance.Frontdoor).Description.FrontDoor
 	return strings.ToLower(*frontDoor.Properties.FrontendEndpoints[0].Properties.HostName), nil
 }

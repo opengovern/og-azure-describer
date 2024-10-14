@@ -16,7 +16,7 @@ func tableAzureTenant(_ context.Context) *plugin.Table {
 		Name:        "azure_tenant",
 		Description: "Azure Tenant",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListTenant,
+			Hydrate: opengovernance.ListTenant,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

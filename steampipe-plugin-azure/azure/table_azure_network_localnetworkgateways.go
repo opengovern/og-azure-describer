@@ -14,10 +14,10 @@ func tableAzureNetworkLocalNetworkGateways(_ context.Context) *plugin.Table {
 		Description: "Azure Network LocalNetworkGateways",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetLocalNetworkGateway,
+			Hydrate:    opengovernance.GetLocalNetworkGateway,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListLocalNetworkGateway,
+			Hydrate: opengovernance.ListLocalNetworkGateway,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

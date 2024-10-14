@@ -14,10 +14,10 @@ func tableAzureNetworkFirewallPolicies(_ context.Context) *plugin.Table {
 		Description: "Azure Network FirewallPolicies",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetFirewallPolicy,
+			Hydrate:    opengovernance.GetFirewallPolicy,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListFirewallPolicy,
+			Hydrate: opengovernance.ListFirewallPolicy,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

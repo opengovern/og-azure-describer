@@ -14,11 +14,11 @@ func tableAzureCostManagementCostBySubscription(_ context.Context) *plugin.Table
 		Name:        "azure_costmanagement_costbysubscription",
 		Description: "Azure CostManagement CostBySubscription",
 		Get: &plugin.GetConfig{
-			Hydrate:    kaytu.GetCostManagementCostBySubscription,
+			Hydrate:    opengovernance.GetCostManagementCostBySubscription,
 			KeyColumns: plugin.OptionalColumns([]string{"id"}),
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCostManagementCostBySubscription,
+			Hydrate: opengovernance.ListCostManagementCostBySubscription,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

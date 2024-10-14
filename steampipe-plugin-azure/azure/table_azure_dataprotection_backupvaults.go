@@ -15,10 +15,10 @@ func tableAzureDataProtectionBackupVaults(_ context.Context) *plugin.Table {
 		Description: "Azure DataProtection BackupVaults",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetDataProtectionBackupVaults,
+			Hydrate:    opengovernance.GetDataProtectionBackupVaults,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDataProtectionBackupVaults,
+			Hydrate: opengovernance.ListDataProtectionBackupVaults,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -17,13 +17,13 @@ func tableAzureVirtualNetworkGateway(_ context.Context) *plugin.Table {
 		Description: "Azure Virtual Network Gateway",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetVirtualNetworkGateway,
+			Hydrate:    opengovernance.GetVirtualNetworkGateway,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListVirtualNetworkGateway,
+			Hydrate: opengovernance.ListVirtualNetworkGateway,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

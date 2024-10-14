@@ -18,13 +18,13 @@ func tableAzureFirewall(_ context.Context) *plugin.Table {
 		Description: "Azure Firewall",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetNetworkAzureFirewall,
+			Hydrate:    opengovernance.GetNetworkAzureFirewall,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListNetworkAzureFirewall,
+			Hydrate: opengovernance.ListNetworkAzureFirewall,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -198,7 +198,7 @@ func tableAzureFirewall(_ context.Context) *plugin.Table {
 //// Transform Functions
 
 func ipConfigurationData(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.NetworkAzureFirewall).Description.AzureFirewall
+	data := d.HydrateItem.(opengovernance.NetworkAzureFirewall).Description.AzureFirewall
 
 	var output []map[string]interface{}
 	for _, firewall := range data.Properties.IPConfigurations {

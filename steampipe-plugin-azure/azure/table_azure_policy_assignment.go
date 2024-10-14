@@ -18,10 +18,10 @@ func tableAzurePolicyAssignment(_ context.Context) *plugin.Table {
 		Description: "Azure Policy Assignment",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    kaytu.GetPolicyAssignment,
+			Hydrate:    opengovernance.GetPolicyAssignment,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListPolicyAssignment,
+			Hydrate: opengovernance.ListPolicyAssignment,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

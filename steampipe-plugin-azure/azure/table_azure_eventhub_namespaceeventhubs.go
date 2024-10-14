@@ -14,10 +14,10 @@ func tableAzureEventhubNamespaceEventhubs(_ context.Context) *plugin.Table {
 		Description: "Azure Eventhub NamespaceEventhubs",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetEventhubNamespaceEventhub,
+			Hydrate:    opengovernance.GetEventhubNamespaceEventhub,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEventhubNamespaceEventhub,
+			Hydrate: opengovernance.ListEventhubNamespaceEventhub,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

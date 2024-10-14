@@ -17,13 +17,13 @@ func tableAzurePublicIP(_ context.Context) *plugin.Table {
 		Description: "Azure Public IP",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetPublicIPAddress,
+			Hydrate:    opengovernance.GetPublicIPAddress,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListPublicIPAddress,
+			Hydrate: opengovernance.ListPublicIPAddress,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

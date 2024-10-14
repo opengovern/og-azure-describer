@@ -17,13 +17,13 @@ func tableAzureCosmosDBMongoCollection(_ context.Context) *plugin.Table {
 		Description: "Azure Cosmos DB Mongo Collection",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"account_name", "name", "resource_group", "database_name"}),
-			Hydrate:    kaytu.GetCosmosdbMongoCollection,
+			Hydrate:    opengovernance.GetCosmosdbMongoCollection,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "NotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCosmosdbMongoCollection,
+			Hydrate: opengovernance.ListCosmosdbMongoCollection,
 			KeyColumns: plugin.KeyColumnSlice{
 				{
 					Name: "database_name", Require: plugin.Required,

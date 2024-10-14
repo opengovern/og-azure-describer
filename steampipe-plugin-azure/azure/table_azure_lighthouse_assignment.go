@@ -30,13 +30,13 @@ func tableAzureLighthouseAssignment(_ context.Context) *plugin.Table {
 					Operators: []string{"="},
 				},
 			},
-			Hydrate: kaytu.GetLighthouseAssignment,
+			Hydrate: opengovernance.GetLighthouseAssignment,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"RegistrationAssignmentNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate:    kaytu.ListLighthouseAssignment,
+			Hydrate:    opengovernance.ListLighthouseAssignment,
 			KeyColumns: plugin.OptionalColumns([]string{"scope"}),
 		},
 		Columns: []*plugin.Column{

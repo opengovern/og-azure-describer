@@ -32,10 +32,10 @@ func tableAzure{{.Service}}{{.Name}}(_ context.Context) *plugin.Table {
 		Description: "Azure {{.Service}} {{.Name}}",
 		Get: &plugin.GetConfig{
 			KeyColumns:        plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:           kaytu.Get{{.Service}}{{.Name}},
+			Hydrate:           opengovernance.Get{{.Service}}{{.Name}},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.List{{.Service}}{{.Name}},
+			Hydrate: opengovernance.List{{.Service}}{{.Name}},
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

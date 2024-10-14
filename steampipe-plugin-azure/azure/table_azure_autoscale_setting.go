@@ -17,13 +17,13 @@ func tableAzureAutoscaleSetting(_ context.Context) *plugin.Table {
 		Description: "Azure Autoscale Setting",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetAutoscaleSetting,
+			Hydrate:    opengovernance.GetAutoscaleSetting,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAutoscaleSetting,
+			Hydrate: opengovernance.ListAutoscaleSetting,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -15,10 +15,10 @@ func tableAzureNetAppCapacityPool(_ context.Context) *plugin.Table {
 		Description: "Azure NetApp CapacityPool",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetNetAppCapacityPool,
+			Hydrate:    opengovernance.GetNetAppCapacityPool,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListNetAppCapacityPool,
+			Hydrate: opengovernance.ListNetAppCapacityPool,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

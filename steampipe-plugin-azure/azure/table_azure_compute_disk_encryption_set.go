@@ -17,13 +17,13 @@ func tableAzureComputeDiskEncryptionSet(_ context.Context) *plugin.Table {
 		Description: "Azure Compute Disk Encryption Set",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetComputeDiskEncryptionSet,
+			Hydrate:    opengovernance.GetComputeDiskEncryptionSet,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeDiskEncryptionSet,
+			Hydrate: opengovernance.ListComputeDiskEncryptionSet,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

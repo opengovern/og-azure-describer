@@ -14,10 +14,10 @@ func tableAzureNetworkDNSResolver(_ context.Context) *plugin.Table {
 		Description: "Azure Network DNSResolver",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetDNSResolver,
+			Hydrate:    opengovernance.GetDNSResolver,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDNSResolver,
+			Hydrate: opengovernance.ListDNSResolver,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

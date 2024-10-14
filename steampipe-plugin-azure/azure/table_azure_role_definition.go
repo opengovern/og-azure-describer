@@ -18,13 +18,13 @@ func tableAzureIamRoleDefinition(_ context.Context) *plugin.Table {
 		Description: "Azure Role Definition",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetRoleDefinition,
+			Hydrate:    opengovernance.GetRoleDefinition,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRoleDefinition,
+			Hydrate: opengovernance.ListRoleDefinition,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -15,10 +15,10 @@ func tableAzureComputeRestorePointCollection(_ context.Context) *plugin.Table {
 		Description: "Azure Compute RestorePointCollection",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetComputeRestorePointCollection,
+			Hydrate:    opengovernance.GetComputeRestorePointCollection,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeRestorePointCollection,
+			Hydrate: opengovernance.ListComputeRestorePointCollection,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

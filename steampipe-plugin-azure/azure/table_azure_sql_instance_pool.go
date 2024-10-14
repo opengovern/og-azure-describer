@@ -15,10 +15,10 @@ func tableAzureSqlInstancePool(_ context.Context) *plugin.Table {
 		Description: "Azure Sql InstancePool",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetSqlInstancePool,
+			Hydrate:    opengovernance.GetSqlInstancePool,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSqlInstancePool,
+			Hydrate: opengovernance.ListSqlInstancePool,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

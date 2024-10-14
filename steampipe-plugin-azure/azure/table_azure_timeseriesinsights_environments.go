@@ -14,10 +14,10 @@ func tableAzureTimeSeriesInsightsEnvironments(_ context.Context) *plugin.Table {
 		Description: "Azure TimeSeriesInsights Environments",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetTimeSeriesInsightsEnvironments,
+			Hydrate:    opengovernance.GetTimeSeriesInsightsEnvironments,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListTimeSeriesInsightsEnvironments,
+			Hydrate: opengovernance.ListTimeSeriesInsightsEnvironments,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -15,10 +15,10 @@ func tableAzureCdnProfiles(_ context.Context) *plugin.Table {
 		Description: "Azure Cdn Profiles",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetCDNProfile,
+			Hydrate:    opengovernance.GetCDNProfile,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCDNProfile,
+			Hydrate: opengovernance.ListCDNProfile,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

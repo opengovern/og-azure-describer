@@ -18,13 +18,13 @@ func tableAzureCognitiveAccount(_ context.Context) *plugin.Table {
 		Description: "Azure Cognitive Account",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetCognitiveAccount,
+			Hydrate:    opengovernance.GetCognitiveAccount,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCognitiveAccount,
+			Hydrate: opengovernance.ListCognitiveAccount,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -237,7 +237,7 @@ type CognitiveAccountPrivateEndpointConnections struct {
 
 // If we return the API response directly, the output will not provide all the properties of PrivateEndpointConnections
 func extractAccountPrivateEndpointConnections(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	account := d.HydrateItem.(kaytu.CognitiveAccount).Description.Account
+	account := d.HydrateItem.(opengovernance.CognitiveAccount).Description.Account
 	privateEndpointConnectionInfo := []CognitiveAccountPrivateEndpointConnections{}
 
 	if account.Properties.PrivateEndpointConnections != nil {

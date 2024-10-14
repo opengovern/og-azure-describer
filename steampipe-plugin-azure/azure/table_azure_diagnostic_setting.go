@@ -17,13 +17,13 @@ func tableAzureDiagnosticSetting(_ context.Context) *plugin.Table {
 		Description: "Azure Diagnostic Setting",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetDiagnosticSetting,
+			Hydrate:    opengovernance.GetDiagnosticSetting,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDiagnosticSetting,
+			Hydrate: opengovernance.ListDiagnosticSetting,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

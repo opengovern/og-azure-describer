@@ -15,10 +15,10 @@ func tableAzureDBforMySQLFlexibleServers(_ context.Context) *plugin.Table {
 		Description: "Azure DBforMySQL FlexibleServers",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetMysqlFlexibleserver,
+			Hydrate:    opengovernance.GetMysqlFlexibleserver,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListMysqlFlexibleserver,
+			Hydrate: opengovernance.ListMysqlFlexibleserver,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

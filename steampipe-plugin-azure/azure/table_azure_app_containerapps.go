@@ -14,10 +14,10 @@ func tableAzureAppContainerApps(_ context.Context) *plugin.Table {
 		Description: "Azure App ContainerApps",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetContainerApp,
+			Hydrate:    opengovernance.GetContainerApp,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListContainerApp,
+			Hydrate: opengovernance.ListContainerApp,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

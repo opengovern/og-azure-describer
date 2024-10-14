@@ -17,13 +17,13 @@ func tableAzureComputeVirtualMachineScaleSetVm(_ context.Context) *plugin.Table 
 		Description: "Azure Compute Virtual Machine Scale Set VM",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"scale_set_name", "resource_group", "instance_id"}),
-			Hydrate:    kaytu.GetComputeVirtualMachineScaleSetVm,
+			Hydrate:    opengovernance.GetComputeVirtualMachineScaleSetVm,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeVirtualMachineScaleSetVm,
+			Hydrate: opengovernance.ListComputeVirtualMachineScaleSetVm,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

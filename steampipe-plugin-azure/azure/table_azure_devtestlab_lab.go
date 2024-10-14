@@ -15,10 +15,10 @@ func tableAzureDevTestLabLab(_ context.Context) *plugin.Table {
 		Description: "Azure DevTestLab Lab",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetDevTestLabLab,
+			Hydrate:    opengovernance.GetDevTestLabLab,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDevTestLabLab,
+			Hydrate: opengovernance.ListDevTestLabLab,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

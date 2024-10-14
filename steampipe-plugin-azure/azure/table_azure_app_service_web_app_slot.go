@@ -21,13 +21,13 @@ func tableAzureAppServiceWebAppSlot(_ context.Context) *plugin.Table {
 		Description: "Azure App Service Web App Slot",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "app_name", "resource_group"}),
-			Hydrate:    kaytu.GetAppServiceWebAppSlot,
+			Hydrate:    opengovernance.GetAppServiceWebAppSlot,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAppServiceWebAppSlot,
+			Hydrate: opengovernance.ListAppServiceWebAppSlot,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -278,7 +278,7 @@ type SlotInfo struct {
 }
 
 func extractName(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	name := d.HydrateItem.(kaytu.AppServiceWebAppSlot).Description.Site.Name
+	name := d.HydrateItem.(opengovernance.AppServiceWebAppSlot).Description.Site.Name
 	parts := strings.Split(*name, "/")
 	if len(parts) > 1 {
 		return parts[1], nil

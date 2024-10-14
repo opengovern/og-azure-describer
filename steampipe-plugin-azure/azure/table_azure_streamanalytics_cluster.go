@@ -14,10 +14,10 @@ func tableAzureStreamAnalyticsCluster(_ context.Context) *plugin.Table {
 		Description: "Azure StreamAnalytics Cluster",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetStreamAnalyticsCluster,
+			Hydrate:    opengovernance.GetStreamAnalyticsCluster,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListStreamAnalyticsCluster,
+			Hydrate: opengovernance.ListStreamAnalyticsCluster,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -17,13 +17,13 @@ func tableAzureContainerRegistry(_ context.Context) *plugin.Table {
 		Description: "Azure Container Registry",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetContainerRegistry,
+			Hydrate:    opengovernance.GetContainerRegistry,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "Invalid input", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListContainerRegistry,
+			Hydrate: opengovernance.ListContainerRegistry,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

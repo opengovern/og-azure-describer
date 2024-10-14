@@ -15,10 +15,10 @@ func tableAzureSqlManagedInstancesDatabases(_ context.Context) *plugin.Table {
 		Description: "Azure Sql ManagedInstancesDatabases",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetMssqlManagedInstanceDatabases,
+			Hydrate:    opengovernance.GetMssqlManagedInstanceDatabases,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListMssqlManagedInstanceDatabases,
+			Hydrate: opengovernance.ListMssqlManagedInstanceDatabases,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

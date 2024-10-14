@@ -15,10 +15,10 @@ func tableAzureNetworkDDoSProtectionPlan(_ context.Context) *plugin.Table {
 		Description: "Azure Network DDoSProtectionPlan",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetNetworkDDoSProtectionPlan,
+			Hydrate:    opengovernance.GetNetworkDDoSProtectionPlan,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListNetworkDDoSProtectionPlan,
+			Hydrate: opengovernance.ListNetworkDDoSProtectionPlan,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

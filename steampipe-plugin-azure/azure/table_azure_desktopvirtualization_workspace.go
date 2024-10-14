@@ -14,10 +14,10 @@ func tableAzureDesktopVirtualizationWorkspace(_ context.Context) *plugin.Table {
 		Description: "Azure DesktopVirtualization Workspace",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetDesktopVirtualizationWorkspace,
+			Hydrate:    opengovernance.GetDesktopVirtualizationWorkspace,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDesktopVirtualizationWorkspace,
+			Hydrate: opengovernance.ListDesktopVirtualizationWorkspace,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

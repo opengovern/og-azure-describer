@@ -18,13 +18,13 @@ func tableAzureSignalRService(_ context.Context) *plugin.Table {
 		Description: "Azure SignalR Service",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetSignalrService,
+			Hydrate:    opengovernance.GetSignalrService,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSignalrService,
+			Hydrate: opengovernance.ListSignalrService,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -186,7 +186,7 @@ type SignalRServicePrivateEndpointConnections struct {
 
 // If we return the API response directly, the output will not provide all the properties of PrivateEndpointConnections
 func extractSignalRServicePrivateEndpointConnections(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	service := d.HydrateItem.(kaytu.SignalrService).Description.ResourceInfo
+	service := d.HydrateItem.(opengovernance.SignalrService).Description.ResourceInfo
 	info := []SignalRServicePrivateEndpointConnections{}
 
 	if service.Properties != nil && service.Properties.PrivateEndpointConnections != nil {

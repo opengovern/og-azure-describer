@@ -17,13 +17,13 @@ func tableAzureMySQLServer(_ context.Context) *plugin.Table {
 		Description: "Azure MySQL Server",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetMysqlServer,
+			Hydrate:    opengovernance.GetMysqlServer,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404", "InvalidApiVersionParameter"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListMysqlServer,
+			Hydrate: opengovernance.ListMysqlServer,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -269,7 +269,7 @@ func tableAzureMySQLServer(_ context.Context) *plugin.Table {
 
 // If we return the API response directly, the output will not provide the properties of PrivateEndpointConnections
 func extractMySQLServerPrivateEndpointConnections(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	server := d.HydrateItem.(kaytu.MysqlServer).Description.Server
+	server := d.HydrateItem.(opengovernance.MysqlServer).Description.Server
 	var properties []map[string]interface{}
 
 	if server.Properties.PrivateEndpointConnections != nil {

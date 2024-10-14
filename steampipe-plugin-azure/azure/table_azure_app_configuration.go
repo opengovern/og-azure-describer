@@ -19,13 +19,13 @@ func tableAzureAppConfiguration(_ context.Context) *plugin.Table {
 		Description: "Azure App Configuration",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetAppConfiguration,
+			Hydrate:    opengovernance.GetAppConfiguration,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAppConfiguration,
+			Hydrate: opengovernance.ListAppConfiguration,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -138,7 +138,7 @@ func tableAzureAppConfiguration(_ context.Context) *plugin.Table {
 }
 
 func publicNetworkAccess(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	server := d.HydrateItem.(kaytu.AppConfiguration).Description.ConfigurationStore
+	server := d.HydrateItem.(opengovernance.AppConfiguration).Description.ConfigurationStore
 	if server.Properties.PublicNetworkAccess != nil {
 		return strings.ToLower(fmt.Sprintf("%v", *server.Properties.PublicNetworkAccess)), nil
 	} else {
@@ -148,7 +148,7 @@ func publicNetworkAccess(_ context.Context, d *transform.TransformData) (interfa
 
 // If we return the API response directly, the output will not provide all the properties of PrivateEndpointConnections
 func extractAppConfigurationPrivateEndpointConnections(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	server := d.HydrateItem.(kaytu.AppConfiguration).Description.ConfigurationStore
+	server := d.HydrateItem.(opengovernance.AppConfiguration).Description.ConfigurationStore
 	var properties []map[string]interface{}
 
 	if server.Properties.PrivateEndpointConnections != nil {

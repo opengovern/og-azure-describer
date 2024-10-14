@@ -15,7 +15,7 @@ func tableAzureComputeVirtualMachineScaleSetNetworkInterface(_ context.Context) 
 		Name:        "azure_compute_virtual_machine_scale_set_network_interface",
 		Description: "Azure Compute Virtual Machine Scale Set Network Interface",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeVirtualMachineScaleSetNetworkInterface,
+			Hydrate: opengovernance.ListComputeVirtualMachineScaleSetNetworkInterface,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -149,7 +149,7 @@ func tableAzureComputeVirtualMachineScaleSetNetworkInterface(_ context.Context) 
 }
 
 func extractScaleSetNetworkInterfaceProperties(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	networkInterface := d.HydrateItem.(kaytu.ComputeVirtualMachineScaleSetNetworkInterface).Description.NetworkInterface
+	networkInterface := d.HydrateItem.(opengovernance.ComputeVirtualMachineScaleSetNetworkInterface).Description.NetworkInterface
 	param := d.Param.(string)
 
 	objectMap := make(map[string]interface{})

@@ -15,10 +15,10 @@ func tableAzureDatabricksWorkspaces(_ context.Context) *plugin.Table {
 		Description: "Azure Databricks Workspaces",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetDatabricksWorkspace,
+			Hydrate:    opengovernance.GetDatabricksWorkspace,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDatabricksWorkspace,
+			Hydrate: opengovernance.ListDatabricksWorkspace,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

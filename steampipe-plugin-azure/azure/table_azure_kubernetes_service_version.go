@@ -17,7 +17,7 @@ func tableAzureAKSVersion(_ context.Context) *plugin.Table {
 		Name:        "azure_kubernetes_service_version",
 		Description: "Azure Kubernetes Service Version",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListKubernetesServiceVersion,
+			Hydrate: opengovernance.ListKubernetesServiceVersion,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -19,13 +19,13 @@ func tableAzureKeyVaultKey(_ context.Context) *plugin.Table {
 		Description: "Azure Key Vault Key",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"vault_name", "name", "resource_group"}),
-			Hydrate:    kaytu.GetKeyVaultKey,
+			Hydrate:    opengovernance.GetKeyVaultKey,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListKeyVaultKey,
+			Hydrate: opengovernance.ListKeyVaultKey,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -189,7 +189,7 @@ func tableAzureKeyVaultKey(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func extractVaultNameFromID(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.KeyVaultKey).Description
+	data := d.HydrateItem.(opengovernance.KeyVaultKey).Description
 
 	plugin.Logger(ctx).Error("getStorageTable", data)
 	if data.Key.ID == nil {

@@ -18,13 +18,13 @@ func tableAzureRecoveryServicesVault(_ context.Context) *plugin.Table {
 		Description: "Azure Recovery Services Vault",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetRecoveryServicesVault,
+			Hydrate:    opengovernance.GetRecoveryServicesVault,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "Invalid input"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRecoveryServicesVault,
+			Hydrate: opengovernance.ListRecoveryServicesVault,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

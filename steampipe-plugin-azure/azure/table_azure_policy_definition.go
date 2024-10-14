@@ -20,7 +20,7 @@ func tableAzurePolicyDefinition(_ context.Context) *plugin.Table {
 		// 	Hydrate:    getPolicyDefinition,
 		// },
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListPolicyDefinition,
+			Hydrate: opengovernance.ListPolicyDefinition,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

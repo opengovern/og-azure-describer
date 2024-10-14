@@ -18,13 +18,13 @@ func tableAzureDataBoxEdgeDevice(_ context.Context) *plugin.Table {
 		Description: "Azure Data Box Edge Device",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetDataboxEdgeDevice,
+			Hydrate:    opengovernance.GetDataboxEdgeDevice,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "400"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDataboxEdgeDevice,
+			Hydrate: opengovernance.ListDataboxEdgeDevice,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

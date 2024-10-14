@@ -14,10 +14,10 @@ func tableAzureNetworkPrivateEndpoints(_ context.Context) *plugin.Table {
 		Description: "Azure Network PrivateEndpoints",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetPrivateEndpoint,
+			Hydrate:    opengovernance.GetPrivateEndpoint,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListPrivateEndpoint,
+			Hydrate: opengovernance.ListPrivateEndpoint,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

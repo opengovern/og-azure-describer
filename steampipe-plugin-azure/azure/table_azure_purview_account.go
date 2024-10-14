@@ -15,10 +15,10 @@ func tableAzurePurviewAccount(_ context.Context) *plugin.Table {
 		Description: "Azure Purview Account",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetPurviewAccount,
+			Hydrate:    opengovernance.GetPurviewAccount,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListPurviewAccount,
+			Hydrate: opengovernance.ListPurviewAccount,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

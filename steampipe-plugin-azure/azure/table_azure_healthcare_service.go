@@ -18,13 +18,13 @@ func tableAzureHealthcareService(_ context.Context) *plugin.Table {
 		Description: "Azure Healthcare Service",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetHealthcareService,
+			Hydrate:    opengovernance.GetHealthcareService,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListHealthcareService,
+			Hydrate: opengovernance.ListHealthcareService,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

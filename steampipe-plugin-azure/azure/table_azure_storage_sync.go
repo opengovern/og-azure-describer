@@ -18,13 +18,13 @@ func tableAzureStorageSync(_ context.Context) *plugin.Table {
 		Description: "Azure Storage Sync",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetStorageSync,
+			Hydrate:    opengovernance.GetStorageSync,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListStorageSync,
+			Hydrate: opengovernance.ListStorageSync,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -132,7 +132,7 @@ type StorageSyncPrivateEndpointConnections struct {
 
 // If we return the API response directly, the output will not provide all the properties of PrivateEndpointConnections
 func extractStorageSyncPrivateEndpointConnections(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	service := d.HydrateItem.(kaytu.StorageSync).Description.Service
+	service := d.HydrateItem.(opengovernance.StorageSync).Description.Service
 	info := []StorageSyncPrivateEndpointConnections{}
 
 	if service.Properties != nil && service.Properties.PrivateEndpointConnections != nil {

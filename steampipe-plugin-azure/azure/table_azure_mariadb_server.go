@@ -17,13 +17,13 @@ func tableAzureMariaDBServer(_ context.Context) *plugin.Table {
 		Description: "Azure MariaDB Server",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetMariadbServer,
+			Hydrate:    opengovernance.GetMariadbServer,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "400", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListMariadbServer,
+			Hydrate: opengovernance.ListMariadbServer,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

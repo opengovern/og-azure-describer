@@ -15,10 +15,10 @@ func tableAzureComputeHost(_ context.Context) *plugin.Table {
 		Description: "Azure Compute Host",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetComputeHostGroupHost,
+			Hydrate:    opengovernance.GetComputeHostGroupHost,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeHostGroupHost,
+			Hydrate: opengovernance.ListComputeHostGroupHost,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

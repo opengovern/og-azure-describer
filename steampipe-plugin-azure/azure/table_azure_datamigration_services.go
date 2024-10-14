@@ -14,10 +14,10 @@ func tableAzureDataMigrationServices(_ context.Context) *plugin.Table {
 		Description: "Azure DataMigration Services",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetDataMigrationService,
+			Hydrate:    opengovernance.GetDataMigrationService,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDataMigrationService,
+			Hydrate: opengovernance.ListDataMigrationService,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

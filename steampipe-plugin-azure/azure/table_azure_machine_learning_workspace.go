@@ -18,13 +18,13 @@ func tableAzureMachineLearningWorkspace(_ context.Context) *plugin.Table {
 		Description: "Azure Machine Learning Workspace",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetMachineLearningWorkspace,
+			Hydrate:    opengovernance.GetMachineLearningWorkspace,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "Invalid input"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListMachineLearningWorkspace,
+			Hydrate: opengovernance.ListMachineLearningWorkspace,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

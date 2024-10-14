@@ -18,13 +18,13 @@ func tableAzureKeyVaultManagedHardwareSecurityModule(_ context.Context) *plugin.
 		Description: "Azure Key Vault Managed Hardware Security Module",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetKeyVaultManagedHardwareSecurityModule,
+			Hydrate:    opengovernance.GetKeyVaultManagedHardwareSecurityModule,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListKeyVaultManagedHardwareSecurityModule,
+			Hydrate: opengovernance.ListKeyVaultManagedHardwareSecurityModule,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

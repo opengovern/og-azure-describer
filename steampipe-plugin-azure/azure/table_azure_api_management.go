@@ -17,13 +17,13 @@ func tableAzureAPIManagement(_ context.Context) *plugin.Table {
 		Description: "Azure API Management Service",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetAPIManagement,
+			Hydrate:    opengovernance.GetAPIManagement,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "InvalidApiVersionParameter", "ResourceGroupNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAPIManagement,
+			Hydrate: opengovernance.ListAPIManagement,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

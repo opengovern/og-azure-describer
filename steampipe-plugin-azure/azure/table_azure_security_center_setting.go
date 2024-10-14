@@ -18,10 +18,10 @@ func tableAzureSecurityCenterSetting(_ context.Context) *plugin.Table {
 		Description: "Azure Security Center Setting",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetSecurityCenterSetting,
+			Hydrate:    opengovernance.GetSecurityCenterSetting,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSecurityCenterSetting,
+			Hydrate: opengovernance.ListSecurityCenterSetting,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

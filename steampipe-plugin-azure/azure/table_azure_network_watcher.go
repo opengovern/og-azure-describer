@@ -18,13 +18,13 @@ func tableAzureNetworkWatcher(_ context.Context) *plugin.Table {
 		Description: "Azure Network Watcher",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetNetworkWatcher,
+			Hydrate:    opengovernance.GetNetworkWatcher,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListNetworkWatcher,
+			Hydrate: opengovernance.ListNetworkWatcher,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

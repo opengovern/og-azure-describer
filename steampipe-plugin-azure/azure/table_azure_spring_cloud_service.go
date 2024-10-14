@@ -17,13 +17,13 @@ func tableAzureSpringCloudService(_ context.Context) *plugin.Table {
 		Description: "Azure Spring Cloud Service",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetSpringCloudService,
+			Hydrate:    opengovernance.GetSpringCloudService,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSpringCloudService,
+			Hydrate: opengovernance.ListSpringCloudService,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -151,6 +151,6 @@ type SpringCloudServiceNetworkProfile struct {
 // If we return the API response directly, the output does not provide
 // all the properties of NetworkProfile
 func extractSpringCloudServiceNetworkProfile(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	workspace := d.HydrateItem.(kaytu.SpringCloudService).Description.Site
+	workspace := d.HydrateItem.(opengovernance.SpringCloudService).Description.Site
 	return workspace.Properties, nil
 }

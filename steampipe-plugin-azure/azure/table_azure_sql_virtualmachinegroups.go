@@ -15,10 +15,10 @@ func tableAzureSqlVirtualMachineGroups(_ context.Context) *plugin.Table {
 		Description: "Azure Sql VirtualMachineGroups",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetSqlServerVirtualMachineGroup,
+			Hydrate:    opengovernance.GetSqlServerVirtualMachineGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSqlServerVirtualMachineGroup,
+			Hydrate: opengovernance.ListSqlServerVirtualMachineGroup,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

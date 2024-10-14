@@ -15,10 +15,10 @@ func tableAzureSynapseWorkspacesBigDataPools(_ context.Context) *plugin.Table {
 		Description: "Azure Synapse WorkspacesBigDataPools",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetSynapseWorkspaceBigdatapools,
+			Hydrate:    opengovernance.GetSynapseWorkspaceBigdatapools,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSynapseWorkspaceBigdatapools,
+			Hydrate: opengovernance.ListSynapseWorkspaceBigdatapools,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -19,10 +19,10 @@ func tableAzureSqlDatabase(_ context.Context) *plugin.Table {
 		Description: "Azure SQL Database",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "server_name", "resource_group"}),
-			Hydrate:    kaytu.GetSqlDatabase,
+			Hydrate:    opengovernance.GetSqlDatabase,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSqlDatabase,
+			Hydrate: opengovernance.ListSqlDatabase,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -274,7 +274,7 @@ func tableAzureSqlDatabase(_ context.Context) *plugin.Table {
 }
 
 func idToServerName(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.SqlDatabase).Description.Database
+	data := d.HydrateItem.(opengovernance.SqlDatabase).Description.Database
 	if data.ID == nil {
 		return nil, nil
 	}

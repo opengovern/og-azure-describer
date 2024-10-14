@@ -17,10 +17,10 @@ func tableAzureManagementGroup(_ context.Context) *plugin.Table {
 		Description: "Azure Management Group.",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetManagementGroup,
+			Hydrate:    opengovernance.GetManagementGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListManagementGroup,
+			Hydrate: opengovernance.ListManagementGroup,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

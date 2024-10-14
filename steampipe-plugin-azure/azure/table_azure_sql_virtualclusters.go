@@ -15,10 +15,10 @@ func tableAzureSqlVirtualClusters(_ context.Context) *plugin.Table {
 		Description: "Azure Sql VirtualClusters",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetSqlVirtualClusters,
+			Hydrate:    opengovernance.GetSqlVirtualClusters,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSqlVirtualClusters,
+			Hydrate: opengovernance.ListSqlVirtualClusters,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

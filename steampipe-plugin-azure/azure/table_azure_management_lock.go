@@ -19,13 +19,13 @@ func tableAzureManagementLock(_ context.Context) *plugin.Table {
 		Description: "Azure Management Lock",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetManagementLock,
+			Hydrate:    opengovernance.GetManagementLock,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"LockNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListManagementLock,
+			Hydrate: opengovernance.ListManagementLock,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{
@@ -93,7 +93,7 @@ func tableAzureManagementLock(_ context.Context) *plugin.Table {
 }
 
 func getAzureManagementLockScope(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.ManagementLock).Description.Lock
+	data := d.HydrateItem.(opengovernance.ManagementLock).Description.Lock
 	if data.ID == nil {
 		return nil, nil
 	}

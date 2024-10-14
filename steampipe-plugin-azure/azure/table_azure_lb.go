@@ -18,13 +18,13 @@ func tableAzureLoadBalancer(_ context.Context) *plugin.Table {
 		Description: "Azure Load Balancer",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetLoadBalancer,
+			Hydrate:    opengovernance.GetLoadBalancer,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListLoadBalancer,
+			Hydrate: opengovernance.ListLoadBalancer,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

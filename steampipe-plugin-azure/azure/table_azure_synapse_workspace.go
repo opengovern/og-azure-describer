@@ -18,13 +18,13 @@ func tableAzureSynapseWorkspace(_ context.Context) *plugin.Table {
 		Description: "Azure Synapse Workspace",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetSynapseWorkspace,
+			Hydrate:    opengovernance.GetSynapseWorkspace,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSynapseWorkspace,
+			Hydrate: opengovernance.ListSynapseWorkspace,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -206,7 +206,7 @@ type SynapseWorkspaceEncryption struct {
 
 // If we return the API response directly, the output will not provide all the properties of PrivateEndpointConnections
 func extractSynapseWorkspacePrivateEndpointConnections(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	workspace := d.HydrateItem.(kaytu.SynapseWorkspace).Description.Workspace
+	workspace := d.HydrateItem.(opengovernance.SynapseWorkspace).Description.Workspace
 	var properties []map[string]interface{}
 
 	if workspace.Properties.PrivateEndpointConnections != nil {
@@ -249,7 +249,7 @@ func extractSynapseWorkspacePrivateEndpointConnections(ctx context.Context, d *t
 
 // If we return the API response directly, the output will not provide all the properties of Encryption
 func extractSynapseWorkspaceEncryption(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	workspace := d.HydrateItem.(kaytu.SynapseWorkspace).Description.Workspace
+	workspace := d.HydrateItem.(opengovernance.SynapseWorkspace).Description.Workspace
 	var properties SynapseWorkspaceEncryption
 
 	if workspace.Properties.Encryption != nil {

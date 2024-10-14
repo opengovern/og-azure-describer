@@ -17,13 +17,13 @@ func tableAzureResourceLink(ctx context.Context) *plugin.Table {
 		Description: "Azure Resource Link",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    kaytu.GetResourceLink,
+			Hydrate:    opengovernance.GetResourceLink,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"MissingSubscription", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListResourceLink,
+			Hydrate: opengovernance.ListResourceLink,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

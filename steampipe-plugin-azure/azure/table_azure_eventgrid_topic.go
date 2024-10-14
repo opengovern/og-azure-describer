@@ -17,13 +17,13 @@ func tableAzureEventGridTopic(_ context.Context) *plugin.Table {
 		Description: "Azure Event Grid Topic",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetEventGridTopic,
+			Hydrate:    opengovernance.GetEventGridTopic,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "400", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEventGridTopic,
+			Hydrate: opengovernance.ListEventGridTopic,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -217,7 +217,7 @@ func extractEventgridTopicPrivaterEndPointConnections(ctx context.Context, d *tr
 	if d.HydrateItem == nil {
 		return privateEndpointConnectionsInfo, nil
 	}
-	topic := d.HydrateItem.(kaytu.EventGridTopic).Description.Topic
+	topic := d.HydrateItem.(opengovernance.EventGridTopic).Description.Topic
 	if topic.Properties != nil && topic.Properties.PrivateEndpointConnections != nil {
 		for _, endpoint := range topic.Properties.PrivateEndpointConnections {
 			objectMap := make(map[string]any)

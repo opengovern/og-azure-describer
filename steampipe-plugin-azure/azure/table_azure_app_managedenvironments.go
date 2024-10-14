@@ -14,10 +14,10 @@ func tableAzureAppManagedEnvironments(_ context.Context) *plugin.Table {
 		Description: "Azure App ManagedEnvironments",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetAppManagedEnvironment,
+			Hydrate:    opengovernance.GetAppManagedEnvironment,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAppManagedEnvironment,
+			Hydrate: opengovernance.ListAppManagedEnvironment,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

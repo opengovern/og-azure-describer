@@ -15,7 +15,7 @@ func tableAzureRecoveryServicesBackupItem(_ context.Context) *plugin.Table {
 		Name:        "azure_recovery_services_backup_item",
 		Description: "Azure Recovery Services Backup Item",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRecoveryServicesBackupItem,
+			Hydrate: opengovernance.ListRecoveryServicesBackupItem,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "404"}),
 			},

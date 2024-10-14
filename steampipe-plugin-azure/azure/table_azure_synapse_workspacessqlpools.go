@@ -15,10 +15,10 @@ func tableAzureSynapseWorkspacesSqlPools(_ context.Context) *plugin.Table {
 		Description: "Azure Synapse WorkspacesSqlPools",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetSynapseWorkspaceSqlpools,
+			Hydrate:    opengovernance.GetSynapseWorkspaceSqlpools,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSynapseWorkspaceSqlpools,
+			Hydrate: opengovernance.ListSynapseWorkspaceSqlpools,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

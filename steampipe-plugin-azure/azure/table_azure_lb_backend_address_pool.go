@@ -17,13 +17,13 @@ func tableAzureLoadBalancerBackendAddressPool(_ context.Context) *plugin.Table {
 		Description: "Azure Load Balancer Backend Address Pool",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"load_balancer_name", "name", "resource_group"}),
-			Hydrate:    kaytu.GetLoadBalancerBackendAddressPool,
+			Hydrate:    opengovernance.GetLoadBalancerBackendAddressPool,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListLoadBalancerBackendAddressPool,
+			Hydrate: opengovernance.ListLoadBalancerBackendAddressPool,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

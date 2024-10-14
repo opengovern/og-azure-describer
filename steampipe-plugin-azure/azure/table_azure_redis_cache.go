@@ -17,13 +17,13 @@ func tableAzureRedisCache(_ context.Context) *plugin.Table {
 		Description: "Azure Redis Cache",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetRedisCache,
+			Hydrate:    opengovernance.GetRedisCache,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "400", "400"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRedisCache,
+			Hydrate: opengovernance.ListRedisCache,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

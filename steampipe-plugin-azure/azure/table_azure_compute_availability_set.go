@@ -17,13 +17,13 @@ func tableAzureComputeAvailabilitySet(_ context.Context) *plugin.Table {
 		Description: "Azure Compute Availability Set",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetComputeAvailabilitySet,
+			Hydrate:    opengovernance.GetComputeAvailabilitySet,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeAvailabilitySet,
+			Hydrate: opengovernance.ListComputeAvailabilitySet,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

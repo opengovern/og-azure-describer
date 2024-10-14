@@ -19,13 +19,13 @@ func tableAzureHPCCache(_ context.Context) *plugin.Table {
 		Description: "Azure HPC Cache",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetHpcCache,
+			Hydrate:    opengovernance.GetHpcCache,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListHpcCache,
+			Hydrate: opengovernance.ListHpcCache,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -179,7 +179,7 @@ type CacheUpgradeStatusInfo struct {
 // If we return the API response directly, the output does not provide
 // all the properties of NetworkSettings
 func extractHPCCacheNetworkSettings(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	cache := d.HydrateItem.(kaytu.HpcCache).Description.Cache
+	cache := d.HydrateItem.(opengovernance.HpcCache).Description.Cache
 	var properties CacheNetworkSettingsInfo
 
 	if cache.Properties.NetworkSettings != nil {
@@ -206,7 +206,7 @@ func extractHPCCacheNetworkSettings(ctx context.Context, d *transform.TransformD
 // If we return the API response directly, the output does not provide
 // all the properties of UpgradeStatus
 func extractHPCCacheUpgradeStatus(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	cache := d.HydrateItem.(kaytu.HpcCache).Description.Cache
+	cache := d.HydrateItem.(opengovernance.HpcCache).Description.Cache
 	var properties CacheUpgradeStatusInfo
 
 	if cache.Properties.UpgradeStatus != nil {

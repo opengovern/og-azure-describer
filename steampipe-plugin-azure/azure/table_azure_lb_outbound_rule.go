@@ -18,13 +18,13 @@ func tableAzureLoadBalancerOutboundRule(_ context.Context) *plugin.Table {
 		Description: "Azure Load Balancer Outbound Rule",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"load_balancer_name", "name", "resource_group"}),
-			Hydrate:    kaytu.GetLoadBalancerOutboundRule,
+			Hydrate:    opengovernance.GetLoadBalancerOutboundRule,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListLoadBalancerOutboundRule,
+			Hydrate: opengovernance.ListLoadBalancerOutboundRule,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

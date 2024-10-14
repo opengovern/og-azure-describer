@@ -15,10 +15,10 @@ func tableAzureBotServiceBot(_ context.Context) *plugin.Table {
 		Description: "Azure BotService Bot",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetBotServiceBot,
+			Hydrate:    opengovernance.GetBotServiceBot,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListBotServiceBot,
+			Hydrate: opengovernance.ListBotServiceBot,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -17,13 +17,13 @@ func tableAzureDataFactoryPipeline(_ context.Context) *plugin.Table {
 		Description: "Azure Data Factory Pipeline",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group", "factory_name"}),
-			Hydrate:    kaytu.GetDataFactoryPipeline,
+			Hydrate:    opengovernance.GetDataFactoryPipeline,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDataFactoryPipeline,
+			Hydrate: opengovernance.ListDataFactoryPipeline,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

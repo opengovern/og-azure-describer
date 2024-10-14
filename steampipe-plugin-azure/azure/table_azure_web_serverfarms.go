@@ -14,10 +14,10 @@ func tableAzureWebServerFarms(_ context.Context) *plugin.Table {
 		Description: "Azure Web ServerFarms",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetWebServerFarms,
+			Hydrate:    opengovernance.GetWebServerFarms,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWebServerFarms,
+			Hydrate: opengovernance.ListWebServerFarms,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

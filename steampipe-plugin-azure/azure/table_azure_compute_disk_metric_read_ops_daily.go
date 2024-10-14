@@ -16,7 +16,7 @@ func tableAzureComputeDiskMetricReadOpsDaily(_ context.Context) *plugin.Table {
 		Name:        "azure_compute_disk_metric_read_ops_daily",
 		Description: "Azure Compute Disk Metrics - Read Ops (Daily)",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeDiskReadOpsDaily,
+			Hydrate: opengovernance.ListComputeDiskReadOpsDaily,
 		},
 		Columns: kaytuMonitoringMetricColumns([]*plugin.Column{
 			{

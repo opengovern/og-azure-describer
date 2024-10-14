@@ -16,13 +16,13 @@ func tableAzureMSSQLManagedInstance(_ context.Context) *plugin.Table {
 		Description: "Azure Microsoft SQL Managed Instance",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetMssqlManagedInstance,
+			Hydrate:    opengovernance.GetMssqlManagedInstance,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404", "InvalidApiVersionParameter"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListMssqlManagedInstance,
+			Hydrate: opengovernance.ListMssqlManagedInstance,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

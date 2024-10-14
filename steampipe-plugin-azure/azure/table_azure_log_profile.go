@@ -18,13 +18,13 @@ func tableAzureLogProfile(_ context.Context) *plugin.Table {
 		Description: "Azure Log Profile",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetLogProfile,
+			Hydrate:    opengovernance.GetLogProfile,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListLogProfile,
+			Hydrate: opengovernance.ListLogProfile,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

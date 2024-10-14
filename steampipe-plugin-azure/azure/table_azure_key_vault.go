@@ -17,13 +17,13 @@ func tableAzureKeyVault(_ context.Context) *plugin.Table {
 		Description: "Azure Key Vault",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetKeyVault,
+			Hydrate:    opengovernance.GetKeyVault,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListKeyVault,
+			Hydrate: opengovernance.ListKeyVault,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -185,7 +185,7 @@ type PrivateEndpointConnectionInfo struct {
 //// TRANSFORM FUNCTIONS
 
 func extractKeyVaultPrivateEndpointConnections(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	vault := d.HydrateItem.(kaytu.KeyVault).Description.Vault
+	vault := d.HydrateItem.(opengovernance.KeyVault).Description.Vault
 	plugin.Logger(ctx).Trace("extractKeyVaultPrivateEndpointConnections")
 	var privateEndpointDetails []PrivateEndpointConnectionInfo
 	var privateEndpoint PrivateEndpointConnectionInfo
@@ -224,7 +224,7 @@ func extractKeyVaultPrivateEndpointConnections(ctx context.Context, d *transform
 
 // If we return the API response directly, the output will not provide the properties of AccessPolicies
 func extractKeyVaultAccessPolicies(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	vault := d.HydrateItem.(kaytu.KeyVault).Description.Vault
+	vault := d.HydrateItem.(opengovernance.KeyVault).Description.Vault
 	var policies []map[string]interface{}
 
 	if vault.Properties.AccessPolicies != nil {

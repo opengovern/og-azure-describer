@@ -18,13 +18,13 @@ func tableAzureApplicationGateway(_ context.Context) *plugin.Table {
 		Description: "Azure Application Gateway",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetApplicationGateway,
+			Hydrate:    opengovernance.GetApplicationGateway,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListApplicationGateway,
+			Hydrate: opengovernance.ListApplicationGateway,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -295,7 +295,7 @@ func tableAzureApplicationGateway(_ context.Context) *plugin.Table {
 
 // If we return the API response directly, the output will not provide all the properties of GatewayIPConfigurations
 func extractGatewayIPConfigurations(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.GatewayIPConfigurations != nil {
@@ -326,7 +326,7 @@ func extractGatewayIPConfigurations(ctx context.Context, d *transform.TransformD
 
 // If we return the API response directly, the output will not provide all the properties of AuthenticationCertificates
 func extractGatewayAuthenticationCertificates(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.AuthenticationCertificates != nil {
@@ -357,7 +357,7 @@ func extractGatewayAuthenticationCertificates(ctx context.Context, d *transform.
 
 // If we return the API response directly, the output will not provide all the properties of TrustedRootCertificates
 func extractGatewayTrustedRootCertificates(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.TrustedRootCertificates != nil {
@@ -388,7 +388,7 @@ func extractGatewayTrustedRootCertificates(ctx context.Context, d *transform.Tra
 
 // If we return the API response directly, the output will not provide all the properties of TrustedClientCertificates
 func extractGatewayTrustedClientCertificates(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.TrustedClientCertificates != nil {
@@ -419,7 +419,7 @@ func extractGatewayTrustedClientCertificates(ctx context.Context, d *transform.T
 
 // If we return the API response directly, the output will not provide all the properties of SslCertificates
 func extractGatewaySslCertificates(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.SSLCertificates != nil {
@@ -450,7 +450,7 @@ func extractGatewaySslCertificates(ctx context.Context, d *transform.TransformDa
 
 // If we return the API response directly, the output will not provide all the properties of FrontendIPConfigurations
 func extractGatewayFrontendIPConfigurations(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.FrontendIPConfigurations != nil {
@@ -481,7 +481,7 @@ func extractGatewayFrontendIPConfigurations(ctx context.Context, d *transform.Tr
 
 // If we return the API response directly, the output will not provide all the properties of FrontendPorts
 func extractGatewayFrontendPorts(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.FrontendPorts != nil {
@@ -512,7 +512,7 @@ func extractGatewayFrontendPorts(ctx context.Context, d *transform.TransformData
 
 // If we return the API response directly, the output will not provide all the properties of Probes
 func extractGatewayProbes(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.Probes != nil {
@@ -543,7 +543,7 @@ func extractGatewayProbes(ctx context.Context, d *transform.TransformData) (inte
 
 // If we return the API response directly, the output will not provide all the properties of BackendAddressPools
 func extractGatewayBackendAddressPools(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.BackendAddressPools != nil {
@@ -574,7 +574,7 @@ func extractGatewayBackendAddressPools(ctx context.Context, d *transform.Transfo
 
 // If we return the API response directly, the output will not provide all the properties of BackendHTTPSettingsCollection
 func extractGatewayBackendHTTPSettingsCollection(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.BackendHTTPSettingsCollection != nil {
@@ -605,7 +605,7 @@ func extractGatewayBackendHTTPSettingsCollection(ctx context.Context, d *transfo
 
 // If we return the API response directly, the output will not provide all the properties of HTTPListeners
 func extractGatewayHTTPListeners(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.HTTPListeners != nil {
@@ -636,7 +636,7 @@ func extractGatewayHTTPListeners(ctx context.Context, d *transform.TransformData
 
 // If we return the API response directly, the output will not provide all the properties of SslProfiles
 func extractGatewaySslProfiles(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.SSLProfiles != nil {
@@ -667,7 +667,7 @@ func extractGatewaySslProfiles(ctx context.Context, d *transform.TransformData) 
 
 // If we return the API response directly, the output will not provide all the properties of URLPathMaps
 func extractGatewayURLPathMaps(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.URLPathMaps != nil {
@@ -698,7 +698,7 @@ func extractGatewayURLPathMaps(ctx context.Context, d *transform.TransformData) 
 
 // If we return the API response directly, the output will not provide all the properties of RequestRoutingRules
 func extractGatewayRequestRoutingRules(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.RequestRoutingRules != nil {
@@ -729,7 +729,7 @@ func extractGatewayRequestRoutingRules(ctx context.Context, d *transform.Transfo
 
 // If we return the API response directly, the output will not provide all the properties of RewriteRuleSets
 func extractGatewayRewriteRuleSets(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.RewriteRuleSets != nil {
@@ -757,7 +757,7 @@ func extractGatewayRewriteRuleSets(ctx context.Context, d *transform.TransformDa
 
 // If we return the API response directly, the output will not provide all the properties of PrivateLinkConfigurations
 func extractGatewayPrivateLinkConfigurations(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.PrivateLinkConfigurations != nil {
@@ -785,7 +785,7 @@ func extractGatewayPrivateLinkConfigurations(ctx context.Context, d *transform.T
 
 // If we return the API response directly, the output will not provide all the properties of PrivateEndpointConnections
 func extractGatewayPrivateEndpointConnections(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.ApplicationGateway).Description.ApplicationGateway
+	gateway := d.HydrateItem.(opengovernance.ApplicationGateway).Description.ApplicationGateway
 	var properties []map[string]interface{}
 
 	if gateway.Properties.PrivateEndpointConnections != nil {

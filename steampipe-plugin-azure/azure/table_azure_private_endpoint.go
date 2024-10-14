@@ -15,14 +15,14 @@ func tableAzurePrivateEndpoint(_ context.Context) *plugin.Table {
 		Description: "Azure Private Endpoint",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetPrivateEndpoint,
+			Hydrate:    opengovernance.GetPrivateEndpoint,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			ParentHydrate: kaytu.ListResourceGroup,
-			Hydrate:       kaytu.ListPrivateEndpoint,
+			ParentHydrate: opengovernance.ListResourceGroup,
+			Hydrate:       opengovernance.ListPrivateEndpoint,
 			KeyColumns:    plugin.OptionalColumns([]string{"resource_group"}),
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{

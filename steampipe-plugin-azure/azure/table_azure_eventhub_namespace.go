@@ -16,13 +16,13 @@ func tableAzureEventHubNamespace(_ context.Context) *plugin.Table {
 		Description: "Azure Event Hub Namespace",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetEventhubNamespace,
+			Hydrate:    opengovernance.GetEventhubNamespace,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "400", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEventhubNamespace,
+			Hydrate: opengovernance.ListEventhubNamespace,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

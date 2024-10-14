@@ -18,13 +18,13 @@ func tableAzureStorageAccount(_ context.Context) *plugin.Table {
 		Description: "Azure Storage Account",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetStorageAccount,
+			Hydrate:    opengovernance.GetStorageAccount,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListStorageAccount,
+			Hydrate: opengovernance.ListStorageAccount,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -440,7 +440,7 @@ func extractAzureStorageAccountLifecycleManagementPolicy(ctx context.Context, d 
 	if d.HydrateItem == nil {
 		return objectMap, nil
 	}
-	op := d.HydrateItem.(kaytu.StorageAccount).Description.ManagementPolicy
+	op := d.HydrateItem.(opengovernance.StorageAccount).Description.ManagementPolicy
 	if op == nil {
 		return objectMap, nil
 	}
@@ -463,7 +463,7 @@ func extractAzureStorageAccountLifecycleManagementPolicy(ctx context.Context, d 
 }
 
 func extractStorageAccountDiagnosticSettings(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	op := d.HydrateItem.(kaytu.StorageAccount).Description.DiagnosticSettingsResources
+	op := d.HydrateItem.(opengovernance.StorageAccount).Description.DiagnosticSettingsResources
 
 	var diagnosticSettings []map[string]interface{}
 	for _, i := range op {
@@ -487,7 +487,7 @@ func extractStorageAccountDiagnosticSettings(ctx context.Context, d *transform.T
 }
 
 func extractStorageAccountEncryptionScope(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	scopes := d.HydrateItem.(kaytu.StorageAccount).Description.EncryptionScopes
+	scopes := d.HydrateItem.(opengovernance.StorageAccount).Description.EncryptionScopes
 
 	var res []interface{}
 

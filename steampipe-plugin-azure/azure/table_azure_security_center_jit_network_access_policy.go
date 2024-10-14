@@ -17,7 +17,7 @@ func tableAzureSecurityCenterJITNetworkAccessPolicy(_ context.Context) *plugin.T
 		Name:        "azure_security_center_jit_network_access_policy",
 		Description: "Azure Security Center JIT Network Access Policy",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSecurityCenterJitNetworkAccessPolicy,
+			Hydrate: opengovernance.ListSecurityCenterJitNetworkAccessPolicy,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -14,10 +14,10 @@ func tableAzureNetworkVPNGateways(_ context.Context) *plugin.Table {
 		Description: "Azure Network VPNGateways",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetVpnGateway,
+			Hydrate:    opengovernance.GetVpnGateway,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListVpnGateway,
+			Hydrate: opengovernance.ListVpnGateway,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -15,10 +15,10 @@ func tableAzureComputeImageGallery(_ context.Context) *plugin.Table {
 		Description: "Azure Compute ImageGallery",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetComputeImageGallery,
+			Hydrate:    opengovernance.GetComputeImageGallery,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeImageGallery,
+			Hydrate: opengovernance.ListComputeImageGallery,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

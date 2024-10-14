@@ -14,10 +14,10 @@ func tableAzureNetworkVirtualWans(_ context.Context) *plugin.Table {
 		Description: "Azure Network VirtualWans",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetVirtualWans,
+			Hydrate:    opengovernance.GetVirtualWans,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListVirtualWans,
+			Hydrate: opengovernance.ListVirtualWans,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

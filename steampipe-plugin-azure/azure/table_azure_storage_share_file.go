@@ -18,13 +18,13 @@ func tableAzureStorageShareFile(_ context.Context) *plugin.Table {
 		Description: "Azure Storage Share File",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group", "storage_account_name"}),
-			Hydrate:    kaytu.GetStorageFileShare,
+			Hydrate:    opengovernance.GetStorageFileShare,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListStorageFileShare,
+			Hydrate: opengovernance.ListStorageFileShare,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

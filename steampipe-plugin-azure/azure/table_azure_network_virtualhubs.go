@@ -14,10 +14,10 @@ func tableAzureNetworkVirtualHubs(_ context.Context) *plugin.Table {
 		Description: "Azure Network VirtualHubs",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetVirtualHubs,
+			Hydrate:    opengovernance.GetVirtualHubs,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListVirtualHubs,
+			Hydrate: opengovernance.ListVirtualHubs,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

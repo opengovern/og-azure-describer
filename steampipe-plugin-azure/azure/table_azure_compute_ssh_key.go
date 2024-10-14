@@ -17,10 +17,10 @@ func tableAzureComputeSshKey(_ context.Context) *plugin.Table {
 		Description: "Azure Compute SSH Key",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetComputeSSHPublicKey,
+			Hydrate:    opengovernance.GetComputeSSHPublicKey,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeSSHPublicKey,
+			Hydrate: opengovernance.ListComputeSSHPublicKey,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

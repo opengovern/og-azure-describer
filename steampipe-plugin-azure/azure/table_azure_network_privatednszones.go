@@ -14,10 +14,10 @@ func tableAzureNetworkPrivateDNSZones(_ context.Context) *plugin.Table {
 		Description: "Azure Network PrivateDNSZones",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetPrivateDNSZones,
+			Hydrate:    opengovernance.GetPrivateDNSZones,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListPrivateDNSZones,
+			Hydrate: opengovernance.ListPrivateDNSZones,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

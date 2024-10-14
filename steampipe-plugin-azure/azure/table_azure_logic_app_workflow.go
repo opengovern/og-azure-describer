@@ -18,13 +18,13 @@ func tableAzureLogicAppWorkflow(_ context.Context) *plugin.Table {
 		Description: "Azure Logic App Workflow",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetLogicAppWorkflow,
+			Hydrate:    opengovernance.GetLogicAppWorkflow,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "400"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListLogicAppWorkflow,
+			Hydrate: opengovernance.ListLogicAppWorkflow,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

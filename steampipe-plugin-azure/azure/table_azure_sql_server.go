@@ -16,13 +16,13 @@ func tableAzureSQLServer(_ context.Context) *plugin.Table {
 		Description: "Azure SQL Server",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetSqlServer,
+			Hydrate:    opengovernance.GetSqlServer,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404", "InvalidApiVersionParameter"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSqlServer,
+			Hydrate: opengovernance.ListSqlServer,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

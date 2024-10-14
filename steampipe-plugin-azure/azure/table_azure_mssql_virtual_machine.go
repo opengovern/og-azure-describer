@@ -17,13 +17,13 @@ func tableAzureMSSQLVirtualMachine(_ context.Context) *plugin.Table {
 		Description: "Azure MS SQL Virtual Machine",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetSqlServerVirtualMachine,
+			Hydrate:    opengovernance.GetSqlServerVirtualMachine,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSqlServerVirtualMachine,
+			Hydrate: opengovernance.ListSqlServerVirtualMachine,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

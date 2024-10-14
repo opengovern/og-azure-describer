@@ -17,13 +17,13 @@ func tableAzureComputeDiskAccess(_ context.Context) *plugin.Table {
 		Description: "Azure Compute Disk Access",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetComputeDiskAccess,
+			Hydrate:    opengovernance.GetComputeDiskAccess,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeDiskAccess,
+			Hydrate: opengovernance.ListComputeDiskAccess,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -123,7 +123,7 @@ type PrivateEndpointConnection struct {
 // If we return the API response directly, the output will not provide
 // all the properties of PrivateEndpointConnections
 func extractPrivateEndpointConnections(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	diskAccess := d.HydrateItem.(kaytu.ComputeDiskAccess).Description.DiskAccess
+	diskAccess := d.HydrateItem.(opengovernance.ComputeDiskAccess).Description.DiskAccess
 	var PrivateEndpointConnections []PrivateEndpointConnection
 	if diskAccess.Properties.PrivateEndpointConnections != nil {
 		for _, connection := range diskAccess.Properties.PrivateEndpointConnections {

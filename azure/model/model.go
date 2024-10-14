@@ -1,4 +1,4 @@
-//go:generate go run ./gen/main.go --file $GOFILE --output ../../pkg/kaytu-es-sdk/azure_resources_clients.go --type azure
+//go:generate go run ./gen/main.go --file $GOFILE --output ../../pkg/opengovernance-es-sdk/azure_resources_clients.go --type azure
 
 package model
 

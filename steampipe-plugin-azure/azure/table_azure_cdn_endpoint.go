@@ -15,10 +15,10 @@ func tableAzureCdnEndpoint(_ context.Context) *plugin.Table {
 		Description: "Azure Cdn Endpoint",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetCDNEndpoint,
+			Hydrate:    opengovernance.GetCDNEndpoint,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCDNEndpoint,
+			Hydrate: opengovernance.ListCDNEndpoint,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

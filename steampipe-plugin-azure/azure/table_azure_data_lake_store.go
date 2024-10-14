@@ -18,13 +18,13 @@ func tableAzureDataLakeStore(_ context.Context) *plugin.Table {
 		Description: "Azure Data Lake Store",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetDataLakeStore,
+			Hydrate:    opengovernance.GetDataLakeStore,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "400"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDataLakeStore,
+			Hydrate: opengovernance.ListDataLakeStore,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

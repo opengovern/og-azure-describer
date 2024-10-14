@@ -19,10 +19,10 @@ func tableAzureApAutomationAccount(_ context.Context) *plugin.Table {
 		Description: "Azure Automation Account",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetAutomationAccounts,
+			Hydrate:    opengovernance.GetAutomationAccounts,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAutomationAccounts,
+			Hydrate: opengovernance.ListAutomationAccounts,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

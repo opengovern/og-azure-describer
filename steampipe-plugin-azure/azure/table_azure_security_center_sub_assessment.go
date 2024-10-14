@@ -20,7 +20,7 @@ func tableAzureSecurityCenterSubAssessment(_ context.Context) *plugin.Table {
 		Name:        "azure_security_center_sub_assessment",
 		Description: "Azure Security Center Sub Assessment",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSecurityCenterSubAssessment,
+			Hydrate: opengovernance.ListSecurityCenterSubAssessment,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -139,7 +139,7 @@ func tableAzureSecurityCenterSubAssessment(_ context.Context) *plugin.Table {
 }
 
 func extractAssessmentName(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	subAssessment := d.HydrateItem.(kaytu.SecurityCenterSubAssessment).Description.SubAssessment
+	subAssessment := d.HydrateItem.(opengovernance.SecurityCenterSubAssessment).Description.SubAssessment
 	if subAssessment.ID == nil {
 		return nil, nil
 	}
@@ -150,7 +150,7 @@ func extractAssessmentName(ctx context.Context, d *transform.TransformData) (int
 }
 
 func extractSQLServerVulnerabilityProperties(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	subAssessment := d.HydrateItem.(kaytu.SecurityCenterSubAssessment).Description.SubAssessment
+	subAssessment := d.HydrateItem.(opengovernance.SecurityCenterSubAssessment).Description.SubAssessment
 	additionalData := subAssessment.Properties.AdditionalData
 	if additionalData == nil {
 		return nil, nil
@@ -166,7 +166,7 @@ func extractSQLServerVulnerabilityProperties(ctx context.Context, d *transform.T
 }
 
 func extractContainerRegistryVulnerabilityProperties(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	subAssessment := d.HydrateItem.(kaytu.SecurityCenterSubAssessment).Description.SubAssessment
+	subAssessment := d.HydrateItem.(opengovernance.SecurityCenterSubAssessment).Description.SubAssessment
 	additionalData := subAssessment.Properties.AdditionalData
 	if additionalData == nil {
 		return nil, nil
@@ -182,7 +182,7 @@ func extractContainerRegistryVulnerabilityProperties(ctx context.Context, d *tra
 }
 
 func extractServerVulnerabilityProperties(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	subAssessment := d.HydrateItem.(kaytu.SecurityCenterSubAssessment).Description.SubAssessment
+	subAssessment := d.HydrateItem.(opengovernance.SecurityCenterSubAssessment).Description.SubAssessment
 	additionalData := subAssessment.Properties.AdditionalData
 	if additionalData == nil {
 		return nil, nil
@@ -198,7 +198,7 @@ func extractServerVulnerabilityProperties(ctx context.Context, d *transform.Tran
 }
 
 func extractAssessedResourceType(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	subAssessment := d.HydrateItem.(kaytu.SecurityCenterSubAssessment).Description.SubAssessment
+	subAssessment := d.HydrateItem.(opengovernance.SecurityCenterSubAssessment).Description.SubAssessment
 	additional := subAssessment.Properties.AdditionalData
 	if additional == nil {
 		return nil, nil
@@ -211,7 +211,7 @@ func extractAssessedResourceType(ctx context.Context, d *transform.TransformData
 }
 
 func extractResourceDetails(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	subAssessment := d.HydrateItem.(kaytu.SecurityCenterSubAssessment).Description.SubAssessment
+	subAssessment := d.HydrateItem.(opengovernance.SecurityCenterSubAssessment).Description.SubAssessment
 	resourceDetails := subAssessment.Properties.ResourceDetails
 	if resourceDetails == nil {
 		return nil, nil
@@ -221,7 +221,7 @@ func extractResourceDetails(ctx context.Context, d *transform.TransformData) (in
 }
 
 func extractSubAssessmentStatus(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	subAssessment := d.HydrateItem.(kaytu.SecurityCenterSubAssessment).Description.SubAssessment
+	subAssessment := d.HydrateItem.(opengovernance.SecurityCenterSubAssessment).Description.SubAssessment
 	subAssessmentStatus := subAssessment.Properties.Status
 	objectMap := make(map[string]interface{})
 	if subAssessmentStatus.Cause != nil {

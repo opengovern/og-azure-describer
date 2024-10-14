@@ -17,13 +17,13 @@ func tableAzureServiceBusNamespace(_ context.Context) *plugin.Table {
 		Description: "Azure ServiceBus Namespace",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetServicebusNamespace,
+			Hydrate:    opengovernance.GetServicebusNamespace,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "404", "400"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListServicebusNamespace,
+			Hydrate: opengovernance.ListServicebusNamespace,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

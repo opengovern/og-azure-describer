@@ -18,10 +18,10 @@ func tableAzureKubernetesCluster(_ context.Context) *plugin.Table {
 		Description: "Azure Kubernetes Cluster",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetKubernetesCluster,
+			Hydrate:    opengovernance.GetKubernetesCluster,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListKubernetesCluster,
+			Hydrate: opengovernance.ListKubernetesCluster,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

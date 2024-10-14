@@ -16,7 +16,7 @@ func tableAzureComputeVirtualMachineMetricCpuUtilization(_ context.Context) *plu
 		Name:        "azure_compute_virtual_machine_metric_cpu_utilization",
 		Description: "Azure Compute Virtual Machine Metrics - CPU Utilization",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeVirtualMachineCpuUtilization,
+			Hydrate: opengovernance.ListComputeVirtualMachineCpuUtilization,
 		},
 		Columns: kaytuMonitoringMetricColumns([]*plugin.Column{
 			{

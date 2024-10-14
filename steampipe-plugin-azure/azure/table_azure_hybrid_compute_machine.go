@@ -18,13 +18,13 @@ func tableAzureHybridComputeMachine(_ context.Context) *plugin.Table {
 		Description: "Azure Hybrid Compute Machine",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetHybridComputeMachine,
+			Hydrate:    opengovernance.GetHybridComputeMachine,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListHybridComputeMachine,
+			Hydrate: opengovernance.ListHybridComputeMachine,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

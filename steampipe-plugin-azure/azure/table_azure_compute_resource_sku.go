@@ -18,7 +18,7 @@ func tableAzureResourceSku(_ context.Context) *plugin.Table {
 		Name:        "azure_compute_resource_sku",
 		Description: "Azure Compute Resource SKU",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeResourceSKU,
+			Hydrate: opengovernance.ListComputeResourceSKU,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{
@@ -128,7 +128,7 @@ func tableAzureResourceSku(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTION ////
 
 func skuDataToAkas(ctx context.Context, d *transform.TransformData) (any, error) {
-	sku := d.HydrateItem.(kaytu.ComputeResourceSKU)
+	sku := d.HydrateItem.(opengovernance.ComputeResourceSKU)
 	locations := sku.Description.ResourceSKU.Locations
 	id := "azure:///subscriptions/" + sku.Metadata.SubscriptionID + "/locations/" + *locations[0] + "/resourcetypes" + *sku.Description.ResourceSKU.ResourceType + "name/" + *sku.Description.ResourceSKU.Name
 	akas := []string{strings.ToLower(id)}
@@ -138,7 +138,7 @@ func skuDataToAkas(ctx context.Context, d *transform.TransformData) (any, error)
 //// HELPER TRANSFORM FUNCTIONS to populate columns always returning [{}]
 
 func computeResourceSkuCapabilities(ctx context.Context, d *transform.TransformData) (any, error) {
-	skuData := d.HydrateItem.(kaytu.ComputeResourceSKU).Description.ResourceSKU
+	skuData := d.HydrateItem.(opengovernance.ComputeResourceSKU).Description.ResourceSKU
 	if skuData.Capabilities == nil {
 		return nil, nil
 	}
@@ -159,7 +159,7 @@ func computeResourceSkuCapabilities(ctx context.Context, d *transform.TransformD
 }
 
 func computeResourceSkuRestrictions(ctx context.Context, d *transform.TransformData) (any, error) {
-	skuData := d.HydrateItem.(kaytu.ComputeResourceSKU).Description.ResourceSKU
+	skuData := d.HydrateItem.(opengovernance.ComputeResourceSKU).Description.ResourceSKU
 	restrictions := []map[string]interface{}{}
 
 	for _, a := range skuData.Restrictions {
@@ -179,7 +179,7 @@ func computeResourceSkuRestrictions(ctx context.Context, d *transform.TransformD
 }
 
 func computeResourceSkuLocationInfo(ctx context.Context, d *transform.TransformData) (any, error) {
-	skuData := d.HydrateItem.(kaytu.ComputeResourceSKU).Description.ResourceSKU
+	skuData := d.HydrateItem.(opengovernance.ComputeResourceSKU).Description.ResourceSKU
 	locationInfo := []map[string]interface{}{}
 
 	for _, a := range skuData.LocationInfo {
@@ -197,7 +197,7 @@ func computeResourceSkuLocationInfo(ctx context.Context, d *transform.TransformD
 }
 
 func computeResourceSkuCosts(ctx context.Context, d *transform.TransformData) (any, error) {
-	skuData := d.HydrateItem.(kaytu.ComputeResourceSKU).Description.ResourceSKU
+	skuData := d.HydrateItem.(opengovernance.ComputeResourceSKU).Description.ResourceSKU
 	costs := []map[string]interface{}{}
 
 	for _, a := range skuData.Costs {

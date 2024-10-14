@@ -18,13 +18,13 @@ func tableAzureRouteTable(_ context.Context) *plugin.Table {
 		Description: "Azure Route Table",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetRouteTables,
+			Hydrate:    opengovernance.GetRouteTables,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRouteTables,
+			Hydrate: opengovernance.ListRouteTables,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

@@ -20,13 +20,13 @@ func tableAzureAppServiceFunctionApp(_ context.Context) *plugin.Table {
 		Description: "Azure App Service Function App",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetAppServiceFunctionApp,
+			Hydrate:    opengovernance.GetAppServiceFunctionApp,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAppServiceFunctionApp,
+			Hydrate: opengovernance.ListAppServiceFunctionApp,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -177,7 +177,7 @@ func getLanguageAndVersionFromFxVersion(fxVersion string) (string, float64, erro
 }
 
 func getLanguageRuntimeVersion(ctx context.Context, d *transform.TransformData) (any, error) {
-	functionApp := d.HydrateItem.(kaytu.AppServiceFunctionApp).Description
+	functionApp := d.HydrateItem.(opengovernance.AppServiceFunctionApp).Description
 	if functionApp.Site.Properties.SiteConfig != nil {
 		fxVersion := functionApp.Site.Properties.SiteConfig.LinuxFxVersion
 		if fxVersion != nil && *fxVersion != "" {
@@ -212,7 +212,7 @@ func getLanguageRuntimeVersion(ctx context.Context, d *transform.TransformData) 
 }
 
 func getLanguageRuntimeType(ctx context.Context, d *transform.TransformData) (any, error) {
-	functionApp := d.HydrateItem.(kaytu.AppServiceFunctionApp).Description
+	functionApp := d.HydrateItem.(opengovernance.AppServiceFunctionApp).Description
 	if functionApp.Site.Properties.SiteConfig != nil {
 		fxVersion := functionApp.Site.Properties.SiteConfig.LinuxFxVersion
 		if fxVersion != nil && *fxVersion != "" {

@@ -18,10 +18,10 @@ func tableAzureSecurityCenterAutoProvisioning(_ context.Context) *plugin.Table {
 		Description: "Azure Security Center Auto Provisioning",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetSecurityCenterAutoProvisioning,
+			Hydrate:    opengovernance.GetSecurityCenterAutoProvisioning,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSecurityCenterAutoProvisioning,
+			Hydrate: opengovernance.ListSecurityCenterAutoProvisioning,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

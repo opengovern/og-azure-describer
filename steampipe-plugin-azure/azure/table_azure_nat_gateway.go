@@ -18,13 +18,13 @@ func tableAzureNatGateway(_ context.Context) *plugin.Table {
 		Description: "Azure NAT Gateway",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetNatGateway,
+			Hydrate:    opengovernance.GetNatGateway,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListNatGateway,
+			Hydrate: opengovernance.ListNatGateway,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -132,7 +132,7 @@ func tableAzureNatGateway(_ context.Context) *plugin.Table {
 }
 
 func extractNatGatewayProperties(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	gateway := d.HydrateItem.(kaytu.NatGateway).Description.NatGateway
+	gateway := d.HydrateItem.(opengovernance.NatGateway).Description.NatGateway
 	param := d.Param.(string)
 
 	objectMap := make(map[string]interface{})

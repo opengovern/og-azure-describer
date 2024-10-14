@@ -18,13 +18,13 @@ func tableAzureSubnet(_ context.Context) *plugin.Table {
 		Description: "Azure Subnet",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "virtual_network_name", "resource_group"}),
-			Hydrate:    kaytu.GetSubnet,
+			Hydrate:    opengovernance.GetSubnet,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "NotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSubnet,
+			Hydrate: opengovernance.ListSubnet,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

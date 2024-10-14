@@ -17,7 +17,7 @@ func tableAzureStorageBlob(_ context.Context) *plugin.Table {
 		Name:        "azure_storage_blob",
 		Description: "Azure Storage Blob",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListStorageBlob,
+			Hydrate: opengovernance.ListStorageBlob,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			// Basic info
@@ -288,7 +288,7 @@ func tableAzureStorageBlob(_ context.Context) *plugin.Table {
 }
 
 func blobDataToAka(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	blob := d.HydrateItem.(kaytu.StorageBlob)
+	blob := d.HydrateItem.(opengovernance.StorageBlob)
 
 	// Build resource aka
 	akas := []string{"azure:///subscriptions/" + blob.Metadata.SubscriptionID + "/resourceGroups/" + blob.Description.ResourceGroup + "/providers/Microsoft.Storage/storageAccounts/" + blob.Description.AccountName + "/blobServices/default/containers/" + blob.Description.ContainerName + "/blobs/" + blob.Description.Blob.Name, "azure:///subscriptions/" + blob.Metadata.SubscriptionID + "/resourcegroups/" + strings.ToLower(blob.Description.ResourceGroup) + "/providers/microsoft.storage/storageaccounts/" + strings.ToLower(blob.Description.AccountName) + "/blobservices/default/containers/" + strings.ToLower(blob.Description.ContainerName) + "/blobs/" + strings.ToLower(blob.Description.Blob.Name)}

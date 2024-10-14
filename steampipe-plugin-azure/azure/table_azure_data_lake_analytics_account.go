@@ -17,13 +17,13 @@ func tableAzureDataLakeAnalyticsAccount(_ context.Context) *plugin.Table {
 		Description: "Azure Data Lake Analytics account",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetDataLakeAnalyticsAccount,
+			Hydrate:    opengovernance.GetDataLakeAnalyticsAccount,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "400"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDataLakeAnalyticsAccount,
+			Hydrate: opengovernance.ListDataLakeAnalyticsAccount,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

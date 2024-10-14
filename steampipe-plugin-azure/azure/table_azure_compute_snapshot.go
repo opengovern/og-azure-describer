@@ -17,13 +17,13 @@ func tableAzureComputeSnapshot(_ context.Context) *plugin.Table {
 		Description: "Azure Compute Snapshot",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetComputeSnapshots,
+			Hydrate:    opengovernance.GetComputeSnapshots,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeSnapshots,
+			Hydrate: opengovernance.ListComputeSnapshots,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

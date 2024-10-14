@@ -17,13 +17,13 @@ func tableAzureMSSQLElasticPool(_ context.Context) *plugin.Table {
 		Description: "Azure Microsoft SQL Elastic Pool",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group", "server_name"}),
-			Hydrate:    kaytu.GetSqlServerElasticPool,
+			Hydrate:    opengovernance.GetSqlServerElasticPool,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404", "InvalidApiVersionParameter"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSqlServerElasticPool,
+			Hydrate: opengovernance.ListSqlServerElasticPool,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

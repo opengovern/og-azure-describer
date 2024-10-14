@@ -17,7 +17,7 @@ func tableAzureLocation(_ context.Context) *plugin.Table {
 		Name:        "azure_location",
 		Description: "Azure Location",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListLocation,
+			Hydrate: opengovernance.ListLocation,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

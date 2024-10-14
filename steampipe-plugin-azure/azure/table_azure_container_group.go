@@ -17,10 +17,10 @@ func tableAzureContainerGroup(_ context.Context) *plugin.Table {
 		Description: "Azure Container Group",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetContainerInstanceContainerGroup,
+			Hydrate:    opengovernance.GetContainerInstanceContainerGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListContainerInstanceContainerGroup,
+			Hydrate: opengovernance.ListContainerInstanceContainerGroup,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

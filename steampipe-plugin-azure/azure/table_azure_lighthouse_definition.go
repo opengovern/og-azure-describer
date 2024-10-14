@@ -30,13 +30,13 @@ func tableAzureLighthouseDefinition(_ context.Context) *plugin.Table {
 					Operators: []string{"="},
 				},
 			},
-			Hydrate: kaytu.GetLighthouseDefinition,
+			Hydrate: opengovernance.GetLighthouseDefinition,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"RegistrationDefinitionNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate:    kaytu.ListMaintenanceConfiguration,
+			Hydrate:    opengovernance.ListMaintenanceConfiguration,
 			KeyColumns: plugin.OptionalColumns([]string{"scope"}),
 		},
 		Columns: []*plugin.Column{

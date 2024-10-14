@@ -17,13 +17,13 @@ func tableAzureDataFactory(_ context.Context) *plugin.Table {
 		Description: "Azure Data Factory",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetDataFactory,
+			Hydrate:    opengovernance.GetDataFactory,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "Invalid input"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDataFactory,
+			Hydrate: opengovernance.ListDataFactory,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

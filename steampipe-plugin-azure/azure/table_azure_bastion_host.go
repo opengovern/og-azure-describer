@@ -18,10 +18,10 @@ func tableAzureBastionHost(_ context.Context) *plugin.Table {
 		Description: "Azure Bastion Host",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetBastionHosts,
+			Hydrate:    opengovernance.GetBastionHosts,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListBastionHosts,
+			Hydrate: opengovernance.ListBastionHosts,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

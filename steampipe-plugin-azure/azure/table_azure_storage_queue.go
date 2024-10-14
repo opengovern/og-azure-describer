@@ -18,13 +18,13 @@ func tableAzureStorageQueue(_ context.Context) *plugin.Table {
 		Description: "Azure Storage Queue",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"storage_account_name", "name", "resource_group"}),
-			Hydrate:    kaytu.GetStorageQueue,
+			Hydrate:    opengovernance.GetStorageQueue,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "QueueNotFound", "ResourceGroupNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListStorageQueue,
+			Hydrate: opengovernance.ListStorageQueue,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

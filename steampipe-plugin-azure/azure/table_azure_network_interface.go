@@ -18,13 +18,13 @@ func tableAzureNetworkInterface(_ context.Context) *plugin.Table {
 		Description: "Azure Network Interface",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetNetworkInterface,
+			Hydrate:    opengovernance.GetNetworkInterface,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListNetworkInterface,
+			Hydrate: opengovernance.ListNetworkInterface,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

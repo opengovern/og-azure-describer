@@ -14,10 +14,10 @@ func tableAzureMariaDBDatabases(_ context.Context) *plugin.Table {
 		Description: "Azure MariaDB Databases",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetMariadbDatabase,
+			Hydrate:    opengovernance.GetMariadbDatabase,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListMariadbDatabase,
+			Hydrate: opengovernance.ListMariadbDatabase,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

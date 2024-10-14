@@ -15,10 +15,10 @@ func tableAzureDesktopVirtualizationHostPool(_ context.Context) *plugin.Table {
 		Description: "Azure DesktopVirtualization HostPool",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetDesktopVirtualizationHostPool,
+			Hydrate:    opengovernance.GetDesktopVirtualizationHostPool,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDesktopVirtualizationHostPool,
+			Hydrate: opengovernance.ListDesktopVirtualizationHostPool,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

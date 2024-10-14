@@ -20,13 +20,13 @@ func tableAzureComputeVirtualMachine(_ context.Context) *plugin.Table {
 		Description: "Azure Compute Virtual Machine",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetComputeVirtualMachine,
+			Hydrate:    opengovernance.GetComputeVirtualMachine,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceGroupNotFound", "ResourceNotFound", "404"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListComputeVirtualMachine,
+			Hydrate: opengovernance.ListComputeVirtualMachine,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
@@ -362,7 +362,7 @@ func getPowerState(ctx context.Context, d *transform.TransformData) (interface{}
 	if d.HydrateItem == nil {
 		return nil, nil
 	}
-	vm := d.HydrateItem.(kaytu.ComputeVirtualMachine).Description
+	vm := d.HydrateItem.(opengovernance.ComputeVirtualMachine).Description
 	statuses := vm.VirtualMachineInstanceView.Statuses
 	return getStatusFromCode(statuses, "PowerState"), nil
 }
@@ -372,7 +372,7 @@ func getPrivateIps(ctx context.Context, d *transform.TransformData) (interface{}
 		return nil, nil
 	}
 
-	interfaceIPConfigurations := d.HydrateItem.(kaytu.ComputeVirtualMachine).Description.InterfaceIPConfigurations
+	interfaceIPConfigurations := d.HydrateItem.(opengovernance.ComputeVirtualMachine).Description.InterfaceIPConfigurations
 
 	var ips []string
 	for _, ipConfig := range interfaceIPConfigurations {

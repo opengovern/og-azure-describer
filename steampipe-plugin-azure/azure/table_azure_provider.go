@@ -18,13 +18,13 @@ func tableAzureProvider(_ context.Context) *plugin.Table {
 		Description: "Azure Provider",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("namespace"),
-			Hydrate:    kaytu.GetResourceProvider,
+			Hydrate:    opengovernance.GetResourceProvider,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"InvalidResourceNamespace"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListResourceProvider,
+			Hydrate: opengovernance.ListResourceProvider,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

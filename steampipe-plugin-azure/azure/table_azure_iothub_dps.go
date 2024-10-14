@@ -18,13 +18,13 @@ func tableAzureIotHubDps(_ context.Context) *plugin.Table {
 		Description: "Azure Iot Hub Dps",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "resource_group"}),
-			Hydrate:    kaytu.GetIOTHubDps,
+			Hydrate:    opengovernance.GetIOTHubDps,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isNotFoundError([]string{"ResourceNotFound", "ResourceGroupNotFound", "400"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListIOTHubDps,
+			Hydrate: opengovernance.ListIOTHubDps,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{
