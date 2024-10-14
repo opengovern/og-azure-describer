@@ -16,7 +16,7 @@ func tableAzureAdAuthorizationPolicy(_ context.Context) *plugin.Table {
 		Name:        "azuread_authorization_policy",
 		Description: "Represents a policy that can control Azure Active Directory authorization settings.",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdAuthorizationPolicy,
+			Hydrate: opengovernance.ListAdAuthorizationPolicy,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{

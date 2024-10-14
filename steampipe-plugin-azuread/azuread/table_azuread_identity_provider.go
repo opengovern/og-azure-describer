@@ -16,7 +16,7 @@ func tableAzureAdIdentityProvider(_ context.Context) *plugin.Table {
 		Name:        "azuread_identity_provider",
 		Description: "Represents an Azure Active Directory (Azure AD) identity provider.",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdIdentityProvider,
+			Hydrate: opengovernance.ListAdIdentityProvider,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isIgnorableErrorPredicate([]string{"Request_UnsupportedQuery", "Invalid filter clause"}),
 			},

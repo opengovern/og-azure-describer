@@ -15,14 +15,14 @@ func tableAzureAdTenant(_ context.Context) *plugin.Table {
 		Name:        "azuread_tenant",
 		Description: "Represents an Azure AD Tenant.",
 		Get: &plugin.GetConfig{
-			Hydrate: kaytu.GetAdTenant,
+			Hydrate: opengovernance.GetAdTenant,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isIgnorableErrorPredicate([]string{"Request_ResourceNotFound", "Invalid object identifier"}),
 			},
 			KeyColumns: plugin.SingleColumn("tenant_id"),
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdTenant,
+			Hydrate: opengovernance.ListAdTenant,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isIgnorableErrorPredicate([]string{"Invalid filter clause"}),
 			},
@@ -48,7 +48,7 @@ func tableAzureAdTenant(_ context.Context) *plugin.Table {
 			{
 				Name:        "kaytu_resource_id",
 				Type:        proto.ColumnType_STRING,
-				Description: "The unique ID of the resource in Kaytu.",
+				Description: "The unique ID of the resource in opengovernance.",
 				Transform:   transform.FromField("ID")},
 		}),
 	}

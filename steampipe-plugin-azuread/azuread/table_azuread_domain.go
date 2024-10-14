@@ -17,14 +17,14 @@ func tableAzureAdDomain(_ context.Context) *plugin.Table {
 		Name:        "azuread_domain",
 		Description: "Represents an Azure Active Directory (Azure AD) domain.",
 		Get: &plugin.GetConfig{
-			Hydrate: kaytu.GetAdDomain,
+			Hydrate: opengovernance.GetAdDomain,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isIgnorableErrorPredicate([]string{"Request_ResourceNotFound", "Invalid object identifier"}),
 			},
 			KeyColumns: plugin.SingleColumn("id"),
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdDomain,
+			Hydrate: opengovernance.ListAdDomain,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{

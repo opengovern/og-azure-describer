@@ -17,7 +17,7 @@ func tableAzureAdServicePrincipal(_ context.Context) *plugin.Table {
 		Name:        "azuread_service_principal",
 		Description: "Represents an Azure Active Directory (Azure AD) service principal.",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdServicePrincipal,
+			Hydrate: opengovernance.ListAdServicePrincipal,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{
@@ -64,14 +64,14 @@ func tableAzureAdServicePrincipal(_ context.Context) *plugin.Table {
 			{
 				Name:        "kaytu_resource_id",
 				Type:        proto.ColumnType_STRING,
-				Description: "The unique ID of the resource in Kaytu.",
+				Description: "The unique ID of the resource in opengovernance.",
 				Transform:   transform.FromField("ID")},
 		}),
 	}
 }
 
 func adServicePrincipalTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	servicePrincipal := d.HydrateItem.(kaytu.AdServicePrincipal).Description
+	servicePrincipal := d.HydrateItem.(opengovernance.AdServicePrincipal).Description
 	tags := servicePrincipal.TagsSrc
 	if tags == nil {
 		return nil, nil
@@ -80,7 +80,7 @@ func adServicePrincipalTags(ctx context.Context, d *transform.TransformData) (in
 }
 
 func adServicePrincipalTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.AdServicePrincipal).Description
+	data := d.HydrateItem.(opengovernance.AdServicePrincipal).Description
 
 	title := data.DisplayName
 	if title == nil {

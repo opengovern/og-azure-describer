@@ -16,7 +16,7 @@ func tableAzureAdAdminConsentRequestPolicy(_ context.Context) *plugin.Table {
 		Name:        "azuread_admin_consent_request_policy",
 		Description: "Represents the policy for enabling or disabling the Azure AD admin consent workflow.",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdAdminConsentRequestPolicy,
+			Hydrate: opengovernance.ListAdAdminConsentRequestPolicy,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{

@@ -16,7 +16,7 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 		Name:        "azuread_user",
 		Description: "Represents an Azure AD user account.",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdUsers,
+			Hydrate: opengovernance.ListAdUsers,
 			KeyColumns: plugin.KeyColumnSlice{
 				// Key fields
 				{
@@ -141,7 +141,7 @@ func tableAzureAdUser(_ context.Context) *plugin.Table {
 			{
 				Name:        "kaytu_resource_id",
 				Type:        proto.ColumnType_STRING,
-				Description: "The unique ID of the resource in Kaytu.",
+				Description: "The unique ID of the resource in opengovernance.",
 				Transform:   transform.FromField("ID")},
 		}),
 	}

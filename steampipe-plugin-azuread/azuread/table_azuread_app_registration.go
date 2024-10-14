@@ -15,7 +15,7 @@ func tableAzureAdAppRegistration(_ context.Context) *plugin.Table {
 		Name:        "azuread_app_registration",
 		Description: "Represents an Azure Active Directory (Azure AD) service principal.",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdAppRegistration,
+			Hydrate: opengovernance.ListAdAppRegistration,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{
@@ -48,7 +48,7 @@ func tableAzureAdAppRegistration(_ context.Context) *plugin.Table {
 }
 
 func adAppRegistrationTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	appRegistration := d.HydrateItem.(kaytu.AdAppRegistration).Description
+	appRegistration := d.HydrateItem.(opengovernance.AdAppRegistration).Description
 	tags := appRegistration.TagsSrc
 	if tags == nil {
 		return nil, nil
@@ -57,7 +57,7 @@ func adAppRegistrationTags(ctx context.Context, d *transform.TransformData) (int
 }
 
 func adAppRegistrationTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	appRegistration := d.HydrateItem.(kaytu.AdAppRegistration).Description
+	appRegistration := d.HydrateItem.(opengovernance.AdAppRegistration).Description
 
 	title := appRegistration.DisplayName
 	if title == nil {

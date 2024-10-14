@@ -17,7 +17,7 @@ func tableAzureAdMicrosoftApplication(_ context.Context) *plugin.Table {
 		Name:        "azuread_microsoft_application",
 		Description: "Represents an Azure Microsoft Application.",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdMicrosoftApplication,
+			Hydrate: opengovernance.ListAdMicrosoftApplication,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{
@@ -64,14 +64,14 @@ func tableAzureAdMicrosoftApplication(_ context.Context) *plugin.Table {
 			{
 				Name:        "kaytu_resource_id",
 				Type:        proto.ColumnType_STRING,
-				Description: "The unique ID of the resource in Kaytu.",
+				Description: "The unique ID of the resource in opengovernance.",
 				Transform:   transform.FromField("ID")},
 		}),
 	}
 }
 
 func adMicrosoftApplicationTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	servicePrincipal := d.HydrateItem.(kaytu.AdMicrosoftApplication).Description
+	servicePrincipal := d.HydrateItem.(opengovernance.AdMicrosoftApplication).Description
 	tags := servicePrincipal.TagsSrc
 	if tags == nil {
 		return nil, nil
@@ -80,7 +80,7 @@ func adMicrosoftApplicationTags(_ context.Context, d *transform.TransformData) (
 }
 
 func adMicrosoftApplicationTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.AdMicrosoftApplication).Description
+	data := d.HydrateItem.(opengovernance.AdMicrosoftApplication).Description
 
 	title := data.DisplayName
 	if title == nil {

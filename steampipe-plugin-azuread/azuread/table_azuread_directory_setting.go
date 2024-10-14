@@ -16,11 +16,11 @@ func tableAzureAdDirectorySetting(_ context.Context) *plugin.Table {
 		Name:        "azuread_directory_setting",
 		Description: "Represents the configurations that can be used to customize the tenant-wide and object-specific restrictions and allowed behavior",
 		Get: &plugin.GetConfig{
-			Hydrate:    kaytu.GetAdDirectorySetting,
+			Hydrate:    opengovernance.GetAdDirectorySetting,
 			KeyColumns: plugin.AllColumns([]string{"id", "name"}),
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdDirectorySetting,
+			Hydrate: opengovernance.ListAdDirectorySetting,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{

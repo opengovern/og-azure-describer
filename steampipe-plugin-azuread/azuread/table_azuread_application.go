@@ -15,7 +15,7 @@ func tableAzureAdApplication(_ context.Context) *plugin.Table {
 		Name:        "azuread_application",
 		Description: "Represents an Azure Active Directory (Azure AD) application.",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdApplication,
+			Hydrate: opengovernance.ListAdApplication,
 		},
 		Columns: azureKaytuColumns([]*plugin.Column{
 			{Name: "display_name", Type: proto.ColumnType_STRING, Description: "The display name for the application.", Transform: transform.FromField("Description.DisplayName")},
@@ -49,13 +49,13 @@ func tableAzureAdApplication(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func adApplicationTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	application := d.HydrateItem.(kaytu.AdApplication).Description
+	application := d.HydrateItem.(opengovernance.AdApplication).Description
 	tags := application.TagsSrc
 	return TagsToMap(tags)
 }
 
 func adApplicationTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.AdApplication).Description
+	data := d.HydrateItem.(opengovernance.AdApplication).Description
 
 	title := data.DisplayName
 	if title == nil {

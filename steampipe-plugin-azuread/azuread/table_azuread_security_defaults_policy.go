@@ -16,7 +16,7 @@ func tableAzureAdSecurityDefaultsPolicy(_ context.Context) *plugin.Table {
 		Name:        "azuread_security_defaults_policy",
 		Description: "Represents the Azure Active Directory security defaults policy",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdSecurityDefaultsPolicy,
+			Hydrate: opengovernance.ListAdSecurityDefaultsPolicy,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{

@@ -17,7 +17,7 @@ func tableAzureAdManagedIdentity(_ context.Context) *plugin.Table {
 		Name:        "azuread_managed_identity",
 		Description: "Represents an Azure Managed Identity.",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdManagedIdentity,
+			Hydrate: opengovernance.ListAdManagedIdentity,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{
@@ -64,14 +64,14 @@ func tableAzureAdManagedIdentity(_ context.Context) *plugin.Table {
 			{
 				Name:        "kaytu_resource_id",
 				Type:        proto.ColumnType_STRING,
-				Description: "The unique ID of the resource in Kaytu.",
+				Description: "The unique ID of the resource in opengovernance.",
 				Transform:   transform.FromField("ID")},
 		}),
 	}
 }
 
 func adManagedIdentityTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	servicePrincipal := d.HydrateItem.(kaytu.AdManagedIdentity).Description
+	servicePrincipal := d.HydrateItem.(opengovernance.AdManagedIdentity).Description
 	tags := servicePrincipal.TagsSrc
 	if tags == nil {
 		return nil, nil
@@ -80,7 +80,7 @@ func adManagedIdentityTags(_ context.Context, d *transform.TransformData) (inter
 }
 
 func adManagedIdentityTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.AdManagedIdentity).Description
+	data := d.HydrateItem.(opengovernance.AdManagedIdentity).Description
 
 	title := data.DisplayName
 	if title == nil {

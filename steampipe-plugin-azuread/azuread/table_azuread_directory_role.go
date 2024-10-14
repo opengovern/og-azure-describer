@@ -17,14 +17,14 @@ func tableAzureAdDirectoryRole(_ context.Context) *plugin.Table {
 		Name:        "azuread_directory_role",
 		Description: "Represents an Azure Active Directory (Azure AD) directory role.",
 		Get: &plugin.GetConfig{
-			Hydrate: kaytu.GetAdDirectoryRole,
+			Hydrate: opengovernance.GetAdDirectoryRole,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isIgnorableErrorPredicate([]string{"Request_ResourceNotFound", "Invalid object identifier"}),
 			},
 			KeyColumns: plugin.SingleColumn("id"),
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdDirectoryRole,
+			Hydrate: opengovernance.ListAdDirectoryRole,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{
@@ -74,7 +74,7 @@ func tableAzureAdDirectoryRole(_ context.Context) *plugin.Table {
 }
 
 func adDirectoryRoleTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(*kaytu.AdDirectoryRole)
+	data := d.HydrateItem.(*opengovernance.AdDirectoryRole)
 	if data == nil {
 		return nil, nil
 	}

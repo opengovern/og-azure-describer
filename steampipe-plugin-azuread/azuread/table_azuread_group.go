@@ -17,14 +17,14 @@ func tableAzureAdGroup(_ context.Context) *plugin.Table {
 		Name:        "azuread_group",
 		Description: "Represents an Azure AD group.",
 		Get: &plugin.GetConfig{
-			Hydrate: kaytu.GetAdGroup,
+			Hydrate: opengovernance.GetAdGroup,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isIgnorableErrorPredicate([]string{"Request_ResourceNotFound", "Invalid object identifier"}),
 			},
 			KeyColumns: plugin.SingleColumn("id"),
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdGroup,
+			Hydrate: opengovernance.ListAdGroup,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isIgnorableErrorPredicate([]string{"Invalid filter clause"}),
 			},
@@ -88,14 +88,14 @@ func tableAzureAdGroup(_ context.Context) *plugin.Table {
 			{
 				Name:        "kaytu_resource_id",
 				Type:        proto.ColumnType_STRING,
-				Description: "The unique ID of the resource in Kaytu.",
+				Description: "The unique ID of the resource in opengovernance.",
 				Transform:   transform.FromField("ID")},
 		}),
 	}
 }
 
 func adGroupTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	group := d.HydrateItem.(kaytu.AdGroup).Description
+	group := d.HydrateItem.(opengovernance.AdGroup).Description
 
 	if group.AssignedLabels == nil {
 		return nil, nil
@@ -115,7 +115,7 @@ func adGroupTags(_ context.Context, d *transform.TransformData) (interface{}, er
 }
 
 func adGroupTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.AdGroup).Description
+	data := d.HydrateItem.(opengovernance.AdGroup).Description
 
 	title := data.DisplayName
 	//if title == nil {

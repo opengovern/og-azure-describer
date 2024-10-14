@@ -15,7 +15,7 @@ func tableAzureAdDevice(_ context.Context) *plugin.Table {
 		Name:        "azuread_device",
 		Description: "Represents an Azure AD device.",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdDevice,
+			Hydrate: opengovernance.ListAdDevice,
 			KeyColumns: plugin.KeyColumnSlice{
 				// Key fields
 				{Name: "display_name", Require: plugin.Optional},
@@ -60,7 +60,7 @@ func tableAzureAdDevice(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func adDeviceTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.AdDevice).Description
+	data := d.HydrateItem.(opengovernance.AdDevice).Description
 	title := data.DisplayName
 	if title == nil {
 		title = data.DeviceId

@@ -16,14 +16,14 @@ func tableAzureAdConditionalAccessPolicy(_ context.Context) *plugin.Table {
 		Name:        "azuread_conditional_access_policy",
 		Description: "Represents an Azure Active Directory (Azure AD) Conditional Access Policy.",
 		Get: &plugin.GetConfig{
-			Hydrate: kaytu.GetAdConditionalAccessPolicy,
+			Hydrate: opengovernance.GetAdConditionalAccessPolicy,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isIgnorableErrorPredicate([]string{"Request_ResourceNotFound", "Invalid object identifier"}),
 			},
 			KeyColumns: plugin.SingleColumn("id"),
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdConditionalAccessPolicy,
+			Hydrate: opengovernance.ListAdConditionalAccessPolicy,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: isIgnorableErrorPredicate([]string{"Request_UnsupportedQuery"}),
 			},

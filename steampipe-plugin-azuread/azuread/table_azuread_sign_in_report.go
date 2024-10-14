@@ -16,7 +16,7 @@ func tableAzureAdSignInReport(_ context.Context) *plugin.Table {
 		Name:        "azuread_sign_in_report",
 		Description: "Represents an Azure Active Directory (Azure AD) sign-in report.",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdSignInReport,
+			Hydrate: opengovernance.ListAdSignInReport,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{
@@ -54,7 +54,7 @@ func tableAzureAdSignInReport(_ context.Context) *plugin.Table {
 }
 
 func formatSignInReportRiskEventTypes(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.AdSignInReport).Description
+	data := d.HydrateItem.(opengovernance.AdSignInReport).Description
 	riskEventTypes := data.RiskEventTypes
 	if len(riskEventTypes) == 0 {
 		return nil, nil

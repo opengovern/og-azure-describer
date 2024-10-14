@@ -15,7 +15,7 @@ func tableAzureAdUserRegistrationDetails(_ context.Context) *plugin.Table {
 		Name:        "azuread_user_registration_details",
 		Description: "Represents an Azure AD user registration details.",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdUserRegistrationDetails,
+			Hydrate: opengovernance.ListAdUserRegistrationDetails,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{

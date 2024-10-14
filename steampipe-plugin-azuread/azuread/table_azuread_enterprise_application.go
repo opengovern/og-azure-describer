@@ -17,7 +17,7 @@ func tableAzureAdEnterpriseApplication(_ context.Context) *plugin.Table {
 		Name:        "azuread_enterprise_application",
 		Description: "Represents an Azure Enterprise Application.",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAdEnterpriseApplication,
+			Hydrate: opengovernance.ListAdEnterpriseApplication,
 		},
 
 		Columns: azureKaytuColumns([]*plugin.Column{
@@ -64,14 +64,14 @@ func tableAzureAdEnterpriseApplication(_ context.Context) *plugin.Table {
 			{
 				Name:        "kaytu_resource_id",
 				Type:        proto.ColumnType_STRING,
-				Description: "The unique ID of the resource in Kaytu.",
+				Description: "The unique ID of the resource in opengovernance.",
 				Transform:   transform.FromField("ID")},
 		}),
 	}
 }
 
 func adEnterpriseApplicationTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	servicePrincipal := d.HydrateItem.(kaytu.AdEnterpriseApplication).Description
+	servicePrincipal := d.HydrateItem.(opengovernance.AdEnterpriseApplication).Description
 	tags := servicePrincipal.TagsSrc
 	if tags == nil {
 		return nil, nil
@@ -80,7 +80,7 @@ func adEnterpriseApplicationTags(ctx context.Context, d *transform.TransformData
 }
 
 func adEnterpriseApplicationTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.AdEnterpriseApplication).Description
+	data := d.HydrateItem.(opengovernance.AdEnterpriseApplication).Description
 
 	title := data.DisplayName
 	if title == nil {
