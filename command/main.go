@@ -20,8 +20,8 @@ var (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "kaytu-azure-describer",
-	Short: "kaytu azure describer manual",
+	Use:   "og-azure-describer",
+	Short: "opengovernance azure describer manual",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		resourceType = "Microsoft.Resources/groups"
 		subscriptionID = "710e21af-6987-4f5d-80a0-d2ef06f8645b"

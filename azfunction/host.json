@@ -30,7 +30,7 @@
   },
   "customHandler": {
     "description": {
-      "defaultExecutablePath": "./kaytu-azure-describer",
+      "defaultExecutablePath": "./og-azure-describer",
       "workingDirectory": ".",
       "arguments": []
     }

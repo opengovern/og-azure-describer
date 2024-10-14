@@ -464,10 +464,10 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 			"context"
 			"encoding/json"
 			"fmt"
-			essdk "github.com/opengovern/og-util/pkg/kaytu-es-sdk"
+			essdk "github.com/opengovern/og-util/pkg/opengovernance-es-sdk"
 			steampipesdk "github.com/opengovern/og-util/pkg/steampipe"
 			"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
-			`+*sourceType+`Describer "github.com/kaytu-io/kaytu-`+*sourceType+`-describer/`+*sourceType+`/describer"
+			`+*sourceType+`Describer "github.com/opengovern/og-`+*sourceType+`-describer/`+*sourceType+`/describer"
 			`+*sourceType+` "github.com/kaytu-io/kaytu-`+*sourceType+`-describer/`+*sourceType+`/model"
             "runtime"
 		)

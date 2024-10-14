@@ -5,7 +5,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
 	"strings"
 
-	"github.com/opengovern/og-azure-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-azure-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/go-kit/types"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"

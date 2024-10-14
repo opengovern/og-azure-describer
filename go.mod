@@ -112,7 +112,6 @@ require (
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/hashicorp/go-hclog v1.6.3
-	github.com/opengovern/og-util v0.0.0-20240829214119-de91fe05574d
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/manicminer/hamilton v0.44.0
 	github.com/manicminer/hamilton-autorest v0.3.0
@@ -121,6 +120,7 @@ require (
 	github.com/microsoftgraph/msgraph-sdk-go v1.36.0
 	github.com/microsoftgraph/msgraph-sdk-go-core v1.1.0
 	github.com/nats-io/nats.go v1.36.0
+	github.com/opengovern/og-util v0.0.0-20241014001006-42f25ad9090c
 	github.com/spf13/cobra v1.7.0
 	github.com/tombuildsstuff/giovanni v0.18.0
 	github.com/turbot/go-kit v0.10.0-rc.0
