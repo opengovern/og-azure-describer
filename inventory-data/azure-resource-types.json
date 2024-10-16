@@ -1,0 +1,4857 @@
+[
+  {
+    "ResourceName": "Microsoft.App/containerApps",
+    "ResourceLabel": "Container Apps",
+    "Tags": {
+      "category": [
+        "Container"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Container%20App.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.AppContainerApps)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_container_app"
+    ],
+    "TerraformServiceName": "containerapps",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_app_containerapps",
+    "Model": "ContainerApp"
+  },
+  {
+    "ResourceName": "Microsoft.App/managedEnvironments",
+    "ResourceLabel": "Container apps environment",
+    "Tags": {
+      "category": [
+        "Container"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Container%20App%20Environment.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.AppManagedEnvironment)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_container_app_environment"
+    ],
+    "TerraformServiceName": "containerapps",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_app_managedenvironments",
+    "Model": "AppManagedEnvironment"
+  },
+  {
+    "ResourceName": "Microsoft.Blueprint/blueprints",
+    "ResourceLabel": "Blueprint",
+    "Tags": {
+        "logo_uri": [
+            "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Blueprint.svg"
+        ]
+    },
+    "ServiceName": "Blueprint",
+    "ListDescriber": "DescribeBySubscription(describer.BlueprintBlueprint)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_blueprint_blueprints",
+    "Model": "Blueprint"
+  },
+  {
+    "ResourceName": "Microsoft.Cdn/profiles",
+    "ResourceLabel": "CDN Profiles",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/CDN%20Profile.svg"
+      ]
+    },
+    "ServiceName": "Cdn",
+    "ListDescriber": "DescribeBySubscription(describer.CdnProfiles)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_cdn_profile"
+    ],
+    "TerraformServiceName": "cdn",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_cdn_profiles",
+    "Model": "CDNProfile"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/cloudServices",
+    "ResourceLabel": "Cloud Services",
+    "Tags": {
+      "category": [
+        "Compute"
+      ],
+        "logo_uri": [
+            "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Cloud%20Service.svg"
+        ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeCloudServices)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_cloudservices",
+    "Model": "ComputeCloudService"
+  },
+  {
+    "ResourceName": "Microsoft.ContainerInstance/containerGroups",
+    "ResourceLabel": "Container instances",
+    "Tags": {
+      "category": [
+        "Container"
+      ],
+        "logo_uri": [
+            "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Container%20Instance.svg"
+        ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ContainerInstanceContainerGroups)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_container_group"
+    ],
+    "TerraformServiceName": "containers",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_container_group",
+    "Model": "ContainerInstanceContainerGroup"
+  },
+  {
+    "ResourceName": "Microsoft.DataMigration/services",
+    "ResourceLabel": "Database Migration Service instance",
+    "Tags": {
+      "category": [
+        "Migration"
+      ],
+      "logo_uri": [
+          "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Database%20Migration%20Service.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.DataMigrationServices)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_database_migration_service"
+    ],
+    "TerraformServiceName": "databasemigration",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_datamigration_services",
+    "Model": "DataMigrationService"
+  },
+  {
+    "ResourceName": "Microsoft.DataProtection/backupVaults",
+    "ResourceLabel": "",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Backup%20vault.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.DataProtectionBackupVaults)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_dataprotection_backupvaults",
+    "Model": "DataProtectionBackupVaults"
+  },
+  {
+    "ResourceName": "Microsoft.DataProtection/backupJobs",
+    "ResourceLabel": "Data Protection Backup Jobs",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.DataProtectionBackupJobs)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_data_protection_backup_job",
+    "Model": "DataProtectionJob"
+  },
+  {
+    "ResourceName": "Microsoft.DataProtection/backupVaults/backupPolicies",
+    "ResourceLabel": "",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Backup%20vault.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.DataProtectionBackupVaultsBackupPolicies)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_dataprotection_backuppolicies",
+    "Model": "DataProtectionBackupVaultsBackupPolicies"
+  },
+  {
+    "ResourceName": "Microsoft.Logic/integrationAccounts",
+    "ResourceLabel": "Logic Integration Accounts",
+    "Tags": {
+      "category": [
+        "Integration"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Integration%20Account.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.LogicIntegrationAccounts)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_logic_app_integration_account"
+    ],
+    "TerraformServiceName": "logic",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_logic_integrationaccounts",
+    "Model": "LogicIntegrationAccounts"
+  },
+  {
+    "ResourceName": "Microsoft.Network/bastionHosts",
+    "ResourceLabel": "Bastion Hosts",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Bastion.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.NetworkBastionHosts)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_bastion_host"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_bastion_host",
+    "Model": "BastionHosts"
+  },
+  {
+    "ResourceName": "Microsoft.Network/connections",
+      "ResourceLabel": "Microsoft Connections",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Hybrid%20Connection.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.NetworkConnections)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_network_connections",
+    "Model": "Connection"
+  },
+  {
+    "ResourceName": "Microsoft.Network/firewallPolicies",
+    "ResourceLabel": "",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Firewall%20Policy.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.FirewallPolicy)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_firewall_policy",
+    "Model": "FirewallPolicy"
+  },
+  {
+    "ResourceName": "Microsoft.Network/localNetworkGateways",
+    "ResourceLabel": "Local Network Gateways",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Local%20Network%20Gateway.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.LocalNetworkGateway)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_local_network_gateway"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_network_localnetworkgateways",
+    "Model": "LocalNetworkGateway"
+  },
+  {
+    "ResourceName": "Microsoft.Network/privateLinkServices",
+    "ResourceLabel": "Private Link Service",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Private%20link%20Service.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.PrivateLinkService)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_network_privatelinkservices",
+    "Model": "PrivateLinkService"
+  },
+  {
+    "ResourceName": "Microsoft.Network/publicIPPrefixes",
+    "ResourceLabel": "Public IP Prefixes",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Public%20IP%20Prefix.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.PublicIPPrefix)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_public_ip_prefix"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_network_publicipprefixes",
+    "Model": "PublicIPPrefix"
+  },
+  {
+    "ResourceName": "Microsoft.Network/virtualHubs",
+    "ResourceLabel": "Virtual Hubs",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Virtual%20Hub.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.NetworkVirtualHubs)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_virtual_hub"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_network_virtualhubs",
+    "Model": "VirtualHubs"
+  },
+  {
+    "ResourceName": "Microsoft.Network/virtualWans",
+    "ResourceLabel": "Virtual WANs",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Virtual%20WAN.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.NetworkVirtualWans)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_virtual_wan"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_network_virtualwans",
+    "Model": "VirtualWans"
+  },
+  {
+    "ResourceName": "Microsoft.Network/vpnGateways",
+    "ResourceLabel": "VPN Gateways",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Virtual%20Network%20Gateway.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.VpnGateway)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_vpn_gateway"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_network_vpngateways",
+    "Model": "VpnGateway"
+  },
+  {
+    "ResourceName": "Microsoft.Network/vpnGateways/vpnConnections",
+    "ResourceLabel": "VPN Connections",
+    "Tags": null,
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.NetworkVpnGatewaysVpnConnections)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_vpn_gateway_connection"
+    ],
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_network_vpnconnections",
+    "Model": "VpnGatewayVpnConnection"
+  },
+  {
+    "ResourceName": "Microsoft.Network/vpnSites",
+    "ResourceLabel": "VPN Sites",
+    "Tags": {
+      "category": [
+        "Networking"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.NetworkVpnGatewaysVpnSites)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_vpn_site"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_network_vpnsites",
+    "Model": "VpnSite"
+  },
+  {
+    "ResourceName": "Microsoft.OperationalInsights/workspaces",
+    "ResourceLabel": "Operational Insights Workspaces",
+    "Tags": null,
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.OperationalInsightsWorkspaces)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_operationalinsights_workspaces",
+    "Model": "OperationalInsightsWorkspaces"
+  },
+  {
+    "ResourceName": "Microsoft.StreamAnalytics/cluster",
+    "ResourceLabel": "Stream Analytics Cluster",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Stream%20Analytics%20Cluster.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.StreamAnalyticsCluster)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_streamanalytics_cluster",
+    "Model": "StreamAnalyticsCluster"
+  },
+  {
+    "ResourceName": "Microsoft.TimeSeriesInsights/environments",
+    "ResourceLabel": "Time Series Insights Environments",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Time%20Series%20Insights%20Environment.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.TimeSeriesInsightsEnvironments)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_timeseriesinsights_environments",
+    "Model": "TimeSeriesInsightsEnvironments"
+  },
+  {
+    "ResourceName": "Microsoft.VirtualMachineImages/imageTemplates",
+    "ResourceLabel": "Image Templates",
+    "Tags": {
+      "category": [
+        "Compute"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Image%20Template.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.VirtualMachineImagesImageTemplates)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_virtualmachineimages_imagetemplates",
+    "Model": "VirtualMachineImagesImageTemplates"
+  },
+  {
+    "ResourceName": "Microsoft.Web/serverFarms",
+    "ResourceLabel": "App Service plans",
+    "Tags": {
+      "category": [
+        "Container"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Server%20Farm.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.WebServerFarms)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_app_service_plan"
+    ],
+    "TerraformServiceName": "web",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_web_serverfarms",
+    "Model": "WebServerFarms"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/virtualMachineScaleSets/virtualMachines",
+    "ResourceLabel": "Scale Set VMs",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Virtual%20Machine%20Scale%20Set.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeVirtualMachineScaleSetVm)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_virtual_machine_scale_set_vm",
+    "Model": "ComputeVirtualMachineScaleSetVm"
+  },
+  {
+    "ResourceName": "Microsoft.Automation/automationAccounts",
+    "ResourceLabel": "Automation Accounts",
+    "Tags": {
+      "category": [
+        "Management \u0026 Governance"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Automation%20Account.svg"
+      ]
+    },
+    "ServiceName": "Automation",
+    "ListDescriber": "DescribeBySubscription(describer.AutomationAccounts)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_automation_account"
+    ],
+    "TerraformServiceName": "automation",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_automation_account",
+    "Model": "AutomationAccounts"
+  },
+  {
+    "ResourceName": "Microsoft.Automation/automationAccounts/variables",
+    "ResourceLabel": "Automation Variables",
+    "Tags": {
+      "category": [
+        "Management \u0026 Governance"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Automation%20Variable.svg"
+      ]
+    },
+    "ServiceName": "Automation",
+    "ListDescriber": "DescribeBySubscription(describer.AutomationVariables)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_automation_variable_string",
+      "azurerm_automation_variable_int",
+      "azurerm_automation_variable_datetime",
+      "azurerm_automation_variable_bool"
+    ],
+    "TerraformServiceName": "automation",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_automation_variable",
+    "Model": "AutomationVariables"
+  },
+  {
+    "ResourceName": "Microsoft.Network/dnsZones",
+    "ResourceLabel": "DNS Zones",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/DNS%20Zone%20(Public).svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.DNSZones)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_dns_zone"
+    ],
+    "TerraformServiceName": "dns",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_dns_zone",
+    "Model": "DNSZones"
+  },
+  {
+    "ResourceName": "Microsoft.Databricks/workspaces",
+    "ResourceLabel": "Azure Databricks workspace",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Databricks.svg"
+      ]
+    },
+    "ServiceName": "Databricks",
+    "ListDescriber": "DescribeBySubscription(describer.DatabricksWorkspaces)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_databricks_workspace"
+    ],
+    "TerraformServiceName": "databricks",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_databricks_workspaces",
+    "Model": "DatabricksWorkspace"
+  },
+  {
+    "ResourceName": "Microsoft.Network/privateDnsZones",
+    "ResourceLabel": "Private DNS Zone(s)",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/DNS%20Zone%20(Private).svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.PrivateDnsZones)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_private_dns_zone"
+    ],
+    "TerraformServiceName": "privatedns",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_private_dns_zone",
+    "Model": "PrivateDNSZones"
+  },
+  {
+    "ResourceName": "Microsoft.Network/privateEndpoints",
+    "ResourceLabel": "Private End Point",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Private%20Endpoint.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.PrivateEndpoints)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_private_endpoint"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_network_privateendpoints",
+    "Model": "PrivateEndpoint"
+  },
+  {
+    "ResourceName": "Microsoft.Network/networkWatchers",
+    "ResourceLabel": "",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Network%20Watcher.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.NetworkWatcher)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_network_watcher"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_network_watcher",
+    "Model": "NetworkWatcher"
+  },
+  {
+    "ResourceName": "Microsoft.Resources/subscriptions/resourceGroups",
+    "ResourceLabel": "Resource Groups",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Resource%20Group.svg"
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeBySubscription(describer.ResourceGroup)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_resource_group"
+    ],
+    "TerraformServiceName": "resource",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_resource_group",
+    "Model": "ResourceGroup"
+  },
+  {
+    "ResourceName": "Microsoft.Web/staticSites",
+    "ResourceLabel": "Static Web Apps",
+    "Tags": {
+      "category": [
+        "PaaS"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Static%20Web%20App.svg"
+      ]
+    },
+    "ServiceName": "Web",
+    "ListDescriber": "DescribeBySubscription(describer.AppServiceWebApp)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_static_site"
+    ],
+    "TerraformServiceName": "web",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_app_service_web_app",
+    "Model": "AppServiceWebApp"
+  },
+  {
+    "ResourceName": "Microsoft.Web/sites/slots",
+    "ResourceLabel": "Static Web App Slots",
+    "Tags": {
+      "category": [
+        "PaaS"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Static%20Web%20App.svg"
+      ]
+    },
+    "ServiceName": "Web",
+    "ListDescriber": "DescribeBySubscription(describer.AppServiceWebAppSlot)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_static_site"
+    ],
+    "TerraformServiceName": "web",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_app_service_web_app_slot",
+    "Model": "AppServiceWebAppSlot"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/serviceprincipals",
+    "ResourceLabel": "Service Principals",
+    "Tags": null,
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdServicePrinciple)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_service_principal",
+    "Model": "AdServicePrincipal"
+  },
+  {
+    "ResourceName": "Microsoft.CognitiveServices/accounts",
+    "ResourceLabel": "Cognitive Service Accounts",
+    "Tags": {
+      "category": [
+        "AI + ML"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Cognitive%20Services.svg"
+      ]
+    },
+    "ServiceName": "CognitiveServices",
+    "ListDescriber": "DescribeBySubscription(describer.CognitiveAccount)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_cognitive_account"
+    ],
+    "TerraformServiceName": "cognitive",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_cognitive_account",
+    "Model": "CognitiveAccount"
+  },
+  {
+    "ResourceName": "Microsoft.Sql/managedInstances",
+    "ResourceLabel": "SQL managed instances",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SQL%20Managed%20Instance.svg"
+      ]
+    },
+    "ServiceName": "Sql",
+    "ListDescriber": "DescribeBySubscription(describer.MssqlManagedInstance)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_mssql_managed_instance",
+      "azurerm_sql_managed_instance"
+    ],
+    "TerraformServiceName": "mssql",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_mssql_managed_instance",
+    "Model": "MssqlManagedInstance"
+  },
+  {
+    "ResourceName": "Microsoft.Sql/virtualclusters",
+    "ResourceLabel": "SQL Virtual Clusters",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SQL%20Database.svg"
+      ]
+    },
+    "ServiceName": "Sql",
+    "ListDescriber": "DescribeBySubscription(describer.SqlVirtualClusters)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_sql_virtualclusters",
+    "Model": "SqlVirtualClusters"
+  },
+  {
+    "ResourceName": "Microsoft.Sql/managedInstances/databases",
+    "ResourceLabel": "Managed Instance Databases",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SQL%20Managed%20Instance.svg"
+      ]
+    },
+    "ServiceName": "Sql",
+    "ListDescriber": "DescribeBySubscription(describer.MssqlManagedInstanceDatabases)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_mssql_managed_database"
+    ],
+    "TerraformServiceName": "mssql",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_sql_managedinstancesdatabases",
+    "Model": "MssqlManagedInstanceDatabases"
+  },
+  {
+    "ResourceName": "Microsoft.Sql/servers/databases",
+    "ResourceLabel": "Logical SQL server databases",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SQL%20Database.svg"
+      ]
+    },
+    "ServiceName": "Sql",
+    "ListDescriber": "DescribeBySubscription(describer.SqlDatabase)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_mssql_database",
+      "azurerm_sql_database"
+    ],
+    "TerraformServiceName": "mssql",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_sql_database",
+    "Model": "SqlDatabase"
+  },
+  {
+    "ResourceName": "Microsoft.Storage/storageAccounts/largeFileSharesState",
+    "ResourceLabel": "File Share",
+    "Tags": {
+      "category": [
+        "Storage"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/File%20Share.svg"
+      ]
+    },
+    "ServiceName": "Storage",
+    "ListDescriber": "DescribeBySubscription(describer.StorageFileShare)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_storage_share_file",
+      "azure_storage_share"
+    ],
+    "TerraformServiceName": "storage",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_storage_share_file",
+    "Model": "StorageFileShare"
+  },
+  {
+    "ResourceName": "Microsoft.DBforPostgreSQL/servers",
+    "ResourceLabel": "Azure Database for PostgreSQL servers",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Database%20for%20PostgreSQL.svg"
+      ]
+    },
+    "ServiceName": "DBforPostgreSQL",
+    "ListDescriber": "DescribeBySubscription(describer.PostgresqlServer)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_postgresql_server"
+    ],
+    "TerraformServiceName": "postgres",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_postgresql_server",
+    "Model": "PostgresqlServer"
+  },
+  {
+    "ResourceName": "Microsoft.DBforPostgreSQL/flexibleservers",
+    "ResourceLabel": "Azure Database for PostgreSQL flexible servers",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Database%20for%20PostgreSQL.svg"
+      ]
+    },
+    "ServiceName": "DBforPostgreSQL",
+    "ListDescriber": "DescribeBySubscription(describer.PostgresqlFlexibleservers)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_postgresql_flexible_server"
+    ],
+    "TerraformServiceName": "postgres",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_dbforpostgresql_flexibleservers",
+    "Model": "PostgresqlFlexibleServer"
+  },
+  {
+    "ResourceName": "Microsoft.AnalysisServices/servers",
+    "ResourceLabel": "Analysis Services Server",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Analysis%20Service.svg"
+      ]
+    },
+    "ServiceName": "AnalysisServices",
+    "ListDescriber": "DescribeBySubscription(describer.AnalysisService)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_analysis_services_server"
+    ],
+    "TerraformServiceName": "analysisservices",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_analysisservices_servers",
+    "Model": "AnalysisServiceServer"
+  },
+  {
+    "ResourceName": "Microsoft.Security/pricings",
+    "ResourceLabel": "Security Center Subscription Pricing",
+    "Tags": null,
+    "ServiceName": "Security",
+    "ListDescriber": "DescribeBySubscription(describer.SecurityCenterSubscriptionPricing)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_security_center_subscription_pricing"
+    ],
+    "TerraformServiceName": "securitycenter",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_security_center_subscription_pricing",
+    "Model": "SecurityCenterSubscriptionPricing"
+  },
+  {
+    "ResourceName": "Microsoft.Insights/guestDiagnosticSettings",
+    "ResourceLabel": "Diagnostic Settings",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Diagnostics%20Setting.svg"
+      ]
+    },
+    "ServiceName": "Insights",
+    "ListDescriber": "DescribeBySubscription(describer.DiagnosticSetting)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_diagnostic_setting",
+    "Model": "DiagnosticSetting"
+  },
+  {
+    "ResourceName": "Microsoft.Insights/autoscaleSettings",
+    "ResourceLabel": "Autoscale Settings",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Insights",
+    "ListDescriber": "DescribeBySubscription(describer.AutoscaleSetting)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_autoscale_setting",
+    "Model": "AutoscaleSetting"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/groups",
+    "ResourceLabel": "Azure AD Groups",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdGroup)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_group",
+    "Model": "AdGroup"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/groupMemberships",
+    "ResourceLabel": "Azure AD Groups",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdGroupMembership)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_group_membership",
+    "Model": "AdGroupMembership"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/devices",
+    "ResourceLabel": "Azure AD Devices",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdDevice)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_device",
+    "Model": "AdDevice"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/signInReports",
+    "ResourceLabel": "Azure AD Sign-in reports",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdSignInReport)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_sign_in_report",
+    "Model": "AdSignInReport"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/applications",
+    "ResourceLabel": "Azure AD Applications",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdApplication)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_application",
+    "Model": "AdApplication"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/appRegistrations",
+    "ResourceLabel": "Azure AD App Registration",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdAppRegistration)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_app_registration",
+    "Model": "AdAppRegistration"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/enterpriseApplication",
+    "ResourceLabel": "Azure AD Enterprise Application",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdEnterpriseApplication)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_enterprise_application",
+    "Model": "AdEnterpriseApplication"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/managedIdentity",
+    "ResourceLabel": "Azure AD Managed Identity",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdManagedIdentity)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_managed_identity",
+    "Model": "AdManagedIdentity"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/microsoftApplication",
+    "ResourceLabel": "Azure AD Microsoft Application",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20Group.svg"
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdMicrosoftApplication)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_microsoft_application",
+    "Model": "AdMicrosoftApplication"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/domains",
+    "ResourceLabel": "Azure AD Domains",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdDomain)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_domain",
+    "Model": "AdDomain"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/tenant",
+    "ResourceLabel": "Azure AD Tenant",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdTenant)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_tenant",
+    "Model": "AdTenant"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/identityproviders",
+    "ResourceLabel": "Azure AD Identity Providers",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdIdentityProvider)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_identity_provider",
+    "Model": "AdIdentityProvider"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/securitydefaultspolicy",
+    "ResourceLabel": "Azure AD Security Defaults Policy",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdSecurityDefaultsPolicy)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_security_defaults_policy",
+    "Model": "AdSecurityDefaultsPolicy"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/authorizationpolicy",
+    "ResourceLabel": "Azure AD Authorization Policy",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdAuthorizationPolicy)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_authorization_policy",
+    "Model": "AdAuthorizationPolicy"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/conditionalaccesspolicy",
+    "ResourceLabel": "Azure AD Conditional Access Policy",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdConditionalAccessPolicy)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_conditional_access_policy",
+    "Model": "AdConditionalAccessPolicy"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/adminconsentrequestpolicy",
+    "ResourceLabel": "Azure AD Admin Consent Request Policy",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdAdminConsentRequestPolicy)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_admin_consent_request_policy",
+    "Model": "AdAdminConsentRequestPolicy"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/userregistrationdetails",
+    "ResourceLabel": "Azure AD User registration details",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdUserRegistrationDetails)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_user_registration_details",
+    "Model": "AdUserRegistrationDetails"
+  },
+  {
+    "ResourceName": "Microsoft.Web/hostingEnvironments",
+    "ResourceLabel": "App Service Environments",
+    "Tags": {
+      "category": [
+        "PaaS"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Application%20Service%20Environment.svg"
+      ]
+    },
+    "ServiceName": "Web",
+    "ListDescriber": "DescribeBySubscription(describer.AppServiceEnvironment)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_app_service_environment"
+    ],
+    "TerraformServiceName": "web",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_app_service_environment",
+    "Model": "AppServiceEnvironment"
+  },
+  {
+    "ResourceName": "Microsoft.Cache/redis",
+    "ResourceLabel": "Azure Cache for Redis instance",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Cache%20for%20Redis.svg"
+      ]
+    },
+    "ServiceName": "Cache",
+    "ListDescriber": "DescribeBySubscription(describer.RedisCache)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_redis_cache"
+    ],
+    "TerraformServiceName": "redis",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_redis_cache",
+    "Model": "RedisCache"
+  },
+  {
+    "ResourceName": "Microsoft.ContainerRegistry/registries",
+    "ResourceLabel": "Container Registry",
+    "Tags": {
+      "category": [
+        "Container"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Container%20Registry.svg"
+      ]
+    },
+    "ServiceName": "ContainerRegistry",
+    "ListDescriber": "DescribeBySubscription(describer.ContainerRegistry)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_container_registry"
+    ],
+    "TerraformServiceName": "containers",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_container_registry",
+    "Model": "ContainerRegistry"
+  },
+  {
+    "ResourceName": "Microsoft.DataFactory/factories/pipelines",
+    "ResourceLabel": "Data Factory Pipeline",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Data%20Factory.svg"
+      ]
+    },
+    "ServiceName": "DataFactory",
+    "ListDescriber": "DescribeBySubscription(describer.DataFactoryPipeline)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_data_factory_pipeline"
+    ],
+    "TerraformServiceName": "datafactory",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_data_factory_pipeline",
+    "Model": "DataFactoryPipeline"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/resourceSku",
+    "ResourceLabel": "Resource SKU",
+    "Tags": null,
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeResourceSKU)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_resource_sku",
+    "Model": "ComputeResourceSKU"
+  },
+  {
+    "ResourceName": "Microsoft.Network/expressRouteCircuits",
+    "ResourceLabel": "Express Route Circuits",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/ExpressRoute%20Circuit.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.ExpressRouteCircuit)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_express_route_circuit"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_express_route_circuit",
+    "Model": "ExpressRouteCircuit"
+  },
+  {
+    "ResourceName": "Microsoft.Management/managementgroups",
+    "ResourceLabel": "Management Groups",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Management%20Group.svg"
+      ]
+    },
+    "ServiceName": "Management",
+    "ListDescriber": "DescribeBySubscription(describer.ManagementGroup)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_management_group"
+    ],
+    "TerraformServiceName": "managementgroup",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_management_group",
+    "Model": "ManagementGroup"
+  },
+  {
+    "ResourceName": "microsoft.SqlVirtualMachine/SqlVirtualMachines",
+    "ResourceLabel": "SQL Virtual Machines",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SQL%20Server.svg"
+      ]
+    },
+    "ServiceName": "Sql",
+    "ListDescriber": "DescribeBySubscription(describer.SqlServerVirtualMachine)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_mssql_virtual_machine"
+    ],
+    "TerraformServiceName": "mssql",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_mssql_virtual_machine",
+    "Model": "SqlServerVirtualMachine"
+  },
+  {
+    "ResourceName": "Microsoft.SqlVirtualMachine/SqlVirtualMachineGroups",
+    "ResourceLabel": "SQL Virtual Machine Groups",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SQL%20Server.svg"
+      ]
+    },
+    "ServiceName": "Sql",
+    "ListDescriber": "DescribeBySubscription(describer.SqlServerVirtualMachineGroups)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_sql_virtualmachinegroups",
+    "Model": "SqlServerVirtualMachineGroup"
+  },
+  {
+    "ResourceName": "Microsoft.Storage/storageAccounts/tableServices",
+    "ResourceLabel": "Storage Account Table Service",
+    "Tags": {
+      "category": [
+        "Storage"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Storage%20Account%20Table.svg"
+      ]
+    },
+    "ServiceName": "Storage",
+    "ListDescriber": "DescribeBySubscription(describer.StorageTableService)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_storage_table_service",
+    "Model": "StorageTableService"
+  },
+  {
+    "ResourceName": "Microsoft.Synapse/workspaces",
+    "ResourceLabel": "Synapse Workspace",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Synapse%20Analytics.svg"
+      ]
+    },
+    "ServiceName": "Synapse",
+    "ListDescriber": "DescribeBySubscription(describer.SynapseWorkspace)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_synapse_workspace"
+    ],
+    "TerraformServiceName": "synapse",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_synapse_workspace",
+    "Model": "SynapseWorkspace"
+  },
+  {
+    "ResourceName": "Microsoft.Synapse/workspaces/bigdatapools",
+    "ResourceLabel": "Synapse Workspace Big Data Pools",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Synapse%20Analytics.svg"
+      ]
+    },
+    "ServiceName": "Synapse",
+    "ListDescriber": "DescribeBySubscription(describer.SynapseWorkspaceBigdataPools)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_synapse_workspacesbigdatapools",
+    "Model": "SynapseWorkspaceBigdatapools"
+  },
+  {
+    "ResourceName": "Microsoft.Synapse/workspaces/sqlpools",
+    "ResourceLabel": "Synapse Workspace SQL Pools",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Synapse%20Analytics.svg"
+      ]
+    },
+    "ServiceName": "Synapse",
+    "ListDescriber": "DescribeBySubscription(describer.SynapseWorkspaceSqlpools)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_synapse_sql_pool"
+    ],
+    "TerraformServiceName": "",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_synapse_workspacessqlpools",
+    "Model": "SynapseWorkspaceSqlpools"
+  },
+  {
+    "ResourceName": "Microsoft.StreamAnalytics/streamingJobs",
+    "ResourceLabel": "Stream Analytics Job",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Stream%20Analytics%20job.svg"
+      ]
+    },
+    "ServiceName": "StreamAnalytics",
+    "ListDescriber": "DescribeBySubscription(describer.StreamAnalyticsJob)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_stream_analytics_job"
+    ],
+    "TerraformServiceName": "streamanalytics",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_stream_analytics_job",
+    "Model": "StreamAnalyticsJob"
+  },
+  {
+    "ResourceName": "Microsoft.CostManagement/CostBySubscription",
+    "ResourceLabel": "Cost Management Cost By Subscription",
+    "Tags": null,
+    "ServiceName": "CostManagement",
+    "ListDescriber": "DescribeBySubscription(describer.DailyCostBySubscription)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_costmanagement_costbysubscription",
+    "Model": "CostManagementCostBySubscription"
+  },
+  {
+    "ResourceName": "Microsoft.ContainerService/managedClusters",
+    "ResourceLabel": "Managed Cluster",
+    "Tags": {
+      "category": [
+        "Container"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/AKS%20Hybrid%20Cluster.svg"
+      ]
+    },
+    "ServiceName": "ContainerService",
+    "ListDescriber": "DescribeBySubscription(describer.KubernetesCluster)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_kubernetes_cluster"
+    ],
+    "TerraformServiceName": "containers",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_kubernetes_cluster",
+    "Model": "KubernetesCluster"
+  },
+  {
+    "ResourceName": "Microsoft.ContainerService/serviceVersions",
+    "ResourceLabel": "Kubernetes Service Version",
+    "Tags": {
+      "category": [
+        "Container"
+      ]
+    },
+    "ServiceName": "ContainerService",
+    "ListDescriber": "DescribeBySubscription(describer.KubernetesServiceVersion)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "containers",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_kubernetes_service_version",
+    "Model": "KubernetesServiceVersion"
+  },
+  {
+    "ResourceName": "Microsoft.DataFactory/factories",
+    "ResourceLabel": "Azure Data Factory",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Data%20Factory.svg"
+      ]
+    },
+    "ServiceName": "DataFactory",
+    "ListDescriber": "DescribeBySubscription(describer.DataFactory)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_data_factory"
+    ],
+    "TerraformServiceName": "datafactory",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_data_factory",
+    "Model": "DataFactory"
+  },
+  {
+    "ResourceName": "Microsoft.Sql/servers",
+    "ResourceLabel": "SQL Servers",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SQL%20Server.svg"
+      ]
+    },
+    "ServiceName": "Sql",
+    "ListDescriber": "DescribeBySubscription(describer.SqlServer)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_mssql_server"
+    ],
+    "TerraformServiceName": "mssql",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_sql_server",
+    "Model": "SqlServer"
+  },
+  {
+    "ResourceName": "Microsoft.Sql/servers/jobagents",
+    "ResourceLabel": "Logical Job Agents",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SQL%20Elastic%20Job%20Agent.svg"
+      ]
+    },
+    "ServiceName": "Sql",
+    "ListDescriber": "DescribeBySubscription(describer.SqlServerJobAgents)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_mssql_job_agent"
+    ],
+    "TerraformServiceName": "mssql",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_sql_serversjobagents",
+    "Model": "SqlServerJobAgent"
+  },
+  {
+    "ResourceName": "Microsoft.Security/autoProvisioningSettings",
+    "ResourceLabel": "Auto Provisioning Settings",
+    "Tags": null,
+    "ServiceName": "Security",
+    "ListDescriber": "DescribeBySubscription(describer.SecurityCenterAutoProvisioning)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_security_center_auto_provisioning"
+    ],
+    "TerraformServiceName": "securitycenter",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_security_center_auto_provisioning",
+    "Model": "SecurityCenterAutoProvisioning"
+  },
+  {
+    "ResourceName": "Microsoft.Insights/logProfiles",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Insights",
+    "ListDescriber": "DescribeBySubscription(describer.LogProfile)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_log_profile",
+    "Model": "LogProfile"
+  },
+  {
+    "ResourceName": "Microsoft.DataBoxEdge/dataBoxEdgeDevices",
+    "ResourceLabel": "Data Box Edge Devices",
+    "Tags": {
+      "category": [
+        "IoT \u0026 Devices"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Data%20Box%20Edge.svg"
+      ]
+    },
+    "ServiceName": "DataBoxEdge",
+    "ListDescriber": "DescribeBySubscription(describer.DataboxEdgeDevice)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_databox_edge_device"
+    ],
+    "TerraformServiceName": "databoxedge",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_databox_edge_device",
+    "Model": "DataboxEdgeDevice"
+  },
+  {
+    "ResourceName": "Microsoft.Network/loadBalancers",
+    "ResourceLabel": "Load Balancers",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Load%20Balancer.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.LoadBalancer)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_lb"
+    ],
+    "TerraformServiceName": "loadbalancer",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_lb",
+    "Model": "LoadBalancer"
+  },
+  {
+    "ResourceName": "Microsoft.Network/azureFirewalls",
+    "ResourceLabel": "Azure Firewalls",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Firewall.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.NetworkAzureFirewall)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_firewall"
+    ],
+    "TerraformServiceName": "firewall",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_firewall",
+    "Model": "NetworkAzureFirewall"
+  },
+  {
+    "ResourceName": "Microsoft.Management/locks",
+    "ResourceLabel": "Management Locks",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Resource%20Lock.svg"
+      ]
+    },
+    "ServiceName": "Management",
+    "ListDescriber": "DescribeBySubscription(describer.ManagementLock)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_management_lock",
+    "Model": "ManagementLock"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/virtualMachineScaleSets/networkInterfaces",
+    "ResourceLabel": "VM Scale Set Network Interfaces",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Network%20Interface.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeVirtualMachineScaleSetNetworkInterface)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_virtual_machine_scale_set_network_interface",
+    "Model": "ComputeVirtualMachineScaleSetNetworkInterface"
+  },
+  {
+    "ResourceName": "Microsoft.Network/frontDoors",
+    "ResourceLabel": "Frontdoors",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Front%20Door.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.FrontDoor)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_frontdoor"
+    ],
+    "TerraformServiceName": "",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_frontdoor",
+    "Model": "Frontdoor"
+  },
+  {
+    "ResourceName": "Microsoft.Authorization/policyAssignments",
+    "ResourceLabel": "Policy Assignments",
+    "Tags": {
+      "category": [
+        "Identify \u0026 Access"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Policy%20Assignment.svg"
+      ]
+    },
+    "ServiceName": "Authorization",
+    "ListDescriber": "DescribeBySubscription(describer.PolicyAssignment)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_resource_policy_assignment"
+    ],
+    "TerraformServiceName": "policy",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_policy_assignment",
+    "Model": "PolicyAssignment"
+  },
+  {
+    "ResourceName": "Microsoft.Authorization/userEffectiveAccess",
+    "ResourceLabel": "User Effective Access",
+    "Tags": {
+      "category": [
+        "Identify \u0026 Access"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Policy%20Assignment.svg"
+      ]
+    },
+    "ServiceName": "Authorization",
+    "ListDescriber": "DescribeBySubscription(describer.UserEffectiveAccess)",
+    "GetDescriber": "",
+    "TerraformName": [],
+    "TerraformServiceName": "policy",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_user_effective_access",
+    "Model": "UserEffectiveAccess"
+  },
+  {
+    "ResourceName": "Microsoft.Search/searchServices",
+    "ResourceLabel": "Search Services",
+    "Tags": {
+      "category": [
+        "AI + ML"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Search%20Service.svg"
+      ]
+    },
+    "ServiceName": "Search",
+    "ListDescriber": "DescribeBySubscription(describer.SearchService)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_search_service"
+    ],
+    "TerraformServiceName": "search",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_search_service",
+    "Model": "SearchService"
+  },
+  {
+    "ResourceName": "Microsoft.Security/settings",
+    "ResourceLabel": "Security Center Setting",
+    "Tags": null,
+    "ServiceName": "Security",
+    "ListDescriber": "DescribeBySubscription(describer.SecurityCenterSetting)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_security_center_setting"
+    ],
+    "TerraformServiceName": "securitycenter",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_security_center_setting",
+    "Model": "SecurityCenterSetting"
+  },
+  {
+    "ResourceName": "Microsoft.RecoveryServices/vaults",
+    "ResourceLabel": "Recovery Services Vault",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Recovery%20Services%20Vault.svg"
+      ]
+    },
+    "ServiceName": "RecoveryServices",
+    "ListDescriber": "DescribeBySubscription(describer.RecoveryServicesVault)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_recovery_services_vault"
+    ],
+    "TerraformServiceName": "recoveryservices",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_recovery_services_vault",
+    "Model": "RecoveryServicesVault"
+  },
+  {
+    "ResourceName": "Microsoft.RecoveryServices/vaults/backupJobs",
+    "ResourceLabel": "Recovery Services Backup Jobs",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "RecoveryServices",
+    "ListDescriber": "DescribeBySubscription(describer.RecoveryServicesBackupJobs)",
+    "GetDescriber": "",
+    "TerraformName": [
+    ],
+    "TerraformServiceName": "recoveryservices",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_recovery_services_backup_job",
+    "Model": "RecoveryServicesBackupJob"
+  },
+  {
+    "ResourceName": "Microsoft.RecoveryServices/vaults/backupPolicies",
+    "ResourceLabel": "Recovery Services Backup Policies",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "RecoveryServices",
+    "ListDescriber": "DescribeBySubscription(describer.RecoveryServicesBackupPolicies)",
+    "GetDescriber": "",
+    "TerraformName": [
+    ],
+    "TerraformServiceName": "recoveryservices",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_recovery_services_backup_policy",
+    "Model": "RecoveryServicesBackupPolicy"
+  },
+  {
+    "ResourceName": "Microsoft.RecoveryServices/vaults/backupItems",
+    "ResourceLabel": "Recovery Services Backup Items",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "RecoveryServices",
+    "ListDescriber": "DescribeBySubscription(describer.RecoveryServicesBackupItem)",
+    "GetDescriber": "",
+    "TerraformName": [
+    ],
+    "TerraformServiceName": "recoveryservices",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_recovery_services_backup_item",
+    "Model": "RecoveryServicesBackupItem"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/diskEncryptionSets",
+    "ResourceLabel": "Disk Encryption Sets",
+    "Tags": {
+      "category": [
+        "Compute"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Disk%20Encryption%20Set.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeDiskEncryptionSet)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_disk_encryption_set"
+    ],
+    "TerraformServiceName": "compute",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_disk_encryption_set",
+    "Model": "ComputeDiskEncryptionSet"
+  },
+  {
+    "ResourceName": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+    "ResourceLabel": "Cosmos DB SQL Databases",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Cosmos%20DB.svg"
+      ]
+    },
+    "ServiceName": "DocumentDB",
+    "ListDescriber": "DescribeBySubscription(describer.DocumentDBSQLDatabase)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_cosmosdb_sql_database"
+    ],
+    "TerraformServiceName": "cosmos",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_cosmosdb_sql_database",
+    "Model": "CosmosdbSqlDatabase"
+  },
+  {
+    "ResourceName": "Microsoft.EventGrid/topics",
+    "ResourceLabel": "EventGrid Topics",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Event%20Grid%20Topic.svg"
+      ]
+    },
+    "ServiceName": "EventGrid",
+    "ListDescriber": "DescribeBySubscription(describer.EventGridTopic)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_eventgrid_topic"
+    ],
+    "TerraformServiceName": "eventgrid",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_eventgrid_topic",
+    "Model": "EventGridTopic"
+  },
+  {
+    "ResourceName": "Microsoft.EventHub/namespaces",
+    "ResourceLabel": "Event Hub Namespaces",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Event%20Hub.svg"
+      ]
+    },
+    "ServiceName": "EventHub",
+    "ListDescriber": "DescribeBySubscription(describer.EventhubNamespace)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_eventhub_namespace"
+    ],
+    "TerraformServiceName": "eventhub",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_eventhub_namespace",
+    "Model": "EventhubNamespace"
+  },
+  {
+    "ResourceName": "Microsoft.EventHub/namespaces/eventHubs",
+    "ResourceLabel": "Event Hubs",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Event%20Hub.svg"
+      ]
+    },
+    "ServiceName": "EventHub",
+    "ListDescriber": "DescribeBySubscription(describer.EventhubNamespaceEventhub)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_eventhub"
+    ],
+    "TerraformServiceName": "eventhub",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_eventhub_namespaceeventhubs",
+    "Model": "EventhubNamespaceEventhub"
+  },
+  {
+    "ResourceName": "Microsoft.MachineLearningServices/workspaces",
+    "ResourceLabel": "Machine Learning Workspace",
+    "Tags": {
+      "category": [
+        "AI + ML"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Machine%20Learning%20Studio%20Workspace%20(classic).svg"
+      ]
+    },
+    "ServiceName": "MachineLearningServices",
+    "ListDescriber": "DescribeBySubscription(describer.MachineLearningWorkspace)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_machine_learning_workspace"
+    ],
+    "TerraformServiceName": "machinelearning",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_machine_learning_workspace",
+    "Model": "MachineLearningWorkspace"
+  },
+  {
+    "ResourceName": "Microsoft.Dashboard/grafana",
+    "ResourceLabel": "Azure Managed Grafana",
+    "Tags": {
+      "category": [
+        "Managed Services"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Managed%20Grafana.svg"
+      ]
+    },
+    "ServiceName": "Dashboard",
+    "ListDescriber": "DescribeBySubscription(describer.DashboardGrafana)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_dashboard_grafana",
+    "Model": "DashboardGrafana"
+  },
+  {
+    "ResourceName": "Microsoft.DesktopVirtualization/workspaces",
+    "ResourceLabel": "Virtual desktop workspace",
+    "Tags": {
+      "category": [
+        "End User"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Windows%20Virtual%20Desktop.svg"
+      ]
+    },
+    "ServiceName": "DesktopVirtualization",
+    "ListDescriber": "DescribeBySubscription(describer.DesktopVirtualizationWorkspaces)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_desktopvirtualization_workspace",
+    "Model": "DesktopVirtualizationWorkspace"
+  },
+  {
+    "ResourceName": "Microsoft.Network/trafficManagerProfiles",
+    "ResourceLabel": "Traffic Manager profile",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Traffic%20Manager%20profile.svg"
+      ]
+    },
+    "ServiceName": "TrafficManager",
+    "ListDescriber": "DescribeBySubscription(describer.TrafficManagerProfile)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_trafficmanager_profile",
+    "Model": "TrafficManagerProfile"
+  },
+  {
+    "ResourceName": "Microsoft.Network/dnsResolvers",
+    "ResourceLabel": "DNS private resolver",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/DNS%20Private%20Resolver.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.DNSResolvers)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_network_dnsresolver",
+    "Model": "DNSResolver"
+  },
+  {
+    "ResourceName": "Microsoft.CostManagement/CostByResourceType",
+    "ResourceLabel": "Cost Management Cost By Resource Type",
+    "Tags": null,
+    "ServiceName": "CostManagement",
+    "ListDescriber": "DescribeBySubscription(describer.DailyCostByResourceType)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_costmanagement_costbyresourcetype",
+    "Model": "CostManagementCostByResourceType"
+  },
+  {
+    "ResourceName": "Microsoft.Network/networkInterfaces",
+    "ResourceLabel": "Network interfances",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Network%20Interface.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.NetworkInterface)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_network_interface"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_network_interface",
+    "Model": "NetworkInterface"
+  },
+  {
+    "ResourceName": "Microsoft.Network/publicIPAddresses",
+    "ResourceLabel": "Public IP Addresses",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Public%20IP%20Address.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.PublicIPAddress)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_public_ip"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_public_ip",
+    "Model": "PublicIPAddress"
+  },
+  {
+    "ResourceName": "Microsoft.HealthcareApis/services",
+    "ResourceLabel": "Healthcare Services",
+    "Tags": null,
+    "ServiceName": "HealthcareApis",
+    "ListDescriber": "DescribeBySubscription(describer.HealthcareService)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_healthcare_service"
+    ],
+    "TerraformServiceName": "healthcare",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_healthcare_service",
+    "Model": "HealthcareService"
+  },
+  {
+    "ResourceName": "Microsoft.ServiceBus/namespaces",
+    "ResourceLabel": "Service Bus Namepsaces",
+    "Tags": {
+      "category": [
+        "Intergration"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Service%20Bus.svg"
+      ]
+    },
+    "ServiceName": "ServiceBus",
+    "ListDescriber": "DescribeBySubscription(describer.ServicebusNamespace)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_servicebus_namespace"
+    ],
+    "TerraformServiceName": "servicebus",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_servicebus_namespace",
+    "Model": "ServicebusNamespace"
+  },
+  {
+    "ResourceName": "Microsoft.Web/sites",
+    "ResourceLabel": "App Services",
+    "Tags": {
+      "category": [
+        "PaaS"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Application%20Service.svg"
+      ]
+    },
+    "ServiceName": "Web",
+    "ListDescriber": "DescribeBySubscription(describer.AppServiceFunctionApp)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_app_service",
+      "azurerm_function_app"
+    ],
+    "TerraformServiceName": "web",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_app_service_function_app",
+    "Model": "AppServiceFunctionApp"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/availabilitySets",
+    "ResourceLabel": "Availability Sets",
+    "Tags": {
+      "category": [
+        "Compute"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Virtual%20Machine%20Availability%20Set.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeAvailabilitySet)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_availability_set"
+    ],
+    "TerraformServiceName": "compute",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_compute_availability_set",
+    "Model": "ComputeAvailabilitySet"
+  },
+  {
+    "ResourceName": "Microsoft.Network/virtualNetworks",
+    "ResourceLabel": "Virtual networks",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Virtual%20Network.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.VirtualNetwork)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_virtual_network"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_virtual_network",
+    "Model": "VirtualNetwork"
+  },
+  {
+    "ResourceName": "Microsoft.Security/securityContacts",
+    "ResourceLabel": "Security Center Contacts",
+    "Tags": null,
+    "ServiceName": "Security",
+    "ListDescriber": "DescribeBySubscription(describer.SecurityCenterContact)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_security_center_contact"
+    ],
+    "TerraformServiceName": "securitycenter",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_security_center_contact",
+    "Model": "SecurityCenterContact"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/diskswriteops",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeDiskWriteOps)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_disk_metric_write_ops",
+    "Model": "ComputeDiskWriteOps"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/diskswriteopshourly",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeDiskWriteOpsHourly)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_disk_metric_write_ops_hourly",
+    "Model": "ComputeDiskWriteOpsHourly"
+  },
+  {
+    "ResourceName": "Microsoft.EventGrid/domains",
+    "ResourceLabel": "EventGrid Domains",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Event%20Grid%20Domain.svg"
+      ]
+    },
+    "ServiceName": "EventGrid",
+    "ListDescriber": "DescribeBySubscription(describer.EventGridDomain)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_eventgrid_domain"
+    ],
+    "TerraformServiceName": "eventgrid",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_eventgrid_domain",
+    "Model": "EventGridDomain"
+  },
+  {
+    "ResourceName": "Microsoft.KeyVault/deletedVaults",
+    "ResourceLabel": "Key Vault Deleted Vaults",
+    "Tags": {
+      "category": [
+        "Security"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Key%20Vault.svg"
+      ]
+    },
+    "ServiceName": "KeyVault",
+    "ListDescriber": "DescribeBySubscription(describer.DeletedVault)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_key_vault_deleted_vault",
+    "Model": "KeyVaultDeletedVault"
+  },
+  {
+    "ResourceName": "Microsoft.Storage/storageAccounts/tableServices/tables",
+    "ResourceLabel": "Storage Tables",
+    "Tags": {
+      "category": [
+        "Storage"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Storage%20Account%20Table.svg"
+      ]
+    },
+    "ServiceName": "Storage",
+    "ListDescriber": "DescribeBySubscription(describer.StorageTable)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_storage_table"
+    ],
+    "TerraformServiceName": "storage",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_storage_table",
+    "Model": "StorageTable"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/users",
+    "ResourceLabel": "Azure AD Users",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20AD%20User.svg"
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdUsers)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_user",
+    "Model": "AdUsers"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/directoryroles",
+    "ResourceLabel": "Azure AD Directory Roles",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdDirectoryRole)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_directory_role",
+    "Model": "AdDirectoryRole"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/directorysettings",
+    "ResourceLabel": "Azure AD Directory Settings",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdDirectorySetting)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_directory_setting",
+    "Model": "AdDirectorySetting"
+  },
+  {
+    "ResourceName": "Microsoft.Entra/directoryauditreport",
+    "ResourceLabel": "Azure AD Directory Audit Report",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeADByTenantID(describer.AdDirectoryAuditReport)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azuread_directory_audit_report",
+    "Model": "AdDirectoryAuditReport"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/snapshots",
+    "ResourceLabel": "Snapshot",
+    "Tags": {
+      "category": [
+        "Storage"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Managed%20Disk%20Snapshot.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeSnapshots)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_snapshot"
+    ],
+    "TerraformServiceName": "compute",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_compute_snapshot",
+    "Model": "ComputeSnapshots"
+  },
+  {
+    "ResourceName": "Microsoft.Kusto/clusters",
+    "ResourceLabel": "Azure Data Explorer cluster",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_Grouped/Data/Azure%20Data%20Explorer%20Cluster.svg"
+      ]
+    },
+    "ServiceName": "Kusto",
+    "ListDescriber": "DescribeBySubscription(describer.KustoCluster)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_kusto_cluster"
+    ],
+    "TerraformServiceName": "kusto",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_kusto_cluster",
+    "Model": "KustoCluster"
+  },
+  {
+    "ResourceName": "Microsoft.StorageSync/storageSyncServices",
+    "ResourceLabel": "Storage Sync Service",
+    "Tags": {
+      "category": [
+        "Storage"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Storage%20Sync%20Service.svg"
+      ]
+    },
+    "ServiceName": "StorageSync",
+    "ListDescriber": "DescribeBySubscription(describer.StorageSync)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_storage_sync"
+    ],
+    "TerraformServiceName": "storage",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_storage_sync",
+    "Model": "StorageSync"
+  },
+  {
+    "ResourceName": "Microsoft.Security/locations/jitNetworkAccessPolicies",
+    "ResourceLabel": "Security Center JIT Network Access Policy",
+    "Tags": null,
+    "ServiceName": "Security",
+    "ListDescriber": "DescribeBySubscription(describer.SecurityCenterJitNetworkAccessPolicy)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_security_center_jit_network_access_policy",
+    "Model": "SecurityCenterJitNetworkAccessPolicy"
+  },
+  {
+    "ResourceName": "Microsoft.Network/virtualNetworks/subnets",
+    "ResourceLabel": "Subnets",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Virtual%20Subnet.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.Subnet)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_subnet"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_subnet",
+    "Model": "Subnet"
+  },
+  {
+    "ResourceName": "Microsoft.Network/loadBalancers/backendAddressPools",
+    "ResourceLabel": "Load Balancer Backend Pools",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Load%20Balancer%20Backend%20pool.svg"
+      ]
+    },
+    "ServiceName": "LoadBalancer",
+    "ListDescriber": "DescribeBySubscription(describer.LoadBalancerBackendAddressPool)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_lb_backend_address_pool"
+    ],
+    "TerraformServiceName": "loadbalancer",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_lb_backend_address_pool",
+    "Model": "LoadBalancerBackendAddressPool"
+  },
+  {
+    "ResourceName": "Microsoft.Network/loadBalancers/loadBalancingRules",
+    "ResourceLabel": "Load Balancer Rules",
+    "Tags": {
+      "category": [
+        "Networking"
+      ]
+    },
+    "ServiceName": "LoadBalancer",
+    "ListDescriber": "DescribeBySubscription(describer.LoadBalancerRule)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_lb_rule"
+    ],
+    "TerraformServiceName": "loadbalancer",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_lb_rule",
+    "Model": "LoadBalancerRule"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/virtualMachineCpuUtilizationDaily",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeVirtualMachineCpuUtilizationDaily)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_virtual_machine_metric_cpu_utilization_daily",
+    "Model": "ComputeVirtualMachineCpuUtilizationDaily"
+  },
+  {
+    "ResourceName": "Microsoft.DataLakeStore/accounts",
+    "ResourceLabel": "Data Lake Store account",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Data%20Lake.svg"
+      ]
+    },
+    "ServiceName": "DataLakeStore",
+    "ListDescriber": "DescribeBySubscription(describer.DataLakeStore)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_data_lake_store",
+    "Model": "DataLakeStore"
+  },
+  {
+    "ResourceName": "Microsoft.StorageCache/caches",
+    "ResourceLabel": "HPC Cache",
+    "Tags": {
+      "category": [
+        "Storage"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_Grouped/Data/HPC%20Cache.svg"
+      ]
+    },
+    "ServiceName": "StorageCache",
+    "ListDescriber": "DescribeBySubscription(describer.HpcCache)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_hpc_cache"
+    ],
+    "TerraformServiceName": "hpccache",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_hpc_cache",
+    "Model": "HpcCache"
+  },
+  {
+    "ResourceName": "Microsoft.Batch/batchAccounts",
+    "ResourceLabel": "Batch Accounts",
+    "Tags": {
+      "category": [
+        "Compute"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Batch%20Account.svg"
+      ]
+    },
+    "ServiceName": "Batch",
+    "ListDescriber": "DescribeBySubscription(describer.BatchAccount)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_batch_account"
+    ],
+    "TerraformServiceName": "batch",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_batch_account",
+    "Model": "BatchAccount"
+  },
+  {
+    "ResourceName": "Microsoft.Network/networkSecurityGroups",
+    "ResourceLabel": "Network Security Groups",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Network%20Security%20Group.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.NetworkSecurityGroup)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_network_security_group"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_network_security_group",
+    "Model": "NetworkSecurityGroup"
+  },
+  {
+    "ResourceName": "Microsoft.Authorization/roleDefinitions",
+    "ResourceLabel": "Role Definitions",
+    "Tags": {
+      "category": [
+        "Identify \u0026 Access"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Role%20(Custom).svg"
+      ]
+    },
+    "ServiceName": "Authorization",
+    "ListDescriber": "DescribeBySubscription(describer.RoleDefinition)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_role_definition"
+    ],
+    "TerraformServiceName": "authorization",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_role_definition",
+    "Model": "RoleDefinition"
+  },
+  {
+    "ResourceName": "Microsoft.Network/applicationSecurityGroups",
+    "ResourceLabel": "Application Security Groups",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Application%20Security%20Group.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.NetworkApplicationSecurityGroups)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_application_security_group"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_application_security_group",
+    "Model": "NetworkApplicationSecurityGroups"
+  },
+  {
+    "ResourceName": "Microsoft.Authorization/roleAssignment",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Authorization",
+    "ListDescriber": "DescribeBySubscription(describer.RoleAssignment)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_role_assignment",
+    "Model": "RoleAssignment"
+  },
+  {
+    "ResourceName": "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases",
+    "ResourceLabel": "Cosmos DB Mongo Databases",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Cosmos%20DB.svg"
+      ]
+    },
+    "ServiceName": "DocumentDB",
+    "ListDescriber": "DescribeBySubscription(describer.DocumentDBMongoDatabase)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_cosmosdb_mongo_database"
+    ],
+    "TerraformServiceName": "cosmos",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_cosmosdb_mongo_database",
+    "Model": "CosmosdbMongoDatabase"
+  },
+  {
+    "ResourceName": "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections",
+    "ResourceLabel": "Cosmos DB Mongo Collections",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Cosmos%20DB.svg"
+      ]
+    },
+    "ServiceName": "DocumentDB",
+    "ListDescriber": "DescribeBySubscription(describer.DocumentDBMongoCollection)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_cosmosdb_mongo_collection"
+    ],
+    "TerraformServiceName": "cosmos",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_cosmosdb_mongo_collection",
+    "Model": "CosmosdbMongoCollection"
+  },
+  {
+    "ResourceName": "Microsoft.Network/networkWatchers/flowLogs",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.NetworkWatcherFlowLog)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_network_watcher_flow_log"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_network_watcher_flow_log",
+    "Model": "NetworkWatcherFlowLog"
+  },
+  {
+    "ResourceName": "microsoft.Sql/servers/elasticpools",
+    "ResourceLabel": "Logical Elastic Pools",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SQL%20Elastic%20Pool.svg"
+      ]
+    },
+    "ServiceName": "Sql",
+    "ListDescriber": "DescribeBySubscription(describer.SqlServerElasticPool)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_mssql_elasticpool"
+    ],
+    "TerraformServiceName": "mssql",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_mssql_elasticpool",
+    "Model": "SqlServerElasticPool"
+  },
+  {
+    "ResourceName": "Microsoft.Security/subAssessments",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Security",
+    "ListDescriber": "DescribeBySubscription(describer.SecurityCenterSubAssessment)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_security_center_sub_assessment",
+    "Model": "SecurityCenterSubAssessment"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/disks",
+    "ResourceLabel": "Disks",
+    "Tags": {
+      "category": [
+        "Storage"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeDisk)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_managed_disk"
+    ],
+    "TerraformServiceName": "compute",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_compute_disk",
+    "Model": "ComputeDisk"
+  },
+  {
+    "ResourceName": "Microsoft.Devices/ProvisioningServices",
+    "ResourceLabel": "IoT Hub Device Provisioning Service (DPS)",
+    "Tags": {
+      "category": [
+        "IoT \u0026 Devices"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/IoT%20Hub.svg"
+      ]
+    },
+    "ServiceName": "Devices",
+    "ListDescriber": "DescribeBySubscription(describer.IOTHubDps)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_iothub_dps"
+    ],
+    "TerraformServiceName": "iothub",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_iothub_dps",
+    "Model": "IOTHubDps"
+  },
+  {
+    "ResourceName": "Microsoft.HDInsight/clusters",
+    "ResourceLabel": "HD Insight Clusters",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/HDInsight%20Cluster.svg"
+      ]
+    },
+    "ServiceName": "HDInsight",
+    "ListDescriber": "DescribeBySubscription(describer.HdInsightCluster)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_hdinsight_hadoop_cluster",
+      "azurerm_hdinsight_hbase_cluster",
+      "azurerm_hdinsight_interactive_query_cluster",
+      "azurerm_hdinsight_kafka_cluster",
+      "azurerm_hdinsight_spark_cluster"
+    ],
+    "TerraformServiceName": "hdinsight",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_hdinsight_cluster",
+    "Model": "HdinsightCluster"
+  },
+  {
+    "ResourceName": "Microsoft.ServiceFabric/clusters",
+    "ResourceLabel": "Service Fabric Clusters",
+    "Tags": {
+      "category": [
+        "PaaS"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Service%20Fabric%20Managed%20Cluster.svg"
+      ]
+    },
+    "ServiceName": "ServiceFabric",
+    "ListDescriber": "DescribeBySubscription(describer.ServiceFabricCluster)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_service_fabric_cluster"
+    ],
+    "TerraformServiceName": "servicefabric",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_service_fabric_cluster",
+    "Model": "ServiceFabricCluster"
+  },
+  {
+    "ResourceName": "Microsoft.SignalRService/signalR",
+    "ResourceLabel": "SignalR Service Instance",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SignalR.svg"
+      ]
+    },
+    "ServiceName": "SignalRService",
+    "ListDescriber": "DescribeBySubscription(describer.SignalrService)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_signalr_service"
+    ],
+    "TerraformServiceName": "signalr",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_signalr_service",
+    "Model": "SignalrService"
+  },
+  {
+    "ResourceName": "Microsoft.Storage/storageAccounts/blob",
+    "ResourceLabel": "Storage Blobs",
+    "Tags": {
+      "category": [
+        "Storage"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Storage%20Account%20Blob.svg"
+      ]
+    },
+    "ServiceName": "Storage",
+    "ListDescriber": "DescribeBySubscription(describer.StorageBlob)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_storage_blob"
+    ],
+    "TerraformServiceName": "storage",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_storage_blob",
+    "Model": "StorageBlob"
+  },
+  {
+    "ResourceName": "Microsoft.Storage/storageaccounts/blobservices/containers",
+    "ResourceLabel": "Storage Account Containers",
+    "Tags": {
+      "category": [
+        "Storage"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Storage%20Account%20Container.svg"
+      ]
+    },
+    "ServiceName": "Storage",
+    "ListDescriber": "DescribeBySubscription(describer.StorageContainer)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_storage_container"
+    ],
+    "TerraformServiceName": "storage",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_storage_container",
+    "Model": "StorageContainer"
+  },
+  {
+    "ResourceName": "Microsoft.Storage/storageAccounts/blobServices",
+    "ResourceLabel": "Storage Blob Services",
+    "Tags": {
+      "category": [
+        "Storage"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Storage%20Account%20Blob.svg"
+      ]
+    },
+    "ServiceName": "Storage",
+    "ListDescriber": "DescribeBySubscription(describer.StorageBlobService)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_storage_blob_service",
+    "Model": "StorageBlobService"
+  },
+  {
+    "ResourceName": "Microsoft.Storage/storageAccounts/queueServices",
+    "ResourceLabel": "Storage Queues",
+    "Tags": {
+      "category": [
+        "Storage"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Storage%20Account%20Queue.svg"
+      ]
+    },
+    "ServiceName": "Storage",
+    "ListDescriber": "DescribeBySubscription(describer.StorageQueue)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_storage_queue",
+      "azure_storage_queue"
+    ],
+    "TerraformServiceName": "storage",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_storage_queue",
+    "Model": "StorageQueue"
+  },
+  {
+    "ResourceName": "Microsoft.ApiManagement/service",
+    "ResourceLabel": "API management service",
+    "Tags": {
+      "category": [
+        "PaaS"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/API%20Management%20Service.svg"
+      ]
+    },
+    "ServiceName": "ApiManagement",
+    "ListDescriber": "DescribeBySubscription(describer.APIManagement)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_api_management"
+    ],
+    "TerraformServiceName": "apimanagement",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_api_management",
+    "Model": "APIManagement"
+  },
+  {
+    "ResourceName": "Microsoft.ApiManagement/backend",
+    "ResourceLabel": "API management backend",
+    "Tags": {
+      "category": [
+        "PaaS"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/API%20Management%20Service.svg"
+      ]
+    },
+    "ServiceName": "ApiManagement",
+    "ListDescriber": "DescribeBySubscription(describer.APIManagementBackend)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_api_management_backend"
+    ],
+    "TerraformServiceName": "apimanagement",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_api_management_backend",
+    "Model": "APIManagementBackend"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/disksreadops",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeDiskReadOps)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_disk_metric_read_ops",
+    "Model": "ComputeDiskReadOps"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/virtualMachineScaleSets",
+    "ResourceLabel": "VM Scale Set",
+    "Tags": {
+      "category": [
+        "Compute"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Virtual%20Machine%20Scale%20Set.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeVirtualMachineScaleSet)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_virtual_machine_scale_set",
+      "azurerm_orchestrated_virtual_machine_scale_set",
+      "azurerm_linux_virtual_machine_scale_set",
+      "azurerm_windows_virtual_machine_scale_set"
+    ],
+    "TerraformServiceName": "compute",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_compute_virtual_machine_scale_set",
+    "Model": "ComputeVirtualMachineScaleSet"
+  },
+  {
+    "ResourceName": "Microsoft.DataFactory/factories/datasets",
+    "ResourceLabel": "Data Factory Datasets",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Data%20Factory.svg"
+      ]
+    },
+    "ServiceName": "DataFactory",
+    "ListDescriber": "DescribeBySubscription(describer.DataFactoryDataset)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_data_factory_dataset_azure_blob",
+      "azurerm_data_factory_dataset_binary",
+      "azurerm_data_factory_dataset_cosmosdb_sqlapi",
+      "azurerm_data_factory_dataset_delimited_text",
+      "azurerm_data_factory_dataset_http",
+      "azurerm_data_factory_dataset_json",
+      "azurerm_data_factory_dataset_mysql",
+      "azurerm_data_factory_dataset_parquet",
+      "azurerm_data_factory_dataset_postgresql",
+      "azurerm_data_factory_dataset_snowflake",
+      "azurerm_data_factory_dataset_sql_server_table",
+      "azurerm_data_factory_custom_dataset"
+    ],
+    "TerraformServiceName": "datafactory",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_data_factory_dataset",
+    "Model": "DataFactoryDataset"
+  },
+  {
+    "ResourceName": "Microsoft.Authorization/policyDefinitions",
+    "ResourceLabel": "Policy Definitions",
+    "Tags": {
+      "category": [
+        "Identify \u0026 Access"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Policy%20Definition.svg"
+      ]
+    },
+    "ServiceName": "Authorization",
+    "ListDescriber": "DescribeBySubscription(describer.PolicyDefinition)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_policy_definition"
+    ],
+    "TerraformServiceName": "policy",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_policy_definition",
+    "Model": "PolicyDefinition"
+  },
+  {
+    "ResourceName": "Microsoft.Resources/subscriptions/locations",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeBySubscription(describer.Location)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_location",
+    "Model": "Location"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/diskAccesses",
+    "ResourceLabel": "Disk Access",
+    "Tags": {
+      "category": [
+        "Compute"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Disk%20Access.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeDiskAccess)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_disk_access"
+    ],
+    "TerraformServiceName": "compute",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_disk_access",
+    "Model": "ComputeDiskAccess"
+  },
+  {
+    "ResourceName": "Microsoft.DBforMySQL/servers",
+    "ResourceLabel": "Azure Database for MySQL servers",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Database%20for%20MySQL.svg"
+      ]
+    },
+    "ServiceName": "DBforMySQL",
+    "ListDescriber": "DescribeBySubscription(describer.MysqlServer)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_mysql_server"
+    ],
+    "TerraformServiceName": "mysql",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_mysql_server",
+    "Model": "MysqlServer"
+  },
+  {
+    "ResourceName": "Microsoft.DBforMySQL/flexibleservers",
+    "ResourceLabel": "Azure Database for MySQL flexible servers",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Wordpress%20and%20MySQL%20Flexible%20server.svg"
+      ]
+    },
+    "ServiceName": "DBforMySQL",
+    "ListDescriber": "DescribeBySubscription(describer.MysqlFlexibleservers)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_mysql_flexible_server"
+    ],
+    "TerraformServiceName": "mysql",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_dbformysql_flexibleservers",
+    "Model": "MysqlFlexibleserver"
+  },
+  {
+    "ResourceName": "Microsoft.Cache/redisenterprise",
+    "ResourceLabel": "Azure Cache Redis Enterprise",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Cache%20for%20Redis.svg"
+      ]
+    },
+    "ServiceName": "Cache",
+    "ListDescriber": "DescribeBySubscription(describer.CacheRedisEnterprise)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_redis_enterprise_cluster"
+    ],
+    "TerraformServiceName": "redisenterprise",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_cache_redisenterprise",
+    "Model": "RedisEnterpriseCache"
+  },
+  {
+    "ResourceName": "Microsoft.DataLakeAnalytics/accounts",
+    "ResourceLabel": "Data Lake Analytics account",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Data%20Lake%20Analytics.svg"
+      ]
+    },
+    "ServiceName": "DataLakeAnalytics",
+    "ListDescriber": "DescribeBySubscription(describer.DataLakeAnalyticsAccount)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_data_lake_analytics_account",
+    "Model": "DataLakeAnalyticsAccount"
+  },
+  {
+    "ResourceName": "Microsoft.Insights/activityLogAlerts",
+    "ResourceLabel": "Insights Activity Log Alerts",
+    "Tags": null,
+    "ServiceName": "Insights",
+    "ListDescriber": "DescribeBySubscription(describer.LogAlert)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_log_alert",
+    "Model": "LogAlert"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/virtualMachineCpuUtilizationHourly",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeVirtualMachineCpuUtilizationHourly)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_virtual_machine_metric_cpu_utilization_hourly",
+    "Model": "ComputeVirtualMachineCpuUtilizationHourly"
+  },
+  {
+    "ResourceName": "Microsoft.Network/loadBalancers/outboundRules",
+    "ResourceLabel": "Load Balancer Outbound Rules",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Load%20Balancer%20Backend%20Outbound%20Rule.svg"
+      ]
+    },
+    "ServiceName": "LoadBalancer",
+    "ListDescriber": "DescribeBySubscription(describer.LoadBalancerOutboundRule)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_lb_outbound_rule"
+    ],
+    "TerraformServiceName": "loadbalancer",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_lb_outbound_rule",
+    "Model": "LoadBalancerOutboundRule"
+  },
+  {
+    "ResourceName": "Microsoft.HybridCompute/machines",
+    "ResourceLabel": "Hybrid Compute Machine",
+    "Tags": {
+      "category": [
+        "Compute"
+      ]
+    },
+    "ServiceName": "HybridCompute",
+    "ListDescriber": "DescribeBySubscription(describer.HybridComputeMachine)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_hybrid_compute_machine"
+    ],
+    "TerraformServiceName": "hybridcompute",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_hybrid_compute_machine",
+    "Model": "HybridComputeMachine"
+  },
+  {
+    "ResourceName": "Microsoft.Network/loadBalancers/inboundNatRules",
+    "ResourceLabel": "Load Balancer Inbound NAT Roles",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Load%20Balancer%20Inbound%20NAT%20Rule.svg"
+      ]
+    },
+    "ServiceName": "LoadBalancer",
+    "ListDescriber": "DescribeBySubscription(describer.LoadBalancerNatRule)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_lb_nat_rule"
+    ],
+    "TerraformServiceName": "loadbalancer",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_lb_nat_rule",
+    "Model": "LoadBalancerNatRule"
+  },
+  {
+    "ResourceName": "Microsoft.Resources/providers",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeBySubscription(describer.ResourceProvider)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_provider",
+    "Model": "ResourceProvider"
+  },
+  {
+    "ResourceName": "Microsoft.Network/routeTables",
+    "ResourceLabel": "Route Tables",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Route%20Table.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.RouteTables)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_route_table"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_route_table",
+    "Model": "RouteTables"
+  },
+  {
+    "ResourceName": "Microsoft.DocumentDB/databaseAccounts",
+    "ResourceLabel": "Database Account",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Cosmos%20DB.svg"
+      ]
+    },
+    "ServiceName": "DocumentDB",
+    "ListDescriber": "DescribeBySubscription(describer.CosmosdbAccount)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_cosmosdb_account"
+    ],
+    "TerraformServiceName": "cosmos",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_cosmosdb_account",
+    "Model": "CosmosdbAccount"
+  },
+  {
+    "ResourceName": "Microsoft.DocumentDB/restorableDatabaseAccounts",
+    "ResourceLabel": "Restorable Database Account",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Cosmos%20DB.svg"
+      ]
+    },
+    "ServiceName": "DocumentDB",
+    "ListDescriber": "DescribeBySubscription(describer.CosmosdbRestorableDatabaseAccount)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_cosmosdb_restorable_database_accounts"
+    ],
+    "TerraformServiceName": "cosmos",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_cosmosdb_restorable_database_account",
+    "Model": "CosmosdbRestorableDatabaseAccount"
+  },
+  {
+    "ResourceName": "Microsoft.Network/applicationGateways",
+    "ResourceLabel": "Application Gateways",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Application%20Gateway.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.ApplicationGateway)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_application_gateway"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_application_gateway",
+    "Model": "ApplicationGateway"
+  },
+  {
+    "ResourceName": "Microsoft.Security/automations",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Security",
+    "ListDescriber": "DescribeBySubscription(describer.SecurityCenterAutomation)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_security_center_automation"
+    ],
+    "TerraformServiceName": "securitycenter",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_security_center_automation",
+    "Model": "SecurityCenterAutomation"
+  },
+  {
+    "ResourceName": "Microsoft.Kubernetes/connectedClusters",
+    "ResourceLabel": "Externally Hosted Kubernetes Clusters",
+    "Tags": {
+      "category": [
+        "Container"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Kubernetes%20Cluster%20(Operator%20Nexus).svg"
+      ]
+    },
+    "ServiceName": "Kubernetes",
+    "ListDescriber": "DescribeBySubscription(describer.HybridKubernetesConnectedCluster)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_arc_kubernetes_cluster"
+    ],
+    "TerraformServiceName": "arckubernetes",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_hybrid_kubernetes_connected_cluster",
+    "Model": "HybridKubernetesConnectedCluster"
+  },
+  {
+    "ResourceName": "Microsoft.KeyVault/vaults/keys",
+    "ResourceLabel": "Key Vault Keys",
+    "Tags": {
+      "category": [
+        "Security"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Key%20Vault.svg"
+      ]
+    },
+    "ServiceName": "KeyVault",
+    "ListDescriber": "DescribeBySubscription(describer.KeyVaultKey)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_key_vault_key"
+    ],
+    "TerraformServiceName": "keyvault",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_key_vault_key",
+    "Model": "KeyVaultKey"
+  },
+  {
+    "ResourceName": "Microsoft.KeyVault/vaults/certificates",
+    "ResourceLabel": "Key Vault Certificates",
+    "Tags": {
+      "category": [
+        "Security"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Key%20Vault.svg"
+      ]
+    },
+    "ServiceName": "KeyVault",
+    "ListDescriber": "DescribeBySubscription(describer.KeyVaultCertificate)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_key_vault_certificate"
+    ],
+    "TerraformServiceName": "keyvault",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_key_vault_certificate",
+    "Model": "KeyVaultCertificate"
+  },
+  {
+    "ResourceName": "Microsoft.KeyVault/vaults/keys/Versions",
+    "ResourceLabel": "Key Vault Keys Versions",
+    "Tags": {
+      "category": [
+        "Security"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Key%20Vault.svg"
+      ]
+    },
+    "ServiceName": "KeyVault",
+    "ListDescriber": "DescribeBySubscription(describer.KeyVaultKey)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_key_vault_key"
+    ],
+    "TerraformServiceName": "keyvault",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_key_vault_key_version",
+    "Model": "KeyVaultKeyVersion"
+  },
+  {
+    "ResourceName": "Microsoft.DBforMariaDB/servers",
+    "ResourceLabel": "MariaDB server",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Database%20for%20MariaDB.svg"
+      ]
+    },
+    "ServiceName": "DBforMariaDB",
+    "ListDescriber": "DescribeBySubscription(describer.MariadbServer)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_mariadb_server"
+    ],
+    "TerraformServiceName": "mariadb",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_mariadb_server",
+    "Model": "MariadbServer"
+  },
+  {
+    "ResourceName": "Microsoft.DBforMariaDB/servers/databases",
+    "ResourceLabel": "MariaDB Database",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Database%20for%20MariaDB.svg"
+      ]
+    },
+    "ServiceName": "DBforMariaDB",
+    "ListDescriber": "DescribeBySubscription(describer.MariadbDatabases)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_mariadb_database"
+    ],
+    "TerraformServiceName": "mariadb",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_mariadb_databases",
+    "Model": "MariadbDatabase"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/disksreadopsdaily",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeDiskReadOpsDaily)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_disk_metric_read_ops_daily",
+    "Model": "ComputeDiskReadOpsDaily"
+  },
+  {
+    "ResourceName": "Microsoft.Web/plan",
+    "ResourceLabel": "App Service Plan",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Application%20Service%20plan.svg"
+      ]
+    },
+    "ServiceName": "Web",
+    "ListDescriber": "DescribeBySubscription(describer.AppServicePlan)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_app_service_plan",
+      "azurerm_service_plan"
+    ],
+    "TerraformServiceName": "web",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_app_service_plan",
+    "Model": "AppServicePlan"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/disksreadopshourly",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeDiskReadOpsHourly)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_disk_metric_read_ops_hourly",
+    "Model": "ComputeDiskReadOpsHourly"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/diskswriteopsdaily",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeDiskWriteOpsDaily)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_disk_metric_write_ops_daily",
+    "Model": "ComputeDiskWriteOpsDaily"
+  },
+  {
+    "ResourceName": "Microsoft.Resources/tenants",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeBySubscription(describer.Tenant)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_tenant",
+    "Model": "Tenant"
+  },
+  {
+    "ResourceName": "Microsoft.Network/virtualNetworkGateways",
+    "ResourceLabel": "Virtual Network Gateways",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Virtual%20Network%20Gateway.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.VirtualNetworkGateway)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_virtual_network_gateway"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_virtual_network_gateway",
+    "Model": "VirtualNetworkGateway"
+  },
+  {
+    "ResourceName": "Microsoft.Devices/iotHubs",
+    "ResourceLabel": "IoT hub",
+    "Tags": {
+      "category": [
+        "IoT \u0026 Devices"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/IoT%20Hub.svg"
+      ]
+    },
+    "ServiceName": "Devices",
+    "ListDescriber": "DescribeBySubscription(describer.IOTHub)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_iothub"
+    ],
+    "TerraformServiceName": "iothub",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_iothub",
+    "Model": "IOTHub"
+  },
+  {
+    "ResourceName": "Microsoft.Logic/workflows",
+    "ResourceLabel": "Logic Workflows",
+    "Tags": {
+      "category": [
+        "Integration"
+      ]
+    },
+    "ServiceName": "Logic",
+    "ListDescriber": "DescribeBySubscription(describer.LogicAppWorkflow)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_logic_app_workflow"
+    ],
+    "TerraformServiceName": "logic",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_logic_app_workflow",
+    "Model": "LogicAppWorkflow"
+  },
+  {
+    "ResourceName": "Microsoft.Sql/flexibleServers",
+    "ResourceLabel": "SQL Flexible Servers",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SQL%20Server.svg"
+      ]
+    },
+    "ServiceName": "Sql",
+    "ListDescriber": "DescribeBySubscription(describer.SqlServerFlexibleServer)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_mysql_flexible_server",
+    "Model": "SqlServerFlexibleServer"
+  },
+  {
+    "ResourceName": "Microsoft.Resources/links",
+    "ResourceLabel": "Links",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Resource%20Management%20Private%20Link.svg"
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeBySubscription(describer.ResourceLink)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_resource_link",
+    "Model": "ResourceLink"
+  },
+  {
+    "ResourceName": "Microsoft.Resources/subscriptions",
+    "ResourceLabel": "Subscriptions",
+    "Tags": {
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Subscription.svg"
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeBySubscription(describer.Subscription)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_subscription"
+    ],
+    "TerraformServiceName": "subscription",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_subscription",
+    "Model": "Subscription"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/images",
+    "ResourceLabel": "VM Images",
+    "Tags": {
+      "category": [
+        "Compute"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Virtual%20Machine%20Image.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeImage)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_image"
+    ],
+    "TerraformServiceName": "compute",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_image",
+    "Model": "ComputeImage"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/virtualMachines",
+    "ResourceLabel": "VM",
+    "Tags": {
+      "category": [
+        "Compute"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Virtual%20Machine.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeVirtualMachine)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_linux_virtual_machine",
+      "azurerm_windows_virtual_machine"
+    ],
+    "TerraformServiceName": "compute",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_compute_virtual_machine",
+    "Model": "ComputeVirtualMachine"
+  },
+  {
+    "ResourceName": "Microsoft.Network/natGateways",
+    "ResourceLabel": "NAT Gateways",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/NAT%20Gateway.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.NatGateway)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_nat_gateway"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "FAST",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_nat_gateway",
+    "Model": "NatGateway"
+  },
+  {
+    "ResourceName": "Microsoft.Network/loadBalancers/probes",
+    "ResourceLabel": "Load Balancer Probes",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Load%20Balancer%20Health%20Probe.svg"
+      ]
+    },
+    "ServiceName": "LoadBalancer",
+    "ListDescriber": "DescribeBySubscription(describer.LoadBalancerProbe)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_lb_probe"
+    ],
+    "TerraformServiceName": "loadbalancer",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_lb_probe",
+    "Model": "LoadBalancerProbe"
+  },
+  {
+    "ResourceName": "Microsoft.KeyVault/vaults",
+    "ResourceLabel": "Key Vaults",
+    "Tags": {
+      "category": [
+        "Security"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Key%20Vault.svg"
+      ]
+    },
+    "ServiceName": "KeyVault",
+    "ListDescriber": "DescribeBySubscription(describer.KeyVault)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_key_vault"
+    ],
+    "TerraformServiceName": "keyvault",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_key_vault",
+    "Model": "KeyVault"
+  },
+  {
+    "ResourceName": "Microsoft.KeyVault/managedHsms",
+    "ResourceLabel": "Key Vault HSMs",
+    "Tags": {
+      "category": [
+        "Security"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Key%20Vault%20HSM.svg"
+      ]
+    },
+    "ServiceName": "KeyVault",
+    "ListDescriber": "DescribeBySubscription(describer.KeyVaultManagedHardwareSecurityModule)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_key_vault_managed_hardware_security_module"
+    ],
+    "TerraformServiceName": "keyvault",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_key_vault_managed_hardware_security_module",
+    "Model": "KeyVaultManagedHardwareSecurityModule"
+  },
+  {
+    "ResourceName": "Microsoft.KeyVault/vaults/secrets",
+    "ResourceLabel": "Key Vault Secrets",
+    "Tags": {
+      "category": [
+        "Security"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Key%20Vault%20Secret.svg"
+      ]
+    },
+    "ServiceName": "KeyVault",
+    "ListDescriber": "DescribeBySubscription(describer.KeyVaultSecret)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_key_vault_secret"
+    ],
+    "TerraformServiceName": "keyvault",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_key_vault_secret",
+    "Model": "KeyVaultSecret"
+  },
+  {
+    "ResourceName": "Microsoft.AppConfiguration/configurationStores",
+    "ResourceLabel": "Configuration Stores",
+    "Tags": {
+      "category": [
+        "PaaS"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/App%20Configuration.svg"
+      ]
+    },
+    "ServiceName": "AppConfiguration",
+    "ListDescriber": "DescribeBySubscription(describer.AppConfiguration)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_app_configuration"
+    ],
+    "TerraformServiceName": "appconfiguration",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_app_configuration",
+    "Model": "AppConfiguration"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/virtualMachineCpuUtilization",
+    "ResourceLabel": "",
+    "Tags": null,
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeVirtualMachineCpuUtilization)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "DISABLED",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_virtual_machine_metric_cpu_utilization",
+    "Model": "ComputeVirtualMachineCpuUtilization"
+  },
+  {
+    "ResourceName": "Microsoft.Storage/storageAccounts",
+    "ResourceLabel": "Storage Accounts",
+    "Tags": {
+      "category": [
+        "Storage"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Storage%20Account.svg"
+      ]
+    },
+    "ServiceName": "Storage",
+    "ListDescriber": "DescribeBySubscription(describer.StorageAccount)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_storage_account"
+    ],
+    "TerraformServiceName": "storage",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_storage_account",
+    "Model": "StorageAccount"
+  },
+  {
+    "ResourceName": "Microsoft.AppPlatform/Spring",
+    "ResourceLabel": "Spring App",
+    "Tags": {
+      "category": [
+        "PaaS"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Spring%20Cloud.svg"
+      ]
+    },
+    "ServiceName": "AppPlatform",
+    "ListDescriber": "DescribeBySubscription(describer.SpringCloudService)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_spring_cloud_app"
+    ],
+    "TerraformServiceName": "springcloud",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_spring_cloud_service",
+    "Model": "SpringCloudService"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/galleries",
+    "ResourceLabel": "Galleries",
+    "Tags": {
+      "category": [
+        "General"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Compute%20Gallery.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeGallery)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_shared_image_gallery"
+    ],
+    "TerraformServiceName": "compute",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_image_gallery",
+    "Model": "ComputeImageGallery"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/hostGroups",
+    "ResourceLabel": "Host Groups",
+    "Tags": {
+      "category": [
+        "Compute"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Host%20Group.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeHostGroup)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_dedicated_host_group"
+    ],
+    "TerraformServiceName": "compute",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_host_group",
+    "Model": "ComputeHostGroup"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/hostGroups/hosts",
+    "ResourceLabel": "Dedicated Hosts",
+    "Tags": {
+      "category": [
+        "Compute"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Host%20Group.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeHost)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_dedicated_host"
+    ],
+    "TerraformServiceName": "compute",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_host",
+    "Model": "ComputeHostGroupHost"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/restorePointCollections",
+    "ResourceLabel": "Restoration Point Collections",
+    "Tags": {
+      "category": [
+        "Backup"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeRestorePointCollection)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_compute_restore_point_collection",
+    "Model": "ComputeRestorePointCollection"
+  },
+  {
+    "ResourceName": "Microsoft.Compute/sshPublicKeys",
+    "ResourceLabel": "SSH Key",
+    "Tags": {
+      "category": [
+        "Management \u0026 Governance"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/SSH%20key.svg"
+      ]
+    },
+    "ServiceName": "Compute",
+    "ListDescriber": "DescribeBySubscription(describer.ComputeSSHPublicKey)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_ssh_public_key"
+    ],
+    "TerraformServiceName": "compute",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_compute_ssh_key",
+    "Model": "ComputeSSHPublicKey"
+  },
+  {
+    "ResourceName": "Microsoft.Cdn/profiles/endpoints",
+    "ResourceLabel": "CDN Endpoints",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/CDN%20Profile.svg"
+      ]
+    },
+    "ServiceName": "Cdn",
+    "ListDescriber": "DescribeBySubscription(describer.CdnEndpoint)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_cdn_endpoint"
+    ],
+    "TerraformServiceName": "cdn",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_cdn_endpoint",
+    "Model": "CDNEndpoint"
+  },
+  {
+    "ResourceName": "Microsoft.BotService/botServices",
+    "ResourceLabel": "Bot Services",
+    "Tags": {
+      "category": [
+        "AI + ML"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Bot%20Service.svg"
+      ]
+    },
+    "ServiceName": "BotService",
+    "ListDescriber": "DescribeBySubscription(describer.BotServiceBot)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_bot_web_app"
+    ],
+    "TerraformServiceName": "bot",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_botservice_bot",
+    "Model": "BotServiceBot"
+  },
+  {
+    "ResourceName": "Microsoft.DocumentDB/cassandraClusters",
+    "ResourceLabel": "Cassandra Cluster",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20Managed%20Instance%20for%20Apache%20Cassandra.svg"
+      ]
+    },
+    "ServiceName": "DocumentDB",
+    "ListDescriber": "DescribeBySubscription(describer.DocumentDBCassandraCluster)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_cosmosdb_cassandra_cluster"
+    ],
+    "TerraformServiceName": "cosmos",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_cosmosdb_cassandra_cluster",
+    "Model": "CosmosdbCassandraCluster"
+  },
+  {
+    "ResourceName": "Microsoft.Network/ddosProtectionPlans",
+    "ResourceLabel": "DDos Protection Plan",
+    "Tags": {
+      "category": [
+        "Networking"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/DDoS%20Protection%20Plan.svg"
+      ]
+    },
+    "ServiceName": "Network",
+    "ListDescriber": "DescribeBySubscription(describer.NetworkDDoSProtectionPlan)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_network_ddos_protection_plan"
+    ],
+    "TerraformServiceName": "network",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_network_ddos_protection_plan",
+    "Model": "NetworkDDoSProtectionPlan"
+  },
+  {
+    "ResourceName": "microsoft.Sql/instancePools",
+    "ResourceLabel": "SQL Instance Pools",
+    "Tags": {
+      "category": [
+        "Database"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Instance%20Pool.svg"
+      ]
+    },
+    "ServiceName": "Sql",
+    "ListDescriber": "DescribeBySubscription(describer.SqlInstancePool)",
+    "GetDescriber": "",
+    "TerraformName": null,
+    "TerraformServiceName": "",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_sql_instance_pool",
+    "Model": "SqlInstancePool"
+  },
+  {
+    "ResourceName": "microsoft.NetApp/netAppAccounts",
+    "ResourceLabel": "NetApp Files Accounts",
+    "Tags": {
+      "category": [
+        "Storage"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20NetApp%20Files.svg"
+      ]
+    },
+    "ServiceName": "NetApp",
+    "ListDescriber": "DescribeBySubscription(describer.NetAppAccount)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_netapp_account"
+    ],
+    "TerraformServiceName": "netapp",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": false,
+    "SteampipeTable": "azure_netapp_account",
+    "Model": "NetAppAccount"
+  },
+  {
+    "ResourceName": "Microsoft.NetApp/netAppAccounts/capacityPools",
+    "ResourceLabel": "NetApp Capacity Pools",
+    "Tags": {
+      "category": [
+        "Storage"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Azure%20NetApp%20Files.svg"
+      ]
+    },
+    "ServiceName": "NetApp",
+    "ListDescriber": "DescribeBySubscription(describer.NetAppCapacityPool)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_netapp_pool"
+    ],
+    "TerraformServiceName": "netapp",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_netapp_capacity_pool",
+    "Model": "NetAppCapacityPool"
+  },
+  {
+    "ResourceName": "Microsoft.DesktopVirtualization/hostpools",
+    "ResourceLabel": "Azure Virtual Desktop Host Pools",
+    "Tags": {
+      "category": [
+        "End User"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Windows%20Virtual%20Desktop.svg"
+      ]
+    },
+    "ServiceName": "DesktopVirtualization",
+    "ListDescriber": "DescribeBySubscription(describer.DesktopVirtualizationHostPool)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_virtual_desktop_host_pool"
+    ],
+    "TerraformServiceName": "desktopvirtualization",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_desktop_virtualization_host_pool",
+    "Model": "DesktopVirtualizationHostPool"
+  },
+  {
+    "ResourceName": "Microsoft.Devtestlab/labs",
+    "ResourceLabel": "DevTest Labs",
+    "Tags": {
+      "category": [
+        "DevOps + Testing"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/DevTest%20Lab.svg"
+      ]
+    },
+    "ServiceName": "DevTestLab",
+    "ListDescriber": "DescribeBySubscription(describer.DevTestLabLab)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_dev_test_lab"
+    ],
+    "TerraformServiceName": "devtestlabs",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_devtestlab_lab",
+    "Model": "DevTestLabLab"
+  },
+  {
+    "ResourceName": "Microsoft.Purview/Accounts",
+    "ResourceLabel": "Purview accounts",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Purview%20Account.svg"
+      ]
+    },
+    "ServiceName": "Purview",
+    "ListDescriber": "DescribeBySubscription(describer.PurviewAccount)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_purview_account"
+    ],
+    "TerraformServiceName": "purview",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_purview_account",
+    "Model": "PurviewAccount"
+  },
+  {
+    "ResourceName": "Microsoft.PowerBIDedicated/capacities",
+    "ResourceLabel": "Power BI Embedded",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Power%20BI%20Embedded.svg"
+      ]
+    },
+    "ServiceName": "PowerBI",
+    "ListDescriber": "DescribeBySubscription(describer.PowerBIDedicatedCapacity)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_powerbi_embedded"
+    ],
+    "TerraformServiceName": "powerbi",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_powerbidedicated_capacity",
+    "Model": "PowerBIDedicatedCapacity"
+  },
+  {
+    "ResourceName": "Microsoft.Insights/components",
+    "ResourceLabel": "Application Insights Components",
+    "Tags": {
+      "category": [
+        "Data and Analytics"
+      ],
+      "logo_uri": [
+        "https://raw.githubusercontent.com/kaytu-io/Azure-Design/master/SVG_Azure_All/Application%20Insights.svg"
+      ]
+    },
+    "ServiceName": "ApplicationInsights",
+    "ListDescriber": "DescribeBySubscription(describer.ApplicationInsights)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_application_insights"
+    ],
+    "TerraformServiceName": "applicationinsights",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_application_insight",
+    "Model": "ApplicationInsightsComponent"
+  },
+  {
+    "ResourceName": "Microsoft.Lighthouse/definition",
+    "ResourceLabel": "LightHouse Definitions",
+    "Tags": {
+      "category": [
+      ],
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Lighthouse",
+    "ListDescriber": "DescribeBySubscription(describer.LighthouseDefinition)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_lighthouse_definition"
+    ],
+    "TerraformServiceName": "lighthouse",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_lighthouse_definition",
+    "Model": "LighthouseDefinition"
+  },
+  {
+    "ResourceName": "Microsoft.Lighthouse/assignment",
+    "ResourceLabel": "LightHouse Assignments",
+    "Tags": {
+      "category": [
+      ],
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Lighthouse",
+    "ListDescriber": "DescribeBySubscription(describer.LighthouseAssignments)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_lighthouse_assignment"
+    ],
+    "TerraformServiceName": "lighthouse",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_lighthouse_assignment",
+    "Model": "LighthouseAssignment"
+  },
+  {
+    "ResourceName": "Microsoft.Maintenance/maintenanceConfigurations",
+    "ResourceLabel": "Maintenance Configurations",
+    "Tags": {
+      "category": [
+      ],
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Maintenance",
+    "ListDescriber": "DescribeBySubscription(describer.MaintenanceConfiguration)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_maintenance_configuration"
+    ],
+    "TerraformServiceName": "maintenance",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_maintenance_configuration",
+    "Model": "MaintenanceConfiguration"
+  },
+  {
+    "ResourceName": "Microsoft.Monitor/logProfiles",
+    "ResourceLabel": "Monitor Log Profiles",
+    "Tags": {
+      "category": [
+      ],
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Monitor",
+    "ListDescriber": "DescribeBySubscription(describer.MonitorLogProfiles)",
+    "GetDescriber": "",
+    "TerraformName": [
+      "azurerm_monitor_log_profile"
+    ],
+    "TerraformServiceName": "monitor",
+    "Discovery": "COMPLETE",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_monitor_log_profile",
+    "Model": "MonitorLogProfile"
+  },
+  {
+    "ResourceName": "Microsoft.Resources/subscriptions/resources",
+    "ResourceLabel": "Resources",
+    "Tags": {
+      "logo_uri": [
+      ]
+    },
+    "ServiceName": "Resources",
+    "ListDescriber": "DescribeBySubscription(describer.Resources)",
+    "GetDescriber": "",
+    "TerraformName": [
+    ],
+    "TerraformServiceName": "resource",
+    "Discovery": "FAST",
+    "IgnoreSummarize": true,
+    "SteampipeTable": "azure_resource",
+    "Model": "GenericResource"
+  }
+]
