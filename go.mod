@@ -120,7 +120,7 @@ require (
 	github.com/microsoftgraph/msgraph-sdk-go v1.36.0
 	github.com/microsoftgraph/msgraph-sdk-go-core v1.1.0
 	github.com/nats-io/nats.go v1.36.0
-	github.com/opengovern/og-util v0.0.0-20241014001006-42f25ad9090c
+	github.com/opengovern/og-util v0.0.0-20241022113340-233b90264435
 	github.com/spf13/cobra v1.7.0
 	github.com/tombuildsstuff/giovanni v0.18.0
 	github.com/turbot/go-kit v0.10.0-rc.0

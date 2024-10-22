@@ -37,8 +37,6 @@ const (
 
 type ResourceSender struct {
 	authToken                 string
-	workspaceId               string
-	workspaceName             string
 	logger                    *zap.Logger
 	resourceChannel           chan *golang.AzureResource
 	resourceIDs               []string
@@ -55,11 +53,9 @@ type ResourceSender struct {
 	useOpenSearch bool
 }
 
-func NewResourceSender(workspaceId string, workspaceName string, grpcEndpoint, ingestionPipelineEndpoint string, describeToken string, jobID uint, useOpenSearch bool, logger *zap.Logger) (*ResourceSender, error) {
+func NewResourceSender(grpcEndpoint, ingestionPipelineEndpoint string, describeToken string, jobID uint, useOpenSearch bool, logger *zap.Logger) (*ResourceSender, error) {
 	rs := ResourceSender{
 		authToken:                 describeToken,
-		workspaceId:               workspaceId,
-		workspaceName:             workspaceName,
 		logger:                    logger,
 		resourceChannel:           make(chan *golang.AzureResource, ChannelSize),
 		resourceIDs:               nil,
@@ -134,7 +130,6 @@ func (s *ResourceSender) ResourceHandler() {
 
 func (s *ResourceSender) sendToBackend(resourcesToSend []es.Doc) {
 	grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
-		"workspace-name":  s.workspaceName,
 		"resource-job-id": fmt.Sprintf("%d", s.jobID),
 	}))
 

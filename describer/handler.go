@@ -27,7 +27,7 @@ const (
 	DescribeResourceJobSucceeded string = "SUCCEEDED"
 )
 
-func getJWTAuthToken(workspaceId string) (string, error) {
+func getJWTAuthToken() (string, error) {
 	privateKey, ok := os.LookupEnv("JWT_PRIVATE_KEY")
 	if !ok {
 		return "", fmt.Errorf("JWT_PRIVATE_KEY not set")
@@ -44,9 +44,6 @@ func getJWTAuthToken(workspaceId string) (string, error) {
 	}
 
 	token, err := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
-		"https://app.kaytu.io/workspaceAccess": map[string]string{
-			workspaceId: "admin",
-		},
 		"https://app.kaytu.io/email": "lambda-worker@kaytu.io",
 	}).SignedString(pk)
 	if err != nil {
@@ -68,22 +65,16 @@ const (
 func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, input describe.DescribeWorkerInput) error {
 	var err error
 
-	if input.WorkspaceName == "" {
-		return fmt.Errorf("workspace name is required")
-	}
-
 	var token string
 	if input.EndpointAuth {
-		token, err = getJWTAuthToken(input.WorkspaceId)
+		token, err = getJWTAuthToken()
 		if err != nil {
 			return fmt.Errorf("failed to get JWT token: %w", err)
 		}
 	}
 
 	var client golang.DescribeServiceClient
-	grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
-		"workspace-name": input.WorkspaceName,
-	}))
+	grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{}))
 	var opts []grpc.DialOption
 	if input.EndpointAuth {
 		opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})))
@@ -155,8 +146,6 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		token,
 		input.IngestionPipelineEndpoint,
 		input.UseOpenSearch,
-		input.WorkspaceName,
-		input.WorkspaceId,
 	)
 
 	errMsg := ""

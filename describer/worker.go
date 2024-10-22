@@ -51,13 +51,11 @@ func doDescribeAzure(
 	logger *zap.Logger,
 	job describe.DescribeJob,
 	config map[string]any,
-	workspaceId string,
-	workspaceName string,
 	grpcEndpoint string,
 	ingestionPipelineEndpoint string,
 	describeToken string,
 	useOpenSearch bool) ([]string, error) {
-	rs, err := NewResourceSender(workspaceId, workspaceName, grpcEndpoint, ingestionPipelineEndpoint, describeToken, job.JobID, useOpenSearch, logger)
+	rs, err := NewResourceSender(grpcEndpoint, ingestionPipelineEndpoint, describeToken, job.JobID, useOpenSearch, logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to resource sender: %w", err)
 	}
@@ -200,8 +198,6 @@ func Do(ctx context.Context,
 	describeDeliverToken string,
 	ingestionPipelineEndpoint string,
 	useOpenSearch bool,
-	workspaceName string,
-	workspaceId string,
 ) (resourceIDs []string, err error) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -222,5 +218,5 @@ func Do(ctx context.Context,
 		return nil, fmt.Errorf("decrypt error: %w", err)
 	}
 
-	return doDescribeAzure(ctx, logger, job, config, workspaceId, workspaceName, grpcEndpoint, ingestionPipelineEndpoint, describeDeliverToken, useOpenSearch)
+	return doDescribeAzure(ctx, logger, job, config, grpcEndpoint, ingestionPipelineEndpoint, describeDeliverToken, useOpenSearch)
 }
